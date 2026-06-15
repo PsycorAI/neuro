@@ -42,12 +42,13 @@ python src/train.py         # induction task: G3 (memory necessary) + G2 (sparsi
 python src/train_text.py    # G1 (beats bigram) + G6 (energy vs transformer)
 python scripts/viz_synapse.py   # G4: assets/synapse_strengthening.png
 python tests/test_phase1.py     # gates as tests (also works under: pytest -q)
+python src/train_set.py         # Phase 2: SET sparse connectivity (degree + modularity)
 ```
 
 ## Roadmap
 
 - **P1** spiking + Hebbian core ✓
-- **P2** SET sparse connectivity → verify power-law degree distribution + modularity
+- **P2** SET sparse neuron→neuron synapses ✓ — degree Gini 0.15→0.22, modularity 0.28 > random 0.26, recall intact (`assets/degree_distribution.png`)
 - **P3** scale to 350M, persistent synaptic state across sessions, concept→synapse trace tool
 - **P4** full energy accounting + alignment-affordance writeup
 
