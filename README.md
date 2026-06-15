@@ -1,4 +1,4 @@
-# PsycorNeuro — a genuinely spiking, Hebbian language model
+# PsycorNeuro: a genuinely spiking, Hebbian language model
 
 A language model built on three biologically-grounded mechanisms — with tests
 that prove each one is load-bearing, not just decorative:
@@ -19,7 +19,7 @@ the mechanisms for real, and **ablates each one to prove it's doing work**.
 
 ## Status
 
-**Active development — early stage.** Small-model results below are verified
+**Active development  early stage.** Small-model results below are verified
 and reproducible. Larger-scale runs (~9M and ~20M params on real text) are in
 progress. Quality competitive with a similarly-sized transformer has **not yet
 been demonstrated**; that is the next milestone, not a current claim.
