@@ -106,13 +106,13 @@ python src/train_set.py         # Phase 2: SET sparse connectivity (degree + mod
 · Schlag et al. 2021, *Linear Transformers Are Secretly Fast Weight Programmers*
 · Miconi et al. 2018, *Differentiable Plasticity*
 
-## Intellectual Property & Licensing
-
-**Psycor.ai™**, **PsycorNEURO™**, **PsycorSAGE™**, and **PsycorEdge™** are trademarks of Psycor.ai, established May 2026. All rights reserved.
-
 ## License
 
 The source code and model weights in this repository are licensed under the **Apache License 2.0**. Use of these materials is subject to the terms and conditions outlined in the [LICENSE](./LICENSE) file. 
+
+## Intellectual Property & Licensing
+
+**Psycor.ai™**, **PsycorNEURO™**, **PsycorSAGE™**, and **PsycorEdge™** are trademarks of Psycor.ai, established May 2026. All rights reserved.
 
 ## Contact
 
