@@ -1,5 +1,11 @@
 # PsycorNeuro: a genuinely spiking, Hebbian language model
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg)](https://pytorch.org/)
+[![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](#status)
+[![Runs on CPU](https://img.shields.io/badge/runs%20on-CPU-success.svg)](#)
+
 A language model built on three biologically-grounded mechanisms - with tests
 that prove each one is load-bearing, not just decorative:
 
@@ -100,6 +106,14 @@ python src/train_set.py         # Phase 2: SET sparse connectivity (degree + mod
 · Schlag et al. 2021, *Linear Transformers Are Secretly Fast Weight Programmers*
 · Miconi et al. 2018, *Differentiable Plasticity*
 
+## Intellectual Property & Licensing
+
+**Psycor.ai™**, **PsycorSAGE™**, and **PsycorEdge™** are trademarks of Psycor.ai, established May 2026. All rights reserved.
+
 ## License
 
-Apache License 2.0.
+The source code and model weights in this repository are licensed under the **Apache License 2.0**. Use of these materials is subject to the terms and conditions outlined in the [LICENSE](./LICENSE) file. 
+
+## Contact
+
+For commercial inquiries or specialized licensing regarding the SGNE architecture, please contact the PsycorAI team at psycoredge@gmail.com.
