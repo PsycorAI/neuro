@@ -1,0 +1,25 @@
+# Run B — quality + energy at scale (~20M params, single block). ~5-6 days on RTX 5080.
+# NOTE: reaching 50-80M needs the multi-layer block (Phase-3 prerequisite); add it
+# after Run A validates the core, then optionally a larger Run C.
+run_name: phase25_b
+arch: spiking
+vocab: 16384
+d: 512
+n_neurons: 1024
+d_mem: 512
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 8
+grad_accum: 8
+eval_batch: 8
+lr: 0.0012
+max_tokens: 1000000000  # 1B
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 3
+log_every: 50
+amp: true
+seed: 0

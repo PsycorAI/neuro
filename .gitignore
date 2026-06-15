@@ -27,3 +27,6 @@ eval_*.log
 models/checkpoints/
 *.ARCHIVE*
 .venv/
+
+# --- Derived artifacts ---
+data/vocab_map_*.npy

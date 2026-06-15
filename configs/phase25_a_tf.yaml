@@ -1,0 +1,20 @@
+# Transformer baseline matched to Run A (~10M), for the quality + energy comparison.
+#   bash scripts/launch_phase25.sh configs/phase25_a_tf.yaml
+run_name: phase25_a_tf
+arch: transformer
+vocab: 16384
+d: 256
+n_head: 4
+n_layer: 2
+block_size: 256
+batch_size: 16
+grad_accum: 4
+eval_batch: 16
+lr: 0.0015
+max_tokens: 300000000  # 300M (same as Run A)
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 3
+log_every: 50
+amp: true
+seed: 0
