@@ -108,7 +108,7 @@ python src/train_set.py         # Phase 2: SET sparse connectivity (degree + mod
 
 ## Intellectual Property & Licensing
 
-**Psycor.ai™**, **PsycorSAGE™**, and **PsycorEdge™** are trademarks of Psycor.ai, established May 2026. All rights reserved.
+**Psycor.ai™**, **PsycorNEURO™**, **PsycorSAGE™**, and **PsycorEdge™** are trademarks of Psycor.ai, established May 2026. All rights reserved.
 
 ## License
 
