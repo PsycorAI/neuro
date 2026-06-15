@@ -15,12 +15,13 @@ memory cost is O(d_mem^2) per token and INDEPENDENT of context length.
 """
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from snntorch import Leaky, surrogate
 
 
 class SpikingHebbianLM(nn.Module):
     def __init__(self, vocab, d=128, n_neurons=256, d_mem=64,
-                 beta=0.9, lam=0.98, eta=1.0):
+                 beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -28,10 +29,16 @@ class SpikingHebbianLM(nn.Module):
         self.d_mem = d_mem
         self.lam = lam
         self.eta = eta
+        self.recurrent = recurrent
 
         self.embed = nn.Embedding(vocab, d)
         self.to_current = nn.Linear(d, n_neurons)
         self.lif = Leaky(beta=beta, spike_grad=surrogate.fast_sigmoid())
+        if recurrent:
+            self.W_rec = nn.Linear(n_neurons, n_neurons, bias=False)   # neuron->neuron synapses
+            mask = (torch.rand(n_neurons, n_neurons) < rec_density).float()
+            mask.fill_diagonal_(0)
+            self.register_buffer("rec_mask", mask)
 
         self.W_k = nn.Linear(n_neurons, d_mem, bias=False)   # key   <- previous spikes
         self.W_v = nn.Linear(n_neurons, d_mem, bias=False)   # value <- current spikes
@@ -43,7 +50,7 @@ class SpikingHebbianLM(nn.Module):
     def forward(self, idx, ablate_memory=False, return_stats=False):
         B, T = idx.shape
         device = idx.device
-        cur = self.to_current(self.embed(idx))               # (B,T,N)
+        base = self.to_current(self.embed(idx))              # (B,T,N)
 
         mem = torch.zeros(B, self.n_neurons, device=device)
         M = torch.zeros(B, self.d_mem, self.d_mem, device=device)   # synaptic memory
@@ -51,7 +58,10 @@ class SpikingHebbianLM(nn.Module):
 
         logits, spikes = [], []
         for t in range(T):
-            spk, mem = self.lif(cur[:, t, :], mem)           # (B,N) spikes in {0,1}
+            inp = base[:, t, :]
+            if self.recurrent:                               # neuron->neuron synaptic input
+                inp = inp + F.linear(prev_spk, self.W_rec.weight * self.rec_mask)
+            spk, mem = self.lif(inp, mem)                    # (B,N) spikes in {0,1}
             spikes.append(spk)
             k = self.W_k(prev_spk)
             v = self.W_v(spk)
