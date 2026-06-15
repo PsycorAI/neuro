@@ -1,0 +1,29 @@
+# --- The "Big Stuff" (Data) ---
+data/raw/
+data/tokenized/
+*.bin
+*.parquet
+*.arrow
+*.jsonl
+
+# --- Environment & OS ---
+venv/
+.env
+__pycache__/
+*.py[cod]
+.DS_Store
+.history/
+
+# --- Logs & Temp ---
+nohup.out
+pip-log.txt
+.pytest_cache/
+logs_*.txt
+eval_*.log
+
+# --- Checkpoints & big model files ---
+*.pt
+*.safetensors
+models/checkpoints/
+*.ARCHIVE*
+.venv/
