@@ -1,7 +1,7 @@
-# neuro — a genuinely spiking, Hebbian language model
+# PsycorNeuro: a genuinely spiking, Hebbian language model
 
 An honest attempt to build the architecture the *Baby Dragon Hatchling* (BDH) paper
-**describes** — not the transformer variant its reference code actually is.
+**describes**, — not the transformer variant its reference code actually is.
 
 Most "brain-inspired" LMs rename transformer parts. This one implements the mechanisms
 for real, and **tests that they are load-bearing**:
@@ -26,11 +26,12 @@ dense GPU will not realize them. What the architecture genuinely offers is **tra
 
 | Gate | What it shows | Result |
 |---|---|---|
-| **G3 memory is real** | recall accuracy with vs without the synaptic memory | **0.96 with `M` → 0.05 (chance) ablated** |
 | G1 language | beats a bigram baseline on real Llama-3 tokens | see `train_text.py` |
 | G2 sparsity | most neuron-timesteps are silent | ~82% sparse (≥ SpikingBrain's 69%) |
-| G6 energy | per-token inference energy vs a matched transformer | see `train_text.py` |
+| **G3 memory is real** | recall accuracy with vs without the synaptic memory | **0.96 with `M` → 0.05 (chance) ablated** |
+| G4 viz | Synapse strenthening | P(correct) 0.06 → 0.82 at the repeat | 
 | G5 consumer HW | trains & runs on **CPU** | ✓ (~86k-param core) |
+| G6 energy | per-token inference energy vs a matched transformer | see `train_text.py` |
 
 The headline: disabling the Hebbian matrix drops induction recall to *exactly* chance —
 the memory is doing the work, demonstrably. That is the thing BDH claimed and never showed.
@@ -38,8 +39,8 @@ the memory is doing the work, demonstrably. That is the thing BDH claimed and ne
 ## Run
 
 ```bash
-python src/train.py         # induction task: G3 (memory necessary) + G2 (sparsity) + G5 (CPU)
-python src/train_text.py    # G1 (beats bigram) + G6 (energy vs transformer)
+python src/train.py             # induction task: G3 (memory necessary) + G2 (sparsity) + G5 (CPU)
+python src/train_text.py        # G1 (beats bigram) + G6 (energy vs transformer)
 python scripts/viz_synapse.py   # G4: assets/synapse_strengthening.png
 python tests/test_phase1.py     # gates as tests (also works under: pytest -q)
 python src/train_set.py         # Phase 2: SET sparse connectivity (degree + modularity)
