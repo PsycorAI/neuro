@@ -1,0 +1,23 @@
+# Run A — bug shakeout (~9M params, single block). ~1-2 days on RTX 5080.
+run_name: phase25_a
+arch: spiking          # spiking | transformer (same script trains the baseline)
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+recurrent: true        # Phase-2 neuron->neuron synapses
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 256
+batch_size: 16
+grad_accum: 4
+eval_batch: 16
+lr: 0.0015
+max_tokens: 300000000  # 300M
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 3
+log_every: 50
+amp: true
+seed: 0
