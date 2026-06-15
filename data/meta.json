@@ -1,0 +1,140 @@
+{
+  "format": "flat_token_stream",
+  "dtype": "uint32",
+  "vocab_size": 128256,
+  "segment_tokens": 8192,
+  "seed": 1337,
+  "val_frac_per_file": 0.01,
+  "mix_weights": {
+    "dclm": 0.38,
+    "fineweb_edu": 0.22,
+    "fine_pdfs": 0.12,
+    "cosmopedia": 0.09,
+    "open_math": 0.07,
+    "starcoder": 0.07,
+    "finewiki": 0.05
+  },
+  "train_tokens": 14527193088,
+  "val_tokens": 49987584,
+  "available_tokens_per_domain": {
+    "dclm": 40492924024,
+    "finewiki": 2222194279,
+    "fineweb_edu": 9684437907,
+    "fine_pdfs": 6443298737,
+    "cosmopedia": 5177197057,
+    "starcoder": 14931932210,
+    "open_math": 594914804
+  },
+  "stats": {
+    "train": {
+      "cosmopedia": {
+        "tokens": 1350000640,
+        "segments": 164795,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 625662
+      },
+      "dclm": {
+        "tokens": 5700001792,
+        "segments": 695801,
+        "dups": 0,
+        "lowq": 14,
+        "available_positions": 4893554
+      },
+      "fine_pdfs": {
+        "tokens": 1800003584,
+        "segments": 219727,
+        "dups": 0,
+        "lowq": 355,
+        "available_positions": 778670
+      },
+      "fineweb_edu": {
+        "tokens": 3299999744,
+        "segments": 402832,
+        "dups": 0,
+        "lowq": 12,
+        "available_positions": 1170360
+      },
+      "finewiki": {
+        "tokens": 750002176,
+        "segments": 91553,
+        "dups": 0,
+        "lowq": 3898,
+        "available_positions": 268551
+      },
+      "open_math": {
+        "tokens": 577183744,
+        "segments": 70457,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 71895
+      },
+      "starcoder": {
+        "tokens": 1050001408,
+        "segments": 128174,
+        "dups": 0,
+        "lowq": 14408,
+        "available_positions": 1804518
+      }
+    },
+    "val": {
+      "cosmopedia": {
+        "tokens": 5005312,
+        "segments": 611,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 6319
+      },
+      "dclm": {
+        "tokens": 18997248,
+        "segments": 2319,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 49429
+      },
+      "fine_pdfs": {
+        "tokens": 5996544,
+        "segments": 732,
+        "dups": 0,
+        "lowq": 1,
+        "available_positions": 7865
+      },
+      "fineweb_edu": {
+        "tokens": 11001856,
+        "segments": 1343,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 11821
+      },
+      "finewiki": {
+        "tokens": 5005312,
+        "segments": 611,
+        "dups": 0,
+        "lowq": 25,
+        "available_positions": 2712
+      },
+      "open_math": {
+        "tokens": 5005312,
+        "segments": 611,
+        "dups": 0,
+        "lowq": 0,
+        "available_positions": 726
+      },
+      "starcoder": {
+        "tokens": 5005312,
+        "segments": 611,
+        "dups": 0,
+        "lowq": 21,
+        "available_positions": 18227
+      }
+    }
+  },
+  "source": "/mnt/g/bdh/data/tokenized",
+  "build_seconds": 2285.2,
+  "loader_hint": "np.memmap(path, dtype=np.uint32, mode='r'); x=data[i:i+block+1]",
+  "curriculum_milestones_tokens": {
+    "stage1_blk512_end": 3301634792,
+    "stage2_blk1024_end": 9904904378,
+    "stage3_blk2048_end": 14527193088
+  }
+}
