@@ -9,7 +9,7 @@
 A language model built on three biologically-grounded mechanisms - with tests
 that prove each one is load-bearing, not just decorative:
 
-- **Spiking neurons** — Leaky integrate-and-fire units (snntorch) emit sparse
+- **Spiking neurons** - Leaky integrate-and-fire units (snntorch) emit sparse
   binary spikes, trained with surrogate gradients.
 - **Hebbian synaptic memory** - a decaying fast-weight matrix `M` written by
   outer products at inference time:
