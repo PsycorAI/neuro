@@ -64,6 +64,7 @@ def main():
     device = args.device if (args.device != "cuda" or torch.cuda.is_available()) else "cpu"
     if device == "cuda":
         torch.set_float32_matmul_precision("high")
+        torch._dynamo.config.cache_size_limit = 64   # cap compile cache growth (~3-4 graphs needed)
     if args.smoke:
         c.update(block_size=16, batch_size=4, grad_accum=1, eval_batch=8,
                  max_tokens=20000, eval_every=200, ckpt_every=10**9, log_every=50, amp=False)
@@ -110,14 +111,17 @@ def main():
             setm.step(raw_model.W_rec.weight)
         if step % c["log_every"] == 0:
             dt = time.time() - win; win = time.time()
+            vram = f" | vram {torch.cuda.memory_allocated()/1024**3:.1f}/{torch.cuda.memory_reserved()/1024**3:.1f} GB" if device == "cuda" else ""
             print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item()*c['grad_accum']:.3f} "
-                  f"| {c['log_every']*per_step_tok/dt:,.0f} tok/s")
+                  f"| {c['log_every']*per_step_tok/dt:,.0f} tok/s{vram}")
         if step % c["eval_every"] == 0:
-            full, abl, sr = evaluate(model, data, c, device)
+            full, abl, sr = evaluate(raw_model, data, c, device)
             msg = f"  [eval] val_ppl {full:.2f}"
             if abl is not None:
                 msg += f" | ablated_ppl {abl:.2f} (memory Δ={abl-full:+.2f}) | spike {sr:.3f}"
             print(msg, flush=True)
+            if device == "cuda":
+                torch.cuda.empty_cache()   # release fragmented blocks freed by eval
         if step % c["ckpt_every"] == 0:
             p = f"{ckdir}/step_{step:07d}.pt"
             torch.save({"model": raw_model.state_dict(), "opt": opt.state_dict(),
@@ -128,7 +132,7 @@ def main():
 
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")
     if c["arch"] == "spiking":
-        _, _, sr = evaluate(model, data, c, device)
+        _, _, sr = evaluate(raw_model, data, c, device)
         energy.compare(model, sr, baseline_d=c["d"], baseline_layers=c.get("n_layer", 2),
                        vocab=c["vocab"], seq_lens=[c["block_size"], 512, 4096])
 
