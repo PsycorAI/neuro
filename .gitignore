@@ -30,3 +30,6 @@ models/checkpoints/
 
 # --- Derived artifacts ---
 data/vocab_map_*.npy
+
+# --- Scratch ---
+temp/
