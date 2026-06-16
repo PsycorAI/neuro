@@ -12,8 +12,8 @@ rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
 block_size: 512
-batch_size: 8
-grad_accum: 8
+batch_size: 16
+grad_accum: 4
 eval_batch: 8
 lr: 0.0012
 max_tokens: 1000000000  # 1B
@@ -22,4 +22,7 @@ ckpt_every: 1000
 keep_last: 3
 log_every: 50
 amp: true
+compile: true
+compile_mode: default
 seed: 0
+
