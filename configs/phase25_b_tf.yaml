@@ -1,0 +1,28 @@
+# nanoGPT-style transformer baseline matched to Run B.
+# Same tokenizer, same data slice, same 1B tokens, same effective batch, same eval.
+# Architecture matched to ~20M params for a head-to-head against the spiking model.
+#
+# Launch AFTER Run B (phase25_b) finishes — they share the 5080:
+#   bash scripts/launch_phase25.sh configs/phase25_b_tf.yaml
+run_name: phase25_b_tf
+arch: transformer
+vocab: 16384
+d: 384            # ~20M params at n_layer=4, n_head=6 (matches spiking Run B)
+n_head: 6
+n_layer: 4
+block_size: 512
+batch_size: 32
+grad_accum: 2
+eval_batch: 16
+lr: 0.0006        # nanoGPT standard for small models (intentionally not matched
+                  # to spiking's 0.0012 — each arch uses its own well-known LR;
+                  # forcing identical LRs would be a less honest comparison)
+max_tokens: 1000000000  # 1B (same as Run B)
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 3
+log_every: 50
+amp: true
+compile: true
+compile_mode: default
+seed: 0

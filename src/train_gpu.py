@@ -25,7 +25,8 @@ def build_model(c):
     if c["arch"] == "spiking":
         return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
                                 d_mem=c["d_mem"], recurrent=c.get("recurrent", False),
-                                rec_density=c.get("rec_density", 0.05))
+                                rec_density=c.get("rec_density", 0.05),
+                                compile_safe=c.get("compile", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -61,6 +62,8 @@ def main():
     with open(args.config) as f:
         c = yaml.safe_load(f)
     device = args.device if (args.device != "cuda" or torch.cuda.is_available()) else "cpu"
+    if device == "cuda":
+        torch.set_float32_matmul_precision("high")
     if args.smoke:
         c.update(block_size=16, batch_size=4, grad_accum=1, eval_batch=8,
                  max_tokens=20000, eval_every=200, ckpt_every=10**9, log_every=50, amp=False)
@@ -68,10 +71,16 @@ def main():
     torch.manual_seed(c.get("seed", 0))
 
     data = StreamText(BIN, vocab=c["vocab"])
-    model = build_model(c).to(device)
-    nparams = sum(p.numel() for p in model.parameters())
-    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"])
-    setm = SET(model.rec_mask, c.get("set_zeta", 0.3)) if (c["arch"] == "spiking" and c.get("recurrent")) else None
+    raw_model = build_model(c).to(device)
+    nparams = sum(p.numel() for p in raw_model.parameters())
+    opt = torch.optim.AdamW(raw_model.parameters(), lr=c["lr"])
+    setm = SET(raw_model.rec_mask, c.get("set_zeta", 0.3)) if (c["arch"] == "spiking" and c.get("recurrent")) else None
+    if c.get("compile") and device == "cuda":
+        mode = c.get("compile_mode", "default")  # "default" | "reduce-overhead" | "max-autotune"
+        model = torch.compile(raw_model, mode=mode, dynamic=False)
+        print(f"torch.compile enabled (mode={mode}) — first 1-2 steps will be slow (graph capture)")
+    else:
+        model = raw_model
 
     ckdir = f"/home/glenn/projects/neuro/models/checkpoints/{c['run_name']}"
     os.makedirs(ckdir, exist_ok=True)
@@ -79,7 +88,7 @@ def main():
     cks = sorted(glob.glob(f"{ckdir}/step_*.pt"))
     if cks:
         s = torch.load(cks[-1], map_location=device, weights_only=False)
-        model.load_state_dict(s["model"]); opt.load_state_dict(s["opt"])
+        raw_model.load_state_dict(s["model"]); opt.load_state_dict(s["opt"])
         step, tokens = s["step"], s["tokens"]
         print(f"resumed {cks[-1]} @ step {step}, {tokens/1e6:.1f}M tok")
 
@@ -98,7 +107,7 @@ def main():
         opt.step()
         step += 1; tokens += per_step_tok
         if setm and step % c.get("set_every", 200) == 0:
-            setm.step(model.W_rec.weight)
+            setm.step(raw_model.W_rec.weight)
         if step % c["log_every"] == 0:
             dt = time.time() - win; win = time.time()
             print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item()*c['grad_accum']:.3f} "
@@ -111,7 +120,7 @@ def main():
             print(msg, flush=True)
         if step % c["ckpt_every"] == 0:
             p = f"{ckdir}/step_{step:07d}.pt"
-            torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
+            torch.save({"model": raw_model.state_dict(), "opt": opt.state_dict(),
                         "step": step, "tokens": tokens, "cfg": c}, p)
             for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
                 os.remove(o)

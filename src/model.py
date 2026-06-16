@@ -13,6 +13,7 @@ This is the BDH "working memory lives on the synapses" claim, actually implement
 the memory is a state written and read at inference time, not a static weight. The
 memory cost is O(d_mem^2) per token and INDEPENDENT of context length.
 """
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -21,7 +22,8 @@ from snntorch import Leaky, surrogate
 
 class SpikingHebbianLM(nn.Module):
     def __init__(self, vocab, d=128, n_neurons=256, d_mem=64,
-                 beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05):
+                 beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
+                 compile_safe=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -30,22 +32,35 @@ class SpikingHebbianLM(nn.Module):
         self.lam = lam
         self.eta = eta
         self.recurrent = recurrent
+        self.compile_safe = compile_safe
+        self.beta_val = beta
 
         self.embed = nn.Embedding(vocab, d)
         self.to_current = nn.Linear(d, n_neurons)
-        self.lif = Leaky(beta=beta, spike_grad=surrogate.fast_sigmoid())
+        if not compile_safe:
+            self.lif = Leaky(beta=beta, spike_grad=surrogate.fast_sigmoid())
         if recurrent:
             self.W_rec = nn.Linear(n_neurons, n_neurons, bias=False)   # neuron->neuron synapses
             mask = (torch.rand(n_neurons, n_neurons) < rec_density).float()
             mask.fill_diagonal_(0)
             self.register_buffer("rec_mask", mask)
-
         self.W_k = nn.Linear(n_neurons, d_mem, bias=False)   # key   <- previous spikes
         self.W_v = nn.Linear(n_neurons, d_mem, bias=False)   # value <- current spikes
         self.W_q = nn.Linear(n_neurons, d_mem, bias=False)   # query <- current spikes
         self.W_ff = nn.Linear(n_neurons, d_mem, bias=False)  # static feed-forward path
         self.norm = nn.LayerNorm(d_mem)
         self.head = nn.Linear(d_mem, vocab)
+
+    def _lif_step(self, cur, mem):
+        """Inline LIF (vth=1, reset-by-subtraction, atan surrogate). Compile-friendly."""
+        mem = self.beta_val * mem + cur
+        over = mem - 1.0
+        spk_hard = (over > 0).float()
+        alpha = 2.0
+        g = (1.0 / (math.pi * alpha)) * torch.atan(math.pi * alpha * over)
+        spk = spk_hard.detach() + g - g.detach()
+        mem = mem - spk_hard
+        return spk, mem
 
     def forward(self, idx, ablate_memory=False, return_stats=False):
         B, T = idx.shape
@@ -61,7 +76,10 @@ class SpikingHebbianLM(nn.Module):
             inp = base[:, t, :]
             if self.recurrent:                               # neuron->neuron synaptic input
                 inp = inp + F.linear(prev_spk, self.W_rec.weight * self.rec_mask)
-            spk, mem = self.lif(inp, mem)                    # (B,N) spikes in {0,1}
+            if self.compile_safe:
+                spk, mem = self._lif_step(inp, mem)
+            else:
+                spk, mem = self.lif(inp, mem)                # (B,N) spikes in {0,1}
             spikes.append(spk)
             k = self.W_k(prev_spk)
             v = self.W_v(spk)

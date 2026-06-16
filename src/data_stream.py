@@ -30,9 +30,13 @@ class StreamText:
 
     def batch(self, B, T, split="train", device="cpu"):
         lo, hi = (0, self.split) if split == "train" else (self.split, len(self.data) - T - 1)
-        ix = np.random.randint(lo, hi - T - 1, size=B)
-        xb = np.stack([np.asarray(self.data[i:i + T + 1], dtype=np.int64) for i in ix])
-        xb = self.lut[xb]
+        # one sequential read per batch (~B*T*4 tokens), then B random sub-windows
+        region = B * (T + 1) * 4
+        start = np.random.randint(lo, max(lo + 1, hi - region - 1))
+        block = np.asarray(self.data[start:start + region], dtype=np.int64)
+        block = self.lut[block]
+        starts = np.random.randint(0, region - T - 1, size=B)
+        xb = np.stack([block[s:s + T + 1] for s in starts])
         x = torch.from_numpy(xb[:, :-1]).to(device)
         y = torch.from_numpy(xb[:, 1:]).to(device)
         return x, y
