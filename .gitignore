@@ -31,5 +31,8 @@ models/checkpoints/
 # --- Derived artifacts ---
 data/vocab_map_*.npy
 
+# --- Persistent-state demo outputs ---
+brains/
+
 # --- Scratch ---
 temp/

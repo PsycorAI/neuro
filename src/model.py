@@ -62,14 +62,25 @@ class SpikingHebbianLM(nn.Module):
         mem = mem - spk_hard
         return spk, mem
 
-    def forward(self, idx, ablate_memory=False, return_stats=False):
+    def forward(self, idx, ablate_memory=False, return_stats=False,
+                initial_state=None, return_final_state=False):
+        """initial_state: optional dict {M, mem, prev_spk} to resume from.
+        return_final_state: if True, also return the final neuron state dict."""
         B, T = idx.shape
         device = idx.device
         base = self.to_current(self.embed(idx))              # (B,T,N)
 
-        mem = torch.zeros(B, self.n_neurons, device=device)
-        M = torch.zeros(B, self.d_mem, self.d_mem, device=device)   # synaptic memory
-        prev_spk = torch.zeros(B, self.n_neurons, device=device)
+        if initial_state is None:
+            mem = torch.zeros(B, self.n_neurons, device=device)
+            M = torch.zeros(B, self.d_mem, self.d_mem, device=device)
+            prev_spk = torch.zeros(B, self.n_neurons, device=device)
+        else:
+            def _bcast(t, shape):
+                if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
+                return t.to(device).expand(*shape).contiguous()
+            mem = _bcast(initial_state["mem"], (B, self.n_neurons))
+            M = _bcast(initial_state["M"], (B, self.d_mem, self.d_mem))
+            prev_spk = _bcast(initial_state["prev_spk"], (B, self.n_neurons))
 
         logits, spikes = [], []
         for t in range(T):
@@ -95,7 +106,34 @@ class SpikingHebbianLM(nn.Module):
             prev_spk = spk
 
         logits = torch.stack(logits, dim=1)                  # (B,T,vocab)
+        if return_final_state:
+            state = {"M": M.detach(), "mem": mem.detach(), "prev_spk": prev_spk.detach()}
+            return logits, state
         if return_stats:
             spike_rate = torch.stack(spikes).mean()          # differentiable scalar
             return logits, spike_rate
         return logits
+
+    def save_brain(self, state, path):
+        """Persist a complete neuron state ('brain') to disk."""
+        def _to1(t):
+            if t.dim() == 3 and t.shape[0] == 1: return t.squeeze(0)
+            if t.dim() == 2 and t.shape[0] == 1: return t.squeeze(0)
+            return t
+        torch.save({
+            "M": _to1(state["M"]).detach().cpu(),
+            "mem": _to1(state["mem"]).detach().cpu(),
+            "prev_spk": _to1(state["prev_spk"]).detach().cpu(),
+            "d_mem": self.d_mem,
+            "n_neurons": self.n_neurons,
+            "vocab": self.vocab,
+            "lam": self.lam,
+            "eta": self.eta,
+            "format_version": 2,
+        }, path)
+
+    @staticmethod
+    def load_brain(path):
+        """Load a brain file. Returns a state dict suitable for initial_state=."""
+        blob = torch.load(path, weights_only=False)
+        return {"M": blob["M"], "mem": blob["mem"], "prev_spk": blob["prev_spk"]}
