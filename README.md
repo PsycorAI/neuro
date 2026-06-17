@@ -88,6 +88,36 @@ python tests/test_phase1.py     # gates as tests (also works under: pytest -q)
 python src/train_set.py         # Phase 2: SET sparse connectivity (degree + modularity)
 ```
 
+## Hardware notes
+
+The Phase 1 / Phase 2 scripts (`src/train.py`, `src/train_set.py`, `src/train_text.py`)
+run **comfortably on CPU** — no GPU required.
+
+The Phase 2.5 GPU trainer (`src/train_gpu.py`) uses backpropagation through the full
+unrolled time loop. Peak VRAM scales with `batch_size × block_size × d_mem²`, so the
+default configs are tuned for **16 GB consumer GPUs** (RTX 4080 / 4090 / 5080-class):
+
+| Config preset | `block_size` | `batch_size` | `grad_accum` | Effective batch | Peak VRAM | Throughput (5080) |
+|---|---|---|---|---|---|---|
+| `phase25_a.yaml` (~9 M params) | 128 | 128 | 1 | 128 | ~6 GB | ~53 k tok/s |
+| `phase25_b.yaml` (~20 M params, default) | 512 | 16 | 4 | 64 | ~9 GB | ~9 k tok/s |
+| 24 GB GPUs (3090 / 4090 / 5090) | 512 | 32 | 2 | 64 | ~16 GB | ~9 k tok/s (similar) |
+| CPU smoke test (`--smoke`) | 16 | 4 | 1 | 4 | n/a | seconds per step |
+
+### Troubleshooting
+
+- **Throughput drops sharply after hours of training, or `vram reserved` creeps
+  toward your card's limit.** Peak working set is spilling into shared GPU memory
+  (PCIe-bound, ~20× slower than VRAM). Reduce `batch_size` and increase `grad_accum`
+  proportionally — gradient quality is unchanged. The structural fix (gradient
+  checkpointing through the time loop) is on the Phase 3 roadmap.
+- **First eval at `eval_every` takes 5–30 minutes.** This is a one-time
+  `torch.compile` graph capture for the eval kwarg signature; subsequent evals
+  reuse the cached graph and complete in seconds.
+- **CUDA `device not ready` on resume.** The on-disk inductor cache at
+  `/tmp/torchinductor_*` may have artifacts from a different allocator/driver state.
+  Clearing it (`rm -rf /tmp/torchinductor_*`) and relaunching forces a fresh compile.
+
 ## Roadmap
 
 - **P1** spiking + Hebbian core ✓
