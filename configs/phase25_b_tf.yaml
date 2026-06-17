@@ -17,11 +17,11 @@ eval_batch: 16
 lr: 0.0006        # nanoGPT standard for small models (intentionally not matched
                   # to spiking's 0.0012 — each arch uses its own well-known LR;
                   # forcing identical LRs would be a less honest comparison)
-max_tokens: 1000000000  # 1B (same as Run B)
-eval_every: 1000
+max_tokens: 700000000  # matched to Run B's final checkpoint (step_0021300 = 700M tok)
+eval_every: 100
 ckpt_every: 1000
 keep_last: 3
-log_every: 50
+log_every: 100
 amp: true
 compile: true
 compile_mode: default
