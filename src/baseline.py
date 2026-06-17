@@ -22,5 +22,8 @@ class TinyTransformer(nn.Module):
         pos = torch.arange(T, device=idx.device)
         h = self.embed(idx) + self.pos(pos)[None]
         mask = torch.triu(torch.full((T, T), float("-inf"), device=idx.device), 1)
-        h = self.blocks(h, mask=mask)
+        # Pass is_causal=True so nn.TransformerEncoder skips the value-dependent
+        # _detect_is_causal_mask check that would otherwise trigger a
+        # torch.compile graph break.
+        h = self.blocks(h, mask=mask, is_causal=True)
         return self.head(h)
