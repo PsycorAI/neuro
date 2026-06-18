@@ -136,6 +136,10 @@ def main():
     sr = measure_spike_rate(spk, data, sc, device)
     print(f"  Spike rate : {sr:.4f}  →  {(1-sr)*100:.1f}% of neuron-timesteps are silent")
     print(f"  cf. SpikingBrain-7B reports ~31% spike rate (69% silent).")
+    print(f"  By contrast, a transformer has no silent state: every parameter is touched,")
+    print(f"  every attention score is computed, every feed-forward activation fires — on")
+    print(f"  every token, regardless of input. The dense paradigm has no architectural path")
+    print(f"  to event-driven savings; spike sparsity is something it structurally cannot offer.")
 
     print()
     print("=" * 70)
