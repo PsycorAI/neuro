@@ -39,11 +39,13 @@ def build_from_cfg(c):
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
 
-def load(ckpt_path, device):
+def load(ckpt_path, device, compile_mode=None):
     blob = torch.load(ckpt_path, map_location=device, weights_only=False)
     c = blob["cfg"]
     m = build_from_cfg(c).to(device).eval()
     m.load_state_dict(blob["model"])
+    if compile_mode:
+        m = torch.compile(m, mode=compile_mode, dynamic=False)
     return m, c
 
 
@@ -135,13 +137,23 @@ def main():
                     help="seconds of inference per (model, seq_len) cell")
     ap.add_argument("--seq-lens", default="128,512,2048,4096",
                     help="comma-separated seq_lens to test")
+    ap.add_argument("--compile-mode", default="reduce-overhead",
+                    choices=["none", "default", "reduce-overhead"],
+                    help="torch.compile mode for inference; default is what we recommend in production")
     args = ap.parse_args()
     if args.device != "cuda":
         print("Empirical energy only meaningful on CUDA GPU."); sys.exit(1)
     seq_lens = [int(s) for s in args.seq_lens.split(",")]
 
-    spk, sc = load(latest_ckpt(SPK_DIR), args.device)
-    tf,  tc = load(latest_ckpt(TF_DIR),  args.device)
+    # Use compile(reduce-overhead) for both -- it's the inference path we'd
+    # recommend in production and where CUDA Graphs make the comparison fair
+    # (eager is misleading: spiking is 33x slower than compiled, transformer
+    # is 6x slower; the gap between them is much smaller than the eager numbers
+    # would suggest).
+    cm = args.compile_mode if args.compile_mode != "none" else None
+    print(f"Compile mode: {cm or 'eager'}")
+    spk, sc = load(latest_ckpt(SPK_DIR), args.device, compile_mode=cm)
+    tf,  tc = load(latest_ckpt(TF_DIR),  args.device, compile_mode=cm)
     print(f"GPU: {torch.cuda.get_device_name(0)}")
     print(f"Spiking: {sum(p.numel() for p in spk.parameters())/1e6:.2f}M | "
           f"Transformer: {sum(p.numel() for p in tf.parameters())/1e6:.2f}M")
