@@ -86,7 +86,9 @@ def avg_power_between(samples, t_start, t_end):
 @torch.no_grad()
 def measure(model, c, seq_len, duration_s, device):
     """Run inference at given seq_len for ~duration_s, return (avg_power, tokens)."""
-    if seq_len > c["block_size"]:
+    # Spiking model has no positional embedding, so it can extend beyond the
+    # training block_size at inference. Transformer cannot (learned pos embed).
+    if c["arch"] == "transformer" and seq_len > c["block_size"]:
         return None
     x = torch.randint(0, c["vocab"], (1, seq_len), device=device)
 
