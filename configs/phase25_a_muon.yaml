@@ -1,0 +1,36 @@
+# Muon + weight-tying validation, Run A-scale (~9M -> ~5M with tying, 300M tokens).
+# Same architecture, same data, same budget as phase25_a, with three opt-in changes:
+#   optimizer: muon          (was: AdamW)
+#   muon_lr: 0.02            (Muon-standard)
+#   tie_weights: true        (shares embed + head, saves ~40% params at this scale)
+#
+# Expectation: Muon should reach the baseline's final val_ppl noticeably earlier
+# (~25-35% fewer tokens to equal loss per the NanoGPT speedrun literature), AND
+# weight tying tends to give a modest extra ppl improvement at small scale.
+run_name: phase25_a_muon
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 128
+batch_size: 128
+grad_accum: 1
+eval_batch: 64
+lr: 0.0015              # AdamW lr for embed / head-bias / LayerNorm / W_ff bias
+optimizer: muon
+muon_lr: 0.02           # Muon lr for 2D hidden matrices
+tie_weights: true       # safe here: d == d_mem
+max_tokens: 300000000   # 300M (matches baseline)
+eval_every: 500
+ckpt_every: 1000
+keep_last: 3
+log_every: 50
+amp: true
+compile: true
+compile_mode: default
+seed: 0
