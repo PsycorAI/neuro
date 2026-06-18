@@ -104,6 +104,43 @@ default configs are tuned for **16 GB consumer GPUs** (RTX 4080 / 4090 / 5080-cl
 | 24 GB GPUs (3090 / 4090 / 5090) | 512 | 32 | 2 | 64 | ~16 GB | ~9 k tok/s (similar) |
 | CPU smoke test (`--smoke`) | 16 | 4 | 1 | 4 | n/a | seconds per step |
 
+### Training speedups (opt-in)
+
+These are configurable knobs in the YAML; defaults are conservative for
+backwards compatibility with existing checkpoints. Recommended for new runs:
+
+```yaml
+optimizer: muon           # Newton-Schulz orthogonalized momentum; 25-35%
+                          # faster training-to-equal-loss vs AdamW on 2D
+                          # hidden-layer matrices. Fused AdamW handles
+                          # everything else (embeddings, biases, LayerNorm,
+                          # head) automatically.
+muon_lr: 0.02             # Muon-typical learning rate
+tie_weights: true         # share embed + head weight matrices.
+                          # Requires d == d_mem. Saves ~43% of params on a
+                          # 20M model and usually improves perplexity at
+                          # small scale.
+```
+
+The default optimizer is `adamw` (with `fused=True` on CUDA). Set
+`optimizer: muon` to opt into the Muon path.
+
+### Inference speedups
+
+For inference, **`torch.compile(model, mode="reduce-overhead")` is the
+single largest practical win** -- CUDA Graphs eliminate per-step launch
+overhead which otherwise dominates the spiking model's runtime:
+
+```python
+import torch
+model = torch.compile(model, mode="reduce-overhead", dynamic=False)
+# first call: 30-60s graph capture
+# subsequent calls: ~33x faster than eager for the spiking model;
+#                   ~6x faster for the transformer
+```
+
+See `scripts/bench_inference.py` for a head-to-head benchmark.
+
 ### Troubleshooting
 
 - **Throughput drops sharply after hours of training, or `vram reserved` creeps
