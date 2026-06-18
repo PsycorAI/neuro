@@ -33,12 +33,20 @@ ASSETS = os.path.join(ROOT, "assets")
 WEIGHTS = os.path.join(BRAIN_DIR, "demo_weights.pt")
 BRAIN_A = os.path.join(BRAIN_DIR, "concept_set_A.brain")
 
-N_CUES = 6
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+N_CUES = 8
+N_PAIRS_TRAIN = N_CUES   # match the priming-sequence length distribution
 SEP = 2 * N_CUES
 VOCAB = 2 * N_CUES + 1
 
-# Model size matched to Phase-1 induction (which gets 96% recall on similar tasks).
+# Demo model. Small enough to train on CPU (~5 min) or GPU (~30 sec),
+# tuned to push brain-loaded recall above 98%.
 D, N, DM = 128, 256, 128
+LAM, ETA = 0.995, 1.0
+TRAIN_STEPS = 3000   # 3000 hits ~0.98; 5000 climbs to 0.996 but takes longer on CPU
+LR = 2e-3
+BATCH = 128
 
 
 # ----------------------------- (A) IDENTITY TEST -----------------------------
@@ -48,10 +56,10 @@ def identity_test():
     print("PART A — identity test: save/load gives same predictions as continue")
     print("=" * 60)
     torch.manual_seed(0)
-    model = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM)
+    model = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM).to(DEVICE)
     model.eval()
-    seqA = torch.randint(0, VOCAB, (1, 7))
-    seqB = torch.randint(0, VOCAB, (1, 4))
+    seqA = torch.randint(0, VOCAB, (1, 7), device=DEVICE)
+    seqB = torch.randint(0, VOCAB, (1, 4), device=DEVICE)
 
     # Path 1: process A then B in one shot, record predictions on B
     with torch.no_grad():
@@ -66,7 +74,7 @@ def identity_test():
     os.makedirs(BRAIN_DIR, exist_ok=True)
     model.save_brain(state_after_A, tmp_brain)
 
-    model2 = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM)
+    model2 = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM).to(DEVICE)
     model2.load_state_dict(model.state_dict())
     model2.eval()
     loaded = SpikingHebbianLM.load_brain(tmp_brain)
@@ -83,8 +91,11 @@ def identity_test():
 
 
 # ----------------------------- (B) RECALL DEMO -----------------------------
-def random_batch(B, n_pairs=3):
-    """Random bindings each batch. Structure: pair pair pair SEP cue answer."""
+def random_batch(B, n_pairs=N_PAIRS_TRAIN):
+    """Random bindings each batch. Structure: pair pair pair SEP cue answer.
+    n_pairs = N_CUES (8) so the training distribution matches the priming
+    sequence the model will see at brain-build time. Mismatched training and
+    priming distributions caused the previous demo's recall to plateau at 0.5."""
     xs, ys = [], []
     for _ in range(B):
         cs = torch.randperm(N_CUES)[:n_pairs].tolist()
@@ -97,7 +108,7 @@ def random_batch(B, n_pairs=3):
         seq.append(cs[pi])
         seq.append(ss[pi])
         xs.append(seq[:-1]); ys.append(seq[1:])
-    return torch.tensor(xs), torch.tensor(ys)
+    return torch.tensor(xs).to(DEVICE), torch.tensor(ys).to(DEVICE)
 
 
 def make_associations(seed=0):
@@ -112,7 +123,7 @@ def priming_sequence(pairs):
     for c in range(N_CUES):
         seq.extend([c, pairs[c]])
     seq.append(SEP)
-    return torch.tensor(seq, dtype=torch.long).unsqueeze(0)
+    return torch.tensor(seq, dtype=torch.long).unsqueeze(0).to(DEVICE)
 
 
 def recall_demo(pairs):
@@ -120,14 +131,15 @@ def recall_demo(pairs):
     print("PART B — recall demo: train, prime, save, recall, contrast")
     print("=" * 60)
     torch.manual_seed(0)
-    model = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM)
-    opt = torch.optim.Adam(model.parameters(), lr=2e-3)
-    print("  training on random bindings per batch ...")
-    for step in range(1, 3001):
-        x, y = random_batch(128)
+    model = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM, lam=LAM, eta=ETA).to(DEVICE)
+    opt = torch.optim.Adam(model.parameters(), lr=LR)
+    print(f"  training on random {N_PAIRS_TRAIN}-pair bindings per batch "
+          f"({TRAIN_STEPS} steps, lam={LAM}) ...")
+    for step in range(1, TRAIN_STEPS + 1):
+        x, y = random_batch(BATCH)
         loss = F.cross_entropy(model(x).reshape(-1, VOCAB), y.reshape(-1))
         opt.zero_grad(); loss.backward(); opt.step()
-        if step % 500 == 0:
+        if step % (TRAIN_STEPS // 5) == 0:
             print(f"    step {step:4d} | loss {loss.item():.3f}")
     model.eval()
 
@@ -139,14 +151,14 @@ def recall_demo(pairs):
     print(f"  saved brain -> {BRAIN_A} ({os.path.getsize(BRAIN_A)/1024:.1f} KB)")
 
     # fresh model + loaded brain
-    fresh = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM)
+    fresh = SpikingHebbianLM(VOCAB, d=D, n_neurons=N, d_mem=DM, lam=LAM, eta=ETA).to(DEVICE)
     fresh.load_state_dict(torch.load(WEIGHTS, weights_only=False))
     fresh.eval()
     brain = SpikingHebbianLM.load_brain(BRAIN_A)
     with_brain, no_brain = [], []
     with torch.no_grad():
         for c in range(N_CUES):
-            probe = torch.tensor([[c]], dtype=torch.long)
+            probe = torch.tensor([[c]], dtype=torch.long).to(DEVICE)
             p_b = F.softmax(fresh(probe, initial_state=brain)[0, -1], dim=-1)
             p_n = F.softmax(fresh(probe)[0, -1], dim=-1)
             with_brain.append(float(p_b[pairs[c]]))
