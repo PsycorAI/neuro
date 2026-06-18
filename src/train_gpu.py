@@ -21,6 +21,33 @@ import yaml
 BIN = "/home/glenn/projects/bdh/data/tokenized/train.bin"
 
 
+def _build_optimizers(model, c, device):
+    """Build a list of optimizer(s) based on config.
+
+    optimizer: "adamw" (default) -> single fused AdamW
+    optimizer: "muon"            -> Muon for 2D hidden-layer matrices,
+                                    fused AdamW for embeddings/heads/biases/norms
+
+    Returns a list so the training loop can iterate uniformly across either
+    setup. Single-optimizer ckpts from before this change still resume cleanly.
+    """
+    kind = c.get("optimizer", "adamw").lower()
+    if kind == "muon":
+        from muon import build_muon_adamw
+        muon, adamw, n_mat, n_other = build_muon_adamw(
+            model,
+            muon_lr=c.get("muon_lr", 0.02),
+            adamw_lr=c["lr"],
+            adamw_fused=(device == "cuda"))
+        print(f"optimizer: Muon ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
+              f"+ AdamW ({n_other} other params, lr={c['lr']})")
+        return [o for o in (muon, adamw) if o is not None]
+    fused_kw = {"fused": True} if device == "cuda" else {}
+    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"], **fused_kw)
+    print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
+    return [opt]
+
+
 def build_model(c):
     if c["arch"] == "spiking":
         return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
@@ -74,7 +101,7 @@ def main():
     data = StreamText(BIN, vocab=c["vocab"])
     raw_model = build_model(c).to(device)
     nparams = sum(p.numel() for p in raw_model.parameters())
-    opt = torch.optim.AdamW(raw_model.parameters(), lr=c["lr"])
+    opts = _build_optimizers(raw_model, c, device)
     setm = SET(raw_model.rec_mask, c.get("set_zeta", 0.3)) if (c["arch"] == "spiking" and c.get("recurrent")) else None
     if c.get("compile") and device == "cuda":
         mode = c.get("compile_mode", "default")  # "default" | "reduce-overhead" | "max-autotune"
@@ -89,7 +116,14 @@ def main():
     cks = sorted(glob.glob(f"{ckdir}/step_*.pt"))
     if cks:
         s = torch.load(cks[-1], map_location=device, weights_only=False)
-        raw_model.load_state_dict(s["model"]); opt.load_state_dict(s["opt"])
+        raw_model.load_state_dict(s["model"])
+        if "opt_states" in s and len(s["opt_states"]) == len(opts):
+            for o, st in zip(opts, s["opt_states"]):
+                o.load_state_dict(st)
+        elif "opt" in s and len(opts) == 1:
+            opts[0].load_state_dict(s["opt"])               # legacy single-optimizer ckpt
+        else:
+            print("  [warn] optimizer state in ckpt incompatible with current config; starting fresh")
         step, tokens = s["step"], s["tokens"]
         print(f"resumed {cks[-1]} @ step {step}, {tokens/1e6:.1f}M tok")
 
@@ -98,14 +132,15 @@ def main():
           f"target={c['max_tokens']/1e9:.3f}B tok | {per_step_tok} tok/step")
     t0 = time.time(); win = t0
     while tokens < c["max_tokens"]:
-        model.train(); opt.zero_grad()
+        model.train()
+        for o in opts: o.zero_grad(set_to_none=True)
         for _ in range(c["grad_accum"]):
             x, y = data.batch(c["batch_size"], c["block_size"], "train", device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
                 out = model(x)
                 loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1)) / c["grad_accum"]
             loss.backward()
-        opt.step()
+        for o in opts: o.step()
         step += 1; tokens += per_step_tok
         if setm and step % c.get("set_every", 200) == 0:
             setm.step(raw_model.W_rec.weight)
@@ -124,7 +159,8 @@ def main():
                 torch.cuda.empty_cache()   # release fragmented blocks freed by eval
         if step % c["ckpt_every"] == 0:
             p = f"{ckdir}/step_{step:07d}.pt"
-            torch.save({"model": raw_model.state_dict(), "opt": opt.state_dict(),
+            torch.save({"model": raw_model.state_dict(),
+                        "opt_states": [o.state_dict() for o in opts],
                         "step": step, "tokens": tokens, "cfg": c}, p)
             for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
                 os.remove(o)
