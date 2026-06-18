@@ -23,7 +23,7 @@ from snntorch import Leaky, surrogate
 class SpikingHebbianLM(nn.Module):
     def __init__(self, vocab, d=128, n_neurons=256, d_mem=64,
                  beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
-                 compile_safe=False):
+                 compile_safe=False, tie_weights=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -33,6 +33,7 @@ class SpikingHebbianLM(nn.Module):
         self.eta = eta
         self.recurrent = recurrent
         self.compile_safe = compile_safe
+        self.tie_weights = tie_weights
         self.beta_val = beta
 
         self.embed = nn.Embedding(vocab, d)
@@ -50,6 +51,13 @@ class SpikingHebbianLM(nn.Module):
         self.W_ff = nn.Linear(n_neurons, d_mem, bias=False)  # static feed-forward path
         self.norm = nn.LayerNorm(d_mem)
         self.head = nn.Linear(d_mem, vocab)
+        if tie_weights:
+            if d != d_mem:
+                raise ValueError(f"tie_weights requires d == d_mem (got d={d}, d_mem={d_mem})")
+            # share the (vocab, d) weight matrix between input embedding and output head.
+            # Saves vocab*d params (typically ~40% on small models) and often improves
+            # perplexity at small scale by enforcing input/output representation symmetry.
+            self.head.weight = self.embed.weight
 
     def _lif_step(self, cur, mem):
         """Inline LIF (vth=1, reset-by-subtraction, atan surrogate). Compile-friendly."""
