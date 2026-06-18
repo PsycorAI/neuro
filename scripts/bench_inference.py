@@ -90,8 +90,8 @@ def main():
         print("  " + "-" * 75)
         for L in seq_lens:
             r_eager = bench(m_eager, c, L, device)
-            r_def   = bench(m_def, c, L, device) if m_def else None
-            r_red   = bench(m_red, c, L, device) if m_red else None
+            r_def   = bench(m_def, c, L, device) if m_def is not None else None
+            r_red   = bench(m_red, c, L, device) if m_red is not None else None
             cells = [
                 f"{r_eager:>10,.0f}" if r_eager else f"{'(skip)':>10}",
                 f"{r_def:>16,.0f}"   if r_def   else f"{'(skip)':>16}",
