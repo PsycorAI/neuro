@@ -54,7 +54,10 @@ def build_model(c):
                                 d_mem=c["d_mem"], recurrent=c.get("recurrent", False),
                                 rec_density=c.get("rec_density", 0.05),
                                 compile_safe=c.get("compile", False),
-                                tie_weights=c.get("tie_weights", False))
+                                tie_weights=c.get("tie_weights", False),
+                                n_layers=c.get("n_layers", 1),
+                                use_fpt=c.get("use_fpt", False),
+                                fpt_K=c.get("fpt_K", 10))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -103,7 +106,10 @@ def main():
     raw_model = build_model(c).to(device)
     nparams = sum(p.numel() for p in raw_model.parameters())
     opts = _build_optimizers(raw_model, c, device)
-    setm = SET(raw_model.rec_mask, c.get("set_zeta", 0.3)) if (c["arch"] == "spiking" and c.get("recurrent")) else None
+    setms = None
+    if c["arch"] == "spiking" and c.get("recurrent"):
+        setms = [(b, SET(b.rec_mask, c.get("set_zeta", 0.3)))
+                 for b in raw_model.blocks if hasattr(b, "rec_mask")]
     if c.get("compile") and device == "cuda":
         mode = c.get("compile_mode", "default")  # "default" | "reduce-overhead" | "max-autotune"
         model = torch.compile(raw_model, mode=mode, dynamic=False)
@@ -143,8 +149,9 @@ def main():
             loss.backward()
         for o in opts: o.step()
         step += 1; tokens += per_step_tok
-        if setm and step % c.get("set_every", 200) == 0:
-            setm.step(raw_model.W_rec.weight)
+        if setms and step % c.get("set_every", 200) == 0:
+            for blk, s in setms:
+                s.step(blk.W_rec.weight)
         if step % c["log_every"] == 0:
             dt = time.time() - win; win = time.time()
             vram = f" | vram {torch.cuda.memory_allocated()/1024**3:.1f}/{torch.cuda.memory_reserved()/1024**3:.1f} GB" if device == "cuda" else ""

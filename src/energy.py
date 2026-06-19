@@ -21,10 +21,11 @@ E_AC = 0.9e-12    # joules
 
 def spiking_energy_per_token(model, spike_rate):
     d, N, dm, V = model.d, model.n_neurons, model.d_mem, model.vocab
-    mac = d * N            # to_current: continuous embedding -> current (dense MAC)
-    mac += 2 * dm * dm     # Hebbian write (v k^T) + read (M q)
-    mac += dm * V          # output head
-    ac = spike_rate * N * dm * 3   # W_k, W_v, W_q are driven by binary spikes -> AC
+    n_layers = getattr(model, 'n_layers', 1)
+    mac_layer0 = d * N + 2 * dm * dm
+    mac_other = dm * N + 2 * dm * dm
+    mac = mac_layer0 + max(0, n_layers - 1) * mac_other + dm * V
+    ac = n_layers * spike_rate * N * dm * 3
     energy = mac * E_MAC + ac * E_AC
     return energy, mac, ac
 

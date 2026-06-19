@@ -33,9 +33,10 @@ def main():
     torch.manual_seed(0)
     task = RepeatTask(8, 20)
     model = SpikingHebbianLM(task.vocab, recurrent=True, rec_density=0.02)
-    setm = SET(model.rec_mask, zeta=0.3)
+    blk = model.blocks[0]
+    setm = SET(blk.rec_mask, zeta=0.3)
     opt = torch.optim.Adam(model.parameters(), 1e-3)
-    deg0 = degree(model.rec_mask).copy()
+    deg0 = degree(blk.rec_mask).copy()
 
     t0 = time.time()
     for step in range(1, 2001):
@@ -43,18 +44,18 @@ def main():
         loss = F.cross_entropy(model(x).reshape(-1, task.vocab), y.reshape(-1))
         opt.zero_grad(); loss.backward(); opt.step()
         if step % 20 == 0:
-            setm.step(model.W_rec.weight)
+            setm.step(blk.W_rec.weight)
 
     x, y, second = task.batch(512)
     with torch.no_grad():
         acc = (model(x).argmax(-1)[:, second] == y[:, second]).float().mean().item()
 
-    deg1 = degree(model.rec_mask)
-    A = ((model.rec_mask.cpu().numpy() + model.rec_mask.cpu().numpy().T) > 0).astype(float)
+    deg1 = degree(blk.rec_mask)
+    A = ((blk.rec_mask.cpu().numpy() + blk.rec_mask.cpu().numpy().T) > 0).astype(float)
     G = nx.from_numpy_array(A)
     Q = nx.community.modularity(G, nx.community.greedy_modularity_communities(G))
     E = G.number_of_edges()
-    Gr = nx.gnm_random_graph(model.n_neurons, E, seed=0)
+    Gr = nx.gnm_random_graph(blk.n_neurons, E, seed=0)
     Qr = nx.community.modularity(Gr, nx.community.greedy_modularity_communities(Gr))
 
     print(f"trained SET-recurrent in {time.time()-t0:.0f}s | recall_acc={acc:.3f}")
