@@ -1,0 +1,31 @@
+# Phase 3 — first multi-layer run on RTX 5090 (~92M params with recurrent).
+# Muon lr=0.005 (validated in sweep), no weight tying.
+run_name: phase3_5090
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 128
+batch_size: 16
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+max_tokens: 3000000000  # 3B
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 3
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+seed: 0

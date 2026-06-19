@@ -44,7 +44,8 @@ def build_from_cfg(c):
                                 recurrent=c.get("recurrent", False),
                                 rec_density=c.get("rec_density", 0.05),
                                 compile_safe=c.get("compile", False),
-                                tie_weights=c.get("tie_weights", False))
+                                tie_weights=c.get("tie_weights", False),
+                                n_layers=c.get("n_layers", 1))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
