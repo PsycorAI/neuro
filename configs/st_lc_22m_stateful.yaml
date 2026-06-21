@@ -1,0 +1,36 @@
+# ST long-context probe — 22M tier, STATEFUL. block 2048, n_layers 4, lam 0.99.
+# (d=512 d_mem=512 => ~27M params at L4; "22m" is the tier label.)
+run_name: st_lc_22m_stateful
+arch: spiking
+vocab: 16384
+d: 512
+n_neurons: 1024
+d_mem: 512
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 2048
+batch_size: 8
+grad_accum: 4
+eval_batch: 2
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0012
+stateful_stream: true
+lam: 0.99
+max_tokens: 80000000
+eval_every: 2000
+ckpt_every: 1000
+keep_last: 1
+log_every: 20
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

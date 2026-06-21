@@ -135,20 +135,16 @@ class SpikingHebbianBlock(nn.Module):
         q_seq = self.W_q(spk_seq)
         ff_seq = self.W_ff(spk_seq)
 
-        # Hebbian: sequential but LIGHT (just two bmm per step).
-        # M[t] = lam * M[t-1] + eta * v[t] outer k[t]
-        # r[t] = M[t] @ q[t]
-        outs = []
+        # Hebbian: chunkwise-parallel via hebbian_chunked (TFLA-style).
         if not ablate_memory:
-            for t in range(T):
-                M = self.lam * M + self.eta * torch.bmm(
-                    v_seq[:, t, :].unsqueeze(2), k_seq[:, t, :].unsqueeze(1))
-                r = torch.bmm(M, q_seq[:, t, :].unsqueeze(2)).squeeze(2)
-                outs.append(self.norm(r + ff_seq[:, t, :]))
+            from hebbian_chunked import hebbian_chunked
+            # chunk=256 (vs 64): ~4x fewer Python-launched kernels per layer,
+            # which matters a lot uncompiled at long block_size (launch-bound).
+            r_seq, M = hebbian_chunked(v_seq, k_seq, q_seq, M,
+                                       self.lam, self.eta, chunk=256)
+            out_seq = self.norm(r_seq + ff_seq)
         else:
-            for t in range(T):
-                outs.append(self.norm(ff_seq[:, t, :]))
-        out_seq = torch.stack(outs, dim=1)
+            out_seq = self.norm(ff_seq)
         final_spk = spk_seq[:, -1, :]
         return out_seq, mem_final, M, spk_seq, final_spk
 
@@ -244,17 +240,23 @@ class SpikingHebbianLM(nn.Module):
                     all_spikes.extend(prev_spks)
             logits = torch.stack(logits_list, dim=1)
 
-        if return_final_state:
-            state = {"layers": [
-                {"M": Ms[i].detach(), "mem": mems[i].detach(), "prev_spk": prev_spks[i].detach()}
-                for i in range(L)
-            ]}
-            return logits, state
+        spike_rate = None
         if return_stats:
             if self.use_fpt:
                 spike_rate = torch.stack([s.mean() for s in all_spikes]).mean()
             else:
                 spike_rate = torch.stack(all_spikes).mean()
+        if return_final_state:
+            state = {"layers": [
+                {"M": Ms[i].detach(), "mem": mems[i].detach(), "prev_spk": prev_spks[i].detach()}
+                for i in range(L)
+            ]}
+            # Stateful training needs both the spike rate (for the sparsity
+            # penalty) and the carried state in a single forward pass.
+            if return_stats:
+                return logits, spike_rate, state
+            return logits, state
+        if return_stats:
             return logits, spike_rate
         return logits
 

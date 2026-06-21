@@ -1,0 +1,37 @@
+# ST Phase 1.3 — RANDOM-WINDOW control arm. Identical to phase25_st_stateful.yaml
+# except stateful_stream is off (default random-window sampling, M zeroed each block).
+run_name: phase25_st_random
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 1
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 64
+grad_accum: 1
+eval_batch: 16
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+
+stateful_stream: false   # <-- control
+
+max_tokens: 100000000   # 100M
+eval_every: 200
+ckpt_every: 200
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

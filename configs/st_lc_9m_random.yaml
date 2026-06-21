@@ -1,0 +1,36 @@
+# ST long-context probe — 9M tier, RANDOM control. Identical to st_lc_9m_stateful
+# except stateful_stream off. Same block/layers/lam so the comparison is clean.
+run_name: st_lc_9m_random
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 2048
+batch_size: 16
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+stateful_stream: false
+lam: 0.99
+max_tokens: 80000000
+eval_every: 2000
+ckpt_every: 1000
+keep_last: 1
+log_every: 20
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

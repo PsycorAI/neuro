@@ -83,7 +83,7 @@ def _scan_parallel(beta, x):
     return _scan_chunked(beta, x32).to(dtype)
 
 
-def _scan_chunked(beta, x, chunk=128):
+def _scan_chunked(beta, x, chunk=512):
     """Numerically safe parallel scan via chunking with carry.
 
     Within each chunk we do a closed-form O(chunk^2) weighted sum (small, fast).

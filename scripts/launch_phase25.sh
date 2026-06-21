@@ -12,7 +12,10 @@ PY=/home/glenn/projects/bdh/venv/bin/python
 {
   echo "===== relaunched $(date -Iseconds) ====="
 } >> "logs_${NAME}.txt"
-CUDA_VISIBLE_DEVICES=0 nohup "$PY" -u src/train_gpu.py --config "$CFG" --device cuda \
+export TORCHINDUCTOR_FX_GRAPH_CACHE=1
+export TORCHINDUCTOR_CACHE_DIR=/home/glenn/projects/neuro/.compile_cache
+mkdir -p "$TORCHINDUCTOR_CACHE_DIR"
+CUDA_VISIBLE_DEVICES=0 nohup "$PY" -u src/train_5090_gpu.py --config "$CFG" --device cuda \
   >> "logs_${NAME}.txt" 2>&1 &
 echo "launched $NAME (pid $!) -> logs_${NAME}.txt"
 echo "watch: tail -f /home/glenn/projects/neuro/logs_${NAME}.txt"

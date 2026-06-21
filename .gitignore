@@ -36,3 +36,6 @@ brains/
 
 # --- Scratch ---
 temp/
+# --- Build cache & misc logs ---
+.compile_cache/
+*_log.txt

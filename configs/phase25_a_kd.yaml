@@ -1,0 +1,49 @@
+# 9M KD A/B test: same architecture as phase25_a.yaml, with KD from Llama-3.2-1B.
+# Compare val_ppl against phase25_a_noKD.yaml (same config, KD disabled).
+#
+# The teacher Llama-3.2-1B in bf16 needs ~2.5 GB VRAM. Total VRAM with student
+# + teacher should fit on a 5080 (16 GB) at this scale.
+#
+# Pre-req: huggingface-cli login + accept Llama community license on HF.
+#
+# Launch:
+#   bash scripts/launch_phase25_5080.sh configs/phase25_a_kd.yaml
+run_name: phase25_a_kd
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 1
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 128
+batch_size: 64         # halved from 128 to leave VRAM for teacher
+grad_accum: 2          # effective batch = 128, matches non-KD config
+eval_batch: 32
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+
+# Knowledge distillation
+kd_enabled: true
+kd_teacher: meta-llama/Llama-3.2-1B
+kd_alpha: 0.7          # weight on soft (KD) vs hard (CE) targets
+kd_temperature: 2.0    # standard Hinton temperature
+
+max_tokens: 100000000  # 100M — A/B doesn't need full 300M
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 3
+log_every: 100
+amp: true
+compile: false         # KD path mixes static + dynamic teacher; skip compile for v1
+compile_mode: default
+compile_dynamic: true
+seed: 0

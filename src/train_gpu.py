@@ -57,9 +57,29 @@ def build_model(c):
                                 tie_weights=c.get("tie_weights", False),
                                 n_layers=c.get("n_layers", 1),
                                 use_fpt=c.get("use_fpt", False),
-                                fpt_K=c.get("fpt_K", 10))
+                                fpt_K=c.get("fpt_K", 10),
+                                beta=c.get("beta", 0.9),
+                                lam=c.get("lam", 0.98),
+                                eta=c.get("eta", 1.0))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
+
+
+def _save_ckpt(ckdir, raw_model, opts, step, tokens, c):
+    p = f"{ckdir}/step_{step:07d}.pt"
+    torch.save({"model": raw_model.state_dict(),
+                "opt_states": [o.state_dict() for o in opts],
+                "step": step, "tokens": tokens, "cfg": c}, p)
+    for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
+        os.remove(o)
+    print(f"  saved {p}")
+
+
+def _set_lam(raw_model, lam):
+    """Set the Hebbian decay on the model and all blocks (for lam warmup)."""
+    raw_model.lam = lam
+    for b in raw_model.blocks:
+        b.lam = lam
 
 
 @torch.no_grad()
@@ -103,16 +123,36 @@ def main():
     torch.manual_seed(c.get("seed", 0))
 
     data = StreamText(BIN, vocab=c["vocab"])
+    stateful = c.get("stateful_stream", False) and c["arch"] == "spiking"
+    seq_stream = None
+    if stateful:
+        from data_stream import SequentialStream
+        seq_stream = SequentialStream(BIN, vocab=c["vocab"],
+                                      batch_size=c["batch_size"],
+                                      seed=c.get("seed", 0))
+        print(f"STATEFUL streaming enabled: {c['batch_size']} contiguous cursors, "
+              f"TBPTT across {c['block_size']}-token chunks")
     raw_model = build_model(c).to(device)
     nparams = sum(p.numel() for p in raw_model.parameters())
     opts = _build_optimizers(raw_model, c, device)
+
+    # ---- Optional: knowledge distillation from a Llama teacher --------------
+    kd_teacher = None
+    kd_lut = None
+    if c.get("kd_enabled", False) and c["arch"] == "spiking":
+        from kd import load_teacher, load_lut
+        kd_teacher = load_teacher(c.get("kd_teacher", "meta-llama/Llama-3.2-1B"),
+                                   device=device)
+        kd_lut = load_lut(c["vocab"]).to(device)
+        print(f"KD enabled: teacher={c.get('kd_teacher','meta-llama/Llama-3.2-1B')} "
+              f"alpha={c.get('kd_alpha',0.5)} T={c.get('kd_temperature',1.0)}")
     setms = None
     if c["arch"] == "spiking" and c.get("recurrent"):
         setms = [(b, SET(b.rec_mask, c.get("set_zeta", 0.3)))
                  for b in raw_model.blocks if hasattr(b, "rec_mask")]
     if c.get("compile") and device == "cuda":
         mode = c.get("compile_mode", "default")  # "default" | "reduce-overhead" | "max-autotune"
-        model = torch.compile(raw_model, mode=mode, dynamic=False)
+        model = torch.compile(raw_model, mode=mode, dynamic=c.get("compile_dynamic", False))
         print(f"torch.compile enabled (mode={mode}) — first 1-2 steps will be slow (graph capture)")
     else:
         model = raw_model
@@ -123,7 +163,12 @@ def main():
     cks = sorted(glob.glob(f"{ckdir}/step_*.pt"))
     if cks:
         s = torch.load(cks[-1], map_location=device, weights_only=False)
-        raw_model.load_state_dict(s["model"])
+        missing, unexpected = raw_model.load_state_dict(s["model"], strict=False)
+        if unexpected:
+            print(f"  [info] ignoring {len(unexpected)} unused keys from ckpt "
+                  f"(e.g. {unexpected[0]})")
+        if missing:
+            print(f"  [warn] {len(missing)} keys missing in ckpt: {missing[:3]}")
         if "opt_states" in s and len(s["opt_states"]) == len(opts):
             for o, st in zip(opts, s["opt_states"]):
                 o.load_state_dict(st)
@@ -135,18 +180,120 @@ def main():
         print(f"resumed {cks[-1]} @ step {step}, {tokens/1e6:.1f}M tok")
 
     per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
+    total_steps = max(1, c["max_tokens"] // per_step_tok)
+    warmup_steps = int(c.get("lr_warmup_frac", 0.02) * total_steps)
+    lr_min_frac = c.get("lr_min_frac", 0.1)
+    grad_clip = c.get("grad_clip", 1.0)
+
+    def lr_scale(s):
+        """Linear warmup, then cosine decay to lr_min_frac of peak."""
+        if s < warmup_steps:
+            return s / max(1, warmup_steps)
+        p = (s - warmup_steps) / max(1, total_steps - warmup_steps)
+        return lr_min_frac + (1 - lr_min_frac) * 0.5 * (1 + math.cos(math.pi * min(1.0, p)))
+
+    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
+
+    # Optional lam (Hebbian decay) warmup: ramp from lam_start to lam_end over the
+    # first lam_ramp_frac of training, then hold. Lets the model learn an easy
+    # short-memory base early, then build long-lived memory late.
+    lam_start = c.get("lam", 0.98)
+    lam_end = c.get("lam_end", lam_start)
+    lam_ramp_steps = int(c.get("lam_ramp_frac", 0.8) * total_steps)
+    lam_warmup = (lam_end != lam_start)
+
+    def lam_at(s):
+        if not lam_warmup or s >= lam_ramp_steps:
+            return lam_end
+        return lam_start + (lam_end - lam_start) * (s / max(1, lam_ramp_steps))
+
+    if lam_warmup:
+        print(f"lam warmup: {lam_start} -> {lam_end} over {lam_ramp_steps} steps")
+
     print(f"arch={c['arch']} params={nparams/1e6:.2f}M device={device} "
-          f"target={c['max_tokens']/1e9:.3f}B tok | {per_step_tok} tok/step")
+          f"target={c['max_tokens']/1e9:.3f}B tok | {per_step_tok} tok/step "
+          f"| total_steps≈{total_steps} | warmup={warmup_steps} | grad_clip={grad_clip}")
+    if stateful and kd_teacher is not None:
+        raise ValueError("stateful_stream and kd_enabled can't be combined yet "
+                         "(KD needs raw IDs from the random sampler). Test separately.")
     t0 = time.time(); win = t0
+    carry_state = None   # carried (M, mem, prev_spk) for stateful TBPTT
+    use_sparsity = c.get("sparsity_lambda", 0.0) > 0 and c["arch"] == "spiking"
     while tokens < c["max_tokens"]:
         model.train()
+        # Apply LR schedule for this step
+        scale = lr_scale(step)
+        for o, lrs in zip(opts, base_lrs):
+            for g, base in zip(o.param_groups, lrs):
+                g["lr"] = base * scale
+        # Apply lam (Hebbian decay) warmup for this step
+        if lam_warmup:
+            cur_lam = lam_at(step)
+            _set_lam(raw_model, cur_lam)
+            c["lam"] = cur_lam   # saved ckpts/eval rebuild at the operating lam
+
         for o in opts: o.zero_grad(set_to_none=True)
         for _ in range(c["grad_accum"]):
-            x, y = data.batch(c["batch_size"], c["block_size"], "train", device)
+            if stateful:
+                x, y, reset = seq_stream.next(c["block_size"], device)
+                # Zero the carried state for any cursor that wrapped this step
+                if carry_state is not None and bool(reset.any()):
+                    for lay in carry_state["layers"]:
+                        lay["M"][reset] = 0
+                        lay["mem"][reset] = 0
+                        lay["prev_spk"][reset] = 0
+                with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
+                    if use_sparsity:
+                        out, sr, carry_state = model(x, return_stats=True,
+                                                     initial_state=carry_state,
+                                                     return_final_state=True)
+                    else:
+                        out, carry_state = model(x, initial_state=carry_state,
+                                                 return_final_state=True)
+                        sr = None
+                    main_loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                    if sr is not None:
+                        target = c.get("sparsity_target", 0.05)
+                        main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                    loss = main_loss / c["grad_accum"]
+                loss.backward()
+                continue
+            need_raw = kd_teacher is not None
+            if need_raw:
+                x, y, raw = data.batch(c["batch_size"], c["block_size"], "train",
+                                        device, return_raw=True)
+            else:
+                x, y = data.batch(c["batch_size"], c["block_size"], "train", device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
-                out = model(x)
-                loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1)) / c["grad_accum"]
+                # Forward (with optional return_stats for sparsity penalty)
+                if use_sparsity:
+                    out, sr = model(x, return_stats=True)
+                else:
+                    out = model(x)
+                    sr = None
+                # Hard-target CE
+                ce = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                # Knowledge distillation
+                if kd_teacher is not None:
+                    from kd import teacher_distribution, kd_loss
+                    teacher_probs = teacher_distribution(
+                        kd_teacher, raw, kd_lut,
+                        student_vocab=c["vocab"],
+                        temperature=c.get("kd_temperature", 1.0))
+                    main_loss = kd_loss(out, teacher_probs,
+                                         alpha=c.get("kd_alpha", 0.5),
+                                         target_ids=y,
+                                         temperature=c.get("kd_temperature", 1.0))
+                else:
+                    main_loss = ce
+                # Sparsity penalty
+                if sr is not None:
+                    target = c.get("sparsity_target", 0.05)
+                    main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                loss = main_loss / c["grad_accum"]
             loss.backward()
+        if grad_clip > 0:
+            torch.nn.utils.clip_grad_norm_(raw_model.parameters(), grad_clip)
         for o in opts: o.step()
         step += 1; tokens += per_step_tok
         if setms and step % c.get("set_every", 200) == 0:
@@ -163,17 +310,27 @@ def main():
             if abl is not None:
                 msg += f" | ablated_ppl {abl:.2f} (memory Δ={abl-full:+.2f}) | spike {sr:.3f}"
             print(msg, flush=True)
+            # Brain snapshot for spiking models (cheap, useful for after-the-fact analysis)
+            if c["arch"] == "spiking" and c.get("snapshot_brain", True):
+                try:
+                    bdir = f"/home/glenn/projects/neuro/models/brains/{c['run_name']}"
+                    os.makedirs(bdir, exist_ok=True)
+                    x, _ = data.batch(1, c["block_size"], "val", device)
+                    with torch.no_grad():
+                        _, brain_state = raw_model(x, return_final_state=True)
+                    bpath = f"{bdir}/step_{step:07d}.brain"
+                    raw_model.save_brain(brain_state, bpath)
+                except Exception as e:
+                    print(f"  [warn] brain snapshot failed: {e}")
             if device == "cuda":
                 torch.cuda.empty_cache()   # release fragmented blocks freed by eval
         if step % c["ckpt_every"] == 0:
-            p = f"{ckdir}/step_{step:07d}.pt"
-            torch.save({"model": raw_model.state_dict(),
-                        "opt_states": [o.state_dict() for o in opts],
-                        "step": step, "tokens": tokens, "cfg": c}, p)
-            for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
-                os.remove(o)
-            print(f"  saved {p}")
+            _save_ckpt(ckdir, raw_model, opts, step, tokens, c)
 
+    # Always save a FINAL checkpoint so the last training state is evaluable
+    # (prevents the "evaluated at step 2000 while siblings are at 3000" confound
+    # when max_tokens isn't a multiple of ckpt_every).
+    _save_ckpt(ckdir, raw_model, opts, step, tokens, c)
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")
     if c["arch"] == "spiking":
         _, _, sr = evaluate(raw_model, data, c, device)
