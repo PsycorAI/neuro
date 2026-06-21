@@ -1,10 +1,13 @@
-# Run A — bug shakeout (~9M params, single block). ~1-2 days on RTX 5080.
+# Run A — bug shakeout (~9 M params, single block). ~1-2 days historically;
+# ~5-10x faster as of 2026-06-19 with FPT + chunked Hebbian + sparsity penalty
+# (math is unchanged; same architecture, just runs faster).
 run_name: phase25_a
 arch: spiking          # spiking | transformer (same script trains the baseline)
 vocab: 16384
 d: 256
 n_neurons: 512
 d_mem: 256
+n_layers: 1
 recurrent: true        # Phase-2 neuron->neuron synapses
 rec_density: 0.02
 set_zeta: 0.3
@@ -13,7 +16,13 @@ block_size: 128
 batch_size: 128
 grad_accum: 1
 eval_batch: 64
-lr: 0.0015
+use_fpt: true          # Fixed-point Parallel LIF (arXiv:2506.12087)
+fpt_K: 10
+sparsity_lambda: 0.5   # gentle nudge toward 5% silent target (matches 96% silent baseline)
+sparsity_target: 0.05
+optimizer: muon        # Newton-Schulz orthogonalized momentum, ~10% better than AdamW
+muon_lr: 0.005
+lr: 0.0015             # AdamW LR for embed/head/biases (non-2D params)
 max_tokens: 300000000  # 300M
 eval_every: 500
 ckpt_every: 1000
@@ -21,4 +30,6 @@ keep_last: 3
 log_every: 50
 amp: true
 compile: true
+compile_mode: default
+compile_dynamic: true
 seed: 0

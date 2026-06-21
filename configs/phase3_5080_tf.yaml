@@ -1,0 +1,30 @@
+# Matched 92M nanoGPT-style transformer baseline for phase3_5090.
+# Architecture: d=768, n_head=12, n_layer=10 → ~96M params (within 5% of spiking 92M).
+# Same vocab/data, same total tokens (2B), nanoGPT-standard AdamW lr=6e-4.
+# Targets the RTX 5080 (16GB) so Glenn can run it in parallel with the 5090.
+#
+# Launch:
+#   CUDA_VISIBLE_DEVICES=1 bash scripts/launch_phase25.sh configs/phase3_5080_tf.yaml
+# (the 1 picks the 5080; see scripts/launch_phase25.sh — duplicate it if needed)
+
+run_name: phase3_5080_tf
+arch: transformer
+vocab: 16384
+d: 768
+n_head: 12
+n_layer: 10
+block_size: 512
+batch_size: 16
+grad_accum: 4
+eval_batch: 8
+lr: 0.0006           # nanoGPT-standard for ~90M models (NOT muon — clean AdamW baseline)
+max_tokens: 2000000000  # 2B, matches phase3_5090
+eval_every: 1000
+ckpt_every: 10
+keep_last: 3
+log_every: 10
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: true
+seed: 0

@@ -1,0 +1,41 @@
+# ST Phase 1.5 — stateful streaming WITH long-lived memory (lam=0.995).
+# Hypothesis: stateful streaming only helps if carried M survives across blocks.
+# lam=0.98 erases it in ~150 tokens (< block_size 512), so stateful==random.
+# lam=0.995 retains ~8% at end of a 512 block → carried state actually persists,
+# and (trained-in) the weights learn to read the larger, longer-lived M.
+run_name: phase25_st_stateful_lam995
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 1
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 64
+grad_accum: 1
+eval_batch: 16
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+
+stateful_stream: true
+lam: 0.995               # <-- long-lived Hebbian memory (vs default 0.98)
+
+max_tokens: 100000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 500
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

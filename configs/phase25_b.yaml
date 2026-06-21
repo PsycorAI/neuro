@@ -1,14 +1,18 @@
-# Run B — quality + energy at scale (~20M params, single block).
-# Defaults below are tuned for 16 GB consumer GPUs (RTX 4080 / 4090 / 5080),
-# peak VRAM ~9 GB. For 24 GB+ cards: set batch_size=32, grad_accum=2 (same
-# effective batch = 64, ~2x faster). See README "Hardware notes" for details.
-# Reaching 50-80M params needs the multi-layer block (Phase 3 prerequisite).
+# Run B — quality + energy at scale (~20 M params, single block). ~5-10x faster
+# as of 2026-06-19 with FPT + chunked Hebbian + sparsity penalty (math is
+# unchanged; same architecture, just runs faster on a dense GPU).
+#
+# Defaults tuned for 16 GB consumer GPUs (RTX 4080 / 4090 / 5080), peak VRAM
+# ~9 GB. For 24 GB+ cards: set batch_size=32, grad_accum=2 (same effective
+# batch = 64, ~2x faster). See README "Hardware notes".
+# Reaching 50-80M params: bump n_layers (current code supports multi-layer).
 run_name: phase25_b
 arch: spiking
 vocab: 16384
 d: 512
 n_neurons: 1024
 d_mem: 512
+n_layers: 1
 recurrent: true
 rec_density: 0.02
 set_zeta: 0.3
@@ -17,8 +21,14 @@ block_size: 512
 batch_size: 16
 grad_accum: 4
 eval_batch: 16
-lr: 0.0012
-max_tokens: 700000000  # 700M (Run B's official budget for the Blog #3 comparison)
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+max_tokens: 700000000  # 700M
 eval_every: 1000
 ckpt_every: 1000
 keep_last: 3
@@ -26,4 +36,5 @@ log_every: 100
 amp: true
 compile: true
 compile_mode: default
+compile_dynamic: true
 seed: 0

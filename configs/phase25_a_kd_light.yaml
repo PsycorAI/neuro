@@ -1,0 +1,41 @@
+# Lighter KD A/B: alpha=0.3 (mostly hard CE), T=1.0 (no softening).
+# Test whether the negative KD result was just hyperparameter mismatch.
+# Same architecture and other settings as phase25_a_kd.yaml.
+run_name: phase25_a_kd_light
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 1
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 128
+batch_size: 64
+grad_accum: 2
+eval_batch: 32
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+
+kd_enabled: true
+kd_teacher: meta-llama/Llama-3.2-1B
+kd_alpha: 0.3
+kd_temperature: 1.0
+
+max_tokens: 100000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 3
+log_every: 1000
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

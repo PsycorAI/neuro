@@ -11,21 +11,24 @@ recurrent: true
 rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
-block_size: 128
-batch_size: 16
-grad_accum: 4
+block_size: 512
+batch_size: 96
+grad_accum: 1
 eval_batch: 8
 use_fpt: true
 fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
 optimizer: muon
 muon_lr: 0.005
 lr: 0.0006
-max_tokens: 3000000000  # 3B
-eval_every: 1000
+max_tokens: 2000000000  # 3B
+eval_every: 2000
 ckpt_every: 2000
 keep_last: 3
-log_every: 100
+log_every: 500
 amp: true
-compile: false
+compile: true
 compile_mode: default
+compile_dynamic: true
 seed: 0

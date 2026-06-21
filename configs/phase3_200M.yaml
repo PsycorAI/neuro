@@ -1,0 +1,35 @@
+# ~215M multi-layer spiking-Hebbian. Phase 3 intermediate scale.
+# Chinchilla-optimal: ~4B tokens.
+# Est. throughput at FPT+TFLA: ~50-70k tok/s on 5090 → ~18 hours for 4B tokens.
+run_name: phase3_200M
+arch: spiking
+vocab: 16384
+d: 1536
+n_neurons: 3072
+d_mem: 1536
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 128
+batch_size: 64
+grad_accum: 1
+eval_batch: 16
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0005
+max_tokens: 4000000000  # 4B (Chinchilla-optimal for 215M)
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 3
+log_every: 200
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: true
+seed: 0

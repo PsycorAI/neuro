@@ -43,7 +43,9 @@ def build_from_cfg(c):
                                 rec_density=c.get("rec_density", 0.05),
                                 compile_safe=c.get("compile", False),
                                 tie_weights=c.get("tie_weights", False),
-                                n_layers=c.get("n_layers", 1))
+                                n_layers=c.get("n_layers", 1),
+                                use_fpt=c.get("use_fpt", False),
+                                fpt_K=c.get("fpt_K", 10))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 

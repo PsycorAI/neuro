@@ -1,0 +1,44 @@
+# ST Phase 1.6 — stateful streaming with LAM WARMUP (0.98 -> 0.995).
+# Resolves the persistence/trainability tension found in Phase 1.5:
+#   - higher lam => carried state matters more (Delta% grew 1.2 -> 1.7 -> 3.1)
+#   - but higher lam from step 0 => worse absolute ppl (harder to train)
+# Fix: easy short-memory base early (lam 0.98), ramp to long-lived memory late
+# (lam 0.995) so the weights settle before the memory horizon stretches.
+run_name: phase25_st_lamwarmup
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 1
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 64
+grad_accum: 1
+eval_batch: 16
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+
+stateful_stream: true
+lam: 0.98                # start (short memory, easy to train)
+lam_end: 0.995           # end (long-lived memory)
+lam_ramp_frac: 0.8       # ramp over first 80% of steps, hold last 20%
+
+max_tokens: 100000000
+eval_every: 2000
+ckpt_every: 1000         # finer ckpts so we always have a near-final one
+keep_last: 2
+log_every: 500
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
