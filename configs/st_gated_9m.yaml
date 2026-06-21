@@ -1,0 +1,39 @@
+# ST Phase 4+5 — gated linear attention at 9M: learnable per-dim decay +
+# selective write gate, stateful streaming. Compare vs st_lc_9m_random (the
+# fixed-lam stateful arm was a negative; this tests whether GATING fixes it).
+# learnable_decay replaces fixed lam (alpha=sigmoid(per-dim param), init ~0.99).
+run_name: st_gated_9m
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 2048
+batch_size: 16
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+stateful_stream: true
+learnable_decay: true     # ST Phase 4
+write_gate: true          # ST Phase 5
+max_tokens: 80000000
+eval_every: 500
+ckpt_every: 500
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

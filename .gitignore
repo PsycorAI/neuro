@@ -39,3 +39,8 @@ temp/
 # --- Build cache & misc logs ---
 .compile_cache/
 *_log.txt
+
+# archives
+*.7z
+*.zip
+*.tar.gz

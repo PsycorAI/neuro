@@ -60,7 +60,9 @@ def build_model(c):
                                 fpt_K=c.get("fpt_K", 10),
                                 beta=c.get("beta", 0.9),
                                 lam=c.get("lam", 0.98),
-                                eta=c.get("eta", 1.0))
+                                eta=c.get("eta", 1.0),
+                                learnable_decay=c.get("learnable_decay", False),
+                                write_gate=c.get("write_gate", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
