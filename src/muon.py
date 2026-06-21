@@ -96,7 +96,10 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
         is_matrix = p.dim() == 2
         is_embedding = "embed" in name.lower() or "pos" in name.lower()
         is_head = "head" in name.lower() or "lm_head" in name.lower()
-        if is_matrix and not is_embedding and not is_head:
+        # Gating params (write gate W_gate is (1,N) -> Newton-Schulz degenerate;
+        # decay_raw is 1D) belong in AdamW, not Muon.
+        is_gate = "gate" in name.lower() or "decay" in name.lower()
+        if is_matrix and not is_embedding and not is_head and not is_gate:
             muon_params.append(p)
         else:
             adamw_params.append(p)

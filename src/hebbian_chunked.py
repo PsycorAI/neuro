@@ -87,3 +87,72 @@ def hebbian_chunked(v_seq, k_seq, q_seq, M_init, lam, eta, chunk=64):
             (V * w).transpose(1, 2), K)                    # (B, D, D)
 
     return r_out.to(dtype), M.to(dtype)
+
+
+# ---------------------------------------------------------------------------
+# Gated linear attention: per-(value-dim) learnable decay (ST Phase 4).
+# A learnable WRITE GATE (ST Phase 5) is applied by the caller by pre-scaling
+# v_seq before calling this kernel, so it folds in exactly with no kernel change.
+# ---------------------------------------------------------------------------
+
+def hebbian_gated_sequential(v_seq, k_seq, q_seq, M_init, alpha, eta=1.0):
+    """Reference O(T) loop with per-value-dim decay. alpha: (D,) in (0,1).
+        M[t] = diag(alpha) M[t-1] + eta * v[t] outer k[t]
+        r[t] = M[t] @ q[t]
+    """
+    B, T, D = v_seq.shape
+    M = M_init.clone()
+    a = alpha.view(1, D, 1)                                 # decay on rows (value-dim)
+    out = torch.empty(B, T, D, device=v_seq.device, dtype=v_seq.dtype)
+    for t in range(T):
+        M = a * M + eta * torch.bmm(v_seq[:, t, :].unsqueeze(2),
+                                    k_seq[:, t, :].unsqueeze(1))
+        out[:, t, :] = torch.bmm(M, q_seq[:, t, :].unsqueeze(2)).squeeze(2)
+    return out, M
+
+
+def hebbian_gated_chunked(v_seq, k_seq, q_seq, M_init, alpha, eta=1.0, chunk=64):
+    """Chunkwise GLA with per-value-dim decay alpha (D,) in (0,1).
+
+    Same recurrence as hebbian_gated_sequential, computed chunkwise. The
+    cumulative alpha^{-b} terms can overflow for small alpha + large chunk, so
+    keep chunk modest (<=64) and alpha not too small (caller clamps, e.g. >=0.5).
+    """
+    B, T, D = v_seq.shape
+    device = v_seq.device
+    work = torch.float32
+    V = v_seq.to(work); K = k_seq.to(work); Q = q_seq.to(work)
+    M = M_init.to(work)
+    a = alpha.to(work).clamp(1e-4, 1 - 1e-7)               # (D,)
+    log_a = torch.log(a)                                    # (D,)
+    out = torch.empty(B, T, D, device=device, dtype=work)
+
+    for start in range(0, T, chunk):
+        end = min(start + chunk, T)
+        C = end - start
+        Vc = V[:, start:end, :]; Kc = K[:, start:end, :]; Qc = Q[:, start:end, :]
+        idx = torch.arange(C, device=device, dtype=work)   # (C,)
+        # per-(position, dim) decay powers: pow_pos[a,d]=alpha_d^a, etc.
+        pow_pos = torch.exp(idx.view(C, 1) * log_a.view(1, D))      # (C,D) alpha^a
+        pow_neg = torch.exp(-idx.view(C, 1) * log_a.view(1, D))     # (C,D) alpha^-a
+        pow_a1  = torch.exp((idx + 1).view(C, 1) * log_a.view(1, D))  # alpha^(a+1)
+        pow_upd = torch.exp((C - 1 - idx).view(C, 1) * log_a.view(1, D))  # alpha^(C-1-b)
+
+        # within-chunk: alpha^a ⊙ (causal_scores @ (alpha^-b ⊙ V))
+        Vt = Vc * pow_neg.unsqueeze(0)                      # (B,C,D)
+        scores = torch.bmm(Qc, Kc.transpose(1, 2))         # (B,C,C) q·k
+        causal = torch.tril(torch.ones(C, C, device=device, dtype=work))
+        scores = scores * causal.unsqueeze(0)
+        within = torch.bmm(scores, Vt) * pow_pos.unsqueeze(0)  # (B,C,D)
+
+        # cross-chunk: alpha^(a+1) ⊙ (M_carry @ q_a)
+        cross = torch.bmm(M, Qc.transpose(1, 2)).transpose(1, 2)  # (B,C,D)
+        cross = cross * pow_a1.unsqueeze(0)
+        out[:, start:end, :] = within + cross
+
+        # carry update: M = diag(alpha^C) M + eta * sum_b (alpha^(C-1-b) ⊙ v_b) k_b^T
+        Vw = Vc * pow_upd.unsqueeze(0)                      # (B,C,D)
+        alpha_C = torch.exp(C * log_a).view(1, D, 1)        # (1,D,1)
+        M = alpha_C * M + eta * torch.bmm(Vw.transpose(1, 2), Kc)
+
+    return out.to(v_seq.dtype), M.to(v_seq.dtype)

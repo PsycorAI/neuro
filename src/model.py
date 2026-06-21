@@ -24,7 +24,8 @@ class SpikingHebbianBlock(nn.Module):
     """Single spiking-Hebbian layer."""
 
     def __init__(self, d_in, n_neurons, d_mem, beta=0.9, lam=0.98, eta=1.0,
-                 compile_safe=False, recurrent=False, rec_density=0.05):
+                 compile_safe=False, recurrent=False, rec_density=0.05,
+                 learnable_decay=False, write_gate=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -32,6 +33,21 @@ class SpikingHebbianBlock(nn.Module):
         self.eta = eta
         self.compile_safe = compile_safe
         self.beta_val = beta
+        self.learnable_decay = learnable_decay
+        self.write_gate = write_gate
+
+        # ST Phase 4: per-(value-dim) learnable decay. alpha = sigmoid(raw).
+        # Init MULTI-SCALE (RetNet-style): spread alpha across dims so the memory
+        # has many timescales from the start and each dim gets distinct gradient
+        # signal (the clumped alpha=0.99 init never differentiated). 1-alpha is
+        # geometric from 0.001 (alpha 0.999, long memory) to 0.10 (alpha 0.90, short).
+        if learnable_decay:
+            one_minus = torch.logspace(math.log10(0.001), math.log10(0.10), d_mem)
+            alphas = (1.0 - one_minus).clamp(0.5, 0.9999)
+            self.decay_raw = nn.Parameter(torch.logit(alphas))
+        # ST Phase 5: learnable scalar write gate g_t = sigmoid(W_gate(spk)).
+        if write_gate:
+            self.W_gate = nn.Linear(n_neurons, 1)
 
         self.to_current = nn.Linear(d_in, n_neurons)
         if not compile_safe:
@@ -72,8 +88,14 @@ class SpikingHebbianBlock(nn.Module):
         v = self.W_v(spk)
         q = self.W_q(spk)
         ff = self.W_ff(spk)
+        if self.write_gate:
+            v = v * torch.sigmoid(self.W_gate(spk))          # selective write
         if not ablate_memory:
-            M = self.lam * M + self.eta * torch.bmm(v.unsqueeze(2), k.unsqueeze(1))
+            if self.learnable_decay:
+                a = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999).view(1, -1, 1)
+                M = a * M + self.eta * torch.bmm(v.unsqueeze(2), k.unsqueeze(1))
+            else:
+                M = self.lam * M + self.eta * torch.bmm(v.unsqueeze(2), k.unsqueeze(1))
             r = torch.bmm(M, q.unsqueeze(2)).squeeze(2)
         else:
             r = torch.zeros_like(ff)
@@ -136,12 +158,20 @@ class SpikingHebbianBlock(nn.Module):
         ff_seq = self.W_ff(spk_seq)
 
         # Hebbian: chunkwise-parallel via hebbian_chunked (TFLA-style).
+        if self.write_gate:                                  # ST Phase 5
+            v_seq = v_seq * torch.sigmoid(self.W_gate(spk_seq))
         if not ablate_memory:
-            from hebbian_chunked import hebbian_chunked
-            # chunk=256 (vs 64): ~4x fewer Python-launched kernels per layer,
-            # which matters a lot uncompiled at long block_size (launch-bound).
-            r_seq, M = hebbian_chunked(v_seq, k_seq, q_seq, M,
-                                       self.lam, self.eta, chunk=256)
+            if self.learnable_decay:                         # ST Phase 4
+                from hebbian_chunked import hebbian_gated_chunked
+                alpha = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999)
+                r_seq, M = hebbian_gated_chunked(v_seq, k_seq, q_seq, M,
+                                                 alpha, self.eta, chunk=64)
+            else:
+                from hebbian_chunked import hebbian_chunked
+                # chunk=256 (vs 64): ~4x fewer Python-launched kernels per layer,
+                # which matters a lot uncompiled at long block_size (launch-bound).
+                r_seq, M = hebbian_chunked(v_seq, k_seq, q_seq, M,
+                                           self.lam, self.eta, chunk=256)
             out_seq = self.norm(r_seq + ff_seq)
         else:
             out_seq = self.norm(ff_seq)
@@ -153,7 +183,7 @@ class SpikingHebbianLM(nn.Module):
     def __init__(self, vocab, d=128, n_neurons=256, d_mem=64,
                  beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
                  compile_safe=False, tie_weights=False, n_layers=1,
-                 use_fpt=False, fpt_K=10):
+                 use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -177,7 +207,8 @@ class SpikingHebbianLM(nn.Module):
             d_in = d if i == 0 else d_mem
             blocks.append(SpikingHebbianBlock(
                 d_in, n_neurons, d_mem, beta, lam, eta,
-                compile_safe, recurrent, rec_density))
+                compile_safe, recurrent, rec_density,
+                learnable_decay=learnable_decay, write_gate=write_gate))
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
         if tie_weights:

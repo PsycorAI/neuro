@@ -24,10 +24,10 @@ optimizer: muon
 muon_lr: 0.005
 lr: 0.0004
 max_tokens: 7000000000  # 7B (Chinchilla-optimal for 360M)
-eval_every: 2000
-ckpt_every: 2000
+eval_every: 5000
+ckpt_every: 5000
 keep_last: 3
-log_every: 1000
+log_every: 5000
 amp: true
 compile: true
 compile_mode: default
