@@ -133,10 +133,10 @@ class SpikingHebbianBlock(nn.Module):
           4. k/v/q/ff projections (parallel)
           5. Hebbian write/read (sequential loop -- light)
         """
-        if self.delta_rule:
+        if self.delta_rule and self.learnable_decay:
             raise NotImplementedError(
-                "delta_rule has no chunked kernel yet; train with use_fpt=false "
-                "(sequential step path). Fine for short MQAR sequences.")
+                "chunked delta supports scalar lam only; delta_rule + learnable_decay "
+                "must use the sequential step() path (use_fpt=false).")
         from lif_parallel import lif_parallel
         B, T, _ = x_seq.shape
         cur_seq = self.to_current(x_seq)                       # (B, T, N)
@@ -179,7 +179,12 @@ class SpikingHebbianBlock(nn.Module):
         if self.write_gate:                                  # ST Phase 5
             v_seq = v_seq * torch.sigmoid(self.W_gate(spk_seq))
         if not ablate_memory:
-            if self.learnable_decay:                         # ST Phase 4
+            if self.delta_rule:                              # ST Phase 8 (chunked)
+                from delta_chunked import delta_chunked
+                beta_seq = torch.sigmoid(self.W_beta(spk_seq))   # (B,T,1)
+                r_seq, M = delta_chunked(v_seq, k_seq, q_seq, beta_seq, M,
+                                         self.lam, chunk=64)
+            elif self.learnable_decay:                       # ST Phase 4
                 from hebbian_chunked import hebbian_gated_chunked
                 alpha = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999)
                 r_seq, M = hebbian_gated_chunked(v_seq, k_seq, q_seq, M,

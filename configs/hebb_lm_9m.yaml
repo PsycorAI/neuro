@@ -1,0 +1,37 @@
+# Hebbian control arm — matched A/B vs delta_lm_9m (identical except delta_rule).
+# Same arch / tokens / fpt_K so recall_eval(delta_lm_9m, hebb_lm_9m) isolates the
+# write rule. This is the real-LM analogue of the trained-MQAR delta-vs-Hebbian test.
+run_name: hebb_lm_9m
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 64
+grad_accum: 1
+eval_batch: 4
+use_fpt: true
+fpt_K: 40
+delta_rule: false
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+lam: 0.99
+max_tokens: 80000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
