@@ -1,0 +1,55 @@
+# KD-refine the flagship 350M: continued pretraining with a Llama-3.2-1B teacher.
+# Resumes phase3_350M (7.000B tok, val_ppl 55) and does a GENTLE distillation pass.
+#
+# Setup (see temp/seed_kd_ckpt.py): the run resumes from a MODEL-ONLY copy of the
+# 350M ckpt (opt_states stripped on purpose). Two reasons:
+#   1. The objective changes (adds KD loss) -> a fresh optimizer is cleaner than
+#      carrying CE-only Muon/Adam momentum.
+#   2. train_gpu.py captures base_lrs AFTER optimizer.load_state_dict(), which
+#      overwrites lr with the saved (decayed) value. Stripping opt_states makes
+#      the trainer start the optimizer fresh, so muon_lr/lr below actually apply.
+# lr_min_frac: 1.0 flattens the cosine tail so refinement runs at a constant LR
+#   (the resumed step >> warmup, so there is no re-warmup).
+#
+# Launch:  bash scripts/run_kd_350m.sh > logs_phase3_350M_kd.txt 2>&1 &
+run_name: phase3_350M_kd
+arch: spiking
+# --- architecture: MUST match phase3_350M exactly so weights resume cleanly ---
+vocab: 16384
+d: 2048
+n_neurons: 4096
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 16
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+# --- refinement optimization: low, constant LR ---
+optimizer: muon
+muon_lr: 0.0001       # 50x below the 0.005 training LR — gentle refinement
+lr: 0.0001            # AdamW (embeddings/head/norms), 4x below the 0.0004 training LR
+lr_min_frac: 1.0      # flat schedule: constant LR across the refinement window
+# --- knowledge distillation (the validated gentle settings) ---
+kd_enabled: true
+kd_teacher: meta-llama/Llama-3.2-1B
+kd_alpha: 0.3         # 0.3 soft (KD) + 0.7 hard (CE)
+kd_temperature: 1.0
+# --- budget: +0.5B refinement tokens on top of the 7.000B baseline ---
+max_tokens: 7500000000
+eval_every: 5000
+ckpt_every: 5000
+keep_last: 3
+log_every: 1000
+amp: true
+compile: false        # teacher-in-loop mixes static + dynamic graphs; skip compile
+compile_mode: default
+compile_dynamic: true
+seed: 0
