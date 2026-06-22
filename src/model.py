@@ -25,7 +25,7 @@ class SpikingHebbianBlock(nn.Module):
 
     def __init__(self, d_in, n_neurons, d_mem, beta=0.9, lam=0.98, eta=1.0,
                  compile_safe=False, recurrent=False, rec_density=0.05,
-                 learnable_decay=False, write_gate=False):
+                 learnable_decay=False, write_gate=False, delta_rule=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -35,6 +35,10 @@ class SpikingHebbianBlock(nn.Module):
         self.beta_val = beta
         self.learnable_decay = learnable_decay
         self.write_gate = write_gate
+        self.delta_rule = delta_rule
+        # ST Phase 8: delta-rule write strength β = sigmoid(W_beta(spk)).
+        if delta_rule:
+            self.W_beta = nn.Linear(n_neurons, 1)
 
         # ST Phase 4: per-(value-dim) learnable decay. alpha = sigmoid(raw).
         # Init MULTI-SCALE (RetNet-style): spread alpha across dims so the memory
@@ -93,6 +97,16 @@ class SpikingHebbianBlock(nn.Module):
         if not ablate_memory:
             if self.learnable_decay:
                 a = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999).view(1, -1, 1)
+            if self.delta_rule:
+                # Gated DeltaNet: M = λM + β(v − λM·k̂)⊗k̂  (error-driven write).
+                # k̂ = L2-normalized key; β = learned input-dependent write strength.
+                kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
+                beta = torch.sigmoid(self.W_beta(spk))           # (B,1)
+                prevM = a * M if self.learnable_decay else self.lam * M
+                Mk = torch.bmm(prevM, kn.unsqueeze(2)).squeeze(2)  # λM·k̂  (B,dm)
+                delta = (beta * (v - Mk)).unsqueeze(2)            # (B,dm,1)
+                M = prevM + torch.bmm(delta, kn.unsqueeze(1))
+            elif self.learnable_decay:
                 M = a * M + self.eta * torch.bmm(v.unsqueeze(2), k.unsqueeze(1))
             else:
                 M = self.lam * M + self.eta * torch.bmm(v.unsqueeze(2), k.unsqueeze(1))
@@ -119,6 +133,10 @@ class SpikingHebbianBlock(nn.Module):
           4. k/v/q/ff projections (parallel)
           5. Hebbian write/read (sequential loop -- light)
         """
+        if self.delta_rule:
+            raise NotImplementedError(
+                "delta_rule has no chunked kernel yet; train with use_fpt=false "
+                "(sequential step path). Fine for short MQAR sequences.")
         from lif_parallel import lif_parallel
         B, T, _ = x_seq.shape
         cur_seq = self.to_current(x_seq)                       # (B, T, N)
@@ -183,7 +201,8 @@ class SpikingHebbianLM(nn.Module):
     def __init__(self, vocab, d=128, n_neurons=256, d_mem=64,
                  beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
                  compile_safe=False, tie_weights=False, n_layers=1,
-                 use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False):
+                 use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
+                 delta_rule=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -208,7 +227,8 @@ class SpikingHebbianLM(nn.Module):
             blocks.append(SpikingHebbianBlock(
                 d_in, n_neurons, d_mem, beta, lam, eta,
                 compile_safe, recurrent, rec_density,
-                learnable_decay=learnable_decay, write_gate=write_gate))
+                learnable_decay=learnable_decay, write_gate=write_gate,
+                delta_rule=delta_rule))
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
         if tie_weights:
