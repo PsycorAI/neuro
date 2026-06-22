@@ -1,0 +1,40 @@
+# Delta-rule real-LM arm. THE payoff test: does the MQAR delta>Hebbian recall
+# advantage transfer to a real language model? Matched A/B vs hebb_lm_9m
+# (byte-for-byte identical except delta_rule). Uses the new chunked-delta fast
+# path (src/delta_chunked.py wired into forward_sequence).
+# fpt_K=40 (>> the flagship's 10) for healthy LIF convergence; both arms share it
+# so the delta-vs-Hebbian comparison is fair regardless of absolute convergence.
+run_name: delta_lm_9m
+arch: spiking
+vocab: 16384
+d: 256
+n_neurons: 512
+d_mem: 256
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 64
+grad_accum: 1
+eval_batch: 4
+use_fpt: true
+fpt_K: 40
+delta_rule: true
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0015
+lam: 0.99
+max_tokens: 80000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false        # delta_chunked uses a data-dependent triangular solve; skip compile
+compile_mode: default
+compile_dynamic: true
+seed: 0

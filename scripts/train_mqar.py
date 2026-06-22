@@ -38,17 +38,18 @@ def gen(B, N, device, g):
             torch.stack(cd).to(device))
 
 
-def build(memory, d_mem, device):
+def build(memory, d_mem, device, use_fpt=False, fpt_K=10):
     return SpikingHebbianLM(VOCAB, d=128, n_neurons=256, d_mem=d_mem, n_layers=1,
-                            compile_safe=True, recurrent=False, use_fpt=False,
-                            lam=0.99,
+                            compile_safe=True, recurrent=False, use_fpt=use_fpt,
+                            fpt_K=fpt_K, lam=0.99,
                             delta_rule=(memory == "delta")).to(device)
 
 
-def train_one(memory, d_mem, steps, seed, device, B=512, train_Nmax=24):
+def train_one(memory, d_mem, steps, seed, device, B=512, train_Nmax=24,
+              use_fpt=False, fpt_K=10):
     torch.manual_seed(seed)
     g = torch.Generator().manual_seed(seed)
-    m = build(memory, d_mem, device)
+    m = build(memory, d_mem, device, use_fpt=use_fpt, fpt_K=fpt_K)
     opt = torch.optim.AdamW(m.parameters(), lr=1e-3)
     m.train()
     for step in range(steps):
@@ -78,6 +79,10 @@ def main():
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--B", type=int, default=512, help="batch (bigger = higher GPU util)")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--use_fpt", action="store_true",
+                    help="chunked-kernel FPT fast path (needed for large d_mem)")
+    ap.add_argument("--fpt_K", type=int, default=20,
+                    help="FPT iterations; >=20 matches the sequential path exactly")
     args = ap.parse_args()
     Ns = [4, 8, 16, 32, 64]
     print(f"Trained MQAR — d_mem={args.d_mem}, steps={args.steps}, seeds={args.seeds}, "
@@ -89,7 +94,8 @@ def main():
     for memory in ["hebbian", "delta"]:
         agg = {N: [] for N in Ns}
         for s in range(args.seeds):
-            accs = train_one(memory, args.d_mem, args.steps, s, args.device, B=args.B)
+            accs = train_one(memory, args.d_mem, args.steps, s, args.device, B=args.B,
+                             use_fpt=args.use_fpt, fpt_K=args.fpt_K)
             for N in Ns: agg[N].append(accs[N])
         means = {N: sum(v) / len(v) for N, v in agg.items()}
         print(f"{memory:>10} | " + " | ".join(f"{means[N]*100:>4.0f}%" for N in Ns))
