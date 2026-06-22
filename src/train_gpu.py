@@ -238,7 +238,14 @@ def main():
         for _ in range(c["grad_accum"]):
             if stateful:
                 x, y, reset = seq_stream.next(c["block_size"], device)
-                # Zero the carried state for any cursor that wrapped this step
+                # ST Phase 6: stochastic state reset (document-boundary proxy) —
+                # with prob reset_prob per block, drop carried state so long-lived
+                # memory dims don't bleed across unrelated documents. Combined
+                # with the cursor-wrap reset.
+                rp = c.get("reset_prob", 0.0)
+                if rp > 0:
+                    reset = reset | (torch.rand(c["batch_size"], device=device) < rp)
+                # Zero the carried state for any cursor that wrapped or was reset
                 if carry_state is not None and bool(reset.any()):
                     for lay in carry_state["layers"]:
                         lay["M"][reset] = 0
