@@ -26,7 +26,8 @@ class SpikingHebbianBlock(nn.Module):
     def __init__(self, d_in, n_neurons, d_mem, beta=0.9, lam=0.98, eta=1.0,
                  compile_safe=False, recurrent=False, rec_density=0.05,
                  learnable_decay=False, write_gate=False, delta_rule=False,
-                 beta_floor=0.0, decay_gate=False, titans=False):
+                 beta_floor=0.0, decay_gate=False, titans=False,
+                 local_attn=False, local_window=64):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -61,6 +62,14 @@ class SpikingHebbianBlock(nn.Module):
                 for L_, b in ((self.W_theta, -2.0), (self.W_eta, 2.0), (self.W_alpha_t, -4.0)):
                     L_.weight.mul_(0.01); L_.bias.fill_(b)
             # Titans also needs k,v,q projections (already created below).
+        self.local_attn = local_attn
+        self.local_window = local_window
+        if local_attn:
+            # BASED-style: tiny causal sliding-window exact attention added to the
+            # memory read. Reuses W_k/W_v/W_q. A learnable per-block scalar gate so
+            # the model can pick how much local-recall help it wants (init 0 -> no-op
+            # at training start; weights gain ground gradually).
+            self.local_gate = nn.Parameter(torch.zeros(1))
 
         # ST Phase 4: per-(value-dim) learnable decay. alpha = sigmoid(raw).
         # Init MULTI-SCALE (RetNet-style): spread alpha across dims so the memory
@@ -264,6 +273,19 @@ class SpikingHebbianBlock(nn.Module):
                 # which matters a lot uncompiled at long block_size (launch-bound).
                 r_seq, M = hebbian_chunked(v_seq, k_seq, q_seq, M,
                                            self.lam, self.eta, chunk=256)
+            if self.local_attn:
+                # BASED-style sliding-window exact attention: scores = Q K^T /√D,
+                # masked to (b<=t and t-b<W), softmax, then attn@V. Gated additive.
+                D_ = q_seq.size(-1)
+                scale = D_ ** -0.5
+                scores = torch.bmm(q_seq, k_seq.transpose(1, 2)) * scale  # (B,T,T)
+                idx = torch.arange(T, device=q_seq.device)
+                diff = idx.unsqueeze(1) - idx.unsqueeze(0)
+                m = (diff >= 0) & (diff < self.local_window)
+                scores = scores.masked_fill(~m.unsqueeze(0), float('-inf'))
+                attn = torch.softmax(scores, dim=-1)
+                r_local = torch.bmm(attn, v_seq)
+                r_seq = r_seq + torch.tanh(self.local_gate) * r_local
             out_seq = self.norm(r_seq + ff_seq)
         else:
             out_seq = self.norm(ff_seq)
@@ -277,7 +299,7 @@ class SpikingHebbianLM(nn.Module):
                  compile_safe=False, tie_weights=False, n_layers=1,
                  use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
                  delta_rule=False, beta_floor=0.0, decay_gate=False,
-                 titans=False):
+                 titans=False, local_attn=False, local_window=64):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -304,7 +326,8 @@ class SpikingHebbianLM(nn.Module):
                 compile_safe, recurrent, rec_density,
                 learnable_decay=learnable_decay, write_gate=write_gate,
                 delta_rule=delta_rule, beta_floor=beta_floor,
-                decay_gate=decay_gate, titans=titans))
+                decay_gate=decay_gate, titans=titans,
+                local_attn=local_attn, local_window=local_window))
         self.titans = titans
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
