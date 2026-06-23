@@ -54,7 +54,8 @@ def build(c, device):
                          fpt_K=c.get("fpt_K", 10),
                          lam=c.get("lam", 0.98),
                          learnable_decay=c.get("learnable_decay", False),
-                         write_gate=c.get("write_gate", False)).to(device)
+                         write_gate=c.get("write_gate", False),
+                         delta_rule=c.get("delta_rule", False)).to(device)
     return m
 
 
