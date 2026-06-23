@@ -26,7 +26,7 @@ class SpikingHebbianBlock(nn.Module):
     def __init__(self, d_in, n_neurons, d_mem, beta=0.9, lam=0.98, eta=1.0,
                  compile_safe=False, recurrent=False, rec_density=0.05,
                  learnable_decay=False, write_gate=False, delta_rule=False,
-                 beta_floor=0.0, decay_gate=False):
+                 beta_floor=0.0, decay_gate=False, titans=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -49,6 +49,18 @@ class SpikingHebbianBlock(nn.Module):
             with torch.no_grad():
                 self.W_alpha.weight.mul_(0.01)
                 self.W_alpha.bias.fill_(4.0)        # sigmoid(4.0) ≈ 0.982
+        self.titans = titans
+        if titans:
+            # Titans: gradient-descent memory with momentum + data-dependent forget.
+            # θ (write strength / learning rate), η (momentum decay), α (forget gate).
+            # Init: θ small (gentle write), η high (preserve momentum), α small (mostly keep).
+            self.W_theta = nn.Linear(n_neurons, 1)
+            self.W_eta   = nn.Linear(n_neurons, 1)
+            self.W_alpha_t = nn.Linear(n_neurons, 1)
+            with torch.no_grad():
+                for L_, b in ((self.W_theta, -2.0), (self.W_eta, 2.0), (self.W_alpha_t, -4.0)):
+                    L_.weight.mul_(0.01); L_.bias.fill_(b)
+            # Titans also needs k,v,q projections (already created below).
 
         # ST Phase 4: per-(value-dim) learnable decay. alpha = sigmoid(raw).
         # Init MULTI-SCALE (RetNet-style): spread alpha across dims so the memory
@@ -133,6 +145,36 @@ class SpikingHebbianBlock(nn.Module):
         out = self.norm(r + ff)
         return out, mem, M, spk
 
+    def step_titans(self, x, mem, M, S, prev_spk, ablate_memory=False):
+        """Titans one-step update: gradient-descent memory with momentum + forget.
+            e = M k̂ − v ; S ← η S − θ e k̂ᵀ ; M ← (1−α) M + S ; r = M q
+        """
+        cur = self.to_current(x)
+        if self.recurrent:
+            cur = cur + torch.nn.functional.linear(prev_spk, self.W_rec.weight * self.rec_mask)
+        if self.compile_safe:
+            spk, mem = self._lif_step(cur, mem)
+        else:
+            spk, mem = self.lif(cur, mem)
+        k = self.W_k(prev_spk); v = self.W_v(spk); q = self.W_q(spk); ff = self.W_ff(spk)
+        if self.write_gate:
+            v = v * torch.sigmoid(self.W_gate(spk))
+        if not ablate_memory:
+            kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
+            th = torch.sigmoid(self.W_theta(spk)).unsqueeze(2)        # (B,1,1) learning rate
+            et = torch.sigmoid(self.W_eta(spk)).unsqueeze(2)          # momentum decay
+            al = torch.sigmoid(self.W_alpha_t(spk)).unsqueeze(2)      # forget gate
+            Mk = torch.bmm(M, kn.unsqueeze(2)).squeeze(2)
+            e = Mk - v                                                 # surprise (B,D)
+            grad = torch.bmm(e.unsqueeze(2), kn.unsqueeze(1))         # (B,D,D)
+            S = et * S - th * grad
+            M = (1 - al) * M + S
+            r = torch.bmm(M, q.unsqueeze(2)).squeeze(2)
+        else:
+            r = torch.zeros_like(ff)
+        out = self.norm(r + ff)
+        return out, mem, M, S, spk
+
     def forward_sequence(self, x_seq, mem, M, prev_spk, ablate_memory=False,
                          fpt_K=10):
         """FPT-parallel forward over the whole sequence.
@@ -154,6 +196,10 @@ class SpikingHebbianBlock(nn.Module):
             raise NotImplementedError(
                 "chunked delta + per-dim learnable_decay not supported; use decay_gate "
                 "(per-step scalar forget) instead, or sequential step() path.")
+        if self.titans:
+            raise NotImplementedError(
+                "titans has no chunked kernel yet; train with use_fpt=false "
+                "(sequential step_titans path).")
         from lif_parallel import lif_parallel
         B, T, _ = x_seq.shape
         cur_seq = self.to_current(x_seq)                       # (B, T, N)
@@ -230,7 +276,8 @@ class SpikingHebbianLM(nn.Module):
                  beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
                  compile_safe=False, tie_weights=False, n_layers=1,
                  use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
-                 delta_rule=False, beta_floor=0.0, decay_gate=False):
+                 delta_rule=False, beta_floor=0.0, decay_gate=False,
+                 titans=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -257,7 +304,8 @@ class SpikingHebbianLM(nn.Module):
                 compile_safe, recurrent, rec_density,
                 learnable_decay=learnable_decay, write_gate=write_gate,
                 delta_rule=delta_rule, beta_floor=beta_floor,
-                decay_gate=decay_gate))
+                decay_gate=decay_gate, titans=titans))
+        self.titans = titans
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
         if tie_weights:
@@ -276,6 +324,7 @@ class SpikingHebbianLM(nn.Module):
             mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
             Ms = [torch.zeros(B, self.d_mem, self.d_mem, device=device) for _ in range(L)]
             prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
+            Ss = [torch.zeros(B, self.d_mem, self.d_mem, device=device) for _ in range(L)] if self.titans else [None] * L
         else:
             def _bcast(t, shape):
                 if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
@@ -284,6 +333,11 @@ class SpikingHebbianLM(nn.Module):
             mems = [_bcast(layers[i]["mem"], (B, self.n_neurons)) for i in range(L)]
             Ms = [_bcast(layers[i]["M"], (B, self.d_mem, self.d_mem)) for i in range(L)]
             prev_spks = [_bcast(layers[i]["prev_spk"], (B, self.n_neurons)) for i in range(L)]
+            if self.titans:
+                Ss = [_bcast(layers[i].get("S", torch.zeros(self.d_mem, self.d_mem)),
+                             (B, self.d_mem, self.d_mem)) for i in range(L)]
+            else:
+                Ss = [None] * L
 
         use_residual = (self.d == self.d_mem)
 
@@ -309,8 +363,12 @@ class SpikingHebbianLM(nn.Module):
             for t in range(T):
                 x = base[:, t, :]
                 for l, block in enumerate(self.blocks):
-                    out, mems[l], Ms[l], spk = block.step(
-                        x, mems[l], Ms[l], prev_spks[l], ablate_memory)
+                    if block.titans:
+                        out, mems[l], Ms[l], Ss[l], spk = block.step_titans(
+                            x, mems[l], Ms[l], Ss[l], prev_spks[l], ablate_memory)
+                    else:
+                        out, mems[l], Ms[l], spk = block.step(
+                            x, mems[l], Ms[l], prev_spks[l], ablate_memory)
                     if L > 1 and (l > 0 or use_residual):
                         out = out + x
                     prev_spks[l] = spk

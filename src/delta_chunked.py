@@ -123,6 +123,43 @@ def delta_chunked(v_seq, k_seq, q_seq, beta_seq, M_init, lam, chunk=64):
     return r_out.to(v_seq.dtype), M.to(v_seq.dtype)
 
 
+def titans_sequential(v_seq, k_seq, q_seq, theta_seq, eta_seq, alpha_seq,
+                      M_init, S_init):
+    """Reference O(T) loop — Titans (Behrouz et al. 2025) neural-memory update.
+
+    Memory M is updated by gradient descent on associative loss ℓ=‖Mk−v‖²
+    (gradient ∝ (Mk−v)kᵀ), with MOMENTUM accumulating past surprise and a
+    data-dependent forget gate:
+        e_t = M_{t-1} @ k_hat_t  − v_t            (current surprise / gradient direction)
+        S_t = η_t  S_{t-1}  − θ_t  e_t  k_hat_tᵀ  (momentum on surprise)
+        M_t = (1−α_t) M_{t-1}  +  S_t             (forget then add momentum)
+        r_t = M_t  q_t
+
+    theta_seq, eta_seq, alpha_seq: (B, T, 1) — data-dependent gates.
+    M_init, S_init: (B, D, D). Returns (out_seq, M_final, S_final).
+    """
+    B, T, D = v_seq.shape
+    M = M_init.clone()
+    S = S_init.clone()
+    out = torch.empty_like(v_seq)
+    for t in range(T):
+        k = k_seq[:, t, :]
+        kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
+        v = v_seq[:, t, :]
+        q = q_seq[:, t, :]
+        a = alpha_seq[:, t, :].unsqueeze(2)                    # (B,1,1)
+        th = theta_seq[:, t, :].unsqueeze(2)
+        et = eta_seq[:, t, :].unsqueeze(2)
+
+        Mk = torch.bmm(M, kn.unsqueeze(2)).squeeze(2)          # M @ k̂  (B,D)
+        e = Mk - v                                              # surprise (B,D)
+        grad = torch.bmm(e.unsqueeze(2), kn.unsqueeze(1))      # (B,D,D)
+        S = et * S - th * grad                                  # momentum
+        M = (1 - a) * M + S
+        out[:, t, :] = torch.bmm(M, q.unsqueeze(2)).squeeze(2)
+    return out, M, S
+
+
 def delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init, chunk=64):
     """Chunkwise-parallel GATED delta rule (Gated DeltaNet).
 

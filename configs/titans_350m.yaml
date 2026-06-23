@@ -1,0 +1,35 @@
+# Titans 350M — flagship-scale arm. Sequential step path (slow vs gated-delta):
+# very small batch to keep step latency tractable. Use only if 90M Titans wins.
+run_name: titans_350m
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4096
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 4
+grad_accum: 4
+eval_batch: 4
+use_fpt: false
+titans: true
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0004
+lam: 0.98
+max_tokens: 1000000000
+eval_every: 4000
+ckpt_every: 4000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
