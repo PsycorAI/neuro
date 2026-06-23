@@ -27,10 +27,15 @@ class SpikingHebbianBlock(nn.Module):
                  compile_safe=False, recurrent=False, rec_density=0.05,
                  learnable_decay=False, write_gate=False, delta_rule=False,
                  beta_floor=0.0, decay_gate=False, titans=False,
-                 local_attn=False, local_window=64):
+                 local_attn=False, local_window=64,
+                 n_heads=1):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
+        self.n_heads = n_heads
+        if d_mem % n_heads != 0:
+            raise ValueError(f"d_mem ({d_mem}) must be divisible by n_heads ({n_heads})")
+        self.d_head = d_mem // n_heads
         self.lam = lam
         self.eta = eta
         self.compile_safe = compile_safe
@@ -251,28 +256,51 @@ class SpikingHebbianBlock(nn.Module):
         if self.write_gate:                                  # ST Phase 5
             v_seq = v_seq * torch.sigmoid(self.W_gate(spk_seq))
         if not ablate_memory:
+            # Multi-head: split d_mem into H independent heads, collapse to batch.
+            # (B,T,D) -> (B,T,H,Dh) -> (B*H, T, Dh) ; M is already (B*H, Dh, Dh).
+            if self.n_heads > 1:
+                H, Dh = self.n_heads, self.d_head
+                v_in = v_seq.reshape(B, T, H, Dh).permute(0, 2, 1, 3).reshape(B * H, T, Dh)
+                k_in = k_seq.reshape(B, T, H, Dh).permute(0, 2, 1, 3).reshape(B * H, T, Dh)
+                q_in = q_seq.reshape(B, T, H, Dh).permute(0, 2, 1, 3).reshape(B * H, T, Dh)
+            else:
+                v_in, k_in, q_in = v_seq, k_seq, q_seq
             if self.delta_rule:                              # ST Phase 8 (chunked)
                 beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
+                if self.n_heads > 1:
+                    beta_in = beta_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
+                else:
+                    beta_in = beta_seq
                 if self.decay_gate:
                     from delta_chunked import delta_chunked_gated
                     alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
-                    r_seq, M = delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq,
-                                                   alpha_seq, M, chunk=64)
+                    if self.n_heads > 1:
+                        alpha_in = alpha_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
+                    else:
+                        alpha_in = alpha_seq
+                    r_in, M = delta_chunked_gated(v_in, k_in, q_in, beta_in,
+                                                   alpha_in, M, chunk=64)
                 else:
                     from delta_chunked import delta_chunked
-                    r_seq, M = delta_chunked(v_seq, k_seq, q_seq, beta_seq, M,
+                    r_in, M = delta_chunked(v_in, k_in, q_in, beta_in, M,
                                              self.lam, chunk=64)
             elif self.learnable_decay:                       # ST Phase 4
                 from hebbian_chunked import hebbian_gated_chunked
                 alpha = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999)
-                r_seq, M = hebbian_gated_chunked(v_seq, k_seq, q_seq, M,
+                r_in, M = hebbian_gated_chunked(v_in, k_in, q_in, M,
                                                  alpha, self.eta, chunk=64)
             else:
                 from hebbian_chunked import hebbian_chunked
                 # chunk=256 (vs 64): ~4x fewer Python-launched kernels per layer,
                 # which matters a lot uncompiled at long block_size (launch-bound).
-                r_seq, M = hebbian_chunked(v_seq, k_seq, q_seq, M,
+                r_in, M = hebbian_chunked(v_in, k_in, q_in, M,
                                            self.lam, self.eta, chunk=256)
+            # Multi-head: collapse heads back into d_mem dim.
+            if self.n_heads > 1:
+                H, Dh = self.n_heads, self.d_head
+                r_seq = r_in.reshape(B, H, T, Dh).permute(0, 2, 1, 3).reshape(B, T, self.d_mem)
+            else:
+                r_seq = r_in
             if self.local_attn:
                 # BASED-style sliding-window exact attention: scores = Q K^T /√D,
                 # masked to (b<=t and t-b<W), softmax, then attn@V. Gated additive.
@@ -299,7 +327,8 @@ class SpikingHebbianLM(nn.Module):
                  compile_safe=False, tie_weights=False, n_layers=1,
                  use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
                  delta_rule=False, beta_floor=0.0, decay_gate=False,
-                 titans=False, local_attn=False, local_window=64):
+                 titans=False, local_attn=False, local_window=64,
+                 n_heads=1):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -327,8 +356,11 @@ class SpikingHebbianLM(nn.Module):
                 learnable_decay=learnable_decay, write_gate=write_gate,
                 delta_rule=delta_rule, beta_floor=beta_floor,
                 decay_gate=decay_gate, titans=titans,
-                local_attn=local_attn, local_window=local_window))
+                local_attn=local_attn, local_window=local_window,
+                n_heads=n_heads))
         self.titans = titans
+        self.n_heads = n_heads
+        self.d_head = d_mem // n_heads
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
         if tie_weights:
@@ -345,9 +377,11 @@ class SpikingHebbianLM(nn.Module):
 
         if initial_state is None:
             mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            Ms = [torch.zeros(B, self.d_mem, self.d_mem, device=device) for _ in range(L)]
+            # n_heads>1: M is (B*H, d_head, d_head) (heads collapsed into batch dim)
+            BM, DM = (B * self.n_heads, self.d_head) if self.n_heads > 1 else (B, self.d_mem)
+            Ms = [torch.zeros(BM, DM, DM, device=device) for _ in range(L)]
             prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            Ss = [torch.zeros(B, self.d_mem, self.d_mem, device=device) for _ in range(L)] if self.titans else [None] * L
+            Ss = [torch.zeros(BM, DM, DM, device=device) for _ in range(L)] if self.titans else [None] * L
         else:
             def _bcast(t, shape):
                 if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
