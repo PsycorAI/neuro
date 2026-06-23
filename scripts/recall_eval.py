@@ -78,10 +78,19 @@ def make_batch(B, N, vocab, device, seed):
 
 
 @torch.no_grad()
-def recall(model, c, N, device, B=64, seed=0):
+def recall(model, c, N, device, B=64, seed=0, replay=False):
     model.eval()
     x, target, cand = make_batch(B, N, c["vocab"], device, seed)
-    logits = model(x)[:, -1, :]                                   # (B, vocab) at query pos
+    if replay:
+        # StateX-spirit fork: 2-pass inference. Pass 1 builds the memory state by
+        # processing the whole sequence; pass 2 re-runs WITH that built state as
+        # initial state, so the model reads with full memory available even at
+        # early positions. Inference-only, no retraining; 2x inference cost.
+        out = model(x, return_final_state=True)
+        state = out[-1]
+        logits = model(x, initial_state=state)[:, -1, :]
+    else:
+        logits = model(x)[:, -1, :]                               # (B, vocab) at query pos
     full_acc = (logits.argmax(-1) == target).float().mean().item()
     # mean full-vocab rank of the true target (1 = best)
     rank = ((logits > logits.gather(1, target[:, None])).sum(1) + 1).float().mean().item()
@@ -101,6 +110,8 @@ def main():
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--fpt_K", type=int, default=0,
                     help="override fpt_K for eval (0 = use each ckpt's cfg)")
+    ap.add_argument("--replay", action="store_true",
+                    help="StateX-spirit fork: 2-pass inference, build M first then re-read")
     args = ap.parse_args()
     device = args.device
     Ns = [int(n) for n in args.Ns.split(",")]
@@ -126,7 +137,7 @@ def main():
     for run in runs:
         cand, ranks = [], []
         for N in Ns:
-            _, r, ca = recall(models[run], cfgs[run], N, device, B=args.B)
+            _, r, ca = recall(models[run], cfgs[run], N, device, B=args.B, replay=args.replay)
             cand.append(ca); ranks.append(r)
         cand_rows[run] = cand; rank_rows[run] = ranks
 
