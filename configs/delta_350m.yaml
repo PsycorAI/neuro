@@ -1,0 +1,40 @@
+# 350M DELTA arm — does the delta>Hebbian recall edge hold at flagship scale?
+# Same arch as phase3_350M (the Hebbian comparator); only the write rule + fast-path
+# settings differ. compile:false (delta uses a data-dependent triangular solve);
+# fpt_K bumped from the flagship's 10 for delta margin. Budget is a first-signal
+# PROBE (2B tok), not the full 7B. batch_size starts small (fp32 delta intermediates
+# at d_mem=2048 are heavy) — tune up after the VRAM smoke.
+run_name: delta_350m
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4096
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 8
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0004
+lam: 0.98
+max_tokens: 2000000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 20
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

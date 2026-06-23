@@ -1,0 +1,39 @@
+# Combine experiment (step 3): "floored-beta delta" — keep delta's error-correction
+# but floor the write strength so it can't under-write (the diagnosed cause of weak
+# recall). beta = 0.5 + 0.5*sigmoid(W_beta): guaranteed >=0.5 writes + retained
+# adaptivity. Compare recall/ppl vs delta_90m (floor 0) and hebb_90m. Same arch/tokens.
+run_name: delta_90m_bf05
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+beta_floor: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 400000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
