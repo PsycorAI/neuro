@@ -58,7 +58,9 @@ def build(c, device):
                          delta_rule=c.get("delta_rule", False),
                          beta_floor=c.get("beta_floor", 0.0),
                          decay_gate=c.get("decay_gate", False),
-                         titans=c.get("titans", False)).to(device)
+                         titans=c.get("titans", False),
+                         local_attn=c.get("local_attn", False),
+                         local_window=c.get("local_window", 64)).to(device)
     return m
 
 
