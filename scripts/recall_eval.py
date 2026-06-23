@@ -78,17 +78,24 @@ def make_batch(B, N, vocab, device, seed):
 
 
 @torch.no_grad()
-def recall(model, c, N, device, B=64, seed=0, replay=False):
+def recall(model, c, N, device, B=64, seed=0, replay=None):
+    """replay: None (1-pass), 'full' (re-read full seq with built state),
+       'split' (pass 1 = pairs only, pass 2 = query only with carried state)."""
     model.eval()
     x, target, cand = make_batch(B, N, c["vocab"], device, seed)
-    if replay:
-        # StateX-spirit fork: 2-pass inference. Pass 1 builds the memory state by
-        # processing the whole sequence; pass 2 re-runs WITH that built state as
-        # initial state, so the model reads with full memory available even at
-        # early positions. Inference-only, no retraining; 2x inference cost.
+    if replay == "full":
+        # Re-read the whole sequence with M built from a prior pass over it.
+        # NOTE: double-encodes the same k/v pairs into M, can hurt recall.
         out = model(x, return_final_state=True)
         state = out[-1]
         logits = model(x, initial_state=state)[:, -1, :]
+    elif replay == "split":
+        # Pass 1: only the N (k,v) pairs (no query) -> build M
+        # Pass 2: only the query key, starting from built M -> read logit.
+        # The cleanest "build memory THEN read" test, no double-encoding.
+        out = model(x[:, :-1], return_final_state=True)
+        state = out[-1]
+        logits = model(x[:, -1:], initial_state=state)[:, -1, :]
     else:
         logits = model(x)[:, -1, :]                               # (B, vocab) at query pos
     full_acc = (logits.argmax(-1) == target).float().mean().item()
@@ -110,8 +117,8 @@ def main():
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--fpt_K", type=int, default=0,
                     help="override fpt_K for eval (0 = use each ckpt's cfg)")
-    ap.add_argument("--replay", action="store_true",
-                    help="StateX-spirit fork: 2-pass inference, build M first then re-read")
+    ap.add_argument("--replay", default=None, choices=[None, "full", "split"],
+                    help="StateX-spirit 2-pass: 'full' re-reads whole seq, 'split' = pairs->query")
     args = ap.parse_args()
     device = args.device
     Ns = [int(n) for n in args.Ns.split(",")]
