@@ -65,7 +65,8 @@ def build_model(c):
                                 write_gate=c.get("write_gate", False),
                                 delta_rule=c.get("delta_rule", False),
                                 beta_floor=c.get("beta_floor", 0.0),
-                                decay_gate=c.get("decay_gate", False))
+                                decay_gate=c.get("decay_gate", False),
+                                titans=c.get("titans", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
