@@ -28,7 +28,8 @@ class SpikingHebbianBlock(nn.Module):
                  learnable_decay=False, write_gate=False, delta_rule=False,
                  beta_floor=0.0, decay_gate=False, titans=False,
                  local_attn=False, local_window=64,
-                 n_heads=1):
+                 n_heads=1, pre_conv=False, pre_conv_kernel=4,
+                 vector_beta=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -46,8 +47,11 @@ class SpikingHebbianBlock(nn.Module):
         self.beta_floor = beta_floor   # min write strength: β = floor + (1-floor)·σ(W_β)
         self.decay_gate = decay_gate   # Gated DeltaNet: data-dependent forget α = σ(W_alpha(spk))
         # ST Phase 8: delta-rule write strength β = sigmoid(W_beta(spk)).
+        # vector_beta (RWKV-7 style): per-channel β instead of scalar — write
+        # strength can differ across memory-output dimensions.
+        self.vector_beta = vector_beta
         if delta_rule:
-            self.W_beta = nn.Linear(n_neurons, 1)
+            self.W_beta = nn.Linear(n_neurons, d_mem if vector_beta else 1)
         if decay_gate:
             # Init bias high so initial α ≈ 0.98 (matches default lam) — model can
             # then learn to LOWER α (forget faster) where useful.
@@ -75,6 +79,15 @@ class SpikingHebbianBlock(nn.Module):
             # the model can pick how much local-recall help it wants (init 0 -> no-op
             # at training start; weights gain ground gradually).
             self.local_gate = nn.Parameter(torch.zeros(1))
+        self.pre_conv = pre_conv
+        self.pre_conv_kernel = pre_conv_kernel
+        if pre_conv:
+            # Per 2508.19029: causal depthwise 1D conv on spike sequence before
+            # the W_k/W_v/W_q projections. Improves recall (mixes neighbor timesteps
+            # so the projection sees a local window). Depthwise (groups=N) = cheap.
+            self.spk_conv = nn.Conv1d(n_neurons, n_neurons,
+                                       kernel_size=pre_conv_kernel,
+                                       padding=0, groups=n_neurons)
 
         # ST Phase 4: per-(value-dim) learnable decay. alpha = sigmoid(raw).
         # Init MULTI-SCALE (RetNet-style): spread alpha across dims so the memory
@@ -135,10 +148,11 @@ class SpikingHebbianBlock(nn.Module):
                 a = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999).view(1, -1, 1)
             if self.delta_rule:
                 # Gated DeltaNet: M = αM + β(v − αM·k̂)⊗k̂  (error-driven write).
-                # k̂ = L2-normalized key; β = learned input-dependent write strength;
+                # k̂ = L2-normalized key; β = learned input-dependent write strength
+                # (scalar (B,1) or per-channel vector (B,D) when vector_beta=True);
                 # α = learned forget gate (decay_gate=True) or scalar lam.
                 kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
-                beta = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk))  # (B,1)
+                beta = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk))  # (B,1) or (B,D)
                 if self.decay_gate:
                     a_dyn = torch.sigmoid(self.W_alpha(spk)).clamp(0.5, 0.9999).unsqueeze(2)
                     prevM = a_dyn * M
@@ -247,9 +261,20 @@ class SpikingHebbianBlock(nn.Module):
 
         # prev_spk shifted (k uses PREVIOUS token's spike)
         prev_seq = torch.cat([prev_spk.unsqueeze(1), spk_seq[:, :-1, :]], dim=1)
-        k_seq = self.W_k(prev_seq)                             # (B, T, dm)
-        v_seq = self.W_v(spk_seq)
-        q_seq = self.W_q(spk_seq)
+        # Pre-conv (depthwise causal 1D conv on spike sequence) before W_k/v/q.
+        # FF residual uses unconvolved spk_seq (keep residual clean).
+        if self.pre_conv:
+            K = self.pre_conv_kernel
+            spk_for_qv = F.pad(spk_seq.transpose(1, 2), (K - 1, 0))   # (B,N,T+K-1)
+            spk_for_qv = self.spk_conv(spk_for_qv).transpose(1, 2)    # (B,T,N) causal
+            prev_for_k = F.pad(prev_seq.transpose(1, 2), (K - 1, 0))
+            prev_for_k = self.spk_conv(prev_for_k).transpose(1, 2)
+        else:
+            spk_for_qv = spk_seq
+            prev_for_k = prev_seq
+        k_seq = self.W_k(prev_for_k)                            # (B, T, dm)
+        v_seq = self.W_v(spk_for_qv)
+        q_seq = self.W_q(spk_for_qv)
         ff_seq = self.W_ff(spk_seq)
 
         # Hebbian: chunkwise-parallel via hebbian_chunked (TFLA-style).
@@ -266,24 +291,45 @@ class SpikingHebbianBlock(nn.Module):
             else:
                 v_in, k_in, q_in = v_seq, k_seq, q_seq
             if self.delta_rule:                              # ST Phase 8 (chunked)
-                beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
-                if self.n_heads > 1:
-                    beta_in = beta_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
-                else:
-                    beta_in = beta_seq
-                if self.decay_gate:
-                    from delta_chunked import delta_chunked_gated
-                    alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
+                if self.vector_beta:
+                    # Per-channel β (RWKV-7 style). The chunked WY kernel assumes
+                    # scalar β; use a sequential memory loop instead (LIF stays
+                    # FPT-parallel, only the memory update is per-timestep).
+                    # Slower (≈ titans cost) but correct; use small T/batch.
                     if self.n_heads > 1:
-                        alpha_in = alpha_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
-                    else:
-                        alpha_in = alpha_seq
-                    r_in, M = delta_chunked_gated(v_in, k_in, q_in, beta_in,
-                                                   alpha_in, M, chunk=64)
+                        raise NotImplementedError("vector_beta + n_heads>1 not supported")
+                    beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,D)
+                    alpha_seq = (torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
+                                 if self.decay_gate else None)
+                    r_list = []
+                    for t in range(T):
+                        kn = k_in[:, t] / (k_in[:, t].norm(dim=-1, keepdim=True) + 1e-6)
+                        a = alpha_seq[:, t].unsqueeze(2) if alpha_seq is not None else self.lam
+                        prevM = a * M
+                        Mk = torch.bmm(prevM, kn.unsqueeze(2)).squeeze(2)
+                        u = beta_seq[:, t] * (v_in[:, t] - Mk)            # (B,D)
+                        M = prevM + torch.bmm(u.unsqueeze(2), kn.unsqueeze(1))
+                        r_list.append(torch.bmm(M, q_in[:, t].unsqueeze(2)).squeeze(2))
+                    r_in = torch.stack(r_list, dim=1)
                 else:
-                    from delta_chunked import delta_chunked
-                    r_in, M = delta_chunked(v_in, k_in, q_in, beta_in, M,
-                                             self.lam, chunk=64)
+                    beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
+                    if self.n_heads > 1:
+                        beta_in = beta_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
+                    else:
+                        beta_in = beta_seq
+                    if self.decay_gate:
+                        from delta_chunked import delta_chunked_gated
+                        alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
+                        if self.n_heads > 1:
+                            alpha_in = alpha_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
+                        else:
+                            alpha_in = alpha_seq
+                        r_in, M = delta_chunked_gated(v_in, k_in, q_in, beta_in,
+                                                       alpha_in, M, chunk=64)
+                    else:
+                        from delta_chunked import delta_chunked
+                        r_in, M = delta_chunked(v_in, k_in, q_in, beta_in, M,
+                                                 self.lam, chunk=64)
             elif self.learnable_decay:                       # ST Phase 4
                 from hebbian_chunked import hebbian_gated_chunked
                 alpha = torch.sigmoid(self.decay_raw).clamp(0.5, 0.9999)
@@ -328,7 +374,8 @@ class SpikingHebbianLM(nn.Module):
                  use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
                  delta_rule=False, beta_floor=0.0, decay_gate=False,
                  titans=False, local_attn=False, local_window=64,
-                 n_heads=1):
+                 n_heads=1, pre_conv=False, pre_conv_kernel=4,
+                 vector_beta=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -357,7 +404,9 @@ class SpikingHebbianLM(nn.Module):
                 delta_rule=delta_rule, beta_floor=beta_floor,
                 decay_gate=decay_gate, titans=titans,
                 local_attn=local_attn, local_window=local_window,
-                n_heads=n_heads))
+                n_heads=n_heads,
+                pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
+                vector_beta=vector_beta))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads

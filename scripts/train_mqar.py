@@ -38,11 +38,12 @@ def gen(B, N, device, g):
             torch.stack(cd).to(device))
 
 
-def build(memory, d_mem, device, use_fpt=False, fpt_K=10):
+def build(memory, d_mem, device, use_fpt=False, fpt_K=10, vector_beta=False):
     return SpikingHebbianLM(VOCAB, d=128, n_neurons=256, d_mem=d_mem, n_layers=1,
                             compile_safe=True, recurrent=False, use_fpt=use_fpt,
                             fpt_K=fpt_K, lam=0.99,
-                            delta_rule=(memory == "delta")).to(device)
+                            delta_rule=(memory in ("delta", "vbdelta")),
+                            vector_beta=(memory == "vbdelta")).to(device)
 
 
 def train_one(memory, d_mem, steps, seed, device, B=512, train_Nmax=24,
@@ -91,7 +92,7 @@ def main():
     print(f"{'mechanism':>10} | " + " | ".join(f"N={n:>3}" for n in Ns))
     print(f"{'chance':>10} | " + " | ".join(f"{100/n:>4.0f}%" for n in Ns))
     print("-" * (12 + 8 * len(Ns)))
-    for memory in ["hebbian", "delta"]:
+    for memory in ["hebbian", "delta", "vbdelta"]:
         agg = {N: [] for N in Ns}
         for s in range(args.seeds):
             accs = train_one(memory, args.d_mem, args.steps, s, args.device, B=args.B,
