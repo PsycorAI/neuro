@@ -48,7 +48,8 @@ def build(c, device):
                          learnable_decay=c.get("learnable_decay", False),
                          write_gate=c.get("write_gate", False),
                          delta_rule=c.get("delta_rule", False),
-                         beta_floor=c.get("beta_floor", 0.0)).to(device)
+                         beta_floor=c.get("beta_floor", 0.0),
+                         decay_gate=c.get("decay_gate", False)).to(device)
     return m
 
 
