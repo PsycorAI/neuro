@@ -15,8 +15,8 @@ rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
 block_size: 512
-batch_size: 32
-grad_accum: 1
+batch_size: 16
+grad_accum: 2
 eval_batch: 8
 use_fpt: true
 fpt_K: 20

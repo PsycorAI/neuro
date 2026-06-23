@@ -135,7 +135,7 @@ class SpikingHebbianBlock(nn.Module):
                 kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
                 beta = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk))  # (B,1)
                 if self.decay_gate:
-                    a_dyn = torch.sigmoid(self.W_alpha(spk)).unsqueeze(2)   # (B,1,1)
+                    a_dyn = torch.sigmoid(self.W_alpha(spk)).clamp(0.5, 0.9999).unsqueeze(2)
                     prevM = a_dyn * M
                 elif self.learnable_decay:
                     prevM = a * M
@@ -255,7 +255,7 @@ class SpikingHebbianBlock(nn.Module):
                 beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
                 if self.decay_gate:
                     from delta_chunked import delta_chunked_gated
-                    alpha_seq = torch.sigmoid(self.W_alpha(spk_seq))   # (B,T,1)
+                    alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
                     r_seq, M = delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq,
                                                    alpha_seq, M, chunk=64)
                 else:
