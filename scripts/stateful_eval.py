@@ -60,7 +60,8 @@ def build(c, device):
                          decay_gate=c.get("decay_gate", False),
                          titans=c.get("titans", False),
                          local_attn=c.get("local_attn", False),
-                         local_window=c.get("local_window", 64)).to(device)
+                         local_window=c.get("local_window", 64),
+                         n_heads=c.get("n_heads", 1)).to(device)
     return m
 
 
