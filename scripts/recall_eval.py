@@ -47,7 +47,8 @@ def build(c, device):
                          fpt_K=c.get("fpt_K", 10), lam=c.get("lam", 0.98),
                          learnable_decay=c.get("learnable_decay", False),
                          write_gate=c.get("write_gate", False),
-                         delta_rule=c.get("delta_rule", False)).to(device)
+                         delta_rule=c.get("delta_rule", False),
+                         beta_floor=c.get("beta_floor", 0.0)).to(device)
     return m
 
 
@@ -90,6 +91,8 @@ def main():
     ap.add_argument("--Ns", default="4,8,16,32,64")
     ap.add_argument("--B", type=int, default=64)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--fpt_K", type=int, default=0,
+                    help="override fpt_K for eval (0 = use each ckpt's cfg)")
     args = ap.parse_args()
     device = args.device
     Ns = [int(n) for n in args.Ns.split(",")]
@@ -99,6 +102,8 @@ def main():
     for run in runs:
         blob = torch.load(latest(run), map_location=device, weights_only=False)
         c = blob["cfg"]
+        if args.fpt_K:
+            c["fpt_K"] = args.fpt_K
         m = build(c, device)
         miss, unexp = m.load_state_dict(blob["model"], strict=False)
         dropped = [k for k in unexp if "lif." not in k]
