@@ -20,6 +20,26 @@ import yaml
 
 BIN = "/home/glenn/projects/bdh/data/tokenized/train.bin"
 
+# MQAR-augmented training (Zoology/BASED-style): mix synthetic associative-recall
+# into the LM loss so the model explicitly trains the in-context retrieval skill.
+# Disjoint key/value token ranges (within our 16384 student vocab, matching
+# scripts/recall_eval.py defaults for distribution consistency).
+MQAR_KEY_LO, MQAR_KEY_HI = 1000, 6000
+MQAR_VAL_LO, MQAR_VAL_HI = 8000, 14000
+
+
+def mqar_aug_batch(B, N, device):
+    """B sequences [k1 v1 ... kN vN kq], target = value paired with kq. Returns (x, target)."""
+    xs = []; tgs = []
+    for _ in range(B):
+        keys = torch.randperm(MQAR_KEY_HI - MQAR_KEY_LO)[:N] + MQAR_KEY_LO
+        vals = torch.randperm(MQAR_VAL_HI - MQAR_VAL_LO)[:N] + MQAR_VAL_LO
+        seq = torch.stack([keys, vals], 1).reshape(-1)
+        qi = int(torch.randint(0, N, (1,)))
+        xs.append(torch.cat([seq, keys[qi:qi + 1]]))
+        tgs.append(int(vals[qi]))
+    return torch.stack(xs).to(device), torch.tensor(tgs, device=device)
+
 
 def _build_optimizers(model, c, device):
     """Build a list of optimizer(s) based on config.
@@ -305,6 +325,14 @@ def main():
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
                     main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                # MQAR-augmented training: explicit in-context recall pressure
+                if c.get("mqar_aug", False):
+                    n_lo = c.get("mqar_N_min", 4); n_hi = c.get("mqar_N_max", 32)
+                    N_mq = int(torch.randint(n_lo, n_hi + 1, (1,)).item())
+                    x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
+                    logits_mq = model(x_mq)[:, -1, :]
+                    mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
+                    main_loss = main_loss + c.get("mqar_weight", 0.5) * mqar_ce
                 loss = main_loss / c["grad_accum"]
             loss.backward()
         if grad_clip > 0:
