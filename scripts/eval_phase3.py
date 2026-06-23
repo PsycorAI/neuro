@@ -46,7 +46,10 @@ def build(c):
                                 titans=c.get("titans", False),
                                 local_attn=c.get("local_attn", False),
                                 local_window=c.get("local_window", 64),
-                                n_heads=c.get("n_heads", 1))
+                                n_heads=c.get("n_heads", 1),
+                                pre_conv=c.get("pre_conv", False),
+                                pre_conv_kernel=c.get("pre_conv_kernel", 4),
+                                vector_beta=c.get("vector_beta", False))
 
 
 @torch.no_grad()
