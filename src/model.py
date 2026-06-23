@@ -25,7 +25,8 @@ class SpikingHebbianBlock(nn.Module):
 
     def __init__(self, d_in, n_neurons, d_mem, beta=0.9, lam=0.98, eta=1.0,
                  compile_safe=False, recurrent=False, rec_density=0.05,
-                 learnable_decay=False, write_gate=False, delta_rule=False):
+                 learnable_decay=False, write_gate=False, delta_rule=False,
+                 beta_floor=0.0):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -36,6 +37,7 @@ class SpikingHebbianBlock(nn.Module):
         self.learnable_decay = learnable_decay
         self.write_gate = write_gate
         self.delta_rule = delta_rule
+        self.beta_floor = beta_floor   # min write strength: β = floor + (1-floor)·σ(W_β)
         # ST Phase 8: delta-rule write strength β = sigmoid(W_beta(spk)).
         if delta_rule:
             self.W_beta = nn.Linear(n_neurons, 1)
@@ -101,7 +103,7 @@ class SpikingHebbianBlock(nn.Module):
                 # Gated DeltaNet: M = λM + β(v − λM·k̂)⊗k̂  (error-driven write).
                 # k̂ = L2-normalized key; β = learned input-dependent write strength.
                 kn = k / (k.norm(dim=-1, keepdim=True) + 1e-6)
-                beta = torch.sigmoid(self.W_beta(spk))           # (B,1)
+                beta = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk))  # (B,1)
                 prevM = a * M if self.learnable_decay else self.lam * M
                 Mk = torch.bmm(prevM, kn.unsqueeze(2)).squeeze(2)  # λM·k̂  (B,dm)
                 delta = (beta * (v - Mk)).unsqueeze(2)            # (B,dm,1)
@@ -181,7 +183,7 @@ class SpikingHebbianBlock(nn.Module):
         if not ablate_memory:
             if self.delta_rule:                              # ST Phase 8 (chunked)
                 from delta_chunked import delta_chunked
-                beta_seq = torch.sigmoid(self.W_beta(spk_seq))   # (B,T,1)
+                beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
                 r_seq, M = delta_chunked(v_seq, k_seq, q_seq, beta_seq, M,
                                          self.lam, chunk=64)
             elif self.learnable_decay:                       # ST Phase 4
@@ -207,7 +209,7 @@ class SpikingHebbianLM(nn.Module):
                  beta=0.9, lam=0.98, eta=1.0, recurrent=False, rec_density=0.05,
                  compile_safe=False, tie_weights=False, n_layers=1,
                  use_fpt=False, fpt_K=10, learnable_decay=False, write_gate=False,
-                 delta_rule=False):
+                 delta_rule=False, beta_floor=0.0):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -233,7 +235,7 @@ class SpikingHebbianLM(nn.Module):
                 d_in, n_neurons, d_mem, beta, lam, eta,
                 compile_safe, recurrent, rec_density,
                 learnable_decay=learnable_decay, write_gate=write_gate,
-                delta_rule=delta_rule))
+                delta_rule=delta_rule, beta_floor=beta_floor))
         self.blocks = nn.ModuleList(blocks)
         self.head = nn.Linear(d_mem, vocab)
         if tie_weights:
