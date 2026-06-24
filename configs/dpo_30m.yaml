@@ -1,0 +1,41 @@
+# DPO on the SFT'd 30M model. Run AFTER sft_30m_mds completes.
+# Reference model = frozen SFT model (doubles VRAM; fine at 30M).
+run_name: dpo_30m
+dpo_init: sft_30m_mds
+dpo_dataset: HuggingFaceH4/ultrafeedback_binarized
+dpo_split: train_prefs
+dpo_max_len: 512
+dpo_beta: 0.1               # KL strength; standard DPO default
+
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 4
+grad_accum: 4               # effective 16 pref pairs/step
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.0005             # gentler than SFT (DPO needs lower LR per Rafailov)
+lr: 0.00005
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+max_tokens: 200000000
+ckpt_every: 2000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+seed: 0
