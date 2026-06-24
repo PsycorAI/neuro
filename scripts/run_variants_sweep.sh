@@ -20,8 +20,9 @@ for cfg in screen_hebb_30m_mqar screen_gated_delta_30m_mqar \
       2>&1 | tee "logs_${cfg}.txt"
 done
 
-echo ""; echo "===== variants recall_eval $(stamp) ====="
-"$PY" -u scripts/recall_eval.py --runs \
-  screen_hebb_30m,screen_delta_30m,screen_gated_delta_30m,screen_hebb_30m_mqar,screen_gated_delta_30m_mqar,screen_mh4_gated_delta_30m,screen_mh8_gated_delta_30m,screen_mh16_gated_delta_30m,screen_preconv_gated_delta_30m,screen_preconv_hebb_30m \
-  --fpt_K 60
+RUNS=screen_hebb_30m,screen_delta_30m,screen_gated_delta_30m,screen_hebb_30m_mqar,screen_gated_delta_30m_mqar,screen_mh4_gated_delta_30m,screen_mh8_gated_delta_30m,screen_mh16_gated_delta_30m,screen_preconv_gated_delta_30m,screen_preconv_hebb_30m
+echo ""; echo "===== variants recall_eval (single-pass) $(stamp) ====="
+"$PY" -u scripts/recall_eval.py --runs "$RUNS" --fpt_K 60
+echo ""; echo "===== variants recall_eval (split-replay) $(stamp) ====="
+"$PY" -u scripts/recall_eval.py --runs "$RUNS" --fpt_K 60 --replay split
 echo "===== done $(stamp) ====="
