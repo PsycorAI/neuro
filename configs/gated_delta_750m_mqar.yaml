@@ -18,9 +18,9 @@ recurrent: true
 rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
-block_size: 512
+block_size: 256
 batch_size: 8
-grad_accum: 2
+grad_accum: 4
 eval_batch: 4
 use_fpt: true
 fpt_K: 20

@@ -171,8 +171,11 @@ def main():
             ids = ids.to(device); lbl = lbl.to(device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=amp):
                 out = model(ids)
-                loss = F.cross_entropy(out.reshape(-1, c["vocab"]),
-                                        lbl.reshape(-1), ignore_index=-100)
+                # Autoregressive shift: logits at t predict token at t+1.
+                shift_logits = out[:, :-1, :].contiguous()
+                shift_labels = lbl[:, 1:].contiguous()
+                loss = F.cross_entropy(shift_logits.reshape(-1, c["vocab"]),
+                                        shift_labels.reshape(-1), ignore_index=-100)
             (loss / c["grad_accum"]).backward()
 
         if grad_clip > 0:
