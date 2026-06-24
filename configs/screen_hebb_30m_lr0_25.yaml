@@ -1,0 +1,37 @@
+# Screening tier: ~30M params, 100M tokens. Preserves d_mem=1024 from the 90M
+# arms so collision dynamics scale similarly. Used to test variants cheaply
+# (~55 min each on 5090) before promoting winners to 90M/400M.
+# n_layers=2 (vs 4), tie_weights, n_neurons=1024 (vs 2048).
+run_name: screen_hebb_30m_lr0_25
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.00125
+lr: 0.00015
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
