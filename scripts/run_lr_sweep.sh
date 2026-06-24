@@ -17,8 +17,9 @@ for cfg in screen_gated_delta_30m_lr0_25 screen_gated_delta_30m_lr0_5 \
       2>&1 | tee "logs_${cfg}.txt"
 done
 
-echo ""; echo "===== LR sweep recall_eval $(stamp) ====="
-"$PY" -u scripts/recall_eval.py --runs \
-  screen_gated_delta_30m_lr0_25,screen_gated_delta_30m_lr0_5,screen_gated_delta_30m,screen_gated_delta_30m_lr2_0,screen_gated_delta_30m_lr4_0,screen_hebb_30m \
-  --fpt_K 60
+RUNS=screen_gated_delta_30m_lr0_25,screen_gated_delta_30m_lr0_5,screen_gated_delta_30m,screen_gated_delta_30m_lr2_0,screen_gated_delta_30m_lr4_0,screen_hebb_30m
+echo ""; echo "===== LR sweep recall_eval (single-pass) $(stamp) ====="
+"$PY" -u scripts/recall_eval.py --runs "$RUNS" --fpt_K 60
+echo ""; echo "===== LR sweep recall_eval (split-replay) $(stamp) ====="
+"$PY" -u scripts/recall_eval.py --runs "$RUNS" --fpt_K 60 --replay split
 echo "===== done $(stamp) ====="
