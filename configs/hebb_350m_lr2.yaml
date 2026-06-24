@@ -1,0 +1,36 @@
+# 350M Hebbian at 2x LR — the flagship promotion target.
+# 2B-token probe budget (~3-4 days on 5090).
+run_name: hebb_350m_lr2
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4096
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 16
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: false
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.01
+lr: 0.0008
+lam: 0.98
+max_tokens: 2000000000
+eval_every: 4000
+ckpt_every: 4000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
