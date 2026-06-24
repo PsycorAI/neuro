@@ -30,7 +30,7 @@ optimizer: muon
 muon_lr: 0.005
 lr: 0.0004
 lam: 0.98
-max_tokens: 2000000000
+max_tokens: 1500000000
 eval_every: 4000
 ckpt_every: 4000
 keep_last: 2
