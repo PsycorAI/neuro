@@ -1,0 +1,37 @@
+# 90M Hebbian at 2x LR — validation of the screening tier winner.
+# Per the winner LR sweep, hebb at 2x default LR boosts split-replay recall
+# dramatically (N=32 23 vs 17, N=64 16 vs 5).
+run_name: hebb_90m_lr2
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: false
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.01
+lr: 0.0012
+lam: 0.98
+max_tokens: 400000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 2
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
