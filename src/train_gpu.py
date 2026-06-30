@@ -94,7 +94,10 @@ def build_model(c):
                                 pre_conv_kernel=c.get("pre_conv_kernel", 4),
                                 vector_beta=c.get("vector_beta", False),
                                 mtp_enabled=c.get("mtp_enabled", False),
-                                mtp_offset=c.get("mtp_offset", 2))
+                                mtp_offset=c.get("mtp_offset", 2),
+                                use_rmsnorm=c.get("use_rmsnorm", False),
+                                embed_scale=c.get("embed_scale", False),
+                                mtp_depth=c.get("mtp_depth", 1))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -334,6 +337,15 @@ def main():
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
                     main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                # Z-loss regularization (PaLM / DeepSeek-V3 style):
+                # penalty on (log Σ exp(logits))² keeps the softmax denominator
+                # bounded — stabilizes training, especially under bf16/fp8.
+                # Typical weight 1e-4.
+                z_w = c.get("z_loss_weight", 0.0)
+                if z_w > 0:
+                    log_z = torch.logsumexp(out, dim=-1)
+                    z_loss = (log_z ** 2).mean()
+                    main_loss = main_loss + z_w * z_loss
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,

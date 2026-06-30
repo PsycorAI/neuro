@@ -1,0 +1,65 @@
+# Batch A screening: combined DeepSeek-style features on top of MTP.
+# Identical to screen_mtp_30m PLUS:
+#   - RMSNorm replacing LayerNorm
+#   - Z-loss regularization (weight 1e-4)
+#   - Deeper MTP head (Linear + GELU + Linear)
+#   - Embedding scaling by sqrt(d)
+#
+# Compare against:
+#   screen_gated_delta_30m_mqar           <- pure baseline
+#   screen_mtp_30m                         <- MTP only
+#   screen_batchA_30m                      <- this (MTP + Batch A)
+#
+# Pass criteria: Batch A should match or beat screen_mtp_30m on val_ppl,
+# with no instability or memory-pathway collapse. Promote to 90M validation.
+run_name: screen_batchA_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP auxiliary head (carried over from screen_mtp_30m) ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2           # NEW: deeper Linear+GELU+Linear MTP head
+
+# --- Batch A: DeepSeek-style stabilization + normalization ---
+use_rmsnorm: true      # NEW: swap LayerNorm -> RMSNorm in all norm sites
+embed_scale: true      # NEW: scale embeddings by sqrt(d)
+z_loss_weight: 0.0001  # NEW: PaLM-style softmax-denominator regularization
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 100
+ckpt_every: 100
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

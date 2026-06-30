@@ -1,0 +1,57 @@
+# Batch A validation at 90M scale (~1B tokens, ~10h on 5080).
+# Identical arch to gated_delta_90m_mqar but with MTP + Batch A features.
+# Compare against gated_delta_90m_mqar baseline at matched token counts.
+#
+# Pass criteria for promoting Batch A into 500M Phase 1 v2:
+#   - val_ppl ≥3% better than baseline at 400M / 1B tokens
+#   - memory Δ stays positive on average
+#   - no training instability (no NaN, no loss spikes >2x trend)
+run_name: screen_batchA_90m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP + Batch A features under validation ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 1000000000
+eval_every: 4000
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

@@ -20,6 +20,24 @@ import torch.nn.functional as F
 from snntorch import Leaky, surrogate
 
 
+class RMSNorm(nn.Module):
+    """Root-mean-square normalization (Llama / DeepSeek convention).
+    Cheaper than LayerNorm (no mean subtraction, no bias), often slightly more
+    stable. Drop-in replacement; state-dict-incompatible with LayerNorm so
+    only swap on fresh runs."""
+    def __init__(self, d, eps=1e-6):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(d))
+        self.eps = eps
+    def forward(self, x):
+        inv = x.float().pow(2).mean(-1, keepdim=True).add(self.eps).rsqrt()
+        return (x.float() * inv).to(x.dtype) * self.weight
+
+
+def _make_norm(d, use_rmsnorm=False):
+    return RMSNorm(d) if use_rmsnorm else nn.LayerNorm(d)
+
+
 class SpikingHebbianBlock(nn.Module):
     """Single spiking-Hebbian layer."""
 
@@ -29,7 +47,7 @@ class SpikingHebbianBlock(nn.Module):
                  beta_floor=0.0, decay_gate=False, titans=False,
                  local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
-                 vector_beta=False):
+                 vector_beta=False, use_rmsnorm=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -115,7 +133,7 @@ class SpikingHebbianBlock(nn.Module):
         self.W_v = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_q = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_ff = nn.Linear(n_neurons, d_mem, bias=False)
-        self.norm = nn.LayerNorm(d_mem)
+        self.norm = _make_norm(d_mem, use_rmsnorm)
 
     def _lif_step(self, cur, mem):
         """Inline LIF (vth=1, reset-by-subtraction, atan surrogate). Compile-friendly."""
@@ -375,7 +393,8 @@ class SpikingHebbianLM(nn.Module):
                  delta_rule=False, beta_floor=0.0, decay_gate=False,
                  titans=False, local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
-                 vector_beta=False, mtp_enabled=False, mtp_offset=2):
+                 vector_beta=False, mtp_enabled=False, mtp_offset=2,
+                 use_rmsnorm=False, embed_scale=False, mtp_depth=1):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -406,7 +425,7 @@ class SpikingHebbianLM(nn.Module):
                 local_attn=local_attn, local_window=local_window,
                 n_heads=n_heads,
                 pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
-                vector_beta=vector_beta))
+                vector_beta=vector_beta, use_rmsnorm=use_rmsnorm))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
@@ -423,18 +442,33 @@ class SpikingHebbianLM(nn.Module):
         # t+mtp_offset (default t+2). Adds ~d_mem*d_mem params (~4M at d_mem=2048).
         # Loss is added in the trainer; the projected logits are stashed on the
         # module after each forward for the trainer to consume.
+        # Batch A: embedding-scale by sqrt(d) (Llama / DeepSeek convention).
+        # Small stability win; gated by config to keep ckpt compat.
+        self.embed_scale = embed_scale
+        self._embed_scale_factor = math.sqrt(d) if embed_scale else 1.0
+
         self.mtp_enabled = mtp_enabled
         self.mtp_offset = mtp_offset
+        self.mtp_depth = mtp_depth
         if mtp_enabled:
-            self.mtp_norm = nn.LayerNorm(d_mem)
-            self.mtp_proj = nn.Linear(d_mem, d_mem)
+            self.mtp_norm = _make_norm(d_mem, use_rmsnorm)
+            if mtp_depth >= 2:
+                # DeepSeek-V3 style: deeper MTP head with hidden expansion.
+                # Adds ~2x params vs single Linear, cleaner t+2 signal.
+                self.mtp_proj = nn.Sequential(
+                    nn.Linear(d_mem, d_mem),
+                    nn.GELU(),
+                    nn.Linear(d_mem, d_mem),
+                )
+            else:
+                self.mtp_proj = nn.Linear(d_mem, d_mem)
         self._last_mtp_logits = None
 
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False):
         B, T = idx.shape
         device = idx.device
-        base = self.embed(idx)                                # (B, T, d)
+        base = self.embed(idx) * self._embed_scale_factor      # (B, T, d)
         L = self.n_layers
 
         if initial_state is None:
