@@ -413,6 +413,12 @@ class SpikingHebbianLM(nn.Module):
                              f"(got d={d}, d_mem={d_mem})")
 
         self.embed = nn.Embedding(vocab, d)
+        # Llama / DeepSeek convention: when embedding output is later multiplied
+        # by sqrt(d), the embedding itself must be initialized with std=1/sqrt(d)
+        # so the product lands at O(1). Without this paired init, embed_scale=True
+        # blows up the loss (verified empirically — 30M Batch A diverged on this).
+        if embed_scale:
+            nn.init.normal_(self.embed.weight, std=1.0 / math.sqrt(d))
         blocks = []
         for i in range(n_layers):
             d_in = d if i == 0 else d_mem
