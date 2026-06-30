@@ -1,0 +1,84 @@
+# Demo Phase 1: 500M MDS base model with Phi-3.5-mini-instruct KD teacher.
+#
+# Vocab: 32064 (Phi-3.5's native vocab). Corpus is the Phi-retokenized BDH mix at
+# /home/glenn/projects/bdh/data/tokenized_phi/ (decode-from-Llama3 + re-encode-with-Phi).
+# Identity LUT at data/vocab_map_32064.npy. KD projection becomes a no-op (exact KD).
+#
+# Arch: scaled from phase3_350M (d/n_neurons/d_mem +12.5%) to land near 500M with the
+#   32k vocab embed. SMOKE FIRST to confirm param count and VRAM:
+#     python src/train_5090_gpu.py --config configs/demo_phase1_500m.yaml --smoke
+#   then tune n_neurons up/down if param count is off target.
+#
+# VRAM budget: student ~13 GB + Phi-3.5 teacher (3.8B in bf16) ~7.6 GB ≈ 21 GB on the 32 GB 5090.
+# MDS recipe: gated delta + decay_gate + MQAR-aug + fpt_K=10. Split-replay applied at
+#   inference (not here). compile=false (KD mixes static+dynamic graphs).
+#
+# Launch (background):
+#   bash temp/run_demo_phase1.sh > logs_demo_phase1_500m.txt 2>&1 &
+#   disown
+#
+# Resume / restart: re-run; train loop auto-resumes from latest checkpoint in
+#   models/checkpoints/demo_phase1_500m/
+
+run_name: demo_phase1_500m
+arch: spiking
+
+# --- data: Phi-retokenized corpus + identity LUT ---
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+# --- architecture (smoke to confirm ~500M; tune n_neurons if needed) ---
+d: 2048
+n_neurons: 4352
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+# --- batching: tuned for 5090 32 GB with teacher in-loop ---
+block_size: 512
+batch_size: 6
+grad_accum: 5
+eval_batch: 4
+
+# --- MDS recipe ---
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+
+# --- sparsity (spiking regularizer) ---
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- optimization ---
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0004
+lam: 0.98
+
+# --- knowledge distillation from Phi-3.5-mini-instruct ---
+kd_enabled: true
+kd_teacher: microsoft/Phi-3.5-mini-instruct
+kd_alpha: 0.5
+kd_temperature: 1.0
+
+# --- budget: 3-5B tokens; max_tokens sets the cap, run can be stopped earlier ---
+max_tokens: 2000000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 100
+
+amp: true
+compile: false        # teacher-in-loop graph mix; keep eager
+compile_mode: default
+compile_dynamic: true
+seed: 0

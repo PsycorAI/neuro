@@ -1,0 +1,55 @@
+# Screening tier: identical to screen_gated_delta_30m_mqar but with MTP
+# (Multi-Token Prediction) auxiliary head enabled. Goal: confirm MTP either
+# matches or beats the baseline on val_ppl in ~100M tokens, with no instability.
+#
+# Compare runs:
+#   screen_gated_delta_30m_mqar         <- baseline
+#   screen_mtp_30m                       <- this (+ MTP)
+#
+# Expected: 3-10% val_ppl improvement (DeepSeek-V3 reports similar at small scale).
+#   If we see <2% lift or worse, drop MTP and revisit weight/offset.
+run_name: screen_mtp_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP auxiliary head ---
+mtp_enabled: true
+mtp_offset: 2          # predict token at t+2 alongside next-token (t+1)
+mtp_weight: 0.3        # aux loss weight; DeepSeek default range 0.1-0.5
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

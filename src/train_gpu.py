@@ -92,7 +92,9 @@ def build_model(c):
                                 n_heads=c.get("n_heads", 1),
                                 pre_conv=c.get("pre_conv", False),
                                 pre_conv_kernel=c.get("pre_conv_kernel", 4),
-                                vector_beta=c.get("vector_beta", False))
+                                vector_beta=c.get("vector_beta", False),
+                                mtp_enabled=c.get("mtp_enabled", False),
+                                mtp_offset=c.get("mtp_offset", 2))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -154,12 +156,15 @@ def main():
     c.setdefault("eval_batch", c["batch_size"])
     torch.manual_seed(c.get("seed", 0))
 
-    data = StreamText(BIN, vocab=c["vocab"])
+    bin_path = c.get("data_bin", BIN)
+    data_orig_vocab = c.get("data_orig_vocab", 128256)
+    data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab)
     stateful = c.get("stateful_stream", False) and c["arch"] == "spiking"
     seq_stream = None
     if stateful:
         from data_stream import SequentialStream
-        seq_stream = SequentialStream(BIN, vocab=c["vocab"],
+        seq_stream = SequentialStream(bin_path, vocab=c["vocab"],
+                                      orig_vocab=data_orig_vocab,
                                       batch_size=c["batch_size"],
                                       seed=c.get("seed", 0))
         print(f"STATEFUL streaming enabled: {c['batch_size']} contiguous cursors, "
@@ -329,6 +334,21 @@ def main():
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
                     main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
+                # Predicts token at position t+mtp_offset (default t+2) from the
+                # same hidden state used for next-token. Free quality lift,
+                # gradient signal cost ~10% extra fwd FLOPs (one extra linear).
+                if c.get("mtp_enabled", False) and raw_model._last_mtp_logits is not None:
+                    offset = c.get("mtp_offset", 2)
+                    # main logits at position t predict y[t] (token at t+1).
+                    # mtp logits at position t predict token at t+offset.
+                    # We supervise positions where t+offset is in range.
+                    mtp_logits_aligned = raw_model._last_mtp_logits[:, : -(offset - 1)]
+                    y_mtp = y[:, (offset - 1):]
+                    mtp_ce = F.cross_entropy(
+                        mtp_logits_aligned.reshape(-1, c["vocab"]),
+                        y_mtp.reshape(-1))
+                    main_loss = main_loss + c.get("mtp_weight", 0.3) * mtp_ce
                 # MQAR-augmented training: explicit in-context recall pressure
                 if c.get("mqar_aug", False):
                     n_lo = c.get("mqar_N_min", 4); n_hi = c.get("mqar_N_max", 32)

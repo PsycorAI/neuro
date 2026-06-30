@@ -1,0 +1,62 @@
+# Phase 3: DPO on the SFT'd 500M model. Run AFTER sft_500m completes.
+# Reference model = frozen SFT model (doubles student VRAM ~26 GB total).
+# UltraFeedback-binarized preference pairs.
+#
+# Launch:
+#   nohup setsid bash temp/run_dpo_500m.sh > logs_dpo_500m.txt 2>&1 < /dev/null &
+
+run_name: dpo_500m
+dpo_init: sft_500m
+dpo_dataset: HuggingFaceH4/ultrafeedback_binarized
+dpo_split: train_prefs
+dpo_max_len: 512
+dpo_beta: 0.1                    # KL strength; standard DPO default
+
+arch: spiking
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+# --- arch matches SFT/Phase1 exactly ---
+d: 2048
+n_neurons: 4352
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+# --- batching: ref model doubles memory; cut batch to fit ---
+block_size: 512
+batch_size: 6
+grad_accum: 4
+eval_batch: 4
+
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+mqar_aug: false
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+
+optimizer: muon
+muon_lr: 0.0003                  # 3x lower than SFT (DPO needs gentle per Rafailov)
+lr: 0.00003
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+kd_enabled: false
+
+# --- budget: ~1 pass over UltraFeedback-binarized (~60k × ~500 tok = 30M) ---
+max_tokens: 30000000
+eval_every: 5000
+ckpt_every: 2000
+keep_last: 3
+log_every: 50
+
+amp: true
+compile: false
+seed: 0

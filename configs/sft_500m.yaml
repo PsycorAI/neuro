@@ -1,0 +1,68 @@
+# Phase 2: SFT on the 500M base (post-Phase-1, before brain mods).
+# Resumes model-only weights from demo_phase1_500m final ckpt (fresh optimizer).
+# No KD here — instruction-following objective. Sparsity penalty disabled.
+#
+# Launch (after Phase 1 finishes):
+#   nohup setsid bash temp/run_sft_500m.sh > logs_sft_500m.txt 2>&1 < /dev/null &
+#   tail -f logs_sft_500m.txt
+
+run_name: sft_500m
+sft_init: demo_phase1_500m
+sft_dataset: yahma/alpaca-cleaned
+sft_split: train
+sft_max_len: 512
+
+arch: spiking
+# --- data: same Phi-tokenized corpus, identity LUT ---
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+# --- arch: must match Phase 1 exactly so weights resume cleanly ---
+d: 2048
+n_neurons: 4352
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+# --- batching: no teacher in-loop, can grow batch ---
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+
+# --- MDS recipe (preserved from base) ---
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+mqar_aug: false
+
+# --- sparsity disabled during SFT (don't fight the new objective) ---
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+
+# --- optimization: gentle refinement, 5x lower than Phase 1 ---
+optimizer: muon
+muon_lr: 0.001
+lr: 0.00008
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+# --- no KD in Phase 2 ---
+kd_enabled: false
+
+# --- budget: ~1 pass over Alpaca-cleaned (~52k × ~500 tok = 26M tok; bumped for stability) ---
+max_tokens: 100000000
+eval_every: 5000
+ckpt_every: 2000
+keep_last: 3
+log_every: 100
+
+amp: true
+compile: false
+seed: 0
