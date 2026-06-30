@@ -375,7 +375,7 @@ class SpikingHebbianLM(nn.Module):
                  delta_rule=False, beta_floor=0.0, decay_gate=False,
                  titans=False, local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
-                 vector_beta=False):
+                 vector_beta=False, mtp_enabled=False, mtp_offset=2):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -416,6 +416,19 @@ class SpikingHebbianLM(nn.Module):
             if d != d_mem:
                 raise ValueError(f"tie_weights requires d == d_mem (got d={d}, d_mem={d_mem})")
             self.head.weight = self.embed.weight
+
+        # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
+        # When enabled, the same hidden state is projected through a small
+        # transform and re-fed to self.head to predict tokens at position
+        # t+mtp_offset (default t+2). Adds ~d_mem*d_mem params (~4M at d_mem=2048).
+        # Loss is added in the trainer; the projected logits are stashed on the
+        # module after each forward for the trainer to consume.
+        self.mtp_enabled = mtp_enabled
+        self.mtp_offset = mtp_offset
+        if mtp_enabled:
+            self.mtp_norm = nn.LayerNorm(d_mem)
+            self.mtp_proj = nn.Linear(d_mem, d_mem)
+        self._last_mtp_logits = None
 
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False):
@@ -462,6 +475,10 @@ class SpikingHebbianLM(nn.Module):
                 if return_stats:
                     spike_accum.append(spk_seq)
             logits = self.head(x_seq)                          # (B, T, vocab)
+            if self.mtp_enabled:
+                self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
+            else:
+                self._last_mtp_logits = None
             all_spikes = spike_accum
         else:
             logits_list = []
@@ -483,6 +500,13 @@ class SpikingHebbianLM(nn.Module):
                 if return_stats:
                     all_spikes.extend(prev_spks)
             logits = torch.stack(logits_list, dim=1)
+            if self.mtp_enabled:
+                # Per-token path: reconstruct x_seq-equivalent from logits_list
+                # is awkward; for training we expect FPT path. Disable MTP here
+                # by leaving _last_mtp_logits as None (trainer skips on None).
+                self._last_mtp_logits = None
+            else:
+                self._last_mtp_logits = None
 
         spike_rate = None
         if return_stats:
