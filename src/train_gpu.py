@@ -101,7 +101,10 @@ def build_model(c):
                                 embed_scale=c.get("embed_scale", False),
                                 mtp_depth=c.get("mtp_depth", 1),
                                 use_swiglu=c.get("use_swiglu", False),
-                                depth_scaled_init=c.get("depth_scaled_init", False))
+                                depth_scaled_init=c.get("depth_scaled_init", False),
+                                markov_enabled=c.get("markov_enabled", False),
+                                markov_rank=c.get("markov_rank", 64),
+                                confidence_enabled=c.get("confidence_enabled", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -350,6 +353,14 @@ def main():
                     log_z = torch.logsumexp(out, dim=-1)
                     z_loss = (log_z ** 2).mean()
                     main_loss = main_loss + z_w * z_loss
+                # Batch C: Confidence head — BCE loss vs correctness (argmax==y).
+                # Self-supervised signal for later inference-time gating.
+                if c.get("confidence_enabled", False) and raw_model._last_confidence is not None:
+                    with torch.no_grad():
+                        correct = (out.argmax(dim=-1) == y).float()
+                    conf_loss = F.binary_cross_entropy_with_logits(
+                        raw_model._last_confidence, correct)
+                    main_loss = main_loss + c.get("confidence_weight", 0.05) * conf_loss
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,

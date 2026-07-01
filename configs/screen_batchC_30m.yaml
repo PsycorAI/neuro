@@ -1,0 +1,66 @@
+# Batch C screening: Markov head + Confidence head.
+# Stacked on the proven winner (Batch A + embed_scale, val_ppl 64.4).
+#
+# Markov head:  DSpark-inspired low-rank last-token bias correction.
+#               Adds ~4M params at 500M scale (~1%).
+# Confidence head: per-position acceptance-probability output.
+#               Trains via BCE vs argmax==target. Enables inference-time gating
+#               (self-refine loops, adaptive computation, brain-mod switching).
+#
+# Compare against screen_batchA_embedscale_30m (val_ppl 64.4).
+# Pass criteria: match or beat, no memory-pathway collapse.
+run_name: screen_batchC_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP + Batch A (proven winners) ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Batch C: Markov + Confidence heads ---
+markov_enabled: true
+markov_rank: 64
+confidence_enabled: true
+confidence_weight: 0.05        # BCE aux loss weight
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 1
+log_every: 200
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

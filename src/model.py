@@ -428,7 +428,9 @@ class SpikingHebbianLM(nn.Module):
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
                  vector_beta=False, mtp_enabled=False, mtp_offset=2,
                  use_rmsnorm=False, embed_scale=False, mtp_depth=1,
-                 use_swiglu=False, depth_scaled_init=False):
+                 use_swiglu=False, depth_scaled_init=False,
+                 markov_enabled=False, markov_rank=64,
+                 confidence_enabled=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -509,6 +511,27 @@ class SpikingHebbianLM(nn.Module):
                 self.mtp_proj = nn.Linear(d_mem, d_mem)
         self._last_mtp_logits = None
 
+        # Batch C: Markov head (DSpark-inspired last-token bias correction).
+        # Adds a low-rank correction to logits based on the immediately-previous
+        # token. Complements Hebbian state by giving the model an explicit,
+        # non-decayed "what did I just emit" signal. Params: 2 * vocab * rank.
+        self.markov_enabled = markov_enabled
+        if markov_enabled:
+            self.markov_embed  = nn.Embedding(vocab, markov_rank)
+            self.markov_out    = nn.Linear(markov_rank, vocab, bias=False)
+            # Small init so it doesn't dominate early
+            nn.init.normal_(self.markov_embed.weight, std=0.02)
+            nn.init.normal_(self.markov_out.weight, std=0.02)
+
+        # Batch C: Confidence head. Per-position scalar predicting whether the
+        # argmax matches the target. Used at inference to gate self-refine,
+        # brain-mod switching, or adaptive computation. During training we add
+        # a small BCE loss vs the correctness signal.
+        self.confidence_enabled = confidence_enabled
+        if confidence_enabled:
+            self.confidence_head = nn.Linear(d_mem, 1)
+        self._last_confidence = None
+
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False):
         B, T = idx.shape
@@ -558,6 +581,17 @@ class SpikingHebbianLM(nn.Module):
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
             else:
                 self._last_mtp_logits = None
+            # Batch C: Markov head — add correction based on the input token
+            # at each position (which is the "previous token" from the
+            # next-token prediction's perspective).
+            if self.markov_enabled:
+                markov_correction = self.markov_out(self.markov_embed(idx))  # (B, T, V)
+                logits = logits + markov_correction
+            # Batch C: Confidence head. Stash for the trainer.
+            if self.confidence_enabled:
+                self._last_confidence = self.confidence_head(x_seq).squeeze(-1)  # (B, T)
+            else:
+                self._last_confidence = None
             all_spikes = spike_accum
         else:
             logits_list = []
