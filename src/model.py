@@ -38,6 +38,22 @@ def _make_norm(d, use_rmsnorm=False):
     return RMSNorm(d) if use_rmsnorm else nn.LayerNorm(d)
 
 
+class SwiGLUFF(nn.Module):
+    """SwiGLU gated feed-forward (Llama / DeepSeek convention).
+    Replaces a single Linear(d_in, d_out) with:
+        down(SiLU(gate(x)) * up(x))
+    Adds ~3x the params of a single Linear when hidden=d_out. Trades that for
+    a consistent 2-5% val_ppl lift across LLM literature."""
+    def __init__(self, d_in, d_out, hidden=None, bias=False):
+        super().__init__()
+        h = hidden or d_out
+        self.gate = nn.Linear(d_in, h, bias=bias)
+        self.up   = nn.Linear(d_in, h, bias=bias)
+        self.down = nn.Linear(h, d_out, bias=bias)
+    def forward(self, x):
+        return self.down(F.silu(self.gate(x)) * self.up(x))
+
+
 class SpikingHebbianBlock(nn.Module):
     """Single spiking-Hebbian layer."""
 
@@ -47,7 +63,8 @@ class SpikingHebbianBlock(nn.Module):
                  beta_floor=0.0, decay_gate=False, titans=False,
                  local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
-                 vector_beta=False, use_rmsnorm=False):
+                 vector_beta=False, use_rmsnorm=False,
+                 use_swiglu=False, depth_scale=1.0):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -132,8 +149,24 @@ class SpikingHebbianBlock(nn.Module):
         self.W_k = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_v = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_q = nn.Linear(n_neurons, d_mem, bias=False)
-        self.W_ff = nn.Linear(n_neurons, d_mem, bias=False)
+        # Batch B: SwiGLU FFN. Same input/output dims as the original Linear
+        # so all downstream shape assumptions hold; ~3x the FFN params.
+        self.use_swiglu = use_swiglu
+        if use_swiglu:
+            self.W_ff = SwiGLUFF(n_neurons, d_mem, bias=False)
+        else:
+            self.W_ff = nn.Linear(n_neurons, d_mem, bias=False)
         self.norm = _make_norm(d_mem, use_rmsnorm)
+
+        # Batch B: depth-scaled init (GPT-NeoX / DeepSeek convention).
+        # Scale the output projection weight — the last Linear before the
+        # residual — by 1/sqrt(2*n_layers) to keep residual-stream variance
+        # bounded as depth grows. depth_scale is the FACTOR (already computed
+        # by the LM wrapper) so we can just multiply.
+        if depth_scale != 1.0:
+            out_lin = self.W_ff.down if use_swiglu else self.W_ff
+            with torch.no_grad():
+                out_lin.weight.mul_(depth_scale)
 
     def _lif_step(self, cur, mem):
         """Inline LIF (vth=1, reset-by-subtraction, atan surrogate). Compile-friendly."""
@@ -394,7 +427,8 @@ class SpikingHebbianLM(nn.Module):
                  titans=False, local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
                  vector_beta=False, mtp_enabled=False, mtp_offset=2,
-                 use_rmsnorm=False, embed_scale=False, mtp_depth=1):
+                 use_rmsnorm=False, embed_scale=False, mtp_depth=1,
+                 use_swiglu=False, depth_scaled_init=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -419,6 +453,10 @@ class SpikingHebbianLM(nn.Module):
         # blows up the loss (verified empirically — 30M Batch A diverged on this).
         if embed_scale:
             nn.init.normal_(self.embed.weight, std=1.0 / math.sqrt(d))
+        # Batch B: depth-scaled init factor for output projections.
+        # Each block's residual-adjacent Linear has its weight multiplied by
+        # 1/sqrt(2*n_layers) — bounds residual-stream variance under depth.
+        depth_scale = 1.0 / math.sqrt(2 * n_layers) if depth_scaled_init else 1.0
         blocks = []
         for i in range(n_layers):
             d_in = d if i == 0 else d_mem
@@ -431,7 +469,8 @@ class SpikingHebbianLM(nn.Module):
                 local_attn=local_attn, local_window=local_window,
                 n_heads=n_heads,
                 pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
-                vector_beta=vector_beta, use_rmsnorm=use_rmsnorm))
+                vector_beta=vector_beta, use_rmsnorm=use_rmsnorm,
+                use_swiglu=use_swiglu, depth_scale=depth_scale))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads

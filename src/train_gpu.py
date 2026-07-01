@@ -58,12 +58,14 @@ def _build_optimizers(model, c, device):
             model,
             muon_lr=c.get("muon_lr", 0.02),
             adamw_lr=c["lr"],
+            weight_decay=c.get("weight_decay", 0.0),
             adamw_fused=(device == "cuda"))
         print(f"optimizer: Muon ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
               f"+ AdamW ({n_other} other params, lr={c['lr']})")
         return [o for o in (muon, adamw) if o is not None]
     fused_kw = {"fused": True} if device == "cuda" else {}
-    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"], **fused_kw)
+    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"],
+                            weight_decay=c.get("weight_decay", 0.0), **fused_kw)
     print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
     return [opt]
 
@@ -97,7 +99,9 @@ def build_model(c):
                                 mtp_offset=c.get("mtp_offset", 2),
                                 use_rmsnorm=c.get("use_rmsnorm", False),
                                 embed_scale=c.get("embed_scale", False),
-                                mtp_depth=c.get("mtp_depth", 1))
+                                mtp_depth=c.get("mtp_depth", 1),
+                                use_swiglu=c.get("use_swiglu", False),
+                                depth_scaled_init=c.get("depth_scaled_init", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 

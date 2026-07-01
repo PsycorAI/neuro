@@ -1,0 +1,64 @@
+# Batch B screening: SwiGLU FFN + depth-scaled init + AdamW weight decay,
+# stacked on top of the Batch A stack (RMSNorm + Z-loss + deeper MTP + MTP).
+#
+# Compare against:
+#   screen_batchA_30m                        <- Batch A baseline (val_ppl 81.6)
+#   screen_batchA_embedscale_30m             <- Batch A + embed_scale (running)
+#   screen_batchB_30m                        <- this (Batch A + Batch B)
+#
+# Pass criteria: val_ppl within 5% of Batch A OR better. If Batch B beats Batch A
+# clean, promote everything to the 90M validation.
+run_name: screen_batchB_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP + Batch A features (carried over — proven winners) ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: false             # keep off until follow-up embed_scale run passes
+z_loss_weight: 0.0001
+
+# --- Batch B: SwiGLU + depth-scaled init + AdamW weight decay ---
+use_swiglu: true               # NEW: gated FFN (Llama/DeepSeek convention)
+depth_scaled_init: true        # NEW: block output init scaled 1/sqrt(2*n_layers)
+weight_decay: 0.1              # NEW: AdamW regularization (Muon side unchanged)
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 1
+log_every: 200
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
