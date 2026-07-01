@@ -121,3 +121,47 @@ If the user wants to pursue the Triton rewrite:
 2. Compare numerics to `delta_chunked_gated` at C=8, D=32, B=1 first
 3. Scale up once forward is correct
 4. Only then attempt backward
+
+---
+
+## Update 2026-07-01: root cause identified — fla is patchable
+
+Research trail: [fla#607](https://github.com/fla-org/flash-linear-attention/issues/607), [fla PR#687](https://github.com/fla-org/flash-linear-attention/pull/687), [triton#8695](https://github.com/triton-lang/triton/issues/8695).
+
+**The Blackwell bug is a Triton compiler bug in `TritonGPUHoistTMEMAlloc`** — it
+incorrectly fuses `add + dot` patterns. The community workaround is a
+`safe_dot(a, b) = inline_asm(mov.f32) of tl.dot(a, b)` helper — inline asm
+prevents the pass from doing the wrong fusion. Mathematically identity, so
+numerically correct.
+
+The workaround IS in fla 0.5.1 at `fla/ops/utils/op.py:53`, gated on
+`IS_NVIDIA_BLACKWELL` (SM100+SM120). **But it is only APPLIED at ONE call
+site**: `delta_rule/wy_fast.py:177`. The `gated_delta_rule` variant we need
+still uses raw `tl.dot` throughout:
+
+- `gated_delta_rule/wy_fast.py:210,211,213` — the `+= tl.dot(...)` and mixed
+  `add + tl.trans(tl.dot(...))` patterns
+- `gated_delta_rule/chunk_fwd.py:139-165` — many `b_A0X += tl.dot(...)` sites
+- `common/chunk_o.py:100-281` — many `b_o/b_A/b_dq/b_dk += tl.dot(...)` sites
+  (this is shared between vanilla-delta and gated-delta)
+
+**Path forward, ranked:**
+
+1. **File a fla issue** with our reproducer (median diff 4e12 at T=64 on SM120)
+   and a proposed patch scope. This is 30 min of my work and directly benefits
+   the community. Upstream may fix in weeks.
+
+2. **Local patch of the specific `+= tl.dot` sites** in the fla install. About
+   15-30 spots across 3-4 files. Use `safe_dot` in place of `tl.dot`. This
+   takes ~2 hours + numerical verification. Risk: patches get clobbered on pip
+   upgrade — pin via a monkey-patch that runs at import time in our code.
+
+3. **Wait for upstream** — no timeline. Bad bet.
+
+4. **Write our own kernel** — the 5-day sprint documented above. Only worth
+   doing if #2 fails or has unacceptable overhead.
+
+**My recommendation:** try #2 first. If a locally-patched fla gives correct
+numerics AND ≥2× speedup vs eager, ship it with a defensive monkey-patch and
+skip the 5-day rewrite. Simultaneously file #1 upstream so we can eventually
+drop the monkey-patch.
