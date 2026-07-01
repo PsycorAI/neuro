@@ -38,7 +38,7 @@ mtp_offset: 2
 mtp_weight: 0.3
 mtp_depth: 2
 use_rmsnorm: true
-embed_scale: true
+embed_scale: true              # paired with std=1/sqrt(d) embed init (auto-applied)
 z_loss_weight: 0.0001
 
 optimizer: muon

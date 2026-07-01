@@ -40,7 +40,7 @@ mtp_offset: 2
 mtp_weight: 0.3
 mtp_depth: 2
 use_rmsnorm: true
-embed_scale: false             # keep off until follow-up embed_scale run passes
+embed_scale: true              # PROVEN winner in screen_batchA_embedscale_30m (val_ppl 64.4)
 z_loss_weight: 0.0001
 
 # --- Batch B: SwiGLU + depth-scaled init + AdamW weight decay ---
