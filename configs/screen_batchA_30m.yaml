@@ -24,8 +24,8 @@ rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
 block_size: 512
-batch_size: 32
-grad_accum: 1
+batch_size: 16
+grad_accum: 2
 eval_batch: 8
 use_fpt: true
 fpt_K: 20
@@ -46,7 +46,7 @@ mtp_depth: 2           # NEW: deeper Linear+GELU+Linear MTP head
 
 # --- Batch A: DeepSeek-style stabilization + normalization ---
 use_rmsnorm: true      # NEW: swap LayerNorm -> RMSNorm in all norm sites
-embed_scale: true      # NEW: scale embeddings by sqrt(d)
+embed_scale: false      # NEW: scale embeddings by sqrt(d)    # was true — Llama scaling needs matching init we don't have
 z_loss_weight: 0.0001  # NEW: PaLM-style softmax-denominator regularization
 
 optimizer: muon
@@ -54,10 +54,10 @@ muon_lr: 0.005
 lr: 0.0006
 lam: 0.98
 max_tokens: 100000000
-eval_every: 100
-ckpt_every: 100
+eval_every: 1000
+ckpt_every: 1000
 keep_last: 1
-log_every: 50
+log_every: 200
 amp: true
 compile: false
 compile_mode: default
