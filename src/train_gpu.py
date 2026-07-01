@@ -59,14 +59,22 @@ def _build_optimizers(model, c, device):
             muon_lr=c.get("muon_lr", 0.02),
             adamw_lr=c["lr"],
             weight_decay=c.get("weight_decay", 0.0),
-            adamw_fused=(device == "cuda"))
+            adamw_fused=(device == "cuda"),
+            adamw_8bit=c.get("adamw_8bit", False))
         print(f"optimizer: Muon ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
-              f"+ AdamW ({n_other} other params, lr={c['lr']})")
+              f"+ {'AdamW8bit' if c.get('adamw_8bit', False) else 'AdamW'} "
+              f"({n_other} other params, lr={c['lr']})")
         return [o for o in (muon, adamw) if o is not None]
-    fused_kw = {"fused": True} if device == "cuda" else {}
-    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"],
-                            weight_decay=c.get("weight_decay", 0.0), **fused_kw)
-    print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
+    if c.get("adamw_8bit", False):
+        from bitsandbytes.optim import AdamW8bit
+        opt = AdamW8bit(model.parameters(), lr=c["lr"],
+                        weight_decay=c.get("weight_decay", 0.0))
+        print(f"optimizer: AdamW8bit (lr={c['lr']})")
+    else:
+        fused_kw = {"fused": True} if device == "cuda" else {}
+        opt = torch.optim.AdamW(model.parameters(), lr=c["lr"],
+                                weight_decay=c.get("weight_decay", 0.0), **fused_kw)
+        print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
     return [opt]
 
 
@@ -325,8 +333,16 @@ def main():
                 else:
                     out = model(x)
                     sr = None
-                # Hard-target CE
-                ce = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                # Hard-target CE. Optional fused-CE (Liger) avoids materializing
+                # the full (B, T, V) logits tensor for gradients — saves ~2GB
+                # of VRAM at 500M-vocab scale. Bit-exact with torch CE.
+                if c.get("fused_ce", False):
+                    from liger_kernel.transformers.cross_entropy import LigerCrossEntropyLoss
+                    if not hasattr(main, "_liger_ce"):
+                        main._liger_ce = LigerCrossEntropyLoss()
+                    ce = main._liger_ce(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                else:
+                    ce = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
                 # Knowledge distillation
                 if kd_teacher is not None:
                     from kd import teacher_distribution, kd_loss
@@ -372,9 +388,14 @@ def main():
                     # We supervise positions where t+offset is in range.
                     mtp_logits_aligned = raw_model._last_mtp_logits[:, : -(offset - 1)]
                     y_mtp = y[:, (offset - 1):]
-                    mtp_ce = F.cross_entropy(
-                        mtp_logits_aligned.reshape(-1, c["vocab"]),
-                        y_mtp.reshape(-1))
+                    if c.get("fused_ce", False):
+                        mtp_ce = main._liger_ce(
+                            mtp_logits_aligned.reshape(-1, c["vocab"]),
+                            y_mtp.reshape(-1))
+                    else:
+                        mtp_ce = F.cross_entropy(
+                            mtp_logits_aligned.reshape(-1, c["vocab"]),
+                            y_mtp.reshape(-1))
                     main_loss = main_loss + c.get("mtp_weight", 0.3) * mtp_ce
                 # MQAR-augmented training: explicit in-context recall pressure
                 if c.get("mqar_aug", False):

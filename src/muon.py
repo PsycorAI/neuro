@@ -79,7 +79,7 @@ class Muon(torch.optim.Optimizer):
 
 
 def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
-                    adamw_fused=True):
+                    adamw_fused=True, adamw_8bit=False):
     """Split model parameters and return (muon, adamw) optimizers.
 
     2D matrices in hidden layers -> Muon.
@@ -108,7 +108,13 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
     else:
         muon = Muon(muon_params, lr=muon_lr)
     adamw_kwargs = dict(lr=adamw_lr, weight_decay=weight_decay)
-    if adamw_fused and torch.cuda.is_available():
-        adamw_kwargs["fused"] = True
-    adamw = torch.optim.AdamW(adamw_params, **adamw_kwargs)
+    if adamw_8bit:
+        # 8-bit AdamW via bitsandbytes. ~4x smaller optimizer state, small
+        # accuracy cost (usually <1% ppl at this scale). Ignores 'fused' flag.
+        from bitsandbytes.optim import AdamW8bit
+        adamw = AdamW8bit(adamw_params, **adamw_kwargs)
+    else:
+        if adamw_fused and torch.cuda.is_available():
+            adamw_kwargs["fused"] = True
+        adamw = torch.optim.AdamW(adamw_params, **adamw_kwargs)
     return muon, adamw, len(muon_params), len(adamw_params)
