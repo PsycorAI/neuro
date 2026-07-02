@@ -334,17 +334,10 @@ def main():
                 else:
                     out = model(x)
                     sr = None
-                # Hard-target CE. Optional fused-CE (Liger) avoids materializing
-                # the full (B, T, V) logits tensor for gradients — saves ~2GB
-                # of VRAM at 500M-vocab scale. Bit-exact with torch CE.
-                if c.get("fused_ce", False):
-                    from liger_kernel.transformers.cross_entropy import LigerCrossEntropyLoss
-                    if not hasattr(main, "_liger_ce"):
-                        main._liger_ce = LigerCrossEntropyLoss()
-                    ce = main._liger_ce(out.reshape(-1, c["vocab"]), y.reshape(-1))
-                else:
-                    ce = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
-                # Knowledge distillation
+                # Knowledge distillation. NOTE: kd_loss computes the hard-target
+                # CE internally (via target_ids), so we must NOT also compute a
+                # standalone CE here when KD is on — that was a dead full-vocab
+                # softmax every microstep. Only compute CE on the non-KD path.
                 if kd_teacher is not None:
                     from kd import teacher_distribution, kd_loss
                     teacher_probs = teacher_distribution(
@@ -356,7 +349,15 @@ def main():
                                          target_ids=y,
                                          temperature=c.get("kd_temperature", 1.0))
                 else:
-                    main_loss = ce
+                    # Hard-target CE. Optional fused-CE (Liger) avoids materializing
+                    # the full (B, T, V) logits gradient — saves VRAM, bit-exact.
+                    if c.get("fused_ce", False):
+                        from liger_kernel.transformers.cross_entropy import LigerCrossEntropyLoss
+                        if not hasattr(main, "_liger_ce"):
+                            main._liger_ce = LigerCrossEntropyLoss()
+                        main_loss = main._liger_ce(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                    else:
+                        main_loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
                 # Sparsity penalty
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
@@ -390,6 +391,9 @@ def main():
                     mtp_logits_aligned = raw_model._last_mtp_logits[:, : -(offset - 1)]
                     y_mtp = y[:, (offset - 1):]
                     if c.get("fused_ce", False):
+                        from liger_kernel.transformers.cross_entropy import LigerCrossEntropyLoss
+                        if not hasattr(main, "_liger_ce"):
+                            main._liger_ce = LigerCrossEntropyLoss()
                         mtp_ce = main._liger_ce(
                             mtp_logits_aligned.reshape(-1, c["vocab"]),
                             y_mtp.reshape(-1))
