@@ -32,7 +32,24 @@ Public API:
       adds alpha_seq: (B, T, 1) data-dependent forget (replaces scalar lam).
     delta_sequential / delta_sequential_gated: reference O(T) loops (test oracles).
 """
+import math
 import torch
+
+
+def unit_lower_inv(A_strict):
+    """Inverse of (I + A_strict) for a strictly-lower-triangular A_strict (B,C,C),
+    via Neumann-by-doubling: (I+A)^-1 = sum_k (-A)^k, exact since A is nilpotent
+    (A^C = 0). Uses ceil(log2 C) batched matmuls — NO triangular solve, so the
+    whole chunk kernel is torch.compile-friendly (unlike solve_triangular which
+    graph-breaks). Compile-compatible replacement for solve_triangular."""
+    B, C, _ = A_strict.shape
+    N = -A_strict
+    acc = torch.eye(C, device=A_strict.device, dtype=A_strict.dtype).expand(B, C, C).contiguous()
+    Npow = N
+    for _ in range(math.ceil(math.log2(C))):
+        acc = acc + torch.bmm(Npow, acc)
+        Npow = torch.bmm(Npow, Npow)
+    return acc
 
 
 def delta_sequential(v_seq, k_seq, q_seq, beta_seq, M_init, lam):
@@ -160,7 +177,8 @@ def titans_sequential(v_seq, k_seq, q_seq, theta_seq, eta_seq, alpha_seq,
     return out, M, S
 
 
-def delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init, chunk=64):
+def delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init, chunk=64,
+                        compile_inv=False):
     """Chunkwise-parallel GATED delta rule (Gated DeltaNet).
 
     Per-timestep data-dependent forget alpha_t in (0,1) replaces fixed lam.
@@ -221,9 +239,13 @@ def delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init, chunk=
         # Targ[t] = v[t] - gamma_t * (M_carry @ k_t)
         carry_k = torch.bmm(M, Kc.transpose(1, 2)).transpose(1, 2)
         Targ = Vc - d_carry * carry_k
-        L = bc * A + eye[:C, :C].unsqueeze(0)
         RHS = bc * Targ
-        U = torch.linalg.solve_triangular(L, RHS, upper=False, unitriangular=True)
+        if compile_inv:
+            # (I + bc*A)^-1 @ RHS via matmul-only doubling (compile-friendly)
+            U = torch.bmm(unit_lower_inv(bc * A), RHS)
+        else:
+            L = bc * A + eye[:C, :C].unsqueeze(0)
+            U = torch.linalg.solve_triangular(L, RHS, upper=False, unitriangular=True)
 
         # --- read: r[t] = gamma_t M_carry@q_t + sum_{b<=t} (gamma_t/gamma_b)(k_b.q_t) u_b ---
         QK = torch.bmm(Qc, Kc.transpose(1, 2))

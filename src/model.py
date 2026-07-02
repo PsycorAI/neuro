@@ -64,7 +64,7 @@ class SpikingHebbianBlock(nn.Module):
                  local_attn=False, local_window=64,
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
                  vector_beta=False, use_rmsnorm=False,
-                 use_swiglu=False, depth_scale=1.0):
+                 use_swiglu=False, depth_scale=1.0, compile_inv=False):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -146,6 +146,7 @@ class SpikingHebbianBlock(nn.Module):
             mask.fill_diagonal_(0)
             self.register_buffer("rec_mask", mask)
         self.recurrent = recurrent
+        self.compile_inv = compile_inv
         self.W_k = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_v = nn.Linear(n_neurons, d_mem, bias=False)
         self.W_q = nn.Linear(n_neurons, d_mem, bias=False)
@@ -376,7 +377,8 @@ class SpikingHebbianBlock(nn.Module):
                         else:
                             alpha_in = alpha_seq
                         r_in, M = delta_chunked_gated(v_in, k_in, q_in, beta_in,
-                                                       alpha_in, M, chunk=64)
+                                                       alpha_in, M, chunk=64,
+                                                       compile_inv=self.compile_inv)
                     else:
                         from delta_chunked import delta_chunked
                         r_in, M = delta_chunked(v_in, k_in, q_in, beta_in, M,
@@ -430,7 +432,7 @@ class SpikingHebbianLM(nn.Module):
                  use_rmsnorm=False, embed_scale=False, mtp_depth=1,
                  use_swiglu=False, depth_scaled_init=False,
                  markov_enabled=False, markov_rank=64,
-                 confidence_enabled=False):
+                 confidence_enabled=False, compile_inv=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -472,7 +474,8 @@ class SpikingHebbianLM(nn.Module):
                 n_heads=n_heads,
                 pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
                 vector_beta=vector_beta, use_rmsnorm=use_rmsnorm,
-                use_swiglu=use_swiglu, depth_scale=depth_scale))
+                use_swiglu=use_swiglu, depth_scale=depth_scale,
+                compile_inv=compile_inv))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
