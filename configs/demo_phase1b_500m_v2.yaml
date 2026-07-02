@@ -1,0 +1,85 @@
+# Demo Phase 1b: 500M v2 — all validated enhancements + larger token budget.
+# Winners folded in from 30M/90M screens:
+#   Batch A: RMSNorm, embed_scale(+paired init), Z-loss, deeper MTP
+#   Batch B partial: depth_scaled_init, weight_decay (SwiGLU DROPPED — killed memory)
+#   Batch C: Markov head, Confidence head
+#   Tier 1: 8-bit AdamW, fused CE (free VRAM)
+# Core fix vs v1: 5B tokens (v1's 2B = 4:1 ratio, undertrained; this is 10:1).
+
+run_name: demo_phase1b_500m_v2
+arch: spiking
+
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+d: 2048
+n_neurons: 4864       # 511.3M params — closest to 500M target
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+block_size: 512
+batch_size: 6
+grad_accum: 5
+eval_batch: 4
+
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+mqar_aug: false          # OFF for ~2x throughput; recall restored via
+                         # mqar_refine_500m pass after pretrain (Path A)
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- Batch A ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Batch B partial (no SwiGLU) ---
+depth_scaled_init: true
+weight_decay: 0.1
+
+# --- Batch C ---
+markov_enabled: true
+markov_rank: 64
+confidence_enabled: true
+confidence_weight: 0.05
+
+# --- Tier 1: fused_ce only (bit-exact). adamw_8bit OFF — its <1% quality
+#     tax hurts learning; we prioritize model quality over VRAM here. ---
+adamw_8bit: false
+fused_ce: true
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0004
+lam: 0.98
+
+kd_enabled: true
+kd_teacher: microsoft/Phi-3.5-mini-instruct
+kd_alpha: 0.5
+kd_temperature: 1.0
+
+max_tokens: 5000000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 100
+
+amp: true
+compile: false
+seed: 0

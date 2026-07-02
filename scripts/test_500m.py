@@ -73,7 +73,11 @@ def main():
     print(f"arch: d={c['d']} n_neurons={c['n_neurons']} L={c['n_layers']} vocab={c['vocab']}")
     model = build_model(c).to(DEVICE).eval()
 
-    ckpt = args.ckpt or latest_ckpt(CKPT_DIR)
+    # Accept either a directory (find latest ckpt) or an explicit file path
+    if args.ckpt:
+        ckpt = latest_ckpt(args.ckpt) if os.path.isdir(args.ckpt) else args.ckpt
+    else:
+        ckpt = latest_ckpt(CKPT_DIR)
     print(f"loading: {ckpt}")
     sd = torch.load(ckpt, map_location=DEVICE, weights_only=False)
     step = sd.get("step", "?"); tokens = sd.get("tokens", "?")
