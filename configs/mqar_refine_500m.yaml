@@ -1,0 +1,58 @@
+# Refinement #1: MQAR recall restore.
+# Continues from Phase 1 final ckpt (MODEL-ONLY seed → fresh optimizer, so
+# lr_min_frac=1.0 actually takes effect). +50M tokens with MQAR-aug ON, no KD,
+# gentle constant LR.
+#
+# Goal: rebuild the Hebbian recall pathway that atrophied when mqar_aug was
+# disabled during Phase 1 (traded for +25-35% throughput).
+run_name: mqar_refine_500m
+
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+arch: spiking
+d: 2048
+n_neurons: 4352
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+block_size: 512
+batch_size: 6
+grad_accum: 5
+eval_batch: 4
+
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+
+# MQAR ON for this refinement
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+optimizer: muon
+muon_lr: 0.005        # same as Phase 1
+lr: 0.0004
+lr_min_frac: 1.0      # constant LR — no re-warmup after mid-training resume
+lam: 0.98
+
+kd_enabled: false      # no teacher for refinement
+
+max_tokens: 2050000000  # +50M tokens on top of Phase 1's 2B
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 2
+log_every: 200
+amp: true
+compile: false
+seed: 0

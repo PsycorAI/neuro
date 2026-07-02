@@ -26,6 +26,12 @@ CKPT = "/home/glenn/projects/neuro/models/checkpoints/phase3_350M_kd/step_023588
 CFG  = "/home/glenn/projects/neuro/configs/phase3_350M_kd.yaml"
 LUT  = "/home/glenn/projects/neuro/data/vocab_map_16384.npy"
 LLAMA = "meta-llama/Meta-Llama-3-8B"
+PHI   = "microsoft/Phi-3.5-mini-instruct"
+
+# When the model's vocab matches Phi's (32064) we skip the LUT projection
+# entirely and use the Phi tokenizer directly — cleaner (no OOV, no inverse
+# lookup dance). Used for the 500M and later.
+PHI_VOCAB = 32064
 
 GEN_LEN_DRAFT   = 120
 GEN_LEN_CRITIQUE = 80
@@ -52,23 +58,28 @@ def clone_state(state):
 
 
 class Encoder:
-    """Handles Llama-3 -> student-vocab projection + inverse decode."""
-    def __init__(self, tok, lut):
+    """Handles Llama-3 -> student-vocab projection + inverse decode (16k mode),
+    or direct Phi encode/decode (32k mode)."""
+    def __init__(self, tok, lut=None):
         self.tok = tok
         self.lut = lut
-        # inverse: student-id -> first Llama-3 id that maps to it
-        inv = np.full(int(lut.max()) + 1, -1, dtype=np.int64)
-        for li, si in enumerate(lut):
-            if si > 0 and inv[si] == -1:
-                inv[si] = li
-        self.inv = inv
+        self.inv = None
+        if lut is not None:
+            inv = np.full(int(lut.max()) + 1, -1, dtype=np.int64)
+            for li, si in enumerate(lut):
+                if si > 0 and inv[si] == -1:
+                    inv[si] = li
+            self.inv = inv
     def encode(self, text):
         ids = np.asarray(self.tok.encode(text, add_special_tokens=False), dtype=np.int64)
-        return torch.from_numpy(self.lut[ids]).unsqueeze(0)
+        if self.lut is not None:
+            ids = self.lut[ids]
+        return torch.from_numpy(ids).unsqueeze(0)
     def decode(self, student_ids):
         arr = np.asarray(student_ids, dtype=np.int64)
-        llama = np.where(arr > 0, self.inv[arr], 0)
-        return self.tok.decode(llama.tolist(), skip_special_tokens=True)
+        if self.inv is not None:
+            arr = np.where(arr > 0, self.inv[arr], 0)
+        return self.tok.decode(arr.tolist(), skip_special_tokens=True)
 
 
 @torch.no_grad()
@@ -89,7 +100,8 @@ def generate(model, encoder, prompt_text, initial_state=None, gen_len=100,
     # Sample the first output token from the last-prompt-position logits
     for step in range(gen_len):
         l = logits[0, -1] / TEMPERATURE
-        l[0] = float("-inf")  # mask UNK
+        if encoder.lut is not None:
+            l[0] = float("-inf")   # mask UNK in LUT-projection mode only
         topv, topi = l.topk(TOP_K)
         probs = F.softmax(topv, dim=-1)
         idx = int(topi[torch.multinomial(probs, 1, generator=g).item()].item())
@@ -173,9 +185,15 @@ def main():
     sd = torch.load(args.ckpt, map_location=DEVICE, weights_only=False)
     model.load_state_dict(sd["model"], strict=False)
 
-    tok = AutoTokenizer.from_pretrained(LLAMA, token=os.environ.get("HF_TOKEN"))
-    lut = np.load(LUT)
-    encoder = Encoder(tok, lut)
+    if c.get("vocab", 16384) == PHI_VOCAB:
+        print("using Phi-3.5 tokenizer (no LUT)")
+        tok = AutoTokenizer.from_pretrained(PHI)
+        encoder = Encoder(tok, lut=None)
+    else:
+        print(f"using Llama-3 tokenizer + LUT (vocab={c.get('vocab')})")
+        tok = AutoTokenizer.from_pretrained(LLAMA, token=os.environ.get("HF_TOKEN"))
+        lut = np.load(LUT)
+        encoder = Encoder(tok, lut)
 
     brain = None
     if args.brain:

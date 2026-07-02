@@ -1,11 +1,16 @@
-# Batch A validation at 90M scale (~1B tokens, ~10h on 5080).
-# Identical arch to gated_delta_90m_mqar but with MTP + Batch A features.
-# Compare against gated_delta_90m_mqar baseline at matched token counts.
+# 90M validation at scale (~1B tokens, ~10h on 5080). Full winning stack:
+# MTP + Batch A (RMSNorm, Z-loss, deeper MTP, embed_scale) + Batch B partial
+# (depth_scaled_init, weight_decay; SwiGLU DROPPED per bisect) + Batch C
+# (Markov, Confidence).
 #
-# Pass criteria for promoting Batch A into 500M Phase 1 v2:
-#   - val_ppl ≥3% better than baseline at 400M / 1B tokens
-#   - memory Δ stays positive on average
-#   - no training instability (no NaN, no loss spikes >2x trend)
+# 30M evidence:
+#   baseline (gated_delta+MQAR):           val_ppl 95.58
+#   Batch A + embed_scale (winner):        val_ppl 64.38
+#   Batch A + embed + no-SwiGLU (bisect):  val_ppl 61.70
+#   Batch A + embed + Batch B(-swiglu) + Batch C:  val_ppl 59.80 <-- this stack
+#
+# Pass criteria for promotion to 500M Phase 1 v2: val_ppl >=3% better than
+# 30M no-SwiGLU-bisect at matched tokens, memory Δ positive, no instability.
 run_name: screen_batchA_90m
 arch: spiking
 vocab: 16384
@@ -18,9 +23,9 @@ rec_density: 0.02
 set_zeta: 0.3
 set_every: 200
 block_size: 512
-batch_size: 32
-grad_accum: 1
-eval_batch: 8
+batch_size: 16
+grad_accum: 2
+eval_batch: 12
 use_fpt: true
 fpt_K: 20
 delta_rule: true
@@ -32,7 +37,7 @@ mqar_weight: 0.5
 sparsity_lambda: 0.5
 sparsity_target: 0.05
 
-# --- MTP + Batch A features under validation ---
+# --- MTP + Batch A ---
 mtp_enabled: true
 mtp_offset: 2
 mtp_weight: 0.3
@@ -41,13 +46,24 @@ use_rmsnorm: true
 embed_scale: true              # paired with std=1/sqrt(d) embed init (auto-applied)
 z_loss_weight: 0.0001
 
+# --- Batch B partial (SwiGLU DROPPED - was the memory-pathway killer per bisect) ---
+use_swiglu: false
+depth_scaled_init: true
+weight_decay: 0.1
+
+# --- Batch C: Markov + Confidence heads (DSpark-inspired) ---
+markov_enabled: true
+markov_rank: 64
+confidence_enabled: true
+confidence_weight: 0.05
+
 optimizer: muon
 muon_lr: 0.005
 lr: 0.0006
 lam: 0.98
 max_tokens: 1000000000
-eval_every: 4000
-ckpt_every: 4000
+eval_every: 1000
+ckpt_every: 1000
 keep_last: 2
 log_every: 100
 amp: true

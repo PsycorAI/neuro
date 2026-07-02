@@ -7,7 +7,7 @@
 #   tail -f logs_sft_500m.txt
 
 run_name: sft_500m
-sft_init: demo_phase1_500m
+sft_init: sparsity_refine_500m   # refined base (post-MQAR + post-sparsity)
 sft_dataset: yahma/alpaca-cleaned
 sft_split: train
 sft_max_len: 512
@@ -30,9 +30,9 @@ set_every: 200
 
 # --- batching: no teacher in-loop, can grow batch ---
 block_size: 512
-batch_size: 16
+batch_size: 12
 grad_accum: 2
-eval_batch: 8
+eval_batch: 4
 
 # --- MDS recipe (preserved from base) ---
 use_fpt: true
@@ -58,11 +58,16 @@ kd_enabled: false
 
 # --- budget: ~1 pass over Alpaca-cleaned (~52k × ~500 tok = 26M tok; bumped for stability) ---
 max_tokens: 100000000
-eval_every: 5000
+eval_every: 2000
 ckpt_every: 2000
 keep_last: 3
 log_every: 100
 
 amp: true
 compile: false
+
+# Tier 1 speedups — no experimental purity concern here (SFT is downstream).
+adamw_8bit: true
+fused_ce: true
+
 seed: 0
