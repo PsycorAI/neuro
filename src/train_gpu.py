@@ -113,7 +113,8 @@ def build_model(c):
                                 markov_enabled=c.get("markov_enabled", False),
                                 markov_rank=c.get("markov_rank", 64),
                                 confidence_enabled=c.get("confidence_enabled", False),
-                                compile_inv=c.get("compile_inv", False))
+                                compile_inv=c.get("compile_inv", False),
+                                use_fla_kernel=c.get("use_fla_kernel", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 

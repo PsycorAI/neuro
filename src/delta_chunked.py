@@ -177,6 +177,35 @@ def titans_sequential(v_seq, k_seq, q_seq, theta_seq, eta_seq, alpha_seq,
     return out, M, S
 
 
+def delta_fla_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init):
+    """fla Triton chunk kernel wrapper — same signature/convention as
+    delta_chunked_gated (k L2-normalized internally, raw q, per-step alpha gate,
+    M laid out [value, key], read r = M @ q). Big speedup vs the eager chunk loop.
+
+    Convention mapping to fla.chunk_gated_delta_rule:
+      - k pre-normalized here (fla flag off) so q is NOT normalized (matches ours)
+      - g = log(alpha)  (fla applies h *= exp(g))
+      - beta passed in post-sigmoid space
+      - scale=1.0 (no 1/sqrt(D) read scaling)
+      - state transposed [v,k]<->[k,v] between our M and fla's h
+    """
+    from fla.ops.gated_delta_rule import chunk_gated_delta_rule
+    dt = v_seq.dtype if v_seq.dtype in (torch.bfloat16, torch.float16) else torch.bfloat16
+    kn = k_seq / (k_seq.norm(dim=-1, keepdim=True) + 1e-6)
+    # fla requires all tensors (incl. initial_state) share dtype; g/beta stay fp32.
+    g = torch.log(alpha_seq.clamp(1e-6, 1.0)).float()              # (B,T,1)
+    beta = beta_seq.float()                                        # (B,T,1)
+    q = q_seq.to(dt).unsqueeze(2); k = kn.to(dt).unsqueeze(2); v = v_seq.to(dt).unsqueeze(2)
+    h0 = M_init.transpose(-1, -2).unsqueeze(1).to(dt).contiguous() # our[v,k]->fla[k,v], (B,1,D,D)
+    o, hT = chunk_gated_delta_rule(
+        q, k, v, g, beta,
+        scale=1.0, initial_state=h0, output_final_state=True,
+        use_qk_l2norm_in_kernel=False, use_beta_sigmoid_in_kernel=False)
+    r = o.squeeze(2)                                               # (B,T,D)
+    M = hT.squeeze(1).transpose(-1, -2).float()                    # fla[k,v]->our[v,k], keep fp32 state
+    return r, M
+
+
 def delta_chunked_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init, chunk=64,
                         compile_inv=False):
     """Chunkwise-parallel GATED delta rule (Gated DeltaNet).
