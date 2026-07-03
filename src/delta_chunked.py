@@ -189,20 +189,50 @@ def delta_fla_gated(v_seq, k_seq, q_seq, beta_seq, alpha_seq, M_init):
       - scale=1.0 (no 1/sqrt(D) read scaling)
       - state transposed [v,k]<->[k,v] between our M and fla's h
     """
+    # fla Triton kernel caps head_dim at 256. Our d_mem is typically 1024-2048,
+    # so we split D into H heads of size <=256 for the kernel and concat back.
+    # Since the delta rule is a rank-1 update in the (key,value) space, splitting
+    # a single-head M of shape (D,D) into H diagonal blocks of (D/H, D/H) is a
+    # LOSSY approximation for the model — but the model is trained with this
+    # wrapper, so it just learns those diagonal-block dynamics from step 0.
     from fla.ops.gated_delta_rule import chunk_gated_delta_rule
+    B, T, D = v_seq.shape
+    MAX_HD = 256
+    H = 1
+    while D // H > MAX_HD:
+        H *= 2
+    assert D % H == 0, f"D={D} not divisible by required heads H={H}"
+    HD = D // H
     dt = v_seq.dtype if v_seq.dtype in (torch.bfloat16, torch.float16) else torch.bfloat16
     kn = k_seq / (k_seq.norm(dim=-1, keepdim=True) + 1e-6)
-    # fla requires all tensors (incl. initial_state) share dtype; g/beta stay fp32.
-    g = torch.log(alpha_seq.clamp(1e-6, 1.0)).float()              # (B,T,1)
-    beta = beta_seq.float()                                        # (B,T,1)
-    q = q_seq.to(dt).unsqueeze(2); k = kn.to(dt).unsqueeze(2); v = v_seq.to(dt).unsqueeze(2)
-    h0 = M_init.transpose(-1, -2).unsqueeze(1).to(dt).contiguous() # our[v,k]->fla[k,v], (B,1,D,D)
+    g = torch.log(alpha_seq.clamp(1e-6, 1.0)).float().expand(B, T, H).contiguous()  # (B,T,H)
+    g = g.unsqueeze(-1) if g.dim() == 2 else g
+    beta_h = beta_seq.float().expand(B, T, H).contiguous().unsqueeze(-1) if beta_seq.dim() == 3 else beta_seq
+    # (B,T,H,HD)
+    q = q_seq.to(dt).view(B, T, H, HD)
+    k = kn.to(dt).view(B, T, H, HD)
+    v = v_seq.to(dt).view(B, T, H, HD)
+    # initial_state: our M is (B,D,D); split into H diagonal blocks (B,H,HD,HD).
+    # For H=1 this is the full M; for H>1 we lose off-block coupling (see note).
+    if H == 1:
+        h0 = M_init.transpose(-1, -2).unsqueeze(1).to(dt).contiguous()
+    else:
+        M_view = M_init.view(B, H, HD, H, HD)
+        h0 = torch.diagonal(M_view, dim1=1, dim2=3).permute(0, 3, 1, 2)  # (B,H,HD,HD) [v,k]
+        h0 = h0.transpose(-1, -2).to(dt).contiguous()                    # -> fla[k,v]
     o, hT = chunk_gated_delta_rule(
-        q, k, v, g, beta,
+        q, k, v, g, beta_h.squeeze(-1),
         scale=1.0, initial_state=h0, output_final_state=True,
         use_qk_l2norm_in_kernel=False, use_beta_sigmoid_in_kernel=False)
-    r = o.squeeze(2)                                               # (B,T,D)
-    M = hT.squeeze(1).transpose(-1, -2).float()                    # fla[k,v]->our[v,k], keep fp32 state
+    r = o.reshape(B, T, D)                                          # concat heads
+    if H == 1:
+        M = hT.squeeze(1).transpose(-1, -2).float()
+    else:
+        # Reassemble diagonal-block M back to (B, D, D). Off-block regions = 0.
+        hT_vk = hT.transpose(-1, -2).float()                        # (B,H,HD,HD) [v,k]
+        M = torch.zeros(B, D, D, device=v_seq.device, dtype=torch.float32)
+        for h in range(H):
+            M[:, h*HD:(h+1)*HD, h*HD:(h+1)*HD] = hT_vk[:, h]
     return r, M
 
 
