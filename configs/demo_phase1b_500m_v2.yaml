@@ -75,11 +75,12 @@ kd_alpha: 0.5
 kd_temperature: 1.0
 
 max_tokens: 5000000000
-eval_every: 2000
+eval_every: 1000
 ckpt_every: 2000
 keep_last: 2
 log_every: 100
 
 amp: true
 compile: false
+use_fla_kernel: true     # fla Triton delta kernel, 10.9x faster than eager on Blackwell
 seed: 0
