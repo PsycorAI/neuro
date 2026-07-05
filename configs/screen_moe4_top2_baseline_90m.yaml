@@ -1,0 +1,44 @@
+# Hebbian-MoE 90M validation: matched BASELINE (top-2 routing, NO router
+# z-loss) for the zloss_90m comparison. Identical in every other respect
+# (dims, batch, tokens, seed). This is the pair that was missing when zloss_90m
+# was first attempted solo -- see HANDOFF_2026_07_05.md.
+run_name: screen_moe4_top2_baseline_90m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: false
+block_size: 512
+batch_size: 6
+grad_accum: 5   # batch=6 -> 60% VRAM / 6.8GB headroom (safe vs creep on a 10h
+                # unattended run; batch=8 was 79% -- too tight). eff batch 30.
+eval_batch: 4
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+n_experts: 4
+route_topk: 2       # top-2 routing; write path still dense (Phase 1.5)
+moe_aux_weight: 0.1
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 300000000  # capped from 1B -- paired comparison run, not solo (see HANDOFF_2026_07_05.md)
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

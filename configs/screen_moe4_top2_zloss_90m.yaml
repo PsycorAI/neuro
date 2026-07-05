@@ -34,7 +34,7 @@ optimizer: muon
 muon_lr: 0.005
 lr: 0.0006
 lam: 0.98
-max_tokens: 1000000000
+max_tokens: 300000000  # capped from 1B -- paired comparison run, not solo (see HANDOFF_2026_07_05.md)
 eval_every: 1000
 ckpt_every: 1000
 keep_last: 2
