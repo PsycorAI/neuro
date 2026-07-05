@@ -120,7 +120,11 @@ def build_model(c):
                                 route_noise_std=c.get("route_noise_std", 0.0),
                                 router_z_weight=c.get("router_z_weight", 0.0),
                                 ponder_enabled=c.get("ponder_enabled", False),
-                                ponder_steps=c.get("ponder_steps", 3))
+                                ponder_steps=c.get("ponder_steps", 3),
+                                engram_enabled=c.get("engram_enabled", False),
+                                engram_n=c.get("engram_n", 3),
+                                engram_K=c.get("engram_K", 32768),
+                                engram_rank=c.get("engram_rank", 64))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 

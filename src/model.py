@@ -444,7 +444,8 @@ class SpikingHebbianLM(nn.Module):
                  confidence_enabled=False, compile_inv=False,
                  use_fla_kernel=False, n_experts=1, route_topk=None,
                  route_noise_std=0.0, router_z_weight=0.0,
-                 ponder_enabled=False, ponder_steps=3):
+                 ponder_enabled=False, ponder_steps=3,
+                 engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -574,8 +575,18 @@ class SpikingHebbianLM(nn.Module):
         self._last_ponder_cost = None
         self._last_expected_steps = None
 
+        # Engram: n-gram hash -> low-rank bucket -> vocab bias (DeepSeek-style
+        # static factual store). Sibling of the Markov head but higher-order
+        # context (last N tokens, not just current). Zero-init buckets so it
+        # contributes nothing until it learns. See src/engram.py.
+        self.engram_enabled = engram_enabled
+        if engram_enabled:
+            from engram import EngramLookup
+            self.engram = EngramLookup(vocab, n=engram_n, K=engram_K, rank=engram_rank)
+
     def forward(self, idx, ablate_memory=False, return_stats=False,
-                initial_state=None, return_final_state=False):
+                initial_state=None, return_final_state=False,
+                ablate_engram=False):
         B, T = idx.shape
         device = idx.device
         base = self.embed(idx) * self._embed_scale_factor      # (B, T, d)
@@ -651,6 +662,8 @@ class SpikingHebbianLM(nn.Module):
             if self.markov_enabled:
                 markov_correction = self.markov_out(self.markov_embed(idx))  # (B, T, V)
                 logits = logits + markov_correction
+            if self.engram_enabled and not ablate_engram:
+                logits = logits + self.engram(idx)          # (B, T, V) n-gram bias
             # Batch C: Confidence head. Stash for the trainer.
             if self.confidence_enabled:
                 self._last_confidence = self.confidence_head(x_seq).squeeze(-1)  # (B, T)

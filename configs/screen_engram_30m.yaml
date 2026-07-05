@@ -1,0 +1,59 @@
+# Engram screen: n-gram hash -> low-rank bucket -> vocab logit bias.
+# Static factual store complementing the dynamic Hebbian fast-weight.
+#
+# Config is byte-identical to screen_moe_control_30m (gated-delta+MQAR,
+# recurrent off, no MoE, no ponder) EXCEPT the four engram flags below --
+# so this is a clean A/B vs that control's known val_ppl 81.20.
+#
+# Sizing: K=32768 buckets, rank=64. Total engram params:
+#   32768 * 64  (bucket table)      = 2,097,152
+#   64 * 16384  (rank -> vocab proj) = 1,048,576
+#   TOTAL                            = ~3.1M   (parity with markov head budget)
+#
+# Watch on eval:
+#   - val_ppl vs control (81.20). Any improvement means Engram is capturing
+#     memorizable n-gram structure the base model wasn't.
+#   - ablated_ppl. Trainer runs a memory-ablation eval; we should also see
+#     an engram-ablation number appear (add wired via ablate_engram=True).
+#     Delta between val and engram-ablated tells us how much of quality
+#     the Engram is providing (analogous to memory delta).
+run_name: screen_engram_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+engram_enabled: true
+engram_n: 3
+engram_K: 32768
+engram_rank: 64
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
