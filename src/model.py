@@ -73,6 +73,9 @@ class SpikingHebbianBlock(nn.Module):
         if d_mem % n_heads != 0:
             raise ValueError(f"d_mem ({d_mem}) must be divisible by n_heads ({n_heads})")
         self.d_head = d_mem // n_heads
+        # LM-level state allocator reads these to size the carried M-state.
+        self.n_state_units = n_heads
+        self.d_state = self.d_head
         self.lam = lam
         self.eta = eta
         self.compile_safe = compile_safe
@@ -439,7 +442,8 @@ class SpikingHebbianLM(nn.Module):
                  use_swiglu=False, depth_scaled_init=False,
                  markov_enabled=False, markov_rank=64,
                  confidence_enabled=False, compile_inv=False,
-                 use_fla_kernel=False):
+                 use_fla_kernel=False, n_experts=1, route_topk=None,
+                 route_noise_std=0.0, router_z_weight=0.0):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -456,6 +460,10 @@ class SpikingHebbianLM(nn.Module):
         if n_layers > 1 and d != d_mem:
             raise ValueError(f"n_layers > 1 requires d == d_mem for residual connections "
                              f"(got d={d}, d_mem={d_mem})")
+        self.n_experts = n_experts
+        if n_experts > 1 and not use_fpt:
+            raise ValueError("n_experts > 1 (Hebbian-MoE) only supports the FPT/chunked "
+                             "path -- set use_fpt: true")
 
         self.embed = nn.Embedding(vocab, d)
         # Llama / DeepSeek convention: when embedding output is later multiplied
@@ -471,18 +479,28 @@ class SpikingHebbianLM(nn.Module):
         blocks = []
         for i in range(n_layers):
             d_in = d if i == 0 else d_mem
-            blocks.append(SpikingHebbianBlock(
-                d_in, n_neurons, d_mem, beta, lam, eta,
-                compile_safe, recurrent, rec_density,
-                learnable_decay=learnable_decay, write_gate=write_gate,
-                delta_rule=delta_rule, beta_floor=beta_floor,
-                decay_gate=decay_gate, titans=titans,
-                local_attn=local_attn, local_window=local_window,
-                n_heads=n_heads,
-                pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
-                vector_beta=vector_beta, use_rmsnorm=use_rmsnorm,
-                use_swiglu=use_swiglu, depth_scale=depth_scale,
-                compile_inv=compile_inv, use_fla_kernel=use_fla_kernel))
+            if n_experts > 1:
+                from moe_hebbian import MoEHebbianBlock
+                blocks.append(MoEHebbianBlock(
+                    d_in, n_neurons, d_mem, n_experts, beta,
+                    beta_floor=beta_floor, use_rmsnorm=use_rmsnorm,
+                    use_swiglu=use_swiglu, depth_scale=depth_scale,
+                    compile_inv=compile_inv, use_fla_kernel=use_fla_kernel,
+                    route_topk=route_topk, route_noise_std=route_noise_std,
+                    router_z_weight=router_z_weight))
+            else:
+                blocks.append(SpikingHebbianBlock(
+                    d_in, n_neurons, d_mem, beta, lam, eta,
+                    compile_safe, recurrent, rec_density,
+                    learnable_decay=learnable_decay, write_gate=write_gate,
+                    delta_rule=delta_rule, beta_floor=beta_floor,
+                    decay_gate=decay_gate, titans=titans,
+                    local_attn=local_attn, local_window=local_window,
+                    n_heads=n_heads,
+                    pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
+                    vector_beta=vector_beta, use_rmsnorm=use_rmsnorm,
+                    use_swiglu=use_swiglu, depth_scale=depth_scale,
+                    compile_inv=compile_inv, use_fla_kernel=use_fla_kernel))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
@@ -541,6 +559,9 @@ class SpikingHebbianLM(nn.Module):
         if confidence_enabled:
             self.confidence_head = nn.Linear(d_mem, 1)
         self._last_confidence = None
+        self._last_moe_aux_loss = None
+        self._last_expert_util = None
+        self._last_route_peak = None
 
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False):
@@ -551,11 +572,13 @@ class SpikingHebbianLM(nn.Module):
 
         if initial_state is None:
             mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            # n_heads>1: M is (B*H, d_head, d_head) (heads collapsed into batch dim)
-            BM, DM = (B * self.n_heads, self.d_head) if self.n_heads > 1 else (B, self.d_mem)
-            Ms = [torch.zeros(BM, DM, DM, device=device) for _ in range(L)]
+            # Each block owns its own state shape (n_heads>1 collapses split
+            # heads into batch; MoE collapses full-size experts into batch).
+            Ms = [torch.zeros(B * blk.n_state_units, blk.d_state, blk.d_state,
+                              device=device) for blk in self.blocks]
             prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            Ss = [torch.zeros(BM, DM, DM, device=device) for _ in range(L)] if self.titans else [None] * L
+            Ss = [torch.zeros(B * self.n_heads, self.d_head, self.d_head, device=device)
+                  for _ in range(L)] if self.titans else [None] * L
         else:
             def _bcast(t, shape):
                 if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
@@ -576,6 +599,7 @@ class SpikingHebbianLM(nn.Module):
             # FPT path: each block processes the FULL sequence in parallel.
             x_seq = base                                       # (B, T, d)
             spike_accum = []
+            moe_aux_losses = []
             for l, block in enumerate(self.blocks):
                 out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
                     x_seq, mems[l], Ms[l], prev_spks[l],
@@ -586,6 +610,16 @@ class SpikingHebbianLM(nn.Module):
                 x_seq = out_seq
                 if return_stats:
                     spike_accum.append(spk_seq)
+                if getattr(block, "_last_aux_loss", None) is not None:
+                    moe_aux_losses.append(block._last_aux_loss)
+            self._last_moe_aux_loss = (torch.stack(moe_aux_losses).mean()
+                                       if moe_aux_losses else None)
+            # Diagnostic snapshot (last batch only) for judging real vs
+            # trivial-uniform routing -- not used in any loss.
+            self._last_expert_util = [b._last_route_util for b in self.blocks
+                                      if getattr(b, "_last_route_util", None) is not None] or None
+            self._last_route_peak = [b._last_route_peak for b in self.blocks
+                                     if getattr(b, "_last_route_peak", None) is not None] or None
             logits = self.head(x_seq)                          # (B, T, vocab)
             if self.mtp_enabled:
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))

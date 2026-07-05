@@ -1,0 +1,45 @@
+# Confirmation run for screen_moe4_top2_30m -- identical in every respect
+# except seed. That run was the sweep's best result (val_ppl ~70.5, memory
+# ablation blowup +159 to +357 -- far beyond any other run this sweep) but the
+# whole sweep has been noisy (single runs swinging val_ppl 76-93), so this
+# isolates seed-luck from a real effect before we trust it or promote to 90M.
+run_name: screen_moe4_top2_seed1_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+block_size: 512
+batch_size: 8
+grad_accum: 4   # B*E=8*4experts=32 through the memory kernel -- matches
+                # control's footprint (fits 16GB); effective batch stays 32
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+n_experts: 4
+route_topk: 2       # top-2 routing; write path still dense (Phase 1.5)
+moe_aux_weight: 0.1
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 200
+ckpt_every: 1000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 1

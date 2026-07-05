@@ -114,7 +114,11 @@ def build_model(c):
                                 markov_rank=c.get("markov_rank", 64),
                                 confidence_enabled=c.get("confidence_enabled", False),
                                 compile_inv=c.get("compile_inv", False),
-                                use_fla_kernel=c.get("use_fla_kernel", False))
+                                use_fla_kernel=c.get("use_fla_kernel", False),
+                                n_experts=c.get("n_experts", 1),
+                                route_topk=c.get("route_topk", None),
+                                route_noise_std=c.get("route_noise_std", 0.0),
+                                router_z_weight=c.get("router_z_weight", 0.0))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -380,6 +384,10 @@ def main():
                     conf_loss = F.binary_cross_entropy_with_logits(
                         raw_model._last_confidence, correct)
                     main_loss = main_loss + c.get("confidence_weight", 0.05) * conf_loss
+                # Hebbian-MoE load-balance loss (Switch-style importance loss) --
+                # keeps router mass from collapsing onto one expert.
+                if c.get("n_experts", 1) > 1 and raw_model._last_moe_aux_loss is not None:
+                    main_loss = main_loss + c.get("moe_aux_weight", 0.01) * raw_model._last_moe_aux_loss
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,
@@ -431,6 +439,13 @@ def main():
             if abl is not None:
                 msg += f" | ablated_ppl {abl:.2f} (memory Δ={abl-full:+.2f}) | spike {sr:.3f}"
             print(msg, flush=True)
+            if c.get("n_experts", 1) > 1 and raw_model._last_expert_util is not None:
+                util_str = " | ".join(
+                    "[" + ", ".join(f"{v:.2f}" for v in u.tolist()) + "]"
+                    for u in raw_model._last_expert_util)
+                peak = torch.stack(raw_model._last_route_peak).mean().item()
+                print(f"  [moe] expert_util (per layer): {util_str} | avg_peak_weight {peak:.3f}",
+                      flush=True)
             # Brain snapshot for spiking models (cheap, useful for after-the-fact analysis)
             if c["arch"] == "spiking" and c.get("snapshot_brain", True):
                 try:

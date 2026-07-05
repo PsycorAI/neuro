@@ -1,0 +1,70 @@
+# fla-kernel quality-parity check vs screen_batchA_90m (eager delta).
+# Identical stack/seed/token budget, only use_fla_kernel differs. Purpose:
+# measure whether fla's diagonal-block head split (head_dim>256 -> split into
+# blocks <=256, drops off-block key-value coupling) costs val_ppl at 90M scale
+# before trusting it further into the 10-day 500M v2 run on the 5090.
+#
+# Compare final val_ppl / ablated_ppl / memory Δ against screen_batchA_90m
+# (no-fla baseline, run_name screen_batchA_90m) at matched tokens.
+run_name: screen_batchA_90m_fla
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 12
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+
+# --- MTP + Batch A ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true              # paired with std=1/sqrt(d) embed init (auto-applied)
+z_loss_weight: 0.0001
+
+# --- Batch B partial (SwiGLU DROPPED - was the memory-pathway killer per bisect) ---
+use_swiglu: false
+depth_scaled_init: true
+weight_decay: 0.1
+
+# --- Batch C: Markov + Confidence heads (DSpark-inspired) ---
+markov_enabled: true
+markov_rank: 64
+confidence_enabled: true
+confidence_weight: 0.05
+
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 1000000000
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0
+
+use_fla_kernel: true     # fla Triton delta kernel, 10.9x faster than eager on Blackwell
