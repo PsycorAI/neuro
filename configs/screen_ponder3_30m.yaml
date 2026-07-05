@@ -1,0 +1,48 @@
+# Adaptive-computation screen: PonderNet halting head (max 3 refinement passes)
+# on the final hidden state. Phase 1 = DENSE (all passes computed, halting head
+# soft-weights them); true dynamic early-exit is deferred to Phase 2.
+#
+# Config is byte-identical to screen_moe_control_30m (gated-delta+MQAR,
+# recurrent off, n_experts=1) EXCEPT the three ponder flags below -- so this is
+# a clean A/B vs that control's known val_ppl 81.20. Watch: does val_ppl beat
+# 81.20, and does [ponder] expected_steps land meaningfully above 1.0 (the
+# model actually chooses to spend extra passes) rather than collapsing to 1?
+run_name: screen_ponder3_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+ponder_enabled: true
+ponder_steps: 3
+ponder_cost_weight: 0.01
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

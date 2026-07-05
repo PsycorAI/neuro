@@ -118,7 +118,9 @@ def build_model(c):
                                 n_experts=c.get("n_experts", 1),
                                 route_topk=c.get("route_topk", None),
                                 route_noise_std=c.get("route_noise_std", 0.0),
-                                router_z_weight=c.get("router_z_weight", 0.0))
+                                router_z_weight=c.get("router_z_weight", 0.0),
+                                ponder_enabled=c.get("ponder_enabled", False),
+                                ponder_steps=c.get("ponder_steps", 3))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -388,6 +390,10 @@ def main():
                 # keeps router mass from collapsing onto one expert.
                 if c.get("n_experts", 1) > 1 and raw_model._last_moe_aux_loss is not None:
                     main_loss = main_loss + c.get("moe_aux_weight", 0.01) * raw_model._last_moe_aux_loss
+                # Adaptive-computation ponder cost -- penalize expected number of
+                # refinement steps so the halting head only spends passes that pay.
+                if c.get("ponder_enabled", False) and raw_model._last_ponder_cost is not None:
+                    main_loss = main_loss + c.get("ponder_cost_weight", 0.01) * raw_model._last_ponder_cost
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,
@@ -446,6 +452,9 @@ def main():
                 peak = torch.stack(raw_model._last_route_peak).mean().item()
                 print(f"  [moe] expert_util (per layer): {util_str} | avg_peak_weight {peak:.3f}",
                       flush=True)
+            if c.get("ponder_enabled", False) and raw_model._last_expected_steps is not None:
+                print(f"  [ponder] expected_steps {raw_model._last_expected_steps.item():.3f} "
+                      f"/ max {c.get('ponder_steps', 3)}", flush=True)
             # Brain snapshot for spiking models (cheap, useful for after-the-fact analysis)
             if c["arch"] == "spiking" and c.get("snapshot_brain", True):
                 try:
