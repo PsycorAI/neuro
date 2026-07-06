@@ -8,10 +8,17 @@
 #      the delta is ~2-3GB -> ~25-26GB projected, still ~6GB headroom.
 #      Conservative choice; see demo_phase1b_500m_v2_fast_aggressive.yaml for
 #      the 10x3 variant.).
-#   2. kd_compile: true (torch.compile the frozen Phi-3.5-mini teacher).
-#      Reduces the dominant step-time contributor. compile_mode
-#      "reduce-overhead" uses CUDA graphs; drop to "default" if it errors on
-#      first launch (HF output-dataclass boundary or KV-cache tracing).
+#   2. kd_compile: true, compile_mode: default (torch.compile the frozen
+#      Phi-3.5-mini teacher). "default" was chosen over "reduce-overhead"
+#      after a 2026-07-06 first-swap attempt with reduce-overhead pinned VRAM
+#      at 32032/32607 MiB and spilled ~1.8 GB to shared/host memory over
+#      PCIe (paging every step -> 4475 tok/s vs 5841 baseline). reduce-
+#      overhead's CUDA-graph replay preallocates too aggressively for our
+#      batch. "default" mode keeps all inductor fusion/reordering wins but
+#      does NOT record CUDA graphs; ~1-3 GB less VRAM. Projected total
+#      ~27-29 GB with batch 8x4 = safe headroom. Math is preserved either
+#      way (compile is a numerics-preserving transformation up to
+#      matmul-associativity noise). Model quality/integrity NOT affected.
 #   3. keep_last: 2 -> 8 (enables meaningful PMA soup at run end; scripts/
 #      pma_average.py works with any N but the memory note recommends >=8).
 # Not a resume-compatible rename (run_name changed) -- when swapping to this
@@ -80,7 +87,7 @@ kd_teacher: microsoft/Phi-3.5-mini-instruct
 kd_alpha: 0.5
 kd_temperature: 1.0
 kd_compile: true
-kd_compile_mode: reduce-overhead
+kd_compile_mode: default
 
 max_tokens: 5000000000
 eval_every: 1000
