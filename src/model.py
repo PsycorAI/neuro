@@ -446,7 +446,8 @@ class SpikingHebbianLM(nn.Module):
                  route_noise_std=0.0, router_z_weight=0.0,
                  ponder_enabled=False, ponder_steps=3, ponder_capacity=None,
                  ponder_threshold=0.5,
-                 engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64):
+                 engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64,
+                 recurrent_depth=1, recurrent_bptt_k=0):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -455,6 +456,12 @@ class SpikingHebbianLM(nn.Module):
         self.lam = lam
         self.eta = eta
         self.n_layers = n_layers
+        # Recurrent depth (Geiping-style latent looping of the block stack).
+        # recurrent_depth=1 => exact original single-pass behavior (no-op).
+        # recurrent_bptt_k=0 => backprop through all passes; >0 => truncate to
+        # the last k passes (bounded memory at large depth, Huginn-style).
+        self.recurrent_depth = recurrent_depth
+        self.recurrent_bptt_k = recurrent_bptt_k
         self.compile_safe = compile_safe
         self.tie_weights = tie_weights
         self.use_fpt = use_fpt
@@ -589,6 +596,44 @@ class SpikingHebbianLM(nn.Module):
             from engram import EngramLookup
             self.engram = EngramLookup(vocab, n=engram_n, K=engram_K, rank=engram_rank)
 
+    def _fpt_stack_pass(self, x_in, ablate_memory, return_stats):
+        """One pass of the full block stack over the sequence, with FRESH memory.
+
+        This is the recurrent-depth "core": looping it lets the model refine its
+        latent representation through the ACTUAL Hebbian blocks (sharing their
+        weights and their memory machinery), rather than through a separate
+        bolted-on module. Because each pass is an ordinary block-stack forward
+        with the real gated-delta memory, ablating memory degrades it the same
+        graceful, bounded way the base model degrades -- unlike the old
+        final-hidden-state ponder bolt-on, whose ablation error grew unbounded.
+
+        Fresh memory per pass (not carried across passes): the memory is rebuilt
+        from the current refined representation each pass, which shares the
+        memory *machinery* without double-writing a running state across passes.
+        """
+        B = x_in.shape[0]
+        device = x_in.device
+        L = self.n_layers
+        use_residual = (self.d == self.d_mem)
+        mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
+        Ms = [torch.zeros(B * blk.n_state_units, blk.d_state, blk.d_state,
+                          device=device) for blk in self.blocks]
+        prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
+        spikes, aux = [], []
+        x_seq = x_in
+        for l, block in enumerate(self.blocks):
+            out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                x_seq, mems[l], Ms[l], prev_spks[l],
+                ablate_memory=ablate_memory, fpt_K=self.fpt_K)
+            if L > 1 and (l > 0 or use_residual):
+                out_seq = out_seq + x_seq
+            x_seq = out_seq
+            if return_stats:
+                spikes.append(spk_seq)
+            if getattr(block, "_last_aux_loss", None) is not None:
+                aux.append(block._last_aux_loss)
+        return x_seq, spikes, aux
+
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False,
                 ablate_engram=False):
@@ -623,22 +668,45 @@ class SpikingHebbianLM(nn.Module):
         use_residual = (self.d == self.d_mem)
 
         if self.use_fpt:
-            # FPT path: each block processes the FULL sequence in parallel.
-            x_seq = base                                       # (B, T, d)
             spike_accum = []
             moe_aux_losses = []
-            for l, block in enumerate(self.blocks):
-                out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
-                    x_seq, mems[l], Ms[l], prev_spks[l],
-                    ablate_memory=ablate_memory, fpt_K=self.fpt_K)
-                if L > 1 and (l > 0 or use_residual):
-                    out_seq = out_seq + x_seq
-                prev_spks[l] = final_spk
-                x_seq = out_seq
-                if return_stats:
-                    spike_accum.append(spk_seq)
-                if getattr(block, "_last_aux_loss", None) is not None:
-                    moe_aux_losses.append(block._last_aux_loss)
+            if self.recurrent_depth > 1 and initial_state is None:
+                # Recurrent depth: loop the block stack R times, sharing weights,
+                # with input injection (the embedded input `e` is re-added each
+                # pass -- anchors the recursion to the input and aids gradient
+                # flow, per Geiping et al. / Huginn). Latent state starts at 0;
+                # pass i computes s_{i+1} = Stack(s_i + e) with fresh memory.
+                e = base
+                x_seq = torch.zeros_like(e)
+                R = self.recurrent_depth
+                k = self.recurrent_bptt_k if self.recurrent_bptt_k > 0 else R
+                for pass_i in range(R):
+                    # Truncated BPTT: detach the state before the last k passes
+                    # so gradient memory stays bounded at large depth.
+                    if pass_i < R - k:
+                        x_seq = x_seq.detach()
+                    last = (pass_i == R - 1)
+                    x_seq, spikes, aux = self._fpt_stack_pass(
+                        x_seq + e, ablate_memory, return_stats and last)
+                    if last:
+                        spike_accum = spikes
+                        moe_aux_losses = aux
+            else:
+                # Single-pass (original behavior; also the path for stateful
+                # inference with an initial_state). Unchanged.
+                x_seq = base                                   # (B, T, d)
+                for l, block in enumerate(self.blocks):
+                    out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                        x_seq, mems[l], Ms[l], prev_spks[l],
+                        ablate_memory=ablate_memory, fpt_K=self.fpt_K)
+                    if L > 1 and (l > 0 or use_residual):
+                        out_seq = out_seq + x_seq
+                    prev_spks[l] = final_spk
+                    x_seq = out_seq
+                    if return_stats:
+                        spike_accum.append(spk_seq)
+                    if getattr(block, "_last_aux_loss", None) is not None:
+                        moe_aux_losses.append(block._last_aux_loss)
             self._last_moe_aux_loss = (torch.stack(moe_aux_losses).mean()
                                        if moe_aux_losses else None)
             # Diagnostic snapshot (last batch only) for judging real vs

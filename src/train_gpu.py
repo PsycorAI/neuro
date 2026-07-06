@@ -126,7 +126,9 @@ def build_model(c):
                                 engram_enabled=c.get("engram_enabled", False),
                                 engram_n=c.get("engram_n", 3),
                                 engram_K=c.get("engram_K", 32768),
-                                engram_rank=c.get("engram_rank", 64))
+                                engram_rank=c.get("engram_rank", 64),
+                                recurrent_depth=c.get("recurrent_depth", 1),
+                                recurrent_bptt_k=c.get("recurrent_bptt_k", 0))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
