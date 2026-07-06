@@ -27,13 +27,28 @@ def load_lut(student_vocab=16384):
     return torch.from_numpy(np.load(path)).long()
 
 
-def load_teacher(model_id="meta-llama/Llama-3.2-1B", device="cuda", dtype=torch.bfloat16):
-    """Load a Llama teacher. Returns the model in eval mode, gradients disabled."""
+def load_teacher(model_id="meta-llama/Llama-3.2-1B", device="cuda", dtype=torch.bfloat16,
+                  compile=False, compile_mode="reduce-overhead"):
+    """Load a Llama teacher. Returns the model in eval mode, gradients disabled.
+
+    compile=True wraps the model in torch.compile. The teacher is a plain HF
+    transformer under fixed shapes (config batch_size × block_size) with
+    no_grad -- the ideal torch.compile target. At 500M scale the teacher
+    forward dominates step FLOPs (Phi-3.5-mini ~= 3.8B params, ~7-8x the
+    student's fwd+bwd combined), so this is the largest end-to-end lever
+    if it holds. reduce-overhead mode uses CUDA graphs (big wins for
+    repeated fixed-shape calls); fall back to compile_mode="default" if
+    the CUDA-graphs path complains about the KV-cache path or HF's
+    output-dataclass boundary.
+    """
     from transformers import AutoModelForCausalLM
     t = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype)
     t = t.to(device).eval()
     for p in t.parameters():
         p.requires_grad_(False)
+    if compile and device == "cuda":
+        t = torch.compile(t, mode=compile_mode)
+        print(f"KD teacher compiled: mode={compile_mode}")
     return t
 
 

@@ -223,7 +223,9 @@ def main():
     if c.get("kd_enabled", False) and c["arch"] == "spiking":
         from kd import load_teacher, load_lut
         kd_teacher = load_teacher(c.get("kd_teacher", "meta-llama/Llama-3.2-1B"),
-                                   device=device)
+                                   device=device,
+                                   compile=c.get("kd_compile", False),
+                                   compile_mode=c.get("kd_compile_mode", "reduce-overhead"))
         kd_lut = load_lut(c["vocab"]).to(device)
         print(f"KD enabled: teacher={c.get('kd_teacher','meta-llama/Llama-3.2-1B')} "
               f"alpha={c.get('kd_alpha',0.5)} T={c.get('kd_temperature',1.0)}")
