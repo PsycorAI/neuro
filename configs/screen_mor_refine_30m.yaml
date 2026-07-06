@@ -1,0 +1,63 @@
+# Adaptive computation, REDESIGNED: Mixture-of-Recursions expert-choice
+# refinement (replaces the collapsed PonderNet halting head).
+#
+# The PonderNet screens (screen_ponder3_{,cw01,cw003}_30m) all collapsed --
+# expected_steps pinned to max or min, no stable middle, quality monotonic in
+# the cost weight. Root cause: ACT/PonderNet's mean-steps penalty has two
+# attractors and the adaptive regime is a knife-edge a scalar weight can't hold.
+#
+# MoR (Bae et al., arXiv:2507.10524, Jul 2025) fixes this structurally: a HARD
+# top-k capacity per recursion depth. Exactly capacity[r] of tokens continue at
+# each step, so collapse is impossible by construction -- the router only learns
+# WHICH tokens go deep, never HOW MANY. See src/adaptive_compute.py (MoRRefine).
+#
+# Byte-identical to screen_moe_control_30m (val_ppl 81.20) EXCEPT the ponder
+# flags below -> clean A/B. This time the collapse check is the [ponder]
+# depth_hist line: train-time it's balanced by construction (~[0.33,0.33,0.33]);
+# the real signal is (a) does val_ppl beat 81.20, and (b) does the causal EVAL
+# depth_hist stay non-degenerate (genuine per-token adaptivity that transfers to
+# the causal inference path), with keep_rate tracking the capacity schedule
+# [0.667, 0.333] as the router calibrates.
+run_name: screen_mor_refine_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+ponder_enabled: true
+ponder_steps: 3            # max depth: 0, 1, or 2 refinements per token
+ponder_aux_weight: 0.1     # router-calibration BCE weight. NO collapse knife-edge
+                           # (compute budget is fixed by top-k, not this loss),
+                           # so it can be healthy without the old failure mode.
+ponder_threshold: 0.5      # causal per-token keep threshold at eval
+# ponder_capacity omitted -> balanced default [0.667, 0.333]
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

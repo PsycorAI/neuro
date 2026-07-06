@@ -444,7 +444,8 @@ class SpikingHebbianLM(nn.Module):
                  confidence_enabled=False, compile_inv=False,
                  use_fla_kernel=False, n_experts=1, route_topk=None,
                  route_noise_std=0.0, router_z_weight=0.0,
-                 ponder_enabled=False, ponder_steps=3,
+                 ponder_enabled=False, ponder_steps=3, ponder_capacity=None,
+                 ponder_threshold=0.5,
                  engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64):
         super().__init__()
         self.vocab = vocab
@@ -565,14 +566,18 @@ class SpikingHebbianLM(nn.Module):
         self._last_expert_util = None
         self._last_route_peak = None
 
-        # Adaptive computation: PonderNet-style halting head that refines the
-        # final hidden state a variable (soft) number of passes per token.
+        # Adaptive computation: Mixture-of-Recursions expert-choice refinement of
+        # the final hidden state. Hard top-k capacity per depth -> collapse-proof
+        # (replaces the earlier PonderNet halting head, which collapsed). See
+        # src/adaptive_compute.py.
         self.ponder_enabled = ponder_enabled
         if ponder_enabled:
-            from adaptive_compute import PonderRefine
-            self.ponder = PonderRefine(d_mem, max_steps=ponder_steps,
-                                       use_rmsnorm=use_rmsnorm)
-        self._last_ponder_cost = None
+            from adaptive_compute import MoRRefine
+            self.ponder = MoRRefine(d_mem, ponder_steps=ponder_steps,
+                                    capacity=ponder_capacity,
+                                    threshold=ponder_threshold,
+                                    use_rmsnorm=use_rmsnorm)
+        self._last_ponder_aux = None
         self._last_expected_steps = None
 
         # Engram: n-gram hash -> low-rank bucket -> vocab bias (DeepSeek-style
@@ -647,10 +652,10 @@ class SpikingHebbianLM(nn.Module):
             # MTP, confidence) then reads the refined representation.
             if self.ponder_enabled:
                 x_seq = self.ponder(x_seq)
-                self._last_ponder_cost = self.ponder._last_ponder_cost
+                self._last_ponder_aux = self.ponder._last_ponder_aux
                 self._last_expected_steps = self.ponder._last_expected_steps
             else:
-                self._last_ponder_cost = None
+                self._last_ponder_aux = None
             logits = self.head(x_seq)                          # (B, T, vocab)
             if self.mtp_enabled:
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
