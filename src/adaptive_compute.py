@@ -274,7 +274,18 @@ class RecurrentDepthRouter(nn.Module):
             self._eval_keep_list.append(keep.float().mean())
 
         keep_bt = keep.reshape(B, T)
-        merged = torch.where(keep_bt.unsqueeze(-1), h_new, h_old)
+        if self.training:
+            # MoR "select AND scale": kept tokens use a gated residual so the
+            # router weight g feeds into the merged output -- CE gradients then
+            # flow through g into the routing scores, teaching the router WHICH
+            # tokens actually benefit from more depth (not just self-referential
+            # top-k membership via the aux BCE). Not-kept tokens: hard exit to
+            # h_old, matching eval-time behavior. As BCE calibrates g -> {0,1},
+            # the train/eval gap on kept tokens closes (g -> 1 -> h_new).
+            scale = (g * keep.float()).reshape(B, T, 1)
+            merged = h_old + scale * (h_new - h_old)
+        else:
+            merged = torch.where(keep_bt.unsqueeze(-1), h_new, h_old)
         return merged, keep_bt
 
     def finalize(self, depth_bt):
