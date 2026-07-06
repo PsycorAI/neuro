@@ -449,7 +449,8 @@ class SpikingHebbianLM(nn.Module):
                  engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64,
                  recurrent_depth=1, recurrent_bptt_k=0,
                  recurrent_router_enabled=False, recurrent_router_capacity=None,
-                 recurrent_router_threshold=0.5):
+                 recurrent_router_threshold=0.5,
+                 recurrent_deep_supervision=False, recurrent_pass_weights=None):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -477,6 +478,20 @@ class SpikingHebbianLM(nn.Module):
                 threshold=recurrent_router_threshold)
         self._last_rdepth_aux = None
         self._last_rdepth_depth = None
+        # Phase 1 (recurrent-depth fix, 2026-07-06): per-pass deep supervision.
+        # Every successful looped-model recipe in the 2025-26 literature (Ouro,
+        # LoopFormer) applies the LM loss at every pass exit, not just the
+        # final one -- without it, early passes never get direct training
+        # signal as decodable outputs, which likely explains the depth-2
+        # screens' unusually slow convergence (still falling steeply at
+        # budget end while sibling configs plateau). recurrent_pass_weights
+        # is a list of length recurrent_depth-1 (one weight per NON-final
+        # pass, in pass order); None -> uniform 0.3 per intermediate pass.
+        # The final pass needs no extra term here -- it's already the primary
+        # CE the trainer computes on the model's returned logits.
+        self.recurrent_deep_supervision = recurrent_deep_supervision
+        self.recurrent_pass_weights = recurrent_pass_weights
+        self._last_pass_logits = None
         self.compile_safe = compile_safe
         self.tie_weights = tie_weights
         self.use_fpt = use_fpt
@@ -722,6 +737,8 @@ class SpikingHebbianLM(nn.Module):
                     active = torch.ones(B, T, dtype=torch.bool, device=device)
                     depth_bt = None
                     self.rdepth_router.reset()
+                if self.recurrent_deep_supervision:
+                    self._last_pass_logits = []
                 for pass_i in range(R):
                     # Truncated BPTT: detach the state before the last k passes
                     # so gradient memory stays bounded at large depth.
@@ -742,6 +759,13 @@ class SpikingHebbianLM(nn.Module):
                             depth_bt = depth_bt + active.float()
                     else:
                         x_seq = new_x_seq
+                    if self.recurrent_deep_supervision and not last:
+                        # Project THIS pass's actual representation (post router
+                        # merge, so frozen tokens are graded on their real exit
+                        # state, not the discarded recompute) -- trains each
+                        # pass to be independently decodable, not just a latent
+                        # stepping-stone the final pass compensates for.
+                        self._last_pass_logits.append(self.head(x_seq))
                     if last:
                         spike_accum = spikes
                         moe_aux_losses = aux

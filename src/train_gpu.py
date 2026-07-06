@@ -131,7 +131,9 @@ def build_model(c):
                                 recurrent_bptt_k=c.get("recurrent_bptt_k", 0),
                                 recurrent_router_enabled=c.get("recurrent_router_enabled", False),
                                 recurrent_router_capacity=c.get("recurrent_router_capacity", None),
-                                recurrent_router_threshold=c.get("recurrent_router_threshold", 0.5))
+                                recurrent_router_threshold=c.get("recurrent_router_threshold", 0.5),
+                                recurrent_deep_supervision=c.get("recurrent_deep_supervision", False),
+                                recurrent_pass_weights=c.get("recurrent_pass_weights", None))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -490,6 +492,17 @@ def main():
                 # (gates passes of the actual Hebbian block stack, not a bolt-on).
                 if c.get("recurrent_router_enabled", False) and raw_model._last_rdepth_aux is not None:
                     main_loss = main_loss + c.get("recurrent_router_aux_weight", 0.1) * raw_model._last_rdepth_aux
+                # Phase 1 deep supervision: CE loss at each NON-final recurrent
+                # pass, so early passes get direct training signal as decodable
+                # outputs instead of only ever being refined by a downstream
+                # pass's gradient. Weights default to uniform 0.3 per pass if
+                # not given (one entry per non-final pass, pass order).
+                if c.get("recurrent_deep_supervision", False) and raw_model._last_pass_logits:
+                    pass_weights = c.get("recurrent_pass_weights", None) or \
+                        [0.3] * len(raw_model._last_pass_logits)
+                    for pass_logits, w in zip(raw_model._last_pass_logits, pass_weights):
+                        main_loss = main_loss + w * F.cross_entropy(
+                            pass_logits.reshape(-1, c["vocab"]), y.reshape(-1))
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,
