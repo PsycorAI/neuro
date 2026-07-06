@@ -62,6 +62,36 @@ plumbing. Phase 2 (deferred, same staging as the MoE work) gathers only the kept
 tokens so the exited ones genuinely skip compute -- that's where the FLOP/energy
 saving is realized. The capacity schedule already defines exactly how much compute
 Phase 2 will save (for balanced S=3: mean depth 1.0 of 2 -> ~50% of refine FLOPs).
+
+Ablation-fragility fix (2026-07-05)
+------------------------------------
+The first screen (`screen_mor_refine_30m`) showed memory-Δ (ablated_ppl - val_ppl)
+growing to the hundreds/high-triple-digits and still climbing, vs. +tens for every
+other config at this recipe/scale (dense MoE, the old dense PonderNet ponder, etc).
+Researched the literature: this is TWO known, independently-documented failure
+modes compounding:
+  1. Discrete top-k routing is fragile to input perturbation -- MoE-robustness
+     papers note that near a routing decision boundary, "even minor input
+     perturbations can result in a different expert being selected." Our own
+     depth_hist confirms this: it polarized over training ([0.27,0.41,0.32] ->
+     [0.56,0.07,0.37]), meaning more tokens sit exactly at the fragile boundary.
+  2. The refinement gate wasn't identity-safe: `g` (the router's own sigmoid
+     score) was used to BOTH select top-k membership AND scale the refinement
+     magnitude (h + g*refine(h)), so the tokens the router is MOST confident
+     about get the STRONGEST transformation applied -- exactly backwards from
+     what a graceful-degradation design wants, and initialized at ~73% strength
+     from step 1 (no identity-safe warm start).
+
+Fix (ReZero, Bachlechner et al. 2020, arXiv:2003.04887): DECOUPLE the routing
+decision from the refinement magnitude. A dedicated scalar `alpha[r]` per
+depth, zero-initialized, now scales the refine() update -- independent of the
+router score, which is used ONLY for top-k selection + calibration. This starts
+every refine step as an exact identity map (a routing flip under ablation now
+changes the output by however much `alpha` has grown to trust the refinement,
+not by the router's full confidence), and lets the model gradually learn how
+much to invest in refinement as training shows it's warranted -- the same
+mechanism ReZero uses to stabilize/speed up convergence in deep and recursive
+residual stacks generally.
 """
 import torch
 import torch.nn as nn
@@ -82,6 +112,12 @@ class MoRRefine(nn.Module):
         self.norm = _make_norm(d, use_rmsnorm)
         # One small linear router per refine step (MoR: linear router is best).
         self.routers = nn.ModuleList([nn.Linear(d, 1) for _ in range(self.n_refine)])
+        # ReZero-style: a dedicated scalar per refine step, zero-init, DECOUPLED
+        # from the router score. Controls how much the refine update perturbs h;
+        # starts as an exact identity map so a routing flip (e.g. under memory
+        # ablation) can't be amplified by a confidently-strong transformation --
+        # see the ablation-fragility fix note above.
+        self.alpha = nn.Parameter(torch.zeros(self.n_refine))
         # Balanced default capacity: keep (S-r)/S of TOTAL tokens at step r.
         if capacity is None:
             capacity = [(ponder_steps - r) / ponder_steps
@@ -135,8 +171,10 @@ class MoRRefine(nn.Module):
                 keep = active & (g > self.threshold)
                 keep_rates.append(keep.float().mean())
 
-            # Gated residual refinement (dense compute in Phase 1, masked by keep).
-            refined = self.norm(h + g.unsqueeze(-1) * self.refine(h))
+            # ReZero-decoupled residual refinement (dense compute in Phase 1,
+            # masked by keep). alpha (not g) scales the update -- the routing
+            # decision and the refinement magnitude are independent.
+            refined = self.norm(h + self.alpha[r] * self.refine(h))
             keep_c = keep.unsqueeze(-1)
             h = torch.where(keep_c, refined, h)
             output = torch.where(keep_c, refined, output)
@@ -149,4 +187,8 @@ class MoRRefine(nn.Module):
             [(depth == dd).float().mean() for dd in range(self.ponder_steps)]).detach()
         self._last_eval_keep = (torch.stack(keep_rates).detach()
                                 if keep_rates else None)
+        # How much the model has learned to trust the refinement -- should grow
+        # away from 0 during training if the mechanism is earning its keep, not
+        # just sitting at identity to dodge the ablation-fragility issue.
+        self._last_alpha = self.alpha.detach().clone()
         return output.reshape(B, T, D)

@@ -472,9 +472,12 @@ def main():
                 keep = raw_model.ponder._last_eval_keep
                 keep_str = ("[" + ", ".join(f"{v:.2f}" for v in keep.tolist()) + "]"
                             if keep is not None else "n/a")
+                alpha = raw_model.ponder._last_alpha
+                alpha_str = ("[" + ", ".join(f"{v:.3f}" for v in alpha.tolist()) + "]"
+                            if alpha is not None else "n/a")
                 print(f"  [ponder] avg_depth {raw_model._last_expected_steps.item():.3f}"
                       f" / max {c.get('ponder_steps', 3) - 1} | depth_hist {hist_str}"
-                      f" | keep_rate {keep_str}", flush=True)
+                      f" | keep_rate {keep_str} | alpha {alpha_str}", flush=True)
             # Brain snapshot for spiking models (cheap, useful for after-the-fact analysis)
             if c["arch"] == "spiking" and c.get("snapshot_brain", True):
                 try:
