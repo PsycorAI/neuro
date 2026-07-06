@@ -128,7 +128,10 @@ def build_model(c):
                                 engram_K=c.get("engram_K", 32768),
                                 engram_rank=c.get("engram_rank", 64),
                                 recurrent_depth=c.get("recurrent_depth", 1),
-                                recurrent_bptt_k=c.get("recurrent_bptt_k", 0))
+                                recurrent_bptt_k=c.get("recurrent_bptt_k", 0),
+                                recurrent_router_enabled=c.get("recurrent_router_enabled", False),
+                                recurrent_router_capacity=c.get("recurrent_router_capacity", None),
+                                recurrent_router_threshold=c.get("recurrent_router_threshold", 0.5))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -406,6 +409,11 @@ def main():
                 # old ponder_cost_weight it has no collapse knife-edge.
                 if c.get("ponder_enabled", False) and raw_model._last_ponder_aux is not None:
                     main_loss = main_loss + c.get("ponder_aux_weight", 0.01) * raw_model._last_ponder_aux
+                # Recurrent-depth Stage 2 router aux loss -- same MoR calibration
+                # role as the ponder aux above, but for RecurrentDepthRouter
+                # (gates passes of the actual Hebbian block stack, not a bolt-on).
+                if c.get("recurrent_router_enabled", False) and raw_model._last_rdepth_aux is not None:
+                    main_loss = main_loss + c.get("recurrent_router_aux_weight", 0.1) * raw_model._last_rdepth_aux
                 # Multi-Token Prediction (MTP) auxiliary head — DeepSeek-V3 style.
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,
@@ -480,6 +488,18 @@ def main():
                 print(f"  [ponder] avg_depth {raw_model._last_expected_steps.item():.3f}"
                       f" / max {c.get('ponder_steps', 3) - 1} | depth_hist {hist_str}"
                       f" | keep_rate {keep_str} | alpha {alpha_str}", flush=True)
+            if c.get("recurrent_router_enabled", False) and raw_model._last_rdepth_depth is not None:
+                # eval runs the causal threshold path; depth_hist = fraction of
+                # tokens exiting at depth 1..R, keep = per-boundary keep-rate
+                # (should track the capacity schedule if the router is calibrated).
+                rr = raw_model.rdepth_router
+                hist_str = ("[" + ", ".join(f"{v:.2f}" for v in rr._last_depth_hist.tolist()) + "]"
+                            if rr._last_depth_hist is not None else "n/a")
+                keep_str = ("[" + ", ".join(f"{v:.2f}" for v in rr._last_eval_keep.tolist()) + "]"
+                            if rr._last_eval_keep is not None else "n/a")
+                print(f"  [rdepth] avg_depth {raw_model._last_rdepth_depth.item():.3f}"
+                      f" / max {c['recurrent_depth']} | depth_hist {hist_str}"
+                      f" | keep_rate {keep_str}", flush=True)
             # Brain snapshot for spiking models (cheap, useful for after-the-fact analysis)
             if c["arch"] == "spiking" and c.get("snapshot_brain", True):
                 try:

@@ -1,0 +1,60 @@
+# Recurrent-depth Stage 2: per-token adaptive depth via the MoR capacity
+# router, gated on Stage 1 (screen_rdepth2_30m) passing BOTH criteria:
+#   (a) val_ppl beats depth-1 control (81.20), and
+#   (b) memory-ablation Δ stays bounded (tens, not hundreds).
+# See HANDOFF_2026_07_05_v2.md decision tree. Minimal Stage-2 test: reuse the
+# SAME recurrent_depth=2 already validated in Stage 1 (don't combine a new
+# depth level with a new routing mechanism in one screen), but make it
+# adaptive -- RecurrentDepthRouter (src/adaptive_compute.py) decides per-token
+# whether to exit after pass 1 or continue to pass 2, via hard top-k at train
+# time + causal threshold at eval (MoR mechanics, reused per the Stage-1
+# handoff note "reuse the routing/top-k logic from MoRRefine"). Unlike the
+# superseded MoRRefine bolt-on, there is NO separate learned refine transform
+# here -- the router only gates the ACTUAL Hebbian block-stack pass, so
+# ablation should degrade the same graceful way Stage 1 already verified.
+# Default balanced capacity for depth=2 is [0.5] (half the tokens get pass 2).
+#
+# Byte-identical to screen_rdepth2_30m EXCEPT recurrent_router_enabled: true
+# and recurrent_router_aux_weight (MoR calibration loss, no collapse knife-edge
+# since compute budget is fixed by hard top-k, not by this loss's weight).
+run_name: screen_rdepth2_mor_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 2
+recurrent_bptt_k: 0
+recurrent_router_enabled: true
+recurrent_router_threshold: 0.5
+recurrent_router_aux_weight: 0.1
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

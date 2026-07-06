@@ -447,7 +447,9 @@ class SpikingHebbianLM(nn.Module):
                  ponder_enabled=False, ponder_steps=3, ponder_capacity=None,
                  ponder_threshold=0.5,
                  engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64,
-                 recurrent_depth=1, recurrent_bptt_k=0):
+                 recurrent_depth=1, recurrent_bptt_k=0,
+                 recurrent_router_enabled=False, recurrent_router_capacity=None,
+                 recurrent_router_threshold=0.5):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -462,6 +464,19 @@ class SpikingHebbianLM(nn.Module):
         # the last k passes (bounded memory at large depth, Huginn-style).
         self.recurrent_depth = recurrent_depth
         self.recurrent_bptt_k = recurrent_bptt_k
+        # Stage 2: per-token adaptive depth (MoR capacity router gating which
+        # tokens continue past each pass boundary) -- see RecurrentDepthRouter.
+        # False (default) => byte-identical to Stage 1 (every token gets all
+        # recurrent_depth passes).
+        self.recurrent_router_enabled = recurrent_router_enabled
+        if recurrent_router_enabled:
+            assert recurrent_depth >= 2, "recurrent_router_enabled requires recurrent_depth >= 2"
+            from adaptive_compute import RecurrentDepthRouter
+            self.rdepth_router = RecurrentDepthRouter(
+                d_mem, recurrent_depth, capacity=recurrent_router_capacity,
+                threshold=recurrent_router_threshold)
+        self._last_rdepth_aux = None
+        self._last_rdepth_depth = None
         self.compile_safe = compile_safe
         self.tie_weights = tie_weights
         self.use_fpt = use_fpt
@@ -680,17 +695,37 @@ class SpikingHebbianLM(nn.Module):
                 x_seq = torch.zeros_like(e)
                 R = self.recurrent_depth
                 k = self.recurrent_bptt_k if self.recurrent_bptt_k > 0 else R
+                if self.recurrent_router_enabled:
+                    active = torch.ones(B, T, dtype=torch.bool, device=device)
+                    depth_bt = None
+                    self.rdepth_router.reset()
                 for pass_i in range(R):
                     # Truncated BPTT: detach the state before the last k passes
                     # so gradient memory stays bounded at large depth.
                     if pass_i < R - k:
                         x_seq = x_seq.detach()
                     last = (pass_i == R - 1)
-                    x_seq, spikes, aux = self._fpt_stack_pass(
+                    new_x_seq, spikes, aux = self._fpt_stack_pass(
                         x_seq + e, ablate_memory, return_stats and last)
+                    if self.recurrent_router_enabled:
+                        if pass_i == 0:
+                            # Pass 0 is mandatory -- every token gets it (depth
+                            # >= 1 always). Gating starts at the first boundary.
+                            x_seq = new_x_seq
+                            depth_bt = torch.ones(B, T, device=device)
+                        else:
+                            x_seq, active = self.rdepth_router.gate(
+                                pass_i - 1, x_seq, new_x_seq, active)
+                            depth_bt = depth_bt + active.float()
+                    else:
+                        x_seq = new_x_seq
                     if last:
                         spike_accum = spikes
                         moe_aux_losses = aux
+                if self.recurrent_router_enabled:
+                    self.rdepth_router.finalize(depth_bt)
+                    self._last_rdepth_aux = self.rdepth_router._last_aux
+                    self._last_rdepth_depth = self.rdepth_router._last_expected_depth
             else:
                 # Single-pass (original behavior; also the path for stateful
                 # inference with an initial_state). Unchanged.

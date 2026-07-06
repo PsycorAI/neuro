@@ -192,3 +192,97 @@ class MoRRefine(nn.Module):
         # just sitting at identity to dodge the ablation-fragility issue.
         self._last_alpha = self.alpha.detach().clone()
         return output.reshape(B, T, D)
+
+
+class RecurrentDepthRouter(nn.Module):
+    """Per-token MoR expert-choice capacity router for recurrent-depth Stage 2.
+
+    Unlike MoRRefine above (a separate learned refine transform bolted onto the
+    final hidden state -- the design whose unbounded ablation-Δ triggered the
+    2026-07-05 rewrite), this router has NO refine transform of its own. It only
+    decides, between successive passes of the recurrent-depth loop, which token
+    positions continue to the next pass through the ACTUAL shared block stack
+    and which freeze at their current representation. The "refinement" each
+    token optionally receives is a real Hebbian block-stack forward (the same
+    computation every token always got in Stage 1), so ablation degrades the
+    routed tokens the same graceful way Stage 1 already verified -- there is no
+    separate module to develop a fragile memory-dependence.
+
+    One router (a single Linear) per pass boundary: for recurrent_depth=R there
+    are R-1 boundaries (after pass 0..R-2). Same MoR mechanics as MoRRefine:
+    hard top-k over active tokens at train time (collapse-proof) + an aux BCE
+    loss calibrating the score to its own top-k membership, so eval can use a
+    causal per-token threshold (no cross-token leak in val_ppl).
+    """
+    def __init__(self, d, depth, capacity=None, threshold=0.5):
+        super().__init__()
+        assert depth >= 2, "router only meaningful for recurrent_depth >= 2"
+        self.depth = depth
+        self.n_gates = depth - 1
+        self.threshold = threshold
+        self.routers = nn.ModuleList([nn.Linear(d, 1) for _ in range(self.n_gates)])
+        if capacity is None:
+            # Balanced default: keep (depth-r)/depth of ALL tokens past boundary r.
+            capacity = [(depth - r) / depth for r in range(1, depth)]
+        assert len(capacity) == self.n_gates, \
+            f"capacity needs {self.n_gates} entries, got {len(capacity)}"
+        self.capacity = capacity
+        # Positive bias: early training keeps (continues) tokens by default, so
+        # the deeper passes get gradient signal before the router turns picky.
+        for r in self.routers:
+            with torch.no_grad():
+                r.bias.fill_(1.0)
+        self._last_aux = None
+        self._last_expected_depth = None
+        self._last_depth_hist = None
+        self._last_eval_keep = None
+
+    def reset(self):
+        self._last_aux = None
+        self._eval_keep_list = []
+
+    def gate(self, gate_idx, h_old, h_new, active):
+        """Decide which ACTIVE tokens keep h_new (continue) vs freeze at h_old.
+
+        h_old, h_new: (B, T, D) representations before/after the pass being
+        gated. active: (B, T) bool, tokens still eligible to continue (already-
+        exited tokens are permanently excluded from every later gate too).
+        Returns (merged (B, T, D), new_active (B, T)).
+        """
+        B, T, D = h_old.shape
+        N = B * T
+        old_flat = h_old.reshape(N, D)
+        new_flat = h_new.reshape(N, D)
+        active_flat = active.reshape(N)
+        score = self.routers[gate_idx](new_flat).squeeze(-1)   # route on post-pass repr
+        g = torch.sigmoid(score)
+        cap = self.capacity[gate_idx]
+
+        if self.training:
+            k = max(1, int(round(cap * N)))
+            sel = torch.where(active_flat, g, g.new_full((), -1.0).expand(N))
+            topk_idx = torch.topk(sel, min(k, N)).indices
+            keep = torch.zeros(N, dtype=torch.bool, device=h_old.device)
+            keep[topk_idx] = True
+            keep &= active_flat
+            if active_flat.any():
+                bce = F.binary_cross_entropy_with_logits(
+                    score[active_flat], keep[active_flat].float().detach())
+                self._last_aux = bce if self._last_aux is None else self._last_aux + bce
+        else:
+            keep = active_flat & (g > self.threshold)
+            self._eval_keep_list.append(keep.float().mean())
+
+        keep_bt = keep.reshape(B, T)
+        merged = torch.where(keep_bt.unsqueeze(-1), h_new, h_old)
+        return merged, keep_bt
+
+    def finalize(self, depth_bt):
+        """depth_bt: (B, T) float, count of passes each token actually received
+        (1 .. self.depth). Call once after the full recurrent loop finishes."""
+        self._last_expected_depth = depth_bt.mean().detach()
+        self._last_depth_hist = torch.stack(
+            [(depth_bt == dd).float().mean()
+             for dd in range(1, self.depth + 1)]).detach()
+        self._last_eval_keep = (torch.stack(self._eval_keep_list).detach()
+                                if getattr(self, "_eval_keep_list", None) else None)
