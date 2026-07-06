@@ -28,7 +28,7 @@ def load_lut(student_vocab=16384):
 
 
 def load_teacher(model_id="meta-llama/Llama-3.2-1B", device="cuda", dtype=torch.bfloat16,
-                  compile=False, compile_mode="reduce-overhead"):
+                  compile=False, compile_mode="reduce-overhead", int8=False):
     """Load a Llama teacher. Returns the model in eval mode, gradients disabled.
 
     compile=True wraps the model in torch.compile. The teacher is a plain HF
@@ -42,8 +42,22 @@ def load_teacher(model_id="meta-llama/Llama-3.2-1B", device="cuda", dtype=torch.
     output-dataclass boundary.
     """
     from transformers import AutoModelForCausalLM
-    t = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype)
-    t = t.to(device).eval()
+    if int8 and device == "cuda":
+        # bitsandbytes 8-bit quantization: halves teacher memory, speeds up
+        # matmuls. Linear layers become Linear8bitLt (int8 storage, fp16
+        # compute internally regardless of input dtype). Small distribution
+        # drift in soft targets (typically ~1-2%) -- verify with one eval
+        # after enabling. device_map handles placement internally, so no
+        # subsequent .to(device) (would error on bnb-quantized weights).
+        from transformers import BitsAndBytesConfig
+        qc = BitsAndBytesConfig(load_in_8bit=True)
+        t = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=qc,
+                                                  device_map={"": device})
+        print(f"KD teacher loaded in int8 (bitsandbytes)")
+    else:
+        t = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype)
+        t = t.to(device)
+    t = t.eval()
     for p in t.parameters():
         p.requires_grad_(False)
     if compile and device == "cuda":

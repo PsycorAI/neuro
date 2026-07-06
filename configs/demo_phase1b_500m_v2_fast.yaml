@@ -42,8 +42,8 @@ set_zeta: 0.3
 set_every: 200
 
 block_size: 512
-batch_size: 8
-grad_accum: 4
+batch_size: 10
+grad_accum: 3
 eval_batch: 4
 
 use_fpt: true
@@ -88,6 +88,7 @@ kd_alpha: 0.5
 kd_temperature: 1.0
 kd_compile: true
 kd_compile_mode: default
+kd_teacher_int8: true    # bitsandbytes 8-bit; verify no quality drift at first eval
 
 max_tokens: 5000000000
 eval_every: 1000
