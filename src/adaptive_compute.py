@@ -112,7 +112,8 @@ class MoRRefine(nn.Module):
 
         for r in range(self.n_refine):
             cap = self.capacity[r]
-            g = torch.sigmoid(self.routers[r](h).squeeze(-1))       # (N,)
+            score = self.routers[r](h).squeeze(-1)                  # (N,) raw logit
+            g = torch.sigmoid(score)
 
             if self.training:
                 # Hard top-k over ACTIVE tokens -> collapse-proof by construction.
@@ -123,9 +124,12 @@ class MoRRefine(nn.Module):
                 keep[topk_idx] = True
                 keep &= active
                 # Aux BCE: calibrate score -> top-k membership (causal-eval bridge).
+                # Uses logits (not the sigmoid output) -- with_logits is autocast-safe,
+                # plain binary_cross_entropy on a sigmoid'd tensor is NOT (raises
+                # under torch.autocast/bf16 mixed precision).
                 if active.any():
-                    aux = aux + F.binary_cross_entropy(
-                        g[active], keep[active].float().detach())
+                    aux = aux + F.binary_cross_entropy_with_logits(
+                        score[active], keep[active].float().detach())
             else:
                 # Causal per-token threshold (no cross-token leak -> honest ppl).
                 keep = active & (g > self.threshold)
