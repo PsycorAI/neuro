@@ -136,14 +136,59 @@ def build_model(c):
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
 
-def _save_ckpt(ckdir, raw_model, opts, step, tokens, c):
+_ckpt_thread = None   # tracks the in-flight async save so we can join it
+
+
+def _to_cpu(obj):
+    """Recursively clone tensors to CPU (dicts/lists/tuples walked, everything
+    else returned as-is). Needed for BOTH model and optimizer state_dicts --
+    optimizer state (exp_avg, exp_avg_sq, ...) holds live GPU tensors that
+    opt.step() mutates in-place next step, which would race with a background
+    save thread if left un-cloned."""
+    if torch.is_tensor(obj):
+        return obj.detach().cpu().clone()
+    if isinstance(obj, dict):
+        return {k: _to_cpu(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return type(obj)(_to_cpu(v) for v in obj)
+    return obj
+
+
+def _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=True):
+    """Save a checkpoint. GPU->CPU copy happens synchronously (unavoidable --
+    the live tensors keep changing next step), but the disk write (the slow
+    part, ~seconds for a multi-GB file) runs in a background thread so the
+    GPU doesn't sit idle waiting on I/O. Call _join_ckpt_thread() before
+    exiting the process or the final checkpoint may be truncated."""
+    global _ckpt_thread
     p = f"{ckdir}/step_{step:07d}.pt"
-    torch.save({"model": raw_model.state_dict(),
-                "opt_states": [o.state_dict() for o in opts],
-                "step": step, "tokens": tokens, "cfg": c}, p)
-    for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
-        os.remove(o)
-    print(f"  saved {p}")
+    blob = {"model": _to_cpu(raw_model.state_dict()),
+            "opt_states": [_to_cpu(o.state_dict()) for o in opts],
+            "step": step, "tokens": tokens, "cfg": c}
+
+    def _write():
+        tmp = p + ".tmp"
+        torch.save(blob, tmp)
+        os.replace(tmp, p)   # atomic on same filesystem -- a kill mid-write
+                             # leaves only a .tmp, never a truncated step_*.pt
+        for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 3)]:
+            os.remove(o)
+        print(f"  saved {p}")
+
+    if async_save:
+        _join_ckpt_thread()   # don't overlap writes; also bounds thread count to 1
+        import threading
+        _ckpt_thread = threading.Thread(target=_write, daemon=False)
+        _ckpt_thread.start()
+    else:
+        _write()
+
+
+def _join_ckpt_thread():
+    global _ckpt_thread
+    if _ckpt_thread is not None:
+        _ckpt_thread.join()
+        _ckpt_thread = None
 
 
 def _set_lam(raw_model, lam):
@@ -529,8 +574,11 @@ def main():
 
     # Always save a FINAL checkpoint so the last training state is evaluable
     # (prevents the "evaluated at step 2000 while siblings are at 3000" confound
-    # when max_tokens isn't a multiple of ckpt_every).
-    _save_ckpt(ckdir, raw_model, opts, step, tokens, c)
+    # when max_tokens isn't a multiple of ckpt_every). Synchronous (not async):
+    # this is the last save before process exit, so there's no next step to
+    # overlap I/O with, and we must not exit while a background write is
+    # still in flight (would leave a truncated/corrupt .pt file).
+    _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")
     if c["arch"] == "spiking":
         _, _, sr = evaluate(raw_model, data, c, device)
