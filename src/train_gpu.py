@@ -198,10 +198,28 @@ def _set_lam(raw_model, lam):
         b.lam = lam
 
 
+# Fixed eval RNG seed (unrelated to training's own RNG / c["seed"]): every
+# evaluate() call across every config/run/step draws the SAME sequence of
+# validation windows. Two effects: (1) within a run, successive evals measure
+# progress on a fixed yardstick instead of a different random sample each
+# time; (2) across runs/configs (A/B comparisons), the "which windows got
+# sampled" confound is eliminated -- a huge source of the 10-15 ppl noise
+# that swamped MoE/Engram/recurrent-depth screens. Bumped default iters
+# 20->100 (5x eval compute, ~2-4% of total run time) for a further sqrt(5)
+# reduction in sampling variance. Legacy numbers recorded before this fix
+# (e.g. the 81.20 control) are NOT directly comparable -- re-run controls
+# alongside any new screen that needs a fair baseline.
+EVAL_SEED = 20260706
+
+
 @torch.no_grad()
-def evaluate(model, data, c, device, iters=20):
+def evaluate(model, data, c, device, iters=None):
+    import numpy as np
     model.eval()
     amp = c["amp"] and device == "cuda"
+    iters = iters if iters is not None else c.get("eval_iters", 100)
+    rng_state = np.random.get_state()
+    np.random.seed(EVAL_SEED)
 
     def ppl(ablate):
         tot = 0.0
@@ -212,12 +230,15 @@ def evaluate(model, data, c, device, iters=20):
                 tot += F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1)).item()
         return math.exp(tot / iters)
 
-    full = ppl(False)
-    if c["arch"] == "spiking":
-        x, _ = data.batch(c["eval_batch"], c["block_size"], "val", device)
-        _, sr = model(x, return_stats=True)
-        return full, ppl(True), sr.item()
-    return full, None, None
+    try:
+        full = ppl(False)
+        if c["arch"] == "spiking":
+            x, _ = data.batch(c["eval_batch"], c["block_size"], "val", device)
+            _, sr = model(x, return_stats=True)
+            return full, ppl(True), sr.item()
+        return full, None, None
+    finally:
+        np.random.set_state(rng_state)   # don't perturb training's own RNG stream
 
 
 def main():

@@ -1,0 +1,42 @@
+# MISSING matched control, depth-1 @ 200M tokens, seed 1 -- sibling of
+# screen_rdepth1_200mtok_30m (seed 0). See that file's header for the full
+# rationale. Byte-identical except seed: 1.
+run_name: screen_rdepth1_200mtok_seed1_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1          # the control: single pass, no looping
+recurrent_bptt_k: 0         # 0 = full backprop through both passes (fine at R=2)
+block_size: 512
+batch_size: 16              # eff batch 16*2=32 MATCHES control (fair A/B), while
+grad_accum: 2               # halving per-microstep activation offsets R=2's ~2x
+                            # memory -> comfortably under the 5080's 16GB.
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 200000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 50
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 1
