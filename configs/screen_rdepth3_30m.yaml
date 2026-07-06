@@ -4,11 +4,14 @@
 # decision tree, tests whether more fixed depth alone helps before adding
 # routing complexity. Cheap to run since it's a 1-line diff from Stage 1.
 #
-# Byte-identical to screen_rdepth2_30m EXCEPT recurrent_depth: 3. VRAM check:
-# Stage 1 (depth=2) used only 0.9/8.9GB at batch=16/grad_accum=2 (huge
-# headroom on the 5080's 16GB) -- depth=3's extra pass should still be
-# comfortably safe at the same batch/accum, so left unchanged for a fair,
-# minimal-diff comparison.
+# Byte-identical to screen_rdepth2_30m EXCEPT recurrent_depth: 3. VRAM: the
+# depth-2 run's SYSTEM-WIDE usage was ~10.3GB/16GB per nvidia-smi (the log's
+# "0.9/8.9GB" line is the allocator's self-report -- see the batch-collapse
+# gotcha), and full BPTT (bptt_k: 0) retains ~1.5x the activations at depth-3.
+# Should still fit, but CHECK nvidia-smi system-wide within the first minutes
+# of launch. If it OOMs or runs too close: batch_size 8 / grad_accum 4
+# (preserves eff batch 32 and full BPTT -- cleaner than truncating bptt_k for
+# a quality screen).
 run_name: screen_rdepth3_30m
 arch: spiking
 vocab: 16384

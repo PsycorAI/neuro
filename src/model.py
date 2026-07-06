@@ -625,6 +625,14 @@ class SpikingHebbianLM(nn.Module):
         Fresh memory per pass (not carried across passes): the memory is rebuilt
         from the current refined representation each pass, which shares the
         memory *machinery* without double-writing a running state across passes.
+
+        Returns (x_seq, spikes, aux, mems, Ms, final_spks) -- the per-layer
+        memory states from THIS pass, so the caller can expose the LAST pass's
+        states as the model's final state (return_final_state / brain
+        snapshots). The last pass's memory -- built from the most refined
+        representation -- IS the model's memory after reading the sequence;
+        discarding it (the original behavior) made recurrent-depth brain
+        snapshots silently all-zero.
         """
         B = x_in.shape[0]
         device = x_in.device
@@ -634,7 +642,7 @@ class SpikingHebbianLM(nn.Module):
         Ms = [torch.zeros(B * blk.n_state_units, blk.d_state, blk.d_state,
                           device=device) for blk in self.blocks]
         prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-        spikes, aux = [], []
+        spikes, aux, final_spks = [], [], []
         x_seq = x_in
         for l, block in enumerate(self.blocks):
             out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
@@ -647,7 +655,8 @@ class SpikingHebbianLM(nn.Module):
                 spikes.append(spk_seq)
             if getattr(block, "_last_aux_loss", None) is not None:
                 aux.append(block._last_aux_loss)
-        return x_seq, spikes, aux
+            final_spks.append(final_spk)
+        return x_seq, spikes, aux, mems, Ms, final_spks
 
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False,
@@ -657,15 +666,29 @@ class SpikingHebbianLM(nn.Module):
         base = self.embed(idx) * self._embed_scale_factor      # (B, T, d)
         L = self.n_layers
 
+        # Recurrent-depth branch condition, hoisted so the state init below can
+        # skip its (otherwise dead) zero-allocation: _fpt_stack_pass builds its
+        # own fresh states each pass and the LAST pass's states are adopted as
+        # the model's final state after the loop.
+        use_rdepth = (self.use_fpt and self.recurrent_depth > 1
+                      and initial_state is None)
+
         if initial_state is None:
-            mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            # Each block owns its own state shape (n_heads>1 collapses split
-            # heads into batch; MoE collapses full-size experts into batch).
-            Ms = [torch.zeros(B * blk.n_state_units, blk.d_state, blk.d_state,
-                              device=device) for blk in self.blocks]
-            prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
-            Ss = [torch.zeros(B * self.n_heads, self.d_head, self.d_head, device=device)
-                  for _ in range(L)] if self.titans else [None] * L
+            if use_rdepth:
+                # Populated from the final stack pass in the recurrent branch --
+                # pre-allocating here was ~2*B*d_mem^2 floats of zero-init churn
+                # per forward that the branch never read.
+                mems = Ms = prev_spks = None
+                Ss = [None] * L
+            else:
+                mems = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
+                # Each block owns its own state shape (n_heads>1 collapses split
+                # heads into batch; MoE collapses full-size experts into batch).
+                Ms = [torch.zeros(B * blk.n_state_units, blk.d_state, blk.d_state,
+                                  device=device) for blk in self.blocks]
+                prev_spks = [torch.zeros(B, self.n_neurons, device=device) for _ in range(L)]
+                Ss = [torch.zeros(B * self.n_heads, self.d_head, self.d_head, device=device)
+                      for _ in range(L)] if self.titans else [None] * L
         else:
             def _bcast(t, shape):
                 if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
@@ -685,7 +708,7 @@ class SpikingHebbianLM(nn.Module):
         if self.use_fpt:
             spike_accum = []
             moe_aux_losses = []
-            if self.recurrent_depth > 1 and initial_state is None:
+            if use_rdepth:
                 # Recurrent depth: loop the block stack R times, sharing weights,
                 # with input injection (the embedded input `e` is re-added each
                 # pass -- anchors the recursion to the input and aids gradient
@@ -705,7 +728,7 @@ class SpikingHebbianLM(nn.Module):
                     if pass_i < R - k:
                         x_seq = x_seq.detach()
                     last = (pass_i == R - 1)
-                    new_x_seq, spikes, aux = self._fpt_stack_pass(
+                    new_x_seq, spikes, aux, p_mems, p_Ms, p_spks = self._fpt_stack_pass(
                         x_seq + e, ablate_memory, return_stats and last)
                     if self.recurrent_router_enabled:
                         if pass_i == 0:
@@ -722,6 +745,10 @@ class SpikingHebbianLM(nn.Module):
                     if last:
                         spike_accum = spikes
                         moe_aux_losses = aux
+                        # Adopt the final pass's memory as the model's state
+                        # (return_final_state / brain snapshots) -- previously
+                        # discarded, leaving all-zero states.
+                        mems, Ms, prev_spks = p_mems, p_Ms, p_spks
                 if self.recurrent_router_enabled:
                     self.rdepth_router.finalize(depth_bt)
                     self._last_rdepth_aux = self.rdepth_router._last_aux

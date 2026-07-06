@@ -197,6 +197,13 @@ def main():
     data_orig_vocab = c.get("data_orig_vocab", 128256)
     data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab)
     stateful = c.get("stateful_stream", False) and c["arch"] == "spiking"
+    # Recurrent depth only engages when forward() gets initial_state=None;
+    # stateful streaming passes a carried state every step, which would
+    # SILENTLY disable the recurrent loop (and its router). Fail loudly instead.
+    if c.get("recurrent_depth", 1) > 1 and stateful:
+        raise ValueError("recurrent_depth > 1 is silently bypassed under "
+                         "stateful_stream (the initial_state path is single-pass); "
+                         "unset one of them")
     seq_stream = None
     if stateful:
         from data_stream import SequentialStream
