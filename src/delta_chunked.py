@@ -365,6 +365,17 @@ def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16):
     are vectorized across sub-blocks in one einsum; requires C % sub == 0
     (caller pads chunking so this holds or falls to the ragged path)."""
     B, C, K = kn.shape
+    pad = (-C) % sub
+    if pad and C > sub:
+        # Ragged tail longer than one sub-block (e.g. SFT/OPD batches padded to
+        # their longest example, T % chunk up to chunk-1). The ragged path below
+        # materializes (B,C,C,K) fp32 -- ~1.3GB/call at C=255,K=1280 -- which
+        # OOM'd v3 SFT on the 5090 (2026-09-25). Zero-pad to a multiple of `sub`
+        # instead: kn=v=q=b=0 and LogA=0 (alpha=1) rows give zero A/Bm rows+cols,
+        # zero U, zero k_carry and leave cs[-1] unchanged -> exact no-op.
+        z = lambda t: torch.nn.functional.pad(t, (0, 0, 0, pad))
+        S, r = _gdn2_dense_chunk(S, z(kn), z(v), z(q), z(b), z(LogA), sub)
+        return S, r[:, :C]
     work = kn.dtype
     dev = kn.device
     cs = torch.cumsum(LogA, dim=1)                                 # (B,C,K), <= 0

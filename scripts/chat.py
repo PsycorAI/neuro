@@ -132,7 +132,14 @@ def main():
     m = build(c, args.device); m.load_state_dict(blob["model"], strict=False); m.eval()
     print(f"loaded {args.run}: {sum(p.numel() for p in m.parameters())/1e6:.1f}M params, "
           f"{blob.get('tokens',0)/1e6:.0f}M tok")
-    encode, decode = load_tokenizer(c["vocab"])
+    if c.get("lut_subword_fallback", False):
+        # Match the SFT encoder (v3 post-training): re-spell out-of-LUT tokens as
+        # in-vocab subwords instead of mapping them to id 0 (neuro_lut_oov_drop_bug).
+        import lut_spell
+        encode = lut_spell.make_encoder(c["vocab"], subword_fallback=True)
+        decode = lut_spell.make_decoder(c["vocab"])
+    else:
+        encode, decode = load_tokenizer(c["vocab"])
 
     # Persistent Hebbian brain state, carried across turns.
     persistent = {"state": None}
