@@ -52,7 +52,7 @@ lr: 0.0006
 lam: 0.98
 max_tokens: 100000000
 eval_every: 1000
-ckpt_every: 4000
+ckpt_every: 1000
 keep_last: 2
 log_every: 100
 amp: true
