@@ -271,6 +271,8 @@ class SpikingHebbianBlock(nn.Module):
         # iterations). Exact reassociation of the same math at any chunk size
         # (parity-tested); only float-order and speed change.
         self.gdn2_chunk_size = gdn2_chunk_size
+        # GDN-2 gate telemetry only in eval mode (set by the LM from config).
+        self.telemetry_eval_only = False
         if d_mem % n_heads != 0:
             raise ValueError(f"d_mem ({d_mem}) must be divisible by n_heads ({n_heads})")
         self.d_head = d_mem // n_heads
@@ -707,18 +709,24 @@ class SpikingHebbianBlock(nn.Module):
                     w_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(w_logit)  # write (floored)
                     alpha_seq = torch.exp(-torch.exp(self.gdn2_a)
                                           * F.softplus(f_logit))           # (B,T,dk) decay
-                    self._last_beta_stats = _beta_stats(w_seq, floor=self.beta_floor)  # telemetry on write gate (floored)
-                    # Erase/decay telemetry: for this whole investigation only the
-                    # WRITE gate was logged, which hid a blown-up decay gate in
-                    # block 0 and 58-92% erase saturation in blocks 4-7.
-                    self._last_gate_stats = _gate_sat_stats(b_logit, w_logit, f_logit)
-                    # alpha-space readout (2026-08-08). The [alpha] line was
-                    # dead on this path -- only the OSDN/SDM/plain-delta
-                    # branches ever populated it -- so the effective memory
-                    # horizon of the GDN-2 recipe was never logged. Here
-                    # alpha in (0,1) unclamped, so hi/lo bracket the raw
-                    # range: hi_frac = never-forget, lo_frac = wiped.
-                    self._last_alpha_stats = _alpha_stats(alpha_seq, lo=0.0, hi=1.0)
+                    # telemetry_eval_only (2026-09-25): these helpers are
+                    # compiler-disabled (graph breaks) and do ~14 .item() host
+                    # syncs per block per forward. The trainer only reads them
+                    # after evaluate(), whose last forward is in eval mode, so
+                    # skipping them in training changes no logged number.
+                    if not (self.telemetry_eval_only and self.training):
+                        self._last_beta_stats = _beta_stats(w_seq, floor=self.beta_floor)  # telemetry on write gate (floored)
+                        # Erase/decay telemetry: for this whole investigation only the
+                        # WRITE gate was logged, which hid a blown-up decay gate in
+                        # block 0 and 58-92% erase saturation in blocks 4-7.
+                        self._last_gate_stats = _gate_sat_stats(b_logit, w_logit, f_logit)
+                        # alpha-space readout (2026-08-08). The [alpha] line was
+                        # dead on this path -- only the OSDN/SDM/plain-delta
+                        # branches ever populated it -- so the effective memory
+                        # horizon of the GDN-2 recipe was never logged. Here
+                        # alpha in (0,1) unclamped, so hi/lo bracket the raw
+                        # range: hi_frac = never-forget, lo_frac = wiped.
+                        self._last_alpha_stats = _alpha_stats(alpha_seq, lo=0.0, hi=1.0)
                     if self.use_fla_kernel:
                         # Fused Triton kernel — parity-validated vs the loop
                         # below (temp/test_gdn2_fla_parity.py). See
@@ -954,9 +962,16 @@ class SpikingHebbianLM(nn.Module):
                  attention_heads=8,
                  attention_max_seq_len=4096,
                  attention_qk_norm=True,
-                 spike_rate_undiluted=False):
+                 spike_rate_undiluted=False,
+                 attn_single_residual=False, telemetry_eval_only=False):
         super().__init__()
         self.vocab = vocab
+        # attn_single_residual (2026-09-25 fix, default off = byte-identical to
+        # every existing ckpt): HybridAttentionBlock already returns
+        # x + attn + ffn, and the block loop added x AGAIN -> 2x + attn + ffn
+        # (verified temp/verify_double_residual.py). True skips the loop's add
+        # for attention blocks. Changes the function -> fresh runs only.
+        self.attn_single_residual = attn_single_residual
         self.d = d
         self.n_neurons = n_neurons
         self.d_mem = d_mem
@@ -1084,6 +1099,9 @@ class SpikingHebbianLM(nn.Module):
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
         self.blocks = nn.ModuleList(blocks)
+        for b in self.blocks:
+            if isinstance(b, SpikingHebbianBlock):
+                b.telemetry_eval_only = telemetry_eval_only
         # Frac-Connections (arXiv:2503.14125, see docs/hyperconnections_design.md):
         # per-layer learnable generalization of the residual add, identity-init
         # so it's a no-op until trained. One instance per layer (state is
@@ -1196,6 +1214,11 @@ class SpikingHebbianLM(nn.Module):
                 orders=tuple(engram_v2_orders),
                 K=engram_v2_K, heads=engram_v2_heads, rank=engram_v2_rank)
 
+    def _attn_owns_residual(self, block):
+        """True when the loop must NOT add the residual: attn_single_residual is
+        on and the block is a HybridAttentionBlock (it adds its own)."""
+        return self.attn_single_residual and hasattr(block, "qkv")
+
     def _fpt_stack_pass(self, x_in, ablate_memory, return_stats):
         """One pass of the full block stack over the sequence, with FRESH memory.
 
@@ -1233,7 +1256,7 @@ class SpikingHebbianLM(nn.Module):
             out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
                 x_seq, mems[l], Ms[l], prev_spks[l],
                 ablate_memory=ablate_memory, fpt_K=self.fpt_K)
-            if L > 1 and (l > 0 or use_residual):
+            if L > 1 and (l > 0 or use_residual) and not self._attn_owns_residual(block):
                 out_seq = self.fracconns[l](out_seq, x_seq) if self.fracconn_enabled else out_seq + x_seq
             x_seq = out_seq
             if return_stats:
@@ -1416,7 +1439,7 @@ class SpikingHebbianLM(nn.Module):
                             x_seq, mems[l], Ms[l], prev_spks[l],
                             ablate_memory=ablate_memory, fpt_K=self.fpt_K)
                         prev_spks[l] = final_spk
-                    if L > 1 and (l > 0 or use_residual):
+                    if L > 1 and (l > 0 or use_residual) and not self._attn_owns_residual(block):
                         out_seq = self.fracconns[l](out_seq, x_seq) if self.fracconn_enabled else out_seq + x_seq
                     x_seq = out_seq
                     if return_stats:

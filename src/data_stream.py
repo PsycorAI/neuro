@@ -10,9 +10,15 @@ import torch
 
 class StreamText:
     def __init__(self, bin_path, vocab=16384, sample=50_000_000,
-                 map_path=None, orig_vocab=128256):
+                 map_path=None, orig_vocab=128256, independent_windows=False):
         self.data = np.memmap(bin_path, dtype=np.uint32, mode="r")
         self.vocab = vocab
+        # independent_windows (2026-09-25, default off = byte-identical): the
+        # default sampler draws all B windows from ONE ~4*B*(T+1)-token region,
+        # so a microbatch is a few correlated documents (and windows overlap).
+        # True draws each train window from its own random start. Train split
+        # only -- val keeps the old sampler so eval windows match across arms.
+        self.independent_windows = independent_windows
         if map_path is None:
             map_path = f"/home/glenn/projects/neuro/data/vocab_map_{vocab}.npy"
         if os.path.exists(map_path):
@@ -30,6 +36,15 @@ class StreamText:
 
     def batch(self, B, T, split="train", device="cpu", return_raw=False):
         lo, hi = (0, self.split) if split == "train" else (self.split, len(self.data) - T - 1)
+        if self.independent_windows and split == "train":
+            starts = np.random.randint(lo, hi - T - 1, size=B)
+            rb = np.stack([np.asarray(self.data[s:s + T + 1], dtype=np.int64) for s in starts])
+            xb = self.lut[rb]
+            x = torch.from_numpy(xb[:, :-1]).to(device)
+            y = torch.from_numpy(xb[:, 1:]).to(device)
+            if not return_raw:
+                return x, y
+            return x, y, torch.from_numpy(rb[:, :-1]).to(device)
         # one sequential read per batch (~B*T*4 tokens), then B random sub-windows
         region = B * (T + 1) * 4
         start = np.random.randint(lo, max(lo + 1, hi - region - 1))

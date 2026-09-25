@@ -197,7 +197,9 @@ def build_model(c):
                                 attention_qk_norm=c.get("attention_qk_norm", True),
                                 spike_rate_undiluted=c.get("spike_rate_undiluted", False),
                                 final_norm=c.get("final_norm", False),
-                                deltaproduct_nh=c.get("deltaproduct_nh", 1))
+                                deltaproduct_nh=c.get("deltaproduct_nh", 1),
+                                attn_single_residual=c.get("attn_single_residual", False),
+                                telemetry_eval_only=c.get("telemetry_eval_only", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -401,7 +403,8 @@ def main():
 
     bin_path = c.get("data_bin", BIN)
     data_orig_vocab = c.get("data_orig_vocab", 128256)
-    data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab)
+    data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab,
+                      independent_windows=c.get("data_independent_windows", False))
     if c.get("curriculum_enabled", False):
         from curriculum import CurriculumStream
         per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
