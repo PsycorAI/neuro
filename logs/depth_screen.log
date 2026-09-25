@@ -12,3 +12,11 @@ step 500 | 8.2M tok | loss 9.766 | 10,664 tok/s | vram 1.4/14.3 GB
 step 600 | 9.8M tok | loss 9.667 | 10,869 tok/s | vram 1.3/14.3 GB
 step 700 | 11.5M tok | loss 9.845 | 10,350 tok/s | vram 1.3/14.3 GB
 step 800 | 13.1M tok | loss 9.341 | 10,541 tok/s | vram 1.3/14.3 GB
+step 900 | 14.7M tok | loss 9.047 | 10,391 tok/s | vram 1.4/14.3 GB
+step 1000 | 16.4M tok | loss 9.080 | 10,472 tok/s | vram 1.3/14.3 GB
+  [eval] val_ppl 101.31 | ablated_ppl 437.19 (memory Δ=+335.88) | spike 0.175
+  [wnorm] embed=3493.27 | head=112.66
+  [beta] blk0: μ=0.84 dead=0% at_floor=5% | blk1: μ=0.45 dead=0% at_floor=60% | blk2: μ=0.57 dead=0% at_floor=4% | blk3: μ=0.58 dead=0% at_floor=4%
+  [gates sat] (d=neverforget/fastforget) blk0: e=70% w=58% d=3/7% dstd=2.8 | blk1: e=98% w=98% d=16/0% dstd=1.6 | blk2: e=51% w=13% d=2/0% dstd=1.2 | blk3: e=45% w=14% d=2/0% dstd=0.8
+  [alpha] blk0: μ=0.662 hi=0% lo=1% | blk1: μ=0.887 hi=0% lo=0% | blk2: μ=0.826 hi=0% lo=0% | blk3: μ=0.923 hi=0% lo=0%
+step 1100 | 18.0M tok | loss 9.068 | 8,540 tok/s | vram 1.4/14.0 GB

@@ -81,17 +81,14 @@ See `assets/degree_distribution.png`.
 ## Run
 
 ```bash
-python src/train.py             # induction task: G3 (memory necessary) + G2 (sparsity) + G5 (CPU)
-python src/train_text.py        # G1 (beats bigram) + G6 (energy vs transformer)
-python scripts/viz_synapse.py   # G4: assets/synapse_strengthening.png
-python tests/test_phase1.py     # gates as tests (also works under: pytest -q)
-python src/train_set.py         # Phase 2: SET sparse connectivity (degree + modularity)
+python tests/test_phase1.py     # Phase 1 gates as tests (also works under: pytest -q)
+python src/train_gpu.py --config configs/flagship_v3_363m.yaml   # current flagship pretrain
 ```
 
-## Hardware notes
+The Phase 1 / Phase 2 demo trainers (`src/train.py`, `src/train_text.py`,
+`src/train_set.py`) were retired on 2026-09-25; they remain in git history.
 
-The Phase 1 / Phase 2 scripts (`src/train.py`, `src/train_set.py`, `src/train_text.py`)
-run **comfortably on CPU** — no GPU required.
+## Hardware notes
 
 The Phase 2.5 GPU trainer (`src/train_gpu.py`) uses backpropagation through the full
 unrolled time loop. Peak VRAM scales with `batch_size × block_size × d_mem²`, so the

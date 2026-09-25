@@ -66,6 +66,11 @@ gdn2_enabled: true
 gdn2_chunked: true
 gate_rank: 16                      # v4 lever #1 -- SCREENED A WIN (see banner). r16
                                    # low-rank bottleneck on W_b/W_w/W_fdecay.
+attn_single_residual: true         # 2026-09-25 BUG FIX: attention layer's residual was
+                                   # added twice (2x + attn + ffn). v4 is fresh -> free fix.
+telemetry_eval_only: true          # 2026-09-25: gate telemetry only at eval (no graph
+                                   # breaks / host syncs in training); same logged values.
+# data_independent_windows: true   # PENDING 30M screen (logs/indepwin_screen.log)
 osdn_enabled: false
 engram_v2_enabled: true
 engram_v2_K: 8192
