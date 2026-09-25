@@ -1,0 +1,28 @@
+loading checkpoint: screen_bake_full_gdn2_batchA_30m
+  step=6104 tokens=100M vocab=16384 engram_enabled=False engram_v2_enabled=True
+fact set: 50
+
+scored 40/50 facts (10 skipped)
+                       ENGRAM ON     ENGRAM OFF     Δ (on-off)
+    mean log-prob         -8.854         -8.862          0.008
+    mean rank             1529.6         1595.2          -65.6
+    top-1 acc %             0.0%           0.0%           0.0%
+    top-10 acc %            7.5%           5.0%           2.5%
+
+Interpretation:
+  Engram working  = ON meaningfully better than OFF
+                    (higher log-prob, lower rank, higher top-K).
+  Engram inactive = ON and OFF nearly identical (path exists but contributes ~0).
+  Engram harmful  = ON worse than OFF (rare; possible if mis-trained).
+
+Skipped facts:
+  [target all-OOV] 'The capital of Spain is'
+  [target all-OOV] 'The capital of Canada is'
+  [target all-OOV] 'The capital of Egypt is'
+  [target all-OOV] 'The capital of Australia is'
+  [target all-OOV] 'Mount Everest is located in'
+  [target all-OOV] 'The currency of Japan is the'
+  [target all-OOV] 'The chemical symbol for gold is'
+  [target all-OOV] 'The author of The Odyssey is'
+  [target all-OOV] 'The longest river in the world is the'
+  [target all-OOV] 'The tallest mountain is Mount'

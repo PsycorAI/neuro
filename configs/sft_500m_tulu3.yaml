@@ -1,0 +1,126 @@
+# Tulu-3 SFT on 500M v3 base -- upgraded SFT recipe (2026-07-29).
+#
+# WHY: the prior sft_500m_full_v3 (500M tok Alpaca-cleaned) produced very
+# weak chat quality on a 13-prompt REPL test (1/13 clearly right, rest word
+# salad or off-topic). Tulu-3 SFT mixture is ~939k curated examples across
+# reasoning, chat, refusal, math (GSM8K), safety -- the standard 2026 open
+# 1B-scale SFT recipe. See docs/1b_v1_design.md and the 2026-07-29 chat
+# test outputs (temp/demo_out_sft.txt) for the failure baseline.
+#
+# BASE: sparsity_refine_500m_v3 final ckpt (matches sft_500m_full_v3.yaml
+# choice -- lower-spike, refined 500M v3 endpoint).
+#
+# RECIPE differences from sft_500m_full_v3.yaml:
+#   - sft_dataset: yahma/alpaca-cleaned -> allenai/tulu-3-sft-mixture (~939k examples)
+#
+# block_size/max_tokens MATCH sft_500m_full_v3 exactly. Pre-launch verification
+# (temp/verify_tulu3.py, 2026-07-29) measured Tulu-3 single-turn length
+# distribution: p50=154, p90=374, max=1024, mean=187 tok. The original draft's
+# block_size=1024 was overkill (covers <1% of samples that would otherwise be
+# truncated) and expanded max_tokens=1.5B implied ~8 epochs over the
+# single-turn slice -- overfit territory at 500M scale per
+# neuro_simpo_collapse_2026_07_26. Matching sft_500m_full_v3's shape gives ~3
+# epochs of Tulu-3. CORRECTED ETA (2026-07-29, after checking the real
+# sft_500m_full_v3 chain log): that run took 12.41h for 500M tok at
+# ~2,900-3,100 tok/s -- the original "~4-5h" estimate in this comment was
+# wrong from the start (compared against a stale pre-GDN-2 log by mistake).
+#
+# batch_size/grad_accum: bumped 6/4 -> 12/2 (2026-07-29) to raise GPU
+# utilization -- first launch measured only 15-20% SM util at 6/4 (VRAM
+# 10.1/20.0 GB, well under the 5090's ~31.8GB). effective batch
+# (batch_size * grad_accum = 24) held CONSTANT, so per_step_tok/total_steps/
+# LR schedule and the accumulated gradient over the window are IDENTICAL to
+# the 6/4 config -- (loss / grad_accum).backward() means microbatch/grad_accum
+# split is quality-neutral by construction, only changes wall-clock. Live
+# VRAM-probe philosophy per 500m_v3.yaml:71 -- verify via the first real
+# step's vram/tok/s reading, don't trust the estimate.
+#
+# LAUNCH:
+#   python src/train_sft.py --config configs/sft_500m_tulu3.yaml --device cuda
+# Loads sft_init automatically via glob. Saves to models/checkpoints/sft_500m_tulu3/.
+run_name: sft_500m_tulu3
+
+# Base
+sft_init: sparsity_refine_500m_v3
+sft_dataset: allenai/tulu-3-sft-mixture
+sft_split: train
+sft_max_len: 512
+
+# Full-finetune (LoRA plateaus at 30M per neuro_lora_at_30m_plateau; retest at 500M is deferred)
+lora_enabled: false
+
+# --- ARCH: byte-identical to 500m_v3.yaml ---
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 12
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+# Pretraining-only knobs: OFF during SFT
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+# Model-arch knobs (MUST match base)
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# Muon+AdamW, gentle SFT LRs (5x lower than pretrain, same as sft_500m_full_v3)
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.001
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0001
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+max_tokens: 500000000     # ~3 epochs of Tulu-3 single-turn slice; ~4-5h on 5090
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 3
+log_every: 100
+amp: true
+
+# compile: true is structural (see sft_500m_full_v3 note); train_sft.py never
+# actually calls torch.compile, but this ensures 0/0 state_dict load key match.
+compile: true
+seed: 0

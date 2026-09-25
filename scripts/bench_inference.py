@@ -26,20 +26,13 @@ def latest(d):
 
 
 def build(c):
-    if c["arch"] == "spiking":
-        return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
-                                d_mem=c["d_mem"],
-                                recurrent=c.get("recurrent", False),
-                                rec_density=c.get("rec_density", 0.05),
-                                compile_safe=c.get("compile", False),
-                                n_layers=c.get("n_layers", 1),
-                                use_fpt=c.get("use_fpt", False),
-                                fpt_K=c.get("fpt_K", 10),
-                                lam=c.get("lam", 0.98),
-                                learnable_decay=c.get("learnable_decay", False),
-                                write_gate=c.get("write_gate", False))
-    return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
-                           n_layer=c["n_layer"], max_T=c["block_size"])
+    # Delegate to the canonical builder (handles both spiking + transformer arch)
+    # so this never drifts from the trained architecture. The prior hand-rolled
+    # kwarg list silently dropped delta_rule/decay_gate/gdn2_*/engram_v2_*/mtp_*/
+    # attention_* and would strict=False-load a stripped model. See memory
+    # neuro_sft_optimizer_drift_fix (the builder-drift bug class).
+    from train_gpu import build_model as _canonical_build
+    return _canonical_build(c)
 
 
 def load(path, device):

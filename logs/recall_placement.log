@@ -1,0 +1,20 @@
+loaded screen_attnratio_90m_a1_s0: 107.3M
+loaded screen_attnratio_90m_a2_s0: 104.4M
+loaded screen_attnratio_90m_a2b_s0: 104.4M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_attnratio_90m_a1_s0 |  100% |   95% |   78% |   75% |   59%
+screen_attnratio_90m_a2_s0 |   31% |   22% |    9% |    6% |    3%
+screen_attnratio_90m_a2b_s0 |   16% |    9% |    6% |    2% |    0%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_attnratio_90m_a1_s0 |    91 |   446 |    78 |   123 |   146
+screen_attnratio_90m_a2_s0 |  2400 |  3085 |  3126 |  3649 |  3757
+screen_attnratio_90m_a2b_s0 |  5181 |  4426 |  4291 |  4695 |  4953

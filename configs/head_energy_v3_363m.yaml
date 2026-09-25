@@ -1,0 +1,108 @@
+# Energy/verifier head on the frozen post-trained v3 model.            [idea #6]
+#
+# The cheap slice of Energy-Based Transformers: learn to VERIFY compatibility
+# between a prompt and a candidate response (low energy = good match) instead of
+# retraining the backbone to be better at producing one. Uses: best-of-N
+# reranking, steering scripts/self_refine.py, and the abstain threshold for the
+# calibrated-abstention work (idea #2).
+#
+# Trained on the (chosen, rejected) pairs we already generate for ORPO, so it
+# costs no new data -- margin ranking loss, chosen must sit `energy_margin`
+# below rejected. The backbone is FROZEN (eval mode, requires_grad False), so
+# this cannot destabilise a model that took two weeks to pretrain, and a bad head
+# is simply deleted.
+#
+# Run it on the ORPO or OPD output, whichever is the release candidate.
+#   CUDA_VISIBLE_DEVICES=1 python src/train_heads.py --config configs/head_energy_v3_363m.yaml --device cuda
+#   CUDA_VISIBLE_DEVICES=1 python scripts/head_eval.py --run head_energy_v3_363m --head energy \
+#       --prefs training_data/posttrain/why.jsonl --n 200
+run_name: head_energy_v3_363m
+
+head_type: energy
+head_init: opd_v3_363m              # frozen backbone (swap to orpo_v3_363m if OPD is skipped)
+head_jsonl:
+- /home/glenn/projects/neuro/training_data/posttrain/why.jsonl
+- /home/glenn/projects/neuro/training_data/posttrain/abstain.jsonl
+head_dataset: HuggingFaceH4/ultrafeedback_binarized
+head_split: train_prefs
+head_max_len: 512
+head_batch: 8
+head_steps: 3000
+head_lr: 0.001
+head_wd: 0.01
+energy_margin: 1.0
+lut_subword_fallback: true
+log_every: 50
+ckpt_every: 500
+
+# --- ARCH: byte-identical to configs/flagship_v3_363m.yaml (the frozen
+# backbone must be rebuilt exactly as it was trained) ---
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3840
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 4
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.15
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+gdn2_enabled: true
+gdn2_chunked: true
+gdn2_gate_norm: true
+gdn2_chunk_size: 256
+gdn2_ckpt_chunks: false
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.001
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+muon_precise_gate_filter: true
+weight_decay: 0.0
+lr: 0.0001
+lam: 0.98
+amp: true
+compile: false
+seed: 0

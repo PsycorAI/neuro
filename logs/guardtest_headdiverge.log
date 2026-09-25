@@ -1,0 +1,17 @@
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (32 other params, lr=0.06)
+arch=spiking params=57.19M device=cuda target=0.006B tok | 16384 tok/step | total_steps≈366 | warmup=7 | grad_clip=1.0
+step 50 | 0.8M tok | loss 21.105 | 20,257 tok/s | vram 1.8/13.6 GB
+step 100 | 1.6M tok | loss 17.898 | 22,170 tok/s | vram 1.8/13.6 GB
+  [eval] val_ppl 2895174.20 | ablated_ppl 582318038177.14 (memory Δ=+582315143002.93) | spike 0.308
+  [wnorm] embed=4072.04 | head=1154.81 | mtp_proj.0=18.35 | mtp_proj.2=18.17
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+  [gates sat] (d=neverforget/fastforget) blk0: e=0% w=0% d=35/65% dstd=59.9 | blk1: e=0% w=0% d=48/52% dstd=94.8
+  [alpha] blk0: μ=0.351 hi=35% lo=64% | blk1: μ=0.481 hi=48% lo=52%
+step 150 | 2.5M tok | loss 16.785 | 14,412 tok/s | vram 1.8/13.0 GB
+step 200 | 3.3M tok | loss 16.216 | 23,802 tok/s | vram 1.8/13.0 GB
+  [eval] val_ppl 848607.58 | ablated_ppl 1224227379.48 (memory Δ=+1223378771.90) | spike 0.314
+  [wnorm] embed=3815.68 (-6.30%) | head=1205.06 (+4.35%) | mtp_proj.0=18.68 (+1.78%) | mtp_proj.2=18.05 (-0.66%)
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+  [gates sat] (d=neverforget/fastforget) blk0: e=0% w=0% d=35/65% dstd=61.2 | blk1: e=0% w=0% d=48/52% dstd=95.7
+  [WATCHDOG] TRIPPED: dstd>3.0 (max=95.7) x2 — saving ckpt and exiting 2
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_guardtest_headdiverge_30m/step_0000200.pt

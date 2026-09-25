@@ -1,0 +1,108 @@
+# Post-500M-pretrain Refinement #1 -- MQAR recall restore.
+# +50M tokens with MQAR-aug ON, no KD, constant LR. Rebuilds the associative-
+# recall pathway that was intentionally left cold during pretrain (mqar_aug:
+# false in demo_phase1b_500m_v2_fast for +25-35% throughput).
+#
+# Rewritten 2026-07-10 to match the live demo_phase1b_500m_v2_fast recipe. The
+# original July-1 config was architecturally stale (n_neurons: 4352 not 4864,
+# no beta_floor, no MTP/RMSNorm/embed_scale/z_loss/Markov/confidence/FLA/
+# fused_ce, and max_tokens 2.05B was for a since-abandoned 2B pretrain).
+#
+# ---------- Launch procedure ----------
+# 1. Wait for demo_phase1b_500m_v2_fast to finish (~step 325000, ~5B tok).
+# 2. PMA soup the last 8 pretrain ckpts (see scripts/pma_average.py) --
+#    OPTIONAL but recommended: seeds refine from a stabler base.
+# 3. Copy the seed ckpt (either the PMA soup or the final step_*.pt) into
+#    this run's ckpt dir so the trainer auto-resumes from it:
+#      mkdir -p models/checkpoints/mqar_refine_500m
+#      cp models/checkpoints/demo_phase1b_500m_v2_fast/step_0325XXX.pt \
+#         models/checkpoints/mqar_refine_500m/
+#    (Yes, the resumed step/tokens will be ~5B; max_tokens: 5.05B below leaves
+#    50M tokens of refine.)
+# 4. Launch the refine on either GPU (5090 preferred if 350M isn't running).
+#
+# ---------- Success criteria ----------
+#   - val_ppl doesn't regress (should stay ~15.0 or slightly better).
+#   - memory-Δ should INCREASE (recall pathway waking up); target +40+ from
+#     the pretrain's +30.
+#   - β telemetry (already in trainer) stays healthy: dead_frac 0% on all
+#     blocks. Any collapse during refine is a stop-the-run signal.
+run_name: mqar_refine_500m
+
+data_bin: /home/glenn/projects/bdh/data/tokenized_phi/train.bin
+data_orig_vocab: 32064
+vocab: 32064
+
+# --- ARCH: byte-identical to demo_phase1b_500m_v2_fast except where noted ---
+arch: spiking
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: true
+rec_density: 0.02
+set_zeta: 0.3
+set_every: 200
+
+block_size: 512
+batch_size: 15
+grad_accum: 2
+eval_batch: 4
+
+use_fpt: true
+fpt_K: 10
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1          # β-collapse fix (2026-07-10), recipe default
+
+# --- MQAR-AUG ON: this is the point of the refine ---
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+
+sparsity_lambda: 0.5     # same as pretrain, don't perturb it in this phase
+sparsity_target: 0.05
+
+# --- Recipe features from pretrain (must stay identical) ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+depth_scaled_init: true
+weight_decay: 0.1
+markov_enabled: true
+markov_rank: 64
+confidence_enabled: true
+confidence_weight: 0.05
+adamw_8bit: false
+fused_ce: true
+use_fla_kernel: true
+
+# --- Optimizer: constant LR (lr_min_frac: 1.0) at same peak values as pretrain.
+#    Optimizer state carries over from the resumed pretrain ckpt -- the momenta
+#    were built up at end-of-cosine LR, and lr_min_frac=1.0 gives a smooth
+#    constant continuation rather than a re-warmup shock.
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0004
+lr_min_frac: 1.0
+lr_warmup_frac: 0.0      # no re-warmup: this is a refine, not a fresh run
+lam: 0.98
+
+# --- KD OFF for refine: teacher done its job in pretrain, ~2x faster without it
+kd_enabled: false
+
+# +50M tokens on top of pretrain's 5B => 5.05B total. per_step_tok=15360, so
+# ~3255 refine steps. ckpt_every=500 -> ~6 refine ckpts for optional PMA.
+max_tokens: 5050000000
+eval_every: 500
+ckpt_every: 500
+keep_last: 8
+log_every: 100
+amp: true
+compile: false
+seed: 0

@@ -1,0 +1,129 @@
+# STEP 3 DIAGNOSTIC ARM: lr35   (sparsity_lambda=0.5, lr=0.00035)
+# isolates lr (0.7x). Tests hot-LR hypothesis.
+# max_tokens stays 1.1B ON PURPOSE so the LR warmup/decay schedule
+# matches the diverged run exactly; the arm is truncated by wall-clock
+# `timeout` at launch instead. See temp/gen_step3_diag_arms.py.
+# STEP 3 (Phase 2) — mid-scale reality check, SEED 0. DO NOT LAUNCH without
+# explicit sign-off — this is a ~17h/seed run and shapes the go/no-go for
+# Step 4 (100B+ pretrain).
+#
+# Purpose: confirm the hybrid-attention + QK-norm + Hebbian-memory recipe
+# stays seed-robust and recall-competent at ~3x the parameter count of the
+# 90M screens.
+#
+# Design decisions (see docs/step3_midscale_design.md for the full "why"):
+#
+#   d/n_neurons/d_mem = 1152/2752/1152, L=8, attention at [3]
+#     - n_neurons ≈ 2.4d matches 500M v3 / 1B design (the 30M/90M screens
+#       had n=d, never shape-faithful to target)
+#     - L=8 matches the 1B design's depth
+#     - attention at [3] = 7:1 linear:full, CONFIRMED by Phase 1
+#       (2026-08-03): 3:1 collapsed recall to chance; 7:1 preserved
+#       100/95/78/75/59% at N=4/8/16/32/64. See
+#       neuro_phase1_attnratio_finding.md.
+#     - attention_heads = 9 (head_dim 128, modern convention)
+#
+#   sparsity_lambda = 0.5  (CONFIRMED at 90M 2-seed, quality-neutral vs 0.3,
+#                            spike 0.204 vs 0.238 — closer to target 0.15)
+#     - unlike the QK-norm screens (which held lambda=0.3 to isolate that
+#       fix), this run uses the settled recommendation
+#     - **live tripwire: revert to 0.3 mid-run if memory-Δ drops below +200
+#       for 3 consecutive evals** (matching the 500M v3 discipline)
+#     - Optional caveat: lambda=0.5 was confirmed at the OLD 90M shape
+#       (n=d/L=6); the "at new shape" verify is running overnight
+#       2026-08-03 as screen_lambda05_newshape_s*. If it disconfirms,
+#       revert this file to 0.3 before launch.
+#
+#   lr = 5e-4  (log-interpolated between this project's own empirical
+#              points: 6e-4 @ d=640, 4e-4 @ d=2048)
+#
+#   block_size = 512  (kept from 30M/90M screens; 640 is a known quality
+#                     lever from 500M v3, deferred to keep Phase 2 a clean
+#                     scale comparison)
+#
+#   batch_size = 28, grad_accum = 1  (throughput probe: 17,690 tok/s @
+#                                     27.04 GB peak on the 5090)
+#
+#   compile = true  (Phase 0 CONFIRMED quality-neutral: val_ppl 142.10 vs
+#                    eager 140.30, +1.28%; spike/memory-Δ unchanged)
+#
+# Held from the confirmed recipe: QK-norm on attention, GDN-2 chunked,
+# Engram-v2 (K=8192), MTP (offset=2, weight=0.3, depth=2), curriculum off,
+# NorMuon with F1+F2, beta_floor=0.1, mqar_aug (N=16 fixed, weight=0.5),
+# no KD.
+#
+# 3-seed budget: seed 0/1/2 sequential on the 5090 (~52h total wall-clock).
+run_name: step3diag_lr35
+
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+
+arch: spiking
+vocab: 32768
+d: 1152
+n_neurons: 2752
+d_mem: 1152
+n_layers: 8
+attention_layer_positions: [3]
+attention_heads: 9
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 28
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.00035
+lam: 0.98
+max_tokens: 1100000000
+eval_every: 500
+ckpt_every: 8000
+keep_last: 1
+log_every: 200
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0
+
+kd_enabled: false

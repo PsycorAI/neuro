@@ -1,0 +1,130 @@
+# ================================================================================
+# flagship_v4 (DRAFT, 2026-09-21) -- DO NOT LAUNCH.
+# Clone of configs/flagship_v3_363m.yaml with the FIRST v4 throughput lever folded in:
+#   gate_rank: 16   # SCREENED A WIN 2026-09-21 (2-seed 30M {0,16,32}). Low-rank GDN-2
+#                   # gates BEAT full-rank on val_ppl (r16 -16%) and hold split-replay
+#                   # recall. Adopt r16 (r32 = conservative fallback). See
+#                   # neuro_v4_throughput_mfu_2026_09_20 / logs/gaterank_screen.log.
+#
+# STILL PENDING before this becomes a launchable v4 (each its own queue item):
+#   - width: 30M re-probe DONE 2026-09-23 = WIDEN. Holding gate_rank:16, n_neurons
+#     1024->1536->2048 improved val_ppl (60.6->56.5->55.8) AND recall monotonically
+#     (N64 26%->33%->44%, seeds tight, no plateau at 2.0x). Width buys the weak axis
+#     (recall). ACTION: set n_neurons above 3.0xd via a 363M VRAM probe (gate_rank
+#     freed the budget); 30M->363M exact value is unproven so probe, don't guess.
+#     See neuro_width_reprobe_launched_2026_09_22 / logs/width_screen.log.
+#   - tokens: v4 targets 20B (>14.53B corpus -> data curation / DoReMi first).
+#   - FP8 (E4M3, torchao) and CUDA graphs (blocked on MQAR restructure).
+#   - RE-RUN audit-config against the live base + confirm fresh-run before launch.
+#
+# NOTE: gate_rank>0 changes param-group shapes -> NOT resume-compatible; fresh run only.
+# Everything below is byte-identical to flagship_v3_363m.yaml EXCEPT run_name + gate_rank.
+# ================================================================================
+run_name: flagship_v4_363m
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3840                    # 3.0xd. SCREEN SAYS WIDEN (30M monotonic 1->2x on
+                                   # val_ppl+recall, no plateau). PARAM PROBE 2026-09-25
+                                   # (gate_rank:16): 3840=310M, 4480(3.5x)=343M, 5120(4.0x)=
+                                   # 377M, 5760(4.5x)=410M -- ALL < v3's 426M (no gate_rank)
+                                   # that already fit B=18 under the ~30GB WDDM cliff, so
+                                   # widening is param-affordable. OPEN: activation VRAM at
+                                   # B=18 -> run temp/probe_b18_w{5760,5120,4480}.yaml on the
+                                   # 5090 (widest-first), set n_neurons to the largest that
+                                   # fits under the cliff. See logs/widthprobe.report.
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 18
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+gate_rank: 16                      # v4 lever #1 -- SCREENED A WIN (see banner). r16
+                                   # low-rank bottleneck on W_b/W_w/W_fdecay.
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-08
+muon_fix_gate_matrices: true
+head_weight_decay: 1.0            # CONFIRMED 2026-09-09 (2-seed 30M + 363M probe):
+                                  # dedicated higher-WD AdamW group for LM head + mtp_proj
+                                  # (muon.py is_head), damps the head-norm runaway that
+                                  # killed v1/v2. NOT resume-compat. See
+                                  # neuro_head_weight_decay_2026_09_08.
+muon_route_embeddings_by_type: true
+weight_decay: 0.1
+lr: 0.0005
+lam: 0.98
+max_tokens: 10000000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 6
+log_every: 1000
+watchdog_dstd_thresh: 6.0          # 2026-09-12: the default 3.0 false-tripped BOTH 90M
+                                   # runs of this recipe tonight (dstd 4.0/4.3 while loss +
+                                   # val_ppl improved). val_ppl tripwire remains the real
+                                   # divergence guard. Insurance against a spurious abort.
+# val_ppl tripwire, retuned 2026-09-16 after a FALSE trip at step 106k: val_ppl hit
+# a lucky-low 27.61 @100k, then normal noise (31.31, 30.06) cleared best*1.02 twice
+# and killed a healthy run (head norm FALLING, β 0% dead, memory-Δ stable -- none of
+# the real divergence signals present). Fix: smooth val_ppl (EMA) and widen the band
+# so isolated spikes that revert don't trip, while a sustained runaway still does.
+# Verified against the real 106k series + the v1 divergence in temp/test_valppl_watchdog.py.
+watchdog_valppl_ema_alpha: 0.4     # smooth val_ppl before the compare (0 = off/raw)
+watchdog_valppl_tol: 0.07          # trip band above best smoothed val_ppl (was default 0.02)
+watchdog_valppl_patience: 2        # consecutive over-band evals to trip
+amp: true
+compile: true
+compile_mode: max-autotune-no-cudagraphs
+compile_dynamic: false
+seed: 0
+kd_enabled: false
+gdn2_gate_norm: true
+snapshot_brain: false
+gdn2_chunk_size: 256
+gdn2_ckpt_chunks: false    # 2026-09-11: chunk256+ckptoff = +18% tok/s, quality-neutral (docs/training_speed_plan_2026_09.md RESULTS)
+muon_precise_gate_filter: true

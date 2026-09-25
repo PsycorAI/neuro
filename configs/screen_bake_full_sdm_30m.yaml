@@ -1,0 +1,68 @@
+# 500M-decision piece #1 (SDM variant): full recipe composition test.
+# Byte-identical to screen_bake_normuon_engramv2_f1_f2_combined_30m.yaml
+# (confirmed 76.88, NorMuon+Engram-v2+F1+F2) except sdm_enabled: true (+
+# sdm_N/W/R) added. Only launch once SDM seed1 confirms
+# (screen_sdm_ab_treatment_seed1_30m).
+#
+# Tests whether SDM's sparse product-key memory composes cleanly with the
+# rest of the stack. If this tracks SDM-alone's seed1 number, the 500M
+# recipe is de-risked; compare directly against screen_bake_full_gdn2_30m
+# for the final memory-rule pick (only one goes into the 500M restart).
+run_name: screen_bake_full_sdm_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+gdn2_enabled: false
+osdn_enabled: false
+sdm_enabled: true
+sdm_N: 1024
+sdm_W: 4
+sdm_R: 4
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true          # F1
+muon_route_embeddings_by_type: true   # F2
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

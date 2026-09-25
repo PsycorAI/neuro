@@ -1,0 +1,119 @@
+# Post-500M-v3-pretrain sparsity refinement.
+# Design point derived from the 30M elasticity screen (2026-07-20/21, see
+# neuro_500m_v3_sparsity_tuning.md and chain_sparsity_refine_5080.txt):
+#   - λ=3.0 is the sweet spot: near-best val_ppl, moderate spike compression,
+#     memory-Δ still healthy. λ=2.0 under-compresses; λ=5.0 pays too much ppl.
+#   - Spike compression plateaus by ~150M refine tok at 30M; scaled to 500M,
+#     ~200M tok is a reasonable primary budget (roughly 4% of pretrain).
+#
+# 500M v3 endpoint state (per handoff): spike stable 0.30-0.34, val_ppl 49-52,
+# memory-Δ +440-470. Target: crush spike toward ~0.10-0.15 with modest val_ppl
+# cost (~+3-5 ppl expected based on 30M curve).
+#
+# RECIPE differences from 500M v3 pretrain:
+#   - sparsity_lambda: 1.0 -> 3.0 (per screen)
+#   - mqar_aug: true -> false (preserve prior recall, don't retrain aux head)
+#   - LR halved (Muon 0.005 -> 0.0025, AdamW 0.0004 -> 0.0002)
+#   - constant LR schedule (no warmup, no decay -- lr_min_frac=1.0, warmup=0)
+#   - +200M tokens on top of 5B = 5200M max_tokens (resumes from final ckpt)
+#   - curriculum_enabled: false (already burned its 10% at pretrain start)
+#   - keep_last: 4 (refine dir gets fewer ckpts than pretrain's 8)
+#
+# LAUNCH PROCEDURE (do NOT auto-launch -- Glenn approves after 500M v3 finishes):
+#   1. Wait for 500M v3 to hit 5B tok (currently 3.94B, ETA ~1 day).
+#   2. Copy its final ckpt into this run dir:
+#        mkdir -p /home/glenn/projects/neuro/models/checkpoints/sparsity_refine_500m_v3
+#        cp models/checkpoints/500m_v3/step_$(ls models/checkpoints/500m_v3/ | grep step_ | sort | tail -1 | grep -oE 'step_[0-9]+' | grep -oE '[0-9]+').pt \
+#           models/checkpoints/sparsity_refine_500m_v3/
+#   3. Launch on 5090 (or 5080 if you fit -- 500M in 16GB is tight but the FPT
+#      forward with delta_rule uses less than full training memory; check first).
+#   4. Success criteria: spike -> ~0.10-0.15, val_ppl < 55, memory-Δ > +300,
+#      β dead_frac = 0% on all blocks.
+run_name: sparsity_refine_500m_v3
+
+# --- ARCH: byte-identical to 500m_v3.yaml ---
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640
+batch_size: 14
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+# --- MQAR-AUG OFF: preserve pretrain recall, don't retrain aux head ---
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+
+# --- Sparsity: 3x pretrain endpoint λ (1.0 -> 3.0), same target ---
+sparsity_lambda: 3.0
+sparsity_target: 0.05
+
+# --- Model-arch knobs (byte-identical to pretrain) ---
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+
+# --- Curriculum OFF: already burned its 10% at pretrain start ---
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+# --- Batch A features (byte-identical to pretrain) ---
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Optimizer: same setup, LR halved for gentle refine ---
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0025      # 2x lower than pretrain's 0.005
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0002           # 2x lower than pretrain's 0.0004
+
+# --- Constant LR (no warmup, no decay) -- refine is not fresh pretraining ---
+lr_min_frac: 1.0
+lr_warmup_frac: 0.0
+lam: 0.98
+
+# +200M tokens on top of pretrain's 5B = 5200M total (resumes from step_XXXXX.pt)
+max_tokens: 5200000000
+eval_every: 500      # tight tracking to see spike trajectory
+ckpt_every: 2000
+keep_last: 4
+log_every: 100
+snapshot_brain: false
+amp: true
+
+# --- compile: match pretrain for kernel/graph consistency on resume ---
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0

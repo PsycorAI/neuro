@@ -1,0 +1,56 @@
+# Curriculum warmup A/B -- TREATMENT arm. Byte-identical to
+# screen_engram_v2_ab_control_30m.yaml except curriculum_* fields added.
+#
+# arXiv:2506.11300: easy-to-hard data ordering for the first ~10% of tokens,
+# reported ~3.5% sustained gains. Secondary/orthogonal screen -- data-side
+# only, zero arch risk, doesn't gate the 500M restart decision.
+#
+# Difficulty proxy: gzip compression ratio of raw token-id bytes per 4096-tok
+# block (no document boundaries exist in this corpus to order by). See
+# src/curriculum.py. Control = same file with curriculum_enabled: false.
+#
+# Test / gate: val_ppl win > ~1.5 ppl noise floor vs control, seed1 before
+# adopting (per docs/to-do.html).
+run_name: curriculum_warmup_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: true
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: false
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+engram_v2_enabled: false
+curriculum_enabled: true
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

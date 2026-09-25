@@ -1,0 +1,10 @@
+curriculum warmup enabled: 32552 train batches drawn easy->hard (10% of 162760 steps)
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (66 other params, lr=0.0005)
+arch=spiking params=244.17M device=cuda target=2.000B tok | 12288 tok/step | total_steps≈162760 | warmup=3255 | grad_clip=1.0
+temp/launch_mor_200m.sh: line 4:  6650 Killed                  CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 python3 -u src/train_5090_gpu.py --config configs/screen_mor_200m_2b.yaml --device cuda
+nohup: ignoring input
+curriculum warmup enabled: 24414 train batches drawn easy->hard (10% of 122070 steps)
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (66 other params, lr=0.0005)
+arch=spiking params=244.17M device=cuda target=2.000B tok | 16384 tok/step | total_steps≈122070 | warmup=2441 | grad_clip=1.0
+step 200 | 3.3M tok | loss 12.472 | 2,295 tok/s | vram 3.3/29.6 GB
+Terminated

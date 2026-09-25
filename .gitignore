@@ -44,3 +44,6 @@ temp/
 *.7z
 *.zip
 *.tar.gz
+
+# --- Large corpus samples ---
+data/tok_32k/corpus_sample.txt

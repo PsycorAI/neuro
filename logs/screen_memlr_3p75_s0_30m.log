@@ -1,0 +1,3 @@
+  muon_mem_lr=0.00375: 10 memory-path matrices (W_k/v/q, W_b/w) decoupled from 5 backbone matrices; NOT resume-compat
+optimizer: NorMuon (15 matrices, lr=0.005) + AdamW (28 other params, lr=0.0006)
+arch=spiking params=55.09M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0

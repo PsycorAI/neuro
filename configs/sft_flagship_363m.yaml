@@ -1,0 +1,130 @@
+# Full-finetune SFT on the 363M flagship artifact. Alpaca instruction tuning.
+#
+# BASE: step_0124000.pt -- the val_ppl MINIMUM (19.61), NOT the latest ckpt.
+# The flagship diverged after 124k (24.75 by 134k) and was killed at 135k; recall
+# is flat across 112k/124k/132k so 124k wins on ppl with nothing given up. Given
+# as an explicit PATH because sft_init resolved as a run_name globs step_*.pt and
+# takes the LAST one (train_sft.py:165-170) -- which would silently pick the
+# DIVERGED 132k. See memory neuro_flagship_363m_outcome.
+#
+# ARCH IS COPIED VERBATIM FROM configs/flagship_363m.yaml. Do not "simplify" it.
+# The 500M v3 SFT template (sft_500m_full_v3.yaml) is NOT a safe starting point
+# for this model: it lacks attention_layer_positions/heads/qk_norm, lacks
+# gdn2_gate_norm + gdn2_chunk_size, and carries vocab 16384 vs this base's 32768.
+# Inheriting it would silently build a different network and load garbage --
+# the recurring build()-drift bug class (memory neuro_train_sft_build_drift_fix).
+#
+# RECIPE differences from pretrain (following the 500M v3 SFT precedent):
+#   - Muon LR 0.005 -> 0.001, AdamW LR 0.0005 -> 0.0001 (5x lower, standard SFT ratio)
+#   - mqar_aug / sparsity / curriculum OFF (pretraining-only aux losses)
+#   - weight_decay 0.1 -> 0.0 (pretrain's wd was a LONG-run stability fix for the
+#     Step-3 divergence; a short SFT at 5x lower LR doesn't need it, and 0.0 is
+#     what the 500M v3 SFT actually ran -- muon.py's default)
+#   - batch_size 18 -> 8: train_sft.py never calls torch.compile, so this runs
+#     EAGER (more activation memory than the compiled pretrain loop). Mirrors the
+#     500M precedent's 14->6 cut. Raise if the logged VRAM shows headroom.
+#   - max_tokens 60M, NOT the 500M template's 500000000 -- that value contradicts
+#     its own comment ("200M (~8 Alpaca epochs)") and is ~50 epochs of
+#     alpaca-cleaned. 60M is ~4-6 epochs; eval/gen-check cadence below is tight
+#     enough to stop early on overfit (memory neuro_simpo_collapse_2026_07_26).
+#
+# LAUNCH:
+#   python src/train_sft.py --config configs/sft_flagship_363m.yaml --device cuda
+run_name: sft_flagship_363m
+
+sft_init: /home/glenn/projects/neuro/models/checkpoints/flagship_363m/step_0124000.pt
+sft_dataset: yahma/alpaca-cleaned
+sft_split: train
+sft_max_len: 512
+
+# --- Full-finetune (LoRA plateaued at 30M; retest separately) ---
+lora_enabled: false
+
+# --- ARCH: byte-identical to flagship_363m.yaml ---
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3072
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 8
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+# --- Pretraining-only knobs: OFF during SFT ---
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.15
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+# --- Model-arch knobs (MUST match base) ---
+gdn2_enabled: true
+gdn2_chunked: true
+gdn2_gate_norm: true
+gdn2_chunk_size: 64
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Muon+AdamW, gentle SFT LRs ---
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.001
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+muon_precise_gate_filter: true
+weight_decay: 0.0
+lr: 0.0001
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+# ~3662 steps at 8*4*512 = 16384 tok/step; cadence sized for ~14 evals / ~7 ckpts
+max_tokens: 60000000
+eval_every: 250
+ckpt_every: 500
+log_every: 50
+keep_last: 6
+amp: true
+
+# compile: true is STRUCTURAL -- build_model passes compile_safe=c["compile"]
+# (train_gpu.py:112), which changes block construction. train_sft.py never calls
+# torch.compile itself; this must match the base or the state_dict won't load clean.
+compile: true
+seed: 0

@@ -1,0 +1,19 @@
+===== [2026-09-10_23:36] PROBE probe_chunk512_363m =====
+Terminated
+===== [00:15] probe_chunk512_363m tok/s tail =====
+arch=spiking params=363.54M device=cuda target=0.006B tok | 36864 tok/step | total_steps≈165 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+===== [2026-09-11_00:15] PROBE probe_ckptoff_chunk256_363m =====
+===== [00:47] probe_ckptoff_chunk256_363m tok/s tail =====
+step 50 | 1.8M tok | loss 15.255 | 8,040 tok/s | vram 5.7/24.8 GB
+step 75 | 2.8M tok | loss 14.544 | 9,333 tok/s | vram 5.9/24.8 GB
+step 100 | 3.7M tok | loss 14.037 | 9,212 tok/s | vram 5.8/24.8 GB
+step 125 | 4.6M tok | loss 13.829 | 9,277 tok/s | vram 5.8/24.8 GB
+step 150 | 5.5M tok | loss 14.013 | 9,487 tok/s | vram 5.9/24.8 GB
+===== [2026-09-11_00:47] PROBE probe_ckptoff_chunk512_363m =====
+===== [00:47] probe_ckptoff_chunk512_363m tok/s tail =====
+===== [2026-09-11_00:47] PROBE probe_b24_chunk256_363m =====
+Terminated
+===== [01:14] probe_b24_chunk256_363m tok/s tail =====
+arch=spiking params=363.54M device=cuda target=0.008B tok | 49152 tok/step | total_steps≈165 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+step 25 | 1.2M tok | loss 16.498 | 782 tok/s | vram 6.2/28.5 GB
+===== [01:14] PHASE-B PROBE CHAIN DONE =====

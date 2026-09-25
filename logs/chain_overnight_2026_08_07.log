@@ -1,0 +1,14 @@
+[overnight] 2026-08-07 00:30:41 chain start (pid=11827)
+[overnight] 2026-08-07 00:30:41 phase 1: waiting for w5_composed to exit (polling every 30s)
+[overnight] 2026-08-07 01:00:42   ...still waiting for w5 (60 polls, ~30 min)
+[overnight] 2026-08-07 01:15:12 w5_composed process gone
+[overnight] 2026-08-07 01:15:17 found w5 ckpt: step_0004000.pt (2.5G)
+[overnight] 2026-08-07 01:15:17 running recall_eval on w5_composed (5090, ~3 min)
+[overnight] 2026-08-07 01:15:35 w5 recall: N=4/8/16/32/64 = 100/100/97/91/41%
+[overnight] 2026-08-07 01:15:35 arm B baseline was:            100/98/89/66/27%
+[overnight] 2026-08-07 01:15:35 GATE PASS: composition holds. Launching P4 seed 0 and seed 1.
+[overnight] 2026-08-07 01:15:35 launching P4 seed 0 (cfg=configs/p4_seed0.yaml, 14h timeout, watchdogs active)
+[overnight] 2026-08-07 15:16:35 P4 seed 0 exit=137  (0=natural,2=watchdog,124=timeout,130=SIGINT)
+[overnight] 2026-08-07 15:16:35 launching P4 seed 1 (cfg=configs/p4_seed1.yaml, 14h timeout, watchdogs active)
+[overnight] 2026-08-07 20:06:51 P4 seed 1 exit=137  (0=natural,2=watchdog,124=timeout,130=SIGINT)
+[overnight] 2026-08-07 20:06:52 overnight chain COMPLETE — both P4 seeds finished

@@ -1,0 +1,8 @@
+=== v4 width PARAM probe (gate_rank:16, build-only) Fri Sep 25 09:38:41 PDT 2026 ===
+width   | xd     | params      
+--------|--------|-------------
+3840    | 3.00x  | params=310.47M 
+4480    | 3.50x  | params=343.50M 
+5120    | 4.00x  | params=376.53M 
+5760    | 4.50x  | params=409.56M 
+=== DONE Fri Sep 25 09:39:14 PDT 2026 ===

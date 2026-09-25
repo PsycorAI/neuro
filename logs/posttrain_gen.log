@@ -1,0 +1,1064 @@
+[chain] START Sun Sep 20 11:38:56 PDT 2026 | global budget 300 min
+[chain] === tools (n=24000 batch=96 budget=300min) 11:38 ===
+tools: resume at 0 lines (free=-1, teach=-1) -> target 24000
+  phase 1: 6000 teacher-free records...
+  -> 6000 lines
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+teacher: microsoft/Phi-3.5-mini-instruct
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 599, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 496, in main
+    for last_i, res in stream:
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 138, in batched_chat
+    out = model.generate(**enc, max_new_tokens=max_new, do_sample=True,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2560, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2760, in _sample
+    while self._has_unfinished_sequences(this_peer_finished, synced_gpus, device=input_ids.device):
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2586, in _has_unfinished_sequences
+    elif this_peer_finished:
+         ^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+[chain] tools exit=1 11:42
+[chain] === coldstart (n=24000 batch=64 budget=296min) 11:42 ===
+coldstart: resume at 0 lines (free=-1, teach=-1) -> target 24000
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+  [skip] microsoft/Phi-3.5-mini-instruct: not a Llama-3 tokenizer (--require-llama)
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 599, in <module>
+    stream = batched_chat(model, tok, prompts, 320, args.temperature,
+^^^^^^
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 485, in main
+    written += 1
+       ^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 98, in resolve_teacher
+    raise RuntimeError(f"no usable teacher available locally; tried {cands} "
+RuntimeError: no usable teacher available locally; tried ['meta-llama/Llama-3.2-3B-Instruct', 'unsloth/Llama-3.2-3B-Instruct', 'microsoft/Phi-3.5-mini-instruct'] (require_llama=True)
+[chain] coldstart exit=1 11:42
+[chain] === why (n=20000 batch=48 budget=296min) 11:42 ===
+why: resume at 0 lines (free=-1, teach=-1) -> target 20000
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+teacher: microsoft/Phi-3.5-mini-instruct
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+[chain] START Sun Sep 20 11:44:18 PDT 2026 | global budget 300 min
+[chain] === tools (n=24000 batch=48 budget=300min) 11:44 ===
+tools: resume at 6000 lines (free=5999, teach=-1) -> target 24000
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+teacher: microsoft/Phi-3.5-mini-instruct
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 621, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 518, in main
+    for last_i, res in stream:
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 150, in batched_chat
+    out = model.generate(**enc, max_new_tokens=max_new,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2560, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2767, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 900, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/phi3/modeling_phi3.py", line 478, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 976, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/output_capturing.py", line 248, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/phi3/modeling_phi3.py", line 416, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/phi3/modeling_phi3.py", line 333, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/phi3/modeling_phi3.py", line 59, in forward
+    up_states = self.gate_up_proj(hidden_states)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA error: CUBLAS_STATUS_INTERNAL_ERROR when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`
+[chain] tools exit=1 11:47
+[chain] === coldstart (n=24000 batch=32 budget=297min) 11:47 ===
+coldstart: resume at 0 lines (free=-1, teach=-1) -> target 24000
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+  [skip] microsoft/Phi-3.5-mini-instruct: not a Llama-3 tokenizer (--require-llama)
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 621, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 507, in main
+    repo = resolve_teacher(args.teacher, require_llama=args.require_llama)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 98, in resolve_teacher
+    raise RuntimeError(f"no usable teacher available locally; tried {cands} "
+RuntimeError: no usable teacher available locally; tried ['meta-llama/Llama-3.2-3B-Instruct', 'unsloth/Llama-3.2-3B-Instruct', 'microsoft/Phi-3.5-mini-instruct'] (require_llama=True)
+[chain] coldstart exit=1 11:47
+[chain] === why (n=20000 batch=24 budget=296min) 11:47 ===
+why: resume at 0 lines (free=-1, teach=-1) -> target 20000
+  [skip] meta-llama/Llama-3.2-3B-Instruct: weights incomplete on disk
+teacher: microsoft/Phi-3.5-mini-instruct
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+[chain] START Sun Sep 20 11:48:54 PDT 2026 | global budget 300 min
+[chain] === tools (n=24000 batch=16 budget=300min) 11:48 ===
+tools: resume at 6000 lines (free=5999, teach=-1) -> target 24000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[chain] START Sun Sep 20 12:02:04 PDT 2026 | global budget 250 min
+[chain] === tools (n=24000 batch=192 budget=250min) 12:02 ===
+tools: resume at 6000 lines (free=5999, teach=-1) -> target 24000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  6968/24000 | 1.5 min
+  7934/24000 | 2.8 min
+  8902/24000 | 6.1 min
+  9856/24000 | 7.2 min
+  10830/24000 | 8.7 min
+  11785/24000 | 10.2 min
+  12752/24000 | 11.2 min
+  13712/24000 | 12.4 min
+  14667/24000 | 13.9 min
+  15633/24000 | 15.2 min
+  16590/24000 | 16.5 min
+  17554/24000 | 18.0 min
+  18489/24000 | 21.3 min
+  19454/24000 | 23.1 min
+  20408/24000 | 24.6 min
+  21365/24000 | 26.9 min
+  22323/24000 | 28.5 min
+  23290/24000 | 30.3 min
+  24000/24000 | 31.9 min
+DONE tools: 24000 lines in 31.9 min
+[chain] tools exit=0 12:34
+[chain] tools .done -- skip
+[chain] === abstain (n=16000 batch=192 budget=217min) 12:34 ===
+abstain: resume at 0 lines (free=-1, teach=-1) -> target 16000
+  phase 1: 6400 teacher-free records...
+  -> 6400 lines
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  6592/16000 | 1.2 min
+  6784/16000 | 1.4 min
+  6976/16000 | 1.7 min
+  7168/16000 | 1.9 min
+  7360/16000 | 2.1 min
+  7550/16000 | 2.3 min
+  7742/16000 | 2.5 min
+  7933/16000 | 2.8 min
+  8125/16000 | 3.0 min
+  8317/16000 | 3.3 min
+  8509/16000 | 3.5 min
+  8701/16000 | 3.8 min
+  8893/16000 | 4.0 min
+  9085/16000 | 4.2 min
+  9277/16000 | 4.5 min
+  9468/16000 | 4.7 min
+  9660/16000 | 5.0 min
+  9851/16000 | 5.2 min
+  10043/16000 | 5.4 min
+  10235/16000 | 5.6 min
+  10427/16000 | 5.9 min
+  10619/16000 | 6.1 min
+  10811/16000 | 6.3 min
+  11003/16000 | 6.6 min
+  11195/16000 | 6.8 min
+  11386/16000 | 7.0 min
+  11578/16000 | 7.2 min
+  11770/16000 | 7.4 min
+  11962/16000 | 7.7 min
+  12154/16000 | 7.8 min
+  12346/16000 | 8.0 min
+  12538/16000 | 8.3 min
+  12730/16000 | 8.5 min
+  12922/16000 | 8.7 min
+  13114/16000 | 8.9 min
+  13306/16000 | 9.1 min
+  13498/16000 | 9.3 min
+  13690/16000 | 9.5 min
+  13882/16000 | 9.8 min
+  14074/16000 | 10.0 min
+  14265/16000 | 10.2 min
+  14457/16000 | 10.4 min
+  14649/16000 | 10.6 min
+  14841/16000 | 10.9 min
+  15032/16000 | 11.1 min
+  15224/16000 | 11.3 min
+  15416/16000 | 11.5 min
+  15608/16000 | 11.7 min
+  15800/16000 | 11.9 min
+  15992/16000 | 12.2 min
+  16000/16000 | 12.4 min
+DONE abstain: 16000 lines in 12.4 min
+[chain] abstain exit=0 12:46
+[chain] abstain .done -- skip
+[chain] === why (n=20000 batch=64 budget=205min) 12:46 ===
+why: resume at 0 lines (free=-1, teach=-1) -> target 20000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  128/20000 | 3.2 min
+[chain] START Sun Sep 20 13:03:46 PDT 2026 | global budget 185 min
+[chain] tools .done -- skip
+[chain] abstain .done -- skip
+[chain] === coldstart (n=16000 batch=128 budget=125min) 13:03 ===
+coldstart: resume at 0 lines (free=-1, teach=-1) -> target 16000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 628, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 608, in main
+    for last_i, res in stream:
+  File "/home/glenn/projects/neuro/scripts/gen_teacher_data.py", line 150, in batched_chat
+    out = model.generate(**enc, max_new_tokens=max_new,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2560, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/generation/utils.py", line 2767, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 900, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 474, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 976, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/utils/output_capturing.py", line 248, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 411, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 316, in forward
+    hidden_states, _ = self.self_attn(
+                       ^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 262, in forward
+    query_states = self.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA error: CUBLAS_STATUS_EXECUTION_FAILED when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`
+[chain] coldstart exit=1 13:11
+[chain] coldstart retry at batch 64
+[chain] === coldstart (n=16000 batch=64 budget=125min) 13:11 ===
+coldstart: resume at 0 lines (free=-1, teach=-1) -> target 16000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  64/16000 | 3.2 min
+  128/16000 | 4.7 min
+  192/16000 | 5.2 min
+  254/16000 | 7.6 min
+  317/16000 | 10.8 min
+  381/16000 | 12.3 min
+  443/16000 | 15.6 min
+  507/16000 | 18.5 min
+[chain] START Sun Sep 20 13:31:34 PDT 2026 | global budget 160 min
+[chain] tools .done -- skip
+[chain] abstain .done -- skip
+[chain] === coldstart (n=16000 batch=32 budget=110min) 13:31 ===
+coldstart: resume at 507 lines (free=-1, teach=511) -> target 16000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  539/16000 | 2.1 min
+  570/16000 | 2.5 min
+  602/16000 | 2.9 min
+  634/16000 | 3.3 min
+  666/16000 | 3.7 min
+  697/16000 | 4.1 min
+  729/16000 | 4.5 min
+  761/16000 | 4.8 min
+  793/16000 | 5.2 min
+  825/16000 | 5.7 min
+  857/16000 | 6.1 min
+  889/16000 | 6.5 min
+  921/16000 | 6.9 min
+  952/16000 | 7.3 min
+  984/16000 | 7.7 min
+  1016/16000 | 8.1 min
+  1048/16000 | 8.4 min
+  1080/16000 | 8.8 min
+  1112/16000 | 9.2 min
+  1143/16000 | 9.6 min
+  1175/16000 | 10.0 min
+  1207/16000 | 10.4 min
+  1239/16000 | 10.8 min
+  1270/16000 | 11.2 min
+  1302/16000 | 11.6 min
+  1334/16000 | 12.0 min
+  1366/16000 | 12.4 min
+  1398/16000 | 12.9 min
+  1429/16000 | 13.2 min
+  1461/16000 | 13.7 min
+  1493/16000 | 14.1 min
+  1525/16000 | 14.5 min
+  1556/16000 | 14.9 min
+  1588/16000 | 15.3 min
+  1620/16000 | 15.7 min
+  1652/16000 | 16.1 min
+  1684/16000 | 16.4 min
+  1716/16000 | 16.9 min
+  1748/16000 | 17.2 min
+  1780/16000 | 17.6 min
+  1812/16000 | 18.1 min
+  1844/16000 | 18.5 min
+[chain] another generation chain holds /tmp/neuro_posttrain_gen.lock -- refusing to start
+  1876/16000 | 18.9 min
+  1908/16000 | 19.3 min
+[chain] START Sun Sep 20 13:51:37 PDT 2026 | global budget 230 min
+[chain] tools .done -- skip
+[chain] abstain .done -- skip
+[chain] === coldstart (n=16000 batch=32 budget=215min) 13:51 ===
+coldstart: resume at 1908 lines (free=-1, teach=1919) -> target 16000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  1940/16000 | 1.9 min
+  1972/16000 | 2.3 min
+  2004/16000 | 2.7 min
+  2036/16000 | 3.2 min
+  2068/16000 | 3.6 min
+  2100/16000 | 4.0 min
+  2132/16000 | 4.4 min
+  2164/16000 | 4.8 min
+  2196/16000 | 5.2 min
+  2228/16000 | 5.6 min
+  2260/16000 | 6.0 min
+  2292/16000 | 6.4 min
+  2324/16000 | 6.8 min
+  2356/16000 | 7.3 min
+  2388/16000 | 7.7 min
+  2420/16000 | 8.1 min
+  2452/16000 | 8.5 min
+  2484/16000 | 9.0 min
+  2516/16000 | 9.4 min
+  2548/16000 | 9.8 min
+  2580/16000 | 10.2 min
+  2612/16000 | 10.6 min
+  2644/16000 | 11.0 min
+  2676/16000 | 11.4 min
+  2708/16000 | 11.8 min
+  2740/16000 | 12.2 min
+  2771/16000 | 12.6 min
+  2803/16000 | 13.0 min
+  2835/16000 | 13.4 min
+  2867/16000 | 13.8 min
+  2899/16000 | 14.2 min
+  2931/16000 | 14.6 min
+  2962/16000 | 15.0 min
+  2994/16000 | 15.4 min
+  3026/16000 | 15.8 min
+  3058/16000 | 16.2 min
+  3090/16000 | 16.6 min
+  3122/16000 | 17.0 min
+  3154/16000 | 17.4 min
+  3185/16000 | 17.9 min
+  3217/16000 | 18.2 min
+  3249/16000 | 18.6 min
+  3281/16000 | 19.0 min
+  3313/16000 | 19.4 min
+  3345/16000 | 19.8 min
+  3377/16000 | 20.2 min
+  3409/16000 | 20.6 min
+  3441/16000 | 21.0 min
+  3473/16000 | 21.4 min
+  3505/16000 | 21.8 min
+  3535/16000 | 22.2 min
+  3566/16000 | 22.6 min
+  3598/16000 | 23.0 min
+  3628/16000 | 23.4 min
+  3659/16000 | 23.8 min
+  3691/16000 | 24.1 min
+  3723/16000 | 24.6 min
+  3755/16000 | 24.9 min
+  3787/16000 | 25.3 min
+  3819/16000 | 25.7 min
+  3849/16000 | 26.1 min
+  3880/16000 | 26.5 min
+  3912/16000 | 26.9 min
+  3944/16000 | 27.3 min
+  3976/16000 | 27.7 min
+  4008/16000 | 28.1 min
+  4040/16000 | 28.5 min
+  4072/16000 | 28.9 min
+  4104/16000 | 29.3 min
+  4136/16000 | 29.7 min
+  4168/16000 | 30.1 min
+  4200/16000 | 30.5 min
+  4231/16000 | 30.9 min
+  4263/16000 | 31.3 min
+  4295/16000 | 31.7 min
+  4327/16000 | 32.2 min
+  4359/16000 | 32.5 min
+  4390/16000 | 33.0 min
+  4422/16000 | 33.4 min
+  4454/16000 | 33.8 min
+  4486/16000 | 34.2 min
+  4518/16000 | 34.6 min
+  4550/16000 | 35.0 min
+  4582/16000 | 35.4 min
+  4614/16000 | 35.8 min
+  4646/16000 | 36.1 min
+  4678/16000 | 36.5 min
+  4709/16000 | 36.9 min
+  4740/16000 | 37.3 min
+  4771/16000 | 37.7 min
+  4803/16000 | 38.1 min
+  4835/16000 | 38.5 min
+  4867/16000 | 38.9 min
+  4899/16000 | 39.3 min
+  4931/16000 | 39.7 min
+  4963/16000 | 40.2 min
+  4995/16000 | 40.5 min
+  5026/16000 | 41.0 min
+  5058/16000 | 41.4 min
+  5089/16000 | 41.8 min
+  5121/16000 | 42.2 min
+  5152/16000 | 42.7 min
+  5183/16000 | 43.1 min
+  5215/16000 | 43.5 min
+  5246/16000 | 43.9 min
+  5278/16000 | 44.4 min
+  5310/16000 | 44.8 min
+  5342/16000 | 45.2 min
+  5374/16000 | 45.6 min
+  5406/16000 | 46.1 min
+  5438/16000 | 46.4 min
+  5470/16000 | 46.8 min
+  5502/16000 | 47.3 min
+  5534/16000 | 47.7 min
+  5566/16000 | 48.1 min
+  5598/16000 | 48.6 min
+  5630/16000 | 49.0 min
+  5662/16000 | 49.4 min
+  5694/16000 | 49.7 min
+  5726/16000 | 50.1 min
+  5758/16000 | 50.6 min
+  5790/16000 | 51.0 min
+  5822/16000 | 51.4 min
+  5854/16000 | 51.8 min
+  5886/16000 | 52.2 min
+  5918/16000 | 52.7 min
+  5950/16000 | 53.1 min
+  5982/16000 | 53.5 min
+  6014/16000 | 53.9 min
+  6045/16000 | 54.4 min
+  6077/16000 | 54.8 min
+  6109/16000 | 55.2 min
+  6141/16000 | 55.6 min
+  6173/16000 | 56.0 min
+  6205/16000 | 56.4 min
+  6237/16000 | 56.8 min
+  6269/16000 | 57.2 min
+  6301/16000 | 57.6 min
+  6333/16000 | 57.9 min
+  6365/16000 | 58.3 min
+  6397/16000 | 58.8 min
+  6429/16000 | 59.2 min
+  6461/16000 | 59.6 min
+  6492/16000 | 59.9 min
+  6524/16000 | 60.4 min
+  6556/16000 | 60.8 min
+  6588/16000 | 61.2 min
+  6618/16000 | 61.6 min
+  6650/16000 | 62.0 min
+  6681/16000 | 62.5 min
+  6713/16000 | 63.0 min
+  6745/16000 | 63.4 min
+  6777/16000 | 63.8 min
+  6809/16000 | 64.2 min
+  6841/16000 | 64.7 min
+  6873/16000 | 65.2 min
+  6905/16000 | 65.6 min
+  6937/16000 | 66.0 min
+  6969/16000 | 66.4 min
+  7001/16000 | 66.8 min
+  7033/16000 | 67.2 min
+  7065/16000 | 67.6 min
+  7097/16000 | 68.0 min
+  7129/16000 | 68.3 min
+  7161/16000 | 68.7 min
+  7193/16000 | 69.2 min
+  7225/16000 | 69.6 min
+  7256/16000 | 70.0 min
+  7288/16000 | 70.4 min
+  7320/16000 | 70.7 min
+  7352/16000 | 71.2 min
+  7384/16000 | 71.6 min
+  7416/16000 | 72.0 min
+  7448/16000 | 72.4 min
+  7480/16000 | 72.8 min
+  7512/16000 | 73.1 min
+  7544/16000 | 73.5 min
+  7576/16000 | 73.9 min
+  7608/16000 | 74.3 min
+  7640/16000 | 74.7 min
+  7672/16000 | 75.1 min
+  7703/16000 | 75.5 min
+  7735/16000 | 75.9 min
+  7767/16000 | 76.3 min
+  7799/16000 | 76.7 min
+  7830/16000 | 77.1 min
+  7862/16000 | 77.5 min
+  7894/16000 | 77.9 min
+  7924/16000 | 78.3 min
+  7955/16000 | 78.6 min
+  7987/16000 | 79.0 min
+  8018/16000 | 79.4 min
+  8050/16000 | 79.8 min
+  8082/16000 | 80.2 min
+  8114/16000 | 80.6 min
+  8146/16000 | 81.0 min
+  8178/16000 | 81.4 min
+  8210/16000 | 81.8 min
+  8242/16000 | 82.2 min
+  8273/16000 | 82.6 min
+  8305/16000 | 83.0 min
+  8337/16000 | 83.4 min
+  8369/16000 | 83.8 min
+  8401/16000 | 84.2 min
+  8432/16000 | 84.6 min
+  8464/16000 | 85.0 min
+  8496/16000 | 85.4 min
+  8528/16000 | 85.8 min
+  8560/16000 | 86.1 min
+  8592/16000 | 86.5 min
+  8624/16000 | 86.9 min
+  8656/16000 | 87.3 min
+  8688/16000 | 87.7 min
+  8720/16000 | 88.1 min
+  8752/16000 | 88.5 min
+  8784/16000 | 88.9 min
+  8816/16000 | 89.3 min
+  8847/16000 | 89.8 min
+  8879/16000 | 90.2 min
+  8910/16000 | 90.6 min
+  8942/16000 | 91.0 min
+  8973/16000 | 91.4 min
+  9005/16000 | 91.8 min
+  9037/16000 | 92.2 min
+  9069/16000 | 92.6 min
+  9101/16000 | 93.0 min
+  9133/16000 | 93.4 min
+  9165/16000 | 93.8 min
+  9197/16000 | 94.2 min
+  9229/16000 | 94.7 min
+  9260/16000 | 95.1 min
+  9292/16000 | 95.5 min
+  9324/16000 | 96.0 min
+  9356/16000 | 96.4 min
+  9388/16000 | 96.8 min
+  9420/16000 | 97.2 min
+  9452/16000 | 97.6 min
+  9483/16000 | 98.0 min
+  9515/16000 | 98.5 min
+  9546/16000 | 98.9 min
+  9578/16000 | 99.4 min
+  9610/16000 | 99.8 min
+  9641/16000 | 100.2 min
+  9673/16000 | 100.7 min
+  9704/16000 | 101.1 min
+  9734/16000 | 101.6 min
+  9766/16000 | 102.1 min
+  9798/16000 | 102.6 min
+  9830/16000 | 103.1 min
+  9861/16000 | 103.5 min
+  9893/16000 | 103.9 min
+  9925/16000 | 104.3 min
+  9957/16000 | 104.8 min
+  9989/16000 | 105.2 min
+  10021/16000 | 105.6 min
+  10052/16000 | 106.1 min
+  10084/16000 | 106.5 min
+  10115/16000 | 106.9 min
+  10147/16000 | 107.3 min
+  10178/16000 | 107.7 min
+  10210/16000 | 108.1 min
+  10241/16000 | 108.5 min
+  10273/16000 | 108.9 min
+  10305/16000 | 109.3 min
+  10336/16000 | 109.7 min
+  10368/16000 | 110.1 min
+  10400/16000 | 110.5 min
+  10431/16000 | 110.9 min
+  10463/16000 | 111.2 min
+  10495/16000 | 111.6 min
+  10526/16000 | 112.0 min
+  10557/16000 | 112.5 min
+  10589/16000 | 112.9 min
+  10621/16000 | 113.4 min
+  10653/16000 | 113.8 min
+  10685/16000 | 114.2 min
+  10717/16000 | 114.6 min
+  10749/16000 | 115.0 min
+  10781/16000 | 115.4 min
+  10813/16000 | 115.9 min
+  10845/16000 | 116.3 min
+  10877/16000 | 116.7 min
+  10909/16000 | 117.1 min
+  10940/16000 | 117.5 min
+  10972/16000 | 117.9 min
+  11004/16000 | 118.3 min
+  11036/16000 | 118.7 min
+  11067/16000 | 119.1 min
+  11099/16000 | 119.5 min
+  11131/16000 | 119.9 min
+  11163/16000 | 120.3 min
+  11195/16000 | 120.7 min
+  11226/16000 | 121.1 min
+  11258/16000 | 121.5 min
+  11290/16000 | 121.9 min
+  11322/16000 | 122.3 min
+  11354/16000 | 122.8 min
+  11386/16000 | 123.2 min
+  11418/16000 | 123.6 min
+  11450/16000 | 124.0 min
+  11482/16000 | 124.4 min
+  11514/16000 | 124.8 min
+  11545/16000 | 125.2 min
+  11577/16000 | 125.6 min
+  11608/16000 | 126.0 min
+  11640/16000 | 126.5 min
+  11672/16000 | 126.9 min
+  11704/16000 | 127.4 min
+  11736/16000 | 127.8 min
+  11768/16000 | 128.2 min
+  11800/16000 | 128.6 min
+  11832/16000 | 129.0 min
+  11862/16000 | 129.5 min
+  11894/16000 | 129.9 min
+  11926/16000 | 130.3 min
+  11958/16000 | 130.8 min
+  11990/16000 | 131.1 min
+  12022/16000 | 131.6 min
+  12054/16000 | 132.0 min
+  12085/16000 | 132.4 min
+  12117/16000 | 132.9 min
+  12149/16000 | 133.3 min
+  12181/16000 | 133.7 min
+  12213/16000 | 134.0 min
+  12245/16000 | 134.4 min
+  12276/16000 | 134.8 min
+  12307/16000 | 135.2 min
+  12338/16000 | 135.7 min
+  12370/16000 | 136.1 min
+  12402/16000 | 136.5 min
+  12434/16000 | 136.9 min
+  12466/16000 | 137.3 min
+  12498/16000 | 137.7 min
+  12530/16000 | 138.1 min
+  12561/16000 | 138.5 min
+  12593/16000 | 138.9 min
+  12625/16000 | 139.4 min
+  12656/16000 | 139.8 min
+  12688/16000 | 140.3 min
+  12720/16000 | 140.7 min
+  12752/16000 | 141.2 min
+  12784/16000 | 141.6 min
+  12816/16000 | 142.0 min
+  12848/16000 | 142.5 min
+  12880/16000 | 142.9 min
+  12912/16000 | 143.3 min
+  12944/16000 | 143.7 min
+  12976/16000 | 144.1 min
+  13008/16000 | 144.5 min
+  13039/16000 | 144.9 min
+  13071/16000 | 145.3 min
+  13103/16000 | 145.7 min
+  13135/16000 | 146.1 min
+  13167/16000 | 146.6 min
+  13199/16000 | 147.0 min
+  13231/16000 | 147.4 min
+  13262/16000 | 147.8 min
+  13294/16000 | 148.2 min
+  13325/16000 | 148.6 min
+  13357/16000 | 149.1 min
+  13389/16000 | 149.5 min
+  13421/16000 | 149.9 min
+  13453/16000 | 150.4 min
+  13485/16000 | 150.8 min
+  13517/16000 | 151.2 min
+  13549/16000 | 151.6 min
+  13580/16000 | 152.0 min
+  13611/16000 | 152.4 min
+  13643/16000 | 152.8 min
+  13675/16000 | 153.2 min
+  13706/16000 | 153.6 min
+  13738/16000 | 154.0 min
+  13770/16000 | 154.4 min
+  13802/16000 | 154.8 min
+  13834/16000 | 155.2 min
+  13866/16000 | 155.6 min
+  13898/16000 | 156.0 min
+  13930/16000 | 156.4 min
+  13961/16000 | 156.8 min
+  13993/16000 | 157.3 min
+  14024/16000 | 157.7 min
+  14056/16000 | 158.2 min
+  14088/16000 | 158.6 min
+  14120/16000 | 159.0 min
+  14152/16000 | 159.4 min
+  14184/16000 | 159.9 min
+  14216/16000 | 160.3 min
+  14248/16000 | 160.7 min
+  14280/16000 | 161.2 min
+  14311/16000 | 161.6 min
+  14343/16000 | 162.2 min
+  14375/16000 | 162.7 min
+  14407/16000 | 163.2 min
+  14439/16000 | 163.7 min
+  14471/16000 | 164.3 min
+  14503/16000 | 164.7 min
+  14535/16000 | 165.1 min
+  14566/16000 | 165.5 min
+  14598/16000 | 165.9 min
+  14630/16000 | 166.3 min
+  14661/16000 | 166.7 min
+  14693/16000 | 167.1 min
+  14725/16000 | 167.5 min
+  14757/16000 | 167.9 min
+  14789/16000 | 168.4 min
+  14821/16000 | 168.8 min
+  14853/16000 | 169.2 min
+  14884/16000 | 169.7 min
+  14916/16000 | 170.1 min
+  14948/16000 | 170.5 min
+  14980/16000 | 170.9 min
+  15012/16000 | 171.3 min
+  15044/16000 | 171.7 min
+  15075/16000 | 172.1 min
+  15107/16000 | 172.5 min
+  15139/16000 | 172.9 min
+  15170/16000 | 173.3 min
+  15202/16000 | 173.7 min
+  15234/16000 | 174.1 min
+  15266/16000 | 174.5 min
+  15298/16000 | 174.9 min
+  15329/16000 | 175.3 min
+  15360/16000 | 175.8 min
+  15392/16000 | 176.2 min
+  15424/16000 | 176.6 min
+  15455/16000 | 177.0 min
+  15486/16000 | 177.5 min
+  15518/16000 | 178.0 min
+  15550/16000 | 178.5 min
+  15582/16000 | 179.1 min
+  15614/16000 | 179.6 min
+  15645/16000 | 180.1 min
+  15677/16000 | 180.7 min
+  15709/16000 | 181.1 min
+  15741/16000 | 181.6 min
+  15772/16000 | 182.1 min
+  15804/16000 | 182.5 min
+  15836/16000 | 182.9 min
+  15868/16000 | 183.4 min
+  15900/16000 | 183.9 min
+  15931/16000 | 184.3 min
+  15963/16000 | 184.7 min
+  15995/16000 | 185.1 min
+  16000/16000 | 185.5 min
+DONE coldstart: 16000 lines in 185.5 min
+[chain] START Mon Sep 21 23:34:26 PDT 2026 | global budget 660 min
+[chain] tools .done -- skip
+[chain] abstain .done -- skip
+[chain] coldstart .done -- skip
+[chain] END Mon Sep 21 23:34:26 PDT 2026
+   16000 training_data/posttrain/abstain.jsonl
+   16000 training_data/posttrain/coldstart.jsonl
+   24000 training_data/posttrain/tools.jsonl
+     128 training_data/posttrain/why.jsonl
+   56128 total
+[chain] START Mon Sep 21 23:38:06 PDT 2026 | global budget 660 min
+[chain] tools .done -- skip
+[chain] abstain .done -- skip
+[chain] coldstart .done -- skip
+[chain] === why (n=6000 batch=16 budget=660min) 23:38 ===
+why: resume at 128 lines (free=-1, teach=63) -> target 6000
+teacher: meta-llama/Llama-3.2-3B-Instruct
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  160/6000 | 2.2 min
+  192/6000 | 2.8 min
+  224/6000 | 3.4 min
+  256/6000 | 3.9 min
+  288/6000 | 4.3 min
+  320/6000 | 4.8 min
+  352/6000 | 5.2 min
+  384/6000 | 5.6 min
+  416/6000 | 6.0 min
+  448/6000 | 6.5 min
+  480/6000 | 7.0 min
+  512/6000 | 7.6 min
+  544/6000 | 8.0 min
+  576/6000 | 8.4 min
+  608/6000 | 9.0 min
+  640/6000 | 9.4 min
+  672/6000 | 9.8 min
+  704/6000 | 10.2 min
+  736/6000 | 10.8 min
+  768/6000 | 11.4 min
+  800/6000 | 11.8 min
+  832/6000 | 12.1 min
+  864/6000 | 12.7 min
+  896/6000 | 13.1 min
+  928/6000 | 13.5 min
+  960/6000 | 13.9 min
+  992/6000 | 14.4 min
+  1024/6000 | 14.8 min
+  1056/6000 | 15.3 min
+  1088/6000 | 15.8 min
+  1120/6000 | 16.2 min
+  1152/6000 | 16.6 min
+  1184/6000 | 17.2 min
+  1216/6000 | 17.5 min
+  1248/6000 | 18.0 min
+  1280/6000 | 18.3 min
+  1312/6000 | 18.9 min
+  1344/6000 | 19.4 min
+  1376/6000 | 20.0 min
+  1408/6000 | 20.6 min
+  1440/6000 | 21.0 min
+  1472/6000 | 21.6 min
+  1504/6000 | 22.1 min
+  1536/6000 | 22.5 min
+  1568/6000 | 22.9 min
+  1600/6000 | 23.5 min
+  1632/6000 | 24.1 min
+  1664/6000 | 24.5 min
+  1696/6000 | 24.9 min
+  1728/6000 | 25.5 min
+  1760/6000 | 26.0 min
+  1792/6000 | 26.4 min
+  1824/6000 | 26.8 min
+  1856/6000 | 27.4 min
+  1888/6000 | 27.7 min
+  1920/6000 | 28.3 min
+  1952/6000 | 28.9 min
+  1984/6000 | 29.2 min
+  2016/6000 | 29.7 min
+  2048/6000 | 30.3 min
+  2080/6000 | 31.0 min
+  2112/6000 | 31.5 min
+  2144/6000 | 32.0 min
+  2176/6000 | 32.5 min
+  2208/6000 | 32.8 min
+  2240/6000 | 33.4 min
+  2272/6000 | 33.7 min
+  2304/6000 | 34.2 min
+  2336/6000 | 34.7 min
+  2368/6000 | 35.3 min
+  2400/6000 | 35.6 min
+  2432/6000 | 36.2 min
+  2464/6000 | 36.6 min
+  2496/6000 | 36.9 min
+  2528/6000 | 37.3 min
+  2560/6000 | 37.7 min
+  2592/6000 | 38.2 min
+  2624/6000 | 38.7 min
+  2656/6000 | 39.2 min
+  2688/6000 | 39.7 min
+  2720/6000 | 40.1 min
+  2752/6000 | 40.5 min
+  2784/6000 | 41.0 min
+  2816/6000 | 41.5 min
+  2848/6000 | 42.0 min
+  2880/6000 | 42.4 min
+  2912/6000 | 42.9 min
+  2944/6000 | 43.3 min
+  2976/6000 | 43.8 min
+  3008/6000 | 44.4 min
+  3040/6000 | 44.7 min
+  3072/6000 | 45.2 min
+  3104/6000 | 45.7 min
+  3136/6000 | 46.1 min
+  3168/6000 | 46.5 min
+  3200/6000 | 47.1 min
+  3232/6000 | 47.4 min
+  3264/6000 | 48.0 min
+  3296/6000 | 48.5 min
+  3328/6000 | 48.9 min
+  3360/6000 | 49.2 min
+  3392/6000 | 49.6 min
+  3424/6000 | 50.1 min
+  3456/6000 | 50.6 min
+  3488/6000 | 51.0 min
+  3520/6000 | 51.5 min
+  3552/6000 | 51.9 min
+  3584/6000 | 52.4 min
+  3616/6000 | 52.8 min
+  3648/6000 | 53.2 min
+  3680/6000 | 53.7 min
+  3712/6000 | 54.2 min
+  3744/6000 | 54.6 min
+  3776/6000 | 55.1 min
+  3808/6000 | 55.5 min
+  3840/6000 | 56.0 min
+  3872/6000 | 56.6 min
+  3904/6000 | 57.1 min
+  3936/6000 | 57.6 min
+  3968/6000 | 58.1 min
+  4000/6000 | 58.5 min
+  4032/6000 | 59.1 min
+  4064/6000 | 59.4 min
+  4096/6000 | 59.8 min
+  4128/6000 | 60.4 min
+  4160/6000 | 60.8 min
+  4192/6000 | 61.2 min
+  4224/6000 | 61.5 min
+  4256/6000 | 62.1 min
+  4288/6000 | 62.6 min
+  4320/6000 | 62.9 min
+  4352/6000 | 63.3 min
+  4384/6000 | 63.9 min
+  4416/6000 | 64.3 min
+  4448/6000 | 64.7 min
+  4480/6000 | 65.2 min
+  4512/6000 | 65.7 min
+  4544/6000 | 66.0 min
+  4576/6000 | 66.3 min
+  4608/6000 | 66.7 min
+  4640/6000 | 67.0 min
+  4672/6000 | 67.5 min
+  4704/6000 | 68.0 min
+  4736/6000 | 68.6 min
+  4768/6000 | 68.9 min
+  4800/6000 | 69.4 min
+  4832/6000 | 69.9 min
+  4864/6000 | 70.3 min
+  4896/6000 | 70.6 min
+  4928/6000 | 71.0 min
+  4960/6000 | 71.5 min
+  4992/6000 | 71.8 min
+  5024/6000 | 72.2 min
+  5056/6000 | 72.6 min
+  5088/6000 | 72.9 min
+  5120/6000 | 73.5 min
+  5152/6000 | 73.9 min
+  5184/6000 | 74.4 min
+  5216/6000 | 74.8 min
+  5248/6000 | 75.2 min
+  5280/6000 | 75.7 min
+  5312/6000 | 76.1 min
+  5344/6000 | 76.6 min
+  5376/6000 | 77.2 min
+  5408/6000 | 77.7 min
+  5440/6000 | 78.3 min
+  5472/6000 | 78.7 min
+  5504/6000 | 79.1 min
+  5536/6000 | 79.5 min
+  5568/6000 | 79.8 min
+  5600/6000 | 80.2 min
+  5632/6000 | 80.8 min
+  5664/6000 | 81.1 min
+  5696/6000 | 81.6 min
+  5728/6000 | 82.1 min
+  5760/6000 | 82.6 min
+  5792/6000 | 83.2 min
+  5824/6000 | 83.6 min
+  5856/6000 | 84.1 min
+  5888/6000 | 84.7 min
+  5920/6000 | 85.2 min
+  5952/6000 | 85.8 min
+  5984/6000 | 86.1 min
+  6000/6000 | 86.5 min
+DONE why: 6000 lines in 86.5 min
+[chain] why exit=0 01:04
+[chain] why .done -- skip
+[chain] END Tue Sep 22 01:04:43 PDT 2026
+   16000 training_data/posttrain/abstain.jsonl
+   16000 training_data/posttrain/coldstart.jsonl
+   24000 training_data/posttrain/tools.jsonl
+    6000 training_data/posttrain/why.jsonl
+   62000 total

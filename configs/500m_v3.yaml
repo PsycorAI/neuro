@@ -1,0 +1,144 @@
+# 500M RESTART v3 -- confirmed final recipe, scaled to full size, on the
+# GDN-2 dense chunked-WY kernel (gdn2_chunked_dense in src/delta_chunked.py).
+# Supersedes screen_500m_restart_gdn2.yaml: that config still had
+# use_fla_kernel: true, which this session's F7 investigation rejected (the
+# fla kernel collapses MQAR recall at H>=8 -- see neuro_gdn2_dense_chunked.md
+# and HANDOFF_2026_07_15_v2.md). gdn2_chunked gives the same ppl/recall as
+# the old dense-loop baseline at ~23x training speed (validated at 30M,
+# temp/test_gdn2_chunked_dense.py, ~1e-6 fwd+bwd parity).
+#
+# Recipe: NorMuon + Engram-v2 + F1 (muon_fix_gate_matrices) + F2
+# (muon_route_embeddings_by_type) + GDN-2/chunked (two-seed confirmed:
+# 76.98/76.79 vs control 81.87) + curriculum warmup (two-seed confirmed:
+# 45.15/46.72 vs control 48.03) + beta_floor + mqar_aug. Same pieces as
+# screen_bake_500m_derisk_gdn2_90m.yaml, scaled to 500M.
+#
+# Batch A (RMSNorm+z_loss+deeper MTP+embed_scale w/ paired init) is FOLDED IN
+# below (use_rmsnorm/embed_scale/z_loss_weight/mtp_* fields). 30M seed0
+# confirmed both val_ppl (58.09 vs 76.98 no-Batch-A, -24.5%) AND MQAR recall
+# (better at every N, +17pp at N=32) -- recall_eval ruled out the initial
+# memory-Delta-ratio-drop concern (156 vs ~300) as a false alarm: Batch A
+# strengthens the memory pathway in absolute terms, non-memory pathway just
+# improved even more. STILL PENDING before actual launch: 30M seed1 confirm
+# (screen_bake_full_gdn2_batchA_seed1_30m, running) and the 90M de-risk
+# (screen_bake_500m_derisk_gdn2_batchA_90m, running) -- both seed0-only so
+# far, and this project has 3 prior instances (MoE/Engram/uniform-rdepth) of
+# single-seed wins reversing on reseed. Do not launch 500M v3 until both land.
+#
+# MoR (recurrent_depth=2 + router) is DROPPED, deferred to a future Phase 3
+# (post-500M-v3), not folded in here. Uniform/fixed-depth recursion (no
+# router) was already tested in this project, twice, with a fair matched-
+# token control and 2-seed confirmation, and lost clearly (depth-1 74.55/
+# 73.35 vs depth-2 77.35/78.52 -- see neuro_adaptive_compute.md). The
+# per-token adaptive-router version (MoR proper, the paper's actual claim)
+# was never finished: Stage 2 only built the dense/masked variant (full
+# recompute every pass for every token, zero FLOP savings) -- Phase 2's
+# sparse-gather was deferred and never built, which is why tonight's
+# screen_mor_200m_2b ran at ~2300 tok/s (7.7 days for 2B tokens) and was
+# killed. Paper's own data needs >=135M params AND ~0.9-2.3B tokens to beat
+# vanilla even with a working implementation. Revisit only after 500M v3
+# ships, and only after building the sparse-gather Phase 2.
+#
+# If SDM+F1 ends up beating GDN-2, swap gdn2_enabled/sdm_enabled before
+# launching -- everything else is unaffected by that choice.
+#
+# Architecture matches the prior demo_phase1b_500m_v2_fast checkpoint
+# (d/n_neurons/d_mem/n_layers), reusing its empirically-tuned batch/block
+# settings (~8-9k tok/s on the 5090 at this size, pre-gdn2_chunked -- expect
+# faster now). Deliberately does NOT carry over that checkpoint's
+# Phi-tokenized data / KD-from-Phi-3.5 / MTP / Markov / confidence-head
+# features -- none of those were part of the recipe actually screened at
+# 30M/90M this cycle (which used vocab=16384/Llama-3 data, no KD). This run
+# is the clean, fully-de-risked recipe; KD/MTP/etc. can be added as a later,
+# separately-screened enhancement if wanted.
+run_name: 500m_v3
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640   # bumped from 512 (2026-07-17): VRAM probe at batch=16/grad_accum=2
+# found 640 the largest block_size fitting comfortably (28.58/32GB, 90% ceiling;
+# 704 pushed to 95%, rejected). Confirmed via 30M screen (screen_compile_blk640_30m):
+# no crash, spike 0.18 (matches T=512 baseline 0.185), memory-Δ 184-238 (stronger
+# than baseline's 156 -- more context to bind). Longer context = more quality
+# headroom for the Hebbian memory pathway.
+batch_size: 14    # SWEET SPOT (2026-07-17): reserved ~29 GiB fits entirely in the 5090's ~31.8 GiB dedicated VRAM with ~3 GiB margin -> NO shared-mem spill -> steady ~10,900 tok/s. batch=16 (32.2 GiB) overflows into WDDM shared memory on the hot path -> throughput HALVES to ~6,900 despite 95% util (SMs stall on PCIe). Proven both ways in this session's log. Do not raise unless dedicated VRAM is freed (close browser/Afterburner/Task-Mgr GPU view).
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16   # fixed (was 4) to eliminate dynamo recompile churn — main path compiles at block_size=640, MQAR at 2N+1=33 triggers guard failures on every new N; single N = 1 recompile at start, then silence
+mqar_N_max: 16   # fixed (was 32) — see mqar_N_min
+mqar_weight: 0.5
+sparsity_lambda: 1.0    # mid-run bump 0.7->1.0 (2026-07-17, spike still climbing rapidly at 0.24+). 2x the original 0.5, but still below the 1.5 A/B that regressed memory-Δ at launch — model now at memory-Δ +330 (vs +156 pre-A/B) is expected more resilient to a moderate penalty. Tripwire: revert if memory-Δ trends below +250 over 3-5 evals.
+sparsity_target: 0.05
+gdn2_enabled: true
+gdn2_chunked: true  # dense chunked-WY fast path; fla kernel rejected 2026-07-15 (recall collapse H>=8)
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: true
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2  # Batch A fields (30M seed0 confirmed, seed1+90M de-risk pending)
+lr: 0.0004
+lam: 0.98
+max_tokens: 5000000000
+eval_every: 1000
+ckpt_every: 1000
+keep_last: 8
+log_every: 100
+snapshot_brain: false   # avoid ~13GB of per-eval brain snapshots over the 5B run; enable ad-hoc if needed
+amp: true
+# torch.compile: quality-preserving throughput win. Validated at 30M
+# (2026-07-16): val_ppl 58.18 vs eager 58.09, mem-Δ 156.6 vs 156.0, spike
+# 0.195 vs 0.185 -- within noise. The key enabler is @torch.compiler.disable
+# on lif_parallel (its data-dependent FPT loop + straight-through surrogate
+# were miscompiled -> spike collapse 0.185->0.11 -> ~2x worse val_ppl); with
+# the LIF eager, whole-model compile is exact. emulate_precision_casts (set
+# in train_gpu when compile=true) preserves the GDN-2 kernel's autocast(False)
+# boundary. MTP logits now returned via tuple (side-effect attr write is
+# unsafe under compile). MQAR now ALSO compiled via a separate mode=default/
+# dynamic=True wrapper (mqar_model in train_gpu.py) -- confirmed at 30M
+# (screen_compile_mqar_30m): val_ppl 58.05 vs 58.09 eager, mem-Δ 163 vs 156,
+# recall_eval within B=64 sampling noise of eager-MQAR baseline (no
+# systematic regression like mqar_cadence showed). Actual tok/s at 500M/
+# block_size=640 scale not yet measured live -- check the run log.
+compile: true
+compile_mode: default   # NOT reduce-overhead: its CUDA Graph capture crashed
+# (RuntimeError: CUDAGraphs output overwritten) under grad_accum + the GDN-2
+# kernel's checkpoint() recompute during backward -- graph replay triggered
+# by checkpoint recompute clobbered a static buffer an earlier microstep's
+# backward still needed. default mode doesn't use CUDA Graphs, so this bug
+# class can't occur. ~3.14x vs reduce-overhead's 3.63x at 500M scale -- small
+# cost for eliminating crash risk on an unattended multi-day run.
+compile_dynamic: false
+seed: 0

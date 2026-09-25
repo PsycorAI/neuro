@@ -1,0 +1,121 @@
+# Post-alignment sparsity cleanup PASS 1.
+#
+# Purpose: SFT/DPO drift spike from 0.229 (sparsity_refine endpoint) up to
+# ~0.28 (SFT/DPO run with sparsity_lambda=0 -- no pressure). This pass brings
+# spike back toward the demo target (~0.05-0.15) while trying to preserve
+# the alignment gains DPO produced.
+#
+# 2026-07-26 update: originally targeted the SimPO endpoint; switched to
+# standard DPO after two SimPO attempts degraded the model (see
+# neuro_simpo_collapse_2026_07_26). Base run_name updated accordingly.
+#
+# Design gap fix (2026-07-25): the FIRST sparsity_refine used λ=3.0, which is
+# only a 3x multiplier over pretrain's endpoint λ=1.0 (mid-run bump). At 30M
+# scale a 3x multiplier gave 45% compression; but our sparsity_refine only got
+# 22% because the pretrain reference point wasn't matched properly. Now using
+# λ=6.0 = 6x multiplier over pretrain λ=1.0, matching the 30M screen's actual
+# ratio that hit 45% (λ=3.0 refine over λ=0.5 pretrain = 6x). Expected outcome:
+# spike 0.28 -> ~0.15 (matching the 30M elasticity curve at 6x).
+#
+# BASE: standard-DPO checkpoint at models/checkpoints/dpo_500m_standard_v3/step_*.pt
+# (SimPO variants v3 and v3b both degraded, see neuro_simpo_collapse_2026_07_26;
+# reverted to standard DPO with reference-model KL anchor). The base stays
+# untouched -- this run writes to a NEW dir (safety pattern agreed 2026-07-23).
+#
+# Success criteria:
+#   - spike drops from ~0.28 to <= 0.15 (67% reduction; matches 30M curve at 6x)
+#   - val_ppl regression < 5 ppl (some regression is expected under high λ)
+#   - memory-Δ stays > +250 (don't undo recall)
+#   - β dead_frac = 0% on all blocks (no collapse)
+#
+# If Pass 1 gets us close but not fully to target, sparsity_cleanup2_500m_v3
+# (λ=10.0, 100M tok) is a staged follow-up. Manual launch after evaluation.
+run_name: sparsity_cleanup_500m_v3
+
+# --- ARCH: byte-identical to 500m_v3 / sparsity_refine_500m_v3 ---
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640
+batch_size: 14
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+# --- MQAR-AUG OFF: keep SimPO's alignment intact, don't retrain aux head ---
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+
+# --- Sparsity: 6x pretrain λ (was 3x in first refine; screen-derived ratio) ---
+sparsity_lambda: 6.0
+sparsity_target: 0.05
+
+# --- Arch (byte-identical to pretrain/SimPO base) ---
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Optimizer: same as first refine, low LR to preserve SimPO alignment ---
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0025
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0002
+lr_min_frac: 1.0
+lr_warmup_frac: 0.0
+lam: 0.98
+
+# +150M tokens on top of standard-DPO's own tokens counter.
+# CAREFUL: train_sft.py and train_dpo.py each start their tokens counter
+# at 0 (only model weights carry across sft_init/dpo_init, not step/tokens).
+# 2026-07-28: DPO was stopped early at step 8000 (~115M tok, not the 300M
+# target) due to overfitting/repetition drift under repeated preference-set
+# passes. Cleanup resumes from that ~115M via train_gpu.py's auto-resume:
+# 115M + 150M cleanup = 265M target.
+max_tokens: 265000000
+
+eval_every: 200
+ckpt_every: 2000
+keep_last: 4
+log_every: 100
+snapshot_brain: false
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0

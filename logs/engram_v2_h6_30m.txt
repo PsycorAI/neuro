@@ -1,0 +1,57 @@
+nohup: ignoring input
+curriculum warmup enabled: 610 train batches drawn easy->hard (10% of 6103 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+arch=spiking params=59.54M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+step 100 | 1.6M tok | loss 13.876 | 17,730 tok/s | vram 1.9/13.4 GB
+step 200 | 3.3M tok | loss 12.813 | 19,669 tok/s | vram 1.9/13.4 GB
+step 300 | 4.9M tok | loss 12.267 | 18,749 tok/s | vram 2.0/13.4 GB
+step 400 | 6.6M tok | loss 11.862 | 18,797 tok/s | vram 2.0/13.4 GB
+step 500 | 8.2M tok | loss 11.764 | 18,581 tok/s | vram 2.0/13.4 GB
+nohup: ignoring input
+curriculum warmup enabled: 610 train batches drawn easy->hard (10% of 6103 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+arch=spiking params=59.54M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+step 100 | 1.6M tok | loss 13.876 | 17,046 tok/s | vram 1.9/13.4 GB
+step 200 | 3.3M tok | loss 12.813 | 18,422 tok/s | vram 1.9/13.4 GB
+step 300 | 4.9M tok | loss 12.267 | 19,292 tok/s | vram 2.0/13.4 GB
+step 400 | 6.6M tok | loss 11.862 | 19,207 tok/s | vram 2.0/13.4 GB
+step 500 | 8.2M tok | loss 11.764 | 18,757 tok/s | vram 2.0/13.4 GB
+step 600 | 9.8M tok | loss 11.963 | 18,009 tok/s | vram 2.0/13.4 GB
+step 700 | 11.5M tok | loss 11.106 | 17,996 tok/s | vram 2.0/13.4 GB
+step 800 | 13.1M tok | loss 11.528 | 18,121 tok/s | vram 2.0/13.4 GB
+step 900 | 14.7M tok | loss 10.869 | 17,712 tok/s | vram 1.9/13.4 GB
+step 1000 | 16.4M tok | loss 11.386 | 18,872 tok/s | vram 1.9/13.4 GB
+  [eval] val_ppl 89.19 | ablated_ppl 299.61 (memory Δ=+210.42) | spike 0.191
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.54 dead=0% at_floor=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_engram_v2_h6_30m/step_0001000.pt
+step 1100 | 18.0M tok | loss 10.723 | 15,544 tok/s | vram 2.0/13.1 GB
+step 1200 | 19.7M tok | loss 10.935 | 18,830 tok/s | vram 2.0/13.1 GB
+step 1300 | 21.3M tok | loss 10.704 | 18,787 tok/s | vram 2.0/13.1 GB
+step 1400 | 22.9M tok | loss 10.765 | 19,599 tok/s | vram 2.0/13.1 GB
+step 1500 | 24.6M tok | loss 9.539 | 17,815 tok/s | vram 1.9/13.1 GB
+step 1600 | 26.2M tok | loss 9.686 | 18,441 tok/s | vram 1.9/13.1 GB
+step 1700 | 27.9M tok | loss 9.710 | 18,384 tok/s | vram 1.9/13.1 GB
+step 1800 | 29.5M tok | loss 9.021 | 18,816 tok/s | vram 1.9/13.1 GB
+step 1900 | 31.1M tok | loss 9.851 | 18,980 tok/s | vram 2.0/13.1 GB
+step 2000 | 32.8M tok | loss 9.779 | 18,626 tok/s | vram 2.0/13.1 GB
+  [eval] val_ppl 71.20 | ablated_ppl 268.50 (memory Δ=+197.31) | spike 0.190
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_engram_v2_h6_30m/step_0002000.pt
+Terminated
+nohup: ignoring input
+curriculum warmup enabled: 610 train batches drawn easy->hard (10% of 6103 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+resumed /home/glenn/projects/neuro/models/checkpoints/screen_engram_v2_h6_30m/step_0002000.pt @ step 2000, 32.8M tok
+arch=spiking params=59.54M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+step 2100 | 34.4M tok | loss 7.609 | 16,347 tok/s | vram 2.1/14.0 GB
+step 2200 | 36.0M tok | loss 7.290 | 18,503 tok/s | vram 2.1/14.0 GB
+step 2300 | 37.7M tok | loss 7.113 | 18,041 tok/s | vram 2.2/14.0 GB
+step 2400 | 39.3M tok | loss 5.828 | 17,922 tok/s | vram 2.2/14.0 GB
+step 2500 | 41.0M tok | loss 6.605 | 17,240 tok/s | vram 2.2/14.0 GB
+step 2600 | 42.6M tok | loss 6.738 | 16,691 tok/s | vram 2.2/14.0 GB
+step 2700 | 44.2M tok | loss 5.462 | 16,948 tok/s | vram 2.2/14.0 GB
+step 2800 | 45.9M tok | loss 6.176 | 17,094 tok/s | vram 2.2/14.0 GB
+step 2900 | 47.5M tok | loss 5.563 | 17,121 tok/s | vram 2.1/14.0 GB
+step 3000 | 49.2M tok | loss 6.038 | 16,962 tok/s | vram 2.2/14.0 GB
+  [eval] val_ppl 64.45 | ablated_ppl 241.38 (memory Δ=+176.93) | spike 0.185
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%

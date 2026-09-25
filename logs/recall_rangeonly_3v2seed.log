@@ -1,0 +1,26 @@
+loaded screen_mqarfix16_30m: 55.1M
+loaded screen_mqarfix16_s1_30m: 55.1M
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_r432_w05_s1_30m: 55.1M
+loaded screen_r432_w05_s2_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+  screen_mqarfix16_30m |  100% |   92% |   83% |   34% |    8%
+screen_mqarfix16_s1_30m |   97% |   95% |   88% |   33% |    9%
+screen_loglinear_ctrl_30m |  100% |   94% |   95% |   52% |   25%
+screen_r432_w05_s1_30m |  100% |  100% |   98% |   73% |   17%
+screen_r432_w05_s2_30m |  100% |   98% |   89% |   58% |   20%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+  screen_mqarfix16_30m |     1 |     2 |     7 |   189 |   805
+screen_mqarfix16_s1_30m |     1 |     2 |    12 |   113 |   994
+screen_loglinear_ctrl_30m |     1 |     2 |     1 |   160 |   518
+screen_r432_w05_s1_30m |     1 |     1 |     1 |     5 |   256
+screen_r432_w05_s2_30m |     1 |     1 |     9 |    72 |   629

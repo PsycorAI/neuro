@@ -1,0 +1,14 @@
+loaded w5_composed: 276.6M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+           w5_composed |  100% |  100% |   97% |   91% |   41%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+           w5_composed |     1 |     1 |     2 |    34 |   863

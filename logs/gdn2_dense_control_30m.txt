@@ -1,0 +1,5 @@
+optimizer: Muon (18 matrices, lr=0.005) + AdamW (23 other params, lr=0.0006)
+resumed /home/glenn/projects/neuro/models/checkpoints/screen_gdn2_ab_treatment_30m/step_0006104.pt @ step 6104, 100.0M tok
+arch=spiking params=50.37M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_gdn2_ab_treatment_30m/step_0006104.pt
+done: 100.0M tok in 0.00h

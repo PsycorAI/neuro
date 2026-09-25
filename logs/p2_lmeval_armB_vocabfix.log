@@ -1,0 +1,18 @@
+loaded step3fix_gnwd_hot_b16: 276.6M params, 0.13B tok, block_size=512
+
+loading hellaswag...
+  10042 items
+  hellaswag      | acc  30.3%  acc_norm  24.0%  (N=300, chance=25%, 253.7s)
+
+loading arc_easy...
+  570 items
+  arc_easy       | acc  31.3%  acc_norm  27.7%  (N=300, chance=25%, 260.6s)
+
+loading arc_challenge...
+  299 items
+  arc_challenge  | acc  16.7%  acc_norm  21.7%  (N=299, chance=25%, 254.1s)
+
+=== summary ===
+  hellaswag      acc  30.3%  acc_norm  24.0%  (N=300)
+  arc_easy       acc  31.3%  acc_norm  27.7%  (N=300)
+  arc_challenge  acc  16.7%  acc_norm  21.7%  (N=299)

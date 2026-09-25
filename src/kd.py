@@ -69,13 +69,17 @@ def load_teacher(model_id="meta-llama/Llama-3.2-1B", device="cuda", dtype=torch.
 @torch.no_grad()
 def teacher_distribution(teacher, raw_ids, lut, student_vocab=16384,
                         temperature=1.0, topk=128):
-    """Run teacher forward on raw Llama-3 IDs, return projected probabilities.
+    """Run teacher forward on raw Llama-3 IDs, return top-K teacher probs + their
+    projected student-vocab indices (NOT a dense (B,T,student_vocab) distribution
+    -- kd_loss gathers directly from these, see its docstring for why that's
+    mathematically identical to the old scatter-into-dense-then-dot approach,
+    without the alloc/scatter/full-vocab-multiply every microstep).
 
     raw_ids: (B, T) original Llama-3 IDs
     lut:     (128256,) projection LongTensor on the same device
     topk:    Use top-K teacher tokens per position (saves ~99% memory vs full softmax).
              128 retains essentially all mass; larger K diminishing returns.
-    Returns: (B, T, student_vocab) probability distribution (bf16 to save memory)
+    Returns: (topk_probs (B,T,K), student_idx (B,T,K))
     """
     out = teacher(raw_ids).logits  # (B, T, 128256) in teacher dtype (bf16)
     if temperature != 1.0:
@@ -84,28 +88,32 @@ def teacher_distribution(teacher, raw_ids, lut, student_vocab=16384,
     # The truncated softmax is re-normalized; the tail mass dropped is typically <1%.
     topk_vals, topk_idx = out.topk(topk, dim=-1)        # (B, T, K)
     topk_probs = topk_vals.softmax(dim=-1)              # stays in teacher dtype
-    # Project: scatter each top-K probability into its corresponding student slot
-    B, T, _ = topk_probs.shape
-    proj = torch.zeros(B, T, student_vocab,
-                       device=topk_probs.device, dtype=topk_probs.dtype)
     student_idx = lut[topk_idx]                         # (B, T, K)
-    proj.scatter_add_(2, student_idx, topk_probs)
-    return proj
+    return topk_probs, student_idx
 
 
-def kd_loss(student_logits, teacher_probs, alpha=0.5, target_ids=None,
+def kd_loss(student_logits, teacher_topk, alpha=0.5, target_ids=None,
             temperature=1.0):
     """Combined KD + hard-target loss.
 
     student_logits: (B, T, V)
-    teacher_probs:  (B, T, V) — the projected soft targets (already softmaxed)
+    teacher_topk:    (topk_probs (B,T,K), student_idx (B,T,K)) from teacher_distribution
     target_ids:     (B, T) — hard next-token labels for CE term
     alpha:          weight on KD vs hard CE (alpha=1.0 = pure KD)
     Returns: scalar loss
+
+    Soft-CE via gather, not scatter-then-dot: for the dense projection proj[v] =
+    sum_{i: student_idx_i=v} topk_probs_i, sum_v proj[v]*log_probs[v] regroups to
+    sum_i topk_probs_i * log_probs[student_idx_i] -- exactly what gather computes,
+    since duplicate student_idx entries (multiple teacher tokens collapsing to the
+    same UNK/merged slot) contribute the same log_probs[v] regardless of grouping.
+    Bit-identical result (verified numerically), no (B,T,V) alloc/scatter/full-
+    vocab multiply.
     """
+    topk_probs, student_idx = teacher_topk
     student_log_probs = F.log_softmax(student_logits / temperature, dim=-1)
-    # Soft cross-entropy: -sum(teacher * log student) ; equivalent to KL up to const
-    soft_loss = -(teacher_probs * student_log_probs).sum(dim=-1).mean()
+    gathered = student_log_probs.gather(-1, student_idx)          # (B,T,K)
+    soft_loss = -(topk_probs * gathered).sum(dim=-1).mean()
     # Temperature scaling correction (Hinton et al.)
     soft_loss = soft_loss * (temperature ** 2)
     if alpha >= 1.0 or target_ids is None:

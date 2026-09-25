@@ -1,0 +1,18 @@
+loaded sft_flagship_363m: 363.5M params, 0.06B tok, block_size=512
+
+loading hellaswag...
+  10042 items
+  hellaswag      | acc  26.5%  acc_norm  26.4%  (N=10042, chance=25%, 9249.8s)
+
+loading arc_easy...
+  570 items
+  arc_easy       | acc  38.4%  acc_norm  36.7%  (N=570, chance=25%, 418.2s)
+
+loading arc_challenge...
+  299 items
+  arc_challenge  | acc  20.7%  acc_norm  24.1%  (N=299, chance=25%, 221.5s)
+
+=== summary ===
+  hellaswag      acc  26.5%  acc_norm  26.4%  (N=10042)
+  arc_easy       acc  38.4%  acc_norm  36.7%  (N=570)
+  arc_challenge  acc  20.7%  acc_norm  24.1%  (N=299)

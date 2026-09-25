@@ -1,0 +1,14 @@
+[01:05:42] ===== 30M BATCH BEGIN (5080/GPU1) =====
+    [RAM] used=5G avail=18G
+[01:05:42] START screen_mqarN16clean_30m.yaml
+    [RAM] used=5G avail=18G
+[02:23:42] END screen_mqarN16clean_30m.yaml rc=0
+done: 100.0M tok in 1.29h
+    [RAM] used=5G avail=18G
+[02:23:42] START screen_mqarw10_30m.yaml
+    [RAM] used=5G avail=18G
+[03:43:23] END screen_mqarw10_30m.yaml rc=0
+done: 100.0M tok in 1.32h
+    [RAM] used=5G avail=18G
+[03:43:23] START screen_mqarw20_30m.yaml
+    [RAM] used=5G avail=18G

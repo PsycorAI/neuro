@@ -1,0 +1,32 @@
+[eager] warmup step 0 (compile if applicable)... 
+/home/glenn/projects/neuro/temp/bench_compile.py:51: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return float(loss)
+  first step: 3.5s loss=10.6991
+[eager] steady: 1465.0 ms/step  2796 tok/s  loss[0]=10.6991 loss[N]=10.6812
+[default] warmup step 0 (compile if applicable)... 
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] Graph break from `Tensor.item()`, consider setting:
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]     torch._dynamo.config.capture_scalar_outputs = True
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] or:
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] to include these operations in the captured graph.
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] 
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] Graph break: from user code at:
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]   File "/home/glenn/projects/neuro/src/model.py", line 566, in torch_dynamo_resume_in_forward_sequence_at_512
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]     self._last_beta_stats = _beta_stats(w_seq, floor=self.beta_floor)  # telemetry on write gate (floored)
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]     return func(*args, **kwargs)
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]   File "/home/glenn/projects/neuro/src/model.py", line 129, in _beta_stats
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0]     "mean":          float(b.mean().item()),
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] 
+W0716 18:06:58.660000 194573 torch/_dynamo/variables/tensor.py:1379] [5/0] 
+  first step: 192.9s loss=10.6794
+[default] steady: 3525.1 ms/step  1162 tok/s  loss[0]=10.6794 loss[N]=10.6884
+[reduce-overhead] warmup step 0 (compile if applicable)... 
+  first step: 121.0s loss=10.6847
+W0716 18:13:41.074000 194573 torch/_dynamo/convert_frame.py:1743] [8/64] torch._dynamo hit config.recompile_limit (64)
+W0716 18:13:41.074000 194573 torch/_dynamo/convert_frame.py:1743] [8/64]    function: 'torch_dynamo_resume_in__beta_stats_at_130' (/home/glenn/projects/neuro/src/model.py:130)
+W0716 18:13:41.074000 194573 torch/_dynamo/convert_frame.py:1743] [8/64]    last reason: 8/40: ___as_tensor(___stack2).item() == 0.24609375  # (unknown source ___as_tensor(___stack2).item(), please file a bug)
+W0716 18:13:41.074000 194573 torch/_dynamo/convert_frame.py:1743] [8/64] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W0716 18:13:41.074000 194573 torch/_dynamo/convert_frame.py:1743] [8/64] To diagnose recompilation issues, see https://docs.pytorch.org/docs/main/user_guide/torch_compiler/compile/programming_model.recompilation.html
+!!! TIMEOUT (8 min) — likely dynamo hang, aborting

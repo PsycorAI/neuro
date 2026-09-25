@@ -7,7 +7,7 @@
 #   tail -f logs_sft_500m.txt
 
 run_name: sft_500m
-sft_init: sparsity_refine_500m   # refined base (post-MQAR + post-sparsity)
+sft_init: demo_phase1b_500m_v2_fast   # base Phase-1 ckpt (MQAR/sparsity refines were null, superseded)
 sft_dataset: yahma/alpaca-cleaned
 sft_split: train
 sft_max_len: 512
@@ -20,7 +20,7 @@ vocab: 32064
 
 # --- arch: must match Phase 1 exactly so weights resume cleanly ---
 d: 2048
-n_neurons: 4352
+n_neurons: 4864
 d_mem: 2048
 n_layers: 5
 recurrent: true

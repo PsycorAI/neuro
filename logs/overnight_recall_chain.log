@@ -1,0 +1,26 @@
+[00:41:10] ===== OVERNIGHT RECALL CHAIN BEGIN (GPU1) =====
+[00:41:10] START screen_preconv_s0_30m
+[02:08:28] END   screen_preconv_s0_30m rc=0  (val_ppl 56.10)
+[02:08:28] START screen_preconv_s1_30m
+[03:33:13] END   screen_preconv_s1_30m rc=0  (val_ppl 55.71)
+[03:33:13] START screen_preconv_s2_30m
+[05:05:43] END   screen_preconv_s2_30m rc=0  (val_ppl 55.49)
+[05:05:43] START screen_localattn_s0_30m
+[06:28:37] END   screen_localattn_s0_30m rc=0  (val_ppl 72.84)
+[06:28:37] START screen_localattn_s1_30m
+[07:53:45] END   screen_localattn_s1_30m rc=0  (val_ppl 70.58)
+[07:53:45] START screen_localattn_s2_30m
+[09:30:30] END   screen_localattn_s2_30m rc=0  (val_ppl 73.14)
+[09:30:30] ===== TRAINING DONE — running recall_eval =====
+[09:30:30] --- SINGLE-PRESENTATION recall ---
+[09:31:52] single-pres rc=0 -> logs/overnight_recall_SINGLE.log
+[09:31:52] --- SPLIT-REPLAY recall ---
+[09:32:16] split rc=0 -> logs/overnight_recall_SPLIT.log
+[09:32:16] ===== val_ppl SUMMARY =====
+  screen_preconv_s0_30m: val_ppl 56.10
+  screen_preconv_s1_30m: val_ppl 55.71
+  screen_preconv_s2_30m: val_ppl 55.49
+  screen_localattn_s0_30m: val_ppl 72.84
+  screen_localattn_s1_30m: val_ppl 70.58
+  screen_localattn_s2_30m: val_ppl 73.14
+[09:32:16] ===== CHAIN COMPLETE =====

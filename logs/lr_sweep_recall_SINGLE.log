@@ -1,0 +1,23 @@
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_mlr010_s0_30m: 55.1M
+loaded screen_mlr020_s0_30m: 55.1M
+loaded screen_mlr040_s0_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |  100% |   94% |   95% |   52% |   25% |   16%
+  screen_mlr010_s0_30m |   98% |   81% |   62% |   53% |   25% |   16%
+  screen_mlr020_s0_30m |   89% |   73% |   53% |   25% |   19% |   11%
+  screen_mlr040_s0_30m |   61% |   33% |   12% |    8% |    0% |    0%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |     1 |     2 |     1 |   160 |   518 |   828
+  screen_mlr010_s0_30m |     2 |    11 |    48 |   162 |   386 |   729
+  screen_mlr020_s0_30m |    70 |   123 |    78 |   271 |   369 |   643
+  screen_mlr040_s0_30m |   498 |   853 |  1216 |  1753 |  2212 |  2514

@@ -1,0 +1,38 @@
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_r432_w05_s1_30m: 55.1M
+loaded screen_r432_w05_s2_30m: 55.1M
+loaded screen_preconv_s0_30m: 55.1M
+loaded screen_preconv_s1_30m: 55.1M
+loaded screen_preconv_s2_30m: 55.1M
+loaded screen_localattn_s0_30m: 55.1M
+loaded screen_localattn_s1_30m: 55.1M
+loaded screen_localattn_s2_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |  100% |   94% |   95% |   52% |   25% |   16%
+screen_r432_w05_s1_30m |  100% |  100% |   98% |   73% |   17% |   12%
+screen_r432_w05_s2_30m |  100% |   98% |   89% |   58% |   20% |   12%
+ screen_preconv_s0_30m |   33% |   16% |   14% |    3% |    0% |    2%
+ screen_preconv_s1_30m |   27% |    9% |    8% |    2% |    3% |    2%
+ screen_preconv_s2_30m |   16% |   12% |    2% |    2% |    0% |    2%
+screen_localattn_s0_30m |  100% |  100% |   89% |   52% |   25% |    6%
+screen_localattn_s1_30m |   94% |   92% |   77% |   34% |    3% |    5%
+screen_localattn_s2_30m |   98% |   97% |   89% |   64% |   25% |    8%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |     1 |     2 |     1 |   160 |   518 |   828
+screen_r432_w05_s1_30m |     1 |     1 |     1 |     5 |   256 |   909
+screen_r432_w05_s2_30m |     1 |     1 |     9 |    72 |   629 |  1117
+ screen_preconv_s0_30m |   555 |  1112 |  1164 |  1557 |  2210 |  2748
+ screen_preconv_s1_30m |   413 |  1120 |  1704 |  2248 |  2617 |  2887
+ screen_preconv_s2_30m |   740 |  1111 |  1955 |  2595 |  2791 |  2699
+screen_localattn_s0_30m |     1 |     1 |     7 |   177 |   503 |  1135
+screen_localattn_s1_30m |     2 |     2 |    33 |   262 |  1226 |  1525
+screen_localattn_s2_30m |     1 |     1 |     4 |    65 |   501 |  1042

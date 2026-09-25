@@ -1,0 +1,116 @@
+# LAMBDA=0.5 VERIFY at Phase-2 target aspect ratio (2026-08-03).
+#
+# Prior lambda=0.5 confirm (screen_lambda05_90m_s*) ran at the OLD shape
+# (d=640, n_neurons=d, L=6). Phase 2 will use d=1152, n=2.4d, L=8. This
+# closes the "does lambda=0.5 hold at the new aspect ratio + depth" caveat by
+# running at the RATIO-SCREEN shape (d=640, n_neurons=1536, L=8) — same
+# aspect ratio and depth as Phase 2, narrower width — vs. the a1 (7:1
+# attention) arm's already-completed lambda=0.3 results (val_ppl 48.56/47.06,
+# recall 100/95/78/75/59% and 100/98/94/80/47%).
+#
+# Base: screen_attnratio_90m_a1_s0.yaml (arm A, seed 0) — only sparsity_lambda
+# changes (0.3 -> 0.5). Runs on the 5080 with batch_size reduced from 32 to
+# 12 (grad_accum 3) to fit — a1 shape probed at batch 12 = 12.9GB VRAM, and
+# batch 32 caused WDDM spill on the 5080 (see neuro-500m-v3-vram-sweetspot).
+# Effective batch 36 vs a1's 32 — small, acceptable delta.
+# PHASE 1 — attention-ratio screen. ARM A (7:1), SEED 0.
+#
+# Question: is 1 attention layer in 8 (7:1) leaving recall on the table vs the
+# research-recommended 3:1? A systematic hybrid-linear-attention study
+# (arXiv 2507.06457) finds LM loss is FLAT across linear:full ratios while
+# recall nearly doubles from 24:1 to 3:1, saturating ~3:1 (Qwen3-Next and
+# Qwen3.5 both ship 3:1). Every screen this project has run measured val_ppl
+# only -- by that study's own result, val_ppl is exactly the metric that
+# cannot see this.
+#
+# PRIMARY METRICS: recall_eval (--replay split) and memory-delta. NOT val_ppl,
+# which is expected to be flat and is not the decision metric.
+#
+# Shape is a 90M-class model at the TARGET aspect ratio (n_neurons ~ 2.4d) and
+# target depth 8 -- unlike every prior 30M/90M screen, which used n_neurons=d
+# and was never shape-faithful to the 500M/1B target. Arms are near
+# param-matched (107.3M this arm vs 104.4M for arm B) because at this aspect
+# ratio an attention block is SMALLER than a spiking block.
+#
+# All four runs (2 arms x 2 seeds) go on the 5090 at the same batch -- this
+# project already lost time to a cross-GPU/batch confound during the
+# seed-variance investigation.
+#
+# ANALYSIS GOTCHA: model.py:1259 computes spike_rate as a flat mean over ALL
+# layers and attention layers emit zero spikes, so arm B (2 attn) reports a
+# ~14% lower spike rate than arm A for purely mechanical reasons. Normalize by
+# n_spiking/n_total before comparing arms.
+run_name: screen_lambda05_newshape_s0
+
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+
+arch: spiking
+vocab: 32768
+d: 640
+n_neurons: 1536
+d_mem: 640
+n_layers: 8
+attention_layer_positions: [3]
+attention_heads: 8
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 12
+grad_accum: 3
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0006
+lam: 0.98
+max_tokens: 150000000
+eval_every: 1000
+ckpt_every: 4000
+keep_last: 2
+log_every: 200
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0
+
+kd_enabled: false

@@ -118,20 +118,42 @@ def main():
         weights = [1.0] * len(files)
         print(f"uniform weights")
 
-    state_dicts = []
-    newest_ckpt = None
+    # Incremental accumulation: hold at most ONE ckpt in RAM at a time (plus the
+    # fp32 accumulator). Loading all N state_dicts at once peaks at N x model_size
+    # and OOM-kills on low-RAM hosts (this box has 19GB; 8 x ~2GB models + a 5GB
+    # newest blob overflowed). Float tensors are summed in fp32 then cast back;
+    # non-float tensors are taken from the newest ckpt (last in `files`).
+    tot_w = sum(weights)
+    acc = None            # {key: fp32 accumulator} for float tensors
+    keys = None           # canonical key order from ckpt 0
+    ref_dtype = None      # {key: source dtype} to cast back
+    newest_blob = None
     for i, f in enumerate(files):
         blob = torch.load(f, map_location="cpu", weights_only=False)
         if "model" not in blob:
             raise KeyError(f"{f}: no 'model' key; keys = {list(blob.keys())}")
-        state_dicts.append(blob["model"])
+        sd = blob["model"]
+        if acc is None:
+            keys = list(sd.keys())
+            float_keys = [k for k in keys
+                          if torch.is_tensor(sd[k]) and sd[k].dtype.is_floating_point]
+            acc = {k: torch.zeros_like(sd[k], dtype=torch.float32) for k in float_keys}
+            ref_dtype = {k: sd[k].dtype for k in float_keys}
+            print(f"averaging {len(keys)} tensors ({len(float_keys)} float) incrementally ...")
+        elif list(sd.keys()) != keys:
+            missing = set(keys) ^ set(sd.keys())
+            raise ValueError(f"ckpt {i} has mismatched keys vs ckpt 0: {list(missing)[:5]}...")
+        for k in acc:
+            acc[k].add_(sd[k].to(torch.float32), alpha=weights[i] / tot_w)
         if i == len(files) - 1:
-            newest_ckpt = blob
+            newest_blob = blob          # keep newest full blob (non-float model + opt + meta)
+        else:
+            del blob, sd
 
-    print(f"averaging {len(state_dicts[0])} tensors ...")
-    avg_sd = _average_state_dicts(state_dicts, weights)
+    newest_sd = newest_blob["model"]
+    avg_sd = {k: (acc[k].to(ref_dtype[k]) if k in acc else newest_sd[k]) for k in keys}
 
-    out_blob = dict(newest_ckpt)                # preserve step/tokens/cfg/opt
+    out_blob = dict(newest_blob)                # preserve step/tokens/cfg/opt
     out_blob["model"] = avg_sd
     out_blob["pma_meta"] = {
         "n_averaged": len(files),

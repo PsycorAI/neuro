@@ -1,0 +1,58 @@
+# Frac-Connections A/B -- TREATMENT arm (fracconn_enabled:true, n_frac=2).
+# Byte-identical to screen_fracconn_ab_control_30m.yaml except fracconn_enabled
+# (and fracconn_n, which has no effect in the control since it's unused there).
+# src/fracconn.py: learnable per-layer mix over 2 fractions of the residual
+# stream, replacing the fixed `out + x` add at all 3 mirrored call sites in
+# model.py. Identity-init (W=V=I at step 0) verified bit-for-bit against the
+# control's plain-residual path in plain, recurrent-depth, AND router-enabled
+# modes (temp/check_fracconn_model_identity.py, all PASS, diff=0.0 exactly)
+# before this config was ever run -- so any divergence from the control arm
+# during training is the learned mixing doing something, not an init bug.
+# Same recipe as the 350M MoR run (recurrent_depth=2 + router ON) per
+# docs/hyperconnections_design.md's decision gate.
+# 100M tokens (half of the 200M screen budget) for a ~3h arm on the 5080.
+run_name: screen_fracconn_ab_treatment_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 2
+recurrent_bptt_k: 0
+recurrent_router_enabled: true
+recurrent_router_threshold: 0.5
+recurrent_router_aux_weight: 0.1
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1   # β-collapse fix (2026-07-10) -- prevents scalar-β saturation to zero; ~40x memory-Δ improvement over unfixed baseline. Do NOT remove; all screens/A-Bs since this date bake it in as the recipe default.
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+normuon: false
+fracconn_enabled: true
+fracconn_n: 2
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 500
+ckpt_every: 2000
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

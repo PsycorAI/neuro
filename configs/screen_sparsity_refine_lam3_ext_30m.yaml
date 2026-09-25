@@ -1,0 +1,92 @@
+# Sparsity-refinement screen -- budget-extension arm (λ = 3.0, 300M tok total).
+#
+# Extends the λ=3.0 arm from 150M to 300M tok (+150M more refine on top of
+# the 50M already done) to test whether spike compression plateaus.
+#
+# λ=3.0 at 150M tok ended: spike 0.099 (still trending down), val_ppl 61.90,
+# memory-Δ +128.48. Trajectory analysis: does 3-4x refine budget hit the
+# same plateau, or does spike keep dropping toward target 0.05?
+# This directly informs the 500M v3 refine BUDGET choice (50M/100M/200M).
+#
+# Copy the λ=3.0 arm's FINAL ckpt as the base for this extension:
+#   mkdir -p models/checkpoints/screen_sparsity_refine_lam3_ext_30m
+#   cp models/checkpoints/screen_sparsity_refine_lam3_30m/step_0007325.pt \
+#      models/checkpoints/screen_sparsity_refine_lam3_ext_30m/
+run_name: screen_sparsity_refine_lam3_ext_30m
+
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.0
+
+sparsity_lambda: 3.0
+sparsity_target: 0.05
+
+gdn2_enabled: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0025
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0003
+
+lr_min_frac: 1.0
+lr_warmup_frac: 0.0
+
+lam: 0.98
+
+# 300M total = 100M base pretrain + 50M initial refine + 150M extension
+max_tokens: 300000000
+
+eval_every: 200
+ckpt_every: 5000
+keep_last: 2
+log_every: 100
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0

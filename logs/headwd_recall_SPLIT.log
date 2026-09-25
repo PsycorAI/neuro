@@ -1,0 +1,20 @@
+loaded screen_headwd_base_s0_30m: 55.1M
+loaded screen_headwd_1p0_s0_30m: 55.1M
+loaded screen_headwd_2p0_s0_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_headwd_base_s0_30m |  100% |  100% |   94% |   64% |   30% |   16%
+screen_headwd_1p0_s0_30m |  100% |  100% |   94% |   58% |   25% |   14%
+screen_headwd_2p0_s0_30m |   98% |   97% |   92% |   55% |   23% |   14%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_headwd_base_s0_30m |     2 |     1 |    30 |   831 |  1471 |  1771
+screen_headwd_1p0_s0_30m |     1 |     1 |   171 |   904 |  3099 |  3368
+screen_headwd_2p0_s0_30m |    12 |     6 |    32 |   498 |  1371 |  2007

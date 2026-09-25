@@ -1,0 +1,60 @@
+loaded SFT init: /home/glenn/projects/neuro/models/checkpoints/sft_flagship_363m/step_0003663.pt (60M tok)
+optimizer: NorMuon (71 matrices, lr=0.0005) + AdamW (123 other params, lr=5e-05)
+gen-check ENABLED every 100 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+loading preferences HuggingFaceH4/ultrafeedback_binarized...
+  raw: 61135 preference pairs
+  encoded: 57673 (skipped 3462)
+DPO | params=363.5M | beta=0.1 | per_step_tok=16384 | total_steps≈915
+
+step 25 | 0.4M tok | loss 0.682 | chosen>rejected 56% | spike 0.189 | 1,518 tok/s | vram 9.7/22.5 GB
+step 50 | 0.8M tok | loss 1.026 | chosen>rejected 38% | spike 0.187 | 1,564 tok/s | vram 9.7/22.5 GB
+step 75 | 1.2M tok | loss 0.670 | chosen>rejected 62% | spike 0.184 | 1,536 tok/s | vram 9.7/22.5 GB
+step 100 | 1.6M tok | loss 0.638 | chosen>rejected 62% | spike 0.185 | 1,581 tok/s | vram 9.7/22.5 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris, which is the capital city of France. It is the capital city of France, and its capital city is Paris, which is the capital city of France. Here,'
+step 125 | 2.0M tok | loss 0.833 | chosen>rejected 69% | spike 0.183 | 1,490 tok/s | vram 9.7/22.5 GB
+step 150 | 2.5M tok | loss 1.147 | chosen>rejected 31% | spike 0.184 | 1,546 tok/s | vram 9.7/22.5 GB
+step 175 | 2.9M tok | loss 0.890 | chosen>rejected 62% | spike 0.182 | 1,559 tok/s | vram 9.7/22.5 GB
+step 200 | 3.3M tok | loss 1.195 | chosen>rejected 50% | spike 0.189 | 1,583 tok/s | vram 9.7/22.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_flagship_363m/step_0000200.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nMadrid, France, and the capital of France, is a city in Paris, France, and the capital of France. It is a city in Paris, France, and the capital of France,'
+step 225 | 3.7M tok | loss 0.846 | chosen>rejected 56% | spike 0.188 | 1,483 tok/s | vram 9.7/22.5 GB
+step 250 | 4.1M tok | loss 1.138 | chosen>rejected 38% | spike 0.183 | 1,566 tok/s | vram 9.7/22.5 GB
+step 275 | 4.5M tok | loss 1.351 | chosen>rejected 44% | spike 0.189 | 1,572 tok/s | vram 9.7/22.5 GB
+step 300 | 4.9M tok | loss 0.701 | chosen>rejected 69% | spike 0.184 | 1,568 tok/s | vram 9.7/22.5 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris, France. It is the capital of France, and the capital of France. It is the capital of France, and the capital of France.\n\nThe capital of France is'
+step 325 | 5.3M tok | loss 0.418 | chosen>rejected 88% | spike 0.186 | 1,524 tok/s | vram 9.7/22.5 GB
+step 350 | 5.7M tok | loss 0.620 | chosen>rejected 62% | spike 0.186 | 1,555 tok/s | vram 9.7/22.5 GB
+step 375 | 6.1M tok | loss 1.127 | chosen>rejected 62% | spike 0.188 | 1,548 tok/s | vram 9.7/22.5 GB
+step 400 | 6.6M tok | loss 1.008 | chosen>rejected 56% | spike 0.182 | 1,532 tok/s | vram 9.7/22.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_flagship_363m/step_0000400.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nMadrid, France, is the capital of France, and the capital of France, is the capital of France. It is the capital of France, and it is the capital of France. Paris is'
+step 425 | 7.0M tok | loss 1.113 | chosen>rejected 56% | spike 0.184 | 1,478 tok/s | vram 9.7/22.5 GB
+step 450 | 7.4M tok | loss 1.277 | chosen>rejected 56% | spike 0.187 | 1,565 tok/s | vram 9.7/22.5 GB
+step 475 | 7.8M tok | loss 1.275 | chosen>rejected 44% | spike 0.183 | 1,594 tok/s | vram 9.7/22.5 GB
+step 500 | 8.2M tok | loss 1.437 | chosen>rejected 62% | spike 0.187 | 1,554 tok/s | vram 9.7/22.5 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France, which is Paris, France, and the United Kingdom. The capital of France, is Paris, and the capital of France. The capital of France,, and the United Kingdom'
+step 525 | 8.6M tok | loss 1.888 | chosen>rejected 44% | spike 0.186 | 1,480 tok/s | vram 9.7/22.5 GB
+step 550 | 9.0M tok | loss 1.682 | chosen>rejected 38% | spike 0.187 | 1,536 tok/s | vram 9.6/22.5 GB
+step 575 | 9.4M tok | loss 1.047 | chosen>rejected 56% | spike 0.187 | 1,545 tok/s | vram 9.7/22.5 GB
+step 600 | 9.8M tok | loss 0.908 | chosen>rejected 56% | spike 0.185 | 1,526 tok/s | vram 9.7/22.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_flagship_363m/step_0000600.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France, which is Paris, France. The capital of France, is Paris, and the capital of France. The capital of France is Paris, France. The capital of France is Paris'
+step 625 | 10.2M tok | loss 1.670 | chosen>rejected 56% | spike 0.188 | 1,405 tok/s | vram 9.7/22.5 GB
+step 650 | 10.6M tok | loss 2.155 | chosen>rejected 50% | spike 0.193 | 1,519 tok/s | vram 9.7/22.5 GB
+step 675 | 11.1M tok | loss 1.441 | chosen>rejected 31% | spike 0.186 | 1,576 tok/s | vram 9.7/22.5 GB
+step 700 | 11.5M tok | loss 2.073 | chosen>rejected 50% | spike 0.186 | 1,589 tok/s | vram 9.7/22.5 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France, which is Paris, France. The capital of France. The capital of France is Paris, France. The capital of France is Paris, France. The capital of France is Paris'
+step 725 | 11.9M tok | loss 0.975 | chosen>rejected 56% | spike 0.186 | 1,537 tok/s | vram 9.7/22.5 GB
+step 750 | 12.3M tok | loss 1.465 | chosen>rejected 50% | spike 0.190 | 1,554 tok/s | vram 9.7/22.5 GB
+step 775 | 12.7M tok | loss 1.398 | chosen>rejected 44% | spike 0.187 | 1,561 tok/s | vram 9.7/22.5 GB
+step 800 | 13.1M tok | loss 1.083 | chosen>rejected 50% | spike 0.183 | 1,553 tok/s | vram 9.7/22.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_flagship_363m/step_0000800.pt
+  [gen-check] "### Instruction:\nWhat is the capital of France?\n\n### Response:\nI'm thrilled to the capital city of France. Paris, France, and its capital city, is a city with a rich cultural heritage. Paris is a renowned French language, with its vibrant capital city"
+step 825 | 13.5M tok | loss 1.877 | chosen>rejected 62% | spike 0.187 | 1,487 tok/s | vram 9.7/22.5 GB
+step 850 | 13.9M tok | loss 0.802 | chosen>rejected 69% | spike 0.182 | 1,574 tok/s | vram 9.7/22.5 GB
+step 875 | 14.3M tok | loss 1.852 | chosen>rejected 44% | spike 0.186 | 1,517 tok/s | vram 9.7/22.5 GB
+step 900 | 14.7M tok | loss 1.714 | chosen>rejected 50% | spike 0.190 | 1,536 tok/s | vram 9.7/22.5 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\n, in Paris, France, and the capital of France, is the capital city of France. Paris is the capital city of France, and its capital city is Paris, and its capital city is Paris'
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_flagship_363m/step_0000916.pt
+done: 15.0M tok in 2.72h

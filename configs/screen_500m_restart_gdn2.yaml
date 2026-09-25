@@ -1,0 +1,77 @@
+# 500M RESTART -- the confirmed final recipe, scaled to full size.
+# NorMuon + Engram-v2 + F1 (muon_fix_gate_matrices) + F2
+# (muon_route_embeddings_by_type) + GDN-2 (two-seed confirmed: 76.98/76.79
+# vs control 81.87) + curriculum warmup (two-seed confirmed: 45.15/46.72 vs
+# control 48.03) + beta_floor + mqar_aug. Same pieces as
+# screen_bake_500m_derisk_gdn2_90m.yaml, scaled to 500M.
+# If SDM+F1 ends up beating GDN-2, swap gdn2_enabled/sdm_enabled before
+# launching -- everything else is unaffected by that choice.
+#
+# Architecture matches the prior demo_phase1b_500m_v2_fast checkpoint
+# (d/n_neurons/d_mem/n_layers), reusing its empirically-tuned batch/block
+# settings (~8-9k tok/s on the 5090 at this size). Deliberately does NOT
+# carry over that checkpoint's Phi-tokenized data / KD-from-Phi-3.5 / MTP /
+# Markov / confidence-head features -- none of those were part of the recipe
+# actually screened at 30M/90M this cycle (which used vocab=16384/Llama-3
+# data, no KD). This run is the clean, fully-de-risked recipe; KD/MTP/etc.
+# can be added as a later, separately-screened enhancement if wanted.
+#
+# NOT run yet -- prep only. Launch after the 90M de-risk bake
+# (screen_bake_500m_derisk_gdn2_90m) confirms composition holds at 90M scale,
+# and after deciding whether MoR (screen_mor_200m_2b) gets folded in first.
+run_name: screen_500m_restart_gdn2
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 15
+grad_accum: 2
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+gdn2_enabled: true
+gdn2_chunked: true  # dense chunked-WY fast path; fla kernel rejected 2026-07-15 (recall collapse H>=8)
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: true
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0004
+lam: 0.98
+max_tokens: 5000000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 8
+log_every: 100
+amp: true
+compile: false
+seed: 0

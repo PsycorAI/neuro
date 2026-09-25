@@ -1,0 +1,96 @@
+# A-sweep CONTROL: flat single-stage SFT on alpaca-cleaned (token-matched to the
+# two-stage curriculum: 70M = 40M reasoning + 30M fast). Compare against
+# sft_curric_s2_fast_363m (the curriculum endpoint) to test whether openPangu's
+# reasoning-first curriculum beats flat instruction-tuning at 363M.
+# Base = OLD flagship step_0124000 (vocab 32768, arch-faithful to v3).
+# Runs EAGER on the 5080 (CUDA_VISIBLE_DEVICES=1 set by the chain script).
+#   python src/train_sft.py --config configs/sft_curric_baseline_flat_363m.yaml --device cuda
+run_name: sft_curric_baseline_flat_363m
+
+sft_init: /home/glenn/projects/neuro/models/checkpoints/flagship_363m/step_0124000.pt
+sft_dataset: yahma/alpaca-cleaned
+sft_split: train
+sft_max_len: 512
+
+# in-format gen-check prompt (bare-prompt greedy is a decoding artifact -- memory
+# neuro_sft_flagship_outcome). Uses the ### Instruction/### Response template.
+gen_check_prompt: "### Instruction:\nWhat is the capital of France?\n\n### Response:\n"
+
+lora_enabled: false
+
+# --- ARCH: byte-identical to sft_flagship_363m.yaml / flagship_363m.yaml ---
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3072
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 4
+grad_accum: 8
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.15
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+gdn2_enabled: true
+gdn2_chunked: true
+gdn2_gate_norm: true
+gdn2_chunk_size: 64
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.001
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+muon_precise_gate_filter: true
+weight_decay: 0.0
+lr: 0.0001
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+max_tokens: 70000000
+eval_every: 250
+ckpt_every: 250
+log_every: 50
+keep_last: 6
+amp: true
+compile: true
+seed: 0

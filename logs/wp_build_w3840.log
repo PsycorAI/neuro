@@ -1,0 +1,3 @@
+optimizer: NorMuon (93 matrices, lr=0.005) + AdamW (125 other params, lr=0.0005)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+arch=spiking params=310.47M device=cuda target=0.000B tok | 512 tok/step | total_steps≈78 | warmup=1 | lr_sched=cosine | grad_clip=1.0

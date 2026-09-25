@@ -110,8 +110,11 @@ def _scan_chunked(beta, x, chunk=512):
         diff = a - b
         W = torch.where(diff >= 0, beta ** diff, torch.zeros_like(diff))
         # within-chunk: y_chunk[t] = sum_{i in chunk, i<=t} beta^(t-i) * x[i]
+        # matmul broadcasts the 2D W (L,L) across the batch dim of x_chunk
+        # (B,L,N) directly -- same result as the old einsum via a (0,1)
+        # transpose round-trip, without the non-contiguous transposes.
         x_chunk = x[:, start:end, :]               # (B, L, N)
-        y_chunk = torch.einsum("ab,bin->ain", W, x_chunk.transpose(0, 1)).transpose(0, 1)
+        y_chunk = torch.matmul(W, x_chunk)
         # add carry from previous chunks: each position t gets beta^(t+1) * carry
         carry_w = (beta ** (idx + 1)).view(1, L, 1)  # (1, L, 1)
         y_chunk = y_chunk + carry_w * carry.unsqueeze(1)
@@ -121,8 +124,19 @@ def _scan_chunked(beta, x, chunk=512):
     return out
 
 
+@torch.compiler.disable
 def lif_parallel(cur, beta, vth=1.0, K=3, alpha=2.0):
     """FPT-style parallel LIF.
+
+    NOTE: @torch.compiler.disable — this runs EAGER even inside a compiled
+    block. The FPT fixed-point loop below uses data-dependent control flow
+    (`torch.equal(...)` + `if converged: break`) and a straight-through
+    surrogate gradient (`spk_hard.detach() + g - g.detach()`); under whole-
+    model torch.compile / CUDA-graph capture both were miscompiled, producing
+    a systematic spike-rate collapse (0.185 -> 0.11) and ~2x worse val_ppl
+    (2026-07-16 investigation). Keeping the LIF eager restores exact baseline
+    numerics; inductor still compiles the surrounding GDN-2 memory kernel,
+    projections, and head -- where the FLOPs/launch overhead actually are.
 
     Sequential reference:
         pre_mem[t]  = beta * post_mem[t-1] + cur[t]
@@ -148,7 +162,14 @@ def lif_parallel(cur, beta, vth=1.0, K=3, alpha=2.0):
             s_prev[:, 1:, :] = s[:, :-1, :]
             x = cur - beta * vth * s_prev
             pre_mem = _scan_chunked(beta, x)
-            s = (pre_mem > vth).to(cur.dtype)
+            s_new = (pre_mem > vth).to(cur.dtype)
+            # Fixed point reached: s^(k+1) == s^(k) means every further
+            # iteration reproduces the same s, so stopping early is exact
+            # (not an approximation), just skips redundant identical work.
+            converged = torch.equal(s_new, s)
+            s = s_new
+            if converged:
+                break
     # Final scan with the converged spike sequence (with grad)
     s_prev = torch.zeros_like(s)
     s_prev[:, 1:, :] = s[:, :-1, :]

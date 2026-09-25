@@ -1,0 +1,31 @@
+loaded SFT init: /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2/step_0006104.pt (100M tok)
+SimPO: reference-free (VRAM saved) | gamma=0.15
+optimizer: Muon (22 matrices, lr=0.0005) + AdamW (24 other, lr=5e-05)
+gen-check ENABLED every 100 steps, prompt='The capital of France is'
+loading preferences HuggingFaceH4/ultrafeedback_binarized...
+  raw: 61135 preference pairs
+  encoded: 58044 (skipped 3091)
+SimPO | params=57.2M | beta=0.4 | per_step_tok=32768 | total_steps≈610
+
+step 50 | 1.6M tok | loss 0.738 | chosen>rejected 31% | spike 0.267 | 24,475 tok/s | vram 2.1/11.1 GB
+step 100 | 3.3M tok | loss 0.799 | chosen>rejected 22% | spike 0.259 | 24,983 tok/s | vram 2.1/12.1 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  [gen-check] 'The capital of France is the of the. This is because the capital of the of the. This is because the capital of the capital of France is the of the of the. This is because the capital of the capital of'
+step 150 | 4.9M tok | loss 0.736 | chosen>rejected 38% | spike 0.278 | 24,110 tok/s | vram 2.1/12.1 GB
+step 200 | 6.6M tok | loss 0.781 | chosen>rejected 31% | spike 0.271 | 24,357 tok/s | vram 2.1/12.1 GB
+  [gen-check] 'The capital of France is France. This includes historical sites, historical figures, and historical sites. This includes historical figures, and historical sites,,, and historical figures, and historical sites. This includes historical figures, historical sites'
+step 250 | 8.2M tok | loss 0.723 | chosen>rejected 41% | spike 0.279 | 24,269 tok/s | vram 2.1/12.1 GB
+step 300 | 9.8M tok | loss 0.707 | chosen>rejected 41% | spike 0.280 | 25,535 tok/s | vram 2.1/12.1 GB
+  [gen-check] 'The capital of France is France. This includes defining historical sites, historical figures, France, and historical figures. This historical sites, France, and historical figures, France, France, and historical figures, France, France, and'
+step 350 | 11.5M tok | loss 0.748 | chosen>rejected 47% | spike 0.287 | 24,658 tok/s | vram 2.1/12.1 GB
+step 400 | 13.1M tok | loss 0.831 | chosen>rejected 38% | spike 0.291 | 25,468 tok/s | vram 2.1/12.1 GB
+  [gen-check] 'The capital of France is Paris Paris France. This event aims to### One Another tip of cockatiya Janata Party (since Paris Paris is France### France. This event### France is Paris Paris Paris France'
+step 450 | 14.7M tok | loss 0.731 | chosen>rejected 44% | spike 0.282 | 24,447 tok/s | vram 2.1/12.1 GB
+step 500 | 16.4M tok | loss 0.803 | chosen>rejected 25% | spike 0.278 | 24,617 tok/s | vram 2.1/12.1 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/simpo_30m_smoke_v3b/step_0000500.pt
+  [gen-check] 'The capital of France is France. This branch of France is incredibly impressive, impressive collection of France France. This impressive results in France, France, and France. This impressive results in France, France, France, France, France'
+step 550 | 18.0M tok | loss 0.652 | chosen>rejected 50% | spike 0.285 | 23,765 tok/s | vram 2.1/12.1 GB
+step 600 | 19.7M tok | loss 0.754 | chosen>rejected 50% | spike 0.294 | 25,021 tok/s | vram 2.1/12.1 GB
+  [gen-check] 'The capital of France is Paris Paris France. France has numerous notable events, culture, and numerous notable figures<|begin_of_text|># Grational\n### Diagnan Seafood Seafood Pastry: The capital of France, a single-'
+  saved /home/glenn/projects/neuro/models/checkpoints/simpo_30m_smoke_v3b/step_0000611.pt
+done: 20.0M tok in 0.23h

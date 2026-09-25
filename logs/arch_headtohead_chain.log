@@ -1,0 +1,66 @@
+[2026-09-03 00:15:19] ===== ARCH HEAD-TO-HEAD BEGIN (5080/GPU1) =====
+    [RAM] used=5G avail=18G buff/cache=17G
+[2026-09-03 00:15:19] --- lm_eval flagship_363m (tasks=hellaswag,arc_easy,arc_challenge,mmlu, hellaswag capped at 3000) ---
+    [RAM] used=5G avail=18G buff/cache=17G
+[2026-09-03 01:15:52] END lm_eval flagship_363m rc=0
+=== summary ===
+  hellaswag      acc  29.8%  acc_norm  30.2%  (N=3000)
+  arc_easy       acc  38.9%  acc_norm  33.9%  (N=570)
+  arc_challenge  acc  18.1%  acc_norm  19.1%  (N=299)
+  mmlu           acc  24.0%  acc_norm  22.4%  (N=192)
+    [RAM] used=5G avail=18G buff/cache=20G
+[2026-09-03 01:15:52] --- lm_eval baseline_transformer_363m (tasks=hellaswag,arc_easy,arc_challenge,mmlu, hellaswag capped at 3000) ---
+    [RAM] used=5G avail=18G buff/cache=20G
+[2026-09-03 01:28:00] END lm_eval baseline_transformer_363m rc=0
+=== summary ===
+  hellaswag      acc  31.4%  acc_norm  32.2%  (N=3000)
+  arc_easy       acc  44.6%  acc_norm  39.3%  (N=570)
+  arc_challenge  acc  15.4%  acc_norm  21.7%  (N=299)
+  mmlu           acc  24.0%  acc_norm  21.9%  (N=192)
+    [RAM] used=5G avail=18G buff/cache=21G
+[2026-09-03 01:28:00] --- recall single-presentation: flagship vs transformer (fair in-context) ---
+    [RAM] used=5G avail=18G buff/cache=21G
+recall single-pres FAILED
+loaded flagship_363m: 363.5M
+loaded baseline_transformer_363m: 362.5M
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 155, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 136, in main
+    _, r, ca = recall(models[run], cfgs[run], N, device, B=args.B, replay=args.replay)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 90, in recall
+    full_acc = (logits.argmax(-1) == target).float().mean().item()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+    [RAM] used=5G avail=18G buff/cache=21G
+[2026-09-03 01:31:50] --- recall split-replay: flagship_363m ONLY (spiking's intended mode) ---
+    [RAM] used=5G avail=18G buff/cache=21G
+recall split FAILED
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/model.py", line 588, in forward_sequence
+    spk_seq, mem_final = lif_parallel(cur_seq, self.beta_val, vth=1.0,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/lif_parallel.py", line 169, in lif_parallel
+    converged = torch.equal(s_new, s)
+                ^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+    [RAM] used=5G avail=18G buff/cache=21G
+[2026-09-03 01:36:44] ===== ARCH HEAD-TO-HEAD COMPLETE =====
+    [RAM] used=5G avail=18G buff/cache=21G

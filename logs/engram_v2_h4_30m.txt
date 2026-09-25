@@ -1,0 +1,87 @@
+curriculum warmup enabled: 610 train batches drawn easy->hard (10% of 6103 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+arch=spiking params=57.18M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+step 100 | 1.6M tok | loss 14.235 | 16,219 tok/s | vram 1.9/13.6 GB
+step 200 | 3.3M tok | loss 12.592 | 20,203 tok/s | vram 2.0/13.6 GB
+step 300 | 4.9M tok | loss 12.607 | 19,897 tok/s | vram 1.9/13.6 GB
+step 400 | 6.6M tok | loss 11.946 | 20,521 tok/s | vram 1.9/13.6 GB
+step 500 | 8.2M tok | loss 11.719 | 19,176 tok/s | vram 1.9/13.6 GB
+step 600 | 9.8M tok | loss 11.961 | 20,663 tok/s | vram 1.9/13.6 GB
+step 700 | 11.5M tok | loss 10.964 | 19,362 tok/s | vram 1.9/13.6 GB
+step 800 | 13.1M tok | loss 11.433 | 19,486 tok/s | vram 1.9/13.6 GB
+step 900 | 14.7M tok | loss 11.070 | 18,377 tok/s | vram 1.9/13.6 GB
+step 1000 | 16.4M tok | loss 11.304 | 19,496 tok/s | vram 1.9/13.6 GB
+  [eval] val_ppl 89.78 | ablated_ppl 289.30 (memory Δ=+199.52) | spike 0.192
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.54 dead=0% at_floor=0%
+step 1100 | 18.0M tok | loss 10.472 | 15,419 tok/s | vram 1.9/13.3 GB
+step 1200 | 19.7M tok | loss 10.868 | 19,824 tok/s | vram 1.9/13.3 GB
+step 1300 | 21.3M tok | loss 10.776 | 18,530 tok/s | vram 2.0/14.3 GB
+step 1400 | 22.9M tok | loss 10.795 | 20,216 tok/s | vram 2.0/14.3 GB
+step 1500 | 24.6M tok | loss 10.277 | 20,092 tok/s | vram 1.9/14.3 GB
+step 1600 | 26.2M tok | loss 10.417 | 19,731 tok/s | vram 1.9/14.3 GB
+step 1700 | 27.9M tok | loss 9.783 | 20,945 tok/s | vram 1.9/14.3 GB
+step 1800 | 29.5M tok | loss 9.509 | 20,822 tok/s | vram 1.9/14.3 GB
+step 1900 | 31.1M tok | loss 10.087 | 21,055 tok/s | vram 2.0/14.3 GB
+step 2000 | 32.8M tok | loss 9.447 | 20,966 tok/s | vram 1.9/14.3 GB
+  [eval] val_ppl 71.33 | ablated_ppl 268.28 (memory Δ=+196.96) | spike 0.191
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+step 2100 | 34.4M tok | loss 9.231 | 15,129 tok/s | vram 2.0/13.2 GB
+step 2200 | 36.0M tok | loss 8.939 | 20,008 tok/s | vram 1.9/13.2 GB
+step 2300 | 37.7M tok | loss 8.710 | 20,118 tok/s | vram 1.9/13.2 GB
+step 2400 | 39.3M tok | loss 9.324 | 19,694 tok/s | vram 2.0/13.2 GB
+step 2500 | 41.0M tok | loss 8.114 | 20,255 tok/s | vram 1.9/13.2 GB
+step 2600 | 42.6M tok | loss 7.136 | 21,158 tok/s | vram 1.9/14.2 GB
+step 2700 | 44.2M tok | loss 9.269 | 21,342 tok/s | vram 2.0/14.2 GB
+step 2800 | 45.9M tok | loss 7.873 | 20,247 tok/s | vram 1.9/14.2 GB
+step 2900 | 47.5M tok | loss 8.886 | 21,351 tok/s | vram 2.0/14.2 GB
+step 3000 | 49.2M tok | loss 7.191 | 21,017 tok/s | vram 1.9/14.2 GB
+  [eval] val_ppl 66.70 | ablated_ppl 244.60 (memory Δ=+177.89) | spike 0.187
+  [beta] blk0: μ=0.59 dead=0% at_floor=0% | blk1: μ=0.52 dead=0% at_floor=0%
+step 3100 | 50.8M tok | loss 7.922 | 16,404 tok/s | vram 1.9/14.0 GB
+step 3200 | 52.4M tok | loss 7.849 | 20,623 tok/s | vram 2.0/14.0 GB
+step 3300 | 54.1M tok | loss 7.697 | 20,249 tok/s | vram 2.0/14.0 GB
+step 3400 | 55.7M tok | loss 7.038 | 21,242 tok/s | vram 1.9/14.0 GB
+step 3500 | 57.3M tok | loss 7.862 | 20,465 tok/s | vram 1.9/14.0 GB
+step 3600 | 59.0M tok | loss 7.927 | 19,680 tok/s | vram 2.0/14.0 GB
+step 3700 | 60.6M tok | loss 6.899 | 20,343 tok/s | vram 1.9/14.0 GB
+step 3800 | 62.3M tok | loss 6.932 | 20,362 tok/s | vram 1.9/14.0 GB
+step 3900 | 63.9M tok | loss 7.738 | 19,987 tok/s | vram 2.0/14.0 GB
+step 4000 | 65.5M tok | loss 6.604 | 20,825 tok/s | vram 1.9/14.0 GB
+  [eval] val_ppl 63.06 | ablated_ppl 223.98 (memory Δ=+160.92) | spike 0.185
+  [beta] blk0: μ=0.60 dead=0% at_floor=0% | blk1: μ=0.52 dead=0% at_floor=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_engram_v2_h4_30m/step_0004000.pt
+step 4100 | 67.2M tok | loss 6.553 | 15,091 tok/s | vram 1.9/13.1 GB
+step 4200 | 68.8M tok | loss 7.429 | 19,192 tok/s | vram 2.0/13.1 GB
+step 4300 | 70.5M tok | loss 6.860 | 20,725 tok/s | vram 1.9/13.1 GB
+step 4400 | 72.1M tok | loss 6.395 | 20,490 tok/s | vram 1.9/13.1 GB
+step 4500 | 73.7M tok | loss 6.953 | 19,330 tok/s | vram 2.0/13.1 GB
+step 4600 | 75.4M tok | loss 7.298 | 18,614 tok/s | vram 2.0/13.1 GB
+step 4700 | 77.0M tok | loss 6.186 | 19,792 tok/s | vram 1.9/14.1 GB
+step 4800 | 78.6M tok | loss 7.019 | 20,182 tok/s | vram 2.0/14.1 GB
+step 4900 | 80.3M tok | loss 6.578 | 20,554 tok/s | vram 1.9/14.1 GB
+step 5000 | 81.9M tok | loss 5.971 | 20,974 tok/s | vram 1.9/14.1 GB
+  [eval] val_ppl 59.77 | ablated_ppl 212.52 (memory Δ=+152.75) | spike 0.185
+  [beta] blk0: μ=0.59 dead=0% at_floor=0% | blk1: μ=0.52 dead=0% at_floor=0%
+step 5100 | 83.6M tok | loss 7.390 | 16,691 tok/s | vram 2.0/13.0 GB
+step 5200 | 85.2M tok | loss 6.044 | 20,958 tok/s | vram 1.9/14.0 GB
+step 5300 | 86.8M tok | loss 6.034 | 21,413 tok/s | vram 1.9/14.0 GB
+step 5400 | 88.5M tok | loss 6.459 | 20,665 tok/s | vram 1.9/14.0 GB
+step 5500 | 90.1M tok | loss 6.668 | 20,793 tok/s | vram 2.0/14.0 GB
+step 5600 | 91.8M tok | loss 7.152 | 20,810 tok/s | vram 2.0/14.0 GB
+step 5700 | 93.4M tok | loss 6.455 | 21,233 tok/s | vram 2.0/14.0 GB
+step 5800 | 95.0M tok | loss 6.922 | 20,010 tok/s | vram 2.0/14.0 GB
+step 5900 | 96.7M tok | loss 6.907 | 20,683 tok/s | vram 2.0/14.0 GB
+step 6000 | 98.3M tok | loss 6.176 | 20,128 tok/s | vram 1.9/14.0 GB
+  [eval] val_ppl 57.95 | ablated_ppl 205.27 (memory Δ=+147.33) | spike 0.185
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.52 dead=0% at_floor=0%
+step 6100 | 99.9M tok | loss 5.929 | 16,268 tok/s | vram 1.9/13.0 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_engram_v2_h4_30m/step_0006104.pt
+done: 100.0M tok in 1.42h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     107166597.5 |     202584883.2 |         1.89x
+     512 |     107166597.5 |     202584883.2 |         1.89x
+    4096 |     107166597.5 |     270113177.6 |         2.52x
+
+spiking op mix/token: 23,068,672 MAC + 1,167,452 AC (spike_rate=0.186)
+note: spiking cost is constant in seq_len; transformer grows with it.

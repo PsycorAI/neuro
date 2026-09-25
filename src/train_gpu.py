@@ -7,7 +7,8 @@ probe), throughput, and an energy report. Config-driven (YAML).
   python src/train_gpu.py --config configs/phase25_a.yaml            # GPU run
   python src/train_gpu.py --config configs/phase25_a.yaml --device cpu --smoke
 """
-import os, sys, time, math, argparse, glob
+import os, sys, time, math, argparse, glob, signal
+import numpy as np
 import torch
 import torch.nn.functional as F
 sys.path.insert(0, os.path.dirname(__file__))
@@ -19,6 +20,25 @@ import energy
 import yaml
 
 BIN = "/home/glenn/projects/bdh/data/tokenized/train.bin"
+
+# Watchdog state (persists across evaluate() calls in one process). Trips
+# after two CONSECUTIVE evals meet a tripwire, so one noisy eval never aborts.
+# Exit code 2 = watchdog abort; chain scripts use `;` so the chain continues.
+# Rules (from docs/plan_2026_08_05.md P3):
+#   dstd > 3.0 on any block   x2 evals  → collapse-in-progress (per gotcha #6)
+#   at_floor > 20% on any blk x2 evals  → write-gate saturating
+#   spike rising past 0.20    x2 evals  → sparsity penalty overwhelmed
+# Enable via `watchdog_enabled: true` (default true when set is absent).
+_WATCHDOG = {"dstd_hits": 0, "atfloor_hits": 0, "spike_hits": 0, "prev_spike": None,
+             "valppl_hits": 0, "best_valppl": None, "best_step": None,
+             "valppl_ema": None, "prev_wnorm": None}
+
+# NaN/Inf guard state (added 2026-08-07). Skips optimizer.step() when the
+# clipped gradient norm is non-finite (would otherwise write NaN weights and
+# corrupt training silently — dstd/at_floor watchdogs cannot detect this
+# because `nan > threshold` is False). Aborts with exit code 3 after 3
+# consecutive non-finite steps.
+_NAN_GUARD = {"consecutive": 0}
 
 # MQAR-augmented training (Zoology/BASED-style): mix synthetic associative-recall
 # into the LM loss so the model explicitly trains the in-context retrieval skill.
@@ -54,16 +74,29 @@ def _build_optimizers(model, c, device):
     kind = c.get("optimizer", "adamw").lower()
     if kind == "muon":
         from muon import build_muon_adamw
+        use_normuon = c.get("normuon", False)
         muon, adamw, n_mat, n_other = build_muon_adamw(
             model,
             muon_lr=c.get("muon_lr", 0.02),
             adamw_lr=c["lr"],
             weight_decay=c.get("weight_decay", 0.0),
             adamw_fused=(device == "cuda"),
-            adamw_8bit=c.get("adamw_8bit", False))
-        print(f"optimizer: Muon ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
+            adamw_8bit=c.get("adamw_8bit", False),
+            fix_gate_matrices=c.get("muon_fix_gate_matrices", False),
+            normuon=use_normuon,
+            normuon_beta2=float(c.get("normuon_beta2", 0.95)),
+            normuon_eps=float(c.get("normuon_eps", 1e-8)),
+            route_embeddings_by_type=c.get("muon_route_embeddings_by_type", False),
+            precise_gate_filter=c.get("muon_precise_gate_filter", False),
+            head_weight_decay=c.get("head_weight_decay"),
+            muon_mem_lr=c.get("muon_mem_lr"))
+        opt_name = "NorMuon" if use_normuon else "Muon"
+        print(f"optimizer: {opt_name} ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
               f"+ {'AdamW8bit' if c.get('adamw_8bit', False) else 'AdamW'} "
               f"({n_other} other params, lr={c['lr']})")
+        if c.get("head_weight_decay") is not None:
+            print(f"  head_weight_decay={c.get('head_weight_decay')} "
+                  f"(dedicated LM-head decay group; NOT resume-compat with runs without it)")
         return [o for o in (muon, adamw) if o is not None]
     if c.get("adamw_8bit", False):
         from bitsandbytes.optim import AdamW8bit
@@ -115,6 +148,14 @@ def build_model(c):
                                 confidence_enabled=c.get("confidence_enabled", False),
                                 compile_inv=c.get("compile_inv", False),
                                 use_fla_kernel=c.get("use_fla_kernel", False),
+                                gdn2_min_heads=c.get("gdn2_min_heads", 1),
+                                gdn2_chunked=c.get("gdn2_chunked", True),
+                                gdn2_ckpt_chunks=c.get("gdn2_ckpt_chunks", True),
+                                gdn2_chunk_size=c.get("gdn2_chunk_size", 64),
+                                gdn2_gate_norm=c.get("gdn2_gate_norm", False),
+                                gate_rank=c.get("gate_rank", 0),
+                                gdn2_loglinear=c.get("gdn2_loglinear", False),
+                                gdn2_loglinear_L=c.get("gdn2_loglinear_L", None),
                                 n_experts=c.get("n_experts", 1),
                                 route_topk=c.get("route_topk", None),
                                 route_noise_std=c.get("route_noise_std", 0.0),
@@ -127,45 +168,133 @@ def build_model(c):
                                 engram_n=c.get("engram_n", 3),
                                 engram_K=c.get("engram_K", 32768),
                                 engram_rank=c.get("engram_rank", 64),
+                                engram_v2_enabled=c.get("engram_v2_enabled", False),
+                                engram_v2_orders=c.get("engram_v2_orders", (2, 3)),
+                                engram_v2_K=c.get("engram_v2_K", 65536),
+                                engram_v2_heads=c.get("engram_v2_heads", 2),
+                                engram_v2_rank=c.get("engram_v2_rank", 64),
                                 recurrent_depth=c.get("recurrent_depth", 1),
                                 recurrent_bptt_k=c.get("recurrent_bptt_k", 0),
                                 recurrent_router_enabled=c.get("recurrent_router_enabled", False),
                                 recurrent_router_capacity=c.get("recurrent_router_capacity", None),
                                 recurrent_router_threshold=c.get("recurrent_router_threshold", 0.5),
                                 recurrent_deep_supervision=c.get("recurrent_deep_supervision", False),
-                                recurrent_pass_weights=c.get("recurrent_pass_weights", None))
+                                recurrent_pass_weights=c.get("recurrent_pass_weights", None),
+                                fracconn_enabled=c.get("fracconn_enabled", False),
+                                fracconn_n=c.get("fracconn_n", 2),
+                                gdn2_enabled=c.get("gdn2_enabled", False),
+                                osdn_enabled=c.get("osdn_enabled", False),
+                                osdn_eta=c.get("osdn_eta", 0.003),
+                                osdn_dmin=c.get("osdn_dmin", 0.5),
+                                osdn_dmax=c.get("osdn_dmax", 2.0),
+                                sdm_enabled=c.get("sdm_enabled", False),
+                                sdm_N=c.get("sdm_N", None),
+                                sdm_W=c.get("sdm_W", 4),
+                                sdm_R=c.get("sdm_R", 4),
+                                attention_layer_positions=c.get("attention_layer_positions", None),
+                                attention_heads=c.get("attention_heads", 8),
+                                attention_max_seq_len=c.get("attention_max_seq_len", 4096),
+                                attention_qk_norm=c.get("attention_qk_norm", True),
+                                spike_rate_undiluted=c.get("spike_rate_undiluted", False),
+                                final_norm=c.get("final_norm", False),
+                                deltaproduct_nh=c.get("deltaproduct_nh", 1))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
 
 _ckpt_thread = None   # tracks the in-flight async save so we can join it
+_pinned_cache = {}    # state_dict-path -> reusable pinned CPU staging tensor
 
 
-def _to_cpu(obj):
+def _to_cpu(obj, path=()):
     """Recursively clone tensors to CPU (dicts/lists/tuples walked, everything
     else returned as-is). Needed for BOTH model and optimizer state_dicts --
     optimizer state (exp_avg, exp_avg_sq, ...) holds live GPU tensors that
     opt.step() mutates in-place next step, which would race with a background
-    save thread if left un-cloned."""
+    save thread if left un-cloned. CUDA tensors copy into a pinned CPU
+    destination (page-locked memory transfers over PCIe substantially faster
+    than pageable) -- confirmed ~3.9x on a synthetic multi-GB benchmark.
+    Pinned buffers are cached and reused by state_dict-key path across saves
+    instead of freshly allocated every call: torch's pin_memory allocator
+    never returns freed pinned blocks to the OS, so fresh-allocating every
+    checkpoint grows Windows' WDDM "shared GPU memory" pool without bound
+    (visible as VRAM spillover after the first eval+save). Safe to mutate
+    the cache in place because _save_ckpt joins any in-flight save thread
+    before calling this. CPU tensors (e.g. --device cpu smoke runs) fall
+    back to .cpu().clone(), which is a genuine copy in that case too
+    (torch.Tensor.cpu() is a no-op passthrough only when the source is
+    already CPU, which would otherwise alias the live tensor)."""
     if torch.is_tensor(obj):
+        if obj.is_cuda:
+            pinned = _pinned_cache.get(path)
+            if pinned is None or pinned.shape != obj.shape or pinned.dtype != obj.dtype:
+                pinned = torch.empty_like(obj, device="cpu", pin_memory=True)
+                _pinned_cache[path] = pinned
+            pinned.copy_(obj)
+            return pinned
         return obj.detach().cpu().clone()
     if isinstance(obj, dict):
-        return {k: _to_cpu(v) for k, v in obj.items()}
+        return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
     if isinstance(obj, (list, tuple)):
-        return type(obj)(_to_cpu(v) for v in obj)
+        return type(obj)(_to_cpu(v, path + (i,)) for i, v in enumerate(obj))
     return obj
+
+
+def _valppl_watchdog_step(state, full, step, c):
+    """Pure val_ppl divergence decision (unit-tested in temp/test_valppl_watchdog.py).
+
+    Mutates `state` (best_valppl/best_step/valppl_hits/valppl_ema) in place and
+    returns (log_line_or_None, tripped_bool). Trips when the comparison signal
+    exceeds its running best by > watchdog_valppl_tol for watchdog_valppl_patience
+    consecutive evals, past the grace window. Catches the flagship divergence mode
+    (runaway head norm -> rising val_ppl) that the dstd/at_floor/spike wires were
+    all blind to. Side effects (print/save/exit) stay at the call site. See memory
+    neuro_flagship_divergence_root_cause.
+
+    watchdog_valppl_ema_alpha (default 0.0 = off, raw val_ppl) smooths the signal:
+    signal = alpha*val_ppl + (1-alpha)*prev. Set >0 for runs whose val_ppl is
+    noisy around a plateau, where a single lucky-low eval otherwise anchors `best`
+    and makes normal ±few-% eval noise false-trip a healthy run (flagship_v3,
+    2026-09-16). Smoothing keeps the real monotonic runaway (it survives the EMA)
+    while spikes that revert within an eval or two do not.
+    """
+    alpha = c.get("watchdog_valppl_ema_alpha", 0.0)
+    if alpha and alpha > 0.0:
+        prev = state.get("valppl_ema")
+        signal = full if prev is None else alpha * full + (1.0 - alpha) * prev
+        state["valppl_ema"] = signal
+    else:
+        signal = full
+    best = state["best_valppl"]
+    if best is None or signal < best:
+        state["best_valppl"], state["best_step"] = signal, step
+        state["valppl_hits"] = 0
+        return None, False
+    tol = c.get("watchdog_valppl_tol", 0.02)
+    over = signal > best * (1.0 + tol)
+    state["valppl_hits"] = state["valppl_hits"] + 1 if over else 0
+    line = (f"  [valppl] best {best:.2f} @ step {state['best_step']} | "
+            f"now {signal:.2f}" + (f" (ema; raw {full:.2f})" if alpha else "")
+            + f" ({(signal / best - 1) * 100:+.1f}%)"
+            + (f" | DIVERGING x{state['valppl_hits']}" if over else ""))
+    tripped = bool(c.get("watchdog_enabled", True)
+                   and step > c.get("watchdog_grace_steps", 1500)
+                   and state["valppl_hits"] >= c.get("watchdog_valppl_patience", 2))
+    return line, tripped
 
 
 def _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=True):
     """Save a checkpoint. GPU->CPU copy happens synchronously (unavoidable --
     the live tensors keep changing next step), but the disk write (the slow
     part, ~seconds for a multi-GB file) runs in a background thread so the
-    GPU doesn't sit idle waiting on I/O. Call _join_ckpt_thread() before
-    exiting the process or the final checkpoint may be truncated."""
+    GPU doesn't sit idle waiting on I/O."""
     global _ckpt_thread
+    _join_ckpt_thread()   # must finish before _to_cpu reuses pinned buffers;
+                           # also bounds thread count to 1 and guarantees the
+                           # final synchronous save can't race a prior async write
     p = f"{ckdir}/step_{step:07d}.pt"
-    blob = {"model": _to_cpu(raw_model.state_dict()),
-            "opt_states": [_to_cpu(o.state_dict()) for o in opts],
+    blob = {"model": _to_cpu(raw_model.state_dict(), ("model",)),
+            "opt_states": [_to_cpu(o.state_dict(), ("opt", i)) for i, o in enumerate(opts)],
             "step": step, "tokens": tokens, "cfg": c}
 
     def _write():
@@ -178,7 +307,6 @@ def _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=True):
         print(f"  saved {p}")
 
     if async_save:
-        _join_ckpt_thread()   # don't overlap writes; also bounds thread count to 1
         import threading
         _ckpt_thread = threading.Thread(target=_write, daemon=False)
         _ckpt_thread.start()
@@ -216,14 +344,13 @@ EVAL_SEED = 20260706
 
 @torch.no_grad()
 def evaluate(model, data, c, device, iters=None):
-    import numpy as np
     model.eval()
     amp = c["amp"] and device == "cuda"
     iters = iters if iters is not None else c.get("eval_iters", 100)
     rng_state = np.random.get_state()
-    np.random.seed(EVAL_SEED)
 
     def ppl(ablate):
+        np.random.seed(EVAL_SEED)   # same windows for full and ablated passes
         tot = 0.0
         for _ in range(iters):
             x, y = data.batch(c["eval_batch"], c["block_size"], "val", device)
@@ -255,15 +382,35 @@ def main():
     if device == "cuda":
         torch.set_float32_matmul_precision("high")
         torch._dynamo.config.cache_size_limit = 64   # cap compile cache growth (~3-4 graphs needed)
+        if c.get("compile", False):
+            # Preserve autocast-boundary bf16<->fp32 casts across fused kernels.
+            # Without this, inductor drops the down/up-conversions the GDN-2
+            # kernel's internal `torch.autocast(enabled=False)` context relies
+            # on (bf16 on the triangular solve NaN'd training in earlier F7
+            # investigation). This is the fix ezyang's Aug-2025 "state of
+            # torch.compile for training" post explicitly names for this
+            # exact autocast-boundary pattern.
+            import torch._inductor.config as _ind
+            _ind.emulate_precision_casts = True
     if args.smoke:
         c.update(block_size=16, batch_size=4, grad_accum=1, eval_batch=8,
                  max_tokens=20000, eval_every=200, ckpt_every=10**9, log_every=50, amp=False)
     c.setdefault("eval_batch", c["batch_size"])
     torch.manual_seed(c.get("seed", 0))
+    np.random.seed(c.get("seed", 0))   # StreamText.batch draws train-window order from this
 
     bin_path = c.get("data_bin", BIN)
     data_orig_vocab = c.get("data_orig_vocab", 128256)
     data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab)
+    if c.get("curriculum_enabled", False):
+        from curriculum import CurriculumStream
+        per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
+        total_steps = max(1, c["max_tokens"] // per_step_tok)
+        warmup_calls = int(total_steps * c.get("curriculum_frac", 0.1)) * c["grad_accum"]
+        data = CurriculumStream(data, bin_path, warmup_calls=warmup_calls,
+                                 block_tokens=c.get("curriculum_block_tokens", 4096))
+        print(f"curriculum warmup enabled: {warmup_calls} train batches drawn "
+              f"easy->hard ({c.get('curriculum_frac', 0.1):.0%} of {total_steps} steps)")
     stateful = c.get("stateful_stream", False) and c["arch"] == "spiking"
     # Recurrent depth only engages when forward() gets initial_state=None;
     # stateful streaming passes a carried state every step, which would
@@ -304,10 +451,40 @@ def main():
                  for b in raw_model.blocks if hasattr(b, "rec_mask")]
     if c.get("compile") and device == "cuda":
         mode = c.get("compile_mode", "default")  # "default" | "reduce-overhead" | "max-autotune"
-        model = torch.compile(raw_model, mode=mode, dynamic=c.get("compile_dynamic", False))
-        print(f"torch.compile enabled (mode={mode}) — first 1-2 steps will be slow (graph capture)")
+        dynamic = c.get("compile_dynamic", False)
+        if c.get("compile_regional", False):
+            # TorchTitan-style regional compilation: compile each Hebbian block
+            # in isolation instead of the whole LM. The LM wrapper stays eager,
+            # so all its side-effect attribute writes (`_last_mtp_logits`,
+            # `_last_moe_aux_loss`, etc.) execute normally in Python. Only the
+            # compute-heavy block forwards get compiled, and since all blocks
+            # share the same architecture, dynamo caches and reuses one graph.
+            for i in range(len(raw_model.blocks)):
+                raw_model.blocks[i] = torch.compile(raw_model.blocks[i], mode=mode, dynamic=dynamic)
+            model = raw_model
+            print(f"torch.compile REGIONAL (per-block, mode={mode}) — first 1-2 steps slow")
+        else:
+            model = torch.compile(raw_model, mode=mode, dynamic=dynamic)
+            print(f"torch.compile enabled (mode={mode}) — first 1-2 steps will be slow (graph capture)")
     else:
         model = raw_model
+
+    # MQAR uses a SEPARATE compiled wrapper (always mode="default", never
+    # reduce-overhead/cudagraphs) rather than the main `model`. Two reasons:
+    # (1) MQAR's sequence length varies with N in [mqar_N_min, mqar_N_max]
+    #     every call -- dynamic=True lets one wrapper handle all shapes
+    #     without retriggering full recompiles or (worse) cudagraph replay
+    #     mismatches; (2) reduce-overhead's CUDA Graph capture is confirmed
+    #     broken under repeated same-step invocations (grad_accum + this
+    #     second forward triggered pytorch#169545 in practice), so this path
+    #     stays off cudagraphs unconditionally regardless of compile_mode.
+    # Previously MQAR called raw_model (fully eager) -- that cost ~59% of a
+    # main-forward's time every step with zero speedup; compiling it here
+    # (still real dev work, not free) is expected to recover most of that.
+    mqar_model = raw_model
+    if c.get("compile") and device == "cuda" and c.get("mqar_aug", False):
+        mqar_model = torch.compile(raw_model, mode="default", dynamic=True)
+        print("torch.compile enabled for MQAR path (mode=default, dynamic=True)")
 
     ckdir = f"/home/glenn/projects/neuro/models/checkpoints/{c['run_name']}"
     os.makedirs(ckdir, exist_ok=True)
@@ -321,28 +498,66 @@ def main():
                   f"(e.g. {unexpected[0]})")
         if missing:
             print(f"  [warn] {len(missing)} keys missing in ckpt: {missing[:3]}")
-        if "opt_states" in s and len(s["opt_states"]) == len(opts):
-            for o, st in zip(opts, s["opt_states"]):
-                o.load_state_dict(st)
-        elif "opt" in s and len(opts) == 1:
-            opts[0].load_state_dict(s["opt"])               # legacy single-optimizer ckpt
+        if not c.get("lora_enabled", False) and "opt_states" in s and len(s["opt_states"]) == len(opts):
+            try:
+                for o, st in zip(opts, s["opt_states"]):
+                    o.load_state_dict(st)
+            except (ValueError, KeyError) as e:
+                # Cross-stage resume (e.g. DPO Muon ckpt into pretrain NorMuon
+                # trainer): outer count matches but internal param-group shapes
+                # differ, so load_state_dict raises. Skip and start optimizer
+                # fresh rather than crash.
+                print(f"  [warn] optimizer state shape mismatch (cross-stage resume?); starting fresh: {e}")
+        elif not c.get("lora_enabled", False) and "opt" in s and len(opts) == 1:
+            try:
+                opts[0].load_state_dict(s["opt"])           # legacy single-optimizer ckpt
+            except (ValueError, KeyError) as e:
+                print(f"  [warn] legacy opt state shape mismatch; starting fresh: {e}")
         else:
-            print("  [warn] optimizer state in ckpt incompatible with current config; starting fresh")
+            if c.get("lora_enabled", False):
+                print("  [info] LoRA enabled; starting optimizer fresh (base ckpt optimizer state skipped)")
+            else:
+                print("  [warn] optimizer state in ckpt incompatible with current config; starting fresh")
         step, tokens = s["step"], s["tokens"]
         print(f"resumed {cks[-1]} @ step {step}, {tokens/1e6:.1f}M tok")
+        # Advance the data-side RNG and curriculum counter past what was already
+        # trained on. Without this, a crash-resume replays random windows from
+        # step 0 (halving effective data diversity for the remainder) and, if
+        # curriculum is on, restarts the easy-block draw from the top at
+        # mid-run LR. seed+step gives a deterministic new stream keyed to
+        # where we resumed. CurriculumStream's per-call counter is advanced to
+        # its already-consumed count (grad_accum train-window draws per step).
+        np.random.seed(c.get("seed", 0) + step)
+        if hasattr(data, "_train_calls"):
+            data._train_calls = step * c["grad_accum"]
 
     per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
     total_steps = max(1, c["max_tokens"] // per_step_tok)
     warmup_steps = int(c.get("lr_warmup_frac", 0.02) * total_steps)
     lr_min_frac = c.get("lr_min_frac", 0.1)
     grad_clip = c.get("grad_clip", 1.0)
+    # lr_schedule: "cosine" (default, preserves every existing config byte-for-
+    # byte) or "wsd" (warmup -> stable at 1.0 -> linear decay to lr_min_frac
+    # over the last wsd_decay_frac of total_steps). WSD lets the endpoint be
+    # chosen late: extend/stop by adjusting max_tokens without re-tuning the
+    # shape. Quality ties cosine at a known fixed budget.
+    lr_schedule = c.get("lr_schedule", "cosine")
+    wsd_decay_frac = c.get("wsd_decay_frac", 0.15)
+    decay_start = total_steps - int(wsd_decay_frac * (total_steps - warmup_steps))
 
     def lr_scale(s):
-        """Linear warmup, then cosine decay to lr_min_frac of peak."""
+        """Warmup + (cosine|wsd) per lr_schedule."""
         if s < warmup_steps:
             return s / max(1, warmup_steps)
-        p = (s - warmup_steps) / max(1, total_steps - warmup_steps)
-        return lr_min_frac + (1 - lr_min_frac) * 0.5 * (1 + math.cos(math.pi * min(1.0, p)))
+        if lr_schedule == "cosine":
+            p = (s - warmup_steps) / max(1, total_steps - warmup_steps)
+            return lr_min_frac + (1 - lr_min_frac) * 0.5 * (1 + math.cos(math.pi * min(1.0, p)))
+        if lr_schedule == "wsd":
+            if s < decay_start:
+                return 1.0                                            # stable
+            p = (s - decay_start) / max(1, total_steps - decay_start)  # linear decay
+            return lr_min_frac + (1 - lr_min_frac) * (1 - min(1.0, p))
+        raise ValueError(f"lr_schedule must be 'cosine' or 'wsd', got {lr_schedule!r}")
 
     base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
 
@@ -362,16 +577,31 @@ def main():
     if lam_warmup:
         print(f"lam warmup: {lam_start} -> {lam_end} over {lam_ramp_steps} steps")
 
+    sched_desc = (f"wsd(decay_start={decay_start})" if lr_schedule == "wsd"
+                  else "cosine")
     print(f"arch={c['arch']} params={nparams/1e6:.2f}M device={device} "
           f"target={c['max_tokens']/1e9:.3f}B tok | {per_step_tok} tok/step "
-          f"| total_steps≈{total_steps} | warmup={warmup_steps} | grad_clip={grad_clip}")
+          f"| total_steps≈{total_steps} | warmup={warmup_steps} "
+          f"| lr_sched={sched_desc} | grad_clip={grad_clip}")
     if stateful and kd_teacher is not None:
         raise ValueError("stateful_stream and kd_enabled can't be combined yet "
                          "(KD needs raw IDs from the random sampler). Test separately.")
     t0 = time.time(); win = t0
     carry_state = None   # carried (M, mem, prev_spk) for stateful TBPTT
     use_sparsity = c.get("sparsity_lambda", 0.0) > 0 and c["arch"] == "spiking"
-    while tokens < c["max_tokens"]:
+    # Wall-clock-bounded chain runs (e.g. `timeout --signal=INT`) rely on SIGINT
+    # reaching a clean save. Python's default handler raises KeyboardInterrupt,
+    # which can land mid-backward() and skip the "Always save a FINAL checkpoint"
+    # code below entirely (observed: w4_biggerbatch lost 6600-4000=2600 steps
+    # to this on 2026-08-05). This handler just sets a flag instead of raising,
+    # so the current step finishes normally and the loop exits into the
+    # existing final-save/energy-report path below.
+    _interrupted = {"hit": False}
+    def _sigint_handler(signum, frame):
+        _interrupted["hit"] = True
+        print("\n[SIGINT] received — finishing current step, then saving final ckpt + exiting", flush=True)
+    signal.signal(signal.SIGINT, _sigint_handler)
+    while tokens < c["max_tokens"] and not _interrupted["hit"]:
         model.train()
         # Apply LR schedule for this step
         scale = lr_scale(step)
@@ -424,11 +654,26 @@ def main():
             else:
                 x, y = data.batch(c["batch_size"], c["block_size"], "train", device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
-                # Forward (with optional return_stats for sparsity penalty)
+                # Forward (with optional return_stats for sparsity penalty).
+                # return_mtp=True passes the MTP head's logits back as an extra
+                # tuple element so downstream MTP loss composition doesn't have
+                # to reach into raw_model._last_mtp_logits — that side-effect
+                # attribute write is unsafe under whole-model torch.compile
+                # (observed as MTP loss silently dropping under reduce-overhead,
+                # ~30% training-signal loss, spike rate collapsing 0.185 -> 0.11).
+                want_mtp = c.get("mtp_enabled", False)
                 if use_sparsity:
-                    out, sr = model(x, return_stats=True)
+                    if want_mtp:
+                        out, sr, mtp_logits = model(x, return_stats=True, return_mtp=True)
+                    else:
+                        out, sr = model(x, return_stats=True)
+                        mtp_logits = None
                 else:
-                    out = model(x)
+                    if want_mtp:
+                        out, mtp_logits = model(x, return_mtp=True)
+                    else:
+                        out = model(x)
+                        mtp_logits = None
                     sr = None
                 # Knowledge distillation. NOTE: kd_loss computes the hard-target
                 # CE internally (via target_ids), so we must NOT also compute a
@@ -436,11 +681,11 @@ def main():
                 # softmax every microstep. Only compute CE on the non-KD path.
                 if kd_teacher is not None:
                     from kd import teacher_distribution, kd_loss
-                    teacher_probs = teacher_distribution(
+                    teacher_topk = teacher_distribution(
                         kd_teacher, raw, kd_lut,
                         student_vocab=c["vocab"],
                         temperature=c.get("kd_temperature", 1.0))
-                    main_loss = kd_loss(out, teacher_probs,
+                    main_loss = kd_loss(out, teacher_topk,
                                          alpha=c.get("kd_alpha", 0.5),
                                          target_ids=y,
                                          temperature=c.get("kd_temperature", 1.0))
@@ -467,6 +712,15 @@ def main():
                     log_z = torch.logsumexp(out, dim=-1)
                     z_loss = (log_z ** 2).mean()
                     main_loss = main_loss + z_w * z_loss
+                    # The MTP head is a SECOND output head and was entirely
+                    # outside this guard. On the 363M flagship mtp_proj.0 crept
+                    # +9% while head.weight was still flat, then blew up +28%
+                    # alongside it -- the unguarded head may be the leading
+                    # indicator. Default OFF to keep prior screens comparable;
+                    # enable for the next flagship after an A/B.
+                    if c.get("z_loss_include_mtp", False) and mtp_logits is not None:
+                        main_loss = main_loss + z_w * (
+                            torch.logsumexp(mtp_logits, dim=-1) ** 2).mean()
                 # Batch C: Confidence head — BCE loss vs correctness (argmax==y).
                 # Self-supervised signal for later inference-time gating.
                 if c.get("confidence_enabled", False) and raw_model._last_confidence is not None:
@@ -507,12 +761,12 @@ def main():
                 # Predicts token at position t+mtp_offset (default t+2) from the
                 # same hidden state used for next-token. Free quality lift,
                 # gradient signal cost ~10% extra fwd FLOPs (one extra linear).
-                if c.get("mtp_enabled", False) and raw_model._last_mtp_logits is not None:
+                if c.get("mtp_enabled", False) and mtp_logits is not None:
                     offset = c.get("mtp_offset", 2)
                     # main logits at position t predict y[t] (token at t+1).
                     # mtp logits at position t predict token at t+offset.
                     # We supervise positions where t+offset is in range.
-                    mtp_logits_aligned = raw_model._last_mtp_logits[:, : -(offset - 1)]
+                    mtp_logits_aligned = mtp_logits[:, : -(offset - 1)]
                     y_mtp = y[:, (offset - 1):]
                     if c.get("fused_ce", False):
                         from liger_kernel.transformers.cross_entropy import LigerCrossEntropyLoss
@@ -526,19 +780,73 @@ def main():
                             mtp_logits_aligned.reshape(-1, c["vocab"]),
                             y_mtp.reshape(-1))
                     main_loss = main_loss + c.get("mtp_weight", 0.3) * mtp_ce
-                # MQAR-augmented training: explicit in-context recall pressure
-                if c.get("mqar_aug", False):
+                # MQAR-augmented training: explicit in-context recall pressure.
+                # mqar_cadence (default 1) fires MQAR every N-th step at N*
+                # mqar_weight, preserving the expected gradient (identical mean,
+                # ~sqrt(cadence) higher variance) while amortizing the second
+                # forward pass over multiple steps. Cadence>1 recipe-preserving
+                # requires 30M screen confirmation; default 1 = pre-2026-07-16
+                # behavior (every step).
+                mqar_cad = int(c.get("mqar_cadence", 1))
+                if c.get("mqar_aug", False) and (step % mqar_cad == 0):
                     n_lo = c.get("mqar_N_min", 4); n_hi = c.get("mqar_N_max", 32)
-                    N_mq = int(torch.randint(n_lo, n_hi + 1, (1,)).item())
+                    # mqar_N_power biases sampling toward high N (the recall
+                    # failure region). power=1.0 -> uniform (byte-identical to
+                    # torch.randint). power>1 -> u**(1/power) skews u toward 1,
+                    # so N skews toward n_hi. Uniform gives trivial N=4 the same
+                    # budget as N=28-32 where recall collapses; this reweights
+                    # training toward the hard end. High-N batches are longer,
+                    # so throughput drops as power rises.
+                    n_pow = float(c.get("mqar_N_power", 1.0))
+                    if n_pow == 1.0:
+                        N_mq = int(torch.randint(n_lo, n_hi + 1, (1,)).item())
+                    else:
+                        u = float(torch.rand(1).item()) ** (1.0 / n_pow)
+                        N_mq = int(round(n_lo + (n_hi - n_lo) * u))
+                    # Static-shape MQAR (config-gated): snap N to a fixed bucket
+                    # set so the 2N+1 seq length takes few distinct values ->
+                    # stable compiled graphs (CUDAGraphs-compatible). Unset =
+                    # byte-identical dynamic behavior. docs/training_speed_plan_2026_09.md 4.5
+                    _buckets = c.get("mqar_buckets")
+                    if _buckets:
+                        N_mq = min(_buckets, key=lambda b: abs(b - N_mq))
                     x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
-                    logits_mq = model(x_mq)[:, -1, :]
+                    # mqar_model: separate compiled wrapper (mode=default,
+                    # dynamic=True, never cudagraphs) -- see setup comment
+                    # above. Falls back to raw_model (eager) when compile is
+                    # off. Weights are shared with raw_model either way.
+                    logits_mq = mqar_model(x_mq)[:, -1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
-                    main_loss = main_loss + c.get("mqar_weight", 0.5) * mqar_ce
+                    main_loss = main_loss + c.get("mqar_weight", 0.5) * mqar_cad * mqar_ce
                 loss = main_loss / c["grad_accum"]
             loss.backward()
+        # NaN/Inf guard (added 2026-08-07). Without this, a numerical blowup
+        # (autocast boundary, unstable delta-rule state, corrupt data batch)
+        # produces NaN grads → clip_grad_norm_ returns NaN → opts.step()
+        # writes NaN weights → all future forward passes NaN. The existing
+        # dstd/at_floor/spike watchdogs cannot detect this (nan > threshold
+        # is False). Skip step on non-finite grads, abort after 3 consecutive.
         if grad_clip > 0:
-            torch.nn.utils.clip_grad_norm_(raw_model.parameters(), grad_clip)
-        for o in opts: o.step()
+            gnorm = torch.nn.utils.clip_grad_norm_(raw_model.parameters(), grad_clip)
+        else:
+            gnorm = torch.tensor(0.0)
+        if not torch.isfinite(gnorm):
+            _NAN_GUARD["consecutive"] += 1
+            n = _NAN_GUARD["consecutive"]
+            print(f"  [NAN GUARD] non-finite grad norm at step {step} "
+                  f"(loss={loss.item():.3g}); skipping optimizer step "
+                  f"(consecutive hits: {n})", flush=True)
+            if n >= 3:
+                print(f"  [NAN GUARD] 3 consecutive non-finite grads — "
+                      f"training diverged numerically. Saving pre-corruption "
+                      f"ckpt (last good state, opts not stepped) and exiting 3.",
+                      flush=True)
+                _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
+                sys.exit(3)
+            for o in opts: o.zero_grad(set_to_none=True)
+        else:
+            _NAN_GUARD["consecutive"] = 0
+            for o in opts: o.step()
         step += 1; tokens += per_step_tok
         if setms and step % c.get("set_every", 200) == 0:
             for blk, s in setms:
@@ -554,6 +862,131 @@ def main():
             if abl is not None:
                 msg += f" | ablated_ppl {abl:.2f} (memory Δ={abl-full:+.2f}) | spike {sr:.3f}"
             print(msg, flush=True)
+            # Output-head weight-norm telemetry (2026-08-25). The 363M flagship
+            # diverged via runaway LM-head norm growth while every block and the
+            # embedding decayed normally, and NOTHING in the log showed it -- it
+            # was found only by post-hoc ckpt diffing. Cheap: a few param norms.
+            # See memory neuro_flagship_divergence_root_cause.
+            wn = {n: float(p.detach().float().pow(2).sum().sqrt())
+                  for n, p in raw_model.named_parameters()
+                  if p.dim() >= 2 and (n in ("head.weight", "embed.weight")
+                                       or n.startswith("mtp_proj."))}
+            if wn:
+                prev_wn = _WATCHDOG["prev_wnorm"] or {}
+                def _fmt_wn(n):
+                    d = ((wn[n] - prev_wn[n]) / prev_wn[n] * 100) if prev_wn.get(n) else None
+                    return (f"{n.replace('.weight', '')}={wn[n]:.2f}"
+                            + (f" ({d:+.2f}%)" if d is not None else ""))
+                print("  [wnorm] " + " | ".join(_fmt_wn(n) for n in sorted(wn)), flush=True)
+                _WATCHDOG["prev_wnorm"] = wn
+            # val_ppl divergence tripwire (2026-08-25). The dstd/at_floor/spike
+            # tripwires were ALL blind to the flagship divergence (max dstd 1.8 vs
+            # thresh 3.0; max at_floor 1% vs 20%; spike peaked 0.152 vs 0.20), so
+            # it burned 11k steps (~18h) with the watchdog armed. This one watches
+            # the actual objective. Deliberately at eval scope, not inside the
+            # gate_stats block below -- that block is skipped on non-delta models.
+            _vp_line, _vp_trip = _valppl_watchdog_step(_WATCHDOG, full, step, c)
+            if _vp_line:
+                print(_vp_line, flush=True)
+            if _vp_trip:
+                print(f"  [WATCHDOG] TRIPPED: val_ppl {full:.2f} exceeded best "
+                      f"{_WATCHDOG['best_valppl']:.2f} (step {_WATCHDOG['best_step']}) "
+                      f"for {_WATCHDOG['valppl_hits']} consecutive evals "
+                      f"— saving ckpt and exiting 2", flush=True)
+                _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
+                sys.exit(2)
+            # β collapse detector: prints per-block β mean/dead-fraction so a
+            # scalar-β write-gate saturation is visible in the training log,
+            # not only in post-hoc diagnostics. dead_frac >= 0.95 on all blocks
+            # = full collapse (memory-Δ will be 0). >= 0.50 on some = partial.
+            # Under beta_floor > 0 the raw dead_frac is 0 by construction; the
+            # collapse *pressure* signal is at_floor_frac (frac where the pre-
+            # floor sigmoid is saturated to 0). Same 0.95 rule applies to it.
+            beta_stats = [getattr(b, "_last_beta_stats", None) for b in raw_model.blocks]
+            if any(s is not None for s in beta_stats) and c.get("delta_rule", False):
+                def _fmt_beta(i, s):
+                    if s is None:
+                        return f"blk{i}: n/a"
+                    parts = [f"blk{i}: μ={s['mean']:.2f} dead={s['dead_frac']*100:.0f}%"]
+                    at_floor = s.get("at_floor_frac")
+                    if at_floor is not None and c.get("beta_floor", 0.0) > 0:
+                        parts.append(f"at_floor={at_floor*100:.0f}%")
+                    collapsed = s["dead_frac"] >= 0.95 or (at_floor is not None and at_floor >= 0.95)
+                    if collapsed:
+                        parts.append("COLLAPSED")
+                    return " ".join(parts)
+                per_block = " | ".join(_fmt_beta(i, s) for i, s in enumerate(beta_stats))
+                print(f"  [beta] {per_block}", flush=True)
+            # Erase/decay-gate saturation (added 2026-08-04). The [beta] line
+            # above covers only the WRITE gate; these are the two gates that
+            # were unmonitored while the Step-3 run diverged.
+            gate_stats = [getattr(b, "_last_gate_stats", None) for b in raw_model.blocks]
+            if any(s is not None for s in gate_stats):
+                def _fmt_gate(i, s):
+                    if s is None:
+                        return f"blk{i}: n/a"
+                    lo, hi = s.get("decay_sat_lo"), s.get("decay_sat_hi")
+                    d = (f"d={lo*100:.0f}/{hi*100:.0f}%" if lo is not None
+                         else f"d={s['decay_sat']*100:.0f}%")
+                    return (f"blk{i}: e={s['erase_sat']*100:.0f}% "
+                            f"w={s['write_sat']*100:.0f}% {d} "
+                            f"dstd={s['decay_std']:.1f}")
+                print("  [gates sat] (d=neverforget/fastforget) " + " | ".join(
+                    _fmt_gate(i, s) for i, s in enumerate(gate_stats)), flush=True)
+                # Spike-dilution log (gotcha #5): attention layers push zeros
+                # into spike_accum, so reported spike rate = (n_spiking/n_total)
+                # * true spiking-layer rate. Report corrected number ALONGSIDE
+                # (no behaviour change; sparsity penalty still uses diluted mean
+                # for continuity with arm B's tuning).
+                n_total = len(gate_stats)
+                n_spiking = sum(1 for s in gate_stats if s is not None)
+                if sr is not None and 0 < n_spiking < n_total:
+                    print(f"  [spike] reported={sr:.3f} spiking_only={sr*n_total/n_spiking:.3f} "
+                          f"({n_spiking}/{n_total} blocks spike)", flush=True)
+                # Watchdog (post-fix stability guard from docs/plan_2026_08_05.md P3).
+                # Two consecutive tripwire hits → save ckpt and exit 2. Chain
+                # scripts use `;` so the next arm still launches.
+                if c.get("watchdog_enabled", True) and step > c.get("watchdog_grace_steps", 1500):
+                    max_dstd = max((s["decay_std"] for s in gate_stats if s is not None), default=0.0)
+                    dstd_thresh = c.get("watchdog_dstd_thresh", 3.0)
+                    _WATCHDOG["dstd_hits"] = _WATCHDOG["dstd_hits"] + 1 if max_dstd > dstd_thresh else 0
+                    max_atfloor = 0.0
+                    if beta_stats:
+                        max_atfloor = max((s.get("at_floor_frac") or 0.0
+                                            for s in beta_stats if s is not None), default=0.0)
+                    _WATCHDOG["atfloor_hits"] = _WATCHDOG["atfloor_hits"] + 1 if max_atfloor > 0.20 else 0
+                    if sr is not None:
+                        prev = _WATCHDOG["prev_spike"]
+                        rising_past_thresh = prev is not None and sr > prev and sr > 0.20
+                        _WATCHDOG["spike_hits"] = _WATCHDOG["spike_hits"] + 1 if rising_past_thresh else 0
+                        _WATCHDOG["prev_spike"] = sr
+                    tripped = []
+                    if _WATCHDOG["dstd_hits"] >= 2:
+                        tripped.append(f"dstd>{dstd_thresh:.1f} (max={max_dstd:.1f}) x{_WATCHDOG['dstd_hits']}")
+                    if _WATCHDOG["atfloor_hits"] >= 2:
+                        tripped.append(f"at_floor>20% (max={max_atfloor*100:.0f}%) x{_WATCHDOG['atfloor_hits']}")
+                    if _WATCHDOG["spike_hits"] >= 2:
+                        tripped.append(f"spike_rising past 0.20 (now {sr:.3f}) x{_WATCHDOG['spike_hits']}")
+                    if tripped:
+                        print(f"  [WATCHDOG] TRIPPED: {'; '.join(tripped)} — saving ckpt and exiting 2",
+                              flush=True)
+                        _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
+                        sys.exit(2)
+            # α (decay-gate) diagnostic: sigmoid clamped to (0.5, 0.9999). Values
+            # riding either clamp boundary have zero gradient there and freeze;
+            # hi_frac at 0.9999 = "never forget" (memory can accumulate unboundedly);
+            # lo_frac at 0.5 = "fast forget" (delta rule can't build long-range
+            # bindings). Same class of silent failure as β collapse. Only prints
+            # when the decay_gate arm is active AND populated the stats.
+            alpha_stats = [getattr(b, "_last_alpha_stats", None) for b in raw_model.blocks]
+            if any(s is not None for s in alpha_stats) and c.get("decay_gate", False):
+                per_block = " | ".join(
+                    (f"blk{i}: μ={s['mean']:.3f} hi={s['hi_frac']*100:.0f}% lo={s['lo_frac']*100:.0f}%"
+                     + (" FROZEN_HI" if s["hi_frac"] >= 0.95 else "")
+                     + (" FROZEN_LO" if s["lo_frac"] >= 0.95 else "")) if s is not None
+                    else f"blk{i}: n/a"
+                    for i, s in enumerate(alpha_stats))
+                print(f"  [alpha] {per_block}", flush=True)
             if c.get("n_experts", 1) > 1 and raw_model._last_expert_util is not None:
                 util_str = " | ".join(
                     "[" + ", ".join(f"{v:.2f}" for v in u.tolist()) + "]"
@@ -594,7 +1027,16 @@ def main():
                 try:
                     bdir = f"/home/glenn/projects/neuro/models/brains/{c['run_name']}"
                     os.makedirs(bdir, exist_ok=True)
-                    x, _ = data.batch(1, c["block_size"], "val", device)
+                    # Preserve the training RNG stream. data.batch() draws twice
+                    # from np.random; evaluate() guards itself but this block did
+                    # not, so snapshot_brain was silently shifting which training
+                    # windows the run saw (2 draws per eval). Guarded 2026-08-08
+                    # so the flag is a true no-op on training.
+                    _brain_rng = np.random.get_state()
+                    try:
+                        x, _ = data.batch(1, c["block_size"], "val", device)
+                    finally:
+                        np.random.set_state(_brain_rng)
                     with torch.no_grad():
                         _, brain_state = raw_model(x, return_final_state=True)
                     bpath = f"{bdir}/step_{step:07d}.brain"
@@ -616,8 +1058,16 @@ def main():
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")
     if c["arch"] == "spiking":
         _, _, sr = evaluate(raw_model, data, c, device)
-        energy.compare(model, sr, baseline_d=c["d"], baseline_layers=c.get("n_layer", 2),
+        # `n_layer` (singular) is the TinyTransformer key; spiking configs use
+        # `n_layers`. The old `c.get("n_layer", 2)` therefore ALWAYS missed and
+        # silently benchmarked our 4-8 layer spiking models against a 2-LAYER
+        # transformer, understating the energy advantage ~2x (276M printed
+        # 0.82x "spiking loses"; the matched-depth number is 1.99x).
+        energy.compare(model, sr, baseline_d=c["d"],
+                       baseline_layers=c.get("n_layer", c.get("n_layers", 2)),
                        vocab=c["vocab"], seq_lens=[c["block_size"], 512, 4096])
+    if _interrupted["hit"]:
+        sys.exit(130)   # matches `timeout --signal=INT`'s conventional exit code
 
 
 if __name__ == "__main__":

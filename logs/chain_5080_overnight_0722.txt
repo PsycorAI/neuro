@@ -1,0 +1,185 @@
+======== 2026-07-23T00:28:54-07:00  START: 1-dpo-full-v2-ext-50M
+loaded SFT init: /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2/step_0006104.pt (100M tok)
+optimizer: Muon (22 matrices, lr=0.0005) + AdamW (24 other, lr=5e-05)
+loading preferences HuggingFaceH4/ultrafeedback_binarized...
+  raw: 61135 preference pairs
+  encoded: 58044 (skipped 3091)
+DPO | params=57.2M | beta=0.1 | per_step_tok=16384 | total_steps≈3051
+
+step 100 | 1.6M tok | loss 1.021 | chosen>rejected 31% | 11,000 tok/s | vram 2.2/7.7 GB
+step 200 | 3.3M tok | loss 0.733 | chosen>rejected 56% | 12,038 tok/s | vram 2.2/8.2 GB
+step 300 | 4.9M tok | loss 0.808 | chosen>rejected 44% | 11,525 tok/s | vram 2.2/8.2 GB
+step 400 | 6.6M tok | loss 1.325 | chosen>rejected 19% | 11,826 tok/s | vram 2.2/8.2 GB
+step 500 | 8.2M tok | loss 0.453 | chosen>rejected 81% | 11,906 tok/s | vram 2.2/8.2 GB
+step 600 | 9.8M tok | loss 1.136 | chosen>rejected 62% | 12,145 tok/s | vram 2.2/8.2 GB
+step 700 | 11.5M tok | loss 0.685 | chosen>rejected 69% | 11,913 tok/s | vram 2.2/8.2 GB
+step 800 | 13.1M tok | loss 0.978 | chosen>rejected 38% | 12,034 tok/s | vram 2.2/8.2 GB
+step 900 | 14.7M tok | loss 1.359 | chosen>rejected 62% | 11,558 tok/s | vram 2.2/8.2 GB
+step 1000 | 16.4M tok | loss 1.305 | chosen>rejected 50% | 11,651 tok/s | vram 2.2/8.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_30m_full_v2_ext/step_0001000.pt
+step 1100 | 18.0M tok | loss 0.597 | chosen>rejected 62% | 10,957 tok/s | vram 2.2/8.2 GB
+step 1200 | 19.7M tok | loss 0.624 | chosen>rejected 56% | 12,002 tok/s | vram 2.2/8.2 GB
+step 1300 | 21.3M tok | loss 0.655 | chosen>rejected 56% | 12,338 tok/s | vram 2.2/8.2 GB
+step 1400 | 22.9M tok | loss 0.572 | chosen>rejected 75% | 12,177 tok/s | vram 2.2/8.2 GB
+step 1500 | 24.6M tok | loss 0.595 | chosen>rejected 75% | 11,614 tok/s | vram 2.2/8.2 GB
+step 1600 | 26.2M tok | loss 1.365 | chosen>rejected 56% | 12,217 tok/s | vram 2.2/8.2 GB
+step 1700 | 27.9M tok | loss 1.337 | chosen>rejected 50% | 11,971 tok/s | vram 2.2/8.2 GB
+step 1800 | 29.5M tok | loss 1.719 | chosen>rejected 56% | 12,135 tok/s | vram 2.2/8.2 GB
+step 1900 | 31.1M tok | loss 0.531 | chosen>rejected 81% | 12,387 tok/s | vram 2.2/8.2 GB
+step 2000 | 32.8M tok | loss 1.309 | chosen>rejected 56% | 12,406 tok/s | vram 2.2/8.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_30m_full_v2_ext/step_0002000.pt
+step 2100 | 34.4M tok | loss 1.051 | chosen>rejected 69% | 12,394 tok/s | vram 2.2/8.2 GB
+step 2200 | 36.0M tok | loss 1.142 | chosen>rejected 56% | 12,443 tok/s | vram 2.2/8.2 GB
+step 2300 | 37.7M tok | loss 1.540 | chosen>rejected 44% | 12,430 tok/s | vram 2.2/8.2 GB
+step 2400 | 39.3M tok | loss 0.678 | chosen>rejected 81% | 12,269 tok/s | vram 2.2/8.2 GB
+step 2500 | 41.0M tok | loss 0.568 | chosen>rejected 75% | 10,920 tok/s | vram 2.2/8.2 GB
+step 2600 | 42.6M tok | loss 0.550 | chosen>rejected 81% | 12,199 tok/s | vram 2.2/8.2 GB
+step 2700 | 44.2M tok | loss 0.629 | chosen>rejected 62% | 12,434 tok/s | vram 2.2/8.2 GB
+step 2800 | 45.9M tok | loss 1.076 | chosen>rejected 69% | 11,957 tok/s | vram 2.2/8.2 GB
+step 2900 | 47.5M tok | loss 0.883 | chosen>rejected 62% | 12,305 tok/s | vram 2.2/8.2 GB
+step 3000 | 49.2M tok | loss 0.862 | chosen>rejected 75% | 12,241 tok/s | vram 2.2/8.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_30m_full_v2_ext/step_0003000.pt
+  saved /home/glenn/projects/neuro/models/checkpoints/dpo_30m_full_v2_ext/step_0003052.pt
+done: 50.0M tok in 1.16h
+======== 2026-07-23T01:43:03-07:00  OK: 1-dpo-full-v2-ext-50M
+======== 2026-07-23T01:43:03-07:00  START: 2-sft-full-v2-ext-300M
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/screen_compile_blk640_30m/step_0004883.pt (0.10B tok)
+optimizer: Muon (22 matrices, lr=0.001) + AdamW (24 other, lr=0.0001)
+loading SFT dataset yahma/alpaca-cleaned...
+  raw: 51760 examples
+  encoded: 51757 (skipped 3)
+resumed SFT ckpt @ step 6104, 100.0M tok
+arch=spiking params=57.18M device=cuda | per_step_tok=16384 | total_steps≈18310 | warmup=915
+
+step 6200 | 101.6M tok | loss 3.138 | 17,332 tok/s | vram 2.1/7.5 GB
+step 6300 | 103.2M tok | loss 3.067 | 18,405 tok/s | vram 2.2/7.5 GB
+step 6400 | 104.9M tok | loss 2.688 | 18,746 tok/s | vram 2.3/7.5 GB
+step 6500 | 106.5M tok | loss 3.214 | 18,983 tok/s | vram 2.2/7.5 GB
+step 6600 | 108.1M tok | loss 2.757 | 17,857 tok/s | vram 2.4/7.5 GB
+step 6700 | 109.8M tok | loss 2.637 | 18,885 tok/s | vram 2.4/7.5 GB
+step 6800 | 111.4M tok | loss 2.662 | 18,742 tok/s | vram 2.4/7.5 GB
+step 6900 | 113.0M tok | loss 3.126 | 17,986 tok/s | vram 2.1/7.5 GB
+step 7000 | 114.7M tok | loss 2.709 | 17,260 tok/s | vram 2.0/7.5 GB
+step 7100 | 116.3M tok | loss 3.327 | 19,575 tok/s | vram 2.2/7.5 GB
+step 7200 | 118.0M tok | loss 2.797 | 19,056 tok/s | vram 2.1/7.5 GB
+step 7300 | 119.6M tok | loss 2.514 | 18,533 tok/s | vram 2.2/7.5 GB
+step 7400 | 121.2M tok | loss 2.911 | 19,073 tok/s | vram 2.0/7.5 GB
+step 7500 | 122.9M tok | loss 2.679 | 18,794 tok/s | vram 2.2/7.5 GB
+step 7600 | 124.5M tok | loss 2.904 | 18,867 tok/s | vram 2.3/7.5 GB
+step 7700 | 126.2M tok | loss 3.134 | 18,955 tok/s | vram 2.2/7.5 GB
+step 7800 | 127.8M tok | loss 2.904 | 18,908 tok/s | vram 2.4/7.5 GB
+step 7900 | 129.4M tok | loss 2.703 | 18,705 tok/s | vram 2.4/7.5 GB
+step 8000 | 131.1M tok | loss 2.812 | 18,450 tok/s | vram 2.3/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0008000.pt
+step 8100 | 132.7M tok | loss 3.213 | 18,476 tok/s | vram 2.2/7.5 GB
+step 8200 | 134.3M tok | loss 3.097 | 18,490 tok/s | vram 2.3/7.5 GB
+step 8300 | 136.0M tok | loss 3.058 | 18,198 tok/s | vram 2.1/7.5 GB
+step 8400 | 137.6M tok | loss 2.808 | 17,884 tok/s | vram 2.3/7.5 GB
+step 8500 | 139.3M tok | loss 2.908 | 19,458 tok/s | vram 2.1/7.5 GB
+step 8600 | 140.9M tok | loss 2.875 | 19,234 tok/s | vram 2.3/7.5 GB
+step 8700 | 142.5M tok | loss 2.838 | 19,159 tok/s | vram 2.2/7.5 GB
+step 8800 | 144.2M tok | loss 2.931 | 19,150 tok/s | vram 2.2/7.5 GB
+step 8900 | 145.8M tok | loss 3.141 | 19,006 tok/s | vram 2.4/7.5 GB
+step 9000 | 147.5M tok | loss 2.924 | 19,416 tok/s | vram 2.3/7.5 GB
+step 9100 | 149.1M tok | loss 2.846 | 18,593 tok/s | vram 2.2/7.5 GB
+step 9200 | 150.7M tok | loss 2.953 | 16,926 tok/s | vram 2.2/7.5 GB
+step 9300 | 152.4M tok | loss 3.202 | 19,278 tok/s | vram 2.2/7.5 GB
+step 9400 | 154.0M tok | loss 2.396 | 16,521 tok/s | vram 2.2/7.5 GB
+step 9500 | 155.6M tok | loss 2.609 | 17,438 tok/s | vram 2.4/7.5 GB
+step 9600 | 157.3M tok | loss 2.832 | 18,864 tok/s | vram 2.4/7.5 GB
+step 9700 | 158.9M tok | loss 2.769 | 19,358 tok/s | vram 2.0/7.5 GB
+step 9800 | 160.6M tok | loss 3.117 | 18,882 tok/s | vram 2.2/7.5 GB
+step 9900 | 162.2M tok | loss 2.766 | 18,681 tok/s | vram 2.5/7.5 GB
+step 10000 | 163.8M tok | loss 3.067 | 18,949 tok/s | vram 2.2/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0010000.pt
+step 10100 | 165.5M tok | loss 2.744 | 17,431 tok/s | vram 2.1/7.5 GB
+step 10200 | 167.1M tok | loss 3.144 | 18,940 tok/s | vram 2.2/7.5 GB
+step 10300 | 168.8M tok | loss 2.970 | 17,697 tok/s | vram 2.4/7.5 GB
+step 10400 | 170.4M tok | loss 2.909 | 16,321 tok/s | vram 2.1/7.5 GB
+step 10500 | 172.0M tok | loss 2.821 | 14,828 tok/s | vram 2.3/7.5 GB
+step 10600 | 173.7M tok | loss 2.956 | 16,611 tok/s | vram 2.4/7.5 GB
+step 10700 | 175.3M tok | loss 3.043 | 17,878 tok/s | vram 2.4/7.5 GB
+step 10800 | 176.9M tok | loss 3.173 | 17,370 tok/s | vram 2.3/7.5 GB
+step 10900 | 178.6M tok | loss 2.830 | 18,193 tok/s | vram 2.2/7.5 GB
+step 11000 | 180.2M tok | loss 3.005 | 18,914 tok/s | vram 2.1/7.5 GB
+step 11100 | 181.9M tok | loss 3.038 | 16,243 tok/s | vram 2.3/7.5 GB
+step 11200 | 183.5M tok | loss 2.931 | 19,065 tok/s | vram 2.3/7.5 GB
+step 11300 | 185.1M tok | loss 3.157 | 19,127 tok/s | vram 2.1/7.5 GB
+step 11400 | 186.8M tok | loss 3.181 | 17,848 tok/s | vram 2.2/7.5 GB
+step 11500 | 188.4M tok | loss 2.626 | 17,987 tok/s | vram 2.4/7.5 GB
+step 11600 | 190.1M tok | loss 2.923 | 18,902 tok/s | vram 2.2/7.5 GB
+step 11700 | 191.7M tok | loss 2.893 | 18,114 tok/s | vram 2.1/7.5 GB
+step 11800 | 193.3M tok | loss 3.153 | 19,236 tok/s | vram 2.2/7.5 GB
+step 11900 | 195.0M tok | loss 2.686 | 18,711 tok/s | vram 2.1/7.5 GB
+step 12000 | 196.6M tok | loss 2.691 | 18,756 tok/s | vram 2.1/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0012000.pt
+step 12100 | 198.2M tok | loss 3.052 | 17,575 tok/s | vram 2.1/7.5 GB
+step 12200 | 199.9M tok | loss 2.851 | 17,588 tok/s | vram 2.4/7.5 GB
+step 12300 | 201.5M tok | loss 2.846 | 19,181 tok/s | vram 2.2/7.5 GB
+step 12400 | 203.2M tok | loss 2.831 | 18,908 tok/s | vram 2.4/7.5 GB
+step 12500 | 204.8M tok | loss 2.861 | 18,671 tok/s | vram 2.2/7.5 GB
+step 12600 | 206.4M tok | loss 2.884 | 18,574 tok/s | vram 2.0/7.5 GB
+step 12700 | 208.1M tok | loss 2.988 | 18,748 tok/s | vram 2.2/7.5 GB
+step 12800 | 209.7M tok | loss 2.870 | 17,697 tok/s | vram 2.2/7.5 GB
+step 12900 | 211.4M tok | loss 2.751 | 18,529 tok/s | vram 2.3/7.5 GB
+step 13000 | 213.0M tok | loss 2.635 | 19,001 tok/s | vram 2.3/7.5 GB
+step 13100 | 214.6M tok | loss 2.713 | 18,357 tok/s | vram 2.3/7.5 GB
+step 13200 | 216.3M tok | loss 2.675 | 16,777 tok/s | vram 2.4/7.5 GB
+step 13300 | 217.9M tok | loss 2.678 | 15,051 tok/s | vram 2.5/7.5 GB
+step 13400 | 219.5M tok | loss 2.812 | 18,488 tok/s | vram 2.2/7.5 GB
+step 13500 | 221.2M tok | loss 2.865 | 14,310 tok/s | vram 2.3/7.5 GB
+step 13600 | 222.8M tok | loss 3.354 | 15,673 tok/s | vram 2.2/7.5 GB
+step 13700 | 224.5M tok | loss 2.908 | 18,924 tok/s | vram 2.4/7.5 GB
+step 13800 | 226.1M tok | loss 2.911 | 19,329 tok/s | vram 2.2/7.5 GB
+step 13900 | 227.7M tok | loss 2.799 | 18,082 tok/s | vram 2.2/7.5 GB
+step 14000 | 229.4M tok | loss 2.890 | 18,108 tok/s | vram 2.2/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0014000.pt
+step 14100 | 231.0M tok | loss 2.922 | 18,244 tok/s | vram 2.2/7.5 GB
+step 14200 | 232.7M tok | loss 2.858 | 18,960 tok/s | vram 2.2/7.5 GB
+step 14300 | 234.3M tok | loss 2.975 | 18,831 tok/s | vram 2.1/7.5 GB
+step 14400 | 235.9M tok | loss 2.933 | 16,838 tok/s | vram 2.4/7.5 GB
+step 14500 | 237.6M tok | loss 2.755 | 17,360 tok/s | vram 2.3/7.5 GB
+step 14600 | 239.2M tok | loss 3.267 | 19,121 tok/s | vram 2.2/7.5 GB
+step 14700 | 240.8M tok | loss 2.776 | 18,652 tok/s | vram 2.2/7.5 GB
+step 14800 | 242.5M tok | loss 2.793 | 17,792 tok/s | vram 2.2/7.5 GB
+step 14900 | 244.1M tok | loss 2.952 | 17,791 tok/s | vram 2.3/7.5 GB
+step 15000 | 245.8M tok | loss 2.750 | 18,849 tok/s | vram 2.3/7.5 GB
+step 15100 | 247.4M tok | loss 2.839 | 18,893 tok/s | vram 2.4/7.5 GB
+step 15200 | 249.0M tok | loss 2.718 | 18,184 tok/s | vram 2.3/7.5 GB
+step 15300 | 250.7M tok | loss 2.861 | 18,994 tok/s | vram 2.2/7.5 GB
+step 15400 | 252.3M tok | loss 2.840 | 18,111 tok/s | vram 2.4/7.5 GB
+step 15500 | 254.0M tok | loss 2.909 | 18,394 tok/s | vram 2.1/7.5 GB
+step 15600 | 255.6M tok | loss 2.816 | 19,292 tok/s | vram 2.2/7.5 GB
+step 15700 | 257.2M tok | loss 2.918 | 18,495 tok/s | vram 2.2/7.5 GB
+step 15800 | 258.9M tok | loss 2.580 | 18,345 tok/s | vram 2.1/7.5 GB
+step 15900 | 260.5M tok | loss 2.946 | 19,122 tok/s | vram 2.2/7.5 GB
+step 16000 | 262.1M tok | loss 2.883 | 18,881 tok/s | vram 2.3/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0016000.pt
+step 16100 | 263.8M tok | loss 2.977 | 18,063 tok/s | vram 2.3/7.5 GB
+step 16200 | 265.4M tok | loss 2.967 | 18,427 tok/s | vram 2.2/7.5 GB
+step 16300 | 267.1M tok | loss 2.842 | 19,058 tok/s | vram 2.3/7.5 GB
+step 16400 | 268.7M tok | loss 2.974 | 18,667 tok/s | vram 2.1/7.5 GB
+step 16500 | 270.3M tok | loss 2.797 | 18,604 tok/s | vram 2.3/7.5 GB
+step 16600 | 272.0M tok | loss 2.602 | 19,186 tok/s | vram 2.3/7.5 GB
+step 16700 | 273.6M tok | loss 2.788 | 18,559 tok/s | vram 2.0/7.5 GB
+step 16800 | 275.3M tok | loss 2.677 | 18,914 tok/s | vram 2.3/7.5 GB
+step 16900 | 276.9M tok | loss 2.969 | 18,875 tok/s | vram 2.1/7.5 GB
+step 17000 | 278.5M tok | loss 2.925 | 16,828 tok/s | vram 2.4/7.5 GB
+step 17100 | 280.2M tok | loss 2.642 | 17,489 tok/s | vram 2.4/7.5 GB
+step 17200 | 281.8M tok | loss 2.864 | 18,151 tok/s | vram 2.3/7.5 GB
+step 17300 | 283.4M tok | loss 2.558 | 18,032 tok/s | vram 2.4/7.5 GB
+step 17400 | 285.1M tok | loss 2.843 | 17,753 tok/s | vram 2.1/7.5 GB
+step 17500 | 286.7M tok | loss 2.974 | 18,083 tok/s | vram 2.4/7.5 GB
+step 17600 | 288.4M tok | loss 2.606 | 15,274 tok/s | vram 2.4/7.5 GB
+step 17700 | 290.0M tok | loss 2.481 | 18,683 tok/s | vram 2.4/7.5 GB
+step 17800 | 291.6M tok | loss 3.249 | 18,549 tok/s | vram 2.2/7.5 GB
+step 17900 | 293.3M tok | loss 2.985 | 18,833 tok/s | vram 2.3/7.5 GB
+step 18000 | 294.9M tok | loss 3.063 | 18,051 tok/s | vram 2.2/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0018000.pt
+step 18100 | 296.6M tok | loss 2.945 | 18,634 tok/s | vram 2.2/7.5 GB
+step 18200 | 298.2M tok | loss 2.656 | 18,431 tok/s | vram 2.4/7.5 GB
+step 18300 | 299.8M tok | loss 2.649 | 18,635 tok/s | vram 2.4/7.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2_ext/step_0018311.pt
+done: 300.0M tok in 3.05h
+======== 2026-07-23T04:47:25-07:00  OK: 2-sft-full-v2-ext-300M
+======== 2026-07-23T04:47:25-07:00  CHAIN COMPLETE

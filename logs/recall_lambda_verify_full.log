@@ -1,0 +1,23 @@
+loaded screen_attnratio_90m_a1_s0: 107.3M
+loaded screen_attnratio_90m_a1_s1: 107.3M
+loaded screen_lambda05_newshape_s0: 107.3M
+loaded screen_lambda05_newshape_s1: 107.3M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_attnratio_90m_a1_s0 |  100% |   95% |   78% |   75% |   59%
+screen_attnratio_90m_a1_s1 |  100% |   98% |   94% |   80% |   47%
+screen_lambda05_newshape_s0 |  100% |  100% |   92% |   72% |   69%
+screen_lambda05_newshape_s1 |  100% |   94% |   92% |   88% |   73%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_attnratio_90m_a1_s0 |    91 |   446 |    78 |   123 |   146
+screen_attnratio_90m_a1_s1 |   285 |    63 |    24 |     9 |   225
+screen_lambda05_newshape_s0 |    44 |     9 |    22 |    24 |    40
+screen_lambda05_newshape_s1 |    79 |    88 |    15 |    74 |    59

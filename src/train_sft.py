@@ -18,49 +18,45 @@ import torch
 import torch.nn.functional as F
 import yaml
 sys.path.insert(0, os.path.dirname(__file__))
-from model import SpikingHebbianLM
 from sft_data import load_alpaca, build_sft_examples, SFTLoader
 
 
 def build_model(c):
-    return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
-                            d_mem=c["d_mem"], recurrent=c.get("recurrent", False),
-                            rec_density=c.get("rec_density", 0.05),
-                            compile_safe=c.get("compile", False),
-                            tie_weights=c.get("tie_weights", False),
-                            n_layers=c.get("n_layers", 1),
-                            use_fpt=c.get("use_fpt", False),
-                            fpt_K=c.get("fpt_K", 10),
-                            beta=c.get("beta", 0.9), lam=c.get("lam", 0.98),
-                            eta=c.get("eta", 1.0),
-                            learnable_decay=c.get("learnable_decay", False),
-                            write_gate=c.get("write_gate", False),
-                            delta_rule=c.get("delta_rule", False),
-                            beta_floor=c.get("beta_floor", 0.0),
-                            decay_gate=c.get("decay_gate", False),
-                            titans=c.get("titans", False),
-                            local_attn=c.get("local_attn", False),
-                            local_window=c.get("local_window", 64),
-                            n_heads=c.get("n_heads", 1),
-                            pre_conv=c.get("pre_conv", False),
-                            pre_conv_kernel=c.get("pre_conv_kernel", 4),
-                            vector_beta=c.get("vector_beta", False))
+    # Delegate to the maintained builder in train_gpu so SFT never drifts from
+    # the pretrain architecture. This function previously enumerated its own
+    # (much shorter) kwarg list and silently omitted gdn2/engram_v2/mtp/rmsnorm/
+    # embed_scale/sdm flags — building a 44M model that could not load a 57M
+    # current-recipe base (the base's gdn2/engram/mtp weights were dropped as
+    # "unexpected" and the norm silently fell back to LayerNorm). Delegating
+    # keeps a single source of truth for arch construction. Lazy import: keeps
+    # train_sft's module-load surface small and avoids any import ordering risk.
+    from train_gpu import build_model as _build_model
+    return _build_model(c)
 
 
 def build_optimizers(model, c, device):
-    kind = c.get("optimizer", "adamw").lower()
-    if kind == "muon":
-        from muon import build_muon_adamw
-        muon, adamw, n_mat, n_other = build_muon_adamw(
-            model, muon_lr=c.get("muon_lr", 0.001),
-            adamw_lr=c["lr"], adamw_fused=(device == "cuda"))
-        print(f"optimizer: Muon ({n_mat} matrices, lr={c.get('muon_lr', 0.001)}) "
-              f"+ AdamW ({n_other} other, lr={c['lr']})")
-        return [o for o in (muon, adamw) if o is not None]
-    fused_kw = {"fused": True} if device == "cuda" else {}
-    opt = torch.optim.AdamW(model.parameters(), lr=c["lr"], **fused_kw)
-    print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
-    return [opt]
+    # LoRA: adapters (lora_A/lora_B) are 2D but must NOT go through Muon —
+    # Newton-Schulz orthogonalization is the wrong update rule for low-rank
+    # factors, and with only adapters trainable the Muon path would hand AdamW
+    # an empty param list. Train adapters with a single fused AdamW.
+    if c.get("lora_enabled", False):
+        trainable = [p for p in model.parameters() if p.requires_grad]
+        fused_kw = {"fused": True} if device == "cuda" else {}
+        opt = torch.optim.AdamW(trainable, lr=c["lr"], **fused_kw)
+        print(f"optimizer: AdamW (LoRA adapters only, "
+              f"{sum(p.numel() for p in trainable)} params, lr={c['lr']})")
+        return [opt]
+    # Delegate to the maintained builder in train_gpu so the SFT optimizer never
+    # drifts from the pretrain recipe. The previous local copy passed only
+    # muon_lr/adamw_lr/adamw_fused and SILENTLY DROPPED normuon(+beta2/eps),
+    # fix_gate_matrices, precise_gate_filter, route_embeddings_by_type,
+    # weight_decay and adamw_8bit. Caught live on the 363M flagship SFT launch:
+    # pretrain built NorMuon(71 matrices)+AdamW(123), SFT built Muon(80)+AdamW(114)
+    # -- 9 one-row gate matrices (one per layer) were going through Muon's
+    # Newton-Schulz, which degenerates on 1-row matrices and kills beta (memory
+    # neuro_muon_gate_matrix_bug). Same drift class as the build_model fix above.
+    from train_gpu import _build_optimizers as _canonical_opts
+    return _canonical_opts(model, c, device)
 
 
 def load_lut_encode(vocab):
@@ -75,6 +71,155 @@ def load_lut_encode(vocab):
     return encode
 
 
+def load_lut_decode(vocab):
+    """Returns list[int]->text decoder, the inverse of load_lut_encode. Used by
+    the in-training generation sanity-check (see train_dpo.py gen_check_every),
+    added 2026-07-26 after a SimPO run collapsed to incoherent word-salad
+    output undetected for ~2h of GPU time -- loss/accuracy metrics alone did
+    not catch it. See neuro_simpo_collapse_2026-07-26 memory."""
+    from transformers import AutoTokenizer
+    tk = AutoTokenizer.from_pretrained("NousResearch/Meta-Llama-3-8B")
+    lut_path = f"/home/glenn/projects/neuro/data/vocab_map_{vocab}.npy"
+    lut = np.load(lut_path)
+    inv = np.full(vocab, -1, dtype=np.int64)
+    nz = np.where(lut > 0)[0]
+    inv[lut[nz]] = nz
+    def decode(ids):
+        return tk.decode([int(inv[i]) for i in ids if 0 < i < vocab and inv[i] >= 0])
+    return decode
+
+
+def make_encoder_pair(c):
+    """(encode, decode) for this run.
+
+    lut_subword_fallback: true routes through src/lut_spell, which re-spells
+    Llama-3 tokens that are outside our 32768 student vocab out of in-vocab
+    subwords instead of DROPPING them. Required for any post-training data with
+    vocabulary outside the pretraining head -- the plain encoder turns
+    'calculator' into '' and 'kilometers' into 'ometers', which silently
+    corrupted the tool-call targets (see src/lut_spell docstring).
+
+    Default false = byte-identical to the original behaviour, so existing runs
+    and their checkpoints reproduce exactly.
+    """
+    if c.get("lut_subword_fallback", False):
+        import lut_spell
+        enc = lut_spell.make_encoder(c["vocab"], subword_fallback=True, report=True)
+        print("[encoder] subword-fallback ENABLED (src/lut_spell)")
+        return enc, lut_spell.make_decoder(c["vocab"])
+    return load_lut_encode(c["vocab"]), load_lut_decode(c["vocab"])
+
+
+def load_sft_corpus(c, encode, max_len):
+    """Build the encoded (input_ids, labels) list for this SFT run.
+
+    Two sources, selected by config; both can be set and are concatenated:
+      sft_jsonl: <path|list>  -- local JSONL from scripts/gen_teacher_data.py.
+          The record shape is auto-detected per file so one key covers both new
+          post-training stages:
+            * has "target_mode" -> tool records, formatted by src/tool_data
+              (### Tools: block + TOOL/ANSWER response)          [idea #4]
+            * {instruction, output} -> the ordinary Alpaca path, which is
+              exactly what the OPD off-policy cold start is      [idea #1]
+      sft_dataset: <hf id>    -- unchanged original behaviour (the default).
+
+    Mixing matters for the tool stage: training on tool records alone teaches a
+    model to emit nothing but tool calls, so the general instruction corpus is
+    kept in the blend (sft_dataset_frac controls how much).
+    """
+    import json as _json
+    parts = []
+    paths = c.get("sft_jsonl")
+    if paths:
+        if isinstance(paths, str):
+            paths = [paths]
+        import tool_data
+        tools = tool_data.load_tools()
+        for p in paths:
+            head = None
+            with open(p, encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        head = _json.loads(line)
+                        break
+            if head is None:
+                print(f"  [warn] {p} is empty -- skipping")
+                continue
+            if "target_mode" in head:
+                pairs, bad = tool_data.load_tool_jsonl(p, tools)
+                enc, skipped = tool_data.build_tool_examples(pairs, encode, max_len)
+                kinds = {}
+                for q in pairs:
+                    kinds[q["kind"]] = kinds.get(q["kind"], 0) + 1
+                print(f"  {p}: {len(pairs)} tool pairs {kinds} -> encoded "
+                      f"{len(enc)} (bad {bad}, skipped {skipped})")
+            else:
+                raw = []
+                with open(p, encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            r = _json.loads(line)
+                        except _json.JSONDecodeError:
+                            continue    # partial trailing line from a killed writer
+                        if r.get("instruction") and r.get("output"):
+                            raw.append({"instruction": r["instruction"],
+                                        "input": r.get("input", ""),
+                                        "output": r["output"]})
+                enc, skipped = build_sft_examples(raw, encode, max_len)
+                print(f"  {p}: {len(raw)} instruction pairs -> encoded "
+                      f"{len(enc)} (skipped {skipped})")
+            parts.append(enc)
+    if c.get("sft_dataset") or not parts:
+        ds = c.get("sft_dataset", "yahma/alpaca-cleaned")
+        print(f"loading SFT dataset {ds}...")
+        raw = load_alpaca(ds, c.get("sft_split", "train"))
+        frac = float(c.get("sft_dataset_frac", 1.0))
+        if frac < 1.0:
+            keep = max(1, int(len(raw) * frac))
+            raw = raw[:keep]
+            print(f"  subsampled to {keep} ({frac:.0%})")
+        print(f"  raw: {len(raw)} examples")
+        enc, skipped = build_sft_examples(raw, encode, max_len)
+        print(f"  encoded: {len(enc)} (skipped {skipped})")
+        parts.append(enc)
+    out = [e for part in parts for e in part]
+    print(f"  TOTAL encoded examples: {len(out)}")
+    return out
+
+
+@torch.no_grad()
+def gen_check(model, encode, decode, prompt, n_new, block_size, device):
+    """Cheap in-training generation sanity-check. Greedy decode (no sampling
+    randomness) so successive calls are directly comparable step-over-step.
+    Shared by train_sft.py and train_dpo.py.
+
+    Added 2026-07-26 after a SimPO run (beta=2.0, reference-free) collapsed to
+    incoherent word-salad / repetition-loop output by ~37% through its token
+    budget, undetected for ~2h of GPU time because loss and chosen>rejected
+    accuracy both looked fine (in fact suspiciously "too good": near-zero loss,
+    100% accuracy -- the actual signature of the collapse, not evidence against
+    it). Printing real generated text periodically is the one check that would
+    have caught this immediately. See neuro_simpo_collapse_2026-07-26 memory.
+    """
+    was_training = model.training
+    model.eval()
+    ids = torch.tensor([encode(prompt)], dtype=torch.long, device=device)
+    if ids.shape[1] == 0:
+        return "(prompt encoded to empty -- skipping)"
+    out = ids
+    for _ in range(n_new):
+        x = out[:, -block_size:]
+        logits = model(x)[0, -1]
+        nxt = logits.argmax(dim=-1, keepdim=True)
+        out = torch.cat([out, nxt.view(1, 1)], dim=1)
+    if was_training:
+        model.train()
+    return decode(out[0].tolist())
+
+
 def save_ckpt(ckdir, model, opts, step, tokens, c):
     p = f"{ckdir}/step_{step:07d}.pt"
     torch.save({"model": model.state_dict(),
@@ -83,6 +228,19 @@ def save_ckpt(ckdir, model, opts, step, tokens, c):
     for o in sorted(glob.glob(f"{ckdir}/step_*.pt"))[:-c.get("keep_last", 2)]:
         os.remove(o)
     print(f"  saved {p}")
+    # LoRA: also emit the tiny adapter-only artifact (the swappable skill mod),
+    # independent of the base checkpoint. Records the base it was trained on so
+    # it can be re-applied to that frozen checkpoint later.
+    if c.get("lora_enabled", False):
+        import lora as _lora
+        ad = _lora.lora_state_dict(model)
+        ap = f"{ckdir}/adapter_step_{step:07d}.pt"
+        torch.save({"lora": ad, "base": c.get("sft_init"), "step": step,
+                    "tokens": tokens,
+                    "lora_r": c.get("lora_r", 8), "lora_alpha": c.get("lora_alpha", 16),
+                    "lora_targets": list(c.get("lora_targets", _lora.DEFAULT_TARGETS))}, ap)
+        for o in sorted(glob.glob(f"{ckdir}/adapter_step_*.pt"))[:-c.get("keep_last", 2)]:
+            os.remove(o)
 
 
 def main():
@@ -115,17 +273,39 @@ def main():
     if miss:  print(f"  [warn] {len(miss)} keys missing in ckpt: {miss[:3]}")
     print(f"loaded BASE: {sft_init} ({blob.get('tokens',0)/1e9:.2f}B tok)")
 
+    # LoRA (parameter-efficient SFT): inject adapters onto the frozen base AFTER
+    # loading pretrained weights, so only the tiny A/B factors train. Default-off;
+    # a plain full-finetune run is byte-identical to before.
+    lora_enabled = c.get("lora_enabled", False)
+    if lora_enabled:
+        import lora as _lora
+        n_w, n_ap, names = _lora.inject_lora(
+            model, r=c.get("lora_r", 8), alpha=c.get("lora_alpha", 16),
+            dropout=c.get("lora_dropout", 0.0),
+            targets=tuple(c.get("lora_targets", _lora.DEFAULT_TARGETS)))
+        model.to(device)
+        _lora.mark_only_lora_trainable(model)
+        n_all = sum(p.numel() for p in model.parameters())
+        print(f"LoRA: wrapped {n_w} layers (r={c.get('lora_r', 8)}, "
+              f"alpha={c.get('lora_alpha', 16)}), {n_ap} adapter params "
+              f"({100*n_ap/n_all:.2f}% of {n_all/1e6:.1f}M) trainable")
+
     opts = build_optimizers(model, c, device)
 
+    # Generation sanity-check (see gen_check() docstring). Default ON at
+    # ckpt_every cadence; set gen_check_every: 0 to disable.
+    gen_check_every = c.get("gen_check_every", c.get("ckpt_every", 2000))
+    gen_check_prompt = c.get("gen_check_prompt", "The capital of France is")
+
     # Data
-    encode = load_lut_encode(c["vocab"])
+    encode, gen_decode = make_encoder_pair(c)
+    if gen_check_every > 0:
+        print(f"gen-check ENABLED every {gen_check_every} steps, "
+              f"prompt={gen_check_prompt!r}")
     max_len = c.get("sft_max_len", c["block_size"])
-    print(f"loading SFT dataset {c.get('sft_dataset','yahma/alpaca-cleaned')}...")
-    raw = load_alpaca(c.get("sft_dataset", "yahma/alpaca-cleaned"),
-                       c.get("sft_split", "train"))
-    print(f"  raw: {len(raw)} examples")
-    examples, skipped = build_sft_examples(raw, encode, max_len)
-    print(f"  encoded: {len(examples)} (skipped {skipped})")
+    examples = load_sft_corpus(c, encode, max_len)
+    if not examples:
+        raise RuntimeError("SFT corpus is empty -- check sft_jsonl / sft_dataset")
 
     loader = SFTLoader(examples, c["batch_size"], seed=c.get("seed", 0))
 
@@ -166,16 +346,24 @@ def main():
             for g, base in zip(o.param_groups, lrs): g["lr"] = base * scale
         for o in opts: o.zero_grad(set_to_none=True)
 
+        spike_val = 0.0
         for _ in range(c["grad_accum"]):
             ids, lbl, msk = next(loader)
             ids = ids.to(device); lbl = lbl.to(device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=amp):
-                out = model(ids)
+                # return_stats=True gives us the spike rate for logging without
+                # a second forward pass. Extra cost is negligible.
+                out = model(ids, return_stats=True)
+                logits, sr = out[0], out[1]
                 # Autoregressive shift: logits at t predict token at t+1.
-                shift_logits = out[:, :-1, :].contiguous()
+                shift_logits = logits[:, :-1, :].contiguous()
                 shift_labels = lbl[:, 1:].contiguous()
                 loss = F.cross_entropy(shift_logits.reshape(-1, c["vocab"]),
                                         shift_labels.reshape(-1), ignore_index=-100)
+                if sr is not None:
+                    # detach: sr may have requires_grad=True; explicit detach
+                    # silences the PyTorch warning and doesn't affect training.
+                    spike_val += float(sr.detach()) / c["grad_accum"]
             (loss / c["grad_accum"]).backward()
 
         if grad_clip > 0:
@@ -188,10 +376,15 @@ def main():
             vram = (f" | vram {torch.cuda.memory_allocated()/1024**3:.1f}/"
                     f"{torch.cuda.memory_reserved()/1024**3:.1f} GB"
                     if device == "cuda" else "")
-            print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item():.3f} "
+            spike_str = f" | spike {spike_val:.3f}" if spike_val > 0 else ""
+            print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item():.3f}{spike_str} "
                   f"| {c['log_every']*per_step_tok/dt:,.0f} tok/s{vram}", flush=True)
         if step % c["ckpt_every"] == 0:
             save_ckpt(ckdir, model, opts, step, tokens, c)
+        if gen_check_every > 0 and step % gen_check_every == 0:
+            sample = gen_check(model, encode, gen_decode, gen_check_prompt,
+                                40, c["block_size"], device)
+            print(f"  [gen-check] {sample!r}", flush=True)
 
     save_ckpt(ckdir, model, opts, step, tokens, c)
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")

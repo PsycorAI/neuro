@@ -1,0 +1,71 @@
+# Recurrent-depth Stage 2 @ 200M tokens. UPDATE 2026-07-07: the header's
+# original premise (depth-2 "confirmed" at 75.91 vs 81.20) was pre-eval-fix
+# noise -- the fair, fixed-eval comparison (Phase 0) showed depth-1 (74.55/
+# 73.35) actually beats both plain depth-2 (77.35/78.52) and depth-2+deep-sup
+# (79.49/76.94), closing UNIFORM recurrent-depth. This screen tests something
+# different and not yet closed: MoR's actual claim is ADAPTIVE per-token
+# depth via the router, not uniform looping -- literature (arXiv:2507.10524)
+# shows the win comes from routing itself (matched/better quality at fewer
+# FLOPs), so this is the real test of MoR, independent of the uniform-depth
+# verdict above.
+# Uses the "select AND scale" router fix (commit after f0e609e): kept tokens
+# merge as h_old + g*(h_new-h_old) at train, letting CE gradient reach the
+# routing scores. Pre-fix the router only learned self-referential top-k
+# membership via aux BCE, never received quality signal from CE.
+#
+# Minimal Stage-2 test: reuse the
+# SAME recurrent_depth=2 already validated in Stage 1 (don't combine a new
+# depth level with a new routing mechanism in one screen), but make it
+# adaptive -- RecurrentDepthRouter (src/adaptive_compute.py) decides per-token
+# whether to exit after pass 1 or continue to pass 2, via hard top-k at train
+# time + causal threshold at eval (MoR mechanics, reused per the Stage-1
+# handoff note "reuse the routing/top-k logic from MoRRefine"). Unlike the
+# superseded MoRRefine bolt-on, there is NO separate learned refine transform
+# here -- the router only gates the ACTUAL Hebbian block-stack pass, so
+# ablation should degrade the same graceful way Stage 1 already verified.
+# Default balanced capacity for depth=2 is [0.5] (half the tokens get pass 2).
+#
+# Byte-identical to screen_rdepth2_30m EXCEPT recurrent_router_enabled: true
+# and recurrent_router_aux_weight (MoR calibration loss, no collapse knife-edge
+# since compute budget is fixed by hard top-k, not by this loss's weight).
+run_name: screen_rdepth2_mor_200mtok_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 2
+recurrent_bptt_k: 0
+recurrent_router_enabled: true
+recurrent_router_threshold: 0.5
+recurrent_router_aux_weight: 0.1
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 200000000
+eval_every: 500
+ckpt_every: 1000
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

@@ -1,0 +1,128 @@
+[2026-07-16 19:36:23] recall_eval: cadence-2 seed-0 vs baseline
+loaded screen_mqar_cadence2_30m: 57.2M
+loaded screen_bake_full_gdn2_batchA_30m: 57.2M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_mqar_cadence2_30m |   94% |   88% |   81% |   55% |   19%
+screen_bake_full_gdn2_batchA_30m |   95% |   91% |   80% |   56% |   34%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_mqar_cadence2_30m |     1 |     4 |    13 |    31 |   358
+screen_bake_full_gdn2_batchA_30m |     1 |     1 |     2 |    17 |   174
+[2026-07-16 19:36:44] launching cadence-2 SEED 1 training
+curriculum warmup enabled: 610 train batches drawn easy->hard (10% of 6103 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+arch=spiking params=57.18M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | grad_clip=1.0
+step 100 | 1.6M tok | loss 8.811 | 20,633 tok/s | vram 1.8/13.3 GB
+step 200 | 3.3M tok | loss 7.573 | 21,896 tok/s | vram 1.9/13.3 GB
+step 300 | 4.9M tok | loss 7.157 | 21,856 tok/s | vram 1.9/13.3 GB
+step 400 | 6.6M tok | loss 6.783 | 20,877 tok/s | vram 1.8/13.3 GB
+step 500 | 8.2M tok | loss 6.584 | 20,310 tok/s | vram 1.8/13.3 GB
+step 600 | 9.8M tok | loss 6.551 | 20,680 tok/s | vram 1.8/13.3 GB
+step 700 | 11.5M tok | loss 6.022 | 21,486 tok/s | vram 1.8/13.3 GB
+step 800 | 13.1M tok | loss 6.377 | 21,320 tok/s | vram 1.9/13.3 GB
+step 900 | 14.7M tok | loss 6.209 | 20,523 tok/s | vram 1.8/13.3 GB
+step 1000 | 16.4M tok | loss 5.813 | 20,117 tok/s | vram 1.8/13.3 GB
+  [eval] val_ppl 74.61 | ablated_ppl 153.88 (memory Δ=+79.27) | spike 0.194
+  [beta] blk0: μ=0.52 dead=0% at_floor=0% | blk1: μ=0.54 dead=0% at_floor=0%
+step 1100 | 18.0M tok | loss 5.925 | 16,838 tok/s | vram 1.8/13.0 GB
+step 1200 | 19.7M tok | loss 6.021 | 20,433 tok/s | vram 1.9/13.0 GB
+step 1300 | 21.3M tok | loss 6.043 | 19,833 tok/s | vram 1.8/13.0 GB
+step 1400 | 22.9M tok | loss 5.399 | 19,752 tok/s | vram 1.8/13.0 GB
+step 1500 | 24.6M tok | loss 5.961 | 19,281 tok/s | vram 1.8/13.0 GB
+step 1600 | 26.2M tok | loss 5.871 | 19,285 tok/s | vram 1.9/13.0 GB
+step 1700 | 27.9M tok | loss 5.671 | 19,425 tok/s | vram 1.8/13.0 GB
+step 1800 | 29.5M tok | loss 5.842 | 21,531 tok/s | vram 1.9/13.0 GB
+step 1900 | 31.1M tok | loss 5.802 | 20,637 tok/s | vram 1.9/13.0 GB
+step 2000 | 32.8M tok | loss 5.545 | 20,060 tok/s | vram 1.8/13.0 GB
+  [eval] val_ppl 53.28 | ablated_ppl 133.70 (memory Δ=+80.42) | spike 0.190
+  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+step 2100 | 34.4M tok | loss 5.764 | 15,683 tok/s | vram 1.9/13.1 GB
+step 2200 | 36.0M tok | loss 5.915 | 20,114 tok/s | vram 1.8/13.1 GB
+step 2300 | 37.7M tok | loss 5.280 | 20,314 tok/s | vram 1.9/13.1 GB
+step 2400 | 39.3M tok | loss 5.805 | 20,465 tok/s | vram 1.8/13.1 GB
+step 2500 | 41.0M tok | loss 5.630 | 21,317 tok/s | vram 1.9/13.1 GB
+step 2600 | 42.6M tok | loss 5.701 | 21,466 tok/s | vram 1.9/13.1 GB
+step 2700 | 44.2M tok | loss 5.220 | 22,099 tok/s | vram 1.8/13.1 GB
+step 2800 | 45.9M tok | loss 5.461 | 22,032 tok/s | vram 1.8/13.1 GB
+step 2900 | 47.5M tok | loss 5.502 | 21,970 tok/s | vram 1.8/13.1 GB
+step 3000 | 49.2M tok | loss 5.541 | 20,586 tok/s | vram 1.9/13.1 GB
+  [eval] val_ppl 45.80 | ablated_ppl 134.28 (memory Δ=+88.48) | spike 0.184
+  [beta] blk0: μ=0.56 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+step 3100 | 50.8M tok | loss 5.483 | 16,095 tok/s | vram 1.8/13.1 GB
+step 3200 | 52.4M tok | loss 5.073 | 20,857 tok/s | vram 1.8/13.1 GB
+step 3300 | 54.1M tok | loss 5.396 | 20,121 tok/s | vram 1.9/13.1 GB
+step 3400 | 55.7M tok | loss 5.530 | 19,759 tok/s | vram 1.8/13.1 GB
+step 3500 | 57.3M tok | loss 5.189 | 19,592 tok/s | vram 1.8/13.1 GB
+step 3600 | 59.0M tok | loss 5.463 | 19,250 tok/s | vram 1.9/13.1 GB
+step 3700 | 60.6M tok | loss 5.479 | 19,404 tok/s | vram 1.9/13.1 GB
+step 3800 | 62.3M tok | loss 5.140 | 21,946 tok/s | vram 1.8/13.1 GB
+step 3900 | 63.9M tok | loss 5.242 | 21,251 tok/s | vram 1.8/13.1 GB
+step 4000 | 65.5M tok | loss 5.448 | 20,873 tok/s | vram 1.8/13.1 GB
+  [eval] val_ppl 41.34 | ablated_ppl 140.56 (memory Δ=+99.22) | spike 0.182
+  [beta] blk0: μ=0.57 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_mqar_cadence2_seed1_30m/step_0004000.pt
+step 4100 | 67.2M tok | loss 5.437 | 16,163 tok/s | vram 1.8/13.0 GB
+step 4200 | 68.8M tok | loss 5.432 | 21,004 tok/s | vram 1.8/13.0 GB
+step 4300 | 70.5M tok | loss 5.141 | 21,298 tok/s | vram 1.9/13.0 GB
+step 4400 | 72.1M tok | loss 5.348 | 21,614 tok/s | vram 1.9/13.0 GB
+step 4500 | 73.7M tok | loss 5.240 | 20,807 tok/s | vram 1.9/13.0 GB
+step 4600 | 75.4M tok | loss 5.056 | 20,760 tok/s | vram 1.9/13.0 GB
+step 4700 | 77.0M tok | loss 5.144 | 21,432 tok/s | vram 1.8/13.0 GB
+step 4800 | 78.6M tok | loss 5.217 | 21,242 tok/s | vram 1.8/13.0 GB
+step 4900 | 80.3M tok | loss 5.207 | 21,730 tok/s | vram 1.9/13.0 GB
+step 5000 | 81.9M tok | loss 5.293 | 20,344 tok/s | vram 1.9/13.0 GB
+  [eval] val_ppl 38.76 | ablated_ppl 138.28 (memory Δ=+99.52) | spike 0.180
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+step 5100 | 83.6M tok | loss 5.223 | 16,610 tok/s | vram 1.8/13.1 GB
+step 5200 | 85.2M tok | loss 5.310 | 21,518 tok/s | vram 1.8/13.1 GB
+step 5300 | 86.8M tok | loss 4.919 | 21,806 tok/s | vram 1.8/13.1 GB
+step 5400 | 88.5M tok | loss 5.453 | 22,124 tok/s | vram 1.8/13.1 GB
+step 5500 | 90.1M tok | loss 5.292 | 22,627 tok/s | vram 1.9/13.1 GB
+step 5600 | 91.8M tok | loss 5.242 | 21,231 tok/s | vram 1.9/13.1 GB
+step 5700 | 93.4M tok | loss 4.694 | 22,052 tok/s | vram 1.8/13.1 GB
+step 5800 | 95.0M tok | loss 5.159 | 21,707 tok/s | vram 1.9/13.1 GB
+step 5900 | 96.7M tok | loss 5.172 | 21,179 tok/s | vram 1.9/13.1 GB
+step 6000 | 98.3M tok | loss 5.257 | 20,779 tok/s | vram 1.8/13.1 GB
+  [eval] val_ppl 37.49 | ablated_ppl 138.31 (memory Δ=+100.83) | spike 0.179
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0%
+step 6100 | 99.9M tok | loss 5.245 | 16,389 tok/s | vram 1.9/13.0 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_mqar_cadence2_seed1_30m/step_0006104.pt
+done: 100.0M tok in 1.37h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     107129591.3 |     202584883.2 |         1.89x
+     512 |     107129591.3 |     202584883.2 |         1.89x
+    4096 |     107129591.3 |     270113177.6 |         2.52x
+
+spiking op mix/token: 23,068,672 MAC + 1,126,334 AC (spike_rate=0.179)
+note: spiking cost is constant in seq_len; transformer grows with it.
+[2026-07-16 20:59:26] recall_eval: cadence-2 seed-0 + seed-1 vs baseline
+loaded screen_mqar_cadence2_30m: 57.2M
+loaded screen_mqar_cadence2_seed1_30m: 57.2M
+loaded screen_bake_full_gdn2_batchA_30m: 57.2M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_mqar_cadence2_30m |   94% |   88% |   81% |   55% |   19%
+screen_mqar_cadence2_seed1_30m |   95% |   81% |   72% |   36% |   17%
+screen_bake_full_gdn2_batchA_30m |   95% |   91% |   80% |   56% |   34%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_mqar_cadence2_30m |     1 |     4 |    13 |    31 |   358
+screen_mqar_cadence2_seed1_30m |     1 |    44 |   122 |   383 |   409
+screen_bake_full_gdn2_batchA_30m |     1 |     1 |     2 |    17 |   174
+[2026-07-16 20:59:56] done

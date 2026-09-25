@@ -1,0 +1,15 @@
+optimizer: NorMuon (42 matrices, lr=0.005) + AdamW (66 other params, lr=0.0006)
+arch=spiking params=68.65M device=cuda target=0.090B tok | 12288 tok/step | total_steps≈7324 | warmup=146 | lr_sched=cosine | grad_clip=1.0
+
+[SIGINT] received — finishing current step, then saving final ckpt + exiting
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_mqar90_range432/step_0000046.pt
+done: 0.6M tok in 0.30h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     163990429.8 |     250216448.0 |         1.53x
+    4096 |     185093021.8 |     376832000.0 |         2.04x
+
+block mix: 5 spiking + 1 attention | spike_rate 0.272 reported -> 0.327 spiking-only
+spiking op mix/token @ seq 4096: 39,321,600 MAC + 4,681,846 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

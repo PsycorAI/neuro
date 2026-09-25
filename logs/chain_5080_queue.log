@@ -1,0 +1,20 @@
+===== [23:45] 5080 busy (15801MiB, seed1 procs=2) -- wait 5m =====
+===== [23:50] 5080 busy (15814MiB, seed1 procs=2) -- wait 5m =====
+===== [23:55] 5080 busy (15855MiB, seed1 procs=2) -- wait 5m =====
+===== [00:00] 5080 busy (14749MiB, seed1 procs=2) -- wait 5m =====
+===== [00:05] 5080 busy (14751MiB, seed1 procs=2) -- wait 5m =====
+===== [00:10] 5080 busy (15838MiB, seed1 procs=2) -- wait 5m =====
+===== [00:15] 5080 busy (15911MiB, seed1 procs=2) -- wait 5m =====
+===== [00:20] 5080 busy (15912MiB, seed1 procs=2) -- wait 5m =====
+===== [00:25] 5080 busy (15912MiB, seed1 procs=2) -- wait 5m =====
+===== [00:30] 5080 busy (14589MiB, seed1 procs=2) -- wait 5m =====
+===== [00:35] 5080 busy (14589MiB, seed1 procs=2) -- wait 5m =====
+===== [00:40] 5080 busy (14589MiB, seed1 procs=2) -- wait 5m =====
+===== [00:45] 5080 busy (14183MiB, seed1 procs=2) -- wait 5m =====
+===== [00:50] 5080 busy (14173MiB, seed1 procs=2) -- wait 5m =====
+===== [00:55] 5080 busy (14173MiB, seed1 procs=2) -- wait 5m =====
+===== [01:00] 5080 idle (446MiB, seed-1 done) -- starting =====
+===== [2026-09-11_01:00] TRAIN screen_mqarbucket_s0_30m =====
+===== [02:20] RECALL screen_mqarbucket_s0_30m single =====
+===== [02:20] RECALL screen_mqarbucket_s0_30m split =====
+===== [02:20] 5080 QUEUE DONE (mqarbucket) =====

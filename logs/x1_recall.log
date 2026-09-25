@@ -1,0 +1,33 @@
+loaded x1_fdecay_adamw: 276.6M
+loaded x1_fdecay_muon: 276.6M
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 155, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 136, in main
+    _, r, ca = recall(models[run], cfgs[run], N, device, B=args.B, replay=args.replay)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 87, in recall
+    logits = model(x[:, -1:], initial_state=state)[:, -1, :]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/model.py", line 1270, in forward
+    out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/model.py", line 650, in forward_sequence
+    r_in, M = gdn2_chunked_dense(v_in, k_in, q_in, b_seq, w_seq, alpha_seq, M,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/delta_chunked.py", line 482, in gdn2_chunked_dense
+    S, r = _gdn2_dense_chunk(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/delta_chunked.py", line 420, in _gdn2_dense_chunk
+    S = torch.exp(gC).transpose(1, 2) * S + torch.bmm(k_carry.transpose(1, 2), U)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.27 GiB. GPU 0 has a total capacity of 15.92 GiB of which 0 bytes is free. Process 43743 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Of the allocated memory 27.35 GiB is allocated by PyTorch, and 1.93 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

@@ -1,0 +1,29 @@
+curriculum warmup enabled: 50 train batches drawn easy->hard (10% of 506 steps)
+optimizer: NorMuon (17 matrices, lr=0.005) + AdamW (29 other params, lr=0.0006)
+torch.compile enabled (mode=reduce-overhead) — first 1-2 steps will be slow (graph capture)
+arch=spiking params=57.18M device=cuda target=0.008B tok | 16384 tok/step | total_steps≈506 | warmup=10 | grad_clip=1.0
+step 100 | 1.6M tok | loss 13.419 | 8,253 tok/s | vram 1.9/13.1 GB
+  [eval] val_ppl 426.97 | ablated_ppl 846.32 (memory Δ=+419.36) | spike 0.244
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+step 200 | 3.3M tok | loss 12.557 | 32,114 tok/s | vram 2.0/13.3 GB
+  [eval] val_ppl 307.82 | ablated_ppl 660.26 (memory Δ=+352.44) | spike 0.191
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+step 300 | 4.9M tok | loss 12.762 | 33,503 tok/s | vram 1.9/14.7 GB
+  [eval] val_ppl 267.66 | ablated_ppl 618.48 (memory Δ=+350.82) | spike 0.172
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+step 400 | 6.6M tok | loss 12.271 | 34,205 tok/s | vram 1.9/13.3 GB
+  [eval] val_ppl 247.19 | ablated_ppl 594.21 (memory Δ=+347.02) | spike 0.164
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+step 500 | 8.2M tok | loss 12.404 | 33,742 tok/s | vram 1.9/13.3 GB
+  [eval] val_ppl 238.82 | ablated_ppl 619.55 (memory Δ=+380.73) | spike 0.161
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.55 dead=0% at_floor=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_compile_val_30m/step_0000507.pt
+done: 8.3M tok in 0.12h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     107026613.3 |     202584883.2 |         1.89x
+     512 |     107026613.3 |     202584883.2 |         1.89x
+    4096 |     107026613.3 |     270113177.6 |         2.52x
+
+spiking op mix/token: 23,068,672 MAC + 1,011,914 AC (spike_rate=0.161)
+note: spiking cost is constant in seq_len; transformer grows with it.

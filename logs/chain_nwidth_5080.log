@@ -1,0 +1,5 @@
+bash: temp/run_nwidth_5080.sh: No such file or directory
+===== [2026-09-10_17:10] TRAIN screen_nwidth2560_s0_30m (5080) =====
+===== [18:43] RECALL screen_nwidth2560_s0_30m single-pres =====
+===== [18:44] RECALL screen_nwidth2560_s0_30m split-replay =====
+===== [18:44] 5080 nwidth DONE =====

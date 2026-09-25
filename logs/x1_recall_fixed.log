@@ -1,0 +1,24 @@
+loaded x1_fdecay_adamw: step=3000 tok=98.3M 276.6M params
+  x1_fdecay_adamw N=4: acc=100% rank=1  (peak=9.37 GB)
+  x1_fdecay_adamw N=8: acc=100% rank=1  (peak=9.53 GB)
+  x1_fdecay_adamw N=16: acc=98% rank=1  (peak=9.85 GB)
+  x1_fdecay_adamw N=32: acc=78% rank=334  (peak=10.50 GB)
+  x1_fdecay_adamw N=64: acc=25% rank=694  (peak=11.79 GB)
+loaded x1_fdecay_muon: step=6841 tok=224.2M 276.6M params
+  x1_fdecay_muon N=4: acc=100% rank=1  (peak=9.29 GB)
+  x1_fdecay_muon N=8: acc=100% rank=1  (peak=9.45 GB)
+  x1_fdecay_muon N=16: acc=98% rank=1  (peak=9.77 GB)
+  x1_fdecay_muon N=32: acc=84% rank=37  (peak=10.42 GB)
+  x1_fdecay_muon N=64: acc=33% rank=1715  (peak=11.71 GB)
+
+AMONG-CANDIDATES ACCURACY (B=64, replay=split)
+                 run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+------------------------------------------------------------
+     x1_fdecay_adamw |  100% |  100% |   98% |   78% |   25%
+      x1_fdecay_muon |  100% |  100% |   98% |   84% |   33%
+
+MEAN FULL-VOCAB TARGET RANK (lower=better)
+                 run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+------------------------------------------------------------
+     x1_fdecay_adamw |     1 |     1 |     1 |   334 |   694
+      x1_fdecay_muon |     1 |     1 |     1 |    37 |  1715

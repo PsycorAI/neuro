@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "_comment": "Tool registry for the flagship_v3 cognitive-core post-training (idea #4). Single source of truth: consumed by scripts/gen_teacher_data.py (data), src/tool_data.py (SFT formatting), src/grammar.py (constrained decoding) and scripts/tool_eval.py (eval). Response protocol is a mode discriminator followed by content: 'TOOL {json}' for a call, 'ANSWER <text>' for a direct reply. Types: string | number | enum.",
+  "tools": [
+    {
+      "name": "search",
+      "description": "Look up current events or factual information on the web.",
+      "params": [
+        {"name": "query", "type": "string"}
+      ]
+    },
+    {
+      "name": "calculator",
+      "description": "Evaluate an arithmetic expression.",
+      "params": [
+        {"name": "expression", "type": "string"}
+      ]
+    },
+    {
+      "name": "unit_convert",
+      "description": "Convert a value from one unit to another.",
+      "params": [
+        {"name": "value", "type": "number"},
+        {"name": "from_unit", "type": "string"},
+        {"name": "to_unit", "type": "string"}
+      ]
+    },
+    {
+      "name": "get_weather",
+      "description": "Get the current weather for a location.",
+      "params": [
+        {"name": "location", "type": "string"},
+        {"name": "unit", "type": "enum", "values": ["celsius", "fahrenheit"]}
+      ]
+    },
+    {
+      "name": "get_time",
+      "description": "Get the current time in a timezone.",
+      "params": [
+        {"name": "timezone", "type": "string"}
+      ]
+    },
+    {
+      "name": "define",
+      "description": "Look up the definition of a word or term.",
+      "params": [
+        {"name": "term", "type": "string"}
+      ]
+    },
+    {
+      "name": "translate",
+      "description": "Translate text into another language.",
+      "params": [
+        {"name": "text", "type": "string"},
+        {"name": "target_lang", "type": "string"}
+      ]
+    },
+    {
+      "name": "set_reminder",
+      "description": "Create a reminder at a given time.",
+      "params": [
+        {"name": "text", "type": "string"},
+        {"name": "datetime", "type": "string"}
+      ]
+    },
+    {
+      "name": "send_message",
+      "description": "Send a message to a contact.",
+      "params": [
+        {"name": "recipient", "type": "string"},
+        {"name": "body", "type": "string"}
+      ]
+    }
+  ]
+}

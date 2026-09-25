@@ -31,10 +31,10 @@ import torch.nn.functional as F
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from model import SpikingHebbianLM
+from train_gpu import build_model as _canonical_build
 from data_stream import StreamText
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-CK_DIR = os.path.join(ROOT, "models", "checkpoints", "phase3_5090")
 BRAIN_DIR = os.path.join(ROOT, "models", "brains", "domain_transfer")
 BIN = "/home/glenn/projects/bdh/data/tokenized/train.bin"
 
@@ -43,18 +43,14 @@ def latest(d):
     return sorted(glob.glob(os.path.join(d, "step_*.pt")))[-1]
 
 
-def build_from_ckpt(device):
-    blob = torch.load(latest(CK_DIR), map_location=device, weights_only=False)
+def build_from_ckpt(device, run="phase3_5090"):
+    # P2: delegate build to train_gpu.build_model (single source of truth).
+    # 2026-08-07: parametrized on `run` so current checkpoints (arm B, W-arms,
+    # flagship) are testable, not just the legacy phase3_5090.
+    ck_dir = os.path.join(ROOT, "models", "checkpoints", run)
+    blob = torch.load(latest(ck_dir), map_location=device, weights_only=False)
     c = blob["cfg"]
-    m = SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
-                         d_mem=c["d_mem"],
-                         recurrent=c.get("recurrent", False),
-                         rec_density=c.get("rec_density", 0.05),
-                         compile_safe=c.get("compile", False),
-                         tie_weights=c.get("tie_weights", False),
-                         n_layers=c.get("n_layers", 1),
-                         use_fpt=c.get("use_fpt", False),
-                         fpt_K=c.get("fpt_K", 10)).to(device)
+    m = _canonical_build(c).to(device)
     m.load_state_dict(blob["model"], strict=False)
     m.eval()
     return m, c
@@ -165,11 +161,13 @@ def main():
     ap.add_argument("--n_eval", type=int, default=40,
                     help="number of held-out sequences per (chunk, brain) cell")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--run", default="phase3_5090",
+                    help="checkpoint dir under models/checkpoints/ (2026-08-07 fix)")
     args = ap.parse_args()
     device = args.device
     os.makedirs(BRAIN_DIR, exist_ok=True)
 
-    m, c = build_from_ckpt(device)
+    m, c = build_from_ckpt(device, run=args.run)
     block = args.block_size
 
     # Split the file into four regions:

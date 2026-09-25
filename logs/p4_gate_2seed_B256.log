@@ -1,0 +1,17 @@
+loaded p4_seed0: 276.6M
+loaded p4_seed1: 276.6M
+
+MQAR associative recall (single presentation, B=256).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+              p4_seed0 |  100% |   99% |   96% |   85% |   50%
+              p4_seed1 |  100% |  100% |   98% |   82% |   52%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+              p4_seed0 |     1 |     1 |     3 |    40 |   681
+              p4_seed1 |     1 |     1 |     1 |   297 |   798

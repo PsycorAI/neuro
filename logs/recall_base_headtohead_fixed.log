@@ -1,0 +1,45 @@
+############## SINGLE-PRESENTATION  flagship_363m  (B=64) ##############
+loaded flagship_363m: 363.5M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+         flagship_363m |  100% |   98% |   94% |    8% |    6% |    2%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+         flagship_363m |     4 |    85 |     2 |  3841 |  3993 |  4285
+############## SINGLE-PRESENTATION  baseline_transformer_363m  (B=64) ##############
+loaded baseline_transformer_363m: 362.5M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+baseline_transformer_363m |   81% |   73% |   58% |   55% |   42% |   31%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+baseline_transformer_363m |  1213 |   882 |  1880 |  2168 |  3523 |  5429
+############## SPLIT-REPLAY  flagship_363m ONLY  (B=64, spiking mode) ##############
+loaded flagship_363m: 363.5M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+         flagship_363m |  100% |  100% |   92% |   56% |   27% |   16%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+         flagship_363m |     2 |     5 |   438 |  2965 |  5606 |  8126

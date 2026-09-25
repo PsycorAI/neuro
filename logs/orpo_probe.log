@@ -1,0 +1,62 @@
+[orpo 01:34:20] start. CUDA_VISIBLE_DEVICES=1
+0, NVIDIA GeForce RTX 5090, 28784 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 595 MiB, 16303 MiB
+[orpo 01:34:20] ORPO probe (init=sft_flagship_363m, UltraFeedback, lambda=0.1)
+loaded SFT init: /home/glenn/projects/neuro/models/checkpoints/sft_flagship_363m/step_0003663.pt (60M tok)
+ORPO: reference-free (no reference model) | lambda=0.1
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+gen-check ENABLED every 100 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+loading preferences HuggingFaceH4/ultrafeedback_binarized...
+  raw: 61135 preference pairs
+  encoded: 57673 (skipped 3462)
+ORPO | params=363.5M | beta=0.1 | per_step_tok=16384 | total_steps≈1831
+
+step 25 | 0.4M tok | loss 2.625 | chosen>rejected 62% | spike 0.187 | 295 tok/s | vram 8.0/20.1 GB
+step 50 | 0.8M tok | loss 2.458 | chosen>rejected 62% | spike 0.188 | 305 tok/s | vram 8.0/20.1 GB
+step 75 | 1.2M tok | loss 2.379 | chosen>rejected 38% | spike 0.185 | 288 tok/s | vram 8.0/20.1 GB
+step 100 | 1.6M tok | loss 2.825 | chosen>rejected 38% | spike 0.187 | 297 tok/s | vram 8.0/20.1 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\n France is the capital of France.\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n'
+step 125 | 2.0M tok | loss 2.994 | chosen>rejected 62% | spike 0.182 | 291 tok/s | vram 8.0/20.1 GB
+step 150 | 2.5M tok | loss 2.548 | chosen>rejected 62% | spike 0.185 | 307 tok/s | vram 8.0/20.1 GB
+step 175 | 2.9M tok | loss 2.699 | chosen>rejected 62% | spike 0.187 | 305 tok/s | vram 8.0/20.1 GB
+step 200 | 3.3M tok | loss 2.896 | chosen>rejected 44% | spike 0.194 | 284 tok/s | vram 8.0/20.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### France is'
+step 225 | 3.7M tok | loss 2.445 | chosen>rejected 50% | spike 0.190 | 287 tok/s | vram 8.0/20.1 GB
+step 250 | 4.1M tok | loss 2.434 | chosen>rejected 50% | spike 0.185 | 299 tok/s | vram 8.0/20.1 GB
+step 275 | 4.5M tok | loss 2.339 | chosen>rejected 44% | spike 0.190 | 306 tok/s | vram 8.0/20.1 GB
+step 300 | 4.9M tok | loss 2.678 | chosen>rejected 50% | spike 0.188 | 292 tok/s | vram 8.0/20.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris, France.\n### France.\n### Paris is Paris, France.\n### France.\n### Paris is Paris, France.\n### Paris is Paris, France.\n### Paris is Paris'
+step 325 | 5.3M tok | loss 2.452 | chosen>rejected 56% | spike 0.188 | 310 tok/s | vram 8.0/20.1 GB
+step 350 | 5.7M tok | loss 2.693 | chosen>rejected 56% | spike 0.192 | 296 tok/s | vram 8.0/20.1 GB
+step 375 | 6.1M tok | loss 2.679 | chosen>rejected 56% | spike 0.191 | 301 tok/s | vram 8.0/20.1 GB
+step 400 | 6.6M tok | loss 2.881 | chosen>rejected 56% | spike 0.189 | 277 tok/s | vram 8.0/20.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris, France. Paris is a capital of France. Paris is a capital of France.\n### France is Paris, France.\n### France is a capital of France.\n### France'
+step 425 | 7.0M tok | loss 2.787 | chosen>rejected 56% | spike 0.191 | 309 tok/s | vram 8.0/20.1 GB
+step 450 | 7.4M tok | loss 3.003 | chosen>rejected 56% | spike 0.193 | 295 tok/s | vram 8.0/20.1 GB
+step 475 | 7.8M tok | loss 2.757 | chosen>rejected 44% | spike 0.188 | 306 tok/s | vram 8.0/20.1 GB
+step 500 | 8.2M tok | loss 2.797 | chosen>rejected 50% | spike 0.188 | 306 tok/s | vram 8.0/20.1 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/orpo_probe_363m/step_0000500.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nI cannot provide an answer to the question "What is the capital of France?" is a capital of France. The capital of France is Paris.\n### France is Paris.\n### France is Paris.\n###'
+step 525 | 8.6M tok | loss 2.716 | chosen>rejected 62% | spike 0.188 | 255 tok/s | vram 8.0/20.1 GB
+step 550 | 9.0M tok | loss 2.712 | chosen>rejected 56% | spike 0.188 | 229 tok/s | vram 7.9/20.1 GB
+step 575 | 9.4M tok | loss 2.698 | chosen>rejected 56% | spike 0.192 | 202 tok/s | vram 8.0/20.1 GB
+step 600 | 9.8M tok | loss 2.864 | chosen>rejected 38% | spike 0.191 | 200 tok/s | vram 8.0/20.1 GB
+  [gen-check] "### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### France is Paris.\n### Paris is home to the world's most famous and iconic landmarks"
+step 625 | 10.2M tok | loss 2.672 | chosen>rejected 56% | spike 0.191 | 203 tok/s | vram 8.0/20.1 GB
+step 650 | 10.6M tok | loss 2.831 | chosen>rejected 62% | spike 0.197 | 198 tok/s | vram 8.0/20.1 GB
+step 675 | 11.1M tok | loss 2.612 | chosen>rejected 38% | spike 0.189 | 214 tok/s | vram 8.0/20.1 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_dpo.py", line 353, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_dpo.py", line 319, in main
+    acc += (margin > 0).float().mean().item() / c["grad_accum"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+[orpo 13:17:31] [eval] recall_eval --replay split: sft_flagship_363m (base) vs orpo_probe_363m
+[orpo 13:22:13] DONE.

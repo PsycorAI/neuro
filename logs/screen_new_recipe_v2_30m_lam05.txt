@@ -1,0 +1,36 @@
+optimizer: NorMuon (28 matrices, lr=0.005) + AdamW (42 other params, lr=0.0006)
+arch=spiking params=35.20M device=cuda:0 target=0.030B tok | 16384 tok/step | total_steps≈1831 | warmup=36 | grad_clip=1.0
+step 100 | 1.6M tok | loss 15.672 | 12,902 tok/s
+step 200 | 3.3M tok | loss 14.233 | 13,541 tok/s
+step 300 | 4.9M tok | loss 13.868 | 13,858 tok/s
+step 400 | 6.6M tok | loss 13.258 | 13,583 tok/s
+step 500 | 8.2M tok | loss 13.037 | 13,404 tok/s
+  [eval] val_ppl 439.64 | ablated_ppl 813.69 (memory Δ=+374.05) | spike 0.170
+  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.55 dead=0% at_floor=0%
+step 600 | 9.8M tok | loss 12.756 | 10,704 tok/s
+step 700 | 11.5M tok | loss 13.245 | 13,866 tok/s
+step 800 | 13.1M tok | loss 12.466 | 13,711 tok/s
+step 900 | 14.7M tok | loss 12.369 | 13,554 tok/s
+step 1000 | 16.4M tok | loss 12.563 | 13,589 tok/s
+  [eval] val_ppl 307.59 | ablated_ppl 543.11 (memory Δ=+235.51) | spike 0.156
+  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.54 dead=0% at_floor=0%
+step 1100 | 18.0M tok | loss 11.836 | 10,702 tok/s
+step 1200 | 19.7M tok | loss 12.415 | 14,005 tok/s
+step 1300 | 21.3M tok | loss 12.326 | 14,167 tok/s
+step 1400 | 22.9M tok | loss 12.033 | 13,756 tok/s
+step 1500 | 24.6M tok | loss 12.201 | 14,142 tok/s
+  [eval] val_ppl 264.59 | ablated_ppl 473.77 (memory Δ=+209.18) | spike 0.155
+  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.54 dead=0% at_floor=0%
+step 1600 | 26.2M tok | loss 12.393 | 11,156 tok/s
+step 1700 | 27.9M tok | loss 12.383 | 13,242 tok/s
+step 1800 | 29.5M tok | loss 12.182 | 13,544 tok/s
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_new_recipe_v2_30m_lam05/step_0001832.pt
+done: 30.0M tok in 0.64h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |      66267380.8 |      77778124.8 |         1.17x
+     512 |      66267380.8 |      77778124.8 |         1.17x
+    4096 |      66267380.8 |     103101235.2 |         1.56x
+
+spiking op mix/token: 14,352,384 MAC + 273,794 AC (spike_rate=0.155)
+note: spiking cost is constant in seq_len; transformer grows with it.

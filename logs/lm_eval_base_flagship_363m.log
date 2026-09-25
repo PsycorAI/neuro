@@ -1,0 +1,23 @@
+loaded flagship_363m: 363.5M params, 4.87B tok, block_size=512
+
+loading hellaswag...
+  10042 items
+  hellaswag      | acc  29.8%  acc_norm  30.2%  (N=3000, chance=25%, 2598.2s)
+
+loading arc_easy...
+  570 items
+  arc_easy       | acc  38.9%  acc_norm  33.9%  (N=570, chance=25%, 527.3s)
+
+loading arc_challenge...
+  299 items
+  arc_challenge  | acc  18.1%  acc_norm  19.1%  (N=299, chance=25%, 274.2s)
+
+loading mmlu...
+  192 items
+  mmlu           | acc  24.0%  acc_norm  22.4%  (N=192, chance=25%, 196.9s)
+
+=== summary ===
+  hellaswag      acc  29.8%  acc_norm  30.2%  (N=3000)
+  arc_easy       acc  38.9%  acc_norm  33.9%  (N=570)
+  arc_challenge  acc  18.1%  acc_norm  19.1%  (N=299)
+  mmlu           acc  24.0%  acc_norm  22.4%  (N=192)

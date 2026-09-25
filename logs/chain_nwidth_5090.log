@@ -1,0 +1,8 @@
+bash: temp/run_nwidth_5090.sh: No such file or directory
+===== [2026-09-10_17:10] TRAIN screen_nwidth_base640_90m (5090) =====
+===== [18:43] RECALL screen_nwidth_base640_90m single-pres =====
+===== [18:43] RECALL screen_nwidth_base640_90m split-replay =====
+===== [2026-09-10_18:43] TRAIN screen_nwidth_wide1024_90m (5090) =====
+===== [20:11] RECALL screen_nwidth_wide1024_90m single-pres =====
+===== [20:11] RECALL screen_nwidth_wide1024_90m split-replay =====
+===== [20:11] 5090 nwidth confirm DONE =====

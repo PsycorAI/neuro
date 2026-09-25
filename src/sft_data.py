@@ -43,15 +43,43 @@ def encode_with_mask(prompt, response, encode_fn, max_len):
 
 
 def load_alpaca(dataset="yahma/alpaca-cleaned", split="train"):
+    """Load an SFT dataset. Auto-converts HuggingFace 'messages'-format
+    datasets (Tulu-3, OpenAssistant, WildChat, ...) to Alpaca-style
+    {instruction, input, output} at load time; native Alpaca datasets
+    pass through unchanged. For multi-turn conversations, takes the FIRST
+    user->assistant pair only (v1 simplification).
+    """
     from datasets import load_dataset
     ds = load_dataset(dataset, split=split)
-    return list(ds)
+    raw = list(ds)
+    if raw and "messages" in raw[0]:
+        converted = []
+        for ex in raw:
+            msgs = ex.get("messages", []) or []
+            user_msg = next((m for m in msgs if m.get("role") == "user"), None)
+            asst_msg = next((m for m in msgs if m.get("role") == "assistant"), None)
+            if user_msg and asst_msg and user_msg.get("content") and asst_msg.get("content"):
+                converted.append({
+                    "instruction": user_msg["content"].strip(),
+                    "input": "",
+                    "output": asst_msg["content"].strip(),
+                })
+        print(f"[sft_data] converted {len(converted)}/{len(raw)} messages-format examples to Alpaca fields")
+        return converted
+    return raw
 
 
 def build_sft_examples(raw, encode_fn, max_len):
     """Encode + mask all examples. Returns list of (input_ids, labels)."""
     out = []; skipped = 0
-    for ex in raw:
+    n = len(raw)
+    reported = 0
+    for i, ex in enumerate(raw):
+        if n >= 1000:
+            pct = 100 * (i + 1) // n
+            if pct >= reported + 10:
+                print(f"  encoding: {pct}% ({i+1}/{n})", flush=True)
+                reported = pct
         try:
             prompt, response = format_example(ex)
             r = encode_with_mask(prompt, response, encode_fn, max_len)

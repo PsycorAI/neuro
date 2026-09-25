@@ -17,7 +17,69 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.checkpoint import checkpoint
 from snntorch import Leaky, surrogate
+
+
+# GDN-2 / OSDN grad-checkpointing chunk size. The GDN-2/OSDN sequential
+# memory loops persist a (B, d_v, d_k) M state per timestep for BPTT, so at
+# d_mem=1024, T=512, 2 layers the naive tape hits ~50 GB. Checkpointing per
+# chunk of size CHUNK cuts peak activation memory ~T/CHUNK-x for a ~2x compute
+# hit (one recompute per chunk during backward). At CHUNK=32,
+# chunk*B*d^2*4 fits comfortably: 32*32*1024*1024*4 ≈ 4 GB per tracked tensor,
+# well under the 5090's 32 GB even at batch=32. 2026-07-15: bumped 32->64 to
+# halve the number of sequential Python-loop/kernel-launch iterations (GDN-2
+# 90M de-risk was launch-bound at 50% GPU util despite 28GB/32GB VRAM used at
+# batch=32/chunk=32). Doubles the per-tracked-tensor footprint to ~8 GB at
+# batch=32 -- likely to OOM at that batch size; drop batch_size (~16-24) when
+# relaunching with this change. Numerics are unaffected: checkpointing only
+# changes the backward recompute schedule, not the forward math -- chunk size
+# is bit-exact-preserving (verified for the analogous SDM chunk refactor in
+# temp/test_sdm.py).
+_GDN2_OSDN_CHUNK = 64
+
+
+def _gdn2_chunk_fwd(M, k_ch, v_ch, q_ch, b_ch, w_ch, alpha_ch):
+    """Per-chunk sequential loop for GDN-2. Returns (M_final, r_chunk).
+    Pure function of its tensor inputs — safe target for
+    torch.utils.checkpoint.checkpoint(use_reentrant=False)."""
+    r_list = []
+    for t in range(k_ch.size(1)):
+        kt = k_ch[:, t]
+        kn = kt / (kt.norm(dim=-1, keepdim=True) + 1e-6)
+        a = alpha_ch[:, t].unsqueeze(1)                          # (B,1,dk)
+        M_dec = M * a
+        bk = (b_ch[:, t] * kn).unsqueeze(2)
+        r_er = torch.bmm(M_dec, bk).squeeze(2)
+        u = w_ch[:, t] * v_ch[:, t] - r_er
+        M = M_dec + torch.bmm(u.unsqueeze(2), kn.unsqueeze(1))
+        r_list.append(torch.bmm(M, q_ch[:, t].unsqueeze(2)).squeeze(2))
+    return M, torch.stack(r_list, dim=1)
+
+
+def _osdn_chunk_fwd(M, d, k_ch, v_ch, q_ch, beta_ch, alpha_ch,
+                    eta, d_min, d_max):
+    """Per-chunk sequential loop for OSDN. Returns (M_final, d_final, r_chunk).
+    d is the online diagonal preconditioner (carried across chunks). alpha_ch
+    is (B,C,1) or None (use scalar lam externally instead — the None case is
+    handled by the caller by passing an ones-tensor scaled by lam)."""
+    r_list = []
+    for t in range(k_ch.size(1)):
+        kt = k_ch[:, t]
+        kn = kt / (kt.norm(dim=-1, keepdim=True) + 1e-6)
+        beta = beta_ch[:, t]                                     # (B,1)
+        a = alpha_ch[:, t].unsqueeze(2)                          # (B,1,1)
+        prevM = a * M
+        Mk = torch.bmm(prevM, kn.unsqueeze(2)).squeeze(2)
+        u = beta * (v_ch[:, t] - Mk)
+        k_tilde = d * kn
+        M = prevM + torch.bmm(u.unsqueeze(2), k_tilde.unsqueeze(1))
+        r_list.append(torch.bmm(M, q_ch[:, t].unsqueeze(2)).squeeze(2))
+        k2 = kn * kn
+        nrm = k2.sum(dim=-1, keepdim=True).clamp(min=1e-6)
+        dot = (d * k2).sum(dim=-1, keepdim=True)
+        d = (d + (eta * beta / nrm) * (1 - beta * dot) * k2).clamp(d_min, d_max)
+    return M, d, torch.stack(r_list, dim=1)
 
 
 class RMSNorm(nn.Module):
@@ -36,6 +98,124 @@ class RMSNorm(nn.Module):
 
 def _make_norm(d, use_rmsnorm=False):
     return RMSNorm(d) if use_rmsnorm else nn.LayerNorm(d)
+
+
+@torch.compiler.disable
+@torch.no_grad()
+def _gate_sat_stats(b_logit, w_logit, f_logit, sat=4.595):
+    """Saturation telemetry for all three GDN-2 gates.
+
+    |logit| > 4.595 <=> sigmoid past 1% of its rail, where the gradient is
+    ~0 and the gate can no longer adapt. Only the write gate was ever logged
+    before; that blindness hid the actual Step-3 failure (blocks 0-2 decay
+    gates blown up to std 6-7, blocks 4-7 erase gates 58-92% saturated).
+
+    Reports each gate's saturated fraction plus the decay-logit std, which is
+    the earliest and clearest signal — healthy blocks sit at 2.2-2.9, blocks
+    that went binary hit 6.2-7.3.
+    """
+    def sat_frac(t):
+        return float((t.abs() > sat).float().mean().item())
+    return {
+        "erase_sat": sat_frac(b_logit),
+        "write_sat": sat_frac(w_logit),
+        "decay_sat": sat_frac(f_logit),
+        # Signed split (2026-08-08). |logit|>sat conflates two OPPOSITE
+        # pathologies and the aggregate cannot tell them apart:
+        #   f << 0  -> softplus~0 -> alpha~1  -> channel never forgets
+        #   f >> 0  -> softplus~f -> alpha~0  -> channel wiped every token
+        # Measured on p4_seed0 the saturation is 100% one-sided (blk0 35.4%
+        # never-forget / 0.1% fast-forget), which the single number hid.
+        "decay_sat_lo": float((f_logit < -sat).float().mean().item()),
+        "decay_sat_hi": float((f_logit > sat).float().mean().item()),
+        "decay_std": float(f_logit.float().std().item()),
+    }
+
+
+@torch.compiler.disable
+@torch.no_grad()
+def _beta_stats(beta_seq, floor=0.0):
+    """Small per-block β diagnostic for scalar-β collapse detection.
+
+    Records mean/min/max/dead_frac (fraction of β < 0.01, i.e. sigmoid
+    saturated) so the trainer can print it during eval and catch the
+    write-gate collapse pathology *while training*, instead of finding
+    it post-hoc after hours of runtime. Cheap: ~5 reductions per block
+    per forward, always-on, no config flag.
+
+    at_floor_frac: under beta_floor > 0 the dead threshold (β < 0.01) can
+    never trip -- β is >= floor by construction. Recover the collapse
+    *pressure* signal by inverting the floor to get the pre-floor sigmoid
+    value σ = (β - floor)/(1 - floor), and count σ < 0.01 as "at floor".
+    Same interpretation as dead_frac when floor=0. This is what the
+    project's "watch dead_frac climbing" rule actually needs to observe
+    once beta_floor: 0.1 became the recipe default (see journey §33/§36).
+
+    Read by train_gpu evaluate() via block._last_beta_stats.
+    """
+    b = beta_seq.detach()
+    if floor > 0.0:
+        pre = ((b - floor) / max(1e-6, 1.0 - floor)).clamp_min(0.0)
+    else:
+        pre = b
+    return {
+        "mean":          float(b.mean().item()),
+        "min":           float(b.min().item()),
+        "max":           float(b.max().item()),
+        "dead_frac":     float((b < 0.01).float().mean().item()),
+        "at_floor_frac": float((pre < 0.01).float().mean().item()),
+    }
+
+
+@torch.compiler.disable
+@torch.no_grad()
+def _alpha_stats(alpha_seq, lo=0.5, hi=0.9999):
+    """α (decay-gate) diagnostic. Analogous silent failure mode to β collapse:
+    sigmoid(W_α)·clamp(lo, hi) can saturate at either boundary, where the
+    clamp zeroes the gradient and the gate freezes. `hi_frac` at the never-
+    forget boundary is the most dangerous (memory grows unbounded / no
+    contextual forgetting); `lo_frac` at the fast-forget boundary means
+    memory is being erased every step and the delta rule can't accumulate.
+    """
+    a = alpha_seq.detach()
+    return {
+        "mean":    float(a.mean().item()),
+        "hi_frac": float((a > (hi - 1e-4)).float().mean().item()),
+        "lo_frac": float((a < (lo + 1e-4)).float().mean().item()),
+    }
+
+
+class LowRankLinear(nn.Module):
+    """Rank-r bottleneck drop-in for nn.Linear(in, out): y = up(down(x)).
+
+    Exposes `.weight` and `.bias` as properties onto the UP factor so every
+    existing call site and initializer keeps working untouched -- including
+    `W_fdecay.weight.mul_(0.01)` (scaling the up factor scales the product by the
+    same amount) and `W_fdecay.bias.fill_(-3.0)`.
+
+    Both factors are ordinary 2D weights with min(shape) = r > 1, so muon.py
+    classifies them exactly as it classifies the full gates today (Muon under
+    precise_gate_filter) with no routing change. They are NOT LoRA adapters on a
+    frozen base -- this is the gate's only parameterization -- so Newton-Schulz
+    is as appropriate here as on any hidden matrix.
+    """
+
+    def __init__(self, in_features, out_features, rank, bias=True):
+        super().__init__()
+        self.rank = rank
+        self.down = nn.Linear(in_features, rank, bias=False)
+        self.up = nn.Linear(rank, out_features, bias=bias)
+
+    @property
+    def weight(self):
+        return self.up.weight
+
+    @property
+    def bias(self):
+        return self.up.bias
+
+    def forward(self, x):
+        return self.up(self.down(x))
 
 
 class SwiGLUFF(nn.Module):
@@ -65,11 +245,32 @@ class SpikingHebbianBlock(nn.Module):
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
                  vector_beta=False, use_rmsnorm=False,
                  use_swiglu=False, depth_scale=1.0, compile_inv=False,
-                 use_fla_kernel=False):
+                 use_fla_kernel=False, gdn2_enabled=False, osdn_enabled=False,
+                 osdn_eta=0.003, osdn_dmin=0.5, osdn_dmax=2.0,
+                 sdm_enabled=False, sdm_N=None, sdm_W=4, sdm_R=4,
+                 gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
+                 gdn2_chunk_size=64, gdn2_gate_norm=False,
+                 gdn2_loglinear=False, gdn2_loglinear_L=None, deltaproduct_nh=1,
+                 gate_rank=0):
         super().__init__()
         self.n_neurons = n_neurons
         self.d_mem = d_mem
         self.n_heads = n_heads
+        self.deltaproduct_nh = deltaproduct_nh
+        # Whether to grad-checkpoint each GDN-2 dense chunk during training.
+        # True (default) matches every screened run to date; False saves the
+        # ~40% chunk-recompute at the cost of ~10-20 GB extra activation tape
+        # per layer at batch=15/block=512 (per Fable-on-High audit 2026-07-16).
+        # Numerics unaffected either way (checkpointing only changes the
+        # backward recompute schedule; forward math is identical).
+        self.gdn2_ckpt_chunks = gdn2_ckpt_chunks
+        # Sequential chunk size for gdn2_chunked_dense (delta_chunked.py). 64
+        # was picked as a launch-bound fix at 90M/4-layers (2026-07-15, see
+        # _GDN2_OSDN_CHUNK comment above); deeper stacks re-hit the same
+        # launch-bound wall (more layers = more sequential Python-loop chunk
+        # iterations). Exact reassociation of the same math at any chunk size
+        # (parity-tested); only float-order and speed change.
+        self.gdn2_chunk_size = gdn2_chunk_size
         if d_mem % n_heads != 0:
             raise ValueError(f"d_mem ({d_mem}) must be divisible by n_heads ({n_heads})")
         self.d_head = d_mem // n_heads
@@ -91,6 +292,140 @@ class SpikingHebbianBlock(nn.Module):
         self.vector_beta = vector_beta
         if delta_rule:
             self.W_beta = nn.Linear(n_neurons, d_mem if vector_beta else 1)
+        # GDN-2 (arXiv:2605.22791) and OSDN (arXiv:2605.13473): delta-rule recall
+        # upgrades — see docs/gdn2_osdn_design.md. Sequential-loop kernel only for
+        # now (chunked WY deferred until a screen wins). Both require delta_rule.
+        self.gdn2_enabled = gdn2_enabled
+        self.osdn_enabled = osdn_enabled
+        # Diagnostic-only override: force the fla-kernel GDN-2 wrapper to split
+        # into at least this many heads (it auto-picks the minimum satisfying
+        # the kernel's 256 key-headdim cap; this forces MORE fragmentation than
+        # the minimum, for charting the recall-vs-head-count curve). 1 = no-op.
+        self.gdn2_min_heads = gdn2_min_heads
+        # Dense chunked-WY fast path (delta_chunked.gdn2_chunked_dense):
+        # exact same math as the reference loop (parity ~1e-6, incl. grads),
+        # ~26x faster. False falls back to the eager per-token loop.
+        self.gdn2_chunked = gdn2_chunked
+        if gdn2_enabled or osdn_enabled:
+            if not delta_rule:
+                raise ValueError("gdn2_enabled/osdn_enabled require delta_rule: true")
+            if n_heads > 1 or vector_beta or titans:
+                raise ValueError("gdn2/osdn incompatible with n_heads>1, vector_beta, titans")
+            if gdn2_enabled and osdn_enabled:
+                raise ValueError("gdn2_enabled and osdn_enabled are mutually exclusive")
+        if gdn2_enabled:
+            # Channel-wise erase/write/decay gates replace the scalar W_beta/W_alpha.
+            # w_t is floored (reuses beta_floor) — carries the β-collapse lesson.
+            # gate_rank r > 0 replaces each full (n_neurons -> d_mem) gate with a
+            # rank-r bottleneck. MEASURED (scripts/mfu_report.py on
+            # flagship_v3_363m): these three gates are 50.2% of ALL training
+            # FLOPs -- W_fdecay 19.3%, W_w 16.7%, W_b 14.2% -- while the whole
+            # attention layer is 1.8%. At n_neurons=3840/d_mem=1280 each gate is
+            # 4.92M params; at r=32 it is 164k, 30x cheaper.
+            # Precedent: GLA (arXiv:2312.06635) parameterizes its forget gate as
+            # exactly this kind of bottleneck at RANK 16, explicitly because the
+            # full mapping is "prohibitively expensive", and ablates it as
+            # sufficient (ppl 14.77 rank-16 vs 15.56 data-independent scalar
+            # decay vs 23.21 no gate) -- the gate must be data-dependent, but it
+            # does NOT need full rank.
+            # gate_rank=0 (default) builds the original nn.Linear -> byte-identical.
+            _gate = (lambda: nn.Linear(n_neurons, d_mem)) if not gate_rank else (
+                lambda: LowRankLinear(n_neurons, d_mem, gate_rank))
+            self.W_b = _gate()                                     # erase gate (key dim)
+            self.W_w = _gate()                                     # write gate (value dim)
+            self.W_fdecay = _gate()                                # channel-wise log-decay
+            self.gdn2_a = nn.Parameter(torch.zeros(d_mem))         # decay scale (exp(a)=1 init)
+            with torch.no_grad():
+                # softplus(bias) small & positive so α = exp(−exp(a)·softplus)≈1
+                # at init (slow decay, matches default lam≈0.98 behavior).
+                self.W_fdecay.weight.mul_(0.01)
+                self.W_fdecay.bias.fill_(-3.0)                     # softplus(-3)≈0.049
+            # Gate-logit normalization (2026-08-04). The gate logit is a sum over
+            # ~n_neurons*spike_rate ACTIVE spike units, so once W_b/W_w/W_fdecay
+            # learn a coherent direction the logit magnitude grows with WIDTH.
+            # At n_neurons=1536 it stays inside the sigmoid's useful band; at
+            # 2752 it saturates (measured: blk1 write 46% saturated, blk4-7
+            # erase 58-92%, blk0-2 decay-logit std 6.2-7.3), gradient -> 0, and
+            # the gate can no longer adapt. RMSNorm divides that growth out.
+            # See temp/diag_gate_distributions.py and the Step-3 divergence memo.
+            self.gdn2_gate_norm = gdn2_gate_norm
+            if gdn2_gate_norm:
+                self.gate_norm_b = RMSNorm(d_mem)
+                self.gate_norm_w = RMSNorm(d_mem)
+                self.gate_norm_f = RMSNorm(d_mem)
+                # RMSNorm would wash out W_fdecay's deliberate bias=-3.0
+                # slow-decay init, so carry that offset in an explicit
+                # post-norm bias instead (same effective init).
+                self.gate_bias_f = nn.Parameter(torch.full((d_mem,), -3.0))
+            # Log-linear GDN-2 (arXiv:2506.04761, Stage-A spike; design doc
+            # docs/loglinear_attention_design.md, memory
+            # neuro_loglinear_stageA_kernel_2026_08_28). Chunk-level Fenwick
+            # tower of completed-chunk states, read-reweighted by a tiny per-
+            # step head; write path is UNCHANGED. L is the number of tower
+            # levels (default: log2(max_block/chunk)+2). W_lw emits (L+1) per-
+            # step scalars: L level weights + 1 base weight, sigmoid-scaled to
+            # (0, 2) so init ≈ 1 (near-GDN-2 at init, the trainable delta being
+            # the recall-ceiling lift).
+            self.gdn2_loglinear = gdn2_loglinear
+            if gdn2_loglinear:
+                if not gdn2_chunked:
+                    raise ValueError("gdn2_loglinear requires gdn2_chunked: true")
+                if gdn2_loglinear_L is None:
+                    # 2^L >= max n_chunks. Default assumes block_size <= 4096
+                    # and gdn2_chunk_size >= 32 (Fenwick n_chunks <= 128).
+                    gdn2_loglinear_L = 8
+                self.gdn2_loglinear_L = gdn2_loglinear_L
+                self.W_lw = nn.Linear(n_neurons, gdn2_loglinear_L + 1)
+                with torch.no_grad():
+                    # 2 * sigmoid(0) = 1 -- ~= plain GDN-2 at init, trainable
+                    # up to weight 2 (or down to 0 = "ignore this level").
+                    self.W_lw.weight.mul_(0.01)
+                    self.W_lw.bias.zero_()
+            # DeltaProduct (arXiv:2502.10297): n_h Householder products/token via
+            # sequence expansion + the existing gdn2_chunked_dense kernel (verified
+            # temp/deltaproduct_reference.py + temp/test_deltaproduct_plumbing.py).
+            # n_h=1 (default) constructs nothing -> byte-identical to current runs.
+            if deltaproduct_nh > 1:
+                if not gdn2_chunked or use_fla_kernel or gdn2_loglinear:
+                    raise ValueError('deltaproduct_nh>1 needs gdn2_chunked (not fla/loglinear)')
+                from deltaproduct import DeltaProductExtra
+                self.dp = DeltaProductExtra(n_neurons, d_mem, deltaproduct_nh,
+                                            beta_floor, gate_norm=gdn2_gate_norm,
+                                            norm_ctor=RMSNorm)
+        if osdn_enabled:
+            # No learned params — d_t is online-adapted state (reset per window).
+            self.osdn_eta = osdn_eta
+            self.osdn_dmin = osdn_dmin
+            self.osdn_dmax = osdn_dmax
+        # SDM (arXiv:2607.07386) — see docs/sdm_design.md. Replaces the dense
+        # (d_v × d_k) delta-rule memory with an N-slot PKM-addressed bank.
+        # Reuses this block's W_beta/W_alpha (β/α stay owned here so
+        # beta_floor telemetry / decay_gate keep working unchanged) but the
+        # k/q addressing and the write/read itself are delegated to
+        # SparseSDMMemory. Phase-3 scope constraint: sdm_N must equal d_mem
+        # so the state stays square (N, N) — this lets the existing LM-level
+        # state allocator (which assumes a (d_state, d_state) square carried
+        # state) work completely unchanged. Non-square SDM sizing (the 500M
+        # restart plan's N=16384 with d_mem=2048) needs a state-allocator
+        # refactor (per-block init_state()), deferred — not required for the
+        # 30M screen, whose design-doc sizing already specifies N=1024=d_mem.
+        self.sdm_enabled = sdm_enabled
+        if sdm_enabled:
+            if not delta_rule:
+                raise ValueError("sdm_enabled requires delta_rule: true")
+            if gdn2_enabled or osdn_enabled or vector_beta or titans:
+                raise ValueError("sdm_enabled incompatible with gdn2/osdn/vector_beta/titans")
+            if n_heads > 1:
+                raise ValueError("sdm_enabled incompatible with n_heads>1 (phase 3 scope)")
+            sdm_N = sdm_N or d_mem
+            if sdm_N != d_mem:
+                raise ValueError(
+                    f"sdm_enabled currently requires sdm_N == d_mem (got sdm_N={sdm_N}, "
+                    f"d_mem={d_mem}) -- non-square SDM sizing needs a state-allocator "
+                    f"refactor (see docs/sdm_design.md phase 3 note), not yet built")
+            from sdm import SparseSDMMemory
+            self.sdm = SparseSDMMemory(n_neurons, sdm_N, d_mem, W=sdm_W, R=sdm_R)
+        self.sdm_N = sdm_N
         if decay_gate:
             # Init bias high so initial α ≈ 0.98 (matches default lam) — model can
             # then learn to LOWER α (forget faster) where useful.
@@ -187,6 +522,14 @@ class SpikingHebbianBlock(nn.Module):
 
     def step(self, x, mem, M, prev_spk, ablate_memory=False):
         """Process one timestep. Returns (output, mem, M, spk)."""
+        if self.gdn2_enabled or self.osdn_enabled:
+            raise NotImplementedError(
+                "gdn2/osdn have no token-by-token step() path yet; screen via "
+                "forward_sequence (use_fpt: true). See docs/gdn2_osdn_design.md.")
+        if self.sdm_enabled:
+            raise NotImplementedError(
+                "sdm has no token-by-token step() path yet; screen via "
+                "forward_sequence (use_fpt: true). See docs/sdm_design.md.")
         cur = self.to_current(x)
         if self.recurrent:
             cur = cur + F.linear(prev_spk, self.W_rec.weight * self.rec_mask)
@@ -348,7 +691,148 @@ class SpikingHebbianBlock(nn.Module):
             else:
                 v_in, k_in, q_in = v_seq, k_seq, q_seq
             if self.delta_rule:                              # ST Phase 8 (chunked)
-                if self.vector_beta:
+                if self.gdn2_enabled:
+                    # Gated DeltaNet-2 (arXiv:2605.22791): channel-wise erase/write
+                    # decoupling + channel-wise decay. Sequential memory loop with
+                    # grad-checkpointed chunks (~16x peak-VRAM reduction vs one
+                    # unbroken tape at T=512). LIF stays FPT-parallel.
+                    b_logit = self.W_b(spk_seq)
+                    w_logit = self.W_w(spk_seq)
+                    f_logit = self.W_fdecay(spk_seq)
+                    if self.gdn2_gate_norm:
+                        b_logit = self.gate_norm_b(b_logit)
+                        w_logit = self.gate_norm_w(w_logit)
+                        f_logit = self.gate_norm_f(f_logit) + self.gate_bias_f
+                    b_seq = torch.sigmoid(b_logit)                         # (B,T,dk) erase
+                    w_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(w_logit)  # write (floored)
+                    alpha_seq = torch.exp(-torch.exp(self.gdn2_a)
+                                          * F.softplus(f_logit))           # (B,T,dk) decay
+                    self._last_beta_stats = _beta_stats(w_seq, floor=self.beta_floor)  # telemetry on write gate (floored)
+                    # Erase/decay telemetry: for this whole investigation only the
+                    # WRITE gate was logged, which hid a blown-up decay gate in
+                    # block 0 and 58-92% erase saturation in blocks 4-7.
+                    self._last_gate_stats = _gate_sat_stats(b_logit, w_logit, f_logit)
+                    # alpha-space readout (2026-08-08). The [alpha] line was
+                    # dead on this path -- only the OSDN/SDM/plain-delta
+                    # branches ever populated it -- so the effective memory
+                    # horizon of the GDN-2 recipe was never logged. Here
+                    # alpha in (0,1) unclamped, so hi/lo bracket the raw
+                    # range: hi_frac = never-forget, lo_frac = wiped.
+                    self._last_alpha_stats = _alpha_stats(alpha_seq, lo=0.0, hi=1.0)
+                    if self.use_fla_kernel:
+                        # Fused Triton kernel — parity-validated vs the loop
+                        # below (temp/test_gdn2_fla_parity.py). See
+                        # delta_chunked.gdn2_fla_gated docstring for the
+                        # convention mapping and the d_mem>256 block-diagonal
+                        # caveat.
+                        from delta_chunked import gdn2_fla_gated
+                        r_in, M = gdn2_fla_gated(v_in, k_in, q_in, b_seq, w_seq, alpha_seq, M, min_heads=self.gdn2_min_heads)
+                    elif self.gdn2_loglinear:
+                        # Log-linear GDN-2 (Stage-A spike). Same write path as
+                        # gdn2_chunked_dense (parity-anchor at lw=1,bw=1); only
+                        # the READ is reweighted per Fenwick level. The tiny
+                        # W_lw head produces (L+1) per-step scalars in (0,2).
+                        # See docs/loglinear_attention_design.md, temp/
+                        # test_loglinear_gpu.py (fwd+bwd parity), temp/
+                        # stress_loglinear_nan.py (500-iter NaN-free at trained
+                        # regime).
+                        from loglinear import gdn2_loglinear_chunked
+                        lw_all = 2.0 * torch.sigmoid(self.W_lw(spk_seq))     # (B,T,L+1)
+                        lw_seq = lw_all[..., : self.gdn2_loglinear_L]        # (B,T,L)
+                        bw_seq = lw_all[..., self.gdn2_loglinear_L]          # (B,T)
+                        r_in, M = gdn2_loglinear_chunked(
+                            v_in, k_in, q_in, b_seq, w_seq, alpha_seq,
+                            lw_seq, M, base_weight=bw_seq,
+                            chunk=self.gdn2_chunk_size,
+                            ckpt_chunks=self.training and self.gdn2_ckpt_chunks)
+                    elif self.gdn2_chunked:
+                        # Dense chunked-WY (GEMM) path -- exact reassociation
+                        # of the loop below, full d_mem x d_mem state, ~26x
+                        # faster. Default since 2026-07-15 (verified by
+                        # temp/test_gdn2_chunked_dense.py, ~1e-6 fwd+bwd).
+                        from delta_chunked import gdn2_chunked_dense
+                        if self.deltaproduct_nh > 1:
+                            from deltaproduct import deltaproduct_gdn2_readout
+                            r_in, M = deltaproduct_gdn2_readout(
+                                self.dp, gdn2_chunked_dense, spk_seq, prev_for_k,
+                                spk_for_qv, v_in, k_in, b_seq, w_seq, alpha_seq, q_in, M,
+                                chunk=self.gdn2_chunk_size,
+                                ckpt_chunks=self.training and self.gdn2_ckpt_chunks)
+                        else:
+                            r_in, M = gdn2_chunked_dense(v_in, k_in, q_in, b_seq, w_seq, alpha_seq, M,
+                                                         chunk=self.gdn2_chunk_size,
+                                                         ckpt_chunks=self.training and self.gdn2_ckpt_chunks)
+                    else:
+                        r_chunks = []
+                        for s in range(0, T, _GDN2_OSDN_CHUNK):
+                            e = min(s + _GDN2_OSDN_CHUNK, T)
+                            args = (M, k_in[:, s:e], v_in[:, s:e], q_in[:, s:e],
+                                    b_seq[:, s:e], w_seq[:, s:e], alpha_seq[:, s:e])
+                            if self.training:
+                                M, r_ch = checkpoint(_gdn2_chunk_fwd, *args,
+                                                     use_reentrant=False)
+                            else:
+                                M, r_ch = _gdn2_chunk_fwd(*args)
+                            r_chunks.append(r_ch)
+                        r_in = torch.cat(r_chunks, dim=1)
+                elif self.osdn_enabled:
+                    # OSDN (arXiv:2605.13473): online diagonal preconditioner on the
+                    # delta write. d_t adapted online (no learned params), reset per
+                    # window, but carried across chunks within the window. Composes
+                    # with decay_gate. Same grad-checkpointing pattern as GDN-2.
+                    beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
+                    self._last_beta_stats = _beta_stats(beta_seq, floor=self.beta_floor)
+                    if self.decay_gate:
+                        alpha_seq_full = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)  # (B,T,1)
+                        self._last_alpha_stats = _alpha_stats(alpha_seq_full)
+                    else:
+                        # Scalar lam broadcast to (B,T,1) so the chunk helper
+                        # has one signature; cheap and keeps the loop simple.
+                        alpha_seq_full = torch.full((B, T, 1), self.lam,
+                                                    device=x_seq.device, dtype=x_seq.dtype)
+                    d = torch.ones(B, self.d_mem, device=x_seq.device, dtype=x_seq.dtype)
+                    r_chunks = []
+                    for s in range(0, T, _GDN2_OSDN_CHUNK):
+                        e = min(s + _GDN2_OSDN_CHUNK, T)
+                        args = (M, d, k_in[:, s:e], v_in[:, s:e], q_in[:, s:e],
+                                beta_seq[:, s:e], alpha_seq_full[:, s:e],
+                                self.osdn_eta, self.osdn_dmin, self.osdn_dmax)
+                        if self.training:
+                            M, d, r_ch = checkpoint(_osdn_chunk_fwd, *args,
+                                                    use_reentrant=False)
+                        else:
+                            M, d, r_ch = _osdn_chunk_fwd(*args)
+                        r_chunks.append(r_ch)
+                    r_in = torch.cat(r_chunks, dim=1)
+                elif self.sdm_enabled:
+                    # SDM (arXiv:2607.07386): sparse N-slot PKM-addressed memory
+                    # replaces the whole dense read/write, including its own
+                    # addressing -- k_in/q_in (already computed above) are unused
+                    # here, only v_in (the value to write) and spk_seq (for PKM
+                    # addressing, matching docs/sdm_design.md's x_t=spk mapping)
+                    # are consumed. β/α stay owned by this block exactly as the
+                    # plain delta_rule branch computes them.
+                    #
+                    # NOTE: self.sdm.M_0 (SparseSDMMemory's own learned initial
+                    # state) is inert on this path -- M_init=M below is always
+                    # the LM-level state allocator's zero-init tensor (or a
+                    # carried M from a previous window), matching the same
+                    # convention every other write rule in this codebase
+                    # follows (no block owns a learned initial memory state;
+                    # the LM always supplies M externally). M_0 only activates
+                    # when SparseSDMMemory is driven standalone with
+                    # M_init=None (see temp/test_sdm.py), which is how phase 2
+                    # verified it -- expected, not a bug.
+                    beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
+                    self._last_beta_stats = _beta_stats(beta_seq, floor=self.beta_floor)
+                    if self.decay_gate:
+                        alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)  # (B,T,1)
+                        self._last_alpha_stats = _alpha_stats(alpha_seq)
+                    else:
+                        alpha_seq = torch.full((B, T, 1), self.lam,
+                                               device=x_seq.device, dtype=x_seq.dtype)
+                    r_in, M = self.sdm(spk_seq, v_in, beta_seq, alpha_seq, M_init=M)
+                elif self.vector_beta:
                     # Per-channel β (RWKV-7 style). The chunked WY kernel assumes
                     # scalar β; use a sequential memory loop instead (LIF stays
                     # FPT-parallel, only the memory update is per-timestep).
@@ -356,8 +840,11 @@ class SpikingHebbianBlock(nn.Module):
                     if self.n_heads > 1:
                         raise NotImplementedError("vector_beta + n_heads>1 not supported")
                     beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,D)
+                    self._last_beta_stats = _beta_stats(beta_seq, floor=self.beta_floor)
                     alpha_seq = (torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
                                  if self.decay_gate else None)
+                    if alpha_seq is not None:
+                        self._last_alpha_stats = _alpha_stats(alpha_seq)
                     r_list = []
                     for t in range(T):
                         kn = k_in[:, t] / (k_in[:, t].norm(dim=-1, keepdim=True) + 1e-6)
@@ -370,12 +857,14 @@ class SpikingHebbianBlock(nn.Module):
                     r_in = torch.stack(r_list, dim=1)
                 else:
                     beta_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(self.W_beta(spk_seq))  # (B,T,1)
+                    self._last_beta_stats = _beta_stats(beta_seq, floor=self.beta_floor)
                     if self.n_heads > 1:
                         beta_in = beta_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
                     else:
                         beta_in = beta_seq
                     if self.decay_gate:
                         alpha_seq = torch.sigmoid(self.W_alpha(spk_seq)).clamp(0.5, 0.9999)
+                        self._last_alpha_stats = _alpha_stats(alpha_seq)
                         if self.n_heads > 1:
                             alpha_in = alpha_seq.unsqueeze(2).expand(B, T, self.n_heads, 1).reshape(B * self.n_heads, T, 1)
                         else:
@@ -439,7 +928,7 @@ class SpikingHebbianLM(nn.Module):
                  n_heads=1, pre_conv=False, pre_conv_kernel=4,
                  vector_beta=False, mtp_enabled=False, mtp_offset=2,
                  use_rmsnorm=False, embed_scale=False, mtp_depth=1,
-                 use_swiglu=False, depth_scaled_init=False,
+                 use_swiglu=False, depth_scaled_init=False, final_norm=False,
                  markov_enabled=False, markov_rank=64,
                  confidence_enabled=False, compile_inv=False,
                  use_fla_kernel=False, n_experts=1, route_topk=None,
@@ -447,10 +936,25 @@ class SpikingHebbianLM(nn.Module):
                  ponder_enabled=False, ponder_steps=3, ponder_capacity=None,
                  ponder_threshold=0.5,
                  engram_enabled=False, engram_n=3, engram_K=32768, engram_rank=64,
+                 engram_v2_enabled=False, engram_v2_orders=(2, 3),
+                 engram_v2_K=65536, engram_v2_heads=2, engram_v2_rank=64,
                  recurrent_depth=1, recurrent_bptt_k=0,
                  recurrent_router_enabled=False, recurrent_router_capacity=None,
                  recurrent_router_threshold=0.5,
-                 recurrent_deep_supervision=False, recurrent_pass_weights=None):
+                 recurrent_deep_supervision=False, recurrent_pass_weights=None,
+                 fracconn_enabled=False, fracconn_n=2,
+                 gdn2_enabled=False, osdn_enabled=False,
+                 osdn_eta=0.003, osdn_dmin=0.5, osdn_dmax=2.0,
+                 sdm_enabled=False, sdm_N=None, sdm_W=4, sdm_R=4,
+                 gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
+                 gdn2_chunk_size=64, gdn2_gate_norm=False,
+                 gdn2_loglinear=False, gdn2_loglinear_L=None,
+                 deltaproduct_nh=1, gate_rank=0,
+                 attention_layer_positions=None,
+                 attention_heads=8,
+                 attention_max_seq_len=4096,
+                 attention_qk_norm=True,
+                 spike_rate_undiluted=False):
         super().__init__()
         self.vocab = vocab
         self.d = d
@@ -459,6 +963,7 @@ class SpikingHebbianLM(nn.Module):
         self.lam = lam
         self.eta = eta
         self.n_layers = n_layers
+        self._spike_rate_undiluted = spike_rate_undiluted
         # Recurrent depth (Geiping-style latent looping of the block stack).
         # recurrent_depth=1 => exact original single-pass behavior (no-op).
         # recurrent_bptt_k=0 => backprop through all passes; >0 => truncate to
@@ -516,10 +1021,34 @@ class SpikingHebbianLM(nn.Module):
         # Each block's residual-adjacent Linear has its weight multiplied by
         # 1/sqrt(2*n_layers) — bounds residual-stream variance under depth.
         depth_scale = 1.0 / math.sqrt(2 * n_layers) if depth_scaled_init else 1.0
+        # Hybrid attention: replace specified layer indices with a full-softmax
+        # Transformer block (RoPE + SwiGLU). Fixes the pure-linear coherence
+        # gap while keeping Hebbian layers as the differentiator. Follows the
+        # SpikingBrain-2025 / MiniMax-01 / Jamba layout of interleaving full
+        # attention among linear layers. See docs/model_quality_redesign.md P2.
+        attn_positions = set(attention_layer_positions or [])
+        if attn_positions and (min(attn_positions) < 0 or max(attn_positions) >= n_layers):
+            raise ValueError(f"attention_layer_positions {attn_positions} out of "
+                             f"range for n_layers={n_layers}")
+        if 0 in attn_positions and d != d_mem:
+            # HybridAttentionBlock requires d_in == d_mem; layer 0 has d_in = d.
+            # When d != d_mem the layer 0 adapter shape mismatch is fatal. When
+            # d == d_mem it's fine, and the matched-transformer baseline needs it.
+            raise ValueError("attention_layer_positions cannot include 0 when "
+                             f"d ({d}) != d_mem ({d_mem}); layer 0 adapts d -> d_mem")
+
         blocks = []
         for i in range(n_layers):
             d_in = d if i == 0 else d_mem
-            if n_experts > 1:
+            if i in attn_positions:
+                from hybrid_attn import HybridAttentionBlock
+                blocks.append(HybridAttentionBlock(
+                    d_in=d_in, d_mem=d_mem, n_neurons=n_neurons,
+                    n_heads=attention_heads, use_rmsnorm=use_rmsnorm,
+                    use_swiglu=use_swiglu, depth_scale=depth_scale,
+                    max_seq_len=attention_max_seq_len,
+                    use_qk_norm=attention_qk_norm))
+            elif n_experts > 1:
                 from moe_hebbian import MoEHebbianBlock
                 blocks.append(MoEHebbianBlock(
                     d_in, n_neurons, d_mem, n_experts, beta,
@@ -540,12 +1069,37 @@ class SpikingHebbianLM(nn.Module):
                     pre_conv=pre_conv, pre_conv_kernel=pre_conv_kernel,
                     vector_beta=vector_beta, use_rmsnorm=use_rmsnorm,
                     use_swiglu=use_swiglu, depth_scale=depth_scale,
-                    compile_inv=compile_inv, use_fla_kernel=use_fla_kernel))
+                    compile_inv=compile_inv, use_fla_kernel=use_fla_kernel,
+                    gdn2_enabled=gdn2_enabled, osdn_enabled=osdn_enabled,
+                    osdn_eta=osdn_eta, osdn_dmin=osdn_dmin, osdn_dmax=osdn_dmax,
+                    sdm_enabled=sdm_enabled, sdm_N=sdm_N, sdm_W=sdm_W, sdm_R=sdm_R,
+                    gdn2_min_heads=gdn2_min_heads, gdn2_chunked=gdn2_chunked,
+                    gdn2_ckpt_chunks=gdn2_ckpt_chunks, gdn2_chunk_size=gdn2_chunk_size,
+                    gdn2_gate_norm=gdn2_gate_norm,
+                    gdn2_loglinear=gdn2_loglinear,
+                    gdn2_loglinear_L=gdn2_loglinear_L,
+                    deltaproduct_nh=deltaproduct_nh,
+                    gate_rank=gate_rank))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
         self.blocks = nn.ModuleList(blocks)
+        # Frac-Connections (arXiv:2503.14125, see docs/hyperconnections_design.md):
+        # per-layer learnable generalization of the residual add, identity-init
+        # so it's a no-op until trained. One instance per layer (state is
+        # per-layer, not per recurrent-depth iteration -- composes cleanly with
+        # the router loop, which re-enters the same layer module every pass).
+        self.fracconn_enabled = fracconn_enabled
+        if fracconn_enabled:
+            from fracconn import FracConnection
+            self.fracconns = nn.ModuleList(
+                [FracConnection(d_mem, n_frac=fracconn_n) for _ in range(n_layers)])
         self.head = nn.Linear(d_mem, vocab)
+        # Final pre-head norm (2026-08-26). Default off => spiking path
+        # unchanged. Required for attention-heavy stacks (matched-
+        # transformer baseline): 14 pre-norm attention layers grow the
+        # residual stream unbounded, and self.head consumes it raw.
+        self.out_norm = RMSNorm(d_mem) if final_norm else None
         if tie_weights:
             if d != d_mem:
                 raise ValueError(f"tie_weights requires d == d_mem (got d={d}, d_mem={d_mem})")
@@ -626,6 +1180,22 @@ class SpikingHebbianLM(nn.Module):
             from engram import EngramLookup
             self.engram = EngramLookup(vocab, n=engram_n, K=engram_K, rank=engram_rank)
 
+        # Engram v2: residual-stream conditional memory (DeepSeek V4 alignment).
+        # Adds a retrieved d-dim vector into the INPUT residual (before the block
+        # stack), so knowledge participates in downstream reasoning -- not a
+        # vocab logit bias like v1. Multi-head hashing + multi-granular n-grams
+        # for collision robustness. Zero-init projection: exact no-op at start,
+        # safe to enable on a fresh run or a fine-tune. See src/engram_v2.py.
+        # v1 and v2 are independent and can coexist; use v2 alone for the
+        # redesign A/B (see docs/to-do.html idea C).
+        self.engram_v2_enabled = engram_v2_enabled
+        if engram_v2_enabled:
+            from engram_v2 import EngramV2
+            self.engram_v2 = EngramV2(
+                d=d, vocab=vocab,
+                orders=tuple(engram_v2_orders),
+                K=engram_v2_K, heads=engram_v2_heads, rank=engram_v2_rank)
+
     def _fpt_stack_pass(self, x_in, ablate_memory, return_stats):
         """One pass of the full block stack over the sequence, with FRESH memory.
 
@@ -664,7 +1234,7 @@ class SpikingHebbianLM(nn.Module):
                 x_seq, mems[l], Ms[l], prev_spks[l],
                 ablate_memory=ablate_memory, fpt_K=self.fpt_K)
             if L > 1 and (l > 0 or use_residual):
-                out_seq = out_seq + x_seq
+                out_seq = self.fracconns[l](out_seq, x_seq) if self.fracconn_enabled else out_seq + x_seq
             x_seq = out_seq
             if return_stats:
                 spikes.append(spk_seq)
@@ -675,11 +1245,38 @@ class SpikingHebbianLM(nn.Module):
 
     def forward(self, idx, ablate_memory=False, return_stats=False,
                 initial_state=None, return_final_state=False,
-                ablate_engram=False):
+                ablate_engram=False, ablate_engram_v2=False,
+                return_mtp=False, kv_cache=None):
         B, T = idx.shape
         device = idx.device
+        # Incremental-decode KV cache (inference only). A list of length n_layers;
+        # attention layers read/UPDATE-IN-PLACE their (k,v) entry, spiking layers
+        # ignore it and carry state via initial_state as usual. When None (all
+        # training + every existing caller) the code below is byte-identical.
+        # Generation-only, single-pass FPT path only.
+        if kv_cache is not None:
+            if return_stats:
+                raise ValueError("kv_cache (incremental decode) does not support return_stats")
+            if not self.use_fpt or self.recurrent_depth > 1:
+                raise ValueError("kv_cache path requires use_fpt and recurrent_depth == 1")
         base = self.embed(idx) * self._embed_scale_factor      # (B, T, d)
+        # Engram v2: residual-stream injection (DeepSeek-style). Add BEFORE the
+        # block stack so the retrieved knowledge participates in all downstream
+        # attention/mixing/Hebbian dynamics. Zero-init proj -> exact no-op at
+        # start; only starts contributing as the model trains it up.
+        if self.engram_v2_enabled and not ablate_engram_v2:
+            base = base + self.engram_v2(idx)
         L = self.n_layers
+
+        # An initial_state (any caller -- stateful training, recall_eval's
+        # split-replay, etc.) forces the single-pass path below, which SILENTLY
+        # drops the recurrent loop (and its router). Fail loudly instead of
+        # letting a depth>1 model get evaluated/used at depth 1 unnoticed.
+        if self.recurrent_depth > 1 and initial_state is not None:
+            raise ValueError("recurrent_depth > 1 is silently bypassed when "
+                             "initial_state is passed (single-pass path only); "
+                             "recurrent-depth models need a multi-pass-with-state "
+                             "path, not yet implemented")
 
         # Recurrent-depth branch condition, hoisted so the state init below can
         # skip its (otherwise dead) zero-allocation: _fpt_stack_pass builds its
@@ -706,11 +1303,30 @@ class SpikingHebbianLM(nn.Module):
                       for _ in range(L)] if self.titans else [None] * L
         else:
             def _bcast(t, shape):
+                # 2026-08-09 fix (audit finding D6, escalated from "wasteful" to
+                # a real OOM blocker): the caller now passes each BLOCK's own
+                # state shape (matching the initial_state-is-None branch above)
+                # instead of a hardcoded (B, d_mem, d_mem) for every layer. That
+                # hardcoding forced HybridAttentionBlock's tiny (B,1,1) dummy M
+                # through .expand(...).contiguous() into a full materialized
+                # (B, d_mem, d_mem) tensor -- 1.27 GB from nothing at B=256,
+                # d_mem=1152 -- and OOM'd recall_eval's split-replay pass 2
+                # (temp/diag_recall_oom.py pinned it to this exact allocation).
+                # Also skip the copy entirely when t already has the right
+                # shape and is contiguous (the common split-replay case, where
+                # pass 1's own carried state already matches B): .expand() on
+                # already-equal dims plus .contiguous() still forces a full
+                # redundant copy of every spiking block's REAL M state, which
+                # was the other ~8 GB of the same OOM.
                 if t.dim() == len(shape) - 1: t = t.unsqueeze(0)
-                return t.to(device).expand(*shape).contiguous()
+                t = t.to(device)
+                if tuple(t.shape) == tuple(shape) and t.is_contiguous():
+                    return t
+                return t.expand(*shape).contiguous()
             layers = initial_state.get("layers", [initial_state])
             mems = [_bcast(layers[i]["mem"], (B, self.n_neurons)) for i in range(L)]
-            Ms = [_bcast(layers[i]["M"], (B, self.d_mem, self.d_mem)) for i in range(L)]
+            Ms = [_bcast(layers[i]["M"], (B * blk.n_state_units, blk.d_state, blk.d_state))
+                  for i, blk in enumerate(self.blocks)]
             prev_spks = [_bcast(layers[i]["prev_spk"], (B, self.n_neurons)) for i in range(L)]
             if self.titans:
                 Ss = [_bcast(layers[i].get("S", torch.zeros(self.d_mem, self.d_mem)),
@@ -759,12 +1375,15 @@ class SpikingHebbianLM(nn.Module):
                             depth_bt = depth_bt + active.float()
                     else:
                         x_seq = new_x_seq
-                    if self.recurrent_deep_supervision and not last:
+                    if self.recurrent_deep_supervision and not last and self.training:
                         # Project THIS pass's actual representation (post router
                         # merge, so frozen tokens are graded on their real exit
                         # state, not the discarded recompute) -- trains each
                         # pass to be independently decodable, not just a latent
                         # stepping-stone the final pass compensates for.
+                        # Gated on self.training: eval doesn't need this loss
+                        # term, and retaining (B,T,V) logits per non-final pass
+                        # was extra vocab-size memory/compute on every eval call.
                         self._last_pass_logits.append(self.head(x_seq))
                     if last:
                         spike_accum = spikes
@@ -782,12 +1401,23 @@ class SpikingHebbianLM(nn.Module):
                 # inference with an initial_state). Unchanged.
                 x_seq = base                                   # (B, T, d)
                 for l, block in enumerate(self.blocks):
-                    out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
-                        x_seq, mems[l], Ms[l], prev_spks[l],
-                        ablate_memory=ablate_memory, fpt_K=self.fpt_K)
+                    if kv_cache is not None and hasattr(block, "qkv"):
+                        # Incremental attention: use the KV cache instead of a
+                        # full re-forward. step_kv is proven equivalent to this
+                        # block's forward_sequence (temp/test_hybrid_kv_parity.py),
+                        # so the residual logic below is unchanged. Attention has
+                        # no recurrent state, so mem/M/prev_spk pass through as
+                        # forward_sequence does; the cache is updated IN PLACE so
+                        # the caller carries it across steps with no return change.
+                        out_seq, kv_cache[l] = block.step_kv(x_seq, kv_cache[l])
+                        spk_seq = None
+                    else:
+                        out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                            x_seq, mems[l], Ms[l], prev_spks[l],
+                            ablate_memory=ablate_memory, fpt_K=self.fpt_K)
+                        prev_spks[l] = final_spk
                     if L > 1 and (l > 0 or use_residual):
-                        out_seq = out_seq + x_seq
-                    prev_spks[l] = final_spk
+                        out_seq = self.fracconns[l](out_seq, x_seq) if self.fracconn_enabled else out_seq + x_seq
                     x_seq = out_seq
                     if return_stats:
                         spike_accum.append(spk_seq)
@@ -810,6 +1440,8 @@ class SpikingHebbianLM(nn.Module):
                 self._last_expected_steps = self.ponder._last_expected_steps
             else:
                 self._last_ponder_aux = None
+            if self.out_norm is not None:
+                x_seq = self.out_norm(x_seq)
             logits = self.head(x_seq)                          # (B, T, vocab)
             if self.mtp_enabled:
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
@@ -842,10 +1474,10 @@ class SpikingHebbianLM(nn.Module):
                         out, mems[l], Ms[l], spk = block.step(
                             x, mems[l], Ms[l], prev_spks[l], ablate_memory)
                     if L > 1 and (l > 0 or use_residual):
-                        out = out + x
+                        out = self.fracconns[l](out, x) if self.fracconn_enabled else out + x
                     prev_spks[l] = spk
                     x = out
-                logits_list.append(self.head(x))
+                logits_list.append(self.head(self.out_norm(x) if self.out_norm is not None else x))
                 if return_stats:
                     all_spikes.extend(prev_spks)
             logits = torch.stack(logits_list, dim=1)
@@ -860,9 +1492,33 @@ class SpikingHebbianLM(nn.Module):
         spike_rate = None
         if return_stats:
             if self.use_fpt:
-                spike_rate = torch.stack([s.mean() for s in all_spikes]).mean()
+                # Dilution fix (2026-08-08, audit A/B2/§4.2). Attention layers
+                # push (B,T,N) zero stubs into all_spikes, so the flat mean is
+                # (n_spiking/n_total) * true spiking rate -- reported number
+                # under-states real activity by ~14% at L=8 attn=1, ~11% at L=9
+                # attn=1. The training sparsity penalty consumes this number,
+                # so it was penalizing a diluted target. Behind
+                # spike_rate_undiluted (default False): flag OFF is byte-
+                # identical to every ckpt through P4; flag ON averages over
+                # spiking-block spikes only (matches the [spike] "spiking_only"
+                # telemetry line the trainer prints).
+                if self._spike_rate_undiluted:
+                    per_block = [s.mean() for s in all_spikes]
+                    active = [s for s, b in zip(per_block, self.blocks)
+                              if not hasattr(b, "qkv")]
+                    spike_rate = torch.stack(active).mean() if active else torch.stack(per_block).mean()
+                else:
+                    spike_rate = torch.stack([s.mean() for s in all_spikes]).mean()
             else:
                 spike_rate = torch.stack(all_spikes).mean()
+        # return_mtp=True: pass MTP logits back as an extra tuple element so
+        # trainer/callers can consume them WITHOUT reading `raw_model._last_mtp_logits`
+        # (attribute writes inside a compiled forward do not reliably propagate
+        # to the outer module reference under torch.compile / CUDA-graph replay
+        # -- observed as MTP loss silently dropping to None under whole-model
+        # compile, ~30% training signal loss). Keeps `_last_mtp_logits`
+        # unchanged for legacy eager readers.
+        _mtp = self._last_mtp_logits if self.mtp_enabled else None
         if return_final_state:
             state = {"layers": [
                 {"M": Ms[i].detach(), "mem": mems[i].detach(), "prev_spk": prev_spks[i].detach()}
@@ -871,11 +1527,16 @@ class SpikingHebbianLM(nn.Module):
             # Stateful training needs both the spike rate (for the sparsity
             # penalty) and the carried state in a single forward pass.
             if return_stats:
-                return logits, spike_rate, state
-            return logits, state
-        if return_stats:
-            return logits, spike_rate
-        return logits
+                ret = (logits, spike_rate, state)
+            else:
+                ret = (logits, state)
+        elif return_stats:
+            ret = (logits, spike_rate)
+        else:
+            ret = logits
+        if return_mtp:
+            return (ret if isinstance(ret, tuple) else (ret,)) + (_mtp,)
+        return ret
 
     def save_brain(self, state, path):
         """Persist a complete neuron state ('brain') to disk."""

@@ -1,0 +1,16 @@
+[09:36:41] ===== LR SWEEP CHAIN BEGIN (GPU1) =====
+[09:36:41] START screen_mlr010_s0_30m
+[11:01:49] END   screen_mlr010_s0_30m rc=0  (val_ppl 71.03)
+[11:01:49] START screen_mlr020_s0_30m
+[12:25:00] END   screen_mlr020_s0_30m rc=0  (val_ppl 64.28)
+[12:25:00] START screen_mlr040_s0_30m
+[13:58:01] END   screen_mlr040_s0_30m rc=0  (val_ppl 80.53)
+[13:58:01] ===== TRAINING DONE — recall_eval =====
+[13:58:32] single rc=0 -> logs/lr_sweep_recall_SINGLE.log
+[13:58:48] split rc=0 -> logs/lr_sweep_recall_SPLIT.log
+[13:58:48] ===== val_ppl SUMMARY =====
+  baseline screen_loglinear_ctrl_30m: (muon_lr 0.005) val_ppl 72.98
+  screen_mlr010_s0_30m: val_ppl 71.03
+  screen_mlr020_s0_30m: val_ppl 64.28
+  screen_mlr040_s0_30m: val_ppl 80.53
+[13:58:48] ===== CHAIN COMPLETE =====

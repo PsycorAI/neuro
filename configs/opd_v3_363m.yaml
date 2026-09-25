@@ -1,0 +1,131 @@
+# flagship_v3 post-training STAGE 3 -- on-policy distillation.        [idea #1]
+#
+#   pretrain -> SFT -> ORPO -> **OPD**
+#
+# The student samples its own trajectories and the teacher scores every token of
+# them (reverse KL). On-policy states like RL, dense per-token supervision like
+# distillation, neither the sparse reward nor the exposure bias. This is the
+# stage Qwen3 / MiMo / GLM-5 / MiniCPM5-1B all converged on in 2026.
+#
+# RUN THIS ON THE 5090, after flagship_v3 finishes. The teacher is resident
+# alongside the student (3B bf16 ~= 6.4GB + student + rollout buffers), which
+# does not leave much headroom on the 5080's 16GB.
+#
+# Hyperparameters follow the recipe paper (arXiv 2604.13016) where it is
+# explicit: temperature 1.0, 4 rollouts per prompt, top-K support 16. Their
+# lr 1e-6 is for a much larger model on AdamW; ours is scaled off our own SFT
+# recipe instead -- 5x BELOW the SFT lr, which is the first knob to touch if the
+# run is inert (raise) or if gen-check degrades (lower).
+#
+# opd_prompts deliberately points at coldstart.jsonl: those are the exact prompts
+# the teacher already answered during cold start, i.e. the recipe paper's
+# "teacher-aligned prompts". Its warning about entropy collapse is why the
+# prompt pool is not narrowed any further than this.
+#
+# WATCH THESE (printed every log_every):
+#   mass_in  student probability mass inside the teacher's top-K. Should RISE.
+#            If it sits near 0 the student and teacher disagree about the token
+#            space and the stage is doing nothing useful.
+#   no_sup   response positions where the teacher's whole top-K fell outside our
+#            32768 vocab. Should be ~0; if not, the top-K is too small.
+#   H_s      student entropy. A collapse toward 0 is the failure mode.
+#   gen-check every 100 steps -- the one check that caught the SimPO collapse.
+#
+#   CUDA_VISIBLE_DEVICES=0 python src/train_opd.py --config configs/opd_v3_363m.yaml --device cuda
+run_name: opd_v3_363m
+
+opd_init: orpo_v3_363m
+opd_teacher: meta-llama/Llama-3.2-3B-Instruct
+opd_prompts: /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl
+opd_max_new: 96
+opd_rollouts: 4
+opd_temperature: 1.0
+opd_topk: 16
+opd_lambda_out: 1.0
+opd_max_len: 512
+opd_gen_batch: 16
+opd_teacher_compile: false     # int8/compile on Blackwell: see reference_blackwell_int8_regression
+lut_subword_fallback: true
+
+gen_check_every: 100
+gen_check_prompt: "### Instruction:\nWhat is the capital of France?\n\n### Response:\n"
+lora_enabled: false
+
+# --- ARCH: byte-identical to configs/flagship_v3_363m.yaml ---
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3840
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 8                  # 2 prompts x 4 rollouts
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.15
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+gdn2_enabled: true
+gdn2_chunked: true
+gdn2_gate_norm: true
+gdn2_chunk_size: 256
+gdn2_ckpt_chunks: false
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0002                 # 5x below the SFT muon_lr -- OPD is a gentle stage
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+muon_precise_gate_filter: true
+# head_weight_decay deliberately absent -- see the note in sft_v3_363m.yaml.
+weight_decay: 0.0
+lr: 0.00002                    # 5x below the SFT lr
+lr_min_frac: 0.1
+lr_warmup_frac: 0.03
+lam: 0.98
+grad_clip: 1.0
+max_tokens: 8000000            # counts RESPONSE tokens only (~2600 steps)
+ckpt_every: 200
+log_every: 20
+keep_last: 6
+amp: true
+compile: false                 # rollouts change shape every step; compile thrashes
+seed: 0

@@ -21,9 +21,9 @@ import torch.nn.functional as F
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from model import SpikingHebbianLM
+from train_gpu import build_model as _canonical_build
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-LUT_PATH = os.path.join(ROOT, "data", "vocab_map_16384.npy")
 
 
 def latest(run):
@@ -34,33 +34,30 @@ def latest(run):
 
 
 def build(c, device):
-    return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"], d_mem=c["d_mem"],
-                            recurrent=c.get("recurrent", False), rec_density=c.get("rec_density", 0.05),
-                            compile_safe=c.get("compile", False), tie_weights=c.get("tie_weights", False),
-                            n_layers=c.get("n_layers", 1), use_fpt=c.get("use_fpt", False),
-                            fpt_K=c.get("fpt_K", 10), lam=c.get("lam", 0.98),
-                            learnable_decay=c.get("learnable_decay", False),
-                            write_gate=c.get("write_gate", False),
-                            delta_rule=c.get("delta_rule", False),
-                            beta_floor=c.get("beta_floor", 0.0),
-                            decay_gate=c.get("decay_gate", False),
-                            titans=c.get("titans", False),
-                            local_attn=c.get("local_attn", False),
-                            local_window=c.get("local_window", 64),
-                            n_heads=c.get("n_heads", 1),
-                            pre_conv=c.get("pre_conv", False),
-                            pre_conv_kernel=c.get("pre_conv_kernel", 4),
-                            vector_beta=c.get("vector_beta", False)).to(device)
+    # P2: delegate to train_gpu.build_model (single source of truth).
+    # See [[neuro_train_sft_build_drift_fix]] — hand-rolled kwargs went
+    # stale progressively, silently mis-building post-July checkpoints.
+    return _canonical_build(c).to(device)
 
 
-def load_tokenizer():
+def load_tokenizer(vocab):
+    # P2: parametrized on vocab so post-July 32k checkpoints work.
+    # Matches generate.py's pattern: Phi-3.5 for 32064, Llama-3 otherwise.
     from transformers import AutoTokenizer
-    tk = AutoTokenizer.from_pretrained("NousResearch/Meta-Llama-3-8B")
-    lut = np.load(LUT_PATH)
+    tk_name = "microsoft/Phi-3.5-mini-instruct" if vocab == 32064 else "NousResearch/Meta-Llama-3-8B"
+    lut_path = os.path.join(ROOT, "data", f"vocab_map_{vocab}.npy")
+    tk = AutoTokenizer.from_pretrained(tk_name)
+    lut = np.load(lut_path)
     def encode(text):
-        """Encode text → list of student-vocab ids (drops OOV / id=0)."""
+        """Encode text → list of student-vocab ids.
+        2026-08-07 fix: PRESERVE id 0 (unknown) in the sequence to match
+        training-time data_stream.py behavior. Previously filtered id 0
+        which made ~4% of tokens (rare content words like 'capital',
+        'machine') silently vanish, creating a train/test distribution
+        mismatch that biased lm_eval accuracy toward tasks with only
+        top-32k tokens."""
         ids = tk.encode(text, add_special_tokens=False)
-        return [int(lut[t]) for t in ids if lut[t] != 0]
+        return [int(lut[t]) for t in ids]
     return encode
 
 
@@ -196,7 +193,7 @@ def main():
     print(f"loaded {args.run}: {sum(p.numel() for p in m.parameters())/1e6:.1f}M params, "
           f"{blob.get('tokens', 0)/1e9:.2f}B tok, block_size={block_size}\n")
 
-    encode = load_tokenizer()
+    encode = load_tokenizer(c["vocab"])
     tasks = args.tasks.split(",")
     results = {}
     for task in tasks:

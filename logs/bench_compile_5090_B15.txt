@@ -1,0 +1,12 @@
+[eager] warmup step 0 (compile if applicable)... 
+/home/glenn/projects/neuro/temp/bench_compile.py:51: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return float(loss)
+  first step: 2.8s loss=10.6918
+[eager] steady: 1407.3 ms/step  5457 tok/s  loss[0]=10.6918 loss[N]=10.6880
+[default] warmup step 0 (compile if applicable)... 
+  first step: 163.6s loss=10.6911
+[default] steady: 448.2 ms/step  17136 tok/s  loss[0]=10.6911 loss[N]=10.6962
+[reduce-overhead] warmup step 0 (compile if applicable)... 
+  first step: 109.7s loss=10.6911
+[reduce-overhead] steady: 387.6 ms/step  19816 tok/s  loss[0]=10.6911 loss[N]=10.6962

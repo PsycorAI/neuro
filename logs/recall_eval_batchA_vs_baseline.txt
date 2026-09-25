@@ -1,0 +1,17 @@
+loaded screen_bake_full_gdn2_batchA_30m: 57.2M
+loaded screen_bake_full_gdn2_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_bake_full_gdn2_batchA_30m |   95% |   94% |   81% |   64% |   22%
+screen_bake_full_gdn2_30m |   95% |   89% |   80% |   47% |   22%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+screen_bake_full_gdn2_batchA_30m |     1 |     1 |     2 |    10 |   196
+screen_bake_full_gdn2_30m |     1 |    14 |     8 |   103 |   876

@@ -1,0 +1,60 @@
+# FIX A/B (fix 1 of 2): scalar beta with beta_floor > 0 to prevent full
+# saturation collapse. Byte-identical to screen_rdepth2_mor_200mtok_30m.yaml
+# except beta_floor: 0.1 (was 0.0 in that baseline; formula:
+# beta = beta_floor + (1 - beta_floor) * sigmoid(W_beta * spk), so this floors
+# beta at 0.1 -- can never fully saturate to zero, keeps gradient alive).
+#
+# Motivation: 90M seed1 collapsed all 4 blocks (memory-delta = 0.00), 30M
+# seed0 collapsed both its 2 blocks in the write-gate sense (final memory-
+# delta = +2.35, near-inert). Direct fix per NVIDIA's Gated DeltaNet-2 paper
+# (arXiv 2605.22791) diagnosis. Cheapest possible fix -- one config line, no
+# code change. Success = memory-delta stays meaningfully > 30M baseline's
+# +2.35 throughout training.
+#
+# Baseline comparison: screen_rdepth2_mor_200mtok_30m.yaml (final memory-
+# delta +2.35). Same seed=0, same 200M tokens, so any difference isolates
+# the beta_floor variable.
+run_name: screen_mor_beta_floor_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 2
+recurrent_bptt_k: 0
+recurrent_router_enabled: true
+recurrent_router_threshold: 0.5
+recurrent_router_aux_weight: 0.1
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+use_fla_kernel: true
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 200000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

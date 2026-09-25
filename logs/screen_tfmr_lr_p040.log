@@ -1,0 +1,26 @@
+optimizer: NorMuon (26 matrices, lr=0.04) + AdamW (31 other params, lr=0.0005)
+arch=spiking params=52.99M device=cuda target=0.030B tok | 12288 tok/step | total_steps≈2441 | warmup=48 | grad_clip=1.0
+step 250 | 3.1M tok | loss 8.175 | 57,101 tok/s | vram 2.3/13.4 GB
+step 500 | 6.1M tok | loss 7.601 | 61,588 tok/s | vram 2.3/13.4 GB
+step 750 | 9.2M tok | loss 7.398 | 61,227 tok/s | vram 2.3/13.4 GB
+step 1000 | 12.3M tok | loss 7.399 | 60,317 tok/s | vram 2.3/13.4 GB
+  [eval] val_ppl 167.76 | ablated_ppl 167.76 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=183.33 | head=130.32 | mtp_proj.0=31.51 | mtp_proj.2=31.14
+step 1250 | 15.4M tok | loss 6.906 | 55,618 tok/s | vram 2.3/14.0 GB
+step 1500 | 18.4M tok | loss 6.537 | 62,006 tok/s | vram 2.3/14.0 GB
+step 1750 | 21.5M tok | loss 6.446 | 61,953 tok/s | vram 2.3/14.0 GB
+step 2000 | 24.6M tok | loss 6.703 | 60,872 tok/s | vram 2.3/14.0 GB
+  [eval] val_ppl 103.81 | ablated_ppl 103.81 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=181.16 (-1.19%) | head=135.13 (+3.69%) | mtp_proj.0=25.82 (-18.06%) | mtp_proj.2=26.16 (-15.99%)
+step 2250 | 27.6M tok | loss 5.878 | 54,329 tok/s | vram 2.3/14.0 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_tfmr_lr_p040/step_0002442.pt
+done: 30.0M tok in 0.14h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     178467635.2 |     178467635.2 |         1.00x
+    4096 |     279760076.8 |     279760076.8 |         1.00x
+
+block mix: 0 spiking + 6 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 60,817,408 MAC + 0 AC
+note: 6 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

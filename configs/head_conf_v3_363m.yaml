@@ -1,0 +1,97 @@
+# Calibrated confidence head on the frozen post-trained v3 model.   [idea #3]
+#
+# Cactus Needle ships "a calibrated confidence score from a learned head" so the
+# harness can route: act, confirm, or refuse. Read at the LAST PROMPT POSITION --
+# before the model commits to anything -- so the routing decision can replace the
+# action rather than second-guess it after the fact.
+#
+# Labels are generated ON POLICY inside the training loop: greedy-decode the
+# frozen model, compare against the gold tool call, and train on its OWN observed
+# correctness. A head trained on some external notion of difficulty would not be
+# calibrated to THIS model. That makes each step cost a full greedy decode, hence
+# the smaller batch and step count.
+#
+#   CUDA_VISIBLE_DEVICES=1 python src/train_heads.py --config configs/head_conf_v3_363m.yaml --device cuda
+#   CUDA_VISIBLE_DEVICES=1 python scripts/head_eval.py --run head_conf_v3_363m --head confidence --n 200
+amp: true
+arch: spiking
+attention_heads: 10
+attention_layer_positions:
+- 4
+attention_max_seq_len: 4096
+attention_qk_norm: true
+batch_size: 4
+beta_floor: 0.1
+block_size: 512
+ckpt_every: 500
+compile: false
+curriculum_block_tokens: 4096
+curriculum_enabled: false
+curriculum_frac: 0.1
+d: 1280
+d_mem: 1280
+decay_gate: true
+delta_rule: true
+embed_scale: true
+engram_v2_K: 8192
+engram_v2_enabled: true
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+eval_batch: 8
+fpt_K: 10
+fused_ce: true
+gdn2_chunk_size: 256
+gdn2_chunked: true
+gdn2_ckpt_chunks: false
+gdn2_enabled: true
+gdn2_gate_norm: true
+grad_accum: 1
+head_batch: 4
+head_init: opd_v3_363m
+head_lr: 0.001
+head_max_len: 512
+head_max_new: 64
+head_steps: 1500
+head_tools_jsonl: /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl
+head_type: confidence
+head_wd: 0.01
+lam: 0.98
+log_every: 50
+lr: 0.0001
+lut_subword_fallback: true
+mqar_N_max: 32
+mqar_N_min: 4
+mqar_aug: false
+mqar_weight: 0.0
+mtp_depth: 2
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+muon_fix_gate_matrices: true
+muon_lr: 0.001
+muon_precise_gate_filter: true
+muon_route_embeddings_by_type: true
+n_layers: 9
+n_neurons: 3840
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-08
+optimizer: muon
+osdn_enabled: false
+recurrent: false
+recurrent_bptt_k: 0
+recurrent_depth: 1
+recurrent_router_enabled: false
+run_name: head_conf_v3_363m
+seed: 0
+sparsity_lambda: 0.0
+sparsity_target: 0.15
+use_fla_kernel: false
+use_fpt: true
+use_rmsnorm: true
+vocab: 32768
+weight_decay: 0.0
+z_loss_weight: 0.0001

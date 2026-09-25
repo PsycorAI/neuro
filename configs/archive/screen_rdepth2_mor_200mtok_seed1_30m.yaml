@@ -1,0 +1,44 @@
+# Seed-confirm rerun of screen_rdepth2_mor_200mtok_30m (seed=1). Only run if
+# seed=0 shows a real win vs fair depth-1 (74.55/73.35) or real token-splitting
+# worth trusting, per the decision tree in HANDOFF_2026_07_07.md.
+run_name: screen_rdepth2_mor_200mtok_seed1_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 2
+recurrent_bptt_k: 0
+recurrent_router_enabled: true
+recurrent_router_threshold: 0.5
+recurrent_router_aux_weight: 0.1
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 200000000
+eval_every: 500
+ckpt_every: 1000
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 1

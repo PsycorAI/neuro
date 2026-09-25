@@ -14,11 +14,17 @@ import torch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from model import SpikingHebbianLM
+from train_gpu import build_model as _canonical_build
 from baseline import TinyTransformer
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-SPK_DIR = os.path.join(ROOT, "models", "checkpoints", "phase25_b")
-TF_DIR  = os.path.join(ROOT, "models", "checkpoints", "phase25_b_tf")
+# Defaults are the 20M-era phase-2.5 pair; override with --run / --tf-run.
+DEF_SPK_RUN = "phase25_b"
+DEF_TF_RUN  = "phase25_b_tf"
+
+
+def ckpt_dir(run):
+    return os.path.join(ROOT, "models", "checkpoints", run)
 
 
 def latest_ckpt(d):
@@ -30,11 +36,9 @@ def latest_ckpt(d):
 
 def build_from_cfg(c):
     if c["arch"] == "spiking":
-        return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
-                                d_mem=c["d_mem"],
-                                recurrent=c.get("recurrent", False),
-                                rec_density=c.get("rec_density", 0.05),
-                                compile_safe=c.get("compile", False))
+        # P2: delegate to train_gpu.build_model — old inline kwarg list
+        # (recurrent/rec_density/compile_safe only) went stale in Feb 2026.
+        return _canonical_build(c)
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -134,14 +138,24 @@ def measure(model, c, seq_len, duration_s, device):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--run", default=DEF_SPK_RUN,
+                    help="spiking run name under models/checkpoints/")
+    ap.add_argument("--tf-run", default=DEF_TF_RUN,
+                    help="transformer baseline run name (comparison arm)")
     ap.add_argument("--device", default=("cuda" if torch.cuda.is_available() else "cpu"))
     ap.add_argument("--duration", type=float, default=15.0,
                     help="seconds of inference per (model, seq_len) cell")
     ap.add_argument("--seq-lens", default="128,512,2048,4096",
                     help="comma-separated seq_lens to test")
-    ap.add_argument("--compile-mode", default="reduce-overhead",
+    # 2026-08-08: default flipped off reduce-overhead. Its CUDA-graph capture
+    # is a known-broken path for this model (pytorch#169545, plus the MTP
+    # silent-drop and lif_parallel miscompile investigations); every
+    # production recipe pins compile_mode: default. Running the energy
+    # instrument on the one mode the recipe forbids made its numbers
+    # non-comparable to the trained model.
+    ap.add_argument("--compile-mode", default="default",
                     choices=["none", "default", "reduce-overhead"],
-                    help="torch.compile mode for inference; default is what we recommend in production")
+                    help="torch.compile mode for inference (matches production: default)")
     args = ap.parse_args()
     if args.device != "cuda":
         print("Empirical energy only meaningful on CUDA GPU."); sys.exit(1)
@@ -154,8 +168,8 @@ def main():
     # would suggest).
     cm = args.compile_mode if args.compile_mode != "none" else None
     print(f"Compile mode: {cm or 'eager'}")
-    spk, sc = load(latest_ckpt(SPK_DIR), args.device, compile_mode=cm)
-    tf,  tc = load(latest_ckpt(TF_DIR),  args.device, compile_mode=cm)
+    spk, sc = load(latest_ckpt(ckpt_dir(args.run)), args.device, compile_mode=cm)
+    tf,  tc = load(latest_ckpt(ckpt_dir(args.tf_run)), args.device, compile_mode=cm)
     print(f"GPU: {torch.cuda.get_device_name(0)}")
     print(f"Spiking: {sum(p.numel() for p in spk.parameters())/1e6:.2f}M | "
           f"Transformer: {sum(p.numel() for p in tf.parameters())/1e6:.2f}M")

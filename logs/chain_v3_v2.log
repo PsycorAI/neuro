@@ -1,0 +1,13 @@
+===== [23:56] TRAIN screen_v3levers_ctrl_s0_30m =====
+===== [01:19] RECALL screen_v3levers_ctrl_s0_30m (single-pres) =====
+===== [01:19] RECALL screen_v3levers_ctrl_s0_30m (split-replay) =====
+===== [01:19] TRAIN screen_memlr_2p5_s0_30m =====
+===== [02:41] RECALL screen_memlr_2p5_s0_30m (single-pres) =====
+===== [02:41] RECALL screen_memlr_2p5_s0_30m (split-replay) =====
+===== [02:41] TRAIN screen_mqarpow_p2_s0_30m =====
+===== [04:04] RECALL screen_mqarpow_p2_s0_30m (single-pres) =====
+===== [04:05] RECALL screen_mqarpow_p2_s0_30m (split-replay) =====
+===== [04:05] TRAIN screen_deltaproduct_nh2_s0_30m =====
+===== [06:55] RECALL screen_deltaproduct_nh2_s0_30m (single-pres) =====
+===== [06:56] RECALL screen_deltaproduct_nh2_s0_30m (split-replay) =====
+===== [06:56] CHAIN v2 DONE =====

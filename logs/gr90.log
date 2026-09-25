@@ -1,0 +1,126 @@
+[mk90] temp/gr90_r0_s0.yaml: screen_gr90_r0_s0 gate_rank=0 seed=0 max_tokens=30000000
+[mk90] temp/gr90_r16_s0.yaml: screen_gr90_r16_s0 gate_rank=16 seed=0 max_tokens=30000000
+[mk90] temp/gr90_r0_s1.yaml: screen_gr90_r0_s1 gate_rank=0 seed=1 max_tokens=30000000
+[mk90] temp/gr90_r16_s1.yaml: screen_gr90_r16_s1 gate_rank=16 seed=1 max_tokens=30000000
+[gr90 10:31:19] === gr90 chain START (MAXTOK=30000000, deadline 13:25) ===
+0, NVIDIA GeForce RTX 5090, 30408 MiB
+1, NVIDIA GeForce RTX 5080, 335 MiB
+[gr90 10:31:20] === r0_s0 START ===
+optimizer: NorMuon (40 matrices, lr=0.005) + AdamW (68 other params, lr=0.0006)
+arch=spiking params=78.48M device=cuda target=0.030B tok | 12288 tok/step | total_steps≈2441 | warmup=48 | lr_sched=cosine | grad_clip=1.0
+[mk90] temp/gr90_r0_s0.yaml: screen_gr90_r0_s0 gate_rank=0 seed=0 max_tokens=30000000
+[mk90] temp/gr90_r16_s0.yaml: screen_gr90_r16_s0 gate_rank=16 seed=0 max_tokens=30000000
+[mk90] temp/gr90_r0_s1.yaml: screen_gr90_r0_s1 gate_rank=0 seed=1 max_tokens=30000000
+[mk90] temp/gr90_r16_s1.yaml: screen_gr90_r16_s1 gate_rank=16 seed=1 max_tokens=30000000
+[gr90 10:35:54] === gr90 chain START (MAXTOK=30000000, deadline 13:25) ===
+0, NVIDIA GeForce RTX 5090, 30408 MiB
+1, NVIDIA GeForce RTX 5080, 333 MiB
+[gr90 10:35:54] === r0_s0 START ===
+optimizer: NorMuon (40 matrices, lr=0.005) + AdamW (68 other params, lr=0.0006)
+arch=spiking params=78.48M device=cuda target=0.030B tok | 4096 tok/step | total_steps≈7324 | warmup=146 | lr_sched=cosine | grad_clip=1.0
+[mk90] temp/gr90_r0_s0.yaml: screen_gr90_r0_s0 gate_rank=0 seed=0 max_tokens=20000000
+[mk90] temp/gr90_r16_s0.yaml: screen_gr90_r16_s0 gate_rank=16 seed=0 max_tokens=20000000
+[mk90] temp/gr90_r0_s1.yaml: screen_gr90_r0_s1 gate_rank=0 seed=1 max_tokens=20000000
+[mk90] temp/gr90_r16_s1.yaml: screen_gr90_r16_s1 gate_rank=16 seed=1 max_tokens=20000000
+[gr90 10:42:02] === gr90 chain START (MAXTOK=20000000, deadline 13:25) ===
+0, NVIDIA GeForce RTX 5090, 30408 MiB
+1, NVIDIA GeForce RTX 5080, 345 MiB
+[gr90 10:42:02] === r0_s0 START ===
+optimizer: NorMuon (40 matrices, lr=0.005) + AdamW (68 other params, lr=0.0006)
+arch=spiking params=78.48M device=cuda target=0.020B tok | 8192 tok/step | total_steps≈2441 | warmup=48 | lr_sched=cosine | grad_clip=1.0
+step 200 | 1.6M tok | loss 13.361 | 4,353 tok/s | vram 2.3/12.0 GB
+step 400 | 3.3M tok | loss 11.850 | 4,181 tok/s | vram 2.3/12.0 GB
+step 600 | 4.9M tok | loss 12.831 | 4,364 tok/s | vram 2.2/12.0 GB
+step 800 | 6.6M tok | loss 11.720 | 4,414 tok/s | vram 2.2/12.0 GB
+step 1000 | 8.2M tok | loss 11.532 | 4,516 tok/s | vram 2.3/12.0 GB
+  [eval] val_ppl 92.59 | ablated_ppl 386.48 (memory Δ=+293.90) | spike 0.254
+  [wnorm] embed=188.30 | head=135.10 | mtp_proj.0=20.25 | mtp_proj.2=20.89
+  [beta] blk0: μ=0.56 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: μ=0.52 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.54 dead=0% at_floor=0% | blk5: μ=0.48 dead=0% at_floor=0%
+  [gates sat] (d=neverforget/fastforget) blk0: e=1% w=0% d=3/0% dstd=2.1 | blk1: e=0% w=0% d=20/0% dstd=2.6 | blk2: e=0% w=0% d=15/0% dstd=1.8 | blk3: n/a | blk4: e=0% w=0% d=14/0% dstd=1.8 | blk5: e=3% w=0% d=3/0% dstd=1.5
+  [spike] reported=0.254 spiking_only=0.305 (5/6 blocks spike)
+  [alpha] blk0: μ=0.709 hi=0% lo=0% | blk1: μ=0.758 hi=0% lo=0% | blk2: μ=0.855 hi=0% lo=0% | blk3: n/a | blk4: μ=0.849 hi=0% lo=0% | blk5: μ=0.763 hi=0% lo=0%
+step 1200 | 9.8M tok | loss 11.315 | 3,971 tok/s | vram 2.2/11.7 GB
+step 1400 | 11.5M tok | loss 11.498 | 4,643 tok/s | vram 2.3/11.7 GB
+step 1600 | 13.1M tok | loss 10.449 | 4,222 tok/s | vram 2.3/11.7 GB
+step 1800 | 14.7M tok | loss 10.624 | 4,442 tok/s | vram 2.3/11.7 GB
+step 2000 | 16.4M tok | loss 9.358 | 4,057 tok/s | vram 2.2/11.7 GB
+  [eval] val_ppl 60.42 | ablated_ppl 243.97 (memory Δ=+183.55) | spike 0.236
+  [wnorm] embed=189.95 (+0.88%) | head=148.26 (+9.74%) | mtp_proj.0=23.31 (+15.11%) | mtp_proj.2=24.71 (+18.30%)
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: μ=0.52 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.54 dead=0% at_floor=0% | blk5: μ=0.48 dead=0% at_floor=0%
+  [gates sat] (d=neverforget/fastforget) blk0: e=2% w=0% d=3/1% dstd=2.3 | blk1: e=0% w=0% d=18/0% dstd=2.6 | blk2: e=1% w=0% d=9/0% dstd=1.8 | blk3: n/a | blk4: e=0% w=0% d=8/0% dstd=1.7 | blk5: e=3% w=0% d=2/0% dstd=1.3
+  [spike] reported=0.236 spiking_only=0.284 (5/6 blocks spike)
+  [alpha] blk0: μ=0.722 hi=0% lo=0% | blk1: μ=0.724 hi=0% lo=0% | blk2: μ=0.832 hi=0% lo=0% | blk3: n/a | blk4: μ=0.825 hi=0% lo=0% | blk5: μ=0.716 hi=0% lo=0%
+step 2200 | 18.0M tok | loss 10.444 | 3,703 tok/s | vram 2.2/11.7 GB
+step 2400 | 19.7M tok | loss 10.537 | 4,178 tok/s | vram 2.2/11.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_gr90_r0_s0/step_0002442.pt
+done: 20.0M tok in 1.31h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     171232910.5 |     250216448.0 |         1.46x
+    4096 |     192335502.5 |     376832000.0 |         1.96x
+
+block mix: 5 spiking + 1 attention | spike_rate 0.234 reported -> 0.281 spiking-only
+spiking op mix/token @ seq 4096: 40,550,400 MAC + 6,448,514 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[gr90 12:01:41] r0_s0 COMPLETE
+[gr90 12:01:41] === r16_s0 START ===
+optimizer: NorMuon (50 matrices, lr=0.005) + AdamW (73 other params, lr=0.0006)
+arch=spiking params=69.05M device=cuda target=0.020B tok | 8192 tok/step | total_steps≈2441 | warmup=48 | lr_sched=cosine | grad_clip=1.0
+step 200 | 1.6M tok | loss 13.227 | 4,219 tok/s | vram 2.1/12.0 GB
+step 400 | 3.3M tok | loss 11.795 | 4,342 tok/s | vram 2.1/12.0 GB
+step 600 | 4.9M tok | loss 12.836 | 3,826 tok/s | vram 2.2/12.0 GB
+step 800 | 6.6M tok | loss 12.066 | 4,268 tok/s | vram 2.2/12.0 GB
+step 1000 | 8.2M tok | loss 11.603 | 4,275 tok/s | vram 2.1/12.0 GB
+  [eval] val_ppl 92.19 | ablated_ppl 305.91 (memory Δ=+213.72) | spike 0.247
+  [wnorm] embed=187.97 | head=138.19 | mtp_proj.0=20.03 | mtp_proj.2=20.74
+  [beta] blk0: μ=0.67 dead=0% at_floor=27% | blk1: μ=0.44 dead=0% at_floor=56% | blk2: μ=0.46 dead=0% at_floor=58% | blk3: n/a | blk4: μ=0.47 dead=0% at_floor=54% | blk5: μ=0.59 dead=0% at_floor=40%
+  [gates sat] (d=neverforget/fastforget) blk0: e=82% w=79% d=4/0% dstd=1.4 | blk1: e=94% w=89% d=3/0% dstd=1.0 | blk2: e=96% w=98% d=0/0% dstd=0.4 | blk3: n/a | blk4: e=42% w=93% d=9/0% dstd=1.4 | blk5: e=91% w=89% d=5/0% dstd=1.2
+  [spike] reported=0.247 spiking_only=0.296 (5/6 blocks spike)
+  [alpha] blk0: μ=0.865 hi=0% lo=0% | blk1: μ=0.905 hi=0% lo=0% | blk2: μ=0.944 hi=0% lo=0% | blk3: n/a | blk4: μ=0.903 hi=0% lo=0% | blk5: μ=0.902 hi=0% lo=0%
+step 1200 | 9.8M tok | loss 10.986 | 3,705 tok/s | vram 2.1/11.7 GB
+step 1400 | 11.5M tok | loss 11.584 | 4,021 tok/s | vram 2.1/11.7 GB
+step 1600 | 13.1M tok | loss 10.439 | 4,092 tok/s | vram 2.2/11.7 GB
+step 1800 | 14.7M tok | loss 10.539 | 4,090 tok/s | vram 2.1/11.7 GB
+step 2000 | 16.4M tok | loss 9.524 | 4,095 tok/s | vram 2.1/11.7 GB
+  [eval] val_ppl 60.60 | ablated_ppl 255.25 (memory Δ=+194.65) | spike 0.229
+  [wnorm] embed=189.54 (+0.84%) | head=151.49 (+9.62%) | mtp_proj.0=22.85 (+14.12%) | mtp_proj.2=24.40 (+17.64%)
+  [beta] blk0: μ=0.68 dead=0% at_floor=31% | blk1: μ=0.45 dead=0% at_floor=58% | blk2: μ=0.46 dead=0% at_floor=60% | blk3: n/a | blk4: μ=0.47 dead=0% at_floor=54% | blk5: μ=0.62 dead=0% at_floor=35%
+  [gates sat] (d=neverforget/fastforget) blk0: e=88% w=88% d=3/0% dstd=1.3 | blk1: e=97% w=94% d=5/0% dstd=1.2 | blk2: e=98% w=99% d=0/0% dstd=0.7 | blk3: n/a | blk4: e=40% w=93% d=5/0% dstd=1.2 | blk5: e=69% w=85% d=5/0% dstd=1.4
+  [spike] reported=0.229 spiking_only=0.275 (5/6 blocks spike)
+  [alpha] blk0: μ=0.843 hi=0% lo=0% | blk1: μ=0.872 hi=0% lo=0% | blk2: μ=0.923 hi=0% lo=0% | blk3: n/a | blk4: μ=0.912 hi=0% lo=0% | blk5: μ=0.874 hi=0% lo=0%
+step 2200 | 18.0M tok | loss 10.835 | 3,698 tok/s | vram 2.1/11.6 GB
+step 2400 | 19.7M tok | loss 11.018 | 4,092 tok/s | vram 2.2/11.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_gr90_r16_s0/step_0002442.pt
+done: 20.0M tok in 1.38h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     171038075.1 |     250216448.0 |         1.46x
+    4096 |     192140667.1 |     376832000.0 |         1.96x
+
+block mix: 5 spiking + 1 attention | spike_rate 0.226 reported -> 0.272 spiking-only
+spiking op mix/token @ seq 4096: 40,550,400 MAC + 6,232,030 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[gr90 13:25:35] r16_s0 COMPLETE
+[gr90 13:25:35] DEADLINE -- not starting r0_s1
+[gr90 13:25:35] DEADLINE -- not starting r16_s1
+[gr90 13:25:35] recall_eval --replay split (B=32) on: screen_gr90_r0_s0,screen_gr90_r16_s0
+loaded screen_gr90_r0_s0: 78.5M
+loaded screen_gr90_r16_s0: 69.1M
+
+MQAR associative recall (single presentation, B=32).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+     screen_gr90_r0_s0 |   47% |   25% |   12% |    3% |    0%
+    screen_gr90_r16_s0 |   22% |   19% |    0% |    0% |    0%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+     screen_gr90_r0_s0 |  1822 |  2156 |  2154 |  1968 |  1968
+    screen_gr90_r16_s0 |  3374 |  3355 |  4703 |  4140 |  3711
+[gr90 13:25:58] === gr90 chain DONE ===

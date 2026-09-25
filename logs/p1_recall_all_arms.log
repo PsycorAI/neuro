@@ -1,0 +1,26 @@
+loaded w1_gnoff: 276.5M
+loaded w4_biggerbatch: 276.6M
+loaded w3_lr7e4: 276.6M
+loaded w2_lam05: 276.6M
+loaded step3fix_gnwd_hot_b16: 276.6M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+              w1_gnoff |   17% |   17% |    9% |    3% |    0%
+        w4_biggerbatch |  100% |  100% |   95% |   80% |   33%
+              w3_lr7e4 |  100% |   98% |   83% |   67% |   33%
+              w2_lam05 |  100% |   95% |   91% |   70% |   34%
+ step3fix_gnwd_hot_b16 |  100% |   98% |   89% |   66% |   27%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+              w1_gnoff |  6213 |  6361 |  5642 |  5240 |  6605
+        w4_biggerbatch |     1 |     1 |     3 |   165 |  1523
+              w3_lr7e4 |   189 |     6 |    59 |   402 |   830
+              w2_lam05 |     1 |    12 |     3 |    86 |   412
+ step3fix_gnwd_hot_b16 |     7 |    17 |    18 |   172 |  1319

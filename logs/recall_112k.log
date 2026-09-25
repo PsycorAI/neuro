@@ -1,0 +1,32 @@
+############ 112k MODE: single-presentation, B=32 ############
+loaded eval_flag112k: 363.5M
+
+MQAR associative recall (single presentation, B=32).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+         eval_flag112k |  100% |  100% |   84% |    9% |    0%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+         eval_flag112k |     1 |     1 |     3 |  6793 |  7717
+
+############ 112k MODE: --replay split, B=32 ############
+loaded eval_flag112k: 363.5M
+
+MQAR associative recall (single presentation, B=32).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+         eval_flag112k |  100% |  100% |   94% |   53% |   22%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+         eval_flag112k |     1 |     1 |    46 |  2425 |  8834
+EVAL_DONE

@@ -1,0 +1,106 @@
+# Full-finetune SFT on 500M v3 (post-sparsity-refine). Alpaca instruction
+# tuning. Full-FT chosen over LoRA per neuro_lora_at_30m_plateau (2026-07-22):
+# LoRA plateaued at loss ~4.2 on the 30M base regardless of rank/budget while
+# full-FT reached 2.68. Retest LoRA-500M A/B AFTER this baseline lands.
+#
+# Base: sparsity_refine_500m_v3 final ckpt (the low-spike, refined 500M).
+# If sparsity refine hasn't run yet, point sft_init at 500m_v3 directly.
+#
+# RECIPE differences from pretrain:
+#   - Muon LR: 0.005 -> 0.001 (5x lower, standard SFT-vs-pretrain ratio)
+#   - AdamW LR: 0.0004 -> 0.0001 (~4x lower)
+#   - mqar_aug/sparsity/curriculum/mtp/z_loss OFF (pretraining-only aux losses)
+#   - block_size: 640 -> 512 (Alpaca instructions are short; save VRAM)
+#   - batch_size: 14 -> 6 (leaves headroom for optimizer states + Alpaca padding)
+#   - max_tokens: 200M (~8 Alpaca epochs at 512-tok cap; standard SFT budget)
+#
+# LAUNCH PROCEDURE (post-500M v3, post-sparsity-refine):
+#   python src/train_sft.py --config configs/sft_500m_full_v3.yaml --device cuda
+# Loads sft_init automatically via glob. Saves to models/checkpoints/sft_500m_full_v3/.
+run_name: sft_500m_full_v3
+
+# Base: sparsity-refined 500M v3. Change to '500m_v3' to skip the sparsity
+# refine step (goes straight from pretrain endpoint to SFT).
+sft_init: sparsity_refine_500m_v3
+sft_dataset: yahma/alpaca-cleaned
+sft_split: train
+sft_max_len: 512
+
+# --- Full-finetune ---
+lora_enabled: false
+
+# --- ARCH: byte-identical to 500m_v3.yaml ---
+arch: spiking
+vocab: 16384
+d: 2048
+n_neurons: 4864
+d_mem: 2048
+n_layers: 5
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 6
+grad_accum: 4
+eval_batch: 4
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+# --- Pretraining-only knobs: OFF during SFT ---
+mqar_aug: false
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+# --- Model-arch knobs (MUST match base) ---
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+# --- Muon+AdamW, gentle SFT LRs (5x lower than pretrain) ---
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.001
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0001
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+max_tokens: 500000000
+eval_every: 2000
+ckpt_every: 2000
+keep_last: 3
+log_every: 100
+amp: true
+
+# --- compile: true is structural (see sft_30m_full_v2 note); train_sft.py
+#    never calls torch.compile, but this ensures 0/0 state_dict load. ---
+compile: true
+seed: 0

@@ -1,0 +1,88 @@
+# 30M new-recipe screen v2 (2026-07-31) — KD TREATMENT, alpha=0.2.
+#
+# Retest after screen_new_recipe_v2_30m_kd.yaml (alpha=0.5) showed KD
+# trailing the no-KD control at every eval point (widening gap: +8% ->
+# +18% -> +24% worse val_ppl by step 1500), while memory-Delta ran 2-3x
+# higher throughout. Hypothesis: alpha=0.5 gives up too much hard-CE
+# gradient pressure at this very short 30M-token budget. This config
+# drops to alpha=0.2 (80% hard-CE / 20% soft-target) to test whether a
+# lighter KD touch avoids the tradeoff while still getting some benefit.
+#
+# Byte-identical to screen_new_recipe_v2_30m_kd.yaml except kd_alpha.
+run_name: screen_new_recipe_v2_30m_kd_a02
+
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+
+arch: spiking
+vocab: 32768
+d: 384
+n_neurons: 384
+d_mem: 384
+n_layers: 4
+attention_layer_positions: [2]
+attention_heads: 8
+attention_max_seq_len: 4096
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.5
+sparsity_lambda: 0.3
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0006
+lam: 0.98
+max_tokens: 30000000
+eval_every: 500
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+seed: 0
+
+# KD: ON, alpha lowered 0.5 -> 0.2 (80% hard-CE, 20% soft-target)
+kd_enabled: true
+kd_teacher: meta-llama/Llama-3.2-1B
+kd_alpha: 0.2
+kd_temperature: 1.0
+kd_teacher_topk: 128
+kd_teacher_int8: false

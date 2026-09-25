@@ -1,0 +1,15 @@
+[11:47:25] ===== HEAD-WD CHAIN BEGIN (GPU1) =====
+[11:47:25] START screen_headwd_base_s0_30m
+[13:09:58] END   screen_headwd_base_s0_30m rc=0  (val_ppl 71.85 | final head=141.59)
+[13:09:58] START screen_headwd_1p0_s0_30m
+[14:30:04] END   screen_headwd_1p0_s0_30m rc=0  (val_ppl 68.81 | final head=70.34)
+[14:30:04] START screen_headwd_2p0_s0_30m
+[15:54:13] END   screen_headwd_2p0_s0_30m rc=1  (val_ppl 78.96 | final head=49.54)
+[15:54:13] ===== recall_eval =====
+[15:55:02] single rc=0 -> logs/headwd_recall_SINGLE.log
+[15:55:18] split rc=0 -> logs/headwd_recall_SPLIT.log
+[15:55:18] ===== SUMMARY (val_ppl | final head norm) =====
+  screen_headwd_base_s0_30m: val_ppl 71.85 | head=141.59
+  screen_headwd_1p0_s0_30m: val_ppl 68.81 | head=70.34
+  screen_headwd_2p0_s0_30m: val_ppl 78.96 | head=49.54
+[15:55:18] ===== CHAIN COMPLETE =====

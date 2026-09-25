@@ -1,0 +1,92 @@
+# SimPO smoke on the 30M full-FT SFT'd base -- validates:
+#   1. simpo_enabled: true path in train_dpo.py builds ONLY the policy (no ref)
+#   2. length-normalized avg-logp reward + gamma margin gives finite loss
+#   3. loss/preference-acc converge in the same direction as our DPO smokes did
+#   4. spike telemetry appears in the log lines
+#   5. batch_size can be doubled vs standard DPO (no reference model)
+# Same base + dataset as dpo_30m_full_v2_smoke.yaml for direct comparison.
+run_name: simpo_30m_smoke
+dpo_init: /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2/step_0006104.pt
+dpo_dataset: HuggingFaceH4/ultrafeedback_binarized
+dpo_split: train_prefs
+dpo_max_len: 512
+
+# --- SimPO (new) ---
+simpo_enabled: true
+simpo_beta: 2.0     # paper: ~2.0 for 7B; higher than DPO's typical 0.1
+simpo_gamma: 0.5    # target reward margin; paper: 0.5-1.6 depending on scale
+
+# --- LoRA off (full-FT SimPO for direct comparability with DPO smoke) ---
+lora_enabled: false
+
+# --- ARCH: byte-identical to sft_30m_full_v2 ---
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640
+# SimPO frees ~50% VRAM (no reference) -> double batch_size vs the DPO smoke
+# (which used batch=8). Same per_step_tok scaling in the loss.
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.0
+sparsity_lambda: 0.0
+sparsity_target: 0.05
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+gdn2_enabled: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0005
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.00005
+lr_min_frac: 0.1
+lr_warmup_frac: 0.05
+lam: 0.98
+
+# Smoke budget: 5M tok (~305 steps at 16384 tok/step), enough to see whether
+# loss decreases from initial and preference-acc rises above chance.
+max_tokens: 5000000
+ckpt_every: 500
+keep_last: 2
+log_every: 50
+amp: true
+compile: true
+seed: 0

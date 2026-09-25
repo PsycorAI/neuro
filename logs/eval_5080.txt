@@ -1,0 +1,95 @@
+======== 2026-07-29T00:28:36-07:00  [eval-5080] STARTED (pid=3094) -- sparsity_cleanup_500m_v3 + sparsity_cleanup2_500m_v3
+======== 2026-07-29T00:28:36-07:00  [eval-5080] START ppl_eval: sparsity_cleanup_500m_v3 (step_0016388.pt)
+
+ckpt: step_0016388.pt  (step=16388, 265M tok)
+  val_ppl      = 43.2637
+  ablated_ppl  = 341.6351  (memory Delta = +298.37)
+  spike_rate   = 0.1101
+======== 2026-07-29T00:30:02-07:00  [eval-5080] OK ppl_eval sparsity_cleanup_500m_v3
+======== 2026-07-29T00:30:02-07:00  [eval-5080] START engram_factual_eval: sparsity_cleanup_500m_v3
+loading checkpoint: sparsity_cleanup_500m_v3
+  step=16388 tokens=265M vocab=16384 engram_enabled=False engram_v2_enabled=True
+fact set: 50
+
+scored 40/50 facts (10 skipped)
+                       ENGRAM ON     ENGRAM OFF     Δ (on-off)
+    mean log-prob         -7.499         -7.659          0.160
+    mean rank              618.0          663.8          -45.8
+    top-1 acc %             2.5%           0.0%           2.5%
+    top-10 acc %           15.0%          12.5%           2.5%
+
+Interpretation:
+  Engram working  = ON meaningfully better than OFF
+                    (higher log-prob, lower rank, higher top-K).
+  Engram inactive = ON and OFF nearly identical (path exists but contributes ~0).
+  Engram harmful  = ON worse than OFF (rare; possible if mis-trained).
+
+Skipped facts:
+  [target all-OOV] 'The capital of Spain is'
+  [target all-OOV] 'The capital of Canada is'
+  [target all-OOV] 'The capital of Egypt is'
+  [target all-OOV] 'The capital of Australia is'
+  [target all-OOV] 'Mount Everest is located in'
+  [target all-OOV] 'The currency of Japan is the'
+  [target all-OOV] 'The chemical symbol for gold is'
+  [target all-OOV] 'The author of The Odyssey is'
+  [target all-OOV] 'The longest river in the world is the'
+  [target all-OOV] 'The tallest mountain is Mount'
+======== 2026-07-29T00:30:31-07:00  [eval-5080] OK engram_factual_eval sparsity_cleanup_500m_v3
+======== 2026-07-29T00:30:31-07:00  [eval-5080] START ppl_eval: sparsity_cleanup2_500m_v3 (step_0021969.pt)
+
+ckpt: step_0021969.pt  (step=21969, 365M tok)
+  val_ppl      = 42.8396
+  ablated_ppl  = 306.1141  (memory Delta = +263.27)
+  spike_rate   = 0.0749
+======== 2026-07-29T00:31:58-07:00  [eval-5080] OK ppl_eval sparsity_cleanup2_500m_v3
+======== 2026-07-29T00:31:58-07:00  [eval-5080] START engram_factual_eval: sparsity_cleanup2_500m_v3
+loading checkpoint: sparsity_cleanup2_500m_v3
+  step=21969 tokens=365M vocab=16384 engram_enabled=False engram_v2_enabled=True
+fact set: 50
+
+scored 40/50 facts (10 skipped)
+                       ENGRAM ON     ENGRAM OFF     Δ (on-off)
+    mean log-prob         -7.892         -8.319          0.427
+    mean rank              749.0         1013.5         -264.6
+    top-1 acc %             0.0%           0.0%           0.0%
+    top-10 acc %           10.0%           7.5%           2.5%
+
+Interpretation:
+  Engram working  = ON meaningfully better than OFF
+                    (higher log-prob, lower rank, higher top-K).
+  Engram inactive = ON and OFF nearly identical (path exists but contributes ~0).
+  Engram harmful  = ON worse than OFF (rare; possible if mis-trained).
+
+Skipped facts:
+  [target all-OOV] 'The capital of Spain is'
+  [target all-OOV] 'The capital of Canada is'
+  [target all-OOV] 'The capital of Egypt is'
+  [target all-OOV] 'The capital of Australia is'
+  [target all-OOV] 'Mount Everest is located in'
+  [target all-OOV] 'The currency of Japan is the'
+  [target all-OOV] 'The chemical symbol for gold is'
+  [target all-OOV] 'The author of The Odyssey is'
+  [target all-OOV] 'The longest river in the world is the'
+  [target all-OOV] 'The tallest mountain is Mount'
+======== 2026-07-29T00:32:28-07:00  [eval-5080] OK engram_factual_eval sparsity_cleanup2_500m_v3
+======== 2026-07-29T00:32:28-07:00  [eval-5080] START recall_eval: sparsity_cleanup_500m_v3,sparsity_cleanup2_500m_v3 (Ns=4-64, B=64, split)
+loaded sparsity_cleanup_500m_v3: 479.3M
+loaded sparsity_cleanup2_500m_v3: 479.3M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+sparsity_cleanup_500m_v3 |   89% |   61% |   47% |   33% |   22%
+sparsity_cleanup2_500m_v3 |   64% |   44% |   28% |   20% |   12%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+sparsity_cleanup_500m_v3 |  9043 |  8341 |  6660 |  2928 |  2340
+sparsity_cleanup2_500m_v3 |  9980 |  8576 |  7372 |  5231 |  4218
+======== 2026-07-29T00:42:34-07:00  [eval-5080] OK recall_eval
+======== 2026-07-29T00:42:34-07:00  [eval-5080] DONE -- 5080 sweep complete

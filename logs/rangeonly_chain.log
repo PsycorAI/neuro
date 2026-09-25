@@ -1,0 +1,96 @@
+[09:50:05] ===== RANGE-ONLY SEED CONFIRM BEGIN (5080/GPU1) =====
+    [RAM] used=5G avail=17G
+[09:50:05] START screen_r432_w05_s1_30m.yaml
+    [RAM] used=5G avail=17G
+[11:13:23] END screen_r432_w05_s1_30m.yaml rc=0
+done: 100.0M tok in 1.38h
+    [RAM] used=5G avail=17G
+[11:13:23] START screen_r432_w05_s2_30m.yaml
+    [RAM] used=5G avail=17G
+[12:43:41] END screen_r432_w05_s2_30m.yaml rc=0
+done: 100.0M tok in 1.49h
+    [RAM] used=5G avail=17G
+[12:43:42] ===== RECALL (single-pres, B=64) — baseline fix16 s0/s1 vs range [4,32] s0/s1/s2 =====
+==== screen_mqarfix16_30m ====
+loaded screen_mqarfix16_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    4% |    3% |    2% |    2% |    1% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+  screen_mqarfix16_30m |  100% |   92% |   83% |   67% |   34% |   11% |    8% |    2% |    6%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+  screen_mqarfix16_30m |     1 |     2 |     7 |    40 |   189 |   690 |   805 |  1384 |  1362
+==== screen_mqarfix16_s1_30m ====
+loaded screen_mqarfix16_s1_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    4% |    3% |    2% |    2% |    1% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_mqarfix16_s1_30m |   97% |   95% |   88% |   67% |   33% |    9% |    9% |    6% |    5%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_mqarfix16_s1_30m |     1 |     2 |    12 |    43 |   113 |   663 |   994 |   976 |  1210
+==== screen_loglinear_ctrl_30m ====
+loaded screen_loglinear_ctrl_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    4% |    3% |    2% |    2% |    1% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |  100% |   94% |   95% |   77% |   52% |   28% |   25% |   14% |   16%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |     1 |     2 |     1 |    23 |   160 |   155 |   518 |   897 |   828
+==== screen_r432_w05_s1_30m ====
+loaded screen_r432_w05_s1_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    4% |    3% |    2% |    2% |    1% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_r432_w05_s1_30m |  100% |  100% |   98% |   89% |   73% |   38% |   17% |   12% |   12%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_r432_w05_s1_30m |     1 |     1 |     1 |     2 |     5 |   121 |   256 |   965 |   909
+==== screen_r432_w05_s2_30m ====
+loaded screen_r432_w05_s2_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    4% |    3% |    2% |    2% |    1% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_r432_w05_s2_30m |  100% |   98% |   89% |   81% |   58% |   34% |   20% |   14% |   12%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 24 | N= 32 | N= 48 | N= 64 | N= 96 | N=128
+------------------------------------------------------------------------------------------------
+screen_r432_w05_s2_30m |     1 |     1 |     9 |    10 |    72 |   225 |   629 |   790 |  1117
+[12:46:03] ===== val_ppl =====
+  screen_mqarfix16_30m: val_ppl 73.38
+  screen_mqarfix16_s1_30m: val_ppl 73.24
+  screen_loglinear_ctrl_30m: val_ppl 72.98
+  screen_r432_w05_s1_30m: val_ppl 60.28
+  screen_r432_w05_s2_30m: val_ppl 72.80
+[12:46:03] COMPLETE
+    [RAM] used=5G avail=17G

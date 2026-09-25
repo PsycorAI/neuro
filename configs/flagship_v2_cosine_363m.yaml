@@ -1,0 +1,111 @@
+# flagship_v2 -- cosine reroll, 2026-08-30.
+#
+# ONE-LEVER upgrade over configs/flagship_363m.yaml (v1). NOT a fork of the
+# WSD flagship_v2_363m.yaml -- WSD diverged at step 18k / 271k (val_ppl
+# 39.03 @ step 12k, then rising for 2 consecutive evals -> watchdog trip),
+# same head-norm-growth mechanism as v1's late divergence but ACCELERATED
+# (+70% head over 16k steps vs v1's +29% over 8k). Cause: WSD keeps LR at
+# peak the whole stable phase; cosine's continuously-decaying LR silently
+# damps head-norm growth and was doing protective work I underweighted.
+# See [[neuro-flagship-v2-wsd-diverged-2026-08-30]] and
+# [[neuro-flagship-divergence-root-cause]].
+#
+# Deltas vs flagship_363m.yaml (ONLY these):
+#   run_name    flagship_363m -> flagship_v2_cosine_363m
+#   max_tokens  5.5e9         -> 1.0e10  (Tier-1 #1: more tokens; ~14 tok/param;
+#                                         ~2x killed v1's 4.79B endpoint)
+#
+# Deliberately NOT changed (each locked upstream):
+#   lr=5e-4                validated at cosine's decaying trajectory (Step Law
+#                          suggests 6e-4, W3@7e-4 REJECTED on recall rank).
+#   lr_schedule=cosine     (default; no key needed) -- WSD unsafe here.
+#   block_size=512         5090 VRAM wall (363M @768 @B16 = 35.4 GB).
+#   recipe                 gate-norm + Muon wd + lambda 0.5 + grad_accum 4 +
+#                          muon_precise_gate_filter + max-autotune-no-cudagraphs.
+#                          2-seed confirmed [[neuro-composed-recipe-confirmed-2026-08-07]].
+#   guards                 val_ppl tripwire + head-norm telemetry + best-ckpt
+#                          tracking (train_gpu.py:237). The tripwire saved us
+#                          ~14 days of futile compute on the WSD attempt.
+#
+# ETA: 10.0e9 tokens / (18*4*512 tok/step) / ~7.4k tok/s ~= ~15.6 days on 5090.
+# DO NOT wall-clock-truncate. max_tokens is the real budget; cosine needs to
+# actually finish for the LR schedule to reach its endpoint.
+run_name: flagship_v2_cosine_363m
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3072
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 18
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-08
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+weight_decay: 0.1
+lr: 0.0005
+lam: 0.98
+max_tokens: 10000000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 6
+log_every: 1000
+amp: true
+compile: true
+compile_mode: max-autotune-no-cudagraphs
+compile_dynamic: false
+seed: 0
+kd_enabled: false
+gdn2_gate_norm: true
+snapshot_brain: false
+gdn2_chunk_size: 64
+muon_precise_gate_filter: true

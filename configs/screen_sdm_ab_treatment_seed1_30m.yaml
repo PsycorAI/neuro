@@ -1,0 +1,54 @@
+# SDM A/B -- TREATMENT SEED1 confirm. Byte-identical to
+# screen_sdm_ab_treatment_30m.yaml except seed: 0 -> 1. Only launched if
+# seed0 wins > ~1.5 ppl noise floor. Placed in the queue anyway so a
+# bulletproof file-based chain can fire it without manual intervention;
+# if seed0 loses, this becomes a discardable second data point (which is
+# still informative -- 30M single seeds are noisy).
+run_name: screen_sdm_ab_treatment_seed1_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 32
+grad_accum: 1
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+gdn2_enabled: false
+osdn_enabled: false
+sdm_enabled: true
+sdm_N: 1024
+sdm_W: 4
+sdm_R: 4
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 100000000
+eval_every: 1000
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 1

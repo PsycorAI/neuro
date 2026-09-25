@@ -1,0 +1,22 @@
+===== [2026-09-10_21:43] PROBE probe_chunk64_363m =====
+===== [22:09] probe_chunk64_363m tok/s tail =====
+step 50 | 1.8M tok | loss 15.322 | 6,925 tok/s | vram 5.8/28.5 GB
+step 75 | 2.8M tok | loss 14.905 | 7,985 tok/s | vram 5.9/28.5 GB
+step 100 | 3.7M tok | loss 14.177 | 8,056 tok/s | vram 5.8/28.5 GB
+step 125 | 4.6M tok | loss 13.734 | 8,013 tok/s | vram 5.8/28.5 GB
+step 150 | 5.5M tok | loss 14.049 | 8,012 tok/s | vram 5.9/28.5 GB
+===== [2026-09-10_22:09] PROBE probe_chunk128_363m =====
+===== [22:48] probe_chunk128_363m tok/s tail =====
+step 50 | 1.8M tok | loss 14.889 | 5,803 tok/s | vram 5.8/25.0 GB
+step 75 | 2.8M tok | loss 14.857 | 6,562 tok/s | vram 5.9/25.0 GB
+step 100 | 3.7M tok | loss 14.394 | 6,277 tok/s | vram 5.8/25.0 GB
+step 125 | 4.6M tok | loss 13.675 | 5,935 tok/s | vram 5.8/25.0 GB
+step 150 | 5.5M tok | loss 14.156 | 6,638 tok/s | vram 5.9/25.0 GB
+===== [2026-09-10_22:48] PROBE probe_chunk256_363m =====
+===== [23:29] probe_chunk256_363m tok/s tail =====
+step 50 | 1.8M tok | loss 15.187 | 8,630 tok/s | vram 5.7/23.2 GB
+step 75 | 2.8M tok | loss 14.680 | 9,135 tok/s | vram 5.9/23.2 GB
+step 100 | 3.7M tok | loss 14.249 | 8,603 tok/s | vram 5.8/23.2 GB
+step 125 | 4.6M tok | loss 13.698 | 8,998 tok/s | vram 5.8/23.2 GB
+step 150 | 5.5M tok | loss 13.858 | 9,080 tok/s | vram 5.9/23.2 GB
+===== [23:29] PROBE CHAIN DONE =====

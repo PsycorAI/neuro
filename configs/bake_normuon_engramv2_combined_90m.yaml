@@ -1,0 +1,68 @@
+# 90M scale-up of the NorMuon + Engram-v2 combined bake.
+# Direct promotion from screen_bake_normuon_engramv2_combined_30m.yaml (30M seed0
+# beat control by ~2.8 ppl; seed1 by ~11.8 ppl -- the two confirmed wins compose
+# without interfering, see journey.html §38 and neuro_engram / neuro_normuon
+# memory notes). 90M is the standard next-gate on the 30M A/B pattern before a
+# 350M/500M commit.
+#
+# Recipe inherits the 30M combined bake verbatim EXCEPT:
+#   - Arch: n_neurons 1024 -> 2048, n_layers 2 -> 4 (matches the existing 90M
+#     configs like screen_rdepth2_mor_90m_seed1_beta_floor). d_mem stays 1024.
+#   - Batch: 32 -> 16 with grad_accum 1 -> 2 (effective batch unchanged at 32;
+#     the smaller per-step batch protects the 5080's 16GB VRAM against the
+#     2x-model + Engram-v2 buffers).
+#   - Tokens: 100M -> 400M (matches project's 90M-scale convention).
+#   - eval_every: 1000 -> 2000, ckpt_every: 4000 -> 4000 (fewer eval spikes
+#     over a longer run).
+#   - recurrent stays false, no MoR router -- isolating the bake variables,
+#     the same isolation logic used at 30M.
+run_name: bake_normuon_engramv2_combined_90m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 2048
+d_mem: 1024
+n_layers: 4
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1   # β-collapse fix (2026-07-10) -- recipe default, do NOT remove.
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+lr: 0.0006
+lam: 0.98
+max_tokens: 400000000
+eval_every: 2000
+ckpt_every: 4000
+keep_last: 2
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

@@ -1,0 +1,89 @@
+# Sparsity-refinement screen -- treatment #2 (λ = 5.0, 10x base pretrain λ).
+#
+# See screen_sparsity_refine_lam2_30m.yaml for full context. This is the
+# aggressive arm -- if λ=2.0 barely moves spike, λ=5.0 tells us whether the
+# mechanism responds to λ at all, or whether the base is already at a
+# sparsity floor that no penalty can push below.
+#
+# Copy the base ckpt in before launching:
+#   mkdir -p models/checkpoints/screen_sparsity_refine_lam5_30m
+#   cp models/checkpoints/screen_compile_blk640_30m/step_0004883.pt \
+#      models/checkpoints/screen_sparsity_refine_lam5_30m/
+run_name: screen_sparsity_refine_lam5_30m
+
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 640
+batch_size: 16
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+
+mqar_aug: false
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.0
+
+# --- Sparsity: 10x base pretrain λ. Target unchanged. ---
+sparsity_lambda: 5.0
+sparsity_target: 0.05
+
+gdn2_enabled: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+normuon_eps: 1.0e-8
+muon_lr: 0.0025
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0003
+
+lr_min_frac: 1.0
+lr_warmup_frac: 0.0
+
+lam: 0.98
+
+max_tokens: 150000000
+
+eval_every: 200
+ckpt_every: 5000
+keep_last: 2
+log_every: 100
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0

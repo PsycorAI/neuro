@@ -25,7 +25,8 @@ import os, sys, glob, argparse
 import torch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-from model import SpikingHebbianLM
+from model import SpikingHebbianLM  # noqa: F401 kept for backwards-import compat
+from train_gpu import build_model as _canonical_build
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 KEY_LO, KEY_HI = 1000, 6000        # key token range
@@ -40,24 +41,12 @@ def latest(run):
 
 
 def build(c, device):
-    m = SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"], d_mem=c["d_mem"],
-                         recurrent=c.get("recurrent", False), rec_density=c.get("rec_density", 0.05),
-                         compile_safe=c.get("compile", False), tie_weights=c.get("tie_weights", False),
-                         n_layers=c.get("n_layers", 1), use_fpt=c.get("use_fpt", False),
-                         fpt_K=c.get("fpt_K", 10), lam=c.get("lam", 0.98),
-                         learnable_decay=c.get("learnable_decay", False),
-                         write_gate=c.get("write_gate", False),
-                         delta_rule=c.get("delta_rule", False),
-                         beta_floor=c.get("beta_floor", 0.0),
-                         decay_gate=c.get("decay_gate", False),
-                         titans=c.get("titans", False),
-                         local_attn=c.get("local_attn", False),
-                         local_window=c.get("local_window", 64),
-                         n_heads=c.get("n_heads", 1),
-                         pre_conv=c.get("pre_conv", False),
-                         pre_conv_kernel=c.get("pre_conv_kernel", 4),
-                         vector_beta=c.get("vector_beta", False)).to(device)
-    return m
+    # 2026-07-28: delegating to train_gpu.build_model to eliminate drift risk
+    # (see [[neuro_train_sft_build_drift_fix]] — 4th recurrence hit chat.py
+    # this session). Prior manual kwarg list here was missing gdn2_chunked/
+    # ckpt_chunks/chunk_size/z_loss_weight and would silently build a subtly
+    # different forward path than what the ckpt was trained with.
+    return _canonical_build(c).to(device)
 
 
 def make_batch(B, N, vocab, device, seed):

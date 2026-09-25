@@ -1,0 +1,32 @@
+===== [23:45] 5090 busy (4662MiB, probe procs=2) -- wait 5m =====
+===== [23:50] 5090 busy (19822MiB, probe procs=2) -- wait 5m =====
+===== [23:55] 5090 busy (19830MiB, probe procs=2) -- wait 5m =====
+===== [00:00] 5090 busy (19878MiB, probe procs=2) -- wait 5m =====
+===== [00:05] 5090 busy (19884MiB, probe procs=2) -- wait 5m =====
+===== [00:10] 5090 busy (19884MiB, probe procs=2) -- wait 5m =====
+===== [00:15] 5090 busy (23388MiB, probe procs=3) -- wait 5m =====
+===== [00:20] 5090 busy (21346MiB, probe procs=2) -- wait 5m =====
+===== [00:25] 5090 busy (21368MiB, probe procs=2) -- wait 5m =====
+===== [00:30] 5090 busy (26066MiB, probe procs=2) -- wait 5m =====
+===== [00:35] 5090 busy (26074MiB, probe procs=2) -- wait 5m =====
+===== [00:40] 5090 busy (26074MiB, probe procs=2) -- wait 5m =====
+===== [00:45] 5090 busy (26076MiB, probe procs=2) -- wait 5m =====
+===== [00:50] 5090 busy (5352MiB, probe procs=2) -- wait 5m =====
+===== [00:55] 5090 busy (25144MiB, probe procs=2) -- wait 5m =====
+===== [01:00] 5090 busy (25628MiB, probe procs=2) -- wait 5m =====
+===== [01:05] 5090 busy (25664MiB, probe procs=2) -- wait 5m =====
+===== [01:10] 5090 busy (25674MiB, probe procs=2) -- wait 5m =====
+===== [01:15] 5090 idle (11MiB, Phase-B done) -- starting =====
+===== [2026-09-11_01:15] TRAIN screen_nwidth3584_s0_30m =====
+===== [02:32] RECALL screen_nwidth3584_s0_30m single =====
+===== [02:32] RECALL screen_nwidth3584_s0_30m split =====
+===== [2026-09-11_02:32] TRAIN screen_dmem1216_s0_30m =====
+===== [03:48] RECALL screen_dmem1216_s0_30m single =====
+===== [03:48] RECALL screen_dmem1216_s0_30m split =====
+===== [2026-09-11_03:48] TRAIN screen_scale_base_d1024_6L =====
+===== [10:48] RECALL screen_scale_base_d1024_6L single =====
+===== [10:48] RECALL screen_scale_base_d1024_6L split =====
+===== [2026-09-11_10:48] TRAIN screen_scale_wide_d1024_6L =====
+===== [18:54] RECALL screen_scale_wide_d1024_6L single =====
+===== [18:55] RECALL screen_scale_wide_d1024_6L split =====
+===== [18:55] 5090 QUEUE-2 DONE =====

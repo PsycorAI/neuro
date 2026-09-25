@@ -1,0 +1,92 @@
+# LAMBDA=0.5 CONFIRM at 90M (2026-08-02) — runs on the 5080 while the 5090
+# does the Phase 1 attention-ratio screen.
+#
+# The standing lambda=0.5 recommendation came from a 30M elasticity sweep that
+# ran concurrently with the seed-variance investigation and inherited its
+# confounds. This confirms it at 90M against the lambda=0.3 QK-norm 3-seed
+# baseline (54.76 / 52.52 / 58.53) at the SAME shape and eff batch.
+#
+# Tripwire (project standard): watch memory-delta, not just spike rate. A lower
+# spike rate bought by gutting the memory pathway is a loss, not a win.
+# 90M QK-norm 3-seed confirm — SEED 1 (5080 16GB).
+# See screen_qknorm_90m_s0.yaml for the screen's purpose and design notes.
+#
+# batch_size/grad_accum: conservative scale-down from s0/s2's batch=24,
+# following the same ~50% ratio the 30M screen used to fit the 5080 (32->16).
+# Not VRAM-probed for this specific 640-dim/6-layer shape (unlike s0/s2's
+# batch=24, which reuses the already-validated screen_new_recipe_v1_90m
+# sizing) -- if it OOMs, it only takes down this one isolated run.
+run_name: screen_lambda05_90m_s0
+
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+
+arch: spiking
+vocab: 32768
+d: 640
+n_neurons: 640
+d_mem: 640
+n_layers: 6
+attention_layer_positions: [3]
+attention_heads: 8
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 12
+grad_accum: 2
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 16
+mqar_N_max: 16
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders: [2, 3]
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-8
+muon_fix_gate_matrices: true
+muon_route_embeddings_by_type: true
+lr: 0.0006
+lam: 0.98
+max_tokens: 90000000
+eval_every: 1000
+ckpt_every: 4000
+keep_last: 2
+log_every: 200
+amp: true
+compile: true
+compile_mode: default
+compile_dynamic: false
+seed: 0
+
+kd_enabled: false

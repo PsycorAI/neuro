@@ -1,0 +1,16 @@
+loaded SFT init: /home/glenn/projects/neuro/models/checkpoints/sft_30m_full_v2/step_0006104.pt (100M tok)
+SimPO: reference-free (VRAM saved) | gamma=0.5
+optimizer: Muon (22 matrices, lr=0.0005) + AdamW (24 other, lr=5e-05)
+loading preferences HuggingFaceH4/ultrafeedback_binarized...
+  raw: 61135 preference pairs
+  encoded: 58044 (skipped 3091)
+SimPO | params=57.2M | beta=2.0 | per_step_tok=32768 | total_steps≈152
+
+/home/glenn/projects/neuro/src/train_dpo.py:264: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  spike_val += float(sr) / c["grad_accum"]
+step 50 | 1.6M tok | loss 1.109 | chosen>rejected 38% | spike 0.260 | 16,128 tok/s | vram 2.1/11.1 GB
+step 100 | 3.3M tok | loss 1.231 | chosen>rejected 28% | spike 0.260 | 8,241 tok/s | vram 2.1/12.1 GB
+step 150 | 4.9M tok | loss 0.902 | chosen>rejected 50% | spike 0.265 | 14,005 tok/s | vram 2.1/12.1 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/simpo_30m_smoke/step_0000153.pt
+done: 5.0M tok in 0.12h

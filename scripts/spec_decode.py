@@ -52,6 +52,7 @@ import torch.nn.functional as F
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from model import SpikingHebbianLM
+from train_gpu import build_model as _canonical_build
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 
@@ -64,34 +65,10 @@ def latest(run):
 
 
 def build(c, device):
-    # NOTE: keep this in sync with train_gpu.build_model. Kept as a local
-    # copy so this script has no dependency on train_gpu importability.
-    return SpikingHebbianLM(
-        c["vocab"], d=c["d"], n_neurons=c["n_neurons"], d_mem=c["d_mem"],
-        recurrent=c.get("recurrent", False), rec_density=c.get("rec_density", 0.05),
-        compile_safe=c.get("compile", False), tie_weights=c.get("tie_weights", False),
-        n_layers=c.get("n_layers", 1), use_fpt=c.get("use_fpt", False),
-        fpt_K=c.get("fpt_K", 10), lam=c.get("lam", 0.98),
-        learnable_decay=c.get("learnable_decay", False),
-        write_gate=c.get("write_gate", False),
-        delta_rule=c.get("delta_rule", False),
-        decay_gate=c.get("decay_gate", False),
-        mtp_enabled=c.get("mtp_enabled", False),
-        mtp_offset=c.get("mtp_offset", 2),
-        mtp_depth=c.get("mtp_depth", 1),
-        use_rmsnorm=c.get("use_rmsnorm", False),
-        embed_scale=c.get("embed_scale", False),
-        use_swiglu=c.get("use_swiglu", False),
-        depth_scaled_init=c.get("depth_scaled_init", False),
-        markov_enabled=c.get("markov_enabled", False),
-        markov_rank=c.get("markov_rank", 64),
-        confidence_enabled=c.get("confidence_enabled", False),
-        use_fla_kernel=c.get("use_fla_kernel", False),
-        engram_enabled=c.get("engram_enabled", False),
-        engram_n=c.get("engram_n", 3),
-        engram_K=c.get("engram_K", 32768),
-        engram_rank=c.get("engram_rank", 64),
-    ).to(device)
+    # P2: delegate to train_gpu.build_model (single source of truth).
+    # See [[neuro_train_sft_build_drift_fix]] — hand-rolled kwargs went
+    # stale progressively, silently mis-building post-July checkpoints.
+    return _canonical_build(c).to(device)
 
 
 def load_tokenizer():

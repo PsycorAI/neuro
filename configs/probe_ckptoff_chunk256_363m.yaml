@@ -1,0 +1,156 @@
+# probe_ckptoff_chunk256_363m -- Phase-B THROUGHPUT PROBE (2026-09-10). Clone of flagship_v3_363m
+# with knob(s): chunk 256 + gdn2_ckpt_chunks:false. eval/ckpt off, log_every 25, ~165 steps. tok/s windowed
+# (train_gpu.py:832-835) -> median last 4 lines, discard step <75. chunk_size &
+# ckpt_chunks are quality-NEUTRAL (chunked-WY exact / ckpt is identity); batch is
+# NOT (raises effective batch). See docs/training_speed_plan_2026_09.md.
+# flagship_v3 (DRAFT, 2026-09-07) -- DO NOT LAUNCH until flagship_v2_cosine_363m
+# completes (~7 days out as of 2026-09-06). Clone of flagship_v2_cosine_363m
+# with the ONE confirmed recall upgrade folded in.
+#
+# CONFIRMED change vs v2 (3-seed 30M, zero seed-overlap; single-pres recall win
+# at every N, no ppl cost -- see neuro_mqar_range_30m_2026_09_03 + journey):
+#   mqar_N_min  16 -> 4        # MQAR curriculum = RANGE [4,32], not fixed-16.
+#   mqar_N_max  16 -> 32       # fixed-16 CAUSED the N>=32 recall collapse.
+#   mqar_weight  0.5 (HELD)    # weight 1.0's extra recall is ppl-fragile at 30M;
+#                              # validate at 90M before touching. Keep 0.5.
+#
+# CLOSED 2026-09-07 (do NOT add): pre_conv DESTROYS recall to ~chance despite
+#   best val_ppl (conv blurs the exact key pointer); local_attn NULL. 3-seed 30M.
+#   See neuro_preconv_localattn_null_2026_09_07.
+#
+# LEADING CANDIDATE 2026-09-08 (head-norm-runaway fix; add after a 2-seed confirm):
+#   * head_weight_decay: 1.0  # dedicated higher-WD AdamW group for the LM head.
+#     30M single-seed: directly + monotonically damps head-norm (base +31% GROWTH
+#     -> 1.0 -14% RECESSION -> 2.0 -25%), at NO quality cost (val_ppl 68.81 vs
+#     71.85, recall neutral); 2.0 overshoots. This is the mechanistic fix for the
+#     v1/WSD head-norm divergence that z_loss couldn't provide. Confirm with a 2nd
+#     CONFIRMED 2026-09-09 (2-seed 30M + 363M probe) -> FOLDED IN below (also covers mtp_proj).
+#     NOTE: adds a param group -> NOT resume-compatible; fresh-run (v3) only.
+#
+# PENDING -- may add MORE levers before v2 finishes (fold in only if confirmed):
+#   * mqar range at scale   : 363M capacity (d_mem 1280, 9 layers, +1 attn) may
+#     have a WIDER sweet spot than 30M's [4,32]; a 90M N_max sweep {32,48} could
+#     justify [4,48]. [4,32] is the safe evidenced floor.
+#   * split-replay          : make --replay split the default recall-SERVING
+#     path (inference-side; no config change -- already gives N64 ~20%->~70%).
+#   * mqar_weight 0.75/1.0  : pending 90M confirm (see above).
+#
+# Everything else is byte-identical to v2 (recipe, guards, cosine LR, 1e10 tok).
+# flagship_v2 -- cosine reroll, 2026-08-30.
+#
+# ONE-LEVER upgrade over configs/flagship_363m.yaml (v1). NOT a fork of the
+# WSD flagship_v2_363m.yaml -- WSD diverged at step 18k / 271k (val_ppl
+# 39.03 @ step 12k, then rising for 2 consecutive evals -> watchdog trip),
+# same head-norm-growth mechanism as v1's late divergence but ACCELERATED
+# (+70% head over 16k steps vs v1's +29% over 8k). Cause: WSD keeps LR at
+# peak the whole stable phase; cosine's continuously-decaying LR silently
+# damps head-norm growth and was doing protective work I underweighted.
+# See [[neuro-flagship-v2-wsd-diverged-2026-08-30]] and
+# [[neuro-flagship-divergence-root-cause]].
+#
+# Deltas vs flagship_363m.yaml (ONLY these):
+#   run_name    flagship_363m -> flagship_v2_cosine_363m
+#   max_tokens  5.5e9         -> 1.0e10  (Tier-1 #1: more tokens; ~14 tok/param;
+#                                         ~2x killed v1's 4.79B endpoint)
+#
+# Deliberately NOT changed (each locked upstream):
+#   lr=5e-4                validated at cosine's decaying trajectory (Step Law
+#                          suggests 6e-4, W3@7e-4 REJECTED on recall rank).
+#   lr_schedule=cosine     (default; no key needed) -- WSD unsafe here.
+#   block_size=512         5090 VRAM wall (363M @768 @B16 = 35.4 GB).
+#   recipe                 gate-norm + Muon wd + lambda 0.5 + grad_accum 4 +
+#                          muon_precise_gate_filter + max-autotune-no-cudagraphs.
+#                          2-seed confirmed [[neuro-composed-recipe-confirmed-2026-08-07]].
+#   guards                 val_ppl tripwire + head-norm telemetry + best-ckpt
+#                          tracking (train_gpu.py:237). The tripwire saved us
+#                          ~14 days of futile compute on the WSD attempt.
+#
+# ETA: 10.0e9 tokens / (18*4*512 tok/step) / ~7.4k tok/s ~= ~15.6 days on 5090.
+# DO NOT wall-clock-truncate. max_tokens is the real budget; cosine needs to
+# actually finish for the LR schedule to reach its endpoint.
+run_name: probe_ckptoff_chunk256_363m
+data_bin: /home/glenn/projects/bdh/data/tokenized/train.bin
+arch: spiking
+vocab: 32768
+d: 1280
+n_neurons: 3072
+d_mem: 1280
+n_layers: 9
+attention_layer_positions:
+- 4
+attention_heads: 10
+attention_max_seq_len: 4096
+attention_qk_norm: true
+recurrent: false
+recurrent_depth: 1
+recurrent_bptt_k: 0
+recurrent_router_enabled: false
+block_size: 512
+batch_size: 18
+grad_accum: 4
+eval_batch: 8
+use_fpt: true
+fpt_K: 10
+use_fla_kernel: false
+fused_ce: true
+delta_rule: true
+decay_gate: true
+beta_floor: 0.1
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.15
+gdn2_enabled: true
+gdn2_chunked: true
+osdn_enabled: false
+engram_v2_enabled: true
+engram_v2_K: 8192
+engram_v2_heads: 4
+engram_v2_orders:
+- 2
+- 3
+engram_v2_rank: 64
+curriculum_enabled: false
+curriculum_frac: 0.1
+curriculum_block_tokens: 4096
+mtp_enabled: true
+mtp_offset: 2
+mtp_weight: 0.3
+mtp_depth: 2
+use_rmsnorm: true
+embed_scale: true
+z_loss_weight: 0.0001
+optimizer: muon
+normuon: true
+normuon_beta2: 0.95
+muon_lr: 0.005
+normuon_eps: 1.0e-08
+muon_fix_gate_matrices: true
+head_weight_decay: 1.0            # CONFIRMED 2026-09-09 (2-seed 30M + 363M probe):
+                                  # dedicated higher-WD AdamW group for LM head + mtp_proj
+                                  # (muon.py is_head), damps the head-norm runaway that
+                                  # killed v1/v2. NOT resume-compat. See
+                                  # neuro_head_weight_decay_2026_09_08.
+muon_route_embeddings_by_type: true
+weight_decay: 0.1
+lr: 0.0005
+lam: 0.98
+max_tokens: 6082560
+eval_every: 100000000
+ckpt_every: 100000000
+keep_last: 6
+log_every: 25
+amp: true
+compile: true
+compile_mode: max-autotune-no-cudagraphs
+compile_dynamic: false
+seed: 0
+kd_enabled: false
+gdn2_gate_norm: true
+snapshot_brain: false
+gdn2_chunk_size: 256
+muon_precise_gate_filter: true
+
+gdn2_ckpt_chunks: false

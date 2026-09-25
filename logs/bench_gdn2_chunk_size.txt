@@ -1,0 +1,9 @@
+device: NVIDIA GeForce RTX 5080
+model: 500M v3 shape (n_layers=5, d_mem=2048), B=8 T=512, ckpt=True
+ chunk  n_chunks/layer    ms/step      tok/s   peak_GB
+--------------------------------------------------------
+    32              16     9877.2        415     17.04
+    64               8     1405.5       2914     12.12
+   128               4     1381.1       2966      9.77
+   256               2     1446.3       2832      9.27
+   512               1     1436.1       2852     10.64

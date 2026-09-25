@@ -1,0 +1,2 @@
+optimizer: NorMuon (42 matrices, lr=0.005) + AdamW (66 other params, lr=0.0006)
+arch=spiking params=68.65M device=cuda target=0.090B tok | 12288 tok/step | total_steps≈7324 | warmup=146 | lr_sched=cosine | grad_clip=1.0

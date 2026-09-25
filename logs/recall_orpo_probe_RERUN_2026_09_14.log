@@ -1,0 +1,42 @@
+START 23:07:35
+loaded sft_flagship_363m: 363.5M
+loaded orpo_probe_363m: 363.5M
+
+MQAR associative recall (single presentation, B=32).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+     sft_flagship_363m |  100% |  100% |   81% |   44% |   19%
+       orpo_probe_363m |  100% |  100% |   78% |   44% |   16%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈16384)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+----------------------------------------------------------------
+     sft_flagship_363m |     1 |     1 |   830 |  4771 | 10725
+       orpo_probe_363m |     1 |     1 |   443 |  3804 |  8647
+	Command being timed: "/home/glenn/projects/bdh/venv/bin/python scripts/recall_eval.py --replay split --runs sft_flagship_363m,orpo_probe_363m --B 32"
+	User time (seconds): 18.31
+	System time (seconds): 19.15
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:37.54
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2218988
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 339
+	Minor (reclaiming a frame) page faults: 1535022
+	Voluntary context switches: 3699
+	Involuntary context switches: 163
+	Swaps: 0
+	File system inputs: 160391
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+END 23:07:35 EXIT=0

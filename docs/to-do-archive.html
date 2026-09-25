@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Neuro To-Do — Archive</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; background: #0d1117; color: #c9d1d9; }
+  h1 { border-bottom: 1px solid #30363d; padding-bottom: 0.5rem; }
+  h2 { margin-top: 2rem; color: #58a6ff; }
+  ul { padding-left: 1.3rem; }
+  li { margin: 0.4rem 0; line-height: 1.4; }
+  .done { color: #8b949e; }
+  .status { font-size: 0.85em; color: #f0883e; }
+  code { background: #161b22; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }
+  .updated { color: #8b949e; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<h1>Neuro To-Do — Archive</h1>
+<p class="updated">Archive created 2026-07-11. Holds items rotated out of the live <code>to-do.html</code> once they aged past the current session's active work. Live to-do keeps roughly the last week of completions for quick reference; anything older lives here.</p>
+<p>See also: <a href="to-do.html">live to-do</a>, <code>journey.html</code> (project narrative).</p>
+
+<h2>Evaluated &amp; rejected — enhancement candidates (as of 2026-07-11)</h2>
+<p><b>Recall-lever research verdicts (2026-07-11), items NOT pursued:</b> Erase-then-Delta (arXiv:2606.26560) duplicates GDN-2 — GDN-2 is better validated, pick it. TTT/TNT test-time-training variants overlap what the delta rule already is. Fast-weight Product Key Memory (arXiv:2601.00671) overlaps Engram v2 + Hebbian M — revisit only if Engram v2 underdelivers at 90M. CoT/reasoning distillation is a post-pretrain SFT-stage item (evidence exists sub-1B, e.g. arXiv:2506.07712), not a pretrain gate — defer to the demo phase. Flow-matching, multi-head attention, and full hyper-connections remain rejected (see the line below).</p>
+<p><b>Evaluated &amp; rejected (pre-2026-07-11):</b> Multi-Head Attention (Neuro is deliberately non-attention; delta_rule already fills the role) · Flow-Matching (image/continuous ODE, no fit for AR discrete-token LM) · BLT byte-latent (ground-up tokenizer replacement, incompatible with Phi-3.5+KD pipeline) · DeepSeek V4 Sparse Attention / CSA / HCA / MLA (all attention + KV-cache optimizations — we have neither) · Qwen3-Next hybrid full-attention layers (violates the non-attention thesis; only pays off at very long context). Already done: PMA (keep_last:8 + pma_average.py); Gated DeltaNet (our delta_rule, now also Qwen3-Next's backbone). Already tried &amp; closed negative: Engram v1 (though DeepSeek V4 now runs it at scale — Engram v2 is our fix). Incremental / not worth a dedicated item: 2026 KD refinements (layer-wise / task-aware distillation) — our Phi-3.5 KD already works.</p>
+
+<h2>Completed (archived)</h2>
+<ul>
+  <li class="done">Diagnosed VRAM scare on 500M as an unrelated 3D app claiming the GPU, not a code regression</li>
+  <li class="done">Launched MoR Stage 2 (30M, router-gated, seed0) — real token-splitting confirmed (~46-54% keep rate, not collapsed)</li>
+  <li class="done">Fixed effective-batch mismatch (batch32×accum2=64 vs baseline's 32) for fair comparison</li>
+  <li class="done">Researched MoR literature: paper's own data shows MoR underperforms vanilla below ~135M params; needs ~1-2.5B tokens at 350M scale to show a real edge</li>
+  <li class="done">Patched <code>scripts/recall_eval.py</code> to forward <code>recurrent_depth</code>/router kwargs (was silently building the wrong architecture)</li>
+  <li class="done">Ran recall_eval: mixed vs depth-1 baseline (worse at N=4/8, better at N=16/32, tied at N=64) — inconclusive on ablation-Δ concern (MoR Δ=+2.35 vs baseline's +16-21), not a clean recall collapse</li>
+  <li class="done">Prepped 30M seed1 confirm config and 90M scale-up config (smoke-tested)</li>
+  <li class="done">Prepped 350M MoR config: arch from <code>phase3_350M_kd</code>, recipe/router details from latest 30M MoR config, added missing throughput flags (<code>use_fla_kernel</code>, <code>fused_ce</code>)</li>
+  <li class="done">Iteratively tuned 350M MoR batch/grad_accum/block_size for 16GB VRAM (fpt_K 20→10 was the main fix for early overflow)</li>
+  <li class="done">Decided against KD on 350M MoR run (isolate the MoR variable; tokenizer/data also differ from the 500M's Phi setup)</li>
+  <li class="done">Investigated 350M MoR training-loss spikes (was Open #1) — printout artifact, not real instability. Cause: printed loss is the <b>last</b> microbatch × grad_accum, and <code>mqar_aug</code> mixes MQAR key→value recall sequences (loss ~8-10) with natural text (~4-6); whichever type is last in the accum step gets printed. Eval val_ppl monotonically drops (109→111→83→77→72), router keep_rate climbs 9%→43%, memory-Δ +17→+37 — all healthy. Not tied to any block/batch/accum change.</li>
+  <li class="done">Fixed pinned-CPU memory leak in <code>_to_cpu</code> checkpoint staging (was growing WDDM "shared GPU memory" pool each save); confirmed 5080 stable at 0.3GB shared across 5 saves post-fix. 5090's 6.7GB spill is the compiled Phi-3.5 KD teacher, not the checkpoint path — benign, cold reserved blocks, no tok/s impact.</li>
+  <li class="done">90M MoR seed0 completed: final val_ppl 56.26 @ 400M tok, memory-Δ healthy throughout (+80 to +96, though we now know this was 2-of-4 blocks collapsed and the other 2 carrying it — see β-collapse fix). Energy 1.30-1.74× vs transformer.</li>
+  <li class="done">90M MoR seed1 (original, pre-β-fix) killed after diagnosing full memory-Δ collapse (+0.00) — root-caused to scalar-β saturation, not a bug in our ablation code. See β-collapse fix.</li>
+  <li class="done">Root-caused and fixed scalar-β write-gate collapse in delta_rule — <code>beta_floor: 0.1</code>, decisive 30M A/B win (val_ppl -10.6, memory-Δ +2.35→+94.44, dead_frac 100%→0%). NVIDIA independently published the same diagnosis (Gated DeltaNet-2, arXiv:2605.22791) a week prior. β telemetry landed in trainer; fix baked into all queued A/B configs. Full writeup: <code>journey.html</code> §33.</li>
+</ul>
+
+<h2>Skipped (archived)</h2>
+<ul>
+  <li class="status">30M MoR seed1 confirm (<code>screen_rdepth2_mor_200mtok_seed1_30m.yaml</code>) — 30M is below MoR's ~135M crossover per its own paper, so a clean seed1 wouldn't <em>settle</em> MoR anyway. Not worth the 5080 window when 90M (idea #3) is closer to the crossover and more informative. Config kept in place if we ever want to close the 30M chapter rigorously.</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+[ptscreen 23:16:06] freezing base snapshot: models/checkpoints/flagship_v3_363m/step_0196000.pt -> models/checkpoints/flagship_v3_363m_frozen_screen/
+[mk_screen] wrote temp/sft_v3_363m_screen.yaml (run_name=sft_v3_363m_screen, overrides={'run_name': 'sft_v3_363m_screen', 'sft_init': 'flagship_v3_363m_frozen_screen'})
+[mk_screen] wrote temp/orpo_v3_363m_screen.yaml (run_name=orpo_v3_363m_screen, overrides={'run_name': 'orpo_v3_363m_screen', 'dpo_init': 'sft_v3_363m_screen'})
+[ptscreen 23:16:37] WARNING: why.jsonl has only 128 records -- ORPO's why-narration axis is under-powered (abstain 16k + UltraFeedback still drive the screen). Regenerate why before the FINAL run.
+0, NVIDIA GeForce RTX 5090, 29256 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 459 MiB, 16303 MiB
+[ptscreen 23:16:37] === posttrain SCREEN START/RESUME (5080; SFT+ORPO; base=frozen partial) ===
+[ptscreen 23:16:37] === sft START (temp/sft_v3_363m_screen.yaml) ===
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt (7.23B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 24000 tool pairs {'answer': 6000, 'tool': 14396, 'tool_absent': 3604} -> encoded 24000 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 65877
+arch=spiking params=426.47M device=cuda | per_step_tok=16384 | total_steps≈3662 | warmup=183
+
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_sft.py", line 394, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_sft.py", line 356, in main
+    out = model(ids, return_stats=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1415, in forward
+    out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 649, in forward_sequence
+    spk_seq, mem_final = lif_parallel(cur_seq, self.beta_val, vth=1.0,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/lif_parallel.py", line 169, in lif_parallel
+    converged = torch.equal(s_new, s)
+                ^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+[ptscreen 23:19:13] sft exit=1
+[ptscreen 23:19:13] PAUSED at SFT
+[ptscreen 23:20:13] frozen base already present: models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt
+[mk_screen] wrote temp/sft_v3_363m_screen.yaml (run_name=sft_v3_363m_screen, overrides={'run_name': 'sft_v3_363m_screen', 'sft_init': 'flagship_v3_363m_frozen_screen'})
+[mk_screen] wrote temp/orpo_v3_363m_screen.yaml (run_name=orpo_v3_363m_screen, overrides={'run_name': 'orpo_v3_363m_screen', 'dpo_init': 'sft_v3_363m_screen'})
+[ptscreen 23:20:13] WARNING: why.jsonl has only 128 records -- ORPO's why-narration axis is under-powered (abstain 16k + UltraFeedback still drive the screen). Regenerate why before the FINAL run.
+0, NVIDIA GeForce RTX 5090, 29256 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 318 MiB, 16303 MiB
+[ptscreen 23:20:13] === posttrain SCREEN START/RESUME (5080; SFT+ORPO; base=frozen partial) ===
+[ptscreen 23:20:13] === sft START (temp/sft_v3_363m_screen.yaml) ===
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt (7.23B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 24000 tool pairs {'answer': 6000, 'tool': 14396, 'tool_absent': 3604} -> encoded 24000 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+[ptscreen 23:22:24] sft exit=143
+[ptscreen 23:22:24] PAUSED at SFT
+[ptscreen 23:23:35] frozen base already present: models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt
+[mk_screen] wrote temp/sft_v3_363m_screen.yaml (run_name=sft_v3_363m_screen, batch=2x ga16, compile=False, ckpt_chunks=True)
+[mk_screen] wrote temp/orpo_v3_363m_screen.yaml (run_name=orpo_v3_363m_screen, batch=2x ga8, compile=False, ckpt_chunks=True)
+[ptscreen 23:23:36] WARNING: why.jsonl has only 128 records -- ORPO's why-narration axis is under-powered (abstain 16k + UltraFeedback still drive the screen). Regenerate why before the FINAL run.
+0, NVIDIA GeForce RTX 5090, 29256 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 294 MiB, 16303 MiB
+[ptscreen 23:23:36] === posttrain SCREEN START/RESUME (5080; SFT+ORPO; base=frozen partial) ===
+[ptscreen 23:23:36] === sft START (temp/sft_v3_363m_screen.yaml) ===
+  [warn] 32 keys missing in ckpt: ['blocks.0.lif.threshold', 'blocks.0.lif.graded_spikes_factor', 'blocks.0.lif.reset_mechanism_val']
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt (7.23B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 24000 tool pairs {'answer': 6000, 'tool': 14396, 'tool_absent': 3604} -> encoded 24000 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 65877
+arch=spiking params=426.47M device=cuda | per_step_tok=16384 | total_steps≈3662 | warmup=183
+
+[ptscreen 23:28:14] sft exit=143
+[ptscreen 23:28:14] PAUSED at SFT
+[ptscreen 23:28:53] frozen base already present: models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt
+[mk_screen] wrote temp/sft_v3_363m_screen.yaml (run_name=sft_v3_363m_screen, batch=1x ga32, compile=False, ckpt_chunks=True)
+[mk_screen] wrote temp/orpo_v3_363m_screen.yaml (run_name=orpo_v3_363m_screen, batch=1x ga16, compile=False, ckpt_chunks=True)
+[ptscreen 23:28:53] WARNING: why.jsonl has only 128 records -- ORPO's why-narration axis is under-powered (abstain 16k + UltraFeedback still drive the screen). Regenerate why before the FINAL run.
+0, NVIDIA GeForce RTX 5090, 30408 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 318 MiB, 16303 MiB
+[ptscreen 23:28:53] === posttrain SCREEN START/RESUME (5080; SFT+ORPO; base=frozen partial) ===
+[ptscreen 23:28:53] === sft START (temp/sft_v3_363m_screen.yaml) ===
+  [warn] 32 keys missing in ckpt: ['blocks.0.lif.threshold', 'blocks.0.lif.graded_spikes_factor', 'blocks.0.lif.reset_mechanism_val']
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m_frozen_screen/step_0196000.pt (7.23B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 24000 tool pairs {'answer': 6000, 'tool': 14396, 'tool_absent': 3604} -> encoded 24000 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 65877
+arch=spiking params=426.47M device=cuda | per_step_tok=16384 | total_steps≈3662 | warmup=183
+
+[ptscreen 23:33:54] sft exit=143
+[ptscreen 23:33:54] PAUSED at SFT

@@ -1,0 +1,25 @@
+
+=== 1. gdn2_chunk_size sweep (363M shape, B=6, T=512, compiled) ===
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+  gdn2_chunk_size=32                   1103.6 ms      2784 tok/s  peak 12.16 GB
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+  gdn2_chunk_size=64                   1158.4 ms      2652 tok/s  peak 9.79 GB
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+  gdn2_chunk_size=128                   907.6 ms      3385 tok/s  peak 8.60 GB
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+  gdn2_chunk_size=256                   793.9 ms      3870 tok/s  peak 8.00 GB
+  -> fastest chunk=256 (1.459x vs current 64)
+
+=== 2. LIF decay-matrix cache (eager, isolates the rebuild) ===
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+  baseline (W rebuilt every call)      2517.1 ms      1220 tok/s  peak 11.66 GB
+  [OK] cached scan is bit-identical to the original
+optimizer: NorMuon (63 matrices, lr=0.005) + AdamW (131 other params, lr=0.0005)
+  W cached                             2388.0 ms      1286 tok/s  peak 11.67 GB
+  -> LIF W-cache speedup: 1.054x
+
+NOTE: B=6 on a 5080 is more launch-bound than the flagship's B=16 on a
+5090, so chunk-size gains here are an UPPER bound; re-confirm the winner
+during the shakedown before baking it into the flagship config.

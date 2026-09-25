@@ -1,0 +1,4 @@
+[chain-p1] 2026-08-05 14:45:55 chain start (pid=13959) — 4 arms, ~29h wall-clock
+[chain-p1] 2026-08-05 14:45:55 launching W1 gate-norm OFF  cfg=configs/w1_gnoff.yaml  timeout=18000s
+[chain-p1] 2026-08-05 15:47:07 W1 gate-norm OFF exit=2  (0=natural,2=watchdog,124=timeout,130=SIGINT)
+[chain-p1] 2026-08-05 15:47:07 launching W4 grad_accum 4  cfg=configs/w4_biggerbatch.yaml  timeout=28800s

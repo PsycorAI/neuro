@@ -1,0 +1,54 @@
+# MISSING matched control, depth-1 @ 200M tokens, seed 0.
+# The 81.20 "control" everything was compared against is a 100M-token run;
+# both depth-2 @ 200M results (seed0 75.91, seed1 83.30) were compared
+# against a control trained on HALF their data -- an apples-to-oranges
+# comparison that was never caught. Also: evaluate() sampled 20 random
+# batches, adding ~2-4 ppl of pure measurement noise per reading (fixed in
+# train_gpu.py -- EVAL_SEED, fixed deterministic windows, 100 iters).
+# Re-evaluating the two existing depth-2 checkpoints under the fixed
+# protocol gave 77.35 / 78.52 -- MUCH closer together than the original
+# 75.91/83.30, meaning most of the "seed1 didn't confirm" gap was eval
+# noise, not a real quality reversal. This run (+ its seed-1 sibling) is
+# the actual missing piece: depth-1 at the SAME 200M budget, same fixed
+# eval, so depth-1 vs depth-2 is finally a fair single-variable comparison.
+# Byte-identical to screen_rdepth2_200mtok_30m EXCEPT recurrent_depth: 1.
+run_name: screen_rdepth1_200mtok_30m
+arch: spiking
+vocab: 16384
+d: 1024
+n_neurons: 1024
+d_mem: 1024
+n_layers: 2
+recurrent: false
+recurrent_depth: 1          # the control: single pass, no looping
+recurrent_bptt_k: 0
+block_size: 512
+batch_size: 32              # R=1 has no 2x memory penalty of R=2, so no need
+grad_accum: 1                # to split into 2 microsteps; same eff tokens/step
+                            # (32*512=16384) as the R=2 sibling, fewer Python-
+                            # loop iters -> higher GPU util (was 32%/7.1GB).
+eval_batch: 8
+use_fpt: true
+fpt_K: 20
+delta_rule: true
+decay_gate: true
+mqar_aug: true
+mqar_N_min: 4
+mqar_N_max: 32
+mqar_weight: 0.5
+sparsity_lambda: 0.5
+sparsity_target: 0.05
+optimizer: muon
+muon_lr: 0.005
+lr: 0.0006
+lam: 0.98
+max_tokens: 200000000
+eval_every: 1000
+ckpt_every: 2000
+keep_last: 1
+log_every: 100
+amp: true
+compile: false
+compile_mode: default
+compile_dynamic: true
+seed: 0

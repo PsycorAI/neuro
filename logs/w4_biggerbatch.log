@@ -1,0 +1,103 @@
+optimizer: NorMuon (56 matrices, lr=0.005) + AdamW (116 other params, lr=0.0005)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=276.57M device=cuda target=1.100B tok | 32768 tok/step | total_steps≈33569 | warmup=671 | grad_clip=1.0
+step 200 | 6.6M tok | loss 16.350 | 6,480 tok/s | vram 4.6/20.7 GB
+step 400 | 13.1M tok | loss 13.501 | 6,857 tok/s | vram 4.6/20.7 GB
+  [eval] val_ppl 266.64 | ablated_ppl 1688.69 (memory Δ=+1422.05) | spike 0.269
+  [beta] blk0: μ=0.53 dead=0% at_floor=0% | blk1: μ=0.52 dead=0% at_floor=0% | blk2: μ=0.53 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.54 dead=0% at_floor=0% | blk5: μ=0.54 dead=0% at_floor=0% | blk6: μ=0.54 dead=0% at_floor=0% | blk7: μ=0.54 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=2% dstd=1.0 | blk1: e=0% w=0% d=10% dstd=0.9 | blk2: e=0% w=0% d=8% dstd=0.9 | blk3: n/a | blk4: e=0% w=0% d=6% dstd=0.8 | blk5: e=0% w=0% d=7% dstd=0.8 | blk6: e=0% w=0% d=5% dstd=0.9 | blk7: e=0% w=0% d=5% dstd=0.9
+  [spike] reported=0.269 spiking_only=0.307 (7/8 blocks spike)
+step 600 | 19.7M tok | loss 13.123 | 7,076 tok/s | vram 4.7/20.4 GB
+step 800 | 26.2M tok | loss 12.706 | 7,852 tok/s | vram 4.7/20.4 GB
+step 1000 | 32.8M tok | loss 11.711 | 7,911 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 110.10 | ablated_ppl 1040.83 (memory Δ=+930.73) | spike 0.245
+  [beta] blk0: μ=0.57 dead=0% at_floor=0% | blk1: μ=0.49 dead=0% at_floor=0% | blk2: μ=0.49 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.52 dead=0% at_floor=0% | blk5: μ=0.53 dead=0% at_floor=0% | blk6: μ=0.56 dead=0% at_floor=0% | blk7: μ=0.55 dead=0% at_floor=0%
+  [gates sat] blk0: e=0% w=0% d=2% dstd=1.1 | blk1: e=0% w=0% d=6% dstd=1.0 | blk2: e=0% w=0% d=6% dstd=1.0 | blk3: n/a | blk4: e=0% w=0% d=5% dstd=1.0 | blk5: e=0% w=0% d=6% dstd=1.0 | blk6: e=0% w=0% d=3% dstd=1.0 | blk7: e=1% w=0% d=4% dstd=1.0
+  [spike] reported=0.245 spiking_only=0.280 (7/8 blocks spike)
+step 1200 | 39.3M tok | loss 9.411 | 7,371 tok/s | vram 4.7/20.4 GB
+step 1400 | 45.9M tok | loss 8.023 | 7,999 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 78.28 | ablated_ppl 800.46 (memory Δ=+722.17) | spike 0.203
+  [beta] blk0: μ=0.69 dead=0% at_floor=0% | blk1: μ=0.47 dead=0% at_floor=0% | blk2: μ=0.46 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.52 dead=0% at_floor=0% | blk5: μ=0.53 dead=0% at_floor=0% | blk6: μ=0.57 dead=0% at_floor=0% | blk7: μ=0.56 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=5% dstd=1.1 | blk1: e=0% w=0% d=2% dstd=1.0 | blk2: e=1% w=0% d=7% dstd=1.0 | blk3: n/a | blk4: e=1% w=0% d=5% dstd=1.0 | blk5: e=1% w=0% d=6% dstd=1.0 | blk6: e=1% w=0% d=3% dstd=1.1 | blk7: e=0% w=0% d=4% dstd=1.0
+  [spike] reported=0.203 spiking_only=0.231 (7/8 blocks spike)
+step 1600 | 52.4M tok | loss 7.058 | 7,672 tok/s | vram 4.7/20.4 GB
+step 1800 | 59.0M tok | loss 6.991 | 8,657 tok/s | vram 4.7/20.4 GB
+step 2000 | 65.5M tok | loss 6.261 | 8,709 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 62.19 | ablated_ppl 756.68 (memory Δ=+694.49) | spike 0.154
+  [beta] blk0: μ=0.68 dead=0% at_floor=0% | blk1: μ=0.45 dead=0% at_floor=0% | blk2: μ=0.45 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.53 dead=0% at_floor=0% | blk5: μ=0.54 dead=0% at_floor=0% | blk6: μ=0.59 dead=0% at_floor=0% | blk7: μ=0.59 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=10% dstd=1.0 | blk1: e=0% w=0% d=1% dstd=1.0 | blk2: e=1% w=0% d=5% dstd=1.0 | blk3: n/a | blk4: e=1% w=1% d=3% dstd=1.0 | blk5: e=1% w=0% d=4% dstd=1.0 | blk6: e=1% w=0% d=2% dstd=1.0 | blk7: e=0% w=0% d=5% dstd=1.0
+  [spike] reported=0.154 spiking_only=0.175 (7/8 blocks spike)
+step 2200 | 72.1M tok | loss 6.836 | 8,169 tok/s | vram 4.7/20.4 GB
+step 2400 | 78.6M tok | loss 5.964 | 8,796 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 54.02 | ablated_ppl 736.58 (memory Δ=+682.55) | spike 0.147
+  [beta] blk0: μ=0.67 dead=0% at_floor=0% | blk1: μ=0.44 dead=0% at_floor=0% | blk2: μ=0.45 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.55 dead=0% at_floor=0% | blk5: μ=0.56 dead=0% at_floor=0% | blk6: μ=0.59 dead=0% at_floor=0% | blk7: μ=0.60 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=17% dstd=1.0 | blk1: e=0% w=0% d=1% dstd=1.1 | blk2: e=0% w=0% d=4% dstd=0.9 | blk3: n/a | blk4: e=0% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=3% dstd=1.0 | blk6: e=0% w=0% d=2% dstd=1.0 | blk7: e=0% w=0% d=5% dstd=1.0
+  [spike] reported=0.147 spiking_only=0.168 (7/8 blocks spike)
+step 2600 | 85.2M tok | loss 6.339 | 8,074 tok/s | vram 4.7/20.3 GB
+step 2800 | 91.8M tok | loss 6.223 | 8,904 tok/s | vram 4.7/20.3 GB
+step 3000 | 98.3M tok | loss 6.310 | 8,962 tok/s | vram 4.7/20.3 GB
+  [eval] val_ppl 50.35 | ablated_ppl 644.93 (memory Δ=+594.59) | spike 0.147
+  [beta] blk0: μ=0.65 dead=0% at_floor=0% | blk1: μ=0.43 dead=0% at_floor=0% | blk2: μ=0.45 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.56 dead=0% at_floor=0% | blk5: μ=0.58 dead=0% at_floor=0% | blk6: μ=0.61 dead=0% at_floor=0% | blk7: μ=0.61 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=20% dstd=0.9 | blk1: e=0% w=0% d=1% dstd=1.0 | blk2: e=0% w=0% d=5% dstd=1.0 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=4% dstd=1.0 | blk6: e=0% w=0% d=2% dstd=0.9 | blk7: e=1% w=0% d=7% dstd=1.1
+  [spike] reported=0.147 spiking_only=0.168 (7/8 blocks spike)
+step 3200 | 104.9M tok | loss 5.412 | 8,271 tok/s | vram 4.7/20.4 GB
+step 3400 | 111.4M tok | loss 6.083 | 8,979 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 47.75 | ablated_ppl 715.39 (memory Δ=+667.64) | spike 0.147
+  [beta] blk0: μ=0.62 dead=0% at_floor=0% | blk1: μ=0.43 dead=0% at_floor=0% | blk2: μ=0.45 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.55 dead=0% at_floor=0% | blk5: μ=0.60 dead=0% at_floor=0% | blk6: μ=0.60 dead=0% at_floor=0% | blk7: μ=0.62 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=23% dstd=1.0 | blk1: e=0% w=0% d=1% dstd=1.0 | blk2: e=1% w=0% d=6% dstd=1.0 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=5% dstd=1.0 | blk6: e=1% w=0% d=2% dstd=1.0 | blk7: e=1% w=0% d=7% dstd=1.1
+  [spike] reported=0.147 spiking_only=0.168 (7/8 blocks spike)
+step 3600 | 118.0M tok | loss 5.280 | 8,184 tok/s | vram 4.7/20.3 GB
+step 3800 | 124.5M tok | loss 5.807 | 8,937 tok/s | vram 4.7/20.3 GB
+step 4000 | 131.1M tok | loss 5.474 | 8,956 tok/s | vram 4.7/20.3 GB
+  [eval] val_ppl 45.40 | ablated_ppl 806.54 (memory Δ=+761.15) | spike 0.146
+  [beta] blk0: μ=0.60 dead=0% at_floor=0% | blk1: μ=0.42 dead=0% at_floor=0% | blk2: μ=0.44 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.56 dead=0% at_floor=0% | blk5: μ=0.62 dead=0% at_floor=0% | blk6: μ=0.60 dead=0% at_floor=0% | blk7: μ=0.62 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=27% dstd=1.0 | blk1: e=0% w=0% d=1% dstd=1.0 | blk2: e=1% w=0% d=6% dstd=1.1 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=7% dstd=1.1 | blk6: e=1% w=0% d=3% dstd=1.0 | blk7: e=1% w=0% d=8% dstd=1.1
+  [spike] reported=0.146 spiking_only=0.167 (7/8 blocks spike)
+  saved /home/glenn/projects/neuro/models/checkpoints/w4_biggerbatch/step_0004000.pt
+step 4200 | 137.6M tok | loss 5.735 | 7,608 tok/s | vram 4.7/20.3 GB
+step 4400 | 144.2M tok | loss 5.792 | 7,704 tok/s | vram 4.7/20.3 GB
+  [eval] val_ppl 43.68 | ablated_ppl 811.13 (memory Δ=+767.45) | spike 0.148
+  [beta] blk0: μ=0.58 dead=0% at_floor=0% | blk1: μ=0.42 dead=0% at_floor=0% | blk2: μ=0.43 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.57 dead=0% at_floor=0% | blk5: μ=0.63 dead=0% at_floor=0% | blk6: μ=0.60 dead=0% at_floor=0% | blk7: μ=0.63 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=1% d=30% dstd=1.0 | blk1: e=0% w=0% d=1% dstd=1.1 | blk2: e=1% w=0% d=5% dstd=1.1 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=8% dstd=1.1 | blk6: e=1% w=0% d=3% dstd=1.0 | blk7: e=1% w=0% d=8% dstd=1.1
+  [spike] reported=0.148 spiking_only=0.169 (7/8 blocks spike)
+step 4600 | 150.7M tok | loss 5.694 | 7,079 tok/s | vram 4.7/20.4 GB
+step 4800 | 157.3M tok | loss 5.992 | 7,722 tok/s | vram 4.7/20.4 GB
+step 5000 | 163.8M tok | loss 6.048 | 7,237 tok/s | vram 4.7/20.4 GB
+  [eval] val_ppl 42.38 | ablated_ppl 702.37 (memory Δ=+659.99) | spike 0.147
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.41 dead=0% at_floor=0% | blk2: μ=0.43 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.57 dead=0% at_floor=0% | blk5: μ=0.64 dead=0% at_floor=0% | blk6: μ=0.61 dead=0% at_floor=0% | blk7: μ=0.64 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=1% d=32% dstd=1.0 | blk1: e=1% w=0% d=2% dstd=1.1 | blk2: e=1% w=0% d=4% dstd=1.1 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=9% dstd=1.2 | blk6: e=1% w=0% d=4% dstd=1.0 | blk7: e=1% w=0% d=9% dstd=1.1
+  [spike] reported=0.147 spiking_only=0.168 (7/8 blocks spike)
+step 5200 | 170.4M tok | loss 6.015 | 6,783 tok/s | vram 4.7/20.3 GB
+step 5400 | 176.9M tok | loss 5.586 | 7,351 tok/s | vram 4.7/20.3 GB
+  [eval] val_ppl 41.04 | ablated_ppl 739.83 (memory Δ=+698.79) | spike 0.147
+  [beta] blk0: μ=0.53 dead=0% at_floor=0% | blk1: μ=0.41 dead=0% at_floor=0% | blk2: μ=0.42 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.57 dead=0% at_floor=0% | blk5: μ=0.65 dead=0% at_floor=0% | blk6: μ=0.61 dead=0% at_floor=0% | blk7: μ=0.64 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=1% d=35% dstd=1.0 | blk1: e=1% w=0% d=2% dstd=1.1 | blk2: e=1% w=0% d=3% dstd=1.2 | blk3: n/a | blk4: e=1% w=1% d=1% dstd=1.0 | blk5: e=1% w=0% d=11% dstd=1.2 | blk6: e=1% w=0% d=5% dstd=1.1 | blk7: e=1% w=0% d=9% dstd=1.2
+  [spike] reported=0.147 spiking_only=0.168 (7/8 blocks spike)
+step 5600 | 183.5M tok | loss 5.575 | 6,818 tok/s | vram 4.7/20.8 GB
+step 5800 | 190.1M tok | loss 6.015 | 7,321 tok/s | vram 4.7/20.8 GB
+step 6000 | 196.6M tok | loss 5.839 | 7,500 tok/s | vram 4.7/20.8 GB
+  [eval] val_ppl 39.81 | ablated_ppl 751.35 (memory Δ=+711.55) | spike 0.146
+  [beta] blk0: μ=0.49 dead=0% at_floor=0% | blk1: μ=0.41 dead=0% at_floor=0% | blk2: μ=0.41 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.57 dead=0% at_floor=0% | blk5: μ=0.65 dead=0% at_floor=0% | blk6: μ=0.62 dead=0% at_floor=0% | blk7: μ=0.64 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=37% dstd=1.0 | blk1: e=1% w=0% d=2% dstd=1.1 | blk2: e=1% w=0% d=2% dstd=1.2 | blk3: n/a | blk4: e=1% w=1% d=2% dstd=1.0 | blk5: e=1% w=0% d=12% dstd=1.2 | blk6: e=1% w=0% d=5% dstd=1.1 | blk7: e=1% w=0% d=10% dstd=1.2
+  [spike] reported=0.146 spiking_only=0.167 (7/8 blocks spike)
+step 6200 | 203.2M tok | loss 5.398 | 6,730 tok/s | vram 4.7/20.3 GB
+step 6400 | 209.7M tok | loss 5.605 | 7,072 tok/s | vram 4.7/20.3 GB
+  [eval] val_ppl 38.95 | ablated_ppl 747.50 (memory Δ=+708.55) | spike 0.146
+  [beta] blk0: μ=0.47 dead=0% at_floor=0% | blk1: μ=0.40 dead=0% at_floor=0% | blk2: μ=0.40 dead=0% at_floor=0% | blk3: n/a | blk4: μ=0.56 dead=0% at_floor=0% | blk5: μ=0.66 dead=0% at_floor=0% | blk6: μ=0.62 dead=0% at_floor=0% | blk7: μ=0.64 dead=0% at_floor=0%
+  [gates sat] blk0: e=1% w=0% d=37% dstd=1.0 | blk1: e=0% w=0% d=2% dstd=1.1 | blk2: e=1% w=0% d=2% dstd=1.1 | blk3: n/a | blk4: e=1% w=1% d=2% dstd=1.0 | blk5: e=1% w=0% d=14% dstd=1.3 | blk6: e=1% w=0% d=6% dstd=1.1 | blk7: e=2% w=0% d=10% dstd=1.2
+  [spike] reported=0.146 spiking_only=0.167 (7/8 blocks spike)
+step 6600 | 216.3M tok | loss 6.172 | 6,776 tok/s | vram 4.7/20.3 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 881, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 700, in main
+    loss.backward()
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

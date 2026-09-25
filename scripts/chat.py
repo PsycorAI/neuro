@@ -9,9 +9,15 @@ Uses the same Alpaca chat template as src/sft_data.py:
 
 Stops generation on "###" (the response terminator we trained with).
 
+Persistent Hebbian brain state carries across turns within a REPL session
+(the project's unique lever -- Hebbian memory M accumulates as you talk).
+Optional pre-baked brain loading via --load_brain path/to/knowledge.brain.
+REPL commands: /reset-brain, /save-brain PATH, /load-brain PATH.
+
   python scripts/chat.py --run sft_30m_mds                       # interactive REPL
   python scripts/chat.py --run sft_30m_mds --message "Hi"        # one-shot
   python scripts/chat.py --run sft_30m_mds --temperature 0.8 --max_tokens 200
+  python scripts/chat.py --run sft_500m_tulu3 --load_brain models/brains/sft_500m_tulu3/knowledge.brain
 """
 import os, sys, glob, argparse
 import numpy as np
@@ -19,10 +25,10 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-from model import SpikingHebbianLM
+from train_gpu import build_model   # canonical builder — do not re-derive here
+from model import SpikingHebbianLM   # for load_brain static method
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-LUT_PATH = os.path.join(ROOT, "data", "vocab_map_16384.npy")
 
 PROMPT_FMT = "### Instruction:\n{message}\n\n### Response:\n"
 STOP_MARKER = "###"
@@ -36,46 +42,43 @@ def latest(run):
 
 
 def build(c, device):
-    return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"], d_mem=c["d_mem"],
-                            recurrent=c.get("recurrent", False),
-                            rec_density=c.get("rec_density", 0.05),
-                            compile_safe=c.get("compile", False),
-                            tie_weights=c.get("tie_weights", False),
-                            n_layers=c.get("n_layers", 1),
-                            use_fpt=c.get("use_fpt", False),
-                            fpt_K=c.get("fpt_K", 10), lam=c.get("lam", 0.98),
-                            learnable_decay=c.get("learnable_decay", False),
-                            write_gate=c.get("write_gate", False),
-                            delta_rule=c.get("delta_rule", False),
-                            beta_floor=c.get("beta_floor", 0.0),
-                            decay_gate=c.get("decay_gate", False),
-                            titans=c.get("titans", False),
-                            local_attn=c.get("local_attn", False),
-                            local_window=c.get("local_window", 64),
-                            n_heads=c.get("n_heads", 1),
-                            pre_conv=c.get("pre_conv", False),
-                            pre_conv_kernel=c.get("pre_conv_kernel", 4),
-                            vector_beta=c.get("vector_beta", False)).to(device)
+    # Delegate to train_gpu.build_model so this stays in sync as new arch
+    # flags (engram_v2, mtp, gdn2, ...) are added. Previously chat.py had its
+    # own stale copy that silently dropped ~163M params on 500M ckpts.
+    return build_model(c).to(device)
 
 
-def load_tokenizer():
+def load_tokenizer(vocab):
+    # 2026-08-07: parametrized on ckpt vocab (was hardcoded 16k) and
+    # PRESERVES id 0 in encoded sequences instead of dropping — matches
+    # training-time data_stream.py behavior. See docs/polish_recommendations_2026_08_07.md.
     from transformers import AutoTokenizer
-    tk = AutoTokenizer.from_pretrained("NousResearch/Meta-Llama-3-8B")
-    lut = np.load(LUT_PATH)
-    inv = np.full(16384, -1, dtype=np.int64)
+    tk_name = "microsoft/Phi-3.5-mini-instruct" if vocab == 32064 else "NousResearch/Meta-Llama-3-8B"
+    lut_path = os.path.join(ROOT, "data", f"vocab_map_{vocab}.npy")
+    tk = AutoTokenizer.from_pretrained(tk_name)
+    lut = np.load(lut_path)
+    inv = np.full(vocab, -1, dtype=np.int64)
     nz = np.where(lut > 0)[0]
     inv[lut[nz]] = nz
     def encode(text):
         ids = tk.encode(text, add_special_tokens=False)
-        return [int(lut[t]) for t in ids if lut[t] != 0]
+        return [int(lut[t]) for t in ids]   # keep id 0 — matches training
     def decode(ids):
-        return tk.decode([int(inv[i]) for i in ids if 0 < i < 16384 and inv[i] >= 0])
+        parts = []
+        for i in ids:
+            i = int(i)
+            if 0 < i < vocab and inv[i] >= 0:
+                parts.append(tk.decode([int(inv[i])]))
+            else:
+                parts.append("<unk>")   # visible marker for id 0 / OOV
+        return "".join(parts)
     return encode, decode
 
 
 @torch.no_grad()
 def generate_response(model, c, message, encode, decode, device,
-                      max_tokens, temperature, topk, repetition_penalty):
+                      max_tokens, temperature, topk, repetition_penalty,
+                      initial_state=None):
     prompt = PROMPT_FMT.format(message=message)
     p_ids = encode(prompt)
     if not p_ids:
@@ -87,7 +90,8 @@ def generate_response(model, c, message, encode, decode, device,
 
     for _ in range(max_tokens):
         x = torch.tensor([out_ids[-block_size:]], dtype=torch.long, device=device)
-        logits = model(x)[0, -1].float()
+        out = model(x, initial_state=initial_state)
+        logits = out[0, -1].float() if not isinstance(out, tuple) else out[0][0, -1].float()
         if repetition_penalty > 1.0 and generated:
             for tok in set(generated[-64:]):
                 logits[tok] /= repetition_penalty
@@ -117,29 +121,72 @@ def main():
     ap.add_argument("--topk", type=int, default=40)
     ap.add_argument("--repetition_penalty", type=float, default=1.1)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--load_brain", default=None,
+                    help="path to a pre-baked .brain file to seed persistent state")
+    ap.add_argument("--no_persist", action="store_true",
+                    help="disable persistent Hebbian state carry-over between turns")
     args = ap.parse_args()
 
     blob = torch.load(latest(args.run), map_location=args.device, weights_only=False)
     c = blob["cfg"]
     m = build(c, args.device); m.load_state_dict(blob["model"], strict=False); m.eval()
     print(f"loaded {args.run}: {sum(p.numel() for p in m.parameters())/1e6:.1f}M params, "
-          f"{blob.get('tokens',0)/1e6:.0f}M tok\n")
-    encode, decode = load_tokenizer()
+          f"{blob.get('tokens',0)/1e6:.0f}M tok")
+    encode, decode = load_tokenizer(c["vocab"])
 
+    # Persistent Hebbian brain state, carried across turns.
+    persistent = {"state": None}
+    if args.load_brain:
+        persistent["state"] = SpikingHebbianLM.load_brain(args.load_brain)
+        print(f"loaded brain: {args.load_brain}")
+    if args.no_persist:
+        print("persistent brain: DISABLED (--no_persist)")
+    print()
+
+    @torch.no_grad()
     def chat_once(msg):
-        return generate_response(m, c, msg, encode, decode, args.device,
+        state_in = None if args.no_persist else persistent["state"]
+        resp = generate_response(m, c, msg, encode, decode, args.device,
                                   args.max_tokens, args.temperature, args.topk,
-                                  args.repetition_penalty)
+                                  args.repetition_penalty, initial_state=state_in)
+        if not args.no_persist:
+            # Commit pass: update persistent state with this turn's full content.
+            # The generation loop only READS state; we advance it here so the
+            # next turn sees an updated brain.
+            full_txt = PROMPT_FMT.format(message=msg) + resp
+            full_ids = encode(full_txt)
+            if full_ids:
+                x = torch.tensor([full_ids[-c["block_size"]:]], dtype=torch.long,
+                                 device=args.device)
+                out = m(x, initial_state=persistent["state"], return_final_state=True)
+                # model.forward returns (logits, state) when return_final_state=True
+                persistent["state"] = out[1] if isinstance(out, tuple) else None
+        return resp
 
     if args.message is not None:
         print(f"USER: {args.message}\nASSISTANT: {chat_once(args.message)}")
         return
 
-    print("Chat mode. Empty line to quit.\n")
+    print("Chat mode. Empty line to quit.")
+    print("Commands: /reset-brain, /save-brain PATH, /load-brain PATH\n")
     while True:
         try: msg = input("USER: ").strip()
         except EOFError: break
         if not msg: break
+        if msg == "/reset-brain":
+            persistent["state"] = None
+            print("[brain reset]\n"); continue
+        if msg.startswith("/save-brain "):
+            path = msg.split(" ", 1)[1].strip()
+            if persistent["state"] is None:
+                print("[no brain state to save]\n"); continue
+            os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+            m.save_brain(persistent["state"], path)
+            print(f"[saved brain to {path}]\n"); continue
+        if msg.startswith("/load-brain "):
+            path = msg.split(" ", 1)[1].strip()
+            persistent["state"] = SpikingHebbianLM.load_brain(path)
+            print(f"[loaded brain from {path}]\n"); continue
         print(f"ASSISTANT: {chat_once(msg)}\n")
 
 

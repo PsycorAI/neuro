@@ -1,0 +1,92 @@
+[2026-08-31 00:25:55] ===== STAGE-B CHAIN BEGIN (5080/GPU1) =====
+[2026-08-31 00:25:55] START screen_loglinear_ctrl_30m.yaml  -> logs/screen_loglinear_ctrl_30m.log
+[2026-08-31 01:49:39] END   screen_loglinear_ctrl_30m.yaml  rc=0
+spiking op mix/token @ seq 4096: 25,165,824 MAC + 2,301,532 AC
+note: spiking cost is constant in seq_len; transformer grows with it.
+[2026-08-31 01:49:39] START screen_loglinear_s1_30m.yaml  -> logs/screen_loglinear_s1_30m.log
+[2026-08-31 03:15:05] END   screen_loglinear_s1_30m.yaml  rc=2
+  [WATCHDOG] TRIPPED: dstd>3.0 (max=3.3) x2 — saving ckpt and exiting 2
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_loglinear_s1_30m/step_0003000.pt
+[2026-08-31 03:15:05] START screen_loglinear_ctrl_s1_30m.yaml  -> logs/screen_loglinear_ctrl_s1_30m.log
+[2026-08-31 03:57:37] END   screen_loglinear_ctrl_s1_30m.yaml  rc=2
+  [WATCHDOG] TRIPPED: dstd>3.0 (max=3.8) x2 — saving ckpt and exiting 2
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_loglinear_ctrl_s1_30m/step_0003000.pt
+[2026-08-31 03:57:37] completion markers:
+  screen_loglinear_30m: done: 100.0M tok in 3.04h
+  screen_loglinear_ctrl_30m: done: 100.0M tok in 1.39h
+  screen_loglinear_s1_30m: (no done marker)
+  screen_loglinear_ctrl_s1_30m: (no done marker)
+[2026-08-31 03:57:37] ===== RECALL EVAL (order: treat_s0, treat_s1, ctrl_s0, ctrl_s1) =====
+[2026-08-31 03:57:37] --- SINGLE-PRESENTATION (PRIMARY: loglinear read is fully active) ---
+loaded screen_loglinear_30m: 55.1M
+loaded screen_loglinear_s1_30m: 55.1M
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_loglinear_ctrl_s1_30m: 55.1M
+
+MQAR associative recall (single presentation, B=256).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+  screen_loglinear_30m |   94% |   88% |   76% |   41% |   17% |    1%
+screen_loglinear_s1_30m |   89% |   82% |   70% |    3% |    1% |    0%
+screen_loglinear_ctrl_30m |  100% |   96% |   90% |   54% |   23% |   10%
+screen_loglinear_ctrl_s1_30m |   95% |   87% |   72% |   41% |   13% |    7%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+  screen_loglinear_30m |     6 |    11 |    39 |   248 |   807 |  3049
+screen_loglinear_s1_30m |    21 |    35 |    85 |  2831 |  3178 |  3403
+screen_loglinear_ctrl_30m |     1 |     4 |     5 |    97 |   547 |  1073
+screen_loglinear_ctrl_s1_30m |     9 |    18 |    63 |   274 |   873 |  1406
+[2026-08-31 04:00:54] --- FULL REPLAY (SECONDARY: mechanism active, double-encode confound) ---
+loaded screen_loglinear_30m: 55.1M
+loaded screen_loglinear_s1_30m: 55.1M
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_loglinear_ctrl_s1_30m: 55.1M
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 155, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 136, in main
+    _, r, ca = recall(models[run], cfgs[run], N, device, B=args.B, replay=args.replay)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/recall_eval.py", line 90, in recall
+    full_acc = (logits.argmax(-1) == target).float().mean().item()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+full eval FAILED
+[2026-08-31 04:05:23] --- SPLIT REPLAY (CONTEXT: project-standard, ~blind to loglinear read) ---
+loaded screen_loglinear_30m: 55.1M
+loaded screen_loglinear_s1_30m: 55.1M
+loaded screen_loglinear_ctrl_30m: 55.1M
+loaded screen_loglinear_ctrl_s1_30m: 55.1M
+
+MQAR associative recall (single presentation, B=256).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+  screen_loglinear_30m |  100% |   96% |   86% |   75% |   45% |   23%
+screen_loglinear_s1_30m |   98% |   92% |   80% |   67% |   36% |   15%
+screen_loglinear_ctrl_30m |  100% |   98% |   96% |   90% |   63% |   34%
+screen_loglinear_ctrl_s1_30m |   98% |   91% |   83% |   73% |   38% |   19%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+  screen_loglinear_30m |    47 |   100 |    47 |    66 |   298 |   567
+screen_loglinear_s1_30m |    20 |    29 |    89 |   156 |   428 |   901
+screen_loglinear_ctrl_30m |     1 |    24 |     2 |    16 |    80 |   289
+screen_loglinear_ctrl_s1_30m |     9 |    20 |    49 |    78 |   249 |   541
+[2026-08-31 04:07:13] ===== STAGE-B CHAIN COMPLETE =====

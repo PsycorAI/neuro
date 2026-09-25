@@ -1,0 +1,37 @@
+[17:47:13] START train screen_mqarwide_30m (hard guard: timeout 6000s, -k120)
+[19:21:23] END train rc=0
+block mix: 2 spiking + 0 attention | spike_rate 0.163 reported -> 0.163 spiking-only
+spiking op mix/token @ seq 4096: 25,165,824 MAC + 2,398,219 AC
+note: spiking cost is constant in seq_len; transformer grows with it.
+[19:21:23] --- recall single-pres: mqarwide(N<=64 trained) vs ctrl(N<=32 trained), B=64 ---
+==== screen_mqarwide_30m ====
+loaded screen_mqarwide_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+   screen_mqarwide_30m |   78% |   67% |   47% |   28% |    3% |    2%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+   screen_mqarwide_30m |   164 |   343 |   548 |   992 |  1718 |  2240
+==== screen_loglinear_ctrl_30m ====
+loaded screen_loglinear_ctrl_30m: 55.1M
+
+MQAR associative recall (single presentation, B=64).
+
+AMONG-CANDIDATES ACCURACY  (of the N in-context values, pick the right one)
+          chance = 1/N |   25% |   12% |    6% |    3% |    2% |    1%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |  100% |   94% |   95% |   52% |   25% |   16%
+
+MEAN FULL-VOCAB TARGET RANK (lower = better; chance≈8192)
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64 | N=128
+------------------------------------------------------------------------
+screen_loglinear_ctrl_30m |     1 |     2 |     1 |   160 |   518 |   828
+[19:21:59] COMPLETE
