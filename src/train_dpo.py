@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from train_sft import (build_model, build_optimizers, load_lut_encode,
                         load_lut_decode, gen_check, save_ckpt,
                         make_encoder_pair)
+from tool_data import split_of
 
 
 def log1mexp(x):
@@ -37,7 +38,7 @@ def log1mexp(x):
                        torch.log1p(-torch.exp(x)))
 
 
-def load_preferences_jsonl(paths, pair_types=None):
+def load_preferences_jsonl(paths, pair_types=None, drop_test=False):
     """Local preference JSONL from scripts/gen_teacher_data.py: flat records of
     {prompt, chosen, rejected, pair_type}. Used by the why-narrated stage
     (idea #5) and the calibrated-abstention stage (idea #2).
@@ -45,6 +46,9 @@ def load_preferences_jsonl(paths, pair_types=None):
     pair_types: optional allow-list of pair_type values, so a single generated
     file can be ablated (e.g. why_vs_rejected only, or the answerable half of
     the abstention set) without regenerating anything.
+
+    drop_test: skip the hash-held-out test split (tool_data.split_of on the
+    prompt) -- training must set it, since abstain_eval/head_eval score there.
     """
     import json as _json
     if isinstance(paths, str):
@@ -63,6 +67,8 @@ def load_preferences_jsonl(paths, pair_types=None):
                     continue
                 pt = r.get("pair_type", "?")
                 if pair_types and pt not in pair_types:
+                    continue
+                if drop_test and r.get("prompt") and split_of(r["prompt"]) == "test":
                     continue
                 if not (r.get("prompt") and r.get("chosen") and r.get("rejected")):
                     bad += 1
@@ -285,7 +291,8 @@ def main():
     # pairs get blended with UltraFeedback instead of replacing it.
     raw = []
     if c.get("dpo_jsonl"):
-        raw += load_preferences_jsonl(c["dpo_jsonl"], c.get("dpo_pair_types"))
+        raw += load_preferences_jsonl(c["dpo_jsonl"], c.get("dpo_pair_types"),
+                                      drop_test=True)
     if c.get("dpo_dataset") or not raw:
         ds = c.get("dpo_dataset", "HuggingFaceH4/ultrafeedback_binarized")
         print(f"loading preferences {ds}...")

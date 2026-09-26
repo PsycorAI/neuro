@@ -17,7 +17,7 @@ too (they do when masking removes structurally impossible tokens early).
 
   CUDA_VISIBLE_DEVICES=1 python scripts/tool_eval.py --run sft_tools_v3_363m --n 300
 """
-import os, sys, glob, json, time, argparse
+import os, sys, glob, json, random, time, argparse
 import torch
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -91,6 +91,9 @@ def main():
     encode, decode = make_encoder_pair(c)
     tools = tool_data.load_tools()
     pairs, bad = tool_data.load_tool_jsonl(DATA, tools, split="test")
+    # The JSONL is grouped by kind (all 'answer' first), so a plain [:n] slice was
+    # 100% gold-ANSWER -> tool_acc = 0/0. Seeded shuffle = mixed, reproducible slice.
+    random.Random(0).shuffle(pairs)
     pairs = pairs[:args.n]
     print(f"held-out test examples: {len(pairs)} (bad lines {bad})")
     if not pairs:

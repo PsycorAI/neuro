@@ -16,7 +16,7 @@ confidence (#3):
   CUDA_VISIBLE_DEVICES=1 python scripts/head_eval.py \
       --run opd_v3_363m --head energy --n 200
 """
-import os, sys, glob, json, argparse
+import os, sys, glob, json, random, argparse
 import torch
 import torch.nn.functional as F
 
@@ -105,6 +105,7 @@ def main():
 
     tools = tool_data.load_tools()
     test, _ = tool_data.load_tool_jsonl(TOOLS_DATA, tools, split="test")
+    random.Random(0).shuffle(test)   # JSONL is grouped by kind; [:n] alone = all gold-ANSWER
     test = test[:args.n]
 
     with H.HiddenCapture(model) as cap:

@@ -230,7 +230,13 @@ def _to_cpu(obj, path=()):
         if obj.is_cuda:
             pinned = _pinned_cache.get(path)
             if pinned is None or pinned.shape != obj.shape or pinned.dtype != obj.dtype:
-                pinned = torch.empty_like(obj, device="cpu", pin_memory=True)
+                try:
+                    pinned = torch.empty_like(obj, device="cpu", pin_memory=True)
+                except RuntimeError:
+                    # 2026-09-26: pinned host alloc raised "CUDA error: out of memory"
+                    # on the 1B probe's final save and killed the run. A plain
+                    # (pageable) copy is slower but always saves the checkpoint.
+                    return obj.detach().cpu().clone()
                 _pinned_cache[path] = pinned
             pinned.copy_(obj)
             return pinned

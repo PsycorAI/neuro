@@ -146,7 +146,8 @@ def load_sft_corpus(c, encode, max_len):
                 print(f"  [warn] {p} is empty -- skipping")
                 continue
             if "target_mode" in head:
-                pairs, bad = tool_data.load_tool_jsonl(p, tools)
+                # split="train": the hash-held-out test split is what tool_eval/head_eval score on
+                pairs, bad = tool_data.load_tool_jsonl(p, tools, split="train")
                 enc, skipped = tool_data.build_tool_examples(pairs, encode, max_len)
                 kinds = {}
                 for q in pairs:
@@ -360,6 +361,14 @@ def main():
                 shift_labels = lbl[:, 1:].contiguous()
                 loss = F.cross_entropy(shift_logits.reshape(-1, c["vocab"]),
                                         shift_labels.reshape(-1), ignore_index=-100)
+                # 2026-09-26: optional MQAR recall rehearsal (the pretraining aux,
+                # train_gpu.mqar_aug_batch). v3 SFT without it lost most of the
+                # base's recall. Off unless mqar_aug: true (all SFT configs = false).
+                if c.get("mqar_aug", False):
+                    from train_gpu import mqar_aug_batch
+                    N_mq = int(torch.randint(c.get("mqar_N_min", 4), c.get("mqar_N_max", 32) + 1, (1,)).item())
+                    x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
+                    loss = loss + c.get("mqar_weight", 0.5) * F.cross_entropy(model(x_mq)[:, -1, :], tgt_mq)
                 if sr is not None:
                     # detach: sr may have requires_grad=True; explicit detach
                     # silences the PyTorch warning and doesn't affect training.

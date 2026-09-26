@@ -178,7 +178,11 @@ class TokenTable:
 
     def mask(self, grammar, node, device="cpu"):
         """(bool mask over the vocab, int64 next-node per token)."""
-        key = (id(grammar), node)
+        # Keyed on the offered set, NOT id(grammar): callers build a grammar per
+        # example and CPython reuses freed ids, so an id key served one grammar's
+        # masks/node-ids to another (IndexError / silently wrong masks, 2026-09-26).
+        # The DFA is fully determined by the offered list (+ the fixed tool schema).
+        key = (tuple(grammar.offered), node)
         hit = self._cache.get(key)
         if hit is not None:
             return hit[0].to(device), hit[1].to(device)
