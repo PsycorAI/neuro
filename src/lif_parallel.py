@@ -103,12 +103,16 @@ def _scan_chunked(beta, x, chunk=512):
     for start in range(0, T, chunk):
         end = min(start + chunk, T)
         L = end - start
-        idx = torch.arange(L, device=device, dtype=dtype)
+        # Index/decay math in fp32, NOT x.dtype: bf16 represents integers exactly
+        # only up to 256 (257,259,261 -> 256,260,260), which broke the causal mask
+        # above 256 and let position t read x[t+1] -- a FUTURE-TOKEN LEAK under
+        # autocast (found 2026-09-27; v3 val ppl 16.6 leaky vs 41.0 honest).
+        idx = torch.arange(L, device=device, dtype=torch.float32)
         # decay matrix W (L, L), lower-triangular
         a = idx.unsqueeze(1)  # (L,1)
         b = idx.unsqueeze(0)  # (1,L)
         diff = a - b
-        W = torch.where(diff >= 0, beta ** diff, torch.zeros_like(diff))
+        W = torch.where(diff >= 0, beta ** diff, torch.zeros_like(diff)).to(dtype)
         # within-chunk: y_chunk[t] = sum_{i in chunk, i<=t} beta^(t-i) * x[i]
         # matmul broadcasts the 2D W (L,L) across the batch dim of x_chunk
         # (B,L,N) directly -- same result as the old einsum via a (0,1)
@@ -116,7 +120,7 @@ def _scan_chunked(beta, x, chunk=512):
         x_chunk = x[:, start:end, :]               # (B, L, N)
         y_chunk = torch.matmul(W, x_chunk)
         # add carry from previous chunks: each position t gets beta^(t+1) * carry
-        carry_w = (beta ** (idx + 1)).view(1, L, 1)  # (1, L, 1)
+        carry_w = (beta ** (idx + 1)).to(dtype).view(1, L, 1)  # (1, L, 1)
         y_chunk = y_chunk + carry_w * carry.unsqueeze(1)
         out[:, start:end, :] = y_chunk
         # new carry is the final value of this chunk
