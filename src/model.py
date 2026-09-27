@@ -251,9 +251,12 @@ class SpikingHebbianBlock(nn.Module):
                  gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
                  gdn2_chunk_size=64, gdn2_gate_norm=False,
                  gdn2_loglinear=False, gdn2_loglinear_L=None, deltaproduct_nh=1,
-                 gate_rank=0):
+                 gate_rank=0, lif_exact=False):
         super().__init__()
         self.n_neurons = n_neurons
+        # lif_exact: exact sequential LIF Triton kernel (src/lif_exact.py) instead of
+        # the K-capped FPT lif_parallel (which never converges at T=512). Default off.
+        self.lif_exact = lif_exact
         self.d_mem = d_mem
         self.n_heads = n_heads
         self.deltaproduct_nh = deltaproduct_nh
@@ -630,7 +633,10 @@ class SpikingHebbianBlock(nn.Module):
             raise NotImplementedError(
                 "titans has no chunked kernel yet; train with use_fpt=false "
                 "(sequential step_titans path).")
-        from lif_parallel import lif_parallel
+        if self.lif_exact:
+            from lif_exact import lif_exact as lif_parallel
+        else:
+            from lif_parallel import lif_parallel
         B, T, _ = x_seq.shape
         cur_seq = self.to_current(x_seq)                       # (B, T, N)
         if self.recurrent:
@@ -957,7 +963,7 @@ class SpikingHebbianLM(nn.Module):
                  gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
                  gdn2_chunk_size=64, gdn2_gate_norm=False,
                  gdn2_loglinear=False, gdn2_loglinear_L=None,
-                 deltaproduct_nh=1, gate_rank=0,
+                 deltaproduct_nh=1, gate_rank=0, lif_exact=False, act_ckpt=False,
                  attention_layer_positions=None,
                  attention_heads=8,
                  attention_max_seq_len=4096,
@@ -1016,6 +1022,10 @@ class SpikingHebbianLM(nn.Module):
         self.tie_weights = tie_weights
         self.use_fpt = use_fpt
         self.fpt_K = fpt_K
+        # act_ckpt: recompute each block's forward in backward (torch.utils.checkpoint,
+        # non-reentrant) to trade (idle, launch-bound) GPU time for activation VRAM ->
+        # bigger micro-batch. Single-pass training path only. Default off.
+        self.act_ckpt = act_ckpt
 
         if n_layers > 1 and d != d_mem:
             raise ValueError(f"n_layers > 1 requires d == d_mem for residual connections "
@@ -1094,7 +1104,7 @@ class SpikingHebbianLM(nn.Module):
                     gdn2_loglinear=gdn2_loglinear,
                     gdn2_loglinear_L=gdn2_loglinear_L,
                     deltaproduct_nh=deltaproduct_nh,
-                    gate_rank=gate_rank))
+                    gate_rank=gate_rank, lif_exact=lif_exact))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
@@ -1434,6 +1444,12 @@ class SpikingHebbianLM(nn.Module):
                         # the caller carries it across steps with no return change.
                         out_seq, kv_cache[l] = block.step_kv(x_seq, kv_cache[l])
                         spk_seq = None
+                    elif self.act_ckpt and self.training and torch.is_grad_enabled():
+                        out_seq, mems[l], Ms[l], spk_seq, final_spk = checkpoint(
+                            block.forward_sequence, x_seq, mems[l], Ms[l], prev_spks[l],
+                            ablate_memory=ablate_memory, fpt_K=self.fpt_K,
+                            use_reentrant=False)
+                        prev_spks[l] = final_spk
                     else:
                         out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
                             x_seq, mems[l], Ms[l], prev_spks[l],

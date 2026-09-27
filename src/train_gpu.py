@@ -154,6 +154,8 @@ def build_model(c):
                                 gdn2_chunk_size=c.get("gdn2_chunk_size", 64),
                                 gdn2_gate_norm=c.get("gdn2_gate_norm", False),
                                 gate_rank=c.get("gate_rank", 0),
+                                lif_exact=c.get("lif_exact", False),
+                                act_ckpt=c.get("act_ckpt", False),
                                 gdn2_loglinear=c.get("gdn2_loglinear", False),
                                 gdn2_loglinear_L=c.get("gdn2_loglinear_L", None),
                                 n_experts=c.get("n_experts", 1),

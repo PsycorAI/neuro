@@ -70,10 +70,10 @@ fused_ce: true
 delta_rule: true
 decay_gate: true
 beta_floor: 0.1
-mqar_aug: false           # pretraining-only aux objective
+mqar_aug: true            # 2026-09-26 RECALL FIX: MQAR rehearsal during SFT (screen_sftab A/B)
 mqar_N_min: 4
 mqar_N_max: 32
-mqar_weight: 0.0
+mqar_weight: 0.1
 sparsity_lambda: 0.0      # post-training convention (see sft_curric_s1_reason)
 sparsity_target: 0.15
 curriculum_enabled: false
