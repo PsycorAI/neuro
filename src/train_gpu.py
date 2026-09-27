@@ -89,7 +89,8 @@ def _build_optimizers(model, c, device):
             route_embeddings_by_type=c.get("muon_route_embeddings_by_type", False),
             precise_gate_filter=c.get("muon_precise_gate_filter", False),
             head_weight_decay=c.get("head_weight_decay"),
-            muon_mem_lr=c.get("muon_mem_lr"))
+            muon_mem_lr=c.get("muon_mem_lr"),
+            batched_ns=c.get("muon_batched_ns", False))
         opt_name = "NorMuon" if use_normuon else "Muon"
         print(f"optimizer: {opt_name} ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
               f"+ {'AdamW8bit' if c.get('adamw_8bit', False) else 'AdamW'} "
@@ -155,6 +156,7 @@ def build_model(c):
                                 gdn2_gate_norm=c.get("gdn2_gate_norm", False),
                                 gate_rank=c.get("gate_rank", 0),
                                 lif_exact=c.get("lif_exact", False),
+                                lif_reset=float(c.get("lif_reset", 1.0)),
                                 act_ckpt=c.get("act_ckpt", False),
                                 gdn2_loglinear=c.get("gdn2_loglinear", False),
                                 gdn2_loglinear_L=c.get("gdn2_loglinear_L", None),

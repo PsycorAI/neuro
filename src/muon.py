@@ -37,6 +37,32 @@ def _newton_schulz(G, steps=5, eps=1e-7):
     return X.to(G.dtype)
 
 
+@torch.no_grad()
+def _newton_schulz_batched(G, steps=5, eps=1e-7):
+    """_newton_schulz on a (k, m, n) stack of same-shape matrices: identical
+    per-matrix math (per-matrix Frobenius norm), one bmm per product instead of
+    k separate mm launches. For the tiny low-rank gate factors (16xN, dx16) the
+    per-matrix path is pure launch overhead (~3.6ms each on a 5080)."""
+    a, b, c = (3.4445, -4.7750, 2.0315)
+    X = G.to(torch.bfloat16)
+    X = X / (X.norm(dim=(1, 2), keepdim=True) + eps)
+    transposed = X.size(1) > X.size(2)
+    if transposed:
+        X = X.transpose(1, 2)
+    for _ in range(steps):
+        A = X @ X.transpose(1, 2)
+        B = b * A + c * (A @ A)
+        X = a * X + B @ X
+    if transposed:
+        X = X.transpose(1, 2)
+    return X.to(G.dtype)
+
+
+# batched_ns only stacks matrices up to this size: big matrices are compute-bound
+# (nothing to gain) and stacking them would hold extra fp32 copies (VRAM).
+BATCHED_NS_MAX_NUMEL = 1 << 20
+
+
 class Muon(torch.optim.Optimizer):
     """Muon, optionally augmented with NorMuon's per-neuron adaptive LR.
 
@@ -57,12 +83,12 @@ class Muon(torch.optim.Optimizer):
     """
     def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5,
                  normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
-                 weight_decay=0.0):
+                 weight_decay=0.0, batched_ns=False):
         if lr <= 0.0:
             raise ValueError(f"invalid lr: {lr}")
         defaults = dict(lr=lr, momentum=momentum, nesterov=nesterov, ns_steps=ns_steps,
                         normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps,
-                        weight_decay=weight_decay)
+                        weight_decay=weight_decay, batched_ns=batched_ns)
         super().__init__(params, defaults)
         # validate: every param must be a 2D matrix
         for group in self.param_groups:
@@ -84,6 +110,8 @@ class Muon(torch.optim.Optimizer):
             b2 = group.get("normuon_beta2", 0.95)
             eps_n = group.get("normuon_eps", 1e-8)
             wd = group.get("weight_decay", 0.0)
+            batched = group.get("batched_ns", False)
+            buckets = {}   # shape -> [(p, update)] for the batched small-matrix path
             for p in group["params"]:
                 if p.grad is None:
                     continue
@@ -95,52 +123,65 @@ class Muon(torch.optim.Optimizer):
                 buf.mul_(mom).add_(g)
                 # Nesterov lookahead
                 update = g.add(buf, alpha=mom) if nesterov else buf
+                if batched and p.numel() <= BATCHED_NS_MAX_NUMEL:
+                    # clone: `update` may alias the momentum buffer (nesterov=False)
+                    buckets.setdefault(tuple(p.shape), []).append((p, update.clone()))
+                    continue
                 # Orthogonalize via Newton-Schulz
                 update = _newton_schulz(update, steps=ns)
-                if use_norm:
-                    # NorMuon: per-row (per output-neuron) adaptive LR.
-                    # Scale-invariant statistic: mean-square across each row.
-                    row_ms = update.pow(2).mean(dim=1)   # shape (d_out,)
-                    if "normuon_v" not in state:
-                        state["normuon_v"] = torch.zeros_like(row_ms)
-                        state["normuon_step"] = 0
-                    v = state["normuon_v"]
-                    state["normuon_step"] += 1
-                    v.mul_(b2).add_(row_ms, alpha=1 - b2)
-                    # Adam-style bias correction (early steps under-scaled otherwise)
-                    v_hat = v / (1 - b2 ** state["normuon_step"])
-                    row_scale = (v_hat.sqrt() + eps_n).unsqueeze(1)   # (d_out, 1)
-                    # Per-neuron rebalancing inflates the global update norm by
-                    # ~sqrt(max_dim) (each row forced to unit RMS). NorMuon
-                    # (arXiv:2510.05491) renormalizes globally afterward; the
-                    # paper uses 0.2*O/RMS(O) to match Adam. Our baseline is Muon,
-                    # so we preserve the *orthogonalized* update's global RMS
-                    # instead -- keeps the global step identical to the Muon arm,
-                    # isolating NorMuon's neuron-balancing as the only A/B variable.
-                    orig_rms = update.square().mean().sqrt()
-                    update = update / row_scale
-                    new_rms = update.square().mean().sqrt()
-                    update = update * (orig_rms / (new_rms + eps_n))
-                # LR scaled by sqrt(max(d_out, d_in) / min(d_out, d_in)) -- "muP-style"
-                scale = max(1.0, (max(p.shape) / min(p.shape)) ** 0.5)
-                # Decoupled weight decay -- Moonshot arXiv:2502.16982 technique #1,
-                # the one thing this implementation was missing. Without it Muon's
-                # weights grow without bound (measured 2.0-2.8x over 12k steps at
-                # 276M), which pushes the GDN-2 gate logits past the sigmoid's
-                # useful band and freezes the write/decay gates. Uses the UNSCALED
-                # group lr so decay is uniform across matrix shapes; group["lr"] is
-                # rewritten each step by the schedule, so decay tracks it.
-                if wd != 0.0:
-                    p.mul_(1.0 - lr * wd)
-                p.add_(update, alpha=-lr * scale)
+                self._apply_update(p, update, lr, use_norm, b2, eps_n, wd)
+            for items in buckets.values():
+                U = _newton_schulz_batched(torch.stack([u for _, u in items]), steps=ns)
+                for (p, _), update in zip(items, U.unbind(0)):
+                    self._apply_update(p, update, lr, use_norm, b2, eps_n, wd)
         return loss
+
+    @torch.no_grad()
+    def _apply_update(self, p, update, lr, use_norm, b2, eps_n, wd):
+        state = self.state[p]
+        if use_norm:
+            # NorMuon: per-row (per output-neuron) adaptive LR.
+            # Scale-invariant statistic: mean-square across each row.
+            row_ms = update.pow(2).mean(dim=1)   # shape (d_out,)
+            if "normuon_v" not in state:
+                state["normuon_v"] = torch.zeros_like(row_ms)
+                state["normuon_step"] = 0
+            v = state["normuon_v"]
+            state["normuon_step"] += 1
+            v.mul_(b2).add_(row_ms, alpha=1 - b2)
+            # Adam-style bias correction (early steps under-scaled otherwise)
+            v_hat = v / (1 - b2 ** state["normuon_step"])
+            row_scale = (v_hat.sqrt() + eps_n).unsqueeze(1)   # (d_out, 1)
+            # Per-neuron rebalancing inflates the global update norm by
+            # ~sqrt(max_dim) (each row forced to unit RMS). NorMuon
+            # (arXiv:2510.05491) renormalizes globally afterward; the
+            # paper uses 0.2*O/RMS(O) to match Adam. Our baseline is Muon,
+            # so we preserve the *orthogonalized* update's global RMS
+            # instead -- keeps the global step identical to the Muon arm,
+            # isolating NorMuon's neuron-balancing as the only A/B variable.
+            orig_rms = update.square().mean().sqrt()
+            update = update / row_scale
+            new_rms = update.square().mean().sqrt()
+            update = update * (orig_rms / (new_rms + eps_n))
+        # LR scaled by sqrt(max(d_out, d_in) / min(d_out, d_in)) -- "muP-style"
+        scale = max(1.0, (max(p.shape) / min(p.shape)) ** 0.5)
+        # Decoupled weight decay -- Moonshot arXiv:2502.16982 technique #1,
+        # the one thing this implementation was missing. Without it Muon's
+        # weights grow without bound (measured 2.0-2.8x over 12k steps at
+        # 276M), which pushes the GDN-2 gate logits past the sigmoid's
+        # useful band and freezes the write/decay gates. Uses the UNSCALED
+        # group lr so decay is uniform across matrix shapes; group["lr"] is
+        # rewritten each step by the schedule, so decay tracks it.
+        if wd != 0.0:
+            p.mul_(1.0 - lr * wd)
+        p.add_(update, alpha=-lr * scale)
 
 
 def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
                     adamw_fused=True, adamw_8bit=False, fix_gate_matrices=False,
                     normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
                     route_embeddings_by_type=False, precise_gate_filter=False,
-                    head_weight_decay=None, muon_mem_lr=None):
+                    head_weight_decay=None, muon_mem_lr=None, batched_ns=False):
     """Split model parameters and return (muon, adamw) optimizers.
 
     2D matrices in hidden layers -> Muon.
@@ -264,10 +305,12 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
               f"matrices (W_k/v/q, W_b/w) decoupled from {len(base_muon)} "
               f"backbone matrices; NOT resume-compat")
         muon = Muon(groups, lr=muon_lr, weight_decay=weight_decay,
-                    normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps)
+                    normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps,
+                    batched_ns=batched_ns)
     else:
         muon = Muon(muon_params, lr=muon_lr, weight_decay=weight_decay,
-                    normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps)
+                    normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps,
+                    batched_ns=batched_ns)
     # Weight decay must hit only 2D weight matrices, NOT 1D params. Decaying
     # RMSNorm/LayerNorm gains, biases, gdn2_a, or gate_bias_f (which carries
     # the deliberate -3.0 slow-decay init) toward zero is harmful — the

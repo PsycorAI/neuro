@@ -14,6 +14,8 @@ grad_spk[t]/(1+(pi*alpha*(pre-vth))^2) (+ grad_mem_final at t=T-1), then
 grad_cur = reverse linear scan with decay beta.
 
 Config: lif_exact: true  (default false = lif_parallel, byte-identical).
+lif_reset (gamma, default 1.0 = LIF): post = pre - gamma*spk*vth. gamma=0 is the
+no-reset "parallel spiking neuron" (Fang et al. NeurIPS 2023); 0<gamma<1 = partial reset.
 """
 import math
 import torch
@@ -22,7 +24,7 @@ import triton.language as tl
 
 
 @triton.jit
-def _lif_fwd_kernel(cur_ptr, spk_ptr, pre_ptr, memf_ptr, T, N, beta, vth,
+def _lif_fwd_kernel(cur_ptr, spk_ptr, pre_ptr, memf_ptr, T, N, beta, vth, gamma,
                     BLOCK: tl.constexpr):
     b = tl.program_id(0)
     offs = tl.program_id(1) * BLOCK + tl.arange(0, BLOCK)
@@ -36,7 +38,7 @@ def _lif_fwd_kernel(cur_ptr, spk_ptr, pre_ptr, memf_ptr, T, N, beta, vth,
         s = (pre > vth).to(tl.float32)
         tl.store(pre_ptr + p, pre, mask=mask)
         tl.store(spk_ptr + p, s.to(spk_ptr.dtype.element_ty), mask=mask)
-        mem = pre - s * vth
+        mem = pre - gamma * s * vth
     tl.store(memf_ptr + b * N + offs, mem, mask=mask)
 
 
@@ -60,7 +62,7 @@ def _lif_bwd_kernel(gspk_ptr, pre_ptr, gmemf_ptr, gcur_ptr, T, N, beta, vth, pa,
 
 class _LIFExact(torch.autograd.Function):
     @staticmethod
-    def forward(ctx, cur, beta, vth, alpha):
+    def forward(ctx, cur, beta, vth, alpha, gamma):
         cur = cur.contiguous()
         B, T, N = cur.shape
         spk = torch.empty_like(cur)
@@ -68,7 +70,8 @@ class _LIFExact(torch.autograd.Function):
         memf = torch.empty(B, N, device=cur.device, dtype=torch.float32)
         BLOCK = 256
         grid = (B, triton.cdiv(N, BLOCK))
-        _lif_fwd_kernel[grid](cur, spk, pre, memf, T, N, float(beta), float(vth), BLOCK=BLOCK)
+        _lif_fwd_kernel[grid](cur, spk, pre, memf, T, N, float(beta), float(vth), float(gamma),
+                              BLOCK=BLOCK)
         ctx.save_for_backward(pre)
         ctx.beta, ctx.vth, ctx.alpha, ctx.dtype = float(beta), float(vth), float(alpha), cur.dtype
         return spk, memf.to(cur.dtype)
@@ -86,11 +89,12 @@ class _LIFExact(torch.autograd.Function):
         grid = (B, triton.cdiv(N, BLOCK))
         _lif_bwd_kernel[grid](gspk, pre, gmemf, gcur, T, N, ctx.beta, ctx.vth,
                               math.pi * ctx.alpha, BLOCK=BLOCK)
-        return gcur, None, None, None
+        return gcur, None, None, None, None
 
 
 @torch.compiler.disable
-def lif_exact(cur, beta, vth=1.0, K=None, alpha=2.0):
+def lif_exact(cur, beta, vth=1.0, K=None, alpha=2.0, gamma=1.0):
     """Same signature/returns as lif_parallel (K ignored). spk carries the atan
-    surrogate gradient; values are exact {0,1} spikes of the sequential LIF."""
-    return _LIFExact.apply(cur, beta, vth, alpha)
+    surrogate gradient; values are exact {0,1} spikes of the sequential neuron
+    (gamma = reset strength; mem_final is post-reset with the same gamma)."""
+    return _LIFExact.apply(cur, beta, vth, alpha, gamma)

@@ -251,12 +251,13 @@ class SpikingHebbianBlock(nn.Module):
                  gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
                  gdn2_chunk_size=64, gdn2_gate_norm=False,
                  gdn2_loglinear=False, gdn2_loglinear_L=None, deltaproduct_nh=1,
-                 gate_rank=0, lif_exact=False):
+                 gate_rank=0, lif_exact=False, lif_reset=1.0):
         super().__init__()
         self.n_neurons = n_neurons
         # lif_exact: exact sequential LIF Triton kernel (src/lif_exact.py) instead of
         # the K-capped FPT lif_parallel (which never converges at T=512). Default off.
         self.lif_exact = lif_exact
+        self.lif_reset = lif_reset   # lif_exact only: reset strength gamma (1=LIF, 0=no-reset PSN)
         self.d_mem = d_mem
         self.n_heads = n_heads
         self.deltaproduct_nh = deltaproduct_nh
@@ -634,7 +635,9 @@ class SpikingHebbianBlock(nn.Module):
                 "titans has no chunked kernel yet; train with use_fpt=false "
                 "(sequential step_titans path).")
         if self.lif_exact:
-            from lif_exact import lif_exact as lif_parallel
+            import functools
+            from lif_exact import lif_exact
+            lif_parallel = functools.partial(lif_exact, gamma=self.lif_reset)
         else:
             from lif_parallel import lif_parallel
         B, T, _ = x_seq.shape
@@ -963,7 +966,7 @@ class SpikingHebbianLM(nn.Module):
                  gdn2_min_heads=1, gdn2_chunked=True, gdn2_ckpt_chunks=True,
                  gdn2_chunk_size=64, gdn2_gate_norm=False,
                  gdn2_loglinear=False, gdn2_loglinear_L=None,
-                 deltaproduct_nh=1, gate_rank=0, lif_exact=False, act_ckpt=False,
+                 deltaproduct_nh=1, gate_rank=0, lif_exact=False, lif_reset=1.0, act_ckpt=False,
                  attention_layer_positions=None,
                  attention_heads=8,
                  attention_max_seq_len=4096,
@@ -1104,7 +1107,7 @@ class SpikingHebbianLM(nn.Module):
                     gdn2_loglinear=gdn2_loglinear,
                     gdn2_loglinear_L=gdn2_loglinear_L,
                     deltaproduct_nh=deltaproduct_nh,
-                    gate_rank=gate_rank, lif_exact=lif_exact))
+                    gate_rank=gate_rank, lif_exact=lif_exact, lif_reset=lif_reset))
         self.titans = titans
         self.n_heads = n_heads
         self.d_head = d_mem // n_heads
