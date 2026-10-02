@@ -107,11 +107,19 @@ class SpikeGLU(nn.Module):
                                           levels=self.lif_levels, signed=self.lif_signed)
             self._last_rate = s.abs().mean()
             return self.w2(s * self.w3(x))
-        k = self.k if self.k_cur is None else min(int(self.k_cur), a.shape[-1])
-        if k < a.shape[-1]:
-            thr = a.detach().abs().topk(k, dim=-1).values[..., -1:]
-            a = a * (a.detach().abs() >= thr)
+        a = _kwta(self, a)
         return self.w2(a * self.w3(x))
+
+
+@torch.compiler.disable
+def _kwta(ffn, a):
+    """k-WTA on the apical input. Compiler-disabled and reads ffn.k_cur itself (2026-10-02 speed plan): the k-ramp
+    sets a new Python int almost every step, which would recompile any compiled graph that reads it. Eager = same math."""
+    k = ffn.k if ffn.k_cur is None else min(int(ffn.k_cur), a.shape[-1])
+    if k < a.shape[-1]:
+        thr = a.detach().abs().topk(k, dim=-1).values[..., -1:]
+        a = a * (a.detach().abs() >= thr)
+    return a
 
 
 class HybridAttentionBlock(nn.Module):

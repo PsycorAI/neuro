@@ -933,7 +933,15 @@ def main():
                     # dynamic=True, never cudagraphs) -- see setup comment
                     # above. Falls back to raw_model (eager) when compile is
                     # off. Weights are shared with raw_model either way.
-                    logits_mq = mqar_model(x_mq)[:, -1, :]
+                    # mqar_pad_to (2026-10-02 speed plan; unset = byte-identical): right-pad to one fixed length so
+                    # compile sees a single MQAR shape (each new length recompiled: GDN-2's chunk loop unrolls on T).
+                    # Every layer is causal, so the pads cannot reach the query position read below.
+                    _L_mq = x_mq.shape[1]
+                    _pad_to = int(c.get("mqar_pad_to") or 0)
+                    if _pad_to:
+                        assert _L_mq <= _pad_to, f"mqar_pad_to {_pad_to} < MQAR length {_L_mq}"
+                        x_mq = F.pad(x_mq, (0, _pad_to - _L_mq))
+                    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
                     main_loss = main_loss + _mq_w * mqar_cad * mqar_ce
                 loss = main_loss / c["grad_accum"]

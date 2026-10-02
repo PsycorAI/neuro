@@ -178,6 +178,7 @@ The biological reading, for the pitch: **cortex** (wide, sparse spiking neurons 
 | Sparsity | late ramp (λ 0.5 → 8 from 60%), ~10% firing | r11c | have |
 | Recall aux | MQAR [4, 32] w 0.5 + **late-only** gap dose | r7/r12/r14c | build b6, r16 X1 |
 | Optimizer | NorMuon 0.005 + AdamW, wd 0.1, head_wd 1.0, muon_batched_ns | v3 | have; route new matrices (gate-matrix bug class) |
+| Speed flags (exact math) | `gdn2_chunk_size: 256`, `gdn2_ckpt_chunks: false`, `telemetry_eval_only: true`, `muon_batched_ns: true`; once the compile test passes: `compile: true` + `mqar_pad_to: 2·N_max+1` | +32% eager at 30M (`docs/speed_plan_v4_2026_10_02.md`) | **STANDARD from r18 + v4 (Glenn 10-02)** |
 | Aux heads | MTP depth 2 w 0.3; no z-loss | z-loss A/B null | have |
 | Context | 512, then the last ~5% at 2k (banded top-k kernel) | F13 | build during the run |
 | Data | rebuilt mix, heavier on FineWeb-Edu + DCLM-baseline, ~16B tokens | F4 | Glenn's OK + disk check |
