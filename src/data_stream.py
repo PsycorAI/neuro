@@ -19,6 +19,16 @@ class StreamText:
         # True draws each train window from its own random start. Train split
         # only -- val keeps the old sampler so eval windows match across arms.
         self.independent_windows = independent_windows
+        # Random-access view for the independent-windows sampler (2026-09-30). The device read-ahead is 8 MB, so every
+        # cold 2 KB window read pulled 8 MB (~37 ms; ~1.2 s per 32-window batch -> the 30M screens were ~2x data-bound).
+        # MADV_RANDOM on a SEPARATE mapping turns read-ahead off for these reads only (~17 ms/batch, temp/bench_madvise.py);
+        # the bytes read are identical, and the region sampler / val keep read-ahead on self.data.
+        self._rand_data = self.data
+        if independent_windows:
+            import mmap
+            self._rand_data = np.memmap(bin_path, dtype=np.uint32, mode="r")
+            if getattr(self._rand_data, "_mmap", None) is not None and hasattr(mmap, "MADV_RANDOM"):
+                self._rand_data._mmap.madvise(mmap.MADV_RANDOM)
         if map_path is None:
             map_path = f"/home/glenn/projects/neuro/data/vocab_map_{vocab}.npy"
         if os.path.exists(map_path):
@@ -38,7 +48,7 @@ class StreamText:
         lo, hi = (0, self.split) if split == "train" else (self.split, len(self.data) - T - 1)
         if self.independent_windows and split == "train":
             starts = np.random.randint(lo, hi - T - 1, size=B)
-            rb = np.stack([np.asarray(self.data[s:s + T + 1], dtype=np.int64) for s in starts])
+            rb = np.stack([np.asarray(self._rand_data[s:s + T + 1], dtype=np.int64) for s in starts])
             xb = self.lut[rb]
             x = torch.from_numpy(xb[:, :-1]).to(device)
             y = torch.from_numpy(xb[:, 1:]).to(device)
@@ -112,3 +122,13 @@ class SequentialStream:
         x = torch.from_numpy(xb).to(device)
         y = torch.from_numpy(yb).to(device)
         return x, y, torch.from_numpy(reset).to(device)
+
+    def skip(self, n_calls, T):
+        """Advance the cursors as if next(T) had been called n_calls times, without reading data (2026-09-29).
+        Used on checkpoint resume so a stateful run does not replay its stream from the start. Same wrap rule
+        (and rng draws) as next(), so the cursors match an uninterrupted run exactly."""
+        for _ in range(n_calls):
+            for i in range(self.B):
+                if int(self.cursors[i]) + T + 1 > self.train_hi:
+                    self.cursors[i] = int(self.rng.integers(0, self.train_hi - self.margin))
+                self.cursors[i] += T

@@ -61,6 +61,21 @@ def mqar_aug_batch(B, N, device):
     return torch.stack(xs).to(device), torch.tensor(tgs, device=device)
 
 
+def mqar_gap_batch(B, N, g, data, rng, device):
+    """Haystack MQAR (2026-09-28; 'interference wall', arXiv 2609.16183): [k1 v1 .. kN vN] + g tokens of real TRAIN
+    text + [kq] -> target vq. Gap windows come from the private numpy RNG `rng` (LM data stream untouched); gap tokens
+    equal to one of the sequence's keys are replaced by random ids in 6000-7999 (outside the key/value ranges)."""
+    x, tg = mqar_aug_batch(B, N, "cpu")                      # (B, 2N+1) = kv block + query
+    if g > 0:
+        starts = rng.randint(0, data.split - g - 1, size=B)
+        gap = torch.from_numpy(data.lut[np.stack([np.asarray(data.data[s:s + g], dtype=np.int64) for s in starts])])
+        keys = x[:, 0:2 * N:2]
+        clash = (gap.unsqueeze(-1) == keys.unsqueeze(1)).any(-1)
+        gap = torch.where(clash, torch.randint(6000, 8000, gap.shape), gap)
+        x = torch.cat([x[:, :2 * N], gap, x[:, 2 * N:]], 1)
+    return x.to(device), tg.to(device)
+
+
 def _build_optimizers(model, c, device):
     """Build a list of optimizer(s) based on config.
 
@@ -90,6 +105,7 @@ def _build_optimizers(model, c, device):
             precise_gate_filter=c.get("muon_precise_gate_filter", False),
             head_weight_decay=c.get("head_weight_decay"),
             muon_mem_lr=c.get("muon_mem_lr"),
+            muon_attn_lr=c.get("muon_attn_lr"),
             batched_ns=c.get("muon_batched_ns", False))
         opt_name = "NorMuon" if use_normuon else "Muon"
         print(f"optimizer: {opt_name} ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
@@ -110,6 +126,20 @@ def _build_optimizers(model, c, device):
                                 weight_decay=c.get("weight_decay", 0.0), **fused_kw)
         print(f"optimizer: AdamW{' (fused)' if fused_kw else ''} (lr={c['lr']})")
     return [opt]
+
+
+def spikeglu_k_at(c, step, total_steps):
+    """r16 b3 SpikeGLU k-ramp (2026-10-02, docs/v4_plan_review_2026_10_01.md F2): the active-unit budget is
+    the full hidden width (dense bilinear GLU) until attn_ffn_spikeglu_ramp_start of training, then shrinks
+    geometrically to attn_ffn_spikeglu_k at attn_ffn_spikeglu_ramp_end (default 0.9) and stays there --
+    learn dense, sparsify late (as the LIF late sparsity ramp, r11c). None = no ramp (fixed k)."""
+    rs = c.get("attn_ffn_spikeglu_ramp_start")
+    if rs is None or not c.get("attn_ffn_spikeglu_k"):
+        return None
+    k, hidden = int(c["attn_ffn_spikeglu_k"]), int(c["attn_ffn_hidden"])
+    re_ = float(c.get("attn_ffn_spikeglu_ramp_end", 0.9))
+    f = min(1.0, max(0.0, (step / max(1, total_steps) - float(rs)) / max(1e-9, re_ - float(rs))))
+    return int(round(hidden * (k / hidden) ** f))
 
 
 def build_model(c):
@@ -157,6 +187,18 @@ def build_model(c):
                                 gate_rank=c.get("gate_rank", 0),
                                 lif_exact=c.get("lif_exact", False),
                                 lif_reset=float(c.get("lif_reset", 1.0)),
+                                ff_conv=c.get("ff_conv", 0),
+                                swa_window=c.get("swa_window", 0),
+                                swa_heads=c.get("swa_heads", 4),
+                                swa_dim=c.get("swa_dim", 64),
+                                pre_norm=c.get("pre_norm", False),
+                                mem_out_gate=c.get("mem_out_gate", 0),
+                                lif_levels=c.get("lif_levels", 1),
+                                lif_signed=c.get("lif_signed", False),
+                                lif_learn_beta=c.get("lif_learn_beta", False),
+                                lif_alpha=c.get("lif_alpha", None),
+                                spk_mlp=c.get("spk_mlp", 0),
+                                canon_a=c.get("canon_a", 0),
                                 act_ckpt=c.get("act_ckpt", False),
                                 gdn2_loglinear=c.get("gdn2_loglinear", False),
                                 gdn2_loglinear_L=c.get("gdn2_loglinear_L", None),
@@ -203,7 +245,17 @@ def build_model(c):
                                 final_norm=c.get("final_norm", False),
                                 deltaproduct_nh=c.get("deltaproduct_nh", 1),
                                 attn_single_residual=c.get("attn_single_residual", False),
-                                telemetry_eval_only=c.get("telemetry_eval_only", False))
+                                telemetry_eval_only=c.get("telemetry_eval_only", False),
+                                spk_layerscale=float(c.get("spk_layerscale", 0.0)),
+                                attn_ffn=c.get("attn_ffn", True),
+                                attn_ffn_spikeglu_k=c.get("attn_ffn_spikeglu_k", 0),
+                                attn_ffn_hidden=c.get("attn_ffn_hidden", None),
+                                attn_topk=c.get("attn_topk", 0),
+                                engram_v2_hash=c.get("engram_v2_hash", "lo"),
+                                spk_out_norm=c.get("spk_out_norm", True),
+                                attn_out_gate=c.get("attn_out_gate", False),
+                                attn_canon=c.get("attn_canon", 0),
+                                attn_ffn_spikeglu_lif=c.get("attn_ffn_spikeglu_lif", False))
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -495,6 +547,24 @@ def main():
     # main-forward's time every step with zero speedup; compiling it here
     # (still real dev work, not free) is expected to recover most of that.
     mqar_model = raw_model
+    _mqar_gap_rng = np.random.RandomState(int(c.get("seed", 0)) + 7919)   # haystack MQAR only (mqar_gap_max)
+    # Stochastic attention window (2026-09-29, SWAX arXiv 2509.24552; docs/contiguous_training_design.md): each step
+    # the attention layers use a short sliding window w.p. attn_window_p, else full causal; the last
+    # attn_window_long_frac of steps and every eval use full. The draw is keyed on (seed, step) -- no RNG stream is
+    # consumed, so data/MQAR draws stay identical to the control and a resume reproduces the same windows.
+    _win_short = int(c.get("attn_window_short", 0))
+    _attn_blocks = [b for b in raw_model.blocks if hasattr(b, "qkv")] if _win_short else []
+    if _win_short:
+        print(f"stochastic attention window: {_win_short} w.p. {c.get('attn_window_p', 0.5)}, else full; "
+              f"full for the last {c.get('attn_window_long_frac', 0.1):.0%} of steps and at eval "
+              f"({len(_attn_blocks)} attention blocks)")
+    # r16 b3: SpikeGLU blocks whose active-unit budget follows spikeglu_k_at each step (empty = no ramp).
+    _sglu_blocks = ([b for b in raw_model.blocks if hasattr(getattr(b, "ffn", None), "k_cur")]
+                    if spikeglu_k_at(c, 0, 1) is not None else [])
+    if _sglu_blocks:
+        print(f"SpikeGLU k-ramp: dense ({c['attn_ffn_hidden']}) until {c['attn_ffn_spikeglu_ramp_start']:.0%}, "
+              f"then geometric to k={c['attn_ffn_spikeglu_k']} by {c.get('attn_ffn_spikeglu_ramp_end', 0.9):.0%} "
+              f"({len(_sglu_blocks)} blocks)")
     if c.get("compile") and device == "cuda" and c.get("mqar_aug", False):
         mqar_model = torch.compile(raw_model, mode="default", dynamic=True)
         print("torch.compile enabled for MQAR path (mode=default, dynamic=True)")
@@ -543,6 +613,10 @@ def main():
         np.random.seed(c.get("seed", 0) + step)
         if hasattr(data, "_train_calls"):
             data._train_calls = step * c["grad_accum"]
+        # Stateful streams: move the cursors past what was already trained on (2026-09-29; before this a resume
+        # replayed each stream from its start). The carried memory state is not checkpointed -> one reset.
+        if seq_stream is not None:
+            seq_stream.skip(step * c["grad_accum"], c["block_size"])
 
     per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
     total_steps = max(1, c["max_tokens"] // per_step_tok)
@@ -628,6 +702,14 @@ def main():
             c["lam"] = cur_lam   # saved ckpts/eval rebuild at the operating lam
 
         for o in opts: o.zero_grad(set_to_none=True)
+        if _win_short:
+            _long = step >= (1.0 - float(c.get("attn_window_long_frac", 0.1))) * total_steps
+            _draw = np.random.RandomState((int(c.get("seed", 0)) * 1000003 + step) % (2 ** 32)).rand()
+            _w = _win_short if (not _long and _draw < float(c.get("attn_window_p", 0.5))) else 0
+            for _b in _attn_blocks: _b.attn_window = _w
+        if _sglu_blocks:
+            _kc = spikeglu_k_at(c, step, total_steps)
+            for _b in _sglu_blocks: _b.ffn.k_cur = _kc
         for _ in range(c["grad_accum"]):
             if stateful:
                 x, y, reset = seq_stream.next(c["block_size"], device)
@@ -639,29 +721,16 @@ def main():
                 if rp > 0:
                     reset = reset | (torch.rand(c["batch_size"], device=device) < rp)
                 # Zero the carried state for any cursor that wrapped or was reset
+                # (M rows are B * n_state_units, so repeat the per-row mask to match).
                 if carry_state is not None and bool(reset.any()):
                     for lay in carry_state["layers"]:
-                        lay["M"][reset] = 0
+                        lay["M"][reset.repeat_interleave(lay["M"].shape[0] // reset.numel())] = 0
                         lay["mem"][reset] = 0
                         lay["prev_spk"][reset] = 0
-                with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
-                    if use_sparsity:
-                        out, sr, carry_state = model(x, return_stats=True,
-                                                     initial_state=carry_state,
-                                                     return_final_state=True)
-                    else:
-                        out, carry_state = model(x, initial_state=carry_state,
-                                                 return_final_state=True)
-                        sr = None
-                    main_loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
-                    if sr is not None:
-                        target = c.get("sparsity_target", 0.05)
-                        main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
-                    loss = main_loss / c["grad_accum"]
-                loss.backward()
-                continue
             need_raw = kd_teacher is not None
-            if need_raw:
+            if stateful:
+                pass                                   # x, y already drawn from the contiguous streams above
+            elif need_raw:
                 x, y, raw = data.batch(c["batch_size"], c["block_size"], "train",
                                         device, return_raw=True)
             else:
@@ -675,7 +744,17 @@ def main():
                 # (observed as MTP loss silently dropping under reduce-overhead,
                 # ~30% training-signal loss, spike rate collapsing 0.185 -> 0.11).
                 want_mtp = c.get("mtp_enabled", False)
-                if use_sparsity:
+                if stateful:
+                    # Carried-state (TBPTT) forward; the returned state is detached (model.py). 2026-09-29: this
+                    # path now falls through to the SHARED loss below (fused CE, MQAR aux, z-loss, MTP) -- the
+                    # June branch computed plain CE only and skipped MQAR recall training.
+                    _ret = model(x, return_stats=use_sparsity, initial_state=carry_state,
+                                 return_final_state=True, return_mtp=want_mtp)
+                    out = _ret[0]
+                    sr = _ret[1] if use_sparsity else None
+                    carry_state = _ret[2 if use_sparsity else 1]
+                    mtp_logits = _ret[-1] if want_mtp else None
+                elif use_sparsity:
                     if want_mtp:
                         out, sr, mtp_logits = model(x, return_stats=True, return_mtp=True)
                     else:
@@ -715,7 +794,15 @@ def main():
                 # Sparsity penalty
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
-                    main_loss = main_loss + c["sparsity_lambda"] * (sr - target).clamp(min=0)
+                    lam_sp = c["sparsity_lambda"]
+                    # Late sparsity ramp (2026-09-30, default off = byte-identical): lambda stays at sparsity_lambda
+                    # until sparsity_ramp_start_frac of training, then rises linearly to sparsity_lambda_final at the
+                    # end -- learn first, sparsify late (gradual-sparsification practice).
+                    _rs = c.get("sparsity_ramp_start_frac")
+                    if _rs is not None:
+                        _f = min(1.0, max(0.0, (step / total_steps - float(_rs)) / max(1e-9, 1.0 - float(_rs))))
+                        lam_sp = lam_sp + _f * (float(c.get("sparsity_lambda_final", lam_sp)) - lam_sp)
+                    main_loss = main_loss + lam_sp * (sr - target).clamp(min=0)
                 # Z-loss regularization (PaLM / DeepSeek-V3 style):
                 # penalty on (log Σ exp(logits))² keeps the softmax denominator
                 # bounded — stabilizes training, especially under bf16/fp8.
@@ -823,14 +910,31 @@ def main():
                     _buckets = c.get("mqar_buckets")
                     if _buckets:
                         N_mq = min(_buckets, key=lambda b: abs(b - N_mq))
-                    x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
+                    _gmax = int(c.get("mqar_gap_max", 0))
+                    # r16 b6 late-only gap dose (2026-10-02; default off = byte-identical): before
+                    # mqar_gap_start_frac of training the aux uses plain MQAR at mqar_weight; from then on the
+                    # haystack (gap) MQAR at mqar_gap_weight (default mqar_weight), its gap ramp measured from
+                    # the start step. Gap batches cost ~2x step time, so a late dose cuts that cost.
+                    _gs = c.get("mqar_gap_start_frac")
+                    _g0 = 0 if _gs is None else float(_gs) * total_steps
+                    _mq_w = c.get("mqar_weight", 0.5)
+                    if _gmax > 0 and step >= _g0:
+                        _rf = float(c.get("mqar_gap_ramp_frac", 0.0))
+                        _cur = _gmax if _rf <= 0 else max(1, int(_gmax * min(1.0, (step - _g0) / max(1.0, _rf * total_steps))))
+                        g_mq = int(_mqar_gap_rng.randint(0, _cur + 1))
+                        x_mq, tgt_mq = mqar_gap_batch(int(c.get("mqar_batch", c["batch_size"])), N_mq, g_mq,
+                                                      data, _mqar_gap_rng, device)
+                        if _gs is not None:
+                            _mq_w = c.get("mqar_gap_weight", _mq_w)
+                    else:
+                        x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
                     # mqar_model: separate compiled wrapper (mode=default,
                     # dynamic=True, never cudagraphs) -- see setup comment
                     # above. Falls back to raw_model (eager) when compile is
                     # off. Weights are shared with raw_model either way.
                     logits_mq = mqar_model(x_mq)[:, -1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
-                    main_loss = main_loss + c.get("mqar_weight", 0.5) * mqar_cad * mqar_ce
+                    main_loss = main_loss + _mq_w * mqar_cad * mqar_ce
                 loss = main_loss / c["grad_accum"]
             loss.backward()
         # NaN/Inf guard (added 2026-08-07). Without this, a numerical blowup
@@ -870,11 +974,19 @@ def main():
             print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item()*c['grad_accum']:.3f} "
                   f"| {c['log_every']*per_step_tok/dt:,.0f} tok/s{vram}")
         if step % c["eval_every"] == 0:
+            for _b in _attn_blocks: _b.attn_window = 0          # eval always uses the full window
             full, abl, sr = evaluate(raw_model, data, c, device)
             msg = f"  [eval] val_ppl {full:.2f}"
             if abl is not None:
                 msg += f" | ablated_ppl {abl:.2f} (memory Δ={abl-full:+.2f}) | spike {sr:.3f}"
             print(msg, flush=True)
+            # r16 DSN telemetry: current k-WTA budget and, for DSN-LIF, each layer's firing rate and mean leak.
+            _dsn = [b.ffn for b in raw_model.blocks if hasattr(getattr(b, "ffn", None), "k_cur")]
+            if _dsn and (_sglu_blocks or _dsn[0].lif):
+                print("  [dsn] " + " ".join(
+                    (f"rate={f._last_rate.item():.3f} beta={torch.sigmoid(f.beta_logit).mean().item():.3f}"
+                     if f.lif and f._last_rate is not None else f"k={f.k if f.k_cur is None else f.k_cur}")
+                    for f in _dsn), flush=True)
             # Output-head weight-norm telemetry (2026-08-25). The 363M flagship
             # diverged via runaway LM-head norm growth while every block and the
             # embedding decayed normally, and NOTHING in the log showed it -- it
@@ -954,7 +1066,10 @@ def main():
                 n_total = len(gate_stats)
                 n_spiking = sum(1 for s in gate_stats if s is not None)
                 if sr is not None and 0 < n_spiking < n_total:
-                    print(f"  [spike] reported={sr:.3f} spiking_only={sr*n_total/n_spiking:.3f} "
+                    # 2026-09-30: with spike_rate_undiluted the reported rate is ALREADY spiking-only; rescaling it
+                    # doubled the logged number (signed: logged 0.264, measured 0.129; temp/diag_spike_levels.py).
+                    _sp_only = sr if c.get("spike_rate_undiluted", False) else sr * n_total / n_spiking
+                    print(f"  [spike] reported={sr:.3f} spiking_only={_sp_only:.3f} "
                           f"({n_spiking}/{n_total} blocks spike)", flush=True)
                 # Watchdog (post-fix stability guard from docs/plan_2026_08_05.md P3).
                 # Two consecutive tripwire hits → save ckpt and exit 2. Chain
@@ -1069,6 +1184,7 @@ def main():
     # still in flight (would leave a truncated/corrupt .pt file).
     _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")
+    for _b in _attn_blocks: _b.attn_window = 0
     if c["arch"] == "spiking":
         _, _, sr = evaluate(raw_model, data, c, device)
         # `n_layer` (singular) is the TinyTransformer key; spiking configs use

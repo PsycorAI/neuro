@@ -79,8 +79,14 @@ class EngramV2(nn.Module):
         returns: (B, T, d) FloatTensor to ADD into the residual stream
     """
 
-    def __init__(self, d, vocab, orders=(2, 3), K=65536, heads=2, rank=64):
+    def __init__(self, d, vocab, orders=(2, 3), K=65536, heads=2, rank=64, hash_hi=False):
         super().__init__()
+        # hash_hi (2026-10-02, r16 b1, docs/code_review_interpretability_2026_10_01.md #1; default False =
+        # byte-identical): the low-bit hash keeps (sum p_i*id_i) & (K-1), whose low log2(K) bits depend only
+        # on the low bits of each id -> ids x and x+-K share a bucket in EVERY table. hash_hi takes the TOP
+        # log2(K) bits of the 32-bit product sum instead (Knuth multiplicative hashing).
+        self.hash_hi = bool(hash_hi)
+        self.shift = 32 - (K.bit_length() - 1)
         assert K > 0 and (K & (K - 1)) == 0, f"K must be power of 2, got {K}"
         max_n = max(orders)
         # Prime consumption is len(orders) * heads * max_n (see hash-fill loop
@@ -134,7 +140,7 @@ class EngramV2(nn.Module):
         for i in range(n):
             h = h + self.primes[table, i] * idx_p[:, i:i + T].long()
         h = h & 0xFFFFFFFF
-        h = h & self.mask
+        h = (h >> self.shift) if self.hash_hi else (h & self.mask)
         return h + self.table_base[table]                  # into shared table's slice
 
     def forward(self, idx):

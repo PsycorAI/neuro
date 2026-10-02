@@ -152,7 +152,7 @@ lr: 0.0005
 lam: 0.98
 max_tokens: 11000000000   # heal: +1B tok; resumes v3's cosine at ~0.12x peak LR decaying to 0.10x (lr_min_frac default)
 eval_every: 2000
-ckpt_every: 4000
+ckpt_every: 2000        # 2026-09-28: tighter (was 4000)
 keep_last: 6
 log_every: 1000
 watchdog_dstd_thresh: 6.0          # 2026-09-12: the default 3.0 false-tripped BOTH 90M

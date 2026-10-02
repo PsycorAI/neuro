@@ -181,7 +181,8 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
                     adamw_fused=True, adamw_8bit=False, fix_gate_matrices=False,
                     normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
                     route_embeddings_by_type=False, precise_gate_filter=False,
-                    head_weight_decay=None, muon_mem_lr=None, batched_ns=False):
+                    head_weight_decay=None, muon_mem_lr=None, batched_ns=False,
+                    muon_attn_lr=None):
     """Split model parameters and return (muon, adamw) optimizers.
 
     2D matrices in hidden layers -> Muon.
@@ -283,6 +284,21 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
             adamw_params.append(p)
     if not muon_params:
         muon = None
+    elif muon_attn_lr is not None:
+        # Separate LR for the hybrid attention block's matrices (qkv / o_proj / ffn -- names only the
+        # HybridAttentionBlock has). Same proportional-schedule mechanism as muon_mem_lr. Extra param
+        # group -> NOT resume-compatible; fresh runs only. Mutually exclusive with muon_mem_lr.
+        if muon_mem_lr is not None:
+            raise ValueError("muon_attn_lr and muon_mem_lr are mutually exclusive")
+        attn_ids = {id(p) for n, p in model.named_parameters()
+                    if any(s in n for s in (".qkv.", ".o_proj.", ".ffn."))}
+        a_muon = [p for p in muon_params if id(p) in attn_ids]
+        b_muon = [p for p in muon_params if id(p) not in attn_ids]
+        groups = [g for g in ({"params": b_muon, "lr": muon_lr}, {"params": a_muon, "lr": muon_attn_lr}) if g["params"]]
+        print(f"  muon_attn_lr={muon_attn_lr}: {len(a_muon)} attention matrices, {len(b_muon)} others at {muon_lr}")
+        muon = Muon(groups, lr=muon_lr, weight_decay=weight_decay,
+                    normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps,
+                    batched_ns=batched_ns)
     elif muon_mem_lr is not None:
         # Decoupled memory-path LR. The muon_lr recall-vs-ppl tradeoff
         # (neuro_muon_lr_recall_tradeoff) is monotonic in OPPOSITE

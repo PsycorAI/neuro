@@ -39,7 +39,7 @@
 </head><body>
 
 <h1>Specialized Brain Mods — research journey</h1>
-<p class="date">Live document — last updated 2026-09-27. Each new experiment added as it completes.</p>
+<p class="date">Live document — last updated 2026-10-01. Each new experiment added as it completes.</p>
 
 <div class="toc">
 <strong>Table of contents</strong>
@@ -112,6 +112,10 @@
   <li><a href="#v3-lands-review-bugs-launch-plan">v3 lands at 10B, a code review finds a residual bug that invalidates our headline comparison, post-training survives an OOM, and a launch plan takes shape</a></li>
   <li><a href="#sft-recall-rehearsal-matched-compute">67. SFT erased recall, rehearsal fixes it; matched-compute transformer comparison</a></li>
   <li><a href="#bf16-future-leak-exact-lif">68. A future-token leak hid in the LIF scan; the honest exact neuron wins</a></li>
+  <li><a href="#honest-gap-hybrid-levels-interference">69. Closing the honest gap: hybrid + multi-level spikes reach 1.07&times;, then an interference test humbles our recall</a></li>
+  <li><a href="#signed-spikes-memory-horizon">70. Signed spikes beat the transformer on two seeds; the interference failure is a memory that stopped remembering; screens ran at half speed</a></li>
+  <li><a href="#gentle-gap-depth-warning-throughput">71. A gentle gap dose fixes long-range recall for free, a third layer exposes a depth problem, and throughput scoping finds the neuron was already fused</a></li>
+  <li><a href="#depth-via-attention-glass-box-pivot">72. Depth comes from attention, not more spiking layers; Glenn asks for an auditable model; the review finds Engram half-blind</a></li>
 </ol>
 </div>
 
@@ -1987,5 +1991,120 @@ saved step_0018000.pt   (best_ckpt = step_0012000.pt)</code></pre>
 
 <hr>
 <p class="date">Major version: 1.53 (FUTURE-TOKEN LEAK: lif_parallel._scan_chunked built arange in bf16 under autocast -&gt; wrong causal mask above 256, position t reads x[t+1]; all bf16 spiking val_ppl inflated [v3 16.6 leaky vs 41.0 honest; 30M 48.2 vs 139.0]; recall unaffected; fixed 2e98665, post-training PAUSED. Leak-free re-eval of 27 ckpts: width/indepwin/bs512/stay-wide hold, gate_rank quality win was the leak [keep for FLOPs]. FPT never converges [always K=10, 21-31% spikes differ from true LIF]; exact-LIF Triton kernel src/lif_exact.py 25-50x faster; HONEST 30M: lif_exact 99.3 vs FPT 136.8 vs transformer 68.5, recall lif_exact 100/100/94 vs 97/62/19 -&gt; likely v4 neuron, seed 1 running. Throughput: v4 draft launch-bound [~18.6k kernels/step], batch is the lever; muon_batched_ns bit-identical -35% optimizer step; act_ckpt loses under compile; activation_memory_budget +8%; 5080 numbers provisional pending a clean 5090 suite. SFT rehearsal W=0.1 chosen. Cloud priced; heal_v3 config ready, on hold. See neuro_bf16_scan_future_leak_2026_09_27 + neuro_lif_fpt_nonconvergence_2026_09_27 + HANDOFF_2026_09_27.)</p>
+
+<h2 id="honest-gap-hybrid-levels-interference">69. Closing the honest gap: a hybrid layer and multi-level spikes bring us to 1.07&times; the transformer &mdash; then an interference test shows our &ldquo;perfect recall&rdquo; only held for immediate questions</h2>
+<p class="date">2026-09-27 (evening) &ndash; 09-29</p>
+
+<p>Glenn set the goal after <a href="#bf16-future-leak-exact-lif">&sect;68</a>: take the honest 30M gap (<code>lif_exact</code> 99.3 vs the 2-layer AdamW transformer 68.5, 1.45&times;) to &le;1.0&times;, ideally 0.9&times;, without giving up recall or sparsity. The first move was to measure <em>where</em> the gap lives. <code>temp/diag_gap_positions.py</code> splits validation loss by context position. The ratio was only 1.11&times; with 1&ndash;3 tokens of context, but <b>1.72&times; at positions 4&ndash;15</b> and 1.64&times; at 16&ndash;63, easing to 1.41&times; past 256. With the memory ablated, the curve went flat after position 3: every bit of our context use came from the GDN-2 memory. It is an induction-style store keyed on the previous token, and it has no sense of position. The weakness was precise use of <em>recent</em> context. It also explained why the old <code>pre_conv</code> (09-07) had been our best-perplexity screen while destroying recall: it added local mixing, but on the key/query pointer.</p>
+
+<p>Our first lever was the wrong one. The transformer on our NorMuon recipe had scored 87.8, so we guessed the spiking recipe (tuned under the leak) was simply mis-tuned. It was not. NorMuon 0.02 was auto-killed; halving the LR cost 25% (103.1); AdamW matched perplexity (98.8) but <b>drove recall to chance</b>. The optimizer stays NorMuon 0.005 / AdamW 6e-4. The transformer&rsquo;s own LR (1e-3) was confirmed as its best (5e-4 84.6, 2e-3 73.6), so the 68.5 baseline is fair.</p>
+
+<div class="milestone"><p><b>Two structural wins that stack.</b> We built seven default-off flags in one pass, each parity-proven byte-identical when off (<code>temp/parity_gap_flags.py</code>): <code>ff_conv</code>, <code>swa_window</code>, <code>pre_norm</code>, <code>mem_out_gate</code>, and three neuron options, <code>lif_levels</code> / <code>lif_signed</code> / <code>lif_learn_beta</code> (new <code>lif_exact_ml</code> kernel, 0 spike flips vs float64). We then ran them three at a time on the 5090.
+<ul>
+<li>A 2-layer hybrid <code>[spk, attn]</code> gave <b>82.5</b> (2 seeds).</li>
+<li>Integer multi-level spikes (<code>lif_levels: 4</code>, I-LIF style: integer training, binary-spike inference) gave <b>85.0</b> (2 seeds), with pure spiking and recall 100&times;5.</li>
+<li>Stacked with pre-norm and the output gate, the <b>full stack reached 73.4 / 74.9 (seeds 0/1) = 1.07&ndash;1.09&times;</b>, recall 100&times;5.</li>
+<li>Canon-A (<code>canon_a</code>, Allen-Zhu&rsquo;s residual short conv) added 71.9 on one seed.</li>
+</ul>
+The frequency split showed why the two wins stack. Attention fixed common tokens (1.06&times;), multi-level spikes fixed rare ones (1.13&times;).</p></div>
+
+<p>Several levers came up null: <code>ff_conv</code> 99.2, the RoPE window read 106.3, learnable &beta; 95.1, 8 levels 74.3 (vs 4 levels 73.4), and attention LR 0.01/0.02 (93.0/100.9). Depth hurt the comparison. A 3-layer <code>[spk, attn, spk]</code> + lev4 scored 69.3 against a param-matched <b>3-layer transformer at 59.4 (1.17&times;)</b>, because the 3-layer transformer forms induction heads within 100M tokens. Glenn asked whether a 1-attention-layer transformer would be fairer. We kept the 17-layer all-attention model as the 426M baseline, param-matched and standard, and noted a 1-attention-layer model as a future <em>ablation</em>. Its LR check (60M tokens) moved it to 6e-4 (93.4 vs 108.2 at 3e-4). The model runs at 29.9k tok/s, so 10B tokens is ~3.9 days on the 5090.</p>
+
+<div class="setback"><p><b>Our recall only held when the question came straight after the facts.</b> <code>temp/haystack_recall_eval.py</code> puts 0&ndash;440 tokens of real text between the key&ndash;value block and the query. Plain <code>lif_exact</code> held N8 at 100/96/73/40% (gap 0/64/192/440), level with the 3-layer transformer&rsquo;s 100/75/70/44. But <b>the best-perplexity full stack fell to chance at a 64-token gap</b> (100/8/10/15): the hybrid and multi-level levers had bought perplexity by giving up robustness. Our MQAR aux never has a gap. That is the &ldquo;interference wall&rdquo; (arXiv 2609.16183), whose fix is a distance curriculum. <code>mqar_gap_max</code> (haystack MQAR with a ramped real-text gap) did lift N8 to a flat ~70% at every gap, but at full strength it cost 25% perplexity (92.6) and immediate recall. On <code>lif_exact</code> it was plainly negative (121.6). A gentler dose is next, and every headline recall number now carries the haystack column.</p></div>
+
+<p>Two framing pieces came out of the same days. <code>docs/transformer_comparison_scorecard.md</code> lists 25 features in six groups with honest status. Today we measurably win on sparsity, and brains are a unique capability not yet measured. We currently lose on quality, recall under interference, training speed, and post-training stability. <b>Alignment &amp; Safety became its own HIGH-priority group</b> after this month&rsquo;s AI-escape incidents. The first targets are interpretability (monosemanticity of spike neurons vs transformer MLP neurons) and alignment-training response. Those two words enter marketing only after matched, measured wins. Meanwhile v3&rsquo;s heal started on the 5090 (09-28 15:24, resumed at 10B). It is healing steadily: val_ppl 44.8 &rarr; 41.4 by 10.58B. It chains into post-training on the healed base for Glenn&rsquo;s demo.</p>
+
+<hr>
+<p class="date">Major version: 1.54 (Honest gap diagnosed: loss ratio by context position 1.11x @1-3, 1.72x @4-15, 1.41x @256+ -&gt; weak precise recent-context use. LR hypothesis wrong [0.02 killed, half LR 103, AdamW 98.8 but recall at chance]. Wins, parity-proven default-off flags: hybrid [spk,attn] 82.5 [2 seeds]; lif_levels 4 85.0 [2 seeds]; full stack hybrid+lev4+pre_norm+mem_out_gate 73.4/74.9 = 1.07-1.09x tfmr; canon_a 71.9 [1 seed]. Nulls: ff_conv, swa read, learn_beta, lev8, attn LR. 3L: 69.3 vs 3L tfmr 59.4 [1.17x]. Haystack recall eval: full stack at chance with a 64-tok gap [lif_exact ~ 3L tfmr]; mqar_gap_max curriculum fixes interference [N8 ~70% flat] but costs +25% ppl at full strength -&gt; gentler dose next. 426M tfmr: 17L kept, LR 6e-4, 29.9k tok/s. v3 heal running [44.8 -&gt; 41.4]. Scorecard with Alignment &amp; Safety HIGH. See neuro_ppl_gap_diagnosis_2026_09_27 + docs/ppl_gap_plan_2026_09_27.md + docs/transformer_comparison_scorecard.md + HANDOFF_2026_09_29.)</p>
+
+
+<h2 id="signed-spikes-memory-horizon">70. Signed spikes beat the transformer on two seeds, the interference failure turns out to be a memory that stopped remembering &mdash; and our screens were running at half speed all along</h2>
+<p class="date">2026-09-29 &ndash; 09-30</p>
+
+<p>We started from the open wound of <a href="#honest-gap-hybrid-levels-interference">&sect;69</a>: the full stack answered immediate questions perfectly and fell to chance with 64 tokens of text in between. The obvious suspect was the attention layer answering the synthetic questions and leaving the memory idle. <code>temp/diag_haystack_pathways.py</code> ablated each pathway and killed that idea. Switching attention off changed nothing, and switching the GDN memory off dropped every model to chance. <b>Recall is entirely the memory, in every model.</b> What differed was how long the memory held anything. On real text, the median decay half-life per memory channel was 47&ndash;76 tokens for plain <code>lif_exact</code>, but <b>0&ndash;1 token</b> for the hybrid, the full stack, Canon-A and the spiking MLP. With attention covering local context, the LM loss had simply taught the memory to wipe itself every step.</p>
+
+<div class="milestone"><p><b>Signed multi-level spikes: 0.89&times; the transformer, recall restored, two seeds.</b> <code>lif_signed</code> on the full stack scored <b>61.36 / 61.11</b> (mean 61.24 vs the 2-layer transformer&rsquo;s 68.5). Recall held at 100&times;5, and the haystack came back to N8 88&ndash;90 / 63&ndash;65 / 34&ndash;35% (the full stack had 8/10/15). The memory half-life went back up to 97&ndash;113 / 55&ndash;62 tokens. Adding Canon-A made it <b>59.74</b> (1 seed), level with the <em>3-layer</em> transformer (59.38) using two layers. We do not know why signed spikes restore the horizon. The obvious hypothesis was tested and rejected: unsigned codes giving memory keys a shared direction. Key overlap was highest in <code>lif_exact</code>, the model with the <em>best</em> gapped recall.</p></div>
+
+<p>Two follow-ups tempered it. A 3-layer signed <code>[spk, attn, spk]</code> scored 64.65 with its memory half-life back at ~2 tokens and the haystack at chance. The long horizon is a fragile learned equilibrium, not a property of signed spikes, which matters for the 9-layer v4. The gentler gap curriculum failed too. With gaps capped at 128, the MQAR aux never clicked in 100M tokens (total loss stuck near 9 against 4.3 without gaps). The 440-gap run of &sect;69 had only clicked after step 4000. So gaps delay recall acquisition; if we use them again, they should come after recall is learned.</p>
+
+<p>Glenn asked whether a stateful model should be trained the way it lives: in a continuous stream instead of on random windows that start with amnesia. The June attempt (<a href="#stateful">&sect;10</a>) had been negative on a Hebbian memory. This time the case looked stronger. Carrying state at eval already gave random-trained models &minus;3 to &minus;7% ppl, and the 440-gap model got 24% <em>worse</em> with carried state. That is the &ldquo;unexplored states&rdquo; failure of Buitrago &amp; Gu (ICML 2025), for which state passing is the published fix. We scoped it (<code>docs/contiguous_training_design.md</code>), pre-registered the criteria, and fixed the stale June path (it had silently skipped the MQAR aux). We also added a SWAX-style stochastic attention window.</p>
+
+<div class="setback"><p><b>Contiguous training: closed negative at 30M.</b> The two stateful runs matched each other (70.3 / 70.5 zero-state, streaming 65.3 / 65.2 vs the signed control&rsquo;s 64.3). They gained a little haystack at medium gaps and nothing at 440. Over one-million-token streams the signed random-trained models were already perfectly stable. Only the 440-gap model exploded (memory norm 27.7&rarr;75.5), exactly the case state passing exists for. The stochastic window changed nothing in training. But it showed that a <b>64-token attention window at inference costs only ~1% ppl</b> on signed models, so constant-memory inference is viable.</p></div>
+
+<div class="milestone"><p><b>The screens had been running at half speed.</b> The stateful runs trained at 30&ndash;35k tok/s against 14&ndash;15k for everything else. Tracing it: the WSL virtual disk reports itself rotational with an 8 MB read-ahead. Every cold 2 KB random window read pulled 8 MB (~37 ms), and a 32-window batch took ~1.2 s, about the whole step. The drive is a SATA SSD, and sorting or threading the reads did not help. <code>MADV_RANDOM</code> on a separate memory map for the random-window path took a batch from 1220 ms to 28 ms with byte-identical data. Screens now run ~2&times; faster, and the v4 draft (72 random windows per step) should gain ~1.3&ndash;1.4&times;.</p></div>
+
+<p>Two accounting corrections closed the session. The <code>[spike] spiking_only</code> log line rescaled a rate that <code>spike_rate_undiluted</code> had already made spiking-only, so every logged rate was doubled. Measured directly, signed spikes fire on <b>12.7%</b> of (neuron, token) slots, not 26% (lam 2.0: 6.7%; full stack 4.2%). <code>energy.py</code> had the same double count. The energy model itself then set expectations. At 512 tokens the LM head is 47% of per-token energy, the dense attention block 35%, and <b>spikes only 1%</b>, so sparsity alone cannot deliver a 90% energy claim. The real wins are elsewhere. Matching the 3-layer transformer&rsquo;s quality with 2 layers costs 1.6&times; less energy per token. With a 64-token window, per-token energy is constant in context length: 7.3&times; less than the quality-matched transformer at 32k tokens and 24&times; at 128k. Sparsity screens toward 10% and 5% are queued.</p>
+
+<hr>
+<p class="date">Major version: 1.55 (Haystack failure root-caused: recall = GDN memory in every model; hybrid/full/canon memory half-life 0-1 tok vs lif_exact 47-76. SIGNED spikes 61.36/61.11 = 0.89x tfmr, haystack + horizon restored; signed+canon 59.74 = 3L tfmr with 2 layers; signed 3L collapses [half-life ~2] -&gt; fragile equilibrium. gap128 failed [gaps delay MQAR acquisition]. Contiguous training CLOSED-NEG [r9a/b/c; 1M-token streams stable without it; only gap440 explodes]; SWA-64 inference ~1% cost. 30M screens were 2x data-bound [8 MB read-ahead] -&gt; MADV_RANDOM fix deployed. Spike log + energy.py double-counted: true firing 12.7%; spikes = 1% of energy; real energy wins = quality-matched 1.6x + long-context 7-24x with SWA. See docs/contiguous_training_design.md + neuro_ppl_gap_diagnosis_2026_09_27 + HANDOFF_2026_09_30.)</p>
+
+<h2 id="gentle-gap-depth-warning-throughput">71. A gentle dose of gap training fixes long-range recall for free, a third layer exposes a depth problem &mdash; and throughput scoping finds the fused neuron already built</h2>
+<p class="date">2026-09-30 (Neuro 46)</p>
+
+<div class="milestone"><p><b>The gentle gap curriculum works.</b> <a href="#honest-gap-hybrid-levels-interference">&sect;69</a> fixed haystack interference with gap-MQAR at full weight but paid +25% ppl. At <code>mqar_weight 0.15</code> (<code>screen_r7_gapw015</code>, unsigned full stack, gap 440) val_ppl was <b>71.10</b>, slightly better than the ~74.9 control. Haystack recall was 99&ndash;100% at every gap, N8 and N32, and the memory half-life on text went from ~1 token to <b>~3,700</b>. The memory learned to remember without the LM paying for it. <code>r12</code> puts the same dose on the best stack.</p></div>
+
+<p>That best stack is now confirmed. <code>signed+canon</code> seed 1 gave 59.29 against seed 0&rsquo;s 59.74: a two-seed mean of <b>59.52</b>, 2.8% better than signed alone and about 0.87&times; the 2-layer transformer, with recall and horizon intact at 12.5% firing. The sparsity sweep mapped the signed stack&rsquo;s Pareto curve. &lambda; 0.5/1/2/4 gave 61.24/62.73/64.60/67.46 at true firing 12.7/9.3/6.7/4.8%: about +3% ppl per 30% cut in firing, and recall survives at every point.</p>
+
+<div class="setback"><p><b>Depth works against us.</b> Glenn asked whether a third layer is worth some ppl. Going 2L&rarr;3L, the transformer improved 14% (68.8&rarr;59.38) and the unsigned stack 11%, but the signed stack got <em>worse</em> (61.24&rarr;63.35/64.65). So the 0.89&times; lead holds at two layers but becomes ~1.08&times; at three, and v4 plans nine. The signed-vs-unsigned gain also shrinks from 18% to 4%, so signed spikes and depth look like substitutes. The 3L horizon collapse of <a href="#signed-spikes-memory-horizon">&sect;70</a> proved seed-dependent (half-life 2 vs 68 tokens). A third spiking layer also costs +32% FLOPs but <b>1.7&times;</b> wall time. Depth screens <code>r13a</code> ([spk, attn, attn]), <code>r13b</code> (<code>depth_scaled_init</code>) and <code>r13d</code> (2L at 4,096 neurons, param-matched) are queued, to be judged at matched wall-clock.</p></div>
+
+<p>The throughput question then turned into two scoping passes. First, the &ldquo;fused neuron kernel&rdquo; already exists: <code>lif_exact_ml</code>, one Triton forward and one backward kernel, used by every current 30M screen. The 10-iteration FPT still lives only in the v4 draft and the 1B probe. Kernel counts made the point: one FPT call is 277 kernels plus 10 host syncs, the fused neuron 12 plus 0. The compiled census at the 1B-probe structure went from <b>7,857 to 5,432 kernels per fwd+bwd (&minus;31%)</b>, with all 80 syncs gone. Most of what remains is the GDN-2 chunk loop, which also explains the 1.7&times; 3L wall time. We first under-estimated the neuron&rsquo;s share by counting eager launches; the compiled count corrected that, and both docs say so.</p>
+
+<p>Second, CUDA graphs. The old crash (<code>neuro_cudagraphs_incompat_2026_08_09</code>) has a deeper cause than MQAR. Inductor&rsquo;s cudagraph trees keep gradients inside the graph pool, so gradient accumulation across replays is unsupported (pytorch#169545; rf-detr turns graphs off for GA&gt;1), and v4 accumulates over 9 micro-batches. The plan is Megatron/TE-style per-spiking-block <code>torch.cuda.make_graphed_callables</code>, gated on the GPU still being &le;60% busy after the neuron switch. A 1B FPT-vs-<code>lif_exact_ml</code> probe will settle that on the 5090 once Neuro 44&rsquo;s post-training chain exits. Glenn also asked about multi-head memory. The July cliff (recall 91&rarr;11% at 8 heads) was measured on the old stack, so a re-test is logged as a low-priority idea, since 16 heads would unlock fused GDN-2 kernels. Finally, the 5080 scheduler now waits for the GPU to be idle for 5 minutes before every start, because Glenn sometimes plays past midnight.</p>
+
+<p>Pointers: <code>docs/fused_neuron_kernel_design.md</code>, <code>docs/cuda_graphs_v4_design.md</code>, the 2026-09-30 entries in <code>docs/to-do.html</code>, <code>HANDOFF_2026_09_30b.md</code>.</p>
+
+<hr>
+<p class="date">Major version: 1.56 (Gentle gap curriculum WORKS: mqar_weight 0.15 + gap 440 = 71.10 [no ppl cost], haystack ~100% at all gaps, half-life ~3700 tok; r12 = signed+canon + it. signed+canon 2-seed 59.52 [0.87x tfmr] = best. Signed sparsity Pareto lambda 0.5/1/2/4 = 61.24/62.73/64.60/67.46 @ 12.7/9.3/6.7/4.8%. DEPTH WARNING: 2L-&gt;3L tfmr -14%, unsigned -11%, signed +3-5% -&gt; lead may vanish at v4 depth; 3L 1.7x wall time; r13a/b/d queued. Throughput: fused neuron already exists [lif_exact_ml]; compiled census 7,857-&gt;5,432 kernels [-31%], 80-&gt;0 syncs; GDN-2 chunk loop dominates. CUDA graphs: trees blocked by grad accumulation -&gt; per-block make_graphed_callables, gated on GPU-busy &le;60% after the neuron switch; 1B probe A/B queued on the 5090. 5080 scheduler waits for a free GPU. See docs/fused_neuron_kernel_design.md + docs/cuda_graphs_v4_design.md + HANDOFF_2026_09_30b.)</p>
+
+<h2 id="depth-via-attention-glass-box-pivot">72. Depth comes from attention, not more spiking layers &mdash; then Glenn asks for a model he can audit, and the review finds our Engram has been half-blind</h2>
+<p class="date">2026-10-01 (Neuro 47)</p>
+
+<p>The night started with a silent failure. The 5080 scheduler, the 1B probe waiter and a watchdog all died at 00:41. They had been launched as background tasks of the previous Claude session, and they ended when it closed. We relaunched them with <code>setsid -f</code>, which survives the session (memory: <code>reference_wsl_background_launch</code>).</p>
+
+<p>Round 11 settled sparsity. A late ramp beats a hinge, and both beat the constant-&lambda; Pareto curve of <a href="#gentle-gap-depth-warning-throughput">&sect;71</a>:</p>
+<ul>
+<li><code>r11c</code> (ramp to 10%) gave 60.19 at 9.5% firing, only +0.75% over signed+canon.</li>
+<li><code>r11b</code> (ramp to 5%) gave 60.87 at 6.7%, where the &lambda; curve gives 64.60.</li>
+</ul>
+<p>The gentle gap dose turned out <em>not</em> to be free on signed stacks. <code>r12</code> (2L) gave 67.32 (+12.7%) and <code>r14c</code> (3L) gave 57.57 (+15%) at twice the wall time, although haystack was 99&ndash;100% in both.</p>
+
+<div class="milestone"><p><b>The depth warning had an answer: add attention, not spiking layers.</b></p>
+<ul>
+<li><code>r13a</code> [spk, attn, attn] gave <b>51.24</b>, confirmed by <code>r14a</code> on seed 1 at 51.44. That is 0.86&times; the 3L transformer, at the speed of the 2L stack.</li>
+<li>With canon and the late ramp, <code>r14b</code> reached <b>50.14</b>.</li>
+<li>At 4L, <code>r14d</code> [spk, attn&times;3] reached <b>45.41</b>, though haystack weakened.</li>
+<li>A second spiking layer stayed worse: <code>r13b</code> gave 63.14, and <code>depth_scaled_init</code> made no difference.</li>
+</ul></div>
+
+<p>That success raised a problem. Glenn pointed out that two thirds of our best stack is now ordinary transformer layers. Safety and alignment are the field&rsquo;s main concern, and spiking is our differentiation, so the model must be interpretable and auditable, stay spiking, and still win.</p>
+<p>The research reframed the question. Attention is the <em>most</em> auditable part of a transformer, because it records what was read. Top-k or winner-take-all attention is cheap and is counted as neuromorphic in the 2026 literature. The real loss of interpretability was the dense MLPs: each &ldquo;attention&rdquo; layer turned out to be two thirds GELU MLP.</p>
+<p>A first CPU measurement was humbling. At matched activity, our spiking neurons are no more token-selective than the transformer&rsquo;s MLP units: median top-1 share 0.093 vs 0.128 (<code>temp/diag_neuron_selectivity.py</code>). Spiking does not make a model interpretable by itself. Width, lateral inhibition and a measured scorecard have to design it in (<code>docs/interpretable_spiking_plan_2026_10_01.md</code>).</p>
+
+<p>We suspected a plumbing cause for the depth problem. A spiking block adds <code>LayerNorm(r+ff)</code> to the residual at unit scale, so it cannot start near-identity, and that norm also undoes <code>depth_scaled_init</code>. Round 15 built four default-off, bit-identical flags: <code>attn_ffn</code>, a k-winner-take-all <code>SpikeGLU</code>, <code>attn_topk</code> and <code>spk_layerscale</code>.</p>
+<div class="setback"><p><b>That hypothesis was only half right.</b> <code>r15d</code> showed that LayerScale cures the slow start (eval-1 147 vs 191) but not the final deficit (64.29 vs 64.65/63.35). A second spiking layer is genuinely weaker than attention plus an MLP. The remaining suspects are interfering memories, or a spiking MLP that is too narrow and too smoothed over time.</p></div>
+
+<div class="setback"><p><b>The code review found a real bug.</b> <code>EngramV2</code> keeps the <em>low</em> bits of a linear hash. With K&nbsp;=&nbsp;8192, token ids <i>x</i> and <i>x</i>&plusmn;8192 share a bucket in every table, measured at 100% (<code>temp/check_engram_hash.py</code>). Every 30M screen merged tokens 2 ways. The live v3 flagship and the v4 draft (32k vocab) merged every token <b>4 ways</b>.</p></div>
+
+<p>The review (<code>docs/code_review_interpretability_2026_10_01.md</code>) also found:</p>
+<ul>
+<li>The model cannot stream token by token exactly: the LIF membrane, canon taps and Engram history all reset on every call.</li>
+<li>Only about 3% of its operations are event-driven.</li>
+<li>Multi-level spikes are effectively ternary.</li>
+<li>Our transformer baselines lacked independent windows and Engram, so our lead is overstated.</li>
+<li>The v4 draft is obsolete.</li>
+</ul>
+<p>The new v4 proposal (<code>docs/v4_recipe_research_2026_10_01.md</code>) is a transformer-shaped stack:</p>
+<ul>
+<li>every MLP is a spiking neuron layer;</li>
+<li>mixing is top-k gated attention;</li>
+<li>the memory sits in 2&ndash;3 layers;</li>
+<li>Engram uses the fixed hash.</li>
+</ul>
+<p>Before the 30-day run it passes five gates: r15, r16, a mid-scale check, a 1B probe, then launch.</p>
+
+<p>Pointers: the 2026-10-01 entries in <code>docs/to-do.html</code>; memory <code>neuro_interpretable_spiking_plan_2026_10_01</code>; <code>temp/mk_gap_r15_configs.py</code>; <code>temp/parity_r15_flags.py</code>; <code>HANDOFF_2026_10_01.md</code>.</p>
+
+<hr>
+<p class="date">Major version: 1.57 (Depth via attention: r13a/r14a [spk,attn,attn] 51.24/51.44, r14b +canon+ramp10 = 50.14, r14d 4L = 45.41. Late sparsity ramp wins (r11c 60.19 @ 9.5%). Gap w0.15 costs 13-15% on signed stacks. Glenn's pivot to interpretable + auditable + spiking. Measured: spiking neurons no more selective than MLP units. r15 flags built (attn_ffn, SpikeGLU, attn_topk, spk_layerscale); r15d: LayerScale fixes only the slow start. Engram low-bit hash BUG (v3/v4 4-way token merge). Code review + new v4 proposal. Scheduler relaunched with setsid after a session-kill.)</p>
 
 </body></html>

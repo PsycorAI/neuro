@@ -71,6 +71,49 @@ class SwiGLU(nn.Module):
         return self.w2(F.silu(self.w1(x)) * self.w3(x))
 
 
+class SpikeGLU(nn.Module):
+    """r15b (2026-10-01, docs/interpretable_spiking_plan_2026_10_01.md S1): spike-gated GLU FFN.
+    a = W1 x. Each token keeps only its k largest |a| units (k-winner-take-all = lateral inhibition),
+    and each surviving unit emits a graded spike a * (W3 x) (Loihi-2 style graded payload):
+    h = kWTA(a) * (W3 x), out = W2 h. Exactly <= k active hidden units per token, so the FFN's
+    features can be inspected one unit at a time. Same 3-matrix layout as SwiGLU (hidden ~ 8d/3
+    param-matches the 4d GELU MLP). Gradient flows through the selected units only (TopK-SAE style)."""
+    def __init__(self, d, hidden=None, k=64, bias=False, lif=False, lif_levels=1, lif_signed=True,
+                 lif_beta_init=0.1):
+        super().__init__()
+        if hidden is None:
+            hidden = ((int(8 * d / 3) + 63) // 64) * 64
+        self.k = min(int(k), hidden)
+        self.w1 = nn.Linear(d, hidden, bias=bias)
+        self.w2 = nn.Linear(hidden, d, bias=bias)
+        self.w3 = nn.Linear(d, hidden, bias=bias)
+        # r16 b3 (2026-10-02, docs/v4_plan_review_2026_10_01.md F2): k_cur = per-step active-unit budget set by
+        # the trainer (spikeglu_k_at: dense until a start fraction, then annealed to k). None = self.k.
+        self.k_cur = None
+        # r16 b4 "DSN-LIF" (default off): the apical input a = W1 x drives a LIF neuron (membrane with a
+        # learnable per-neuron leak, threshold 1, reset; signed lif_levels spikes) instead of k-WTA. The
+        # neuron's spike s gates the graded basal payload: h = s * (W3 x). Firing is set by the threshold and
+        # the trainer's sparsity penalty (the spike rate is reported via _last_rate).
+        self.lif = bool(lif)
+        self._last_rate = None
+        if self.lif:
+            self.lif_levels, self.lif_signed = int(lif_levels), bool(lif_signed)
+            self.beta_logit = nn.Parameter(torch.full((hidden,), math.log(lif_beta_init / (1 - lif_beta_init))))
+    def forward(self, x):
+        a = self.w1(x)
+        if self.lif:
+            import lif_exact
+            s, _ = lif_exact.lif_exact_ml(a, torch.sigmoid(self.beta_logit), vth=1.0,
+                                          levels=self.lif_levels, signed=self.lif_signed)
+            self._last_rate = s.abs().mean()
+            return self.w2(s * self.w3(x))
+        k = self.k if self.k_cur is None else min(int(self.k_cur), a.shape[-1])
+        if k < a.shape[-1]:
+            thr = a.detach().abs().topk(k, dim=-1).values[..., -1:]
+            a = a * (a.detach().abs() >= thr)
+        return self.w2(a * self.w3(x))
+
+
 class HybridAttentionBlock(nn.Module):
     """Drop-in Transformer block matching SpikingHebbianBlock's interface.
 
@@ -83,7 +126,8 @@ class HybridAttentionBlock(nn.Module):
     def __init__(self, d_in, d_mem, n_neurons, n_heads=8, use_rmsnorm=True,
                  use_swiglu=True, depth_scale=1.0, max_seq_len=4096,
                  rope_base=10000.0, ffn_hidden=None, bias=False,
-                 use_qk_norm=True):
+                 use_qk_norm=True, use_ffn=True, spikeglu_k=0, topk=0,
+                 out_gate=False, canon=0, spikeglu_lif=False, lif_levels=1, lif_signed=True):
         super().__init__()
         if d_in != d_mem:
             # Attention block currently only supports the mid-stack case where
@@ -108,7 +152,16 @@ class HybridAttentionBlock(nn.Module):
 
         norm_cls = RMSNorm if use_rmsnorm else nn.LayerNorm
         self.norm_attn = norm_cls(d_mem)
-        self.norm_ffn = norm_cls(d_mem)
+        # r15 flags (2026-10-01, default off = byte-identical): use_ffn=False drops this block's MLP
+        # (attention only routes, r15a); spikeglu_k>0 swaps the MLP for a k-WTA SpikeGLU (r15b);
+        # topk>0 = hard top-k attention, softmax over each query's k best causal keys (r15c).
+        self.attn_topk = int(topk)
+        if not use_ffn:
+            self.norm_ffn = None
+            self.ffn = None
+            out_linear = None
+        else:
+            self.norm_ffn = norm_cls(d_mem)
         # QK-norm: per-head RMSNorm on Q and K (over d_head) before the dot
         # product. Bounds attention-logit magnitude and — per the 2026-08-01
         # seed-variance finding, which localized all seed-to-seed variance to
@@ -121,7 +174,13 @@ class HybridAttentionBlock(nn.Module):
             self.k_norm = RMSNorm(self.d_head)
         self.qkv = nn.Linear(d_mem, 3 * d_mem, bias=bias)
         self.o_proj = nn.Linear(d_mem, d_mem, bias=bias)
-        if use_swiglu:
+        if not use_ffn:
+            pass
+        elif spikeglu_k:
+            self.ffn = SpikeGLU(d_mem, hidden=ffn_hidden, k=spikeglu_k, bias=bias,
+                                lif=spikeglu_lif, lif_levels=lif_levels, lif_signed=lif_signed)
+            out_linear = self.ffn.w2
+        elif use_swiglu:
             self.ffn = SwiGLU(d_mem, hidden=ffn_hidden, bias=bias)
             out_linear = self.ffn.w2
         else:
@@ -135,12 +194,29 @@ class HybridAttentionBlock(nn.Module):
         if depth_scale != 1.0:
             with torch.no_grad():
                 self.o_proj.weight.mul_(depth_scale)
-                out_linear.weight.mul_(depth_scale)
+                if out_linear is not None:
+                    out_linear.weight.mul_(depth_scale)
 
         # RoPE tables (register as buffers so they move with .to(device))
         cos, sin = _rope_freqs(self.d_head, max_seq_len)
         self.register_buffer("rope_cos", cos, persistent=False)
         self.register_buffer("rope_sin", sin, persistent=False)
+        # attn_window (2026-09-29, docs/contiguous_training_design.md): 0 = full causal (default, byte-identical).
+        # W > 0 = sliding window, each query sees keys t-W+1..t. Set per step by the trainer (stochastic
+        # SWAX-style windowing); not a constructor arg so checkpoints and build_model are unchanged.
+        self.attn_window = 0
+        self._band_cache = {}
+        # r16 flags (2026-10-02, docs/v4_plan_review_2026_10_01.md 6.5; default off = byte-identical; created
+        # last so existing parameter inits are unchanged even when on).
+        # b2 out_gate: elementwise sigmoid gate on the attention output before o_proj, computed from the
+        #    normed block input (Qwen gated attention G1, arXiv 2505.06708: removes attention sinks, which
+        #    would otherwise take a top-k slot in every query).
+        # b7 canon=k: Canon-A causal depthwise conv (zero-init taps) on the attention input; the residual
+        #    still carries the raw x (as SpikingHebbianBlock canon_a).
+        self.attn_gate = nn.Linear(d_mem, d_mem, bias=bias) if out_gate else None
+        self.attn_canon = int(canon)
+        if self.attn_canon:
+            self.canon_w = nn.Parameter(torch.zeros(d_mem, 1, self.attn_canon))
 
     def _attn(self, x):
         B, T, D = x.shape
@@ -159,9 +235,59 @@ class HybridAttentionBlock(nn.Module):
         q = _apply_rope(q, self.rope_cos, self.rope_sin)
         k = _apply_rope(k, self.rope_cos, self.rope_sin)
         # Causal SDPA (Flash if available). No mask needed with is_causal=True.
-        out = F.scaled_dot_product_attention(q, k, v, is_causal=True)
+        w = self.attn_window
+        if self.attn_topk:
+            att = self._topk_weights(q, k, w=w if 0 < w < T else 0)
+            out = torch.matmul(att.to(v.dtype), v)
+        elif 0 < w < T:
+            key = (T, w, q.device)
+            band = self._band_cache.get(key)
+            if band is None:
+                i = torch.arange(T, device=q.device)
+                diff = i[:, None] - i[None, :]                    # query - key
+                band = self._band_cache[key] = (diff >= 0) & (diff < w)
+            out = F.scaled_dot_product_attention(q, k, v, attn_mask=band)
+        else:
+            out = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         out = out.transpose(1, 2).contiguous().view(B, T, D)
+        if self.attn_gate is not None:
+            out = out * torch.sigmoid(self.attn_gate(x))
         return self.o_proj(out)
+
+    def _topk_weights(self, q, k, qpos=None, kpos=None, w=0):
+        """r15c: hard top-k attention weights (B, H, tq, tk). Scores in fp32, causal (and optional
+        window w) mask, keep each query's attn_topk best keys, softmax over the survivors. A query
+        with fewer than k visible keys keeps them all. Explicit T x T scores (no flash kernel)."""
+        s = torch.matmul(q.float(), k.float().transpose(-2, -1)) * (q.shape[-1] ** -0.5)
+        if qpos is None:
+            qpos = torch.arange(q.shape[-2], device=q.device)
+            kpos = torch.arange(k.shape[-2], device=q.device)
+        diff = qpos[:, None] - kpos[None, :]
+        allowed = diff >= 0
+        if w > 0:
+            allowed = allowed & (diff < w)
+        s = s.masked_fill(~allowed, float("-inf"))
+        kth = s.topk(min(self.attn_topk, s.shape[-1]), dim=-1).values[..., -1:]
+        return torch.softmax(s.masked_fill(s < kth, float("-inf")), dim=-1)
+
+    def _attn_weights(self, x):
+        """Audit/diagnostics (not used in training): per-head attention weights (B, H, T, T) for a
+        normed input x -- top-k weights when attn_topk is set, else dense causal softmax."""
+        B, T, D = x.shape
+        H, Dh = self.n_heads, self.d_head
+        q, k, _ = self.qkv(x).chunk(3, dim=-1)
+        q = q.view(B, T, H, Dh).transpose(1, 2)
+        k = k.view(B, T, H, Dh).transpose(1, 2)
+        if self.use_qk_norm:
+            q = self.q_norm(q)
+            k = self.k_norm(k)
+        q = _apply_rope(q, self.rope_cos, self.rope_sin)
+        k = _apply_rope(k, self.rope_cos, self.rope_sin)
+        if self.attn_topk:
+            return self._topk_weights(q, k)
+        s = torch.matmul(q.float(), k.float().transpose(-2, -1)) * Dh ** -0.5
+        s = s.masked_fill(torch.ones(T, T, dtype=torch.bool, device=x.device).triu(1), float("-inf"))
+        return torch.softmax(s, dim=-1)
 
     def forward_sequence(self, x_seq, mem, M, prev_spk,
                           ablate_memory=False, fpt_K=10):
@@ -172,8 +298,12 @@ class HybridAttentionBlock(nn.Module):
         shape so downstream spike-rate telemetry doesn't crash.
         """
         # attention + FFN with pre-norm residuals
-        y = x_seq + self._attn(self.norm_attn(x_seq))
-        z = y + self.ffn(self.norm_ffn(y))
+        x_a = x_seq
+        if self.attn_canon:
+            x_a = x_seq + F.conv1d(F.pad(x_seq.transpose(1, 2), (self.attn_canon - 1, 0)),
+                                   self.canon_w.to(x_seq.dtype), groups=x_seq.size(-1)).transpose(1, 2)
+        y = x_seq + self._attn(self.norm_attn(x_a))
+        z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
         # State pass-through: attention has no persistent recurrent state.
         # `mem`/`prev_spk` are (B, n_neurons) allocated at LM top and shared
         # in shape across all layers; we pass them through unchanged so
@@ -228,11 +358,16 @@ class HybridAttentionBlock(nn.Module):
         k_len = k.shape[2]
         qpos = torch.arange(t, device=x.device) + past
         kpos = torch.arange(k_len, device=x.device)
-        keep = kpos[None, :] <= qpos[:, None]                   # (t, k_len) bool
-        attn_mask = torch.zeros(t, k_len, dtype=q.dtype, device=x.device)
-        attn_mask.masked_fill_(~keep, float("-inf"))
-        out = F.scaled_dot_product_attention(q, k, v, attn_mask=attn_mask)
+        if self.attn_topk:
+            out = torch.matmul(self._topk_weights(q, k, qpos=qpos, kpos=kpos).to(v.dtype), v)
+        else:
+            keep = kpos[None, :] <= qpos[:, None]                   # (t, k_len) bool
+            attn_mask = torch.zeros(t, k_len, dtype=q.dtype, device=x.device)
+            attn_mask.masked_fill_(~keep, float("-inf"))
+            out = F.scaled_dot_product_attention(q, k, v, attn_mask=attn_mask)
         out = out.transpose(1, 2).contiguous().view(B, t, D)
+        if self.attn_gate is not None:
+            out = out * torch.sigmoid(self.attn_gate(x))
         return self.o_proj(out), new_cache
 
     def step_kv(self, x, cache=None):
@@ -241,7 +376,10 @@ class HybridAttentionBlock(nn.Module):
         an incremental-decode loop; state slots (mem/M/prev_spk) are irrelevant
         to attention and handled by the spiking blocks' own initial_state path.
         """
+        if self.attn_canon:
+            raise NotImplementedError("step_kv with attn_canon needs the last k-1 inputs as state "
+                                      "(streaming TO-BUILD, docs/v4_plan_review_2026_10_01.md 6.6)")
         a, new_cache = self._attn_kv(self.norm_attn(x), cache)
         y = x + a
-        z = y + self.ffn(self.norm_ffn(y))
+        z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
         return z, new_cache

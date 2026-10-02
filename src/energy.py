@@ -55,7 +55,12 @@ def spiking_energy_per_token(model, spike_rate, seq_len):
     d, N, dm, V = model.d, model.n_neurons, model.d_mem, model.vocab
     n_spiking, n_attn = _block_mix(model)
     n_total = n_spiking + n_attn
-    rate = spike_rate * n_total / n_spiking if n_spiking else 0.0
+    # 2026-09-30: with spike_rate_undiluted the model already reports the spiking-only rate; rescaling it again
+    # doubled the AC term (same bug as the [spike] log line; temp/diag_spike_levels.py).
+    if getattr(model, "_spike_rate_undiluted", False):
+        rate = spike_rate if n_spiking else 0.0
+    else:
+        rate = spike_rate * n_total / n_spiking if n_spiking else 0.0
 
     mac = ac = 0.0
     for i, b in enumerate(model.blocks):

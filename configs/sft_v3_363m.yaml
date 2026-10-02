@@ -29,7 +29,7 @@
 #   CUDA_VISIBLE_DEVICES=1 python src/train_sft.py --config configs/sft_v3_363m.yaml --device cuda
 run_name: sft_v3_363m
 
-sft_init: flagship_v3_363m
+sft_init: heal_v3_363m    # 2026-09-28: HEALED base (was flagship_v3_363m = leak-trained 10B ckpt)
 sft_jsonl:
 - /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl
 - /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl
