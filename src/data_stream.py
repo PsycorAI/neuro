@@ -10,7 +10,7 @@ import torch
 
 class StreamText:
     def __init__(self, bin_path, vocab=16384, sample=50_000_000,
-                 map_path=None, orig_vocab=128256, independent_windows=False):
+                 map_path=None, orig_vocab=128256, independent_windows=False, val_tokens=None):
         self.data = np.memmap(bin_path, dtype=np.uint32, mode="r")
         self.vocab = vocab
         # independent_windows (2026-09-25, default off = byte-identical): the
@@ -43,6 +43,11 @@ class StreamText:
             np.save(map_path, lut)
             self.lut = lut
         self.split = int(len(self.data) * 0.999)   # tiny val tail
+        # val_tokens (2026-10-02, default None = byte-identical): a fixed-size val tail. The v4 corpus
+        # (scripts/build_corpus_v4.py) ends with the old train.bin's exact val tail, so val_tokens = that
+        # tail's length keeps every val window identical to the runs on the old corpus.
+        if val_tokens:
+            self.split = len(self.data) - int(val_tokens)
 
     def batch(self, B, T, split="train", device="cpu", return_raw=False):
         lo, hi = (0, self.split) if split == "train" else (self.split, len(self.data) - T - 1)

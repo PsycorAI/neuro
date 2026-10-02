@@ -45,7 +45,13 @@ Status: a **proposal**. All builds and GPU runs need Glenn's OK. Every idea is a
 | attn_off / mem_off | recall unchanged / chance | **all recall is the Hebbian memory**: our unique asset |
 | Engram v2 hash | keeps low bits, so tokens alias | must be fixed before any v4 screen |
 
-Pending (by ~10-02 morning): r15c top-k16, r15b SpikeGLU, r15e fair 3L transformer, r15g no-MLP param-matched, r15f no-Engram.
+**Added 10-02:**
+- **r15c top-k16 = 50.52.** Top-k attention is free.
+- **r15b SpikeGLU (k fixed from step 0) = 54.10 (+7.9%).** This is the F2 handicap; r16 tests the k-ramp.
+- **r15g no-MLP + spiking width (param-matched) = 61.62.** Width does not replace the MLP.
+- **r15e fair 3L transformer = 53.67.** The honest margin of r14b is **6.6%**, not 14–16%.
+
+Pending: r15f (no Engram).
 
 ## 2. Competitive landscape: what "superior" has to beat
 

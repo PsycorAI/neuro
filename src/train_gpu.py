@@ -466,7 +466,8 @@ def main():
     bin_path = c.get("data_bin", BIN)
     data_orig_vocab = c.get("data_orig_vocab", 128256)
     data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab,
-                      independent_windows=c.get("data_independent_windows", False))
+                      independent_windows=c.get("data_independent_windows", False),
+                      val_tokens=c.get("data_val_tokens"))
     if c.get("curriculum_enabled", False):
         from curriculum import CurriculumStream
         per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]

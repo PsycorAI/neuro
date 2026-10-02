@@ -827,6 +827,12 @@ class SpikingHebbianBlock(nn.Module):
                     w_seq = self.beta_floor + (1 - self.beta_floor) * torch.sigmoid(w_logit)  # write (floored)
                     alpha_seq = torch.exp(-torch.exp(self.gdn2_a)
                                           * F.softplus(f_logit))           # (B,T,dk) decay
+                    # Audit capture (2026-10-02, scripts/interp_scorecard.py memory trace; eval only, off unless a
+                    # caller sets block.audit = True): the per-step key/value/query and write/decay gates, so each
+                    # read can be attributed to the past writes it came from.
+                    if getattr(self, "audit", False):
+                        self._audit = dict(k=k_in.detach(), v=v_in.detach(), q=q_in.detach(),
+                                           w=w_seq.detach(), b=b_seq.detach(), a=alpha_seq.detach())
                     # telemetry_eval_only (2026-09-25): these helpers are
                     # compiler-disabled (graph breaks) and do ~14 .item() host
                     # syncs per block per forward. The trainer only reads them
