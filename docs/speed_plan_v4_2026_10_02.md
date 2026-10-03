@@ -54,7 +54,31 @@ Not worth pursuing: batched NorMuon and telemetry-off alone (no gain at 30M; bat
 - **B's GPU compile timing is pending**, run with the r17 queue frozen.
 - **CUDA graphs bar:** the gain is at most 1 ÷ (fraction of time the GPU is busy), e.g. 1.33× at 75% busy. Set the bar from the G4 numbers, not a fixed 60%.
 
-## 5. Decision for Glenn (asked 10-02)
+## 6. Results (10-02 evening)
+- **The compile fix works** (30M, B32): compiled c0 runs at 60.2k tok/s, against 39.1k eager and 30.9k for the original c0. That is 1.95×, with 3 recompiles.
+- **G4 at 1B, B8** (the maximum batch for both models):
+
+  | | tok/s at GA1 | tok/s at GA8 |
+  |---|---|---|
+  | c0-S1 (1.109B) | 5,960 | 10,145 |
+  | transformer-S1 (1.096B) | 15,251 | 13,483 |
+  | **gap** | 2.56× | **1.33×** |
+
+  At GA1, NorMuon takes ~460 of c0's ~690 ms per step; GA amortizes it. Both GA8 runs reserved 30.8–31.4 GB, which is at the WDDM spill point. A re-check with expandable_segments and at B6 is queued.
+- **GPU busy at 1B:** ~79% for c0, ~75% for the transformer, so the CUDA-graph ceiling is ~1.25×.
+- **The B2/B4 compile crash is an Inductor SplitScan codegen bug.** It hits the GDN-2 `cumsum(LogA)` (`src/delta_chunked.py:381`) when the outer size is small; B6 and B8 compile fine. It is a compile-time crash only. The exact workaround, a compiler-disabled cumsum, is not applied because v4 uses B≥6.
+- **CUDA-graphs prototype** (`temp/proto_graphs.py`): per-block adapters plus `make_graphed_callables`. At 30M, B32, fwd+bwd, with timings noisy:
+
+  | Mode | tok/s | Gradients |
+  |---|---|---|
+  | regional compile | 131.8k | — |
+  | **regional compile + graphs** | **161.3k (1.22×)** | bit-identical |
+
+  - Eager + graphs differs by 6e-3 relative, while an eager rerun gives 0.0. The cause is capture-time kernel choice; this mode won't be used.
+  - The 1B timing is queued.
+  - Open item: the k-ramp is baked into the graph. Fix with k as a device tensor, or recapture per k bucket.
+
+## 7. Decision for Glenn (asked 10-02)
 1. Approve **A** for r18+ and v4. The queued r17h–j runs stay as they are, to keep them comparable.
 2. Approve building **B** (compile fix) now, CPU/code only. It needs a 10-minute 5090 timing test, done with the queue frozen as today.
 3. Approve **C** (G4 probe) on the 5090 once the r17 queue ends (~17:00).
