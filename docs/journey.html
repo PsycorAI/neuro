@@ -39,7 +39,7 @@
 </head><body>
 
 <h1>Specialized Brain Mods — research journey</h1>
-<p class="date">Live document — last updated 2026-10-01. Each new experiment added as it completes.</p>
+<p class="date">Live document — last updated 2026-10-03. Each new experiment added as it completes.</p>
 
 <div class="toc">
 <strong>Table of contents</strong>
@@ -116,6 +116,8 @@
   <li><a href="#signed-spikes-memory-horizon">70. Signed spikes beat the transformer on two seeds; the interference failure is a memory that stopped remembering; screens ran at half speed</a></li>
   <li><a href="#gentle-gap-depth-warning-throughput">71. A gentle gap dose fixes long-range recall for free, a third layer exposes a depth problem, and throughput scoping finds the neuron was already fused</a></li>
   <li><a href="#depth-via-attention-glass-box-pivot">72. Depth comes from attention, not more spiking layers; Glenn asks for an auditable model; the review finds Engram half-blind</a></li>
+  <li><a href="#v4-candidate-reversal-throughput">73. The v4 candidate beats every 4-layer model; the DSN costs 9% for circuits 7&times; smaller; the slowness is all in the first layer</a></li>
+  <li><a href="#speed-plan-gap-shrinks">74. The speed plan: compile fixed, and at 1B the gap shrinks to 1.61&times; once NorMuon is amortized</a></li>
 </ol>
 </div>
 
@@ -2106,5 +2108,55 @@ The frequency split showed why the two wins stack. Attention fixed common tokens
 
 <hr>
 <p class="date">Major version: 1.57 (Depth via attention: r13a/r14a [spk,attn,attn] 51.24/51.44, r14b +canon+ramp10 = 50.14, r14d 4L = 45.41. Late sparsity ramp wins (r11c 60.19 @ 9.5%). Gap w0.15 costs 13-15% on signed stacks. Glenn's pivot to interpretable + auditable + spiking. Measured: spiking neurons no more selective than MLP units. r15 flags built (attn_ffn, SpikeGLU, attn_topk, spk_layerscale); r15d: LayerScale fixes only the slow start. Engram low-bit hash BUG (v3/v4 4-way token merge). Code review + new v4 proposal. Scheduler relaunched with setsid after a session-kill.)</p>
+
+<h2 id="v4-candidate-reversal-throughput">73. The v4 candidate beats every 4-layer model we have, the spiking MLP turns out to cost 9% for circuits 7&times; smaller &mdash; and the slowness is all in the first layer</h2>
+<p class="date">2026-10-02 (Neuro 48)</p>
+
+<p>Round 15 changed the plan before it finished. Taking the MLP out of the attention layers cost 27% (<code>r15a</code> 63.77), and moving those parameters into a wider spiking layer recovered almost nothing (<code>r15g</code> 61.62). A k-winner-take-all SpikeGLU that was sparse from step 0 cost 7.9% (<code>r15b</code> 54.10), while top-k attention was free (<code>r15c</code> 50.52). The fair 3-layer transformer (<code>r15e</code> 53.67) cut our honest margin from the quoted 14&ndash;16% to 6.6%, and Engram with the old hash added nothing (<code>r15f</code> 49.80). A four-iteration review rebuilt the v4 plan around a stronger spiking MLP: a dendritic layer (DSN) that runs dense, then sparsifies late (<code>docs/v4_plan_review_2026_10_01.md</code>).</p>
+
+<div class="milestone"><p><b>Round 16, the v4 candidate, in a leave-one-out design (4 layers).</b></p>
+<ul>
+<li><code>c0</code> [spiking memory layer, (gated top-k attention + DSN)&times;3] scored <b>43.75 / 43.47</b> on two seeds, against 45.41 for the old 4-layer reference <code>r14d</code>.</li>
+<li>The same model with GELU MLPs (<code>l3</code>) scored <b>40.13</b>. So the other changes together are worth &minus;11.6%, and the DSN costs 9%. That cost appears only while the k-ramp sparsifies.</li>
+<li>For that 9%, the DSN gives circuits 7.6&times; smaller (43k vs 331k attribution entries), more selective units and 23% fewer ops per token.</li>
+<li>The LIF-gated DSN (<code>x2</code>) scored 44.36 and had the best haystack of the round.</li>
+<li>The fair 4-layer transformer (<code>t4</code>) scored 48.05. But it trains 2.6&times; faster, so our win holds only at matched tokens.</li>
+</ul></div>
+
+<p>Overnight we built three tools.</p>
+<ul>
+<li>An interpretability scorecard (<code>scripts/interp_scorecard.py</code>). Its headline: 93&ndash;100% of correct recalls trace back to the single memory write that stored the fact.</li>
+<li>A knowledge-graph recall eval (<code>scripts/kg_recall_eval.py</code>).</li>
+<li>A 23.15B-token corpus, about half of it FineWeb-Edu (<code>scripts/build_corpus_v4.py</code>). Two silent slowdowns had to be fixed along the way: WSL networking ran 4&times; slower than Windows, and <code>np.isin</code> took 18 s per batch.</li>
+</ul>
+<div class="setback"><p><b>Both our model and the transformer have an in-context reversal curse.</b> Asked a value, neither can name its key: reverse recall was 0&ndash;8%, below chance. Glenn's video study (the brain, YOCO, Merlin-Arthur, decision engines) turned this into an r17 proposal for a bidirectional, many-reader hippocampus (<code>docs/v4_brain_principles_review_2026_10_02.md</code>).</p></div>
+
+<p>We also profiled the 30M shape on the 5090.</p>
+<ul>
+<li>The transformer runs at 113k tok/s; c0, x2 and l3 run at 31&ndash;32k.</li>
+<li>Neither the DSN nor top-k attention is the bottleneck. Flash attention instead of top-k gains only +5%.</li>
+<li>The memory layer is the bottleneck. Chunk 256 without checkpointing gains +26% with exact math. Batch 64 gains +68%, which means the run is launch-bound.</li>
+<li>Whole-model <code>torch.compile</code> collapses to 791 tok/s on c0, while it speeds the transformer up to 190k.</li>
+</ul>
+<p>We also stopped the 5090's <code>head_conf</code> stage. Its on-policy labels were all one class, so it had spent 14 hours learning a constant.</p>
+
+<hr>
+<p class="date">Major version: 1.58 (Round 16: c0 43.61 [2 seeds] vs r14d 45.41; DSN costs 9% vs GELU l3 40.13 for 7.6x smaller circuits; t4 48.05 but 2.6-3.6x faster. Scorecard, KG recall eval, 23.15B corpus built. In-context reversal curse in both models. 30M profile: the H0 layer is the cost; whole-model compile collapses c0 to 791 tok/s. See HANDOFF_2026_10_02.)</p>
+
+<h2 id="speed-plan-gap-shrinks">74. The speed plan: a recompile storm fixed, and at 1B the gap to the transformer shrinks to 1.61&times; once the optimizer is amortized</h2>
+<p class="date">2026-10-02 (afternoon) &ndash; 10-03 (Neuro 48)</p>
+
+<p>The op profiles first raised a doubt: c0 ran NorMuon unbatched while <code>t4</code> ran fused AdamW. A clean timing split on a free 5090 (a pause-the-queue protocol Glenn asked us to keep) settled it at 30M: NorMuon is ~15% of the gap, the memory layer ~80%. Chunk 256 without chunk checkpointing gives +32% with exact math, and Glenn made it standard from r18 together with <code>telemetry_eval_only</code> and batched NS.</p>
+
+<p>Compile had been failing for a simple reason: every MQAR length recompiled, because GDN-2's chunk loop unrolls on T (530 recompiles in 7 steps), and the DSN k-ramp would have recompiled every step too. <code>mqar_pad_to</code> right-pads MQAR to one length (every layer is causal, so the query logit is unchanged to 1e-5), and the k-WTA moved into a compiler-disabled <code>_kwta</code> helper. Compiled c0 went to <b>60.2k tok/s, 1.95&times;</b> the original.</p>
+
+<div class="milestone"><p><b>G4, the 1B probe.</b> c0-S1 (1.109B: H0 + 12&times;[attention + DSN 4d]) against a param-matched transformer (1.096B) at B8: 5,960 vs 15,251 tok/s, a 2.56&times; gap. But NorMuon's Newton&ndash;Schulz took ~460 of c0's ~690 ms per step. With grad accumulation 8 it amortizes. A first GA8 pair read 1.33&times;, but both runs sat at the WDDM spill point; with <code>expandable_segments</code> the clean numbers are <b>10,391 vs 16,746 tok/s, a 1.61&times; gap</b>, down from 3.6&times; at the start of the day.</p></div>
+
+<p>Both models keep the GPU ~75&ndash;80% busy at 1B, so CUDA graphs can buy at most ~1.25&times;. Glenn wants them anyway, since they are exact. A prototype (<code>temp/proto_graphs.py</code>) gives 1.22&times; over per-block compile at 30M with bit-identical gradients; the k-ramp still has to be made graph-safe. A B4 compile crash turned out to be an Inductor SplitScan codegen bug on the GDN-2 <code>cumsum</code>; B6 and above compile fine.</p>
+
+<p>Round 17 tuned the DSN on one seed each: k 688 (<code>r17f</code>) 41.42, k 512 + ramp from 40% 41.77, hidden 4096 42.16, ramp from 30% 42.69. The LIF-gated DSN with a 20% sparsity target (<code>r17j</code>) scored only 44.28 but had the best haystack of rounds 16&ndash;17 (N32 at gap 440: 13.3 vs ~7). Seed repeats and an f+g combination run overnight.</p>
+
+<hr>
+<p class="date">Major version: 1.59 (Speed plan: 30M split H0 ~80% / NorMuon ~15%; std flags from r18 [chunk256, no chunk ckpt, telemetry_eval_only, batched NS, compile + mqar_pad_to]; compile fix 1.95x; G4 1B gap 2.56x at GA1 -&gt; 1.61x at GA8 [expandable_segments; 1.33x was a spill artefact]; GPU busy 75-80%; CUDA graphs prototype 1.22x bit-identical; B4 Inductor SplitScan bug. r17: f 41.42, i 41.77, h 42.16, g 42.69, j 44.28 [best haystack]. See docs/speed_plan_v4_2026_10_02.md + neuro_v4_speed_plan_2026_10_02 + HANDOFF_2026_10_03.)</p>
 
 </body></html>

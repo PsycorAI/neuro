@@ -64,7 +64,7 @@ Not worth pursuing: batched NorMuon and telemetry-off alone (no gain at 30M; bat
   | transformer-S1 (1.096B) | 15,251 | 13,483 |
   | **gap** | 2.56× | **1.33×** |
 
-  At GA1, NorMuon takes ~460 of c0's ~690 ms per step; GA amortizes it. Both GA8 runs reserved 30.8–31.4 GB, which is at the WDDM spill point. A re-check with expandable_segments and at B6 is queued.
+  At GA1, NorMuon takes ~460 of c0's ~690 ms per step; GA amortizes it. Both GA8 runs reserved 30.8–31.4 GB, which is at the WDDM spill point. **Re-check (10-03 00:15, expandable_segments): c0-S1 10,391 vs tfmr-S1 16,746 → clean GA8 gap 1.61×** (the 13,483 tfmr number was WDDM spill); c0-S1 B6 GA8 8,173 (B8 better).
 - **GPU busy at 1B:** ~79% for c0, ~75% for the transformer, so the CUDA-graph ceiling is ~1.25×.
 - **The B2/B4 compile crash is an Inductor SplitScan codegen bug.** It hits the GDN-2 `cumsum(LogA)` (`src/delta_chunked.py:381`) when the outer size is small; B6 and B8 compile fine. It is a compile-time crash only. The exact workaround, a compiler-disabled cumsum, is not applied because v4 uses B≥6.
 - **CUDA-graphs prototype** (`temp/proto_graphs.py`): per-block adapters plus `make_graphed_callables`. At 30M, B32, fwd+bwd, with timings noisy:
