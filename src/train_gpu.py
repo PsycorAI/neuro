@@ -1005,7 +1005,10 @@ def main():
                         # (gap = attn_chunk - 2N + offset in [0, attn_chunk)), so only the memory can answer: trains
                         # beyond-the-window recall. Batch mqar_xchunk_batch (default mqar_batch), padded to 2*attn_chunk.
                         _xf = float(c.get("mqar_xchunk_frac", 0) or 0)
-                        _xc = _xf > 0 and _mqar_gap_rng.rand() < _xf
+                        # mqar_xchunk_start_frac (2026-10-05, default 0 = unchanged): no xchunk batches before this
+                        # fraction of training (let in-window recall emerge first).
+                        _xc = (_xf > 0 and step >= float(c.get("mqar_xchunk_start_frac", 0.0)) * total_steps
+                               and _mqar_gap_rng.rand() < _xf)
                         if _xc:
                             _C = int(c["attn_chunk"])
                             g_mq = _C - 2 * N_mq + int(_mqar_gap_rng.randint(0, _C))
@@ -1018,7 +1021,10 @@ def main():
                         if _gs is not None:
                             _mq_w = c.get("mqar_gap_weight", _mq_w)
                     else:
-                        x_mq, tgt_mq = mqar_aug_batch(c["batch_size"] * _mq_mult, N_mq, device)
+                        # mqar_aug_batch (r25, 2026-10-05, default batch_size = byte-identical): keeps the plain MQAR
+                        # batch when T doubles and batch_size halves (p25a: recall never emerged at batch 16).
+                        x_mq, tgt_mq = mqar_aug_batch(int(c.get("mqar_aug_batch", c["batch_size"])) * _mq_mult,
+                                                      N_mq, device)
                     # mqar_model: separate compiled wrapper (mode=default,
                     # dynamic=True, never cudagraphs) -- see setup comment
                     # above. Falls back to raw_model (eager) when compile is

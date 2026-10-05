@@ -59,7 +59,8 @@ print("[OK] r25 parity")
 CASES = {
     "smoke_r25_chunk": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60),
     "smoke_r25_chunk_xmq": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
-                                mqar_xchunk_frac=0.5, mqar_xchunk_batch=2, mqar_gap_start_frac=0.0),
+                                mqar_xchunk_frac=0.5, mqar_xchunk_batch=2, mqar_gap_start_frac=0.0,
+                                mqar_aug_batch=3, mqar_xchunk_start_frac=0.3),
     "smoke_r25_nlfact": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                              nlfact_every=2, nlfact_batch=2, nlfact_k_max=2),
 }

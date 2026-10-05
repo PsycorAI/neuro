@@ -444,3 +444,37 @@
 [s1 10-04 22:39:03] [screen_r23b_g3w_6L_x1e] START
 [s1 10-04 23:25] queued (Neuro 51): r25 6L proxies after r23b -- p25a chunk512+xchunk, p25f +NL facts, p25b chunk only, p25e +H3, p25d T2048, p25c chunk256 (temp/queue_5080_r25.sh, UNTIL 18:00 10-05)
 [q0 10-04 23:25] queued (Neuro 51): r25 evals on r24a/r24b/r21b as they finish, then r25a (r21b+chunk512/T1024+xchunk) and r25b (r21i+same) (temp/queue_5090_r25.sh)
+[wd 10-04 23:34:42] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[s1 10-05 00:05:34] [screen_r23b_g3w_6L_x1e] exit=0 :: 194.46 119.65 89.46 83.15 71.34 65.55 
+  recall screen_r23b_g3w_6L_x1e |  100% |   97% |   91% |   97% |   97%
+  haystack (gap 0/64/192/440) screen_r23b_g3w_6L_x1e N8:  99.6 100.0  99.2  99.6 | N32:  97.3  98.0  98.8 100.0
+[s1 10-05 00:10:36] scheduler DONE
+  r25-evals screen_r23b_g3w_6L_x1e     C=512 T=1024 | chunk1   68.47 (mem off   71.79) | chunks2+   70.90 (off   73.46, Δ +2.56) | first64 of 2+   98.27 (off   94.90, Δ -3.36) vs first64 of chunk1   95.76
+  r25-evals screen_r23b_g3w_6L_x1e     C=512 N8:  15.6  14.1  10.2  13.3 (mem off  15.6) | N32:   3.1   0.8   4.7   3.1 (mem off   3.9)
+  r25-evals screen_r23b_g3w_6L_x1e     C=512 | K1 in@0  39.6 | K1 in@200   8.9 | K1 x@0   6.8 | K1 x@200   6.2 | K1 x@0 off   7.3 | K1 in@0 para   8.9 | K1 x@0 para   3.6 | K4 in@0  14.6 | K4 in@200  12.5 | K4 x@0   8.9 | K4 x@200   8.9 | K4 x@0 off  10.4 | K4 in@0 para  13.0 | K4 x@0 para   9.4
+[s1 10-05 00:12:14] scheduler waiting for GPU 1 lock
+[s1 10-05 00:16:14] [screen_p25a_6L_chunk512_x] START
+[q0 10-05 00:33:27] [r24a_swax32_x1e_150m] exit=0 :: 200.75 135.71 92.35 88.54 82.00 75.14 67.06 60.57 54.55 50.22 47.34 45.09 
+  recall   r24a_swax32_x1e_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r24a_swax32_x1e_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[q0 10-05 00:34:15] [r24b_stateful_x1e_150m] START
+  r25-evals r24a_swax32_x1e_150m       C=512 T=1024 | chunk1   46.77 (mem off   46.96) | chunks2+   46.82 (off   47.42, Δ +0.59) | first64 of 2+   63.26 (off   65.67, Δ +2.42) vs first64 of chunk1   67.32
+  r25-evals r24a_swax32_x1e_150m       C=512 N8:  14.8  14.8  14.8  11.7 (mem off  14.8) | N32:   2.3   0.0   2.3   3.9 (mem off   1.6)
+  r25-evals r24a_swax32_x1e_150m       C=512 | K1 in@0  75.5 | K1 in@200  27.1 | K1 x@0   6.2 | K1 x@200   5.2 | K1 x@0 off   6.8 | K1 in@0 para   8.3 | K1 x@0 para   6.2 | K4 in@0  17.7 | K4 in@200  14.1 | K4 x@0   9.4 | K4 x@200   8.9 | K4 x@0 off  10.4 | K4 in@0 para  12.5 | K4 x@0 para   9.9
+[s1 10-05 01:53:42] [screen_p25a_6L_chunk512_x] exit=0 :: 263.18 179.42 134.55 106.82 93.38 86.95 
+  recall screen_p25a_6L_chunk512_x |   34% |   22% |   12% |    3% |    0%
+  haystack (gap 0/64/192/440) screen_p25a_6L_chunk512_x N8:  18.0  13.7  12.9  14.5 | N32:   4.7   3.5   2.7   4.7
+[s1 10-05 01:58:30] scheduler DONE
+  r25-evals screen_p25a_6L_chunk512_x  C=512 T=1024 | chunk1   88.18 (mem off   96.34) | chunks2+   87.52 (off   97.66, Δ +10.15) | first64 of 2+   95.66 (off  111.25, Δ +15.59) vs first64 of chunk1  111.98
+  r25-evals screen_p25a_6L_chunk512_x  C=512 N8:  11.7  11.7  10.2  12.5 (mem off  11.7) | N32:   2.3   4.7   1.6   3.1 (mem off   2.3)
+  r25-evals screen_p25a_6L_chunk512_x  C=512 | K1 in@0   7.8 | K1 in@200   3.6 | K1 x@0   3.6 | K1 x@200   4.7 | K1 x@0 off   3.6 | K1 in@0 para   8.3 | K1 x@0 para   4.2 | K4 in@0  12.0 | K4 in@200  10.4 | K4 x@0  10.9 | K4 x@200   9.9 | K4 x@0 off   9.9 | K4 in@0 para  12.0 | K4 x@0 para   9.9
+[s1 10-05 01:59:53] scheduler waiting for GPU 1 lock
+[s1 10-05 02:03:54] [screen_p25f_6L_chunk512_x_nl] START
+[q0 10-05 03:09:29] [r24b_stateful_x1e_150m] exit=0 :: 201.85 116.04 110.61 109.63 96.46 85.07 73.11 62.24 54.86 50.31 47.56 45.79 
+  recall r24b_stateful_x1e_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r24b_stateful_x1e_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[q0 10-05 03:10:18] [r21b_x1_150m] START
+  r25-evals r24b_stateful_x1e_150m     C=512 T=1024 | chunk1   47.34 (mem off   47.44) | chunks2+   47.89 (off   47.99, Δ +0.09) | first64 of 2+   67.96 (off   68.17, Δ +0.21) vs first64 of chunk1   70.08
+  r25-evals r24b_stateful_x1e_150m     C=512 N8:  18.8  10.2  11.7  13.3 (mem off  18.8) | N32:   0.0   3.1   5.5   2.3 (mem off   0.0)
+  r25-evals r24b_stateful_x1e_150m     C=512 | K1 in@0  73.4 | K1 in@200  38.0 | K1 x@0   6.2 | K1 x@200   6.8 | K1 x@0 off   6.2 | K1 in@0 para  17.7 | K1 x@0 para   6.2 | K4 in@0  17.7 | K4 in@200  15.6 | K4 x@0  10.4 | K4 x@200   7.8 | K4 x@0 off   9.9 | K4 in@0 para  13.0 | K4 x@0 para   6.8
+[s1 10-05 03:40] p25a: memory USED (chunk2 Δ +10) but recall collapsed (plain MQAR batch 16 + xchunk from 0) -> fix flags mqar_aug_batch / mqar_xchunk_start_frac; 5080 queue relaunched: p25f evals, then p25g (fix), p25b, p25h (nl+fix), p25e, p25d, p25c

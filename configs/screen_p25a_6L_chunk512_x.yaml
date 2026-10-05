@@ -1,4 +1,4 @@
-# screen_p25a_6L_chunk512_x -- AUTO-GEN temp/mk_r25_configs.py (2026-10-04) from screen_r23b_g3w_6L_x1e. + attn_chunk 512, T 1024, xchunk MQAR 0.5.
+# screen_p25a_6L_chunk512_x -- AUTO-GEN temp/mk_r25_configs.py (2026-10-04) from screen_r23b_g3w_6L_x1e. + attn_chunk 512, T 1024, xchunk MQAR 0.5 (ran 10-05: plain MQAR batch 16, xchunk from 0).
 arch: spiking
 vocab: 32768
 d: 768
@@ -110,4 +110,6 @@ mqar_compile_static: true
 gdn2_cumsum_eager_max_b: 16
 attn_chunk: 512
 mqar_xchunk_batch: 4
+mqar_aug_batch: 16
+mqar_xchunk_start_frac: 0.0
 mqar_xchunk_frac: 0.5

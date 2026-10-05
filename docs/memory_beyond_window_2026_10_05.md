@@ -43,7 +43,10 @@ at chance (6.8%; chance 8.3%). Even **inside** the window, NL fact recall with 2
   attention; ablating attention gives 0%. Same as our G3.
 - **RMT / ARMT** (arXiv 2207.06881, 2407.04841): attention inside a segment, memory carried across segments, trained
   with **BPTT across segments** and a segment curriculum. ARMT adds a layerwise associative (delta-rule) memory and
-  answers BABILong single-fact questions over 50M tokens (79.9%).
+  answers BABILong single-fact questions over 50M tokens (79.9%). Recipe: 512-token segments, full BPTT, a segment
+  curriculum 2 → 3 → 5 → 8 → 16 → 32 (16K tokens), random segment counts for length generalization; dropping the
+  associative matrix (PRMT) lost the gain. Our T=1024 (2 chunks) is the first step of that curriculum; p25d (4 chunks)
+  the next; idea H (a late long-T phase) is the rest of it.
 - **Block-Recurrent / Block-State Transformer** (2022/2023) and **Llama-4 chunked attention**: attention only within
   aligned blocks; a recurrent state or a global mixer carries information across blocks.
 - **Infini-attention reproduction failed** (HF blog, 2024): linear (non-delta) compressive memory inside each attention

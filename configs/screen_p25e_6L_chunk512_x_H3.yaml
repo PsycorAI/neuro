@@ -110,3 +110,5 @@ gdn2_cumsum_eager_max_b: 16
 attn_chunk: 512
 mqar_xchunk_batch: 4
 mqar_xchunk_frac: 0.5
+mqar_aug_batch: 32
+mqar_xchunk_start_frac: 0.3

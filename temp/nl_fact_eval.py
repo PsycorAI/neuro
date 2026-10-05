@@ -49,12 +49,13 @@ def episodes(enc, K, rng):
         facts = " ".join(f"{n}'s favorite {cat} is {vals[i]}." for n, i in zip(who, what))
         q = rng.randrange(K)
         question = f" Question: What is {who[q]}'s favorite {cat}? Answer: {who[q]}'s favorite {cat} is"
-        yield enc(facts), enc(question), firsts, what[q]
+        para = f" Question: Which {cat} does {who[q]} like best? Answer:"      # paraphrase: no phrase to copy from
+        yield enc(facts), enc(question), firsts, what[q], enc(para)
 
 
 def build(ep, total_to_q, data):
     """facts + filler (real val text) so the question starts at index total_to_q."""
-    f, qn, _, _ = ep
+    f, qn = ep[0], ep[1]
     g = total_to_q - len(f)
     assert g >= 0
     filler = data.batch(1, g, "val", "cpu")[0][0].tolist() if g > 0 else []
@@ -80,13 +81,15 @@ for arg in a.runs:
     for K in [int(k) for k in a.K.split(",")]:
         # (label, question start index, ablate)
         settings = [("in@0", None, False), ("in@200", 200, False), ("x@0", C, False), ("x@200", C + 200, False),
-                    ("x@0 off", C, True)]
+                    ("x@0 off", C, True), ("in@0 para", None, False), ("x@0 para", C, False)]
         for label, qpos, abl in settings:
             rng = random.Random(1234 + K); np.random.seed(1234 + K)
             gen = episodes(enc, K, rng)
             hit = 0
             for _ in range(a.n // 32):
                 eps = [next(gen) for _ in range(32)]
+                if label.endswith("para"):             # swap in the paraphrased question
+                    eps = [(e[0], e[4], e[2], e[3], e[4]) for e in eps]
                 if qpos is None:
                     seqs = [e[0] + e[1] for e in eps]
                 elif label.startswith("in"):
