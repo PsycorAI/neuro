@@ -436,3 +436,11 @@
   recall      r21i_x1early_150m |  100% |  100% |  100% |  100% |  100%
   haystack (gap 0/64/192/440) r21i_x1early_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
 [q0 10-04 21:33:05] [r24a_swax32_x1e_150m] START
+[s1 10-04 22:45] old 5080 scheduler (r23a evals + r23b, sleeping to 00:00) killed: Glenn lent the 5080 now until 18:00 10-05 -> relaunch in UNTIL mode
+[s1 10-04 22:34:18] [screen_r23a_g3w_4L_x1e] evals (models/checkpoints/screen_r23a_g3w_4L_x1e/step_0006104.pt)
+  recall screen_r23a_g3w_4L_x1e |   53% |   59% |   25% |   12% |   16%
+  haystack (gap 0/64/192/440) screen_r23a_g3w_4L_x1e N8:  52.7  50.4  46.9  46.1 | N32:  25.0  21.9  19.5  23.4
+[s1 10-04 22:35:02] scheduler waiting for GPU 1 lock
+[s1 10-04 22:39:03] [screen_r23b_g3w_6L_x1e] START
+[s1 10-04 23:25] queued (Neuro 51): r25 6L proxies after r23b -- p25a chunk512+xchunk, p25f +NL facts, p25b chunk only, p25e +H3, p25d T2048, p25c chunk256 (temp/queue_5080_r25.sh, UNTIL 18:00 10-05)
+[q0 10-04 23:25] queued (Neuro 51): r25 evals on r24a/r24b/r21b as they finish, then r25a (r21b+chunk512/T1024+xchunk) and r25b (r21i+same) (temp/queue_5090_r25.sh)

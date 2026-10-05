@@ -263,6 +263,10 @@ class HybridAttentionBlock(nn.Module):
         # SWAX-style windowing); not a constructor arg so checkpoints and build_model are unchanged.
         self.attn_window = 0
         self._band_cache = {}
+        # attn_chunk (r25, 2026-10-04; 0 = off, byte-identical): attention (and attn_canon) only inside ALIGNED
+        # C-token chunks -- every layer shares the same boundaries, so no multi-hop relay can cross one and the
+        # memory layer is the only route to earlier chunks. Set by build_model (config attn_chunk), like attn_window.
+        self.attn_chunk = 0
         # r16 flags (2026-10-02, docs/v4_plan_review_2026_10_01.md 6.5; default off = byte-identical; created
         # last so existing parameter inits are unchanged even when on).
         # b2 out_gate: elementwise sigmoid gate on the attention output before o_proj, computed from the
@@ -346,6 +350,15 @@ class HybridAttentionBlock(nn.Module):
         s = s.masked_fill(torch.ones(T, T, dtype=torch.bool, device=x.device).triu(1), float("-inf"))
         return torch.softmax(s, dim=-1)
 
+    def _block(self, x_seq):
+        # attention + FFN with pre-norm residuals
+        x_a = x_seq
+        if self.attn_canon:
+            x_a = x_seq + F.conv1d(F.pad(x_seq.transpose(1, 2), (self.attn_canon - 1, 0)),
+                                   self.canon_w.to(x_seq.dtype), groups=x_seq.size(-1)).transpose(1, 2)
+        y = x_seq + self._attn(self.norm_attn(x_a))
+        return y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+
     def forward_sequence(self, x_seq, mem, M, prev_spk,
                           ablate_memory=False, fpt_K=10):
         """Same signature as SpikingHebbianBlock.forward_sequence.
@@ -354,13 +367,17 @@ class HybridAttentionBlock(nn.Module):
         through unchanged; we manufacture a zero spike sequence at the right
         shape so downstream spike-rate telemetry doesn't crash.
         """
-        # attention + FFN with pre-norm residuals
-        x_a = x_seq
-        if self.attn_canon:
-            x_a = x_seq + F.conv1d(F.pad(x_seq.transpose(1, 2), (self.attn_canon - 1, 0)),
-                                   self.canon_w.to(x_seq.dtype), groups=x_seq.size(-1)).transpose(1, 2)
-        y = x_seq + self._attn(self.norm_attn(x_a))
-        z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+        C = self.attn_chunk
+        if 0 < C < x_seq.shape[1]:
+            # r25 chunked attention: fold aligned C-token chunks into the batch (RoPE scores depend only on
+            # relative position, so this is exactly block-diagonal causal attention). A ragged tail (eval/demo
+            # lengths) is right-padded; every op is causal or per-token, so the pad cannot reach real tokens.
+            B_, T_, D_ = x_seq.shape
+            pad = (-T_) % C
+            xc = F.pad(x_seq, (0, 0, 0, pad)) if pad else x_seq
+            z = self._block(xc.reshape(B_ * (T_ + pad) // C, C, D_)).reshape(B_, T_ + pad, D_)[:, :T_]
+        else:
+            z = self._block(x_seq)
         # State pass-through: attention has no persistent recurrent state.
         # `mem`/`prev_spk` are (B, n_neurons) allocated at LM top and shared
         # in shape across all layers; we pass them through unchanged so
@@ -436,6 +453,9 @@ class HybridAttentionBlock(nn.Module):
         if self.attn_canon:
             raise NotImplementedError("step_kv with attn_canon needs the last k-1 inputs as state "
                                       "(streaming TO-BUILD, docs/v4_plan_review_2026_10_01.md 6.6)")
+        if self.attn_chunk and (0 if cache is None else cache[0].shape[2]) + x.shape[1] > self.attn_chunk:
+            raise NotImplementedError("step_kv past one attn_chunk: the cache must restart at chunk boundaries "
+                                      "(r25 chunked decode TO-BUILD)")
         a, new_cache = self._attn_kv(self.norm_attn(x), cache)
         y = x + a
         z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))

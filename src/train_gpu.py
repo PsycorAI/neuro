@@ -280,6 +280,15 @@ def build_model(c):
             for _b in m.blocks:
                 if hasattr(_b, "qkv"):
                     _b.attn_window = _wf
+        # attn_chunk (r25, 2026-10-04, default 0 = byte-identical): attention only inside aligned C-token chunks, at
+        # train AND eval (set here so every eval script inherits it); the memory spans the whole block_size sequence
+        # with full gradient. See HybridAttentionBlock.attn_chunk.
+        _ac = int(c.get("attn_chunk", 0) or 0)
+        if _ac:
+            assert not (c.get("attn_window_short") or _wf), "attn_chunk is exclusive with attn_window_*"
+            for _b in m.blocks:
+                if hasattr(_b, "qkv"):
+                    _b.attn_chunk = _ac
         return m
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
@@ -581,6 +590,15 @@ def main():
     # (still real dev work, not free) is expected to recover most of that.
     mqar_model = raw_model
     _mqar_gap_rng = np.random.RandomState(int(c.get("seed", 0)) + 7919)   # haystack MQAR only (mqar_gap_max)
+    # r25 nlfact (2026-10-05, default off): natural-language fact episodes, facts in attention chunk A and the question
+    # in chunk B (src/nl_fact_aux.py; own RNG, so every other stream is untouched). Needs attn_chunk.
+    _nlf = None
+    if int(c.get("nlfact_every", 0) or 0):
+        from nl_fact_aux import NLFactAux
+        assert int(c.get("attn_chunk", 0) or 0), "nlfact_every needs attn_chunk"
+        _nlf = NLFactAux(c["vocab"], c["attn_chunk"], seed=int(c.get("seed", 0)), k_max=int(c.get("nlfact_k_max", 4)),
+                         in_frac=float(c.get("nlfact_in_frac", 0.3)),
+                         subword_fallback=bool(c.get("lut_subword_fallback", False)))
     # Stochastic attention window (2026-09-29, SWAX arXiv 2509.24552; docs/contiguous_training_design.md): each step
     # the attention layers use a short sliding window w.p. attn_window_p, else full causal; the last
     # attn_window_long_frac of steps and every eval use full. The draw is keyed on (seed, step) -- no RNG stream is
@@ -978,11 +996,24 @@ def main():
                     _gs = c.get("mqar_gap_start_frac")
                     _g0 = 0 if _gs is None else float(_gs) * total_steps
                     _mq_w = c.get("mqar_weight", 0.5)
+                    _xc = False
                     if _gmax > 0 and step >= _g0:
                         _rf = float(c.get("mqar_gap_ramp_frac", 0.0))
                         _cur = _gmax if _rf <= 0 else max(1, int(_gmax * min(1.0, (step - _g0) / max(1.0, _rf * total_steps))))
-                        g_mq = int(_mqar_gap_rng.randint(0, _cur + 1))
-                        x_mq, tgt_mq = mqar_gap_batch(int(c.get("mqar_batch", c["batch_size"])) * _mq_mult, N_mq, g_mq,
+                        # r25 mqar_xchunk_frac (2026-10-04, default 0 = byte-identical, RNG stream untouched): with this
+                        # probability the gap batch puts the kv block in attention chunk A and the query in chunk B
+                        # (gap = attn_chunk - 2N + offset in [0, attn_chunk)), so only the memory can answer: trains
+                        # beyond-the-window recall. Batch mqar_xchunk_batch (default mqar_batch), padded to 2*attn_chunk.
+                        _xf = float(c.get("mqar_xchunk_frac", 0) or 0)
+                        _xc = _xf > 0 and _mqar_gap_rng.rand() < _xf
+                        if _xc:
+                            _C = int(c["attn_chunk"])
+                            g_mq = _C - 2 * N_mq + int(_mqar_gap_rng.randint(0, _C))
+                            _B_mq = int(c.get("mqar_xchunk_batch", c.get("mqar_batch", c["batch_size"])))
+                        else:
+                            g_mq = int(_mqar_gap_rng.randint(0, _cur + 1))
+                            _B_mq = int(c.get("mqar_batch", c["batch_size"]))
+                        x_mq, tgt_mq = mqar_gap_batch(_B_mq * _mq_mult, N_mq, g_mq,
                                                       data, _mqar_gap_rng, device)
                         if _gs is not None:
                             _mq_w = c.get("mqar_gap_weight", _mq_w)
@@ -1003,12 +1034,22 @@ def main():
                     # reserved -> WDDM spill, 7.8k vs 34k tok/s).
                     if c.get("mqar_gap_pad_to") and _L_mq > _pad_to:
                         _pad_to = int(c["mqar_gap_pad_to"])
+                    if _xc:
+                        _pad_to = 2 * int(c["attn_chunk"])
                     if _pad_to:
                         assert _L_mq <= _pad_to, f"mqar_pad_to {_pad_to} < MQAR length {_L_mq}"
                         x_mq = F.pad(x_mq, (0, _pad_to - _L_mq))
                     logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
                     main_loss = main_loss + _mq_w * mqar_cad * _mq_mult * mqar_ce
+                # r25 nlfact aux (default off): every nlfact_every-th step from nlfact_start_frac, first micro-step only.
+                # Same compiled wrapper and padded length (2 * attn_chunk) as the xchunk MQAR batches.
+                if (_nlf is not None and _micro == 0 and step % int(c["nlfact_every"]) == 0
+                        and step >= float(c.get("nlfact_start_frac", 0.0)) * total_steps):
+                    x_nf, last_nf, tgt_nf = _nlf.batch(int(c.get("nlfact_batch", 4)), data, device)
+                    lg_nf = mqar_model(x_nf)[torch.arange(x_nf.shape[0], device=device), last_nf]
+                    main_loss = main_loss + float(c.get("nlfact_weight", 0.15)) * int(c["nlfact_every"]) * \
+                        F.cross_entropy(lg_nf, tgt_nf)
                 loss = main_loss / c["grad_accum"]
             loss.backward()
         # NaN/Inf guard (added 2026-08-07). Without this, a numerical blowup

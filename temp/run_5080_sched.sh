@@ -18,6 +18,17 @@ FREE_UTIL=${FREE_UTIL:-5}; FREE_MIN=${FREE_MIN:-5}
 say(){ echo "[s$GPU $(date '+%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }
 hhmm(){ echo $((10#$(date +%H%M))); }
 to_midnight(){ say "$1 -- GPU is Glenn's until 00:00, sleeping"; sleep $(( $(date -d 'tomorrow 00:00' +%s) - $(date +%s) + 30 )); }
+# 2026-10-04: UNTIL="YYYY-mm-dd HH:MM" = one-shot window (Glenn lends the GPU from now until then): runs at once,
+# no start/eval after UNTIL-25 min, SIGINT pause at UNTIL-5 min, then the queue EXITS (no midnight resume).
+if [ -n "${UNTIL:-}" ]; then
+  END=$(date -d "$UNTIL" +%s)
+  late_nostart(){ [ $(date +%s) -ge $((END - 1500)) ]; }
+  late_pause(){ [ $(date +%s) -ge $((END - 300)) ]; }
+  to_midnight(){ say "$1 -- window ends $UNTIL, queue exits"; exit 0; }
+else
+  late_nostart(){ [ $(hhmm) -ge $NOSTART ]; }
+  late_pause(){ [ $(hhmm) -ge $PAUSE ]; }
+fi
 wait_free(){   # $1 = what we are about to do
   local n=0 k=0 u
   while [ $n -lt $FREE_MIN ]; do
@@ -33,14 +44,14 @@ for run in "$@"; do
   if [ -f $ck/DONE ]; then say "[$run] already DONE, skip"; continue; fi
   if ls $ck/step_*.pt >/dev/null 2>&1; then mode=RESUME; else mode=START; rm -rf $ck; : > logs/$run.log; fi
   while :; do
-    [ $(hhmm) -ge $NOSTART ] && to_midnight "[$run] before $mode"
+    late_nostart && to_midnight "[$run] before $mode"
     wait_free "[$run] before $mode"
-    [ $(hhmm) -ge $NOSTART ] && continue          # the wait ran past NOSTART -> back to the midnight sleep
+    late_nostart && continue         # the wait ran past NOSTART -> back to the midnight sleep
     say "[$run] $mode"
     "$PY" src/train_gpu.py --config configs/$run.yaml --device cuda >> logs/$run.log 2>&1 &
     pid=$!; paused=0
     while kill -0 $pid 2>/dev/null; do
-      if [ $paused = 0 ] && [ $(hhmm) -ge $PAUSE ]; then say "[$run] PAUSE (SIGINT -> final ckpt)"; kill -INT $pid; paused=1; fi
+      if [ $paused = 0 ] && late_pause; then say "[$run] PAUSE (SIGINT -> final ckpt)"; kill -INT $pid; paused=1; fi
       sleep 20
     done
     wait $pid; rc=$?
@@ -51,9 +62,9 @@ for run in "$@"; do
   [ $rc = 0 ] || continue
   touch $ck/DONE
   while :; do
-    [ $(hhmm) -ge $NOSTART ] && to_midnight "[$run] before evals"
+    late_nostart && to_midnight "[$run] before evals"
     wait_free "[$run] before evals"
-    [ $(hhmm) -ge $NOSTART ] || break
+    late_nostart || break
   done
   last=$(ls $ck/step_*.pt 2>/dev/null | tail -1)
   "$PY" scripts/recall_eval.py --runs $run --Ns 4,8,16,32,64 --B 32 2>&1 | grep -E "^ *$run" | head -1 | sed "s/^/  recall /" >> "$LOG"
