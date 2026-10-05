@@ -1,0 +1,22 @@
+[honest 14:09:02] [screen_honest_fpt_s0_30m] START
+[honest 16:23:29] [screen_honest_fpt_s0_30m] exit=0 :: 205.72 177.75 168.01 158.07 144.00 136.77 
+[honest 16:23:29] [screen_honest_lifexact_s0_30m] START
+[honest 19:02:19] [screen_honest_lifexact_s0_30m] exit=0 :: 185.67 159.74 142.45 121.76 106.25 99.26 
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_indepwin_s0_30m |  100% |  100% |  100% |   69% |   28%
+screen_honest_fpt_s0_30m |  100% |  100% |   97% |   62% |   19%
+screen_honest_lifexact_s0_30m |  100% |  100% |  100% |  100% |   94%
+screen_tfmrfix_adamw_s0_30m |   22% |   16% |    9% |    6% |    3%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_indepwin_s0_30m |     1 |     1 |     1 |   121 |   558
+screen_honest_fpt_s0_30m |     1 |     1 |     1 |   370 |  1596
+screen_honest_lifexact_s0_30m |     1 |     1 |     1 |     1 |     1
+screen_tfmrfix_adamw_s0_30m |  2181 |  2551 |  2939 |  2379 |  2786
+[honest 19:02:45] DONE
+[honest 19:03:26] [screen_honest_lifexact_s1_30m] START
+[honest 21:35:58] [screen_honest_lifexact_s1_30m] exit=0 :: 180.59 148.19 140.35 126.64 113.72 106.58 
+[honest 21:35:58] [screen_honest_fpt_s1_30m] START
+[honest 22:04:38] [screen_honest_fpt_s1_30m] STOPPED by Claude at Glenn's request (FPT already 38% behind lif_exact; seed 1 skipped). Partial ckpts deleted.
+[honest 22:05:00] [screen_honest_fpt_s1_30m] RESUME
+[honest] fpt_s1 SKIPPED (Glenn via Neuro 44 session); s1b relaunch stopped

@@ -1,0 +1,13 @@
+[ss 10-02 12:41:18] waiting for r17g training (PID 279145) to exit
+[ss 10-02 13:42:13] waiting for r17g training (PID 279145) to exit
+[ss 10-02 13:42:13] GPU0 free; starting
+[ss 10-02 13:43:24] s_c0: [prof s_c0] median step 530 ms = 30,928 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:43:49] s_t4: [prof s_t4] median step 145 ms = 112,635 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:44:40] s_c0_bns: [prof s_c0_bns] median step 538 ms = 30,473 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:45:37] s_c0_tel: [prof s_c0_tel] median step 528 ms = 31,029 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:46:26] s_c0_adamw: [prof s_c0_adamw] median step 470 ms = 34,861 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:47:10] s_c0_bns_tel_ch256: [prof s_c0_bns_tel_ch256] median step 400 ms = 40,952 tok/s (B32xGA1, 34 steps)
+[ss 10-02 13:50:38] s_c0_compile_diag: [prof s_c0_compile_diag] median step 18247 ms = 898 tok/s (B32xGA1, 7 steps)
+[ss 10-02 14:10:16] s_c0_compile_tel: [prof s_c0_compile_tel] median step 5054 ms = 3,242 tok/s (B32xGA1, 34 steps)
+[ss 10-02 14:10:16] done; resuming r17 queue runner
+[ss 10-02 14:10:16] resumed

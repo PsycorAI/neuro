@@ -1,0 +1,45 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m/step_0271268.pt (10.00B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 21546 tool pairs {'answer': 5382, 'tool': 12911, 'tool_absent': 3253} -> encoded 21546 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 63423
+arch=spiking params=426.47M device=cuda | per_step_tok=16384 | total_steps≈366 | warmup=18
+
+step 50 | 0.8M tok | loss 2.245 | spike 0.158 | 2,053 tok/s | vram 9.0/21.7 GB
+step 100 | 1.6M tok | loss 2.993 | spike 0.161 | 1,967 tok/s | vram 8.9/21.7 GB
+step 150 | 2.5M tok | loss 3.130 | spike 0.166 | 2,029 tok/s | vram 9.0/21.7 GB
+step 200 | 3.3M tok | loss 3.674 | spike 0.164 | 2,083 tok/s | vram 8.9/21.7 GB
+step 250 | 4.1M tok | loss 3.181 | spike 0.166 | 2,071 tok/s | vram 8.9/21.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_sftab_mix_363m/step_0000250.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is France.\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n### Italy\n'
+step 300 | 4.9M tok | loss 1.983 | spike 0.168 | 1,878 tok/s | vram 8.8/21.7 GB
+step 350 | 5.7M tok | loss 1.720 | spike 0.167 | 2,102 tok/s | vram 8.9/21.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_sftab_mix_363m/step_0000367.pt
+done: 6.0M tok in 0.83h

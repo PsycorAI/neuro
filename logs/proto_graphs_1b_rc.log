@@ -1,0 +1,3 @@
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[graphs] rc       B8:   211.7 ms/micro =   19,351 tok/s | peak reserved 25.2 GB | setup 1s

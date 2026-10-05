@@ -1,0 +1,87 @@
+optimizer: AdamW (fused) (lr=0.002)
+arch=spiking params=58.75M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
+step 100 | 1.6M tok | loss 11.555 | 67,321 tok/s | vram 1.4/4.6 GB
+step 200 | 3.3M tok | loss 11.288 | 124,044 tok/s | vram 1.5/4.6 GB
+step 300 | 4.9M tok | loss 10.701 | 127,617 tok/s | vram 1.4/4.6 GB
+step 400 | 6.6M tok | loss 10.272 | 138,213 tok/s | vram 1.5/4.6 GB
+step 500 | 8.2M tok | loss 10.231 | 138,110 tok/s | vram 1.5/4.6 GB
+step 600 | 9.8M tok | loss 9.952 | 137,815 tok/s | vram 1.4/4.6 GB
+step 700 | 11.5M tok | loss 9.963 | 136,440 tok/s | vram 1.4/4.6 GB
+step 800 | 13.1M tok | loss 9.865 | 132,497 tok/s | vram 1.4/4.6 GB
+step 900 | 14.7M tok | loss 9.598 | 137,690 tok/s | vram 1.5/4.6 GB
+step 1000 | 16.4M tok | loss 9.697 | 137,647 tok/s | vram 1.4/4.6 GB
+  [eval] val_ppl 181.15 | ablated_ppl 181.15 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=3419.45 | head=234.56
+step 1100 | 18.0M tok | loss 9.175 | 114,990 tok/s | vram 1.4/4.6 GB
+step 1200 | 19.7M tok | loss 9.530 | 134,766 tok/s | vram 1.5/4.6 GB
+step 1300 | 21.3M tok | loss 9.543 | 125,480 tok/s | vram 1.5/4.6 GB
+step 1400 | 22.9M tok | loss 9.314 | 128,125 tok/s | vram 1.4/4.6 GB
+step 1500 | 24.6M tok | loss 9.404 | 130,094 tok/s | vram 1.4/4.6 GB
+step 1600 | 26.2M tok | loss 9.491 | 136,013 tok/s | vram 1.5/4.6 GB
+step 1700 | 27.9M tok | loss 9.511 | 131,278 tok/s | vram 1.4/4.6 GB
+step 1800 | 29.5M tok | loss 9.277 | 136,961 tok/s | vram 1.5/4.6 GB
+step 1900 | 31.1M tok | loss 9.502 | 132,077 tok/s | vram 1.5/4.6 GB
+step 2000 | 32.8M tok | loss 9.151 | 134,063 tok/s | vram 1.4/4.6 GB
+  [eval] val_ppl 125.38 | ablated_ppl 125.38 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=2879.06 (-15.80%) | head=271.76 (+15.86%)
+step 2100 | 34.4M tok | loss 9.358 | 62,823 tok/s | vram 1.4/4.6 GB
+step 2200 | 36.0M tok | loss 9.182 | 90,490 tok/s | vram 1.4/4.6 GB
+step 2300 | 37.7M tok | loss 9.078 | 98,727 tok/s | vram 1.4/4.6 GB
+step 2400 | 39.3M tok | loss 9.198 | 99,677 tok/s | vram 1.5/4.6 GB
+step 2500 | 41.0M tok | loss 9.099 | 104,136 tok/s | vram 1.4/4.6 GB
+step 2600 | 42.6M tok | loss 8.997 | 98,595 tok/s | vram 1.4/4.6 GB
+step 2700 | 44.2M tok | loss 9.208 | 101,308 tok/s | vram 1.4/4.6 GB
+step 2800 | 45.9M tok | loss 8.929 | 89,972 tok/s | vram 1.4/4.6 GB
+step 2900 | 47.5M tok | loss 8.972 | 86,553 tok/s | vram 1.5/4.6 GB
+step 3000 | 49.2M tok | loss 8.848 | 93,510 tok/s | vram 1.4/4.6 GB
+  [eval] val_ppl 101.09 | ablated_ppl 101.09 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=2518.96 (-12.51%) | head=283.05 (+4.15%)
+step 3100 | 50.8M tok | loss 9.127 | 93,095 tok/s | vram 1.4/4.6 GB
+step 3200 | 52.4M tok | loss 8.907 | 108,708 tok/s | vram 1.4/4.6 GB
+step 3300 | 54.1M tok | loss 9.072 | 93,655 tok/s | vram 1.5/4.6 GB
+step 3400 | 55.7M tok | loss 9.154 | 104,027 tok/s | vram 1.5/4.6 GB
+step 3500 | 57.3M tok | loss 9.110 | 113,214 tok/s | vram 1.4/4.6 GB
+step 3600 | 59.0M tok | loss 8.909 | 117,197 tok/s | vram 1.4/4.6 GB
+step 3700 | 60.6M tok | loss 8.988 | 116,102 tok/s | vram 1.5/4.6 GB
+step 3800 | 62.3M tok | loss 8.829 | 112,947 tok/s | vram 1.4/4.6 GB
+step 3900 | 63.9M tok | loss 8.687 | 119,073 tok/s | vram 1.4/4.6 GB
+step 4000 | 65.5M tok | loss 9.085 | 115,988 tok/s | vram 1.4/4.6 GB
+  [eval] val_ppl 86.71 | ablated_ppl 86.71 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=2303.82 (-8.54%) | head=283.32 (+0.09%)
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_tfmr_adamw_lr2e3_s0_30m/step_0004000.pt
+step 4100 | 67.2M tok | loss 9.003 | 91,726 tok/s | vram 1.4/4.1 GB
+step 4200 | 68.8M tok | loss 8.767 | 116,104 tok/s | vram 1.5/4.1 GB
+step 4300 | 70.5M tok | loss 8.866 | 107,707 tok/s | vram 1.4/4.1 GB
+step 4400 | 72.1M tok | loss 8.942 | 98,921 tok/s | vram 1.4/4.1 GB
+step 4500 | 73.7M tok | loss 8.951 | 101,821 tok/s | vram 1.5/4.1 GB
+step 4600 | 75.4M tok | loss 8.743 | 112,402 tok/s | vram 1.4/4.1 GB
+step 4700 | 77.0M tok | loss 8.643 | 112,003 tok/s | vram 1.4/4.1 GB
+step 4800 | 78.6M tok | loss 8.931 | 111,914 tok/s | vram 1.4/4.1 GB
+step 4900 | 80.3M tok | loss 8.919 | 117,326 tok/s | vram 1.4/4.1 GB
+step 5000 | 81.9M tok | loss 8.802 | 112,936 tok/s | vram 1.4/4.1 GB
+  [eval] val_ppl 77.48 | ablated_ppl 77.48 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=2192.49 (-4.83%) | head=279.78 (-1.25%)
+step 5100 | 83.6M tok | loss 8.815 | 81,132 tok/s | vram 1.4/4.6 GB
+step 5200 | 85.2M tok | loss 8.708 | 65,837 tok/s | vram 1.4/4.6 GB
+step 5300 | 86.8M tok | loss 8.565 | 81,691 tok/s | vram 1.4/4.6 GB
+step 5400 | 88.5M tok | loss 8.753 | 95,331 tok/s | vram 1.5/4.6 GB
+step 5500 | 90.1M tok | loss 8.923 | 109,452 tok/s | vram 1.4/4.6 GB
+step 5600 | 91.8M tok | loss 8.845 | 76,048 tok/s | vram 1.4/4.6 GB
+step 5700 | 93.4M tok | loss 8.836 | 75,558 tok/s | vram 1.4/4.6 GB
+step 5800 | 95.0M tok | loss 8.466 | 94,965 tok/s | vram 1.4/4.6 GB
+step 5900 | 96.7M tok | loss 8.629 | 97,953 tok/s | vram 1.4/4.6 GB
+step 6000 | 98.3M tok | loss 8.739 | 100,902 tok/s | vram 1.5/4.6 GB
+  [eval] val_ppl 73.56 | ablated_ppl 73.56 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=2138.09 (-2.48%) | head=276.33 (-1.23%)
+step 6100 | 99.9M tok | loss 8.940 | 96,061 tok/s | vram 1.4/4.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_tfmr_adamw_lr2e3_s0_30m/step_0006104.pt
+done: 100.0M tok in 0.26h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     202584883.2 |     202584883.2 |         1.00x
+    4096 |     270113177.6 |     270113177.6 |         1.00x
+
+block mix: 0 spiking + 2 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 58,720,256 MAC + 0 AC
+note: 2 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

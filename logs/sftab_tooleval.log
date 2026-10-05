@@ -1,0 +1,128 @@
+[tooleval 03:02:20] screen_sftab_mix_363m
+screen_sftab_mix_363m: 426M params, step 367, vocab 32768
+held-out test examples: 100 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [constrained] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [constrained] gold=TOOL translate | pred='ANSWER 1. The first 2. The second 2. The second 2. The second 3. The third 2. The third 3.'
+  [constrained] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a staple of the dish, and '
+  [constrained] gold=ANSWER - | pred='ANSWER The type of data is a data structure that is composed of a single entity, composed '
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/tool_eval.py", line 150, in <module>
+    main()
+  File "/home/glenn/projects/neuro/scripts/tool_eval.py", line 111, in main
+    out, text, _ = G.constrained_generate(
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/grammar.py", line 235, in constrained_generate
+    if grammar.accepting(node):
+       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/grammar.py", line 162, in accepting
+    return self.nodes[node]["kind"] == ACC
+           ~~~~~~~~~~^^^^^^
+IndexError: list index out of range
+[tooleval 03:20:47] screen_sftab_mixmqar_363m
+[tooleval] --- rerun after grammar cache fix ---
+[tooleval 03:22:12] screen_sftab_mix_363m
+screen_sftab_mix_363m: 426M params, step 367, vocab 32768
+held-out test examples: 100 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [constrained] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [constrained] gold=TOOL translate | pred='ANSWER 1. The first 2. The second 2. The second 2. The second 3. The third 2. The third 3.'
+  [constrained] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a staple of the dish, and '
+  [constrained] gold=ANSWER - | pred='ANSWER The type of data is a data structure that is composed of a single entity, composed '
+  constrained  parse=1.000 mode_acc=0.920 halluc=0.000 tool_acc=0.877 args_exact=0.684 refuse_acc=0.953  (2767s)
+  [free] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [free] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=TOOL translate | pred='ANSWER 1. The first 2. The second 2. The second 2. The second 3. The third 2. The third 3.'
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a staple of the dish, and '
+  [free] gold=ANSWER - | pred='ANSWER The type of data is a data structure that is composed of a single entity, composed '
+  free         parse=1.000 mode_acc=0.920 halluc=0.010 tool_acc=0.877 args_exact=0.684 refuse_acc=0.953  (852s)
+
+metric         constrained          free
+parse                1.000         1.000
+mode_acc             0.920         0.920
+tool_acc             0.877         0.877
+args_exact           0.684         0.684
+refuse_acc           0.953         0.953
+halluc               0.000         0.010
+
+(n=100 gold-TOOL + gold-ANSWER mixed; halluc lower is better)
+[tooleval 04:23:22] screen_sftab_mixmqar_363m
+screen_sftab_mixmqar_363m: 426M params, step 367, vocab 32768
+held-out test examples: 100 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [constrained] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [constrained] gold=TOOL translate | pred='ANSWER 1. **R 2. **R 3. **R 4. **R 5. **R 6. **R 7. **R 8. **R 9. **R 10. **R 11. **R 12. '
+  [constrained] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a staple of the dish.\n###'
+  [constrained] gold=ANSWER - | pred='ANSWER The type of data is a type of data that can be classified as a type of data. The da'
+  constrained  parse=1.000 mode_acc=0.870 halluc=0.000 tool_acc=0.789 args_exact=0.544 refuse_acc=0.930  (916s)
+  [free] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [free] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=TOOL translate | pred='ANSWER 1. **R 2. **R 3. **R 4. **R 5. **R 6. **R 7. **R 8. **R 9. **R 10. **R 11. **R 12. '
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a staple of the dish.\n###'
+  [free] gold=ANSWER - | pred='ANSWER The type of data is a type of data that can be classified as a type of data. The da'
+  free         parse=1.000 mode_acc=0.870 halluc=0.020 tool_acc=0.789 args_exact=0.544 refuse_acc=0.930  (819s)
+
+metric         constrained          free
+parse                1.000         1.000
+mode_acc             0.870         0.870
+tool_acc             0.789         0.789
+args_exact           0.544         0.544
+refuse_acc           0.930         0.930
+halluc               0.000         0.020
+
+(n=100 gold-TOOL + gold-ANSWER mixed; halluc lower is better)
+[tooleval 04:52:58] DONE
+[tooleval 07:51:27] screen_sftab_mixmqar02_363m
+screen_sftab_mixmqar02_363m: 426M params, step 367, vocab 32768
+held-out test examples: 100 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [constrained] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [constrained] gold=TOOL translate | pred='ANSWER 1. The 2. The 3. The 4. The 5. The 6. The 7. The 8. The 9. The 9. The 9. The 10. Th'
+  [constrained] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef is a savory and savory pastries, and the taste of '
+  [constrained] gold=ANSWER - | pred='ANSWER The type of data is a numerical data that can be used to classify the data into its'
+  constrained  parse=1.000 mode_acc=0.860 halluc=0.000 tool_acc=0.825 args_exact=0.632 refuse_acc=0.860  (910s)
+  [free] gold=TOOL calculator | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=TOOL translate | pred='ANSWER 1. The 2. The 3. The 4. The 5. The 6. The 7. The 8. The 9. The 9. The 9. The 10. Th'
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef is a savory and savory pastries, and the taste of '
+  [free] gold=ANSWER - | pred='ANSWER The type of data is a numerical data that can be used to classify the data into its'
+  free         parse=0.990 mode_acc=0.860 halluc=0.050 tool_acc=0.825 args_exact=0.632 refuse_acc=0.860  (836s)
+
+metric         constrained          free
+parse                1.000         0.990
+mode_acc             0.860         0.860
+tool_acc             0.825         0.825
+args_exact           0.632         0.632
+refuse_acc           0.860         0.860
+halluc               0.000         0.050
+
+(n=100 gold-TOOL + gold-ANSWER mixed; halluc lower is better)
+[tooleval 08:21:31] screen_sftab_alpaca_363m
+screen_sftab_alpaca_363m: 426M params, step 367, vocab 32768
+held-out test examples: 100 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred='ANSWER (S) = 2.5 * 25\n- solve for 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,'
+  [constrained] gold=ANSWER - | pred='ANSWER (C) = 2.5\n###'
+  [constrained] gold=TOOL translate | pred='ANSWER = 0\n###'
+  [constrained] gold=ANSWER - | pred='ANSWER (WYZ) is a type of dish that is made of beef, beef, and vegetable broth. It is a ve'
+  [constrained] gold=ANSWER - | pred='ANSWER (AI) is a type of data that is used to create a list of the most common types of da'
+  constrained  parse=1.000 mode_acc=0.430 halluc=0.000 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000  (1146s)
+  [free] gold=TOOL calculator | pred='Here is a Python code that can be used to solve the problem:\n\n```\ndef solve_area(numbers):'
+  [free] gold=ANSWER - | pred='The temperature in the given time is 2: 5: 5 = 5.5 = 5.5 = 5.5 = 5.5 = 5.5 = 5.5 = 5.5 = 5'
+  [free] gold=TOOL translate | pred='    1. The function of the word "to" is "to" and "to" is "to".\n   1\n  2\n  3\n  4\n  5\n  6\n  '
+  [free] gold=ANSWER - | pred='The recipe for a meal is a classic dish made of beef, which is a classic dish made of beef'
+  [free] gold=ANSWER - | pred='The type of data that the input is stored in the `string` list. The `string` list is the n'
+  free         parse=0.000 mode_acc=0.000 halluc=0.000 tool_acc=0.000 args_exact=0.000 refuse_acc=0.000  (1136s)
+
+metric         constrained          free
+parse                1.000         0.000
+mode_acc             0.430         0.000
+tool_acc             0.000         0.000
+args_exact           0.000         0.000
+refuse_acc           1.000         0.000
+halluc               0.000         0.000
+
+(n=100 gold-TOOL + gold-ANSWER mixed; halluc lower is better)
+[tooleval 09:00:13] DONE (round 2)

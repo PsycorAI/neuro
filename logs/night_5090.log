@@ -1,0 +1,32 @@
+[nt 10-02 19:38:44] lock held
+[nt 10-02 19:38:59] parity 30M exit=1
+[nt 10-02 19:38:59] [graphs] eager    B32:   349.3 ms/micro =   46,906 tok/s | peak reserved 12.4 GB | setup 0s
+[nt 10-03 00:11:32] night2: lock held; 5080 memory 742 MiB
+[nt 10-03 00:15:16] g4ga8x_c0s1: exit=0 [prof g4ga8x_c0s1] median step 3154 ms = 10,391 tok/s (B8xGA8, 14 steps) | vram 13.6/30.1 GB
+[nt 10-03 00:18:54] g4ga8x_tfmr: exit=0 [prof g4ga8x_tfmr] median step 1957 ms = 16,746 tok/s (B8xGA8, 14 steps) | vram 16.7/29.7 GB
+[nt 10-03 00:22:20] g4ga8b6_c0s1: exit=0 [prof g4ga8b6_c0s1] median step 3007 ms = 8,173 tok/s (B6xGA8, 14 steps) | vram 13.5/28.4 GB
+[nt 10-03 01:22:51] g4ga8rc_c0s1: exit=0 [prof g4ga8rc_c0s1] median step 173431 ms = 189 tok/s (B8xGA8, 14 steps) | vram 13.6/35.7 GB
+[nt 10-03 01:23:30] proto 1B eager exit=0 [graphs] eager    B8:   314.1 ms/micro =   13,040 tok/s | peak reserved 30.2 GB | setup 0s
+[nt 10-03 01:24:15] proto 1B graph exit=0 [graphs] graph    B8:   272.9 ms/micro =   15,009 tok/s | peak reserved 31.8 GB | setup 22s
+[nt 10-03 01:27:22] proto 1B rc exit=0 [graphs] rc       B8:   211.7 ms/micro =   19,351 tok/s | peak reserved 25.2 GB | setup 1s
+[nt 10-03 01:28:55] proto 1B rcgraph exit=0 [graphs] rcgraph  B8:   203.1 ms/micro =   20,168 tok/s | peak reserved 23.8 GB | setup 71s
+[nt 10-03 01:28:55] timing DONE
+[nt 10-03 01:28:55] 5080 scheduler launched
+[nt 10-03 04:19:50] NIGHT2 DONE
+[nt 10-03 04:32] night3 wrapper stopped (5090_seq.lock was inherited by the 5080 scheduler); running its queue directly
+[sp 10-03 13:49:21] r19speed: gpu0 lock held
+[sp 10-03 13:55:13] rcfix_c0s1: exit=0 [prof rcfix_c0s1] median step 3313 ms = 9,890 tok/s (B8xGA8, 14 steps) | vram 13.6/29.7 GB | recompiles 22
+[sp 10-03 13:59:11] wc_r19d: exit=0 [prof wc_r19d] median step 2889 ms = 11,342 tok/s (B8xGA8, 14 steps) | vram 13.6/29.4 GB | recompiles 5
+[sp 10-03 14:03:19] rcfix_r19d: exit=0 [prof rcfix_r19d] median step 3102 ms = 10,563 tok/s (B8xGA8, 14 steps) | vram 13.6/28.9 GB | recompiles 13
+[sp 10-03 14:03:20] r19speed DONE
+[mp 10-03 15:56:27] wc_r19d_nomqar: exit=0 [prof wc_r19d_nomqar] median step 1966 ms = 16,671 tok/s (B8xGA8, 14 steps) | vram 13.5/25.9 GB
+[mp 10-03 16:00:31] wc_r19d_b16ga4: exit=1  | 
+[mp 10-03 16:00:31] mqarprof DONE
+[mo 10-03 16:02:50] wc_r19d_mqonce: exit=1  | 
+[mo 10-03 22:05:46] mqonce DONE
+[mt 10-03 22:11:46] wc_r19d_base2: exit=0 [prof wc_r19d_base2] median step 2940 ms = 11,147 tok/s (B8xGA8, 14 steps) | vram 13.6/29.4 GB
+[mt 10-03 22:13:17] wc_r19d_mqonce2: exit=1  | 
+[mt 10-03 22:13:17] mqonce timing DONE
+[dbg 22:14:15] dbg_eager exit=0  RuntimeError: CUDA driver error: device not ready
+[dbg 22:15:10] dbg_clb exit=0  RuntimeError: CUDA driver error: device not ready
+[dbg 22:15:10] debug DONE

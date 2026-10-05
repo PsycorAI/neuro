@@ -35,6 +35,14 @@ Public API:
 import math
 import torch
 
+# Set by train_gpu from config gdn2_cumsum_eager_max_b (2026-10-04); 0 = off. See _gdn2_dense_chunk.
+CUMSUM_EAGER_MAX_B = 0
+
+
+@torch.compiler.disable
+def _cumsum_eager(x):
+    return torch.cumsum(x, dim=1)
+
 
 def unit_lower_inv(A_strict):
     """Inverse of (I + A_strict) for a strictly-lower-triangular A_strict (B,C,C),
@@ -378,7 +386,13 @@ def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16):
         return S, r[:, :C]
     work = kn.dtype
     dev = kn.device
-    cs = torch.cumsum(LogA, dim=1)                                 # (B,C,K), <= 0
+    # CUMSUM_EAGER_MAX_B (2026-10-04, default 0 = byte-identical): Inductor's SplitScan codegen crashes on this cumsum
+    # when the outer size is small (B<=4 main batches; B=8 x 512-token gap-MQAR batches in r21c). For B <= the limit
+    # the cumsum runs outside the compiled graph (exact same math); larger batches stay fully compiled.
+    if CUMSUM_EAGER_MAX_B and B <= CUMSUM_EAGER_MAX_B:
+        cs = _cumsum_eager(LogA)
+    else:
+        cs = torch.cumsum(LogA, dim=1)                             # (B,C,K), <= 0
     Gt = torch.exp(cs)                                             # Gamma_t <= 1
     bk = b * kn
 

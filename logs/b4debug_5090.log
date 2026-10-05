@@ -1,0 +1,10 @@
+[b4 10-02 19:26:43] b4_base (B4 ): exit=1 2 crash-lines
+[b4 10-02 19:27:45] b4_b2 (B2 ): exit=1 2 crash-lines
+[b4 10-02 19:33:18] b4_b6 (B6 ): exit=0 0 crash-lines
+[b4 10-02 19:34:30] b4_engK8k (B4 engram_v2_K=8192): exit=1 2 crash-lines
+[b4 10-02 19:35:23] b4_vocab16k (B4 vocab=16384): exit=1 2 crash-lines
+[b4 10-02 19:36:16] b4_n2048 (B4 n_neurons=2048): exit=1 2 crash-lines
+[b4 10-02 19:37:05] b4_ffn2752 (B4 attn_ffn_hidden=2752 attn_ffn_spikeglu_k=256): exit=1 2 crash-lines
+[b4 10-02 19:37:51] b4_L4 (B4 n_layers=4 attention_layer_positions=[1,2,3]): exit=1 2 crash-lines
+[b4 10-02 19:38:44] b4_verbose (B4 ): exit=1 2 crash-lines
+[b4 10-02 19:38:44] B4 DEBUG DONE

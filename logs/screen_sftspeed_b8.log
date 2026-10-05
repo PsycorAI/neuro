@@ -1,0 +1,33 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m/step_0271268.pt (10.00B tok)
+optimizer: NorMuon (69 matrices, lr=0.001) + AdamW (125 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 21546 tool pairs {'answer': 5382, 'tool': 12911, 'tool_absent': 3253} -> encoded 21546 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 63423
+arch=spiking params=426.47M device=cuda | per_step_tok=16384 | total_steps≈100 | warmup=5
+

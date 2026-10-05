@@ -10,8 +10,12 @@ import torch
 
 class StreamText:
     def __init__(self, bin_path, vocab=16384, sample=50_000_000,
-                 map_path=None, orig_vocab=128256, independent_windows=False, val_tokens=None):
-        self.data = np.memmap(bin_path, dtype=np.uint32, mode="r")
+                 map_path=None, orig_vocab=128256, independent_windows=False, val_tokens=None, prelut=False):
+        # prelut (2026-10-03, default off = byte-identical): bin_path is a uint16 copy with the vocab LUT already
+        # applied (temp/mk_u16_corpus.py, for the cloud upload: half the size). The LUT becomes the identity.
+        # Raw Llama-3 ids are gone, so return_raw (KD) is not available on such a file.
+        self.prelut = prelut
+        self.data = np.memmap(bin_path, dtype=np.uint16 if prelut else np.uint32, mode="r")
         self.vocab = vocab
         # independent_windows (2026-09-25, default off = byte-identical): the
         # default sampler draws all B windows from ONE ~4*B*(T+1)-token region,
@@ -26,12 +30,14 @@ class StreamText:
         self._rand_data = self.data
         if independent_windows:
             import mmap
-            self._rand_data = np.memmap(bin_path, dtype=np.uint32, mode="r")
+            self._rand_data = np.memmap(bin_path, dtype=self.data.dtype, mode="r")
             if getattr(self._rand_data, "_mmap", None) is not None and hasattr(mmap, "MADV_RANDOM"):
                 self._rand_data._mmap.madvise(mmap.MADV_RANDOM)
         if map_path is None:
             map_path = f"/home/glenn/projects/neuro/data/vocab_map_{vocab}.npy"
-        if os.path.exists(map_path):
+        if prelut:
+            self.lut = np.arange(vocab, dtype=np.int64)
+        elif os.path.exists(map_path):
             self.lut = np.load(map_path)
         else:
             s = np.asarray(self.data[:sample], dtype=np.int64)
@@ -50,6 +56,7 @@ class StreamText:
             self.split = len(self.data) - int(val_tokens)
 
     def batch(self, B, T, split="train", device="cpu", return_raw=False):
+        assert not (return_raw and self.prelut), "prelut corpus has no raw Llama-3 ids (KD needs the uint32 file)"
         lo, hi = (0, self.split) if split == "train" else (self.split, len(self.data) - T - 1)
         if self.independent_windows and split == "train":
             starts = np.random.randint(lo, hi - T - 1, size=B)

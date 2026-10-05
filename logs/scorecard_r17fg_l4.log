@@ -1,0 +1,34 @@
+== r17f (90.11M, 32.5s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.1509 p90 0.3107 | ent med 0.3344 | firing 0.1035
+  L1 dsn units  2752 dead 0.000 | top1 med 0.1595 p90 0.4038 | ent med 0.2534 | firing 0.25
+  L2 dsn units  2752 dead 0.000 | top1 med 0.1576 p90 0.3623 | ent med 0.2265 | firing 0.25
+  L3 dsn units  2752 dead 0.000 | top1 med 0.1795 p90 0.3082 | ent med 0.2245 | firing 0.25
+  L1 attn breadth90 11.86 sink 0.0023 (topk 16)
+  L2 attn breadth90 9.24 sink 0.0017 (topk 16)
+  L3 attn breadth90 8.9 sink 0.002 (topk 16)
+  circuit mqar {'entries90_med': 6236, 'active_entries_med': 29344, 'frac_of_active': 0.2133} | lm {'entries90_med': 67684, 'active_entries_med': 335081, 'frac_of_active': 0.2101}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.4361, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.8667, 'top1_share': 0.1459, 'recall_acc': 0.4688}}
+  events {512: {'event_share': 0.0954, 'ac_share': 0.0164, 'mops': 53.5}, 4096: {'event_share': 0.0791, 'ac_share': 0.0136, 'mops': 64.51}}
+== r17g (90.11M, 32.0s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.1515 p90 0.3113 | ent med 0.3307 | firing 0.1049
+  L1 dsn units  2752 dead 0.000 | top1 med 0.2143 p90 0.4637 | ent med 0.4145 | firing 0.093
+  L2 dsn units  2752 dead 0.000 | top1 med 0.1905 p90 0.4348 | ent med 0.3807 | firing 0.093
+  L3 dsn units  2752 dead 0.016 | top1 med 0.1957 p90 0.3862 | ent med 0.3685 | firing 0.093
+  L1 attn breadth90 11.81 sink 0.002 (topk 16)
+  L2 attn breadth90 9.18 sink 0.0017 (topk 16)
+  L3 attn breadth90 8.84 sink 0.0024 (topk 16)
+  circuit mqar {'entries90_med': 4244, 'active_entries_med': 14259, 'frac_of_active': 0.2978} | lm {'entries90_med': 42497, 'active_entries_med': 152520, 'frac_of_active': 0.2916}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.4361, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.8889, 'top1_share': 0.146, 'recall_acc': 0.4219}}
+  events {512: {'event_share': 0.0484, 'ac_share': 0.0175, 'mops': 50.86}, 4096: {'event_share': 0.0398, 'ac_share': 0.0144, 'mops': 61.87}}
+== l4 (90.11M, 30.9s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.1364 p90 0.2857 | ent med 0.2971 | firing 0.1021
+  L1 dsn units  2752 dead 0.000 | top1 med 0.2133 p90 0.472 | ent med 0.4184 | firing 0.093
+  L2 dsn units  2752 dead 0.000 | top1 med 0.1915 p90 0.4454 | ent med 0.3857 | firing 0.093
+  L3 dsn units  2752 dead 0.013 | top1 med 0.1973 p90 0.3871 | ent med 0.3651 | firing 0.093
+  L1 attn breadth90 11.57 sink 0.002 (topk 16)
+  L2 attn breadth90 9.28 sink 0.0017 (topk 16)
+  L3 attn breadth90 9.11 sink 0.004 (topk 16)
+  circuit mqar {'entries90_med': 6888, 'active_entries_med': 18506, 'frac_of_active': 0.3694} | lm {'entries90_med': 44549, 'active_entries_med': 158171, 'frac_of_active': 0.2893}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.491, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.9375, 'top1_share': 0.1317, 'recall_acc': 0.5}}
+  events {512: {'event_share': 0.048, 'ac_share': 0.017, 'mops': 50.84}, 4096: {'event_share': 0.0394, 'ac_share': 0.014, 'mops': 61.85}}
+SCORE_DONE

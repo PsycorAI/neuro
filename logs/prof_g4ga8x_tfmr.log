@@ -1,0 +1,21 @@
+optimizer: AdamW (fused) (lr=0.001)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1096.01M device=cuda target=0.001B tok | 32768 tok/step | total_steps≈21 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.2M tok | loss 14.409 | 2,428 tok/s | vram 16.7/29.7 GB
+step 10 | 0.3M tok | loss 14.428 | 16,687 tok/s | vram 16.7/29.7 GB
+step 15 | 0.5M tok | loss 13.810 | 16,326 tok/s | vram 16.7/29.7 GB
+step 20 | 0.7M tok | loss 13.524 | 17,009 tok/s | vram 16.7/29.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_g4ga8x_tfmr/step_0000021.pt
+done: 0.7M tok in 0.05h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3443943014.4 |    3443943014.4 |         1.00x
+    4096 |    4321810841.6 |    4321810841.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 939,524,096 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof g4ga8x_tfmr] median step 1957 ms = 16,746 tok/s (B8xGA8, 14 steps)
+[prof g4ga8x_tfmr] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

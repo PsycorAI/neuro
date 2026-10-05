@@ -1,0 +1,31 @@
+optimizer: NorMuon (93 matrices, lr=0.005) + AdamW (125 other params, lr=0.0005)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=310.47M device=cuda target=0.000B tok | 4096 tok/step | total_steps≈65 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.0M tok | loss 18.320 | 256 tok/s | vram 4.5/11.1 GB
+step 10 | 0.0M tok | loss 16.554 | 1,311 tok/s | vram 4.5/11.1 GB
+step 15 | 0.1M tok | loss 16.824 | 1,318 tok/s | vram 4.4/11.1 GB
+step 20 | 0.1M tok | loss 16.423 | 1,895 tok/s | vram 4.5/11.1 GB
+step 25 | 0.1M tok | loss 16.830 | 1,140 tok/s | vram 4.4/11.1 GB
+step 30 | 0.1M tok | loss 16.530 | 1,902 tok/s | vram 4.5/11.1 GB
+step 35 | 0.1M tok | loss 15.768 | 2,201 tok/s | vram 4.5/11.1 GB
+step 40 | 0.2M tok | loss 16.044 | 1,506 tok/s | vram 4.5/11.6 GB
+step 45 | 0.2M tok | loss 15.392 | 3,558 tok/s | vram 4.5/11.6 GB
+step 50 | 0.2M tok | loss 15.933 | 2,615 tok/s | vram 4.5/11.6 GB
+step 55 | 0.2M tok | loss 16.274 | 3,484 tok/s | vram 4.4/11.6 GB
+step 60 | 0.2M tok | loss 16.428 | 3,607 tok/s | vram 4.4/11.6 GB
+step 65 | 0.3M tok | loss 15.628 | 2,971 tok/s | vram 4.5/11.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_v4d_b8_nosync/step_0000065.pt
+done: 0.3M tok in 0.06h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     745991554.0 |    1061158912.0 |         1.42x
+    4096 |     788196738.0 |    1441005568.0 |         1.83x
+
+block mix: 8 spiking + 1 attention | spike_rate 0.340 reported -> 0.383 spiking-only
+spiking op mix/token @ seq 4096: 150,732,800 MAC + 105,362,064 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof v4d_b8_nosync] median step 1238 ms = 3,310 tok/s (B8xGA1, 24 steps)
+[prof v4d_b8_nosync] lif_calls=2648 scans=29128 -> mean fixed-point iters/call = 10.00

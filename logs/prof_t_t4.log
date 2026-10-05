@@ -1,0 +1,25 @@
+optimizer: AdamW (fused) (lr=0.001)
+arch=spiking params=92.85M device=cuda target=0.001B tok | 16384 tok/step | total_steps≈50 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.1M tok | loss 12.938 | 18,417 tok/s | vram 2.0/7.2 GB
+step 10 | 0.2M tok | loss 12.052 | 109,906 tok/s | vram 2.0/7.7 GB
+step 15 | 0.2M tok | loss 12.174 | 113,121 tok/s | vram 2.0/7.7 GB
+step 20 | 0.3M tok | loss 11.994 | 106,291 tok/s | vram 1.9/7.7 GB
+step 25 | 0.4M tok | loss 11.642 | 107,196 tok/s | vram 2.0/7.7 GB
+step 30 | 0.5M tok | loss 11.732 | 109,355 tok/s | vram 1.9/7.7 GB
+step 35 | 0.6M tok | loss 11.525 | 109,648 tok/s | vram 2.0/7.7 GB
+step 40 | 0.7M tok | loss 11.646 | 112,159 tok/s | vram 2.0/7.7 GB
+step 45 | 0.7M tok | loss 11.355 | 109,961 tok/s | vram 1.9/7.7 GB
+step 50 | 0.8M tok | loss 11.450 | 111,675 tok/s | vram 2.0/7.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_t_t4/step_0000050.pt
+done: 0.8M tok in 0.00h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     327994572.8 |     327994572.8 |         1.00x
+    4096 |     463051161.6 |     463051161.6 |         1.00x
+
+block mix: 0 spiking + 4 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 100,663,296 MAC + 0 AC
+note: 4 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof t_t4] median step 145 ms = 113,251 tok/s (B32xGA1, 34 steps)
+[prof t_t4] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

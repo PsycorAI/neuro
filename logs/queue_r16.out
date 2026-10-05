@@ -1,0 +1,22 @@
+[s1 10-02 01:12:32] scheduler waiting for GPU 1 lock
+[s1 10-02 04:20:12] [screen_r16_c0_s0_30m] START
+[s1 10-02 05:44:53] [screen_r16_c0_s0_30m] exit=0 :: 120.64 73.76 54.82 46.88 44.74 43.75 
+[s1 10-02 05:53:21] [screen_r16_l3_gelu_s0_30m] START
+[s1 10-02 07:17:35] [screen_r16_l3_gelu_s0_30m] exit=0 :: 129.95 72.87 54.72 47.05 42.35 40.13 
+[s1 10-02 07:25:58] [screen_r16_x2_dsnlif_s0_30m] START
+[s1 10-02 08:32:59] [screen_r16_x2_dsnlif_s0_30m] exit=0 :: 130.12 78.35 60.69 52.01 46.88 44.36 
+[s1 10-02 08:41:22] [screen_r16_c0_s1_30m] START
+[s1 10-02 09:48:43] [screen_r16_c0_s1_30m] exit=0 :: 121.79 70.84 53.95 46.42 44.54 43.47 
+[s1 10-02 09:57:07] [screen_r16_t4_tfmr4_fair_s0_30m] START
+[s1 10-02 10:23:27] [screen_r16_t4_tfmr4_fair_s0_30m] exit=0 :: 129.18 74.32 71.68 57.75 50.96 48.05 
+[s1 10-02 10:31:42] [screen_r16_l1_oldhash_s0_30m] START
+[s1 10-02 11:38:43] [screen_r16_l1_oldhash_s0_30m] exit=0 :: 120.94 73.56 54.51 46.83 44.71 43.71 
+[s1 10-02 11:47:11] [screen_r16_l2_nogate_s0_30m] START
+[s1 10-02 12:52:32] [screen_r16_l2_nogate_s0_30m] exit=0 :: 124.26 74.57 55.21 47.37 45.55 44.58 
+[s1 10-02 13:01:01] [screen_r16_l4_lev4_s0_30m] START
+[s1 10-02 14:08:02] [screen_r16_l4_lev4_s0_30m] exit=0 :: 119.47 74.19 55.39 47.27 45.05 43.98 
+[s1 10-02 14:16:25] [screen_r16_l5_outnorm_s0_30m] START
+[s1 10-02 15:21:46] [screen_r16_l5_outnorm_s0_30m] exit=0 :: 134.38 88.03 62.66 51.27 47.94 46.54 
+[s1 10-02 15:30:24] [screen_r16_x1_lategap_s0_30m] START
+[s1 10-02 16:52:26] [screen_r16_x1_lategap_s0_30m] exit=0 :: 120.64 73.76 54.82 46.88 45.90 44.66 
+[s1 10-02 16:56:55] scheduler DONE

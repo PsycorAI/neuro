@@ -1,0 +1,46 @@
+lif_exact    zero  112.0 | carry  104.1 ( -7.1%) | by pos bucket zero->carry: 0-16: 208->111  16-64: 135->106  64-256: 111->104  256-512: 105->103 | carry win0 114 vs win>=1 104
+lev4         zero   93.6 | carry   87.0 ( -7.0%) | by pos bucket zero->carry: 0-16: 172->95  16-64: 112->89  64-256: 93->88  256-512: 87->86 | carry win0 99 vs win>=1 87
+hybrid       zero   93.4 | carry   90.3 ( -3.3%) | by pos bucket zero->carry: 0-16: 158->111  16-64: 104->93  64-256: 93->91  256-512: 89->88 | carry win0 99 vs win>=1 90
+full_stack   zero   83.5 | carry   80.2 ( -4.0%) | by pos bucket zero->carry: 0-16: 144->101  16-64: 95->83  64-256: 83->80  256-512: 79->78 | carry win0 90 vs win>=1 80
+full+gap440  zero  103.9 | carry  128.7 (+23.9%) | by pos bucket zero->carry: 0-16: 168->155  16-64: 118->129  64-256: 103->128  256-512: 99->128 | carry win0 110 vs win>=1 129
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/stream_eval.py", line 41, in <module>
+    s = torch.load(path, map_location="cpu", weights_only=False); c = dict(s["cfg"])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 1530, in load
+    with _open_file_like(f, "rb") as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 795, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 776, in __init__
+    super().__init__(open(name, mode))  # noqa: SIM115
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/step_0006104.pt'
+signed       zero   69.4 | carry   64.6 ( -6.9%) | by pos bucket zero->carry: 0-16: 139->83  16-64: 84->67  64-256: 69->64  256-512: 65->63 | carry win0 73 vs win>=1 64
+signed_s1    zero   68.9 | carry   64.0 ( -7.1%) | by pos bucket zero->carry: 0-16: 139->82  16-64: 84->66  64-256: 68->64  256-512: 64->63 | carry win0 73 vs win>=1 64
+screen_r9a_stateful_s0_30m zero   79.7 | carry   65.3 (-18.0%) | by pos bucket zero->carry: 0-16: 866->81  16-64: 124->68  64-256: 75->65  256-512: 66->64 | carry win0 84 vs win>=1 65
+screen_r9b_swastoch_s0_30m zero   69.2 | carry   64.3 ( -7.1%) | by pos bucket zero->carry: 0-16: 137->81  16-64: 84->66  64-256: 68->64  256-512: 64->63 | carry win0 73 vs win>=1 64
+screen_r9c_stateful_swa_s0_30m zero   79.6 | carry   65.2 (-18.0%) | by pos bucket zero->carry: 0-16: 853->81  16-64: 123->68  64-256: 75->65  256-512: 66->64 | carry win0 84 vs win>=1 65
+screen_r8_signed_3L_s0_30m zero   72.6 | carry   67.6 ( -6.9%) | by pos bucket zero->carry: 0-16: 149->78  16-64: 88->70  64-256: 72->68  256-512: 67->66 | carry win0 75 vs win>=1 67
+screen_r8_signed_canon_s0_30m zero   67.6 | carry   62.8 ( -7.0%) | by pos bucket zero->carry: 0-16: 136->81  16-64: 82->65  64-256: 67->63  256-512: 63->62 | carry win0 73 vs win>=1 63
+screen_r7_gapw015_s0_30m zero   80.0 | carry   80.4 ( +0.4%) | by pos bucket zero->carry: 0-16: 144->103  16-64: 95->84  64-256: 79->80  256-512: 75->79 | carry win0 86 vs win>=1 80
+screen_r7_gapw015_s0_30m zero   80.0 | carry   80.4 ( +0.4%) | by pos bucket zero->carry: 0-16: 144->103  16-64: 95->84  64-256: 79->80  256-512: 75->79 | carry win0 86 vs win>=1 80
+screen_r10_signed_3L_s1_30m zero   71.2 | carry   67.0 ( -6.0%) | by pos bucket zero->carry: 0-16: 146->79  16-64: 86->69  64-256: 71->67  256-512: 66->66 | carry win0 75 vs win>=1 67
+screen_r10_signed_lam1_s0_30m zero   70.9 | carry   66.1 ( -6.7%) | by pos bucket zero->carry: 0-16: 142->86  16-64: 86->69  64-256: 70->66  256-512: 66->65 | carry win0 75 vs win>=1 66
+screen_r10_signed_lam4_s0_30m zero   76.4 | carry   71.4 ( -6.4%) | by pos bucket zero->carry: 0-16: 154->92  16-64: 92->74  64-256: 76->71  256-512: 71->70 | carry win0 80 vs win>=1 71
+screen_r10_signed_canon_s1_30m zero   67.0 | carry   62.2 ( -7.2%) | by pos bucket zero->carry: 0-16: 134->78  16-64: 82->64  64-256: 66->62  256-512: 62->61 | carry win0 72 vs win>=1 62
+screen_r11a_hinge10_s0_30m zero   68.5 | carry   63.7 ( -6.9%) | by pos bucket zero->carry: 0-16: 136->82  16-64: 83->66  64-256: 68->64  256-512: 64->62 | carry win0 73 vs win>=1 64
+screen_r11b_ramp05_s0_30m zero   68.9 | carry   64.0 ( -7.0%) | by pos bucket zero->carry: 0-16: 142->83  16-64: 84->66  64-256: 68->64  256-512: 64->63 | carry win0 73 vs win>=1 64
+screen_r11c_ramp10_s0_30m zero   68.0 | carry   63.3 ( -6.9%) | by pos bucket zero->carry: 0-16: 138->83  16-64: 83->66  64-256: 67->63  256-512: 63->62 | carry win0 72 vs win>=1 63
+screen_r13a_signed_3L_attn2_s0_30m zero   57.9 | carry   55.6 ( -4.0%) | by pos bucket zero->carry: 0-16: 121->95  16-64: 70->61  64-256: 57->55  256-512: 54->53 | carry win0 62 vs win>=1 55
+screen_r13b_signed_3L_dsinit_s0_30m zero   71.0 | carry   66.6 ( -6.2%) | by pos bucket zero->carry: 0-16: 145->78  16-64: 86->69  64-256: 70->67  256-512: 66->65 | carry win0 74 vs win>=1 66
+screen_r13d_signed_n4096_s0_30m zero   67.5 | carry   62.7 ( -7.1%) | by pos bucket zero->carry: 0-16: 137->79  16-64: 82->65  64-256: 67->63  256-512: 63->62 | carry win0 72 vs win>=1 62
+screen_r14a_3Lattn2_s1_30m zero   58.1 | carry   55.5 ( -4.4%) | by pos bucket zero->carry: 0-16: 121->89  16-64: 70->60  64-256: 58->55  256-512: 54->54 | carry win0 62 vs win>=1 55
+screen_r14b_3Lattn2_canon_ramp10_s0_30m zero   56.6 | carry   54.1 ( -4.3%) | by pos bucket zero->carry: 0-16: 119->90  16-64: 68->59  64-256: 56->54  256-512: 52->52 | carry win0 61 vs win>=1 54
+screen_r14c_3Lattn2_canon_ramp10_gapw015_s0_30m zero   64.7 | carry   66.9 ( +3.4%) | by pos bucket zero->carry: 0-16: 130->121  16-64: 76->74  64-256: 64->66  256-512: 61->64 | carry win0 68 vs win>=1 67
+screen_r14d_4L_attn3_s0_30m zero   51.4 | carry   51.1 ( -0.5%) | by pos bucket zero->carry: 0-16: 115->119  16-64: 64->62  64-256: 51->51  256-512: 47->47 | carry win0 55 vs win>=1 51
+screen_r15d_signed3L_lscale_s0_30m zero   72.3 | carry   67.9 ( -6.1%) | by pos bucket zero->carry: 0-16: 141->81  16-64: 87->71  64-256: 72->68  256-512: 67->67 | carry win0 75 vs win>=1 68
+screen_r15a_attn_noffn_s0_30m zero   71.6 | carry   66.7 ( -6.8%) | by pos bucket zero->carry: 0-16: 153->98  16-64: 89->71  64-256: 71->66  256-512: 66->65 | carry win0 77 vs win>=1 66
+screen_r15c_topk16_s0_30m zero   57.2 | carry   54.2 ( -5.4%) | by pos bucket zero->carry: 0-16: 119->82  16-64: 69->58  64-256: 57->54  256-512: 53->53 | carry win0 61 vs win>=1 54
+screen_r15b_spikeglu_s0_30m zero   61.1 | carry   57.6 ( -5.6%) | by pos bucket zero->carry: 0-16: 127->84  16-64: 74->61  64-256: 61->57  256-512: 57->56 | carry win0 65 vs win>=1 57

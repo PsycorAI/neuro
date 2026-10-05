@@ -1,0 +1,165 @@
+optimizer: NorMuon (27 matrices, lr=0.005) + AdamW (43 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+SpikeGLU k-ramp: dense (2752) until 60%, then geometric to k=256 by 90% (3 blocks)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=90.11M device=cuda target=0.001B tok | 16384 tok/step | total_steps≈60 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] Graph break in user code at /home/glenn/projects/neuro/src/model.py:763
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] Graph Break Reason: Failed to handle graph break gracefully. Skipping the function and falling back to eager. Graph break encountered:
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] Skip calling `torch.compiler.disable()`d function
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Explanation: Skip calling function `<function lif_exact_ml at 0x7233b6c8c7c0>` since it was wrapped with `torch.compiler.disable` (reason: None)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Hint: Remove the `torch.compiler.disable` call
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Developer debug context: <function lif_exact_ml at 0x7233b6c8c7c0>
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] *** While handling this graph break, another graph break occurred: ***
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] graph break in loop
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Explanation: torch.compile detected a graph break in a for/while loop. Skipping the frame and falling back to eager, as graph breaks in loops are not supported.
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Hint: This graph break may have been caused by an earlier graph break. Resolving the earlier graph break may resolve this one.
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   Developer debug context: frame skipped: forward (/home/glenn/projects/neuro/src/model.py line 1428)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb7000.html
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] User code traceback:
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/neuro/temp/profile_train.py", line 92, in <module>
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     train_gpu.main()
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/train_gpu.py", line 762, in main
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     out, sr = model(x, return_stats=True)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/model.py", line 1603, in forward
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/model.py", line 763, in forward_sequence
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks]     spk_seq, mem_final = lif_parallel(cur_seq, beta_arg, vth=1.0,
+V1002 17:08:10.012000 289363 torch/_dynamo/symbolic_convert.py:5127] [0/0] [__graph_breaks] 
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] Graph break in user code at /home/glenn/projects/neuro/src/model.py:763
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] Graph Break Reason: Encountered graph break when attempting to trace CALL: a function call, e.g. f(x, y):
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] 
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] Skip calling `torch.compiler.disable()`d function
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   Explanation: Skip calling function `<function lif_exact_ml at 0x7233b6c8c7c0>` since it was wrapped with `torch.compiler.disable` (reason: None)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   Hint: Remove the `torch.compiler.disable` call
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] 
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   Developer debug context: <function lif_exact_ml at 0x7233b6c8c7c0>
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] 
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] 
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] User code traceback:
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/neuro/temp/profile_train.py", line 92, in <module>
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     train_gpu.main()
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/train_gpu.py", line 762, in main
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     out, sr = model(x, return_stats=True)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/model.py", line 1603, in forward
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/model.py", line 763, in forward_sequence
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks]     spk_seq, mem_final = lif_parallel(cur_seq, beta_arg, vth=1.0,
+V1002 17:08:18.684000 289363 torch/_dynamo/symbolic_convert.py:5127] [2/0] [__graph_breaks] 
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] Graph break in user code at /home/glenn/projects/neuro/src/hybrid_attn.py:110
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] Graph Break Reason: Encountered graph break when attempting to trace CALL: a function call, e.g. f(x, y):
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] 
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] Skip calling `torch.compiler.disable()`d function
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   Explanation: Skip calling function `<function _kwta at 0x7250d1552ac0>` since it was wrapped with `torch.compiler.disable` (reason: None)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   Hint: Remove the `torch.compiler.disable` call
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] 
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   Developer debug context: <function _kwta at 0x7250d1552ac0>
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] 
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] 
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] User code traceback:
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/neuro/temp/profile_train.py", line 92, in <module>
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     train_gpu.main()
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/train_gpu.py", line 762, in main
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     out, sr = model(x, return_stats=True)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     return self._call_impl(*args, **kwargs)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     return forward_call(*args, **kwargs)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/model.py", line 1603, in forward
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 314, in forward_sequence
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]   File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 110, in forward
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks]     a = _kwta(self, a)
+V1002 17:12:18.635000 289363 torch/_dynamo/symbolic_convert.py:5127] [5/0] [__graph_breaks] 
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/lowering.py:7836: UserWarning: 
+Online softmax is disabled on the fly since Inductor decides to
+split the reduction. Cut an issue to PyTorch if this is an
+important use case and you want to speed it up with online
+softmax.
+
+  warnings.warn(
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] Graph break (user stack suppressed due to duplicate graph break) in user code at /home/glenn/projects/neuro/src/hybrid_attn.py:110
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] Graph Break Reason: Encountered graph break when attempting to trace CALL: a function call, e.g. f(x, y):
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] 
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] Skip calling `torch.compiler.disable()`d function
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks]   Explanation: Skip calling function `<function _kwta at 0x7250d1552ac0>` since it was wrapped with `torch.compiler.disable` (reason: None)
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks]   Hint: Remove the `torch.compiler.disable` call
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] 
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks]   Developer debug context: <function _kwta at 0x7250d1552ac0>
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks] 
+V1002 17:12:40.452000 289363 torch/_dynamo/symbolic_convert.py:5134] [6/0] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html
+V1002 17:12:46.433000 289363 torch/_dynamo/guards.py:4760] [3/1] [__recompiles] Recompiling function torch_dynamo_resume_in_forward_sequence_at_763 in /home/glenn/projects/neuro/src/model.py:763
+V1002 17:12:46.433000 289363 torch/_dynamo/guards.py:4760] [3/1] [__recompiles]     triggered by the following guard failure(s):
+V1002 17:12:46.433000 289363 torch/_dynamo/guards.py:4760] [3/1] [__recompiles]     - 3/0: tensor '___stack0[0]' size mismatch at index 1. expected 512, actual 65
+V1002 17:13:43.374000 289363 torch/_dynamo/guards.py:4760] [5/1] [__recompiles] Recompiling function forward_sequence in /home/glenn/projects/neuro/src/hybrid_attn.py:300
+V1002 17:13:43.374000 289363 torch/_dynamo/guards.py:4760] [5/1] [__recompiles]     triggered by the following guard failure(s):
+V1002 17:13:43.374000 289363 torch/_dynamo/guards.py:4760] [5/1] [__recompiles]     - 5/0: 1024*x_seq.size()[1]*x_seq.size()[0] >= 5242880  # (_inductor/scheduler.py:326 in can_fuse)
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] Graph break (user stack suppressed due to duplicate graph break) in user code at /home/glenn/projects/neuro/src/hybrid_attn.py:110
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] Graph Break Reason: Encountered graph break when attempting to trace CALL: a function call, e.g. f(x, y):
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] 
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] Skip calling `torch.compiler.disable()`d function
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks]   Explanation: Skip calling function `<function _kwta at 0x7250d1552ac0>` since it was wrapped with `torch.compiler.disable` (reason: None)
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks]   Hint: Remove the `torch.compiler.disable` call
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] 
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks]   Developer debug context: <function _kwta at 0x7250d1552ac0>
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks] 
+V1002 17:13:44.907000 289363 torch/_dynamo/symbolic_convert.py:5134] [5/1] [__graph_breaks]  For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html
+V1002 17:14:05.955000 289363 torch/_dynamo/guards.py:4760] [9/1] [__recompiles] Recompiling function forward in /home/glenn/projects/neuro/src/model.py:94
+V1002 17:14:05.955000 289363 torch/_dynamo/guards.py:4760] [9/1] [__recompiles]     triggered by the following guard failure(s):
+V1002 17:14:05.955000 289363 torch/_dynamo/guards.py:4760] [9/1] [__recompiles]     - 9/0: 1024*x.size()[1]*x.size()[0] >= 5242880  # (_functorch/_aot_autograd/autograd_cache.py:970 in evaluate_guards)
+step 5 | 0.1M tok | loss 14.507 | 217 tok/s | vram 1.8/8.7 GB
+step 10 | 0.2M tok | loss 13.812 | 63,972 tok/s | vram 1.8/8.7 GB
+step 15 | 0.2M tok | loss 13.398 | 60,218 tok/s | vram 1.8/8.7 GB
+step 20 | 0.3M tok | loss 12.972 | 59,637 tok/s | vram 1.8/8.7 GB
+step 25 | 0.4M tok | loss 12.475 | 55,752 tok/s | vram 1.8/8.7 GB
+step 30 | 0.5M tok | loss 12.477 | 60,927 tok/s | vram 1.8/8.7 GB
+step 35 | 0.6M tok | loss 11.889 | 56,581 tok/s | vram 1.8/8.7 GB
+step 40 | 0.7M tok | loss 12.257 | 60,663 tok/s | vram 1.8/9.2 GB
+step 45 | 0.7M tok | loss 12.081 | 63,638 tok/s | vram 1.8/9.2 GB
+step 50 | 0.8M tok | loss 12.325 | 58,777 tok/s | vram 1.8/9.2 GB
+step 55 | 0.9M tok | loss 12.479 | 60,944 tok/s | vram 1.8/9.2 GB
+step 60 | 1.0M tok | loss 12.411 | 56,923 tok/s | vram 1.8/9.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_c2_c0_compile_std/step_0000060.pt
+done: 1.0M tok in 0.11h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     291802171.4 |     327994572.8 |         1.12x
+    4096 |     393094613.0 |     463051161.6 |         1.18x
+
+block mix: 1 spiking + 3 attention | spike_rate 0.181 reported -> 0.181 spiking-only
+spiking op mix/token @ seq 4096: 84,934,656 MAC + 2,661,328 AC
+note: 3 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof c2_c0_compile_std] median step 272 ms = 60,176 tok/s (B32xGA1, 34 steps)
+[prof c2_c0_compile_std] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

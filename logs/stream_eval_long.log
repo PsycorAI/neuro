@@ -1,0 +1,8 @@
+signed_s0    carried ppl by window 1-10:  64.51  10-40:  60.81  40-80:  57.29  80-120:  56.70 | drift last/first-range -12.1% | ||M|| win1 89.0 -> win119 87.8
+signed_s1    carried ppl by window 1-10:  64.55  10-40:  60.58  40-80:  57.02  80-120:  56.13 | drift last/first-range -13.1% | ||M|| win1 88.8 -> win119 90.4
+r9a_state    carried ppl by window 1-10:  65.39  10-40:  61.30  40-80:  57.86  80-120:  56.98 | drift last/first-range -12.8% | ||M|| win1 78.5 -> win119 79.3
+r9c_st_swa   carried ppl by window 1-10:  65.49  10-40:  61.20  40-80:  57.84  80-120:  57.18 | drift last/first-range -12.7% | ||M|| win1 81.3 -> win119 81.1
+full_stack   carried ppl by window 1-10:  79.00  10-40:  75.46  40-80:  70.78  80-120:  70.02 | drift last/first-range -11.4% | ||M|| win1 52.6 -> win119 54.0
+full+gap440  carried ppl by window 1-10: 110.73  10-40: 124.15  40-80: 126.20  80-120: 125.25 | drift last/first-range +13.1% | ||M|| win1 27.7 -> win119 75.5
+note: the 4 ranges cover different text, so compare MODELS within a range; drift = within-model trend
+gapw015      carried ppl by window 1-10:  78.60  10-40:  75.67  40-80:  71.75  80-120:  70.95 | drift last/first-range  -9.7% | ||M|| win1 27.2 -> win119 41.5

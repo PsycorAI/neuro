@@ -1,0 +1,121 @@
+[sftab 00:36:54] START
+[sftab 00:57:38] START (sequential)
+[sftab 00:57:38] arm mix START
+[sftab 01:49:45] arm mix exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+ screen_sftab_mix_363m |  100% |  100% |   97% |   34% |    3%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+ screen_sftab_mix_363m |     1 |     1 |     1 |  2229 |  4227
+[sftab 01:50:18] arm mixmqar START
+[sftab 03:01:18] arm mixmqar exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_mixmqar_363m |  100% |  100% |  100% |   59% |   25%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_mixmqar_363m |     1 |     1 |     1 |   416 |  1807
+[sftab 03:01:58] 1B probe START
+[sftab 05:10:15] 1B probe exit=0
+[sftab 05:10:15] arm alpaca START
+[sftab 06:03:39] arm alpaca exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_alpaca_363m |  100% |  100% |   97% |   34% |    6%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_alpaca_363m |     1 |     1 |     1 |  2212 |  4117
+[sftab 06:04:19] DONE
+[sftab 06:04:39] arm mixmqar02 START
+[sftab 07:15:04] arm mixmqar02 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_mixmqar02_363m |  100% |  100% |  100% |   53% |   28%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_mixmqar02_363m |     1 |     1 |     1 |   684 |  2731
+[sftab 07:15:38] B8 speed check START
+[sftab 07:51:27] B8 speed check exit=143 :: 
+[sftab 09:00:13] sftab2 DONE
+[sftw 09:11:59 gpu0] 5090 START
+[sftw 09:11:59 gpu0] arm w03 START
+[sftw 09:12:00 gpu1] 5080 START
+[sftw 09:12:00 gpu1] tool_eval n200 mix START
+[sftw 09:44:23 gpu1] tool_eval n200 mix exit=0 ::   free         parse=1.000 mode_acc=0.915 halluc=0.015 tool_acc=0.893 args_exact=0.697 refuse_acc=0.923  (1908s)
+[sftw 09:44:23 gpu1] tool_eval n200 mixmqar02 START
+[sftw 10:18:07 gpu1] tool_eval n200 mixmqar02 exit=0 ::   free         parse=0.995 mode_acc=0.860 halluc=0.040 tool_acc=0.844 args_exact=0.631 refuse_acc=0.846  (1997s)
+[sftw 10:18:07 gpu1] tool_eval n200 mixmqar START
+[sftw 10:23:40 gpu0] arm w03 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+ screen_sftab_w03_363m |  100% |  100% |  100% |   56% |   22%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+ screen_sftab_w03_363m |     1 |     1 |     1 |   249 |  1881
+[sftw 10:24:08 gpu0] arm w01 START
+[sftw 10:50:15 gpu1] tool_eval n200 mixmqar exit=0 ::   free         parse=1.000 mode_acc=0.865 halluc=0.020 tool_acc=0.803 args_exact=0.574 refuse_acc=0.910  (1903s)
+[sftw 10:50:15 gpu1] tool_eval n200 w03 START
+[sftw 11:24:11 gpu1] tool_eval n200 w03 exit=0 ::   free         parse=0.995 mode_acc=0.885 halluc=0.025 tool_acc=0.844 args_exact=0.615 refuse_acc=0.885  (2014s)
+[sftw 11:24:11 gpu1] probe_tfmr426_b8 START
+[sftw 11:34:00 gpu0] arm w01 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+ screen_sftab_w01_363m |  100% |  100% |   97% |   62% |   25%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+ screen_sftab_w01_363m |     1 |     1 |     1 |   290 |  2007
+[sftw 11:34:55 gpu0] arm hin02 START
+[sftw 11:36:00 gpu1] 5080 runner v2 START (adds w005)
+[sftw 11:36:00 gpu1] probe_tfmr426_b8 done peak_sys_MiB=15927 :: step 60 | 2.2M tok | loss 14.503 | 7,788 tok/s | vram 6.9/16.3 GB :: 0 OOM lines
+[sftw 11:36:00 gpu1] probe_tfmr426_b4 START
+[sftw 11:44:52 gpu1] probe_tfmr426_b4 exit=0 peak_sys_MiB=14853 :: step 60 | 2.2M tok | loss 14.725 | 11,583 tok/s | vram 6.7/12.9 GB
+[sftw 11:44:52 gpu1] tool_eval n200 w01 START
+[sftw 12:19:45 gpu1] tool_eval n200 w01 exit=0 ::   free         parse=1.000 mode_acc=0.885 halluc=0.020 tool_acc=0.861 args_exact=0.680 refuse_acc=0.897  (2058s)
+[sftw 12:19:45 gpu1] arm w005 START
+[sftw 12:46:26 gpu0] arm hin02 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_hin02_363m |  100% |   97% |  100% |   66% |   28%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_hin02_363m |     1 |     1 |     1 |   334 |  1260
+[sftw 12:47:54 gpu0] arm w02s1 START
+[sftw 12:48:27 gpu1] arm w005 exit=143
+[sftw 12:48:53 gpu1] tool_eval n200 hin02 START
+[sftw 13:23:03 gpu1] tool_eval n200 hin02 exit=0 ::   free         parse=1.000 mode_acc=0.860 halluc=0.030 tool_acc=0.811 args_exact=0.623 refuse_acc=0.885  (2033s)
+[sftw 16:25:08 gpu0] 5090 runner v4 START (w005, w02s1)
+[sftw 16:25:09 gpu0] arm w005 START
+[sftw 16:25:09 gpu1] 5080 runner v4 START (eval w005 only)
+[sftw 16:26:36 gpu1] 5080 DONE
+[sftw 16:27:01 gpu1] 5080 runner v4 START (eval w005 only)
+[sftw 17:27:13 gpu0] arm w005 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_w005_363m |  100% |  100% |   97% |   53% |   19%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_w005_363m |     1 |     1 |   186 |   591 |  2004
+[sftw 17:28:06 gpu0] arm w02s1 START
+[sftw 17:28:53 gpu1] tool_eval n200 w005 START
+[sftw 18:04:48 gpu1] tool_eval n200 w005 exit=0 ::   free         parse=0.995 mode_acc=0.885 halluc=0.025 tool_acc=0.852 args_exact=0.689 refuse_acc=0.897  (2136s)
+[sftw 18:04:48 gpu1] 5080 DONE
+[sftw 18:53:57 gpu0] arm w02s1 exit=0
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |  100% |  100% |  100% |   72% |   38%
+screen_sftab_w02s1_363m |  100% |  100% |   97% |   59% |   34%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+      flagship_v3_363m |     1 |     1 |     1 |    34 |  1194
+screen_sftab_w02s1_363m |     1 |     1 |     1 |   179 |  1737
+[sftw 18:54:56 gpu0] tool_eval n200 w02s1 START
+[sftw 19:24:12 gpu0] tool_eval n200 w02s1 exit=0 ::   free         parse=1.000 mode_acc=0.880 halluc=0.040 tool_acc=0.877 args_exact=0.680 refuse_acc=0.846  (1732s)
+[sftw 19:24:12 gpu0] 5090 DONE

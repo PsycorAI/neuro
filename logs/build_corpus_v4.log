@@ -1,0 +1,30 @@
+[10-02 01:38:49] hashes: 0% (379,833 docs)
+[10-02 01:39:27] hashes: 15% (3,501,930 docs)
+[10-02 01:40:10] hashes: 30% (6,481,955 docs)
+[10-02 01:41:18] hashes: 44% (9,470,753 docs)
+[10-02 01:42:12] hashes: 59% (12,438,210 docs)
+[10-02 01:42:47] hashes: 74% (15,522,516 docs)
+[10-02 01:43:17] hashes: 89% (18,549,954 docs)
+[10-02 01:44:03] hashes: 12,299,091 unique old-document hashes -> /home/glenn/projects/bdh/data/tokenized_v4/old_doc_hashes.npy
+[10-02 01:53:27] hashes: exists (/home/glenn/projects/bdh/data/tokenized_v4/old_doc_hashes.npy)
+[10-02 02:58:15] hashes: exists (/home/glenn/projects/bdh/data/tokenized_v4/old_doc_hashes.npy)
+[10-02 03:04:40] hashes: exists (/home/glenn/projects/bdh/data/tokenized_v4/old_doc_hashes.npy)
+[10-02 03:15:23] fwe sample/100BT/000_00000.parquet: 646M tok, 726,000 docs, 81,844 dups dropped | download 0s tokenize 641s | total 0.65B / 8.0B
+[10-02 03:26:31] fwe sample/100BT/000_00001.parquet: 645M tok, 727,000 docs, 82,012 dups dropped | download 0s tokenize 668s | total 1.29B / 8.0B
+[10-02 03:41:17] fwe sample/100BT/000_00002.parquet: 646M tok, 729,000 docs, 81,679 dups dropped | download 233s tokenize 653s | total 1.94B / 8.0B
+[10-02 03:56:30] fwe sample/100BT/000_00003.parquet: 646M tok, 725,000 docs, 81,589 dups dropped | download 238s tokenize 675s | total 2.58B / 8.0B
+[10-02 04:10:56] fwe sample/100BT/000_00004.parquet: 645M tok, 722,000 docs, 81,693 dups dropped | download 216s tokenize 650s | total 3.23B / 8.0B
+[10-02 04:25:56] fwe sample/100BT/000_00005.parquet: 651M tok, 725,000 docs, 77,283 dups dropped | download 251s tokenize 648s | total 3.88B / 8.0B
+[10-02 04:42:11] fwe sample/100BT/000_00006.parquet: 668M tok, 725,000 docs, 59,683 dups dropped | download 283s tokenize 693s | total 4.55B / 8.0B
+[10-02 04:57:05] fwe sample/100BT/000_00007.parquet: 670M tok, 726,000 docs, 59,246 dups dropped | download 199s tokenize 695s | total 5.22B / 8.0B
+[10-02 05:11:19] fwe sample/100BT/000_00008.parquet: 669M tok, 728,000 docs, 60,071 dups dropped | download 197s tokenize 657s | total 5.89B / 8.0B
+[10-02 05:25:57] fwe sample/100BT/000_00009.parquet: 667M tok, 725,000 docs, 59,969 dups dropped | download 235s tokenize 643s | total 6.55B / 8.0B
+[10-02 05:40:48] fwe sample/100BT/001_00000.parquet: 690M tok, 731,000 docs, 38,325 dups dropped | download 248s tokenize 643s | total 7.24B / 8.0B
+[10-02 05:54:52] fwe sample/100BT/001_00001.parquet: 690M tok, 733,000 docs, 37,927 dups dropped | download 249s tokenize 595s | total 7.93B / 8.0B
+[10-02 06:10:34] fwe sample/100BT/001_00002.parquet: 690M tok, 731,000 docs, 38,058 dups dropped | download 327s tokenize 615s | total 8.62B / 8.0B
+[10-02 06:10:34] fwe: done, 8.624B tokens in 13 shards
+[10-02 06:10:34] assemble: old train 14,512,665,894 + fwe 8,624,395,115 + old val tail 14,527,194 tokens
+[10-02 06:20:13] assemble: old train part copied
+[10-02 06:27:38] assemble: fwe copied
+[10-02 06:28:04] assemble: DONE /home/glenn/projects/bdh/data/tokenized_v4/train.bin = 23.152B tokens; config keys: data_bin: /home/glenn/projects/bdh/data/tokenized_v4/train.bin  data_val_tokens: 14527194
+[10-02 06:28:04] approx mix: {'fineweb_edu': 0.5151, 'dclm': 0.2462, 'fine_pdfs': 0.0777, 'cosmopedia': 0.0583, 'starcoder': 0.0454, 'finewiki': 0.0324, 'open_math': 0.0249}

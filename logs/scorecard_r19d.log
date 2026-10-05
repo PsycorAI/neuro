@@ -1,0 +1,11 @@
+== r19d (89.91M, 36.8s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.084 p90 0.1818 | ent med 0.2772 | firing 0.0894
+  L1 sparse units  4096 dead 0.000 | top1 med 0.0632 p90 0.1301 | ent med 0.2315 | firing 0.0454
+  L2 sparse units  4096 dead 0.000 | top1 med 0.094 p90 0.2265 | ent med 0.2332 | firing 0.0793
+  L3 sparse units  4096 dead 0.001 | top1 med 0.1004 p90 0.2043 | ent med 0.2274 | firing 0.0998
+  L1 attn breadth90 11.34 sink 0.0011 (topk 16)
+  L2 attn breadth90 8.84 sink 0.0005 (topk 16)
+  L3 attn breadth90 9.58 sink 0.0089 (topk 16)
+  circuit mqar {'entries90_med': 6178, 'active_entries_med': 24077, 'frac_of_active': 0.254} | lm {'entries90_med': 41792, 'active_entries_med': 146637, 'frac_of_active': 0.2776}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.4304, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.8966, 'top1_share': 0.1554, 'recall_acc': 0.4531}}
+  events {512: {'event_share': 0.0314, 'ac_share': 0.014, 'mops': 54.23}, 4096: {'event_share': 0.0261, 'ac_share': 0.0116, 'mops': 65.24}}

@@ -1,0 +1,46 @@
+optimizer: NorMuon (19 matrices, lr=0.02) + AdamW (30 other params, lr=0.001)
+arch=spiking params=59.58M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
+step 100 | 1.6M tok | loss 11.119 | 8,492 tok/s | vram 1.3/7.9 GB
+step 200 | 3.3M tok | loss 10.927 | 9,683 tok/s | vram 1.4/7.9 GB
+step 300 | 4.9M tok | loss 10.517 | 12,237 tok/s | vram 1.3/7.9 GB
+step 400 | 6.6M tok | loss 10.838 | 12,266 tok/s | vram 1.4/7.9 GB
+step 500 | 8.2M tok | loss 10.321 | 12,461 tok/s | vram 1.4/7.9 GB
+step 600 | 9.8M tok | loss 10.552 | 13,201 tok/s | vram 1.4/7.9 GB
+step 700 | 11.5M tok | loss 10.450 | 13,806 tok/s | vram 1.4/7.9 GB
+step 800 | 13.1M tok | loss 10.408 | 12,978 tok/s | vram 1.4/7.9 GB
+step 900 | 14.7M tok | loss 10.291 | 13,022 tok/s | vram 1.4/7.9 GB
+step 1000 | 16.4M tok | loss 10.125 | 12,992 tok/s | vram 1.3/7.9 GB
+  [eval] val_ppl 204.84 | ablated_ppl 340.35 (memory Δ=+135.51) | spike 0.059
+  [wnorm] embed=3727.65 | head=135.09
+  [beta] blk0: μ=0.52 dead=0% at_floor=51% | blk1: μ=0.55 dead=0% at_floor=49%
+  [gates sat] (d=neverforget/fastforget) blk0: e=87% w=96% d=16/0% dstd=2.2 | blk1: e=95% w=99% d=0/0% dstd=0.8
+  [alpha] blk0: μ=0.809 hi=1% lo=0% | blk1: μ=0.896 hi=0% lo=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_honest_mu02_s0_30m/step_0001000.pt
+step 1100 | 18.0M tok | loss 9.965 | 10,753 tok/s | vram 1.4/7.5 GB
+step 1200 | 19.7M tok | loss 9.928 | 12,040 tok/s | vram 1.4/7.5 GB
+step 1300 | 21.3M tok | loss 9.944 | 12,047 tok/s | vram 1.4/7.5 GB
+step 1400 | 22.9M tok | loss 10.155 | 12,368 tok/s | vram 1.4/7.5 GB
+step 1500 | 24.6M tok | loss 9.257 | 12,736 tok/s | vram 1.4/8.0 GB
+step 1600 | 26.2M tok | loss 9.672 | 11,949 tok/s | vram 1.4/8.0 GB
+step 1700 | 27.9M tok | loss 8.758 | 12,044 tok/s | vram 1.4/8.0 GB
+step 1800 | 29.5M tok | loss 9.387 | 12,918 tok/s | vram 1.4/8.0 GB
+step 1900 | 31.1M tok | loss 9.064 | 13,067 tok/s | vram 1.4/8.0 GB
+step 2000 | 32.8M tok | loss 8.622 | 13,563 tok/s | vram 1.4/8.0 GB
+  [eval] val_ppl 173.49 | ablated_ppl 313.01 (memory Δ=+139.52) | spike 0.058
+  [wnorm] embed=3410.89 (-8.50%) | head=147.53 (+9.21%)
+  [beta] blk0: μ=0.52 dead=0% at_floor=52% | blk1: μ=0.55 dead=0% at_floor=50%
+  [gates sat] (d=neverforget/fastforget) blk0: e=72% w=98% d=28/0% dstd=2.9 | blk1: e=76% w=99% d=0/0% dstd=0.8
+  [alpha] blk0: μ=0.764 hi=1% lo=0% | blk1: μ=0.868 hi=0% lo=0%
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_honest_mu02_s0_30m/step_0002000.pt
+
+[SIGINT] received — finishing current step, then saving final ckpt + exiting
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_honest_mu02_s0_30m/step_0002013.pt
+done: 33.0M tok in 0.76h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     126938538.9 |     202584883.2 |         1.60x
+    4096 |     126938538.9 |     270113177.6 |         2.13x
+
+block mix: 2 spiking + 0 attention | spike_rate 0.058 reported -> 0.058 spiking-only
+spiking op mix/token @ seq 4096: 27,262,976 MAC + 1,698,722 AC
+note: spiking cost is constant in seq_len; transformer grows with it.

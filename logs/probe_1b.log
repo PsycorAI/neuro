@@ -1,0 +1,21 @@
+[probe1b 03:01:58] START (GPU0 = 5090)
+[probe1b 04:02:58] probe_1b_b12 exit=1 peak_sys_MiB=32134
+step 50 | 1.8M tok | loss 14.839 | 1,754 tok/s | vram 12.7/33.7 GB
+step 60 | 2.2M tok | loss 14.459 | 2,112 tok/s | vram 12.7/33.7 GB
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+[probe1b 04:34:39] probe_1b_b8 exit=0 peak_sys_MiB=29546
+step 30 | 1.1M tok | loss 15.481 | 3,598 tok/s | vram 12.4/28.2 GB
+step 40 | 1.5M tok | loss 14.265 | 3,877 tok/s | vram 12.5/28.2 GB
+step 50 | 1.8M tok | loss 14.783 | 4,203 tok/s | vram 12.4/28.2 GB
+step 60 | 2.2M tok | loss 14.318 | 3,880 tok/s | vram 12.4/28.2 GB
+[probe1b 05:10:15] probe_1b_b4 exit=0 peak_sys_MiB=28214
+step 30 | 1.1M tok | loss 15.329 | 2,112 tok/s | vram 12.2/23.9 GB
+step 40 | 1.5M tok | loss 15.568 | 2,258 tok/s | vram 12.2/23.9 GB
+step 50 | 1.8M tok | loss 14.433 | 2,213 tok/s | vram 12.2/23.9 GB
+step 60 | 2.2M tok | loss 14.585 | 2,100 tok/s | vram 12.2/23.9 GB
+[probe1b 05:10:15] DONE
+[probe1b 09:00:20] probe_1b_b12_expseg START (PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True)
+[probe1b 09:04:36] probe_1b_b12_expseg exit=1 peak_sys_MiB=32162
+arch=spiking params=1000.04M device=cuda target=0.002B tok | 36864 tok/step | total_steps≈60 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+[probe1b 09:04:36] expseg DONE

@@ -1,0 +1,116 @@
+optimizer: NorMuon (16 matrices, lr=0.005) + AdamW (27 other params, lr=0.0006)
+arch=spiking params=61.58M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
+step 100 | 1.6M tok | loss 12.061 | 29,077 tok/s | vram 1.4/6.2 GB
+step 200 | 3.3M tok | loss 10.825 | 38,135 tok/s | vram 1.4/6.7 GB
+step 300 | 4.9M tok | loss 10.556 | 37,709 tok/s | vram 1.4/6.7 GB
+step 400 | 6.6M tok | loss 10.459 | 37,688 tok/s | vram 1.4/6.7 GB
+step 500 | 8.2M tok | loss 9.660 | 37,761 tok/s | vram 1.4/6.7 GB
+step 600 | 9.8M tok | loss 9.182 | 38,131 tok/s | vram 1.4/6.7 GB
+step 700 | 11.5M tok | loss 8.510 | 38,410 tok/s | vram 1.4/6.7 GB
+step 800 | 13.1M tok | loss 7.759 | 36,678 tok/s | vram 1.4/6.7 GB
+step 900 | 14.7M tok | loss 6.946 | 37,552 tok/s | vram 1.4/6.7 GB
+step 1000 | 16.4M tok | loss 6.691 | 37,169 tok/s | vram 1.4/6.7 GB
+  [eval] val_ppl 156.20 | ablated_ppl 402.86 (memory Δ=+246.65) | spike 0.133
+  [wnorm] embed=3874.97 | head=117.18
+  [beta] blk0: μ=0.56 dead=0% at_floor=6% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=18% w=16% d=52/4% dstd=5.2 | blk1: n/a
+  [spike] reported=0.133 spiking_only=0.133 (1/2 blocks spike)
+  [alpha] blk0: μ=0.785 hi=17% lo=0% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0001000.pt
+step 1100 | 18.0M tok | loss 6.456 | 29,444 tok/s | vram 1.4/6.8 GB
+step 1200 | 19.7M tok | loss 5.798 | 37,998 tok/s | vram 1.4/6.8 GB
+step 1300 | 21.3M tok | loss 5.931 | 37,409 tok/s | vram 1.4/6.8 GB
+step 1400 | 22.9M tok | loss 5.469 | 37,076 tok/s | vram 1.4/6.8 GB
+step 1500 | 24.6M tok | loss 5.282 | 38,079 tok/s | vram 1.4/6.8 GB
+step 1600 | 26.2M tok | loss 5.300 | 38,068 tok/s | vram 1.4/6.8 GB
+step 1700 | 27.9M tok | loss 5.282 | 38,273 tok/s | vram 1.4/6.8 GB
+step 1800 | 29.5M tok | loss 5.200 | 38,279 tok/s | vram 1.4/6.8 GB
+step 1900 | 31.1M tok | loss 4.636 | 37,570 tok/s | vram 1.4/6.8 GB
+step 2000 | 32.8M tok | loss 5.060 | 37,632 tok/s | vram 1.4/6.8 GB
+  [eval] val_ppl 105.13 | ablated_ppl 287.00 (memory Δ=+181.87) | spike 0.103
+  [wnorm] embed=3674.53 (-5.17%) | head=137.47 (+17.31%)
+  [beta] blk0: μ=0.58 dead=0% at_floor=8% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=24% w=23% d=58/8% dstd=6.5 | blk1: n/a
+  [spike] reported=0.103 spiking_only=0.103 (1/2 blocks spike)
+  [alpha] blk0: μ=0.742 hi=26% lo=1% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0002000.pt
+step 2100 | 34.4M tok | loss 4.863 | 30,166 tok/s | vram 1.4/6.6 GB
+step 2200 | 36.0M tok | loss 4.927 | 37,001 tok/s | vram 1.4/6.6 GB
+step 2300 | 37.7M tok | loss 4.723 | 36,900 tok/s | vram 1.4/6.6 GB
+step 2400 | 39.3M tok | loss 4.674 | 37,150 tok/s | vram 1.4/6.6 GB
+step 2500 | 41.0M tok | loss 4.545 | 37,227 tok/s | vram 1.4/6.6 GB
+step 2600 | 42.6M tok | loss 4.695 | 35,437 tok/s | vram 1.4/6.6 GB
+step 2700 | 44.2M tok | loss 4.467 | 35,204 tok/s | vram 1.4/6.6 GB
+step 2800 | 45.9M tok | loss 4.373 | 36,439 tok/s | vram 1.4/6.6 GB
+step 2900 | 47.5M tok | loss 4.228 | 37,456 tok/s | vram 1.4/6.6 GB
+step 3000 | 49.2M tok | loss 4.339 | 37,312 tok/s | vram 1.4/6.6 GB
+  [eval] val_ppl 81.05 | ablated_ppl 222.93 (memory Δ=+141.88) | spike 0.099
+  [wnorm] embed=3525.05 (-4.07%) | head=144.54 (+5.14%)
+  [beta] blk0: μ=0.55 dead=0% at_floor=6% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=21% w=18% d=60/8% dstd=6.6 | blk1: n/a
+  [spike] reported=0.099 spiking_only=0.099 (1/2 blocks spike)
+  [alpha] blk0: μ=0.728 hi=26% lo=2% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0003000.pt
+step 3100 | 50.8M tok | loss 4.675 | 30,402 tok/s | vram 1.4/6.6 GB
+step 3200 | 52.4M tok | loss 4.332 | 36,649 tok/s | vram 1.4/6.6 GB
+step 3300 | 54.1M tok | loss 4.584 | 34,427 tok/s | vram 1.4/6.6 GB
+step 3400 | 55.7M tok | loss 4.521 | 37,800 tok/s | vram 1.4/6.6 GB
+step 3500 | 57.3M tok | loss 4.332 | 37,085 tok/s | vram 1.4/6.6 GB
+step 3600 | 59.0M tok | loss 4.471 | 37,887 tok/s | vram 1.4/6.6 GB
+step 3700 | 60.6M tok | loss 4.536 | 37,451 tok/s | vram 1.4/6.6 GB
+step 3800 | 62.3M tok | loss 4.236 | 37,618 tok/s | vram 1.4/6.6 GB
+step 3900 | 63.9M tok | loss 4.347 | 36,834 tok/s | vram 1.4/6.6 GB
+step 4000 | 65.5M tok | loss 4.235 | 36,021 tok/s | vram 1.4/6.6 GB
+  [eval] val_ppl 69.43 | ablated_ppl 192.07 (memory Δ=+122.64) | spike 0.099
+  [wnorm] embed=3428.61 (-2.74%) | head=144.90 (+0.25%)
+  [beta] blk0: μ=0.54 dead=0% at_floor=4% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=21% w=12% d=60/8% dstd=6.4 | blk1: n/a
+  [spike] reported=0.099 spiking_only=0.099 (1/2 blocks spike)
+  [alpha] blk0: μ=0.731 hi=25% lo=2% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0004000.pt
+step 4100 | 67.2M tok | loss 4.080 | 30,602 tok/s | vram 1.4/6.2 GB
+step 4200 | 68.8M tok | loss 4.445 | 37,831 tok/s | vram 1.4/6.3 GB
+step 4300 | 70.5M tok | loss 4.199 | 37,363 tok/s | vram 1.4/6.3 GB
+step 4400 | 72.1M tok | loss 4.198 | 38,084 tok/s | vram 1.4/6.3 GB
+step 4500 | 73.7M tok | loss 4.181 | 35,556 tok/s | vram 1.4/6.3 GB
+step 4600 | 75.4M tok | loss 4.027 | 36,995 tok/s | vram 1.4/6.3 GB
+step 4700 | 77.0M tok | loss 4.332 | 38,355 tok/s | vram 1.4/6.3 GB
+step 4800 | 78.6M tok | loss 4.214 | 38,279 tok/s | vram 1.4/6.3 GB
+step 4900 | 80.3M tok | loss 4.204 | 38,036 tok/s | vram 1.4/6.3 GB
+step 5000 | 81.9M tok | loss 4.134 | 35,710 tok/s | vram 1.4/6.3 GB
+  [eval] val_ppl 63.51 | ablated_ppl 173.39 (memory Δ=+109.88) | spike 0.098
+  [wnorm] embed=3376.40 (-1.52%) | head=144.15 (-0.51%)
+  [beta] blk0: μ=0.53 dead=0% at_floor=4% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=19% w=8% d=60/8% dstd=6.3 | blk1: n/a
+  [spike] reported=0.098 spiking_only=0.098 (1/2 blocks spike)
+  [alpha] blk0: μ=0.738 hi=24% lo=2% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0005000.pt
+step 5100 | 83.6M tok | loss 3.880 | 30,121 tok/s | vram 1.4/6.7 GB
+step 5200 | 85.2M tok | loss 4.143 | 36,986 tok/s | vram 1.4/6.7 GB
+step 5300 | 86.8M tok | loss 4.295 | 36,964 tok/s | vram 1.4/6.7 GB
+step 5400 | 88.5M tok | loss 3.990 | 37,848 tok/s | vram 1.4/6.7 GB
+step 5500 | 90.1M tok | loss 3.954 | 36,854 tok/s | vram 1.4/6.7 GB
+step 5600 | 91.8M tok | loss 4.169 | 36,322 tok/s | vram 1.4/6.7 GB
+step 5700 | 93.4M tok | loss 4.136 | 37,336 tok/s | vram 1.4/6.7 GB
+step 5800 | 95.0M tok | loss 4.122 | 37,734 tok/s | vram 1.4/6.7 GB
+step 5900 | 96.7M tok | loss 4.059 | 36,978 tok/s | vram 1.4/6.7 GB
+step 6000 | 98.3M tok | loss 4.232 | 37,634 tok/s | vram 1.4/6.7 GB
+  [eval] val_ppl 60.64 | ablated_ppl 164.45 (memory Δ=+103.82) | spike 0.099
+  [wnorm] embed=3350.45 (-0.77%) | head=143.56 (-0.41%)
+  [beta] blk0: μ=0.52 dead=0% at_floor=3% | blk1: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: e=18% w=6% d=60/8% dstd=6.2 | blk1: n/a
+  [spike] reported=0.099 spiking_only=0.099 (1/2 blocks spike)
+  [alpha] blk0: μ=0.741 hi=23% lo=2% | blk1: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0006000.pt
+step 6100 | 99.9M tok | loss 4.058 | 30,969 tok/s | vram 1.4/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_r11a_hinge10_s0_30m/step_0006104.pt
+done: 100.0M tok in 0.77h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     165301495.1 |     202584883.2 |         1.23x
+    4096 |     199065642.3 |     270113177.6 |         1.36x
+
+block mix: 1 spiking + 1 attention | spike_rate 0.099 reported -> 0.099 spiking-only
+spiking op mix/token @ seq 4096: 42,991,616 MAC + 1,449,121 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

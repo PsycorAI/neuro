@@ -1,0 +1,3 @@
+[nab 09-30 17:19:13] waiting for the 5090: run_5090_seq.sh gone, then GPU0 idle (util 0%) for 5 consecutive min
+[nab 10-01 01:15:13] waiting for the 5090: run_5090_seq.sh gone, then GPU0 idle (util 0%) for 5 consecutive min
+[nab 10-02 10:53:50] CANCELLED by Glenn 10-02 (superseded by the G4 v4-layout probe)

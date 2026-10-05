@@ -1,0 +1,56 @@
+[gap 22:07:56] === ppl-gap P0/A1/A2/A3 queue START ===
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_lifexact_s0_30m |  100% |  100% |  100% |  100% |   94%
+screen_honest_lifexact_s1_30m |  100% |  100% |  100% |   94% |   94%
+screen_honest_fpt_s0_30m |  100% |  100% |   97% |   62% |   19%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_lifexact_s0_30m |     1 |     1 |     1 |     1 |     1
+screen_honest_lifexact_s1_30m |     1 |     1 |     1 |     1 |     7
+screen_honest_fpt_s0_30m |     1 |     1 |     1 |   370 |  1596
+[gap 22:08:23] [screen_tfmr_adamw_lr5e4_s0_30m] START
+[gap 22:24:53] [screen_tfmr_adamw_lr5e4_s0_30m] exit=0 :: 193.16 126.12 102.61 92.06 86.74 84.55 
+[gap 22:24:53] [screen_tfmr_adamw_lr2e3_s0_30m] START
+[gap 22:41:24] [screen_tfmr_adamw_lr2e3_s0_30m] exit=0 :: 181.15 125.38 101.09 86.71 77.48 73.56 
+[gap 22:41:24] [screen_honest_mu02_s0_30m] START
+[gap 23:27:26] [screen_honest_mu02_s0_30m] KILL eval2 173.49 > 170
+[gap 23:27:53] [screen_honest_adamw_s0_30m] START
+[gap 02:24:39] [screen_honest_adamw_s0_30m] exit=0 :: 203.18 150.97 126.56 111.67 102.92 98.78 
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_adamw_s0_30m |   38% |   12% |    9% |    0% |    3%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_adamw_s0_30m |  2197 |  2561 |  2791 |  3112 |  2618
+  screen_honest_mu02_s0_30m: final val_ppl 173.49 | recall N64 None
+  screen_honest_adamw_s0_30m: final val_ppl 98.78 | recall N64 3.0
+  hybrid optimizer source: screen_honest_lifexact_s0_30m (fallback: no A arm qualified)
+[OK] configs/screen_honest_hybrid_s0_30m.yaml
+[gap 02:25:09] [screen_honest_hybrid_s0_30m] START
+[gap 05:04:39] [screen_honest_hybrid_s0_30m] exit=0 :: 171.82 141.66 123.56 103.82 89.01 82.37 
+          chance = 1/N |   25% |   12% |    6% |    3% |    2%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_hybrid_s0_30m |  100% |  100% |  100% |  100% |   97%
+                   run | N=  4 | N=  8 | N= 16 | N= 32 | N= 64
+screen_honest_hybrid_s0_30m |     1 |     1 |     1 |     1 |     1
+[gap 05:05:21] === DONE ===
+[gap 05:07:42] diag done -> logs/diag_gap_positions_hybrid.log
+[gap 05:07:43] [screen_honest_hybrid_s1_30m] START
+[gap 07:44:48] [screen_honest_hybrid_s1_30m] exit=0 :: 171.31 141.79 124.27 104.67 89.51 82.66 
+screen_honest_hybrid_s1_30m |  100% |  100% |  100% |  100% |  100%
+[gap 07:45:21] [screen_gap_hyb_learnbeta_s0_30m] START
+[gap 07:51:19] [screen_gap_hyb_learnbeta_s0_30m] STOPPED by Claude after 5 min: swapped for hybrid+lev4 (lev4 solo 82.85 = big win; learnbeta noise-level)
+[gap 07:51:34] [screen_gap_hyb_lev4_s0_30m] START
+[gap 10:28:13] [screen_gap_hyb_lev4_s0_30m] exit=0 :: 169.85 139.32 115.53 93.43 80.96 75.76 
+screen_gap_hyb_lev4_s0_30m |  100% |  100% |  100% |  100% |  100%
+[gap 10:28:43] === 5080 list DONE ===
+[gap 10:43:11] [screen_tfmr3_adamw_s0_30m] START
+[gap 11:05:40] [screen_tfmr3_adamw_s0_30m] exit=0 :: 149.20 84.29 87.46 73.92 63.48 59.38 
+screen_tfmr3_adamw_s0_30m |  100% |  100% |  100% |  100% |  100%
+[gap 11:06:29] [screen_gap_hyb3_lev4_s0_30m] START
+[gap 14:14:19] [screen_gap_hyb3_lev4_s0_30m] exit=0 :: 163.08 122.60 99.83 83.23 73.49 69.32 
+screen_gap_hyb3_lev4_s0_30m |  100% |  100% |  100% |  100% |  100%
+[gap 14:14:40] === 5080 list DONE ===
+[gap 14:49:14] [screen_r5_lev8_s0_30m] START
+[gap 16:42:12] [screen_r5_lev8_s0_30m] exit=0 :: 167.52 136.80 116.08 92.85 79.75 74.29 
+ screen_r5_lev8_s0_30m |  100% |  100% |  100% |  100% |  100%
+[gap 16:42:31] === 5080 list DONE ===

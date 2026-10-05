@@ -1,0 +1,20 @@
+screen_sftab_mixmqar02_363m: 426M params, step 367, vocab 32768
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+held-out test examples: 200 (bad lines 0)
+  [free] gold=TOOL calculator | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=TOOL translate | pred='ANSWER 1. The 2. The 3. The 4. The 5. The 6. The 7. The 8. The 9. The 9. The 9. The 10. Th'
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef is a savory and savory pastries, and the taste of '
+  [free] gold=ANSWER - | pred='ANSWER The type of data is a numerical data that can be used to classify the data into its'
+  free         parse=0.995 mode_acc=0.860 halluc=0.040 tool_acc=0.844 args_exact=0.631 refuse_acc=0.846  (1997s)
+
+metric                free
+parse                0.995
+mode_acc             0.860
+tool_acc             0.844
+args_exact           0.631
+refuse_acc           0.846
+halluc               0.040
+
+(n=200 gold-TOOL + gold-ANSWER mixed; halluc lower is better)

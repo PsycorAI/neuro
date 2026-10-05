@@ -75,8 +75,29 @@ Not worth pursuing: batched NorMuon and telemetry-off alone (no gain at 30M; bat
   | **regional compile + graphs** | **161.3k (1.22×)** | bit-identical |
 
   - Eager + graphs differs by 6e-3 relative, while an eager rerun gives 0.0. The cause is capture-time kernel choice; this mode won't be used.
-  - The 1B timing is queued.
+  - **1B timing (10-03 01:23–01:29, c0-S1, B8, fwd+bwd only, `proto_graphs.py`):**
+
+    | Mode | ms/micro | tok/s | vs eager | peak reserved |
+    |---|---|---|---|---|
+    | eager | 314.1 | 13,040 | 1.00× | 30.2 GB |
+    | graph (eager) | 272.9 | 15,009 | 1.15× | 31.8 GB |
+    | regional compile | 211.7 | 19,351 | 1.48× | 25.2 GB |
+    | **regional compile + graphs** | **203.1** | **20,168** | **1.55×** | **23.8 GB** (setup 71 s) |
+
+    At 1B, graphs add only 1.04× on top of regional compile (vs 1.22× at 30M): bigger kernels mean less launch overhead. Regional compile is the main lever here, and it also saves ~6 GB.
+  - **But regional compile in the REAL loop (`g4ga8rc_c0s1`, profile_train, B8 GA8) ran at 189 tok/s** (median step 173 s), with 35.7 GB reserved, above the 32.6 GB physical, so WDDM spill. That is 55× slower than whole-model compile (10,391). The prototype runs the same blocks at 25 GB, so the problem is in the train_gpu path (suspects: the regional path holds extra memory or recompiles per micro-step under GA; or MQAR/optimizer state on top of the 25 GB). **To-test:** run `g4ga8rc` with TORCH_LOGS=recompiles plus a memory snapshot at step 2.
   - Open item: the k-ramp is baked into the graph. Fix with k as a device tensor, or recapture per k bucket.
+
+- **10-03 14:00, regional compile FIXED and re-timed** (`temp/queue_5090_r19speed.sh`, B8 GA8, expandable_segments). Root cause of the 189 tok/s: the LM calls `block.forward_sequence()`, so `torch.compile(block)` compiled nothing; the blocks ran eager with the whole-model MQAR compile stacked on top (35.7 GB, so spill). The fix compiles each block's bound `forward_sequence`, and MQAR reuses those blocks.
+
+  | Config | Whole-model compile | Regional (fixed) |
+  |---|---|---|
+  | c0 (DSN) | 10,391 | 9,890 (22 recompiles) |
+  | **r19d sparse MLP (relu2 + threshold, hidden 12288, param-matched)** | **11,342** | 10,563 |
+
+  - Regional compile is not a lever in the real loop.
+  - Fwd+bwd is ~1.7 s of the ~2.9–3.2 s step; NorMuon, the MQAR aux pass and data take the rest. So per-block CUDA graphs (1.04× over rc at 1B) are low value: **parked** until a profile of the outside-block time.
+  - The sparse MLP is 9% faster than DSN, so ~16 days for 16B tokens on the 5090.
 
 ## 7. Decision for Glenn (asked 10-02)
 1. Approve **A** for r18+ and v4. The queued r17h–j runs stay as they are, to keep them comparable.

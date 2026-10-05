@@ -1,0 +1,56 @@
+[5090-a 00:10:26] [screen_gap_swa_s0_30m] START
+[5090-b 00:10:26] [screen_gap_ffconv_s0_30m] START
+[5090-c 00:10:26] [screen_gap_learnbeta_s0_30m] START
+[5090-b 04:02:36] [screen_gap_ffconv_s0_30m] exit=0 :: 185.35 158.80 141.64 121.73 106.26 99.16 
+[5090-a 04:02:36] [screen_gap_swa_s0_30m] exit=0 :: 185.44 155.63 143.68 127.32 113.33 106.28 
+[5090-c 04:02:36] [screen_gap_learnbeta_s0_30m] exit=0 :: 184.63 158.33 139.33 117.85 102.03 95.13 
+[5090-c recall] screen_gap_learnbeta_s0_30m |  100% |  100% |  100% |  100% |   94%
+[5090-b recall] screen_gap_ffconv_s0_30m |  100% |  100% |  100% |  100% |   94%
+[5090-c 04:03:06] [screen_gap_outgate_s0_30m] START
+[5090-b 04:03:06] [screen_gap_prenorm_s0_30m] START
+[5090-a recall]  screen_gap_swa_s0_30m |  100% |  100% |  100% |  100% |   97%
+[5090-a 04:03:06] [screen_gap_lev4_s0_30m] START
+[5090-a 07:49:39] [screen_gap_lev4_s0_30m] exit=0 :: 180.21 145.24 115.31 96.35 86.87 82.85 
+[5090-b 07:49:39] [screen_gap_prenorm_s0_30m] exit=0 :: 197.84 155.07 131.05 111.10 97.84 91.98 
+[5090-c 07:49:39] [screen_gap_outgate_s0_30m] exit=0 :: 186.36 147.26 130.23 113.05 99.13 92.85 
+[5090-c recall] screen_gap_outgate_s0_30m |  100% |  100% |  100% |  100% |   91%
+[5090-b recall] screen_gap_prenorm_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-c 07:49:53] stream DONE
+[5090-b 07:49:53] [screen_gap_tern_s0_30m] START
+[5090-e 07:49:53] [screen_gap_hyb_attnlr01_s0_30m] START
+[5090-a recall] screen_gap_lev4_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-a 07:49:53] stream DONE
+[5090-d 07:49:53] [screen_gap_hyb_attnlr02_s0_30m] START
+[tfmr426 10:14:31] waiting for all 5090 screen streams to finish
+[5090-b 10:28:41] [screen_gap_tern_s0_30m] exit=0 :: 212.76 162.92 127.61 107.71 97.74 93.11 
+[5090-d 10:28:41] [screen_gap_hyb_attnlr02_s0_30m] exit=0 :: 190.92 156.12 138.42 123.05 110.00 100.90 
+[5090-e 10:28:41] [screen_gap_hyb_attnlr01_s0_30m] exit=0 :: 169.42 137.85 125.99 114.33 101.88 92.96 
+[5090-e recall] screen_gap_hyb_attnlr01_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-e 10:28:50] stream DONE
+[5090-g 10:28:50] [screen_gap_lev4_s1_30m] START
+[5090-d recall] screen_gap_hyb_attnlr02_s0_30m |  100% |  100% |  100% |  100% |   97%
+[5090-d 10:28:50] stream DONE
+[5090-f 10:28:50] [screen_gap_hyb_full_s0_30m] START
+[5090-b recall] screen_gap_tern_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-b 10:28:51] stream DONE
+[5090-h 10:29:32] [screen_gap_hyb_lev4_lrhalf_s0_30m] START
+[tfmr426 10:43:01] waiter CANCELLED (Glenn: v3 heal+post-training first, then v4 screens; transformer after / in gaps). Stream i moved to the 5080.
+[seq 09-28 10:53:15] waiting for ppl-gap screens
+[5090-h 13:15:39] [screen_gap_hyb_lev4_lrhalf_s0_30m] exit=0 :: 194.34 151.40 134.08 120.87 109.58 103.09 
+[5090-f 13:15:39] [screen_gap_hyb_full_s0_30m] exit=0 :: 166.80 136.02 113.97 91.69 78.79 73.44 
+[5090-h recall] screen_gap_hyb_lev4_lrhalf_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-f recall] screen_gap_hyb_full_s0_30m |  100% |  100% |  100% |  100% |  100%
+[5090-h 13:16:21] stream DONE
+[5090-f 13:16:21] stream DONE
+[5090-g 13:43:42] [screen_gap_lev4_s1_30m] exit=0 :: 176.29 148.62 122.63 102.32 91.89 87.10 
+[5090-g recall] screen_gap_lev4_s1_30m |  100% |  100% |  100% |  100% |  100%
+[5090-g 13:44:08] stream DONE
+[5090-lr 13:44:10] [screen_tfmr426_lr3e4] START
+[5090-lr 14:26:42] [screen_tfmr426_lr3e4] exit=0 :: 237.03 145.94 120.87 108.15 
+[5090-lr recall]   screen_tfmr426_lr3e4 |  100% |  100% |  100% |  100% |   94%
+[5090-lr 14:27:05] [screen_tfmr426_lr6e4] START
+[5090-lr 15:03:41] [screen_tfmr426_lr6e4] exit=0 :: 268.54 152.31 109.66 93.43 
+[5090-lr recall]   screen_tfmr426_lr6e4 |  100% |  100% |  100% |  100% |  100%
+[5090-lr 15:04:27] [screen_tfmr426_lr12e4] START
+[5090-lr 15:22:28] [screen_tfmr426_lr12e4] KILL eval2 187.21 > 170
+[5090-lr 15:23:57] stream DONE

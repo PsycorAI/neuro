@@ -1,0 +1,18 @@
+optimizer: NorMuon (93 matrices, lr=0.005) + AdamW (125 other params, lr=0.0005)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1000.04M device=cuda target=0.002B tok | 36864 tok/step | total_steps≈60 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1083, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 831, in main
+    loss.backward()
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready

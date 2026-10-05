@@ -1,0 +1,31 @@
+optimizer: AdamW (fused) (lr=0.0006)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=421.48M device=cuda target=0.060B tok | 36864 tok/step | total_steps≈1627 | warmup=32 | lr_sched=cosine | grad_clip=1.0
+step 200 | 7.4M tok | loss 12.735 | 23,807 tok/s | vram 7.2/20.3 GB
+step 400 | 14.7M tok | loss 12.062 | 30,972 tok/s | vram 7.2/20.3 GB
+  [eval] val_ppl 268.54 | ablated_ppl 268.54 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=196.20 | head=147.10 | mtp_proj.0=22.29 | mtp_proj.2=22.25
+step 600 | 22.1M tok | loss 11.809 | 29,908 tok/s | vram 7.2/19.9 GB
+step 800 | 29.5M tok | loss 10.348 | 32,782 tok/s | vram 7.2/19.9 GB
+  [eval] val_ppl 152.31 | ablated_ppl 152.31 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=207.80 (+5.91%) | head=160.42 (+9.05%) | mtp_proj.0=24.36 (+9.29%) | mtp_proj.2=24.49 (+10.03%)
+step 1000 | 36.9M tok | loss 9.565 | 30,718 tok/s | vram 7.2/19.9 GB
+step 1200 | 44.2M tok | loss 8.483 | 31,171 tok/s | vram 7.2/19.9 GB
+  [eval] val_ppl 109.66 | ablated_ppl 109.66 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=210.71 (+1.40%) | head=163.84 (+2.13%) | mtp_proj.0=25.01 (+2.69%) | mtp_proj.2=25.22 (+2.99%)
+step 1400 | 51.6M tok | loss 7.204 | 27,052 tok/s | vram 7.2/19.8 GB
+step 1600 | 59.0M tok | loss 5.728 | 27,477 tok/s | vram 7.2/19.8 GB
+  [eval] val_ppl 93.43 | ablated_ppl 93.43 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=210.54 (-0.08%) | head=165.16 (+0.81%) | mtp_proj.0=25.38 (+1.47%) | mtp_proj.2=25.63 (+1.64%)
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_tfmr426_lr6e4/step_0001628.pt
+done: 60.0M tok in 0.59h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    1832910848.0 |    1832910848.0 |         1.00x
+    4096 |    2550398976.0 |    2550398976.0 |         1.00x
+
+block mix: 0 spiking + 17 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 554,434,560 MAC + 0 AC
+note: 17 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

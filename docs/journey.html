@@ -39,7 +39,7 @@
 </head><body>
 
 <h1>Specialized Brain Mods — research journey</h1>
-<p class="date">Live document — last updated 2026-10-03. Each new experiment added as it completes.</p>
+<p class="date">Live document — last updated 2026-10-04. Each new experiment added as it completes.</p>
 
 <div class="toc">
 <strong>Table of contents</strong>
@@ -118,6 +118,8 @@
   <li><a href="#depth-via-attention-glass-box-pivot">72. Depth comes from attention, not more spiking layers; Glenn asks for an auditable model; the review finds Engram half-blind</a></li>
   <li><a href="#v4-candidate-reversal-throughput">73. The v4 candidate beats every 4-layer model; the DSN costs 9% for circuits 7&times; smaller; the slowness is all in the first layer</a></li>
   <li><a href="#speed-plan-gap-shrinks">74. The speed plan: compile fixed, and at 1B the gap shrinks to 1.61&times; once NorMuon is amortized</a></li>
+  <li><a href="#sparse-mlp-hippocampus-at-depth">75. A sparse MLP beats the spiking one on every axis; at 150M the hippocampus goes silent</a></li>
+  <li><a href="#h200-memory-ignored-demo">76. The H200 is twice as fast as needed; the memory writes but nobody reads it; demo page stage 1</a></li>
 </ol>
 </div>
 
@@ -2158,5 +2160,50 @@ The frequency split showed why the two wins stack. Attention fixed common tokens
 
 <hr>
 <p class="date">Major version: 1.59 (Speed plan: 30M split H0 ~80% / NorMuon ~15%; std flags from r18 [chunk256, no chunk ckpt, telemetry_eval_only, batched NS, compile + mqar_pad_to]; compile fix 1.95x; G4 1B gap 2.56x at GA1 -&gt; 1.61x at GA8 [expandable_segments; 1.33x was a spill artefact]; GPU busy 75-80%; CUDA graphs prototype 1.22x bit-identical; B4 Inductor SplitScan bug. r17: f 41.42, i 41.77, h 42.16, g 42.69, j 44.28 [best haystack]. See docs/speed_plan_v4_2026_10_02.md + neuro_v4_speed_plan_2026_10_02 + HANDOFF_2026_10_03.)</p>
+
+<h2 id="sparse-mlp-hippocampus-at-depth">75. A sparse MLP beats the spiking one on every axis &mdash; then at 150M the hippocampus goes silent, because attention can already reach everything</h2>
+<p class="date">2026-10-03 &ndash; 10-04 (Neuro 49)</p>
+
+<p>The overnight seed repeats settled the DSN question of <a href="#speed-plan-gap-shrinks">&sect;74</a>: <code>r17k</code> (k 688 + ramp from 30%) averaged 41.17 over three seeds, +2.2% against the GELU MLP of <code>l3</code> (40.27), with haystack ~25% weaker in every DSN variant. GELU won on quality but its circuits were ~5&times; larger. Glenn asked whether GELU could get the three factors (sparsity, interpretability, energy) instead.</p>
+
+<p>Round 19 swapped GELU for relu&sup2; (Primer) with an optional <b>homeostatic threshold</b> (<code>SparseAct</code>, <code>attn_ffn_homeo</code>): a neuron fires only above a threshold that is not trained by gradient but nudged after each step so the firing rate tracks a target that ramps from 1.0 to the goal between 60% and 90% of training. LIF membranes stay in the hippocampal layer only.</p>
+
+<div class="milestone"><p><b>Sparsity turns out to be free.</b> Three seeds each: per-layer threshold at 10% active <b>39.88</b>, per-neuron 10% 40.09, 5% <b>40.35</b>, all at or below GELU's 40.27, with GELU-level haystack. At 5% the LM circuits are 33.7k entries against GELU's 330.6k (9.8&times; smaller) and the units are the most selective of any arm. It also trains 9% faster than DSN at 1B. Glenn chose 5%: interpretability matters more to him than 1% perplexity.</p></div>
+
+<p>Speed work in parallel. <code>compile_regional</code> had compiled nothing (the LM calls <code>forward_sequence</code>, not <code>forward</code>); fixed, it is still slower than whole-model compile. The MQAR aux pass turned out to be ~32% of the 1B step (16.7k tok/s with it off vs 11.3k on). <code>mqar_once_per_step</code> is quality-neutral at 30M (39.81 vs 39.96) but at 1B it exceeds the 5090's 32 GB; it is meant for the H200.</p>
+
+<div class="setback"><p><b>G3: at 150M the hippocampus is never used.</b> At 12 layers and 1B tokens the candidate (H0 + 11&times;[attention + sparse MLP]) scored 27.26 against the fair transformer's 26.71 and ran ~1.8&times; slower. Worse, its memory-&Delta; was &le;0 from the first eval, the write gate sat 97% at its floor, and the spike rate fell from 0.28 to 0.004, while recall stayed 100%. At 30M, recall had been 100% memory. Haystack was equally poor in both models (~20% at N8).</p></div>
+
+<p>Two things explain it. First, haystack is a training problem: the late gap dose <code>x1</code> gives 100% at every gap at 30M, with the sparse MLP too (<code>r22a</code>, +1.7%). Second, the memory only works when attention cannot reach. A fixed 128-token window (<code>attn_window_fixed</code>) gives 100% beyond-window recall through memory at 30M (<code>r22b</code>, +2.9%). But at 150M it does nothing for the memory, because 11 stacked windows reach ~11&times;128 tokens, more than the 512-token context. SWAX (arXiv 2509.24552) reports the same: memory learns only when attention is short-sighted, with 1:1 memory:attention layers and 16k training sequences. Round 21 now tests a 32-token window and the gap dose from step 0.</p>
+
+<p>The deadline is now concrete: Glenn wants to demo v4 to his son by <b>October 19</b>. Pretraining will run on an interruptible Vast H200 (~$0.44/h), so the config has to freeze by about October 8.</p>
+
+<hr>
+<p class="date">Major version: 1.60 (r17 seeds: DSN r17k 41.17 vs GELU 40.27. r19 sparse MLP [relu2 + homeostatic threshold] 39.88 at 10% / 40.35 at 5% = GELU quality, circuits 8-10x smaller; Glenn picks 5%. Regional compile fixed but not a lever; MQAR aux = 32% of the 1B step; mqar_once_per_step quality-neutral. G3 150M: hippocampus unused at depth [beta collapse, spikes 0.004]; x1 = haystack 100% at 30M; window 128 forces memory at 30M but not at 12 layers [reach ~L x W]; SWAX. Demo Oct 19, Vast H200. See neuro_g3_hippocampus_unused_2026_10_04 + HANDOFF_2026_10_04.)</p>
+
+<h2 id="h200-memory-ignored-demo">76. The H200 is twice as fast as we needed, the memory writes but nobody reads it, and the demo page gets built</h2>
+<p class="date">2026-10-04 evening (Neuro 50)</p>
+
+<p>Glenn opened the Vast account and we rented an H200 NVL for an hour. His DSL uploads at 1.3 Mbps, so the 46 GB corpus would take ~80 hours: we benchmarked on a 16 MB slice and will build the corpus on the instance itself (<code>scripts/build_corpus_v4.py</code>, &ge;300 GB disk). The setup script was missing <code>snntorch</code> and friends; fixed.</p>
+
+<div class="milestone"><p><b>38.4k tok/s for the 1B shape.</b> <code>configs/v4_cloud_bench.yaml</code> (r19d shape, 5% MLP, x1 gap MQAR on every step as the worst case): B64&times;GA1 38.4k, B32&times;GA2 34.0k, with <code>mqar_once_per_step</code> 35.0k, MQAR off 42.3k. 16B tokens in ~4.8 days, against the 18.5k tok/s we needed for 10. The MQAR aux is 19% of the step here, not the 32% of the 5090.</p></div>
+
+<p>Glenn's question set the agenda for the rest of the evening: the demo must show the memory, not lean on attention. Four runs narrowed down why the hippocampus of <a href="#sparse-mlp-hippocampus-at-depth">&sect;75</a> is silent at 12 layers:</p>
+<ul>
+<li><code>r21c</code> (window 128 + late x1): memory-&Delta; 0.00 while only 28% of the write gate sits at its floor. <b>The memory writes; the layers above ignore what it says.</b> Haystack beyond the window is at chance (N8 14%), ppl 40.82 (+12%).</li>
+<li><code>r21g</code> (window 32 + x1 from step 0, so 11&times;32 &lt; the 440-token gap): ppl 48.45 (+33%), recall 88/81/78/25/9, but haystack N8 <b>57%</b> at gap 440. When attention truly cannot relay, the memory partly learns.</li>
+<li><code>r21i</code> (full window + x1 from step 0): haystack <b>100% at every gap, N8 and N32</b>, memory-&Delta; +0.10, ppl 43.32 (+19%). Attention learns the in-context haystack itself when trained on it.</li>
+<li><code>r23a</code> (G3 width, only 4 layers, 5080): memory-&Delta; +6.9 at the end (~9% of ppl). Depth is a cause.</li>
+</ul>
+<p>So inside the context, attention does the memory's job once it is trained to. The memory's only unique job is <em>beyond</em> the context. Two "both learn" recipes are queued on the 5090: <code>r24a</code> (SWAX stochastic window 32/full) and <code>r24b</code> (stateful 512-token segments, memory carried, reset 10%), each = r21i + one change (<code>temp/mk_r24_configs.py</code>). The transformer baselines r21d/e/f were dropped.</p>
+
+<p>The demo page went from design (<code>docs/demo_brain_view_design.md</code>) to stage 1 in one sitting: <code>scripts/demo/server.py</code> + <code>index.html</code>, a brain dot-grid, spike raster, MLP and memory-write strips, a memory-off replay and an attention-window selector, with no change to <code>src/</code>. The energy meter counts every multiply-add per word and shows <b>1.38&times;</b> fewer operations on the 30M model, the honest number: the relu&sup2; up-projection stays dense, so 10&times; would have been a lie.</p>
+
+<div class="setback"><p><b>The memory has never been taught a sentence.</b> In the demo, "Anna's secret password is blue tiger" followed by filler fails beyond a 32-token attention window even with memory on. All the recall training uses synthetic MQAR token ranges. "Tell it a fact, ask later" needs natural-text long-range training, which segment training provides.</p></div>
+
+<p>Glenn then asked for longer attention <em>and</em> memory. The plan is two tiers: attention over a 1&ndash;2k context added in a late long-context phase, memory for everything beyond it, trained by segments. Top-k attention builds full T&times;T scores, so this needs a kernel first; it is queued behind r24.</p>
+
+<hr>
+<p class="date">Major version: 1.61 (H200 NVL bench 38.4k tok/s at 1B [16B tok ~4.8 d]; corpus built on-instance due to 1.3 Mbps upload. Memory at depth: writes but ignored [r21c delta 0]; w32 forces partial learning [r21g haystack 57%, +33% ppl]; full window + early x1 = attention-only haystack 100% [r21i, +19%]; 4L uses memory [r23a]. r24a SWAX / r24b stateful queued. Demo stage 1 built [honest 1.38x ops]; natural-language recall beyond window fails. See neuro_g3_hippocampus_unused_2026_10_04 + HANDOFF_2026_10_05.)</p>
 
 </body></html>

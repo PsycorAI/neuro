@@ -1,0 +1,25 @@
+[g4 10-02 14:31:00] waiting for logs/5090_seq.lock (r17 queue)
+[g4 10-02 17:07:12] lock held; GPU0 free
+[g4 10-02 17:08:01] c2_c0_eager_std: exit=0 [prof c2_c0_eager_std] median step 419 ms = 39,070 tok/s (B32xGA1, 34 steps) | vram 1.8/16.4 GB
+[g4 10-02 17:14:57] c2_c0_compile_std: exit=0 [prof c2_c0_compile_std] median step 272 ms = 60,176 tok/s (B32xGA1, 34 steps) | vram 1.8/9.2 GB
+[g4 10-02 17:14:57] c2_c0_compile_std: recompiles=3 graph_breaks=3
+[g4 10-02 17:17:44] g4fit_c0s1_b4: exit=1  | 
+[g4 10-02 17:18:29] waiting for logs/5090_seq.lock (r17 queue)
+[g4 10-02 17:18:29] lock held; GPU0 free
+[g4 10-02 17:19:27] g4fit_c0s1_b4: exit=1  | 
+[g4 10-02 17:26:34] g4fit_c0s1_b8: exit=0 [prof g4fit_c0s1_b8] median step 694 ms = 5,900 tok/s (B8xGA1, 24 steps) | vram 13.6/26.5 GB
+[g4 10-02 17:32:31] g4fit_tfmr_b8: exit=0 [prof g4fit_tfmr_b8] median step 268 ms = 15,301 tok/s (B8xGA1, 24 steps) | vram 16.7/27.3 GB
+[g4 10-02 17:45:10] g4fit_tfmr_b16: exit=0 [prof g4fit_tfmr_b16] median step 10855 ms = 755 tok/s (B16xGA1, 24 steps) | vram 17.0/33.7 GB
+[g4 10-02 17:45:10] waiting for the 5080 to go idle
+[g4 10-02 17:45:10] 5080 memory 796 MiB after 0 x 30 s; clean timing
+[g4 10-02 17:48:22] g4_c0s1_b8: exit=0 [prof g4_c0s1_b8] median step 687 ms = 5,960 tok/s (B8xGA1, 24 steps) | vram 13.6/26.7 GB
+[g4 10-02 17:49:23] g4_c0s1_b4: exit=1  | 
+[g4 10-02 17:51:25] g4_c0s1_b8_eager: exit=0 [prof g4_c0s1_b8_eager] median step 891 ms = 4,595 tok/s (B8xGA1, 19 steps) | vram 13.6/28.7 GB
+[g4 10-02 17:54:42] g4_tfmr_b8: exit=0 [prof g4_tfmr_b8] median step 269 ms = 15,251 tok/s (B8xGA1, 24 steps) | vram 16.7/27.7 GB
+[g4 10-02 17:57:05] g4_tfmr_b16: exit=143  | vram 17.0/34.2 GB
+[g4 10-02 18:00:10] g4p_c0s1_b8: exit=0 [prof g4p_c0s1_b8] median step 989 ms = 4,143 tok/s (B8xGA1, 10 steps, PROFILER ON) | vram 13.6/26.8 GB
+[g4 10-02 18:03:20] g4p_tfmr_b8: exit=0 [prof g4p_tfmr_b8] median step 319 ms = 12,839 tok/s (B8xGA1, 10 steps, PROFILER ON) | vram 16.7/27.7 GB
+[g4 10-02 18:03:20] DONE
+[g4 10-02 19:09:49] g4ga8_c0s1: exit=0 [prof g4ga8_c0s1] median step 3230 ms = 10,145 tok/s (B8xGA8, 14 steps) | vram 13.6/30.8 GB
+[g4 10-02 19:13:35] g4ga8_tfmr: exit=0 [prof g4ga8_tfmr] median step 2430 ms = 13,483 tok/s (B8xGA8, 14 steps) | vram 16.7/31.4 GB
+[g4 10-02 19:13:35] GA8 DONE

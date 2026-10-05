@@ -1,0 +1,6 @@
+lif_exact    key |cos| mean 0.368 (signed mean +0.368) | energy in mean direction 40.0% | after centering |cos| 0.089
+lev4         key |cos| mean 0.189 (signed mean +0.188) | energy in mean direction 19.6% | after centering |cos| 0.087
+full_stack   key |cos| mean 0.321 (signed mean +0.321) | energy in mean direction 38.3% | after centering |cos| 0.126
+signed       key |cos| mean 0.249 (signed mean +0.248) | energy in mean direction 29.0% | after centering |cos| 0.083
+full+gap440  key |cos| mean 0.421 (signed mean +0.421) | energy in mean direction 48.9% | after centering |cos| 0.141
+random 1024-d vectors: |cos| ~0.025

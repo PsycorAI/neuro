@@ -142,9 +142,21 @@ def spikeglu_k_at(c, step, total_steps):
     return int(round(hidden * (k / hidden) ** f))
 
 
+def mlp_rate_target_at(c, step, total_steps):
+    """r19 homeostatic MLP firing-rate target (2026-10-03): 1.0 (no threshold pressure) until attn_ffn_ramp_start,
+    then geometric to attn_ffn_rate_target at attn_ffn_ramp_end (default 0.9) -- the same late schedule as the
+    DSN k-ramp. None = no homeostatic threshold configured."""
+    tgt = c.get("attn_ffn_rate_target")
+    if not c.get("attn_ffn_homeo") or tgt is None:
+        return None
+    rs, re_ = float(c.get("attn_ffn_ramp_start", 0.6)), float(c.get("attn_ffn_ramp_end", 0.9))
+    f = min(1.0, max(0.0, (step / max(1, total_steps) - rs) / max(1e-9, re_ - rs)))
+    return float(tgt) ** f
+
+
 def build_model(c):
     if c["arch"] == "spiking":
-        return SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
+        m = SpikingHebbianLM(c["vocab"], d=c["d"], n_neurons=c["n_neurons"],
                                 d_mem=c["d_mem"], recurrent=c.get("recurrent", False),
                                 rec_density=c.get("rec_density", 0.05),
                                 compile_safe=c.get("compile", False),
@@ -255,7 +267,20 @@ def build_model(c):
                                 spk_out_norm=c.get("spk_out_norm", True),
                                 attn_out_gate=c.get("attn_out_gate", False),
                                 attn_canon=c.get("attn_canon", 0),
-                                attn_ffn_spikeglu_lif=c.get("attn_ffn_spikeglu_lif", False))
+                                attn_ffn_spikeglu_lif=c.get("attn_ffn_spikeglu_lif", False),
+                                attn_ffn_act=c.get("attn_ffn_act", "gelu"),
+                                attn_ffn_homeo=c.get("attn_ffn_homeo"))
+        # attn_window_fixed (2026-10-04, default 0 = byte-identical): every attention block uses a fixed causal
+        # sliding window of W keys at train AND eval (set here so every eval script that builds the model inherits
+        # it). Purpose: give the memory layer a job attention cannot do (G3: with full 512 windows in 11 attention
+        # layers the hippocampal layer went silent). Not combined with the stochastic window (attn_window_short).
+        _wf = int(c.get("attn_window_fixed", 0) or 0)
+        if _wf:
+            assert not c.get("attn_window_short"), "attn_window_fixed and attn_window_short are exclusive"
+            for _b in m.blocks:
+                if hasattr(_b, "qkv"):
+                    _b.attn_window = _wf
+        return m
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
 
@@ -467,7 +492,7 @@ def main():
     data_orig_vocab = c.get("data_orig_vocab", 128256)
     data = StreamText(bin_path, vocab=c["vocab"], orig_vocab=data_orig_vocab,
                       independent_windows=c.get("data_independent_windows", False),
-                      val_tokens=c.get("data_val_tokens"))
+                      val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
     if c.get("curriculum_enabled", False):
         from curriculum import CurriculumStream
         per_step_tok = c["batch_size"] * c["grad_accum"] * c["block_size"]
@@ -525,8 +550,15 @@ def main():
             # `_last_moe_aux_loss`, etc.) execute normally in Python. Only the
             # compute-heavy block forwards get compiled, and since all blocks
             # share the same architecture, dynamo caches and reuses one graph.
-            for i in range(len(raw_model.blocks)):
-                raw_model.blocks[i] = torch.compile(raw_model.blocks[i], mode=mode, dynamic=dynamic)
+            # 2026-10-03 FIX: the LM calls block.forward_sequence(), never block.forward(), so wrapping the block
+            # module in torch.compile compiled NOTHING (blocks ran eager; g4ga8rc_c0s1 = 189 tok/s with the MQAR
+            # whole-model compile stacked on top, 35.7 GB reserved -> WDDM spill). Compile the bound
+            # forward_sequence of each block instead (as temp/proto_graphs.py compiles its per-block adapters).
+            # Blocks share code, so raise dynamo's per-code recompile limit above the block count.
+            import torch._dynamo as _dynamo      # (a bare `import torch._dynamo` would make `torch` local to main)
+            _dynamo.config.cache_size_limit = max(_dynamo.config.cache_size_limit, 4 * len(raw_model.blocks))
+            for b in raw_model.blocks:
+                b.forward_sequence = torch.compile(b.forward_sequence, mode=mode, dynamic=dynamic)
             model = raw_model
             print(f"torch.compile REGIONAL (per-block, mode={mode}) — first 1-2 steps slow")
         else:
@@ -566,8 +598,27 @@ def main():
         print(f"SpikeGLU k-ramp: dense ({c['attn_ffn_hidden']}) until {c['attn_ffn_spikeglu_ramp_start']:.0%}, "
               f"then geometric to k={c['attn_ffn_spikeglu_k']} by {c.get('attn_ffn_spikeglu_ramp_end', 0.9):.0%} "
               f"({len(_sglu_blocks)} blocks)")
-    if c.get("compile") and device == "cuda" and c.get("mqar_aug", False):
-        mqar_model = torch.compile(raw_model, mode="default", dynamic=True)
+    # r19: sparse MLP activations (SparseAct); _homeo_acts = those with a homeostatic threshold (empty = off).
+    from hybrid_attn import SparseAct
+    _sparse_acts = [m for m in raw_model.modules() if isinstance(m, SparseAct)]
+    _homeo_acts = [m for m in _sparse_acts if m.homeo] if mlp_rate_target_at(c, 0, 1) is not None else []
+    if _sparse_acts:
+        print(f"sparse MLP: {c.get('attn_ffn_act')} x{len(_sparse_acts)}"
+              + (f", homeostatic {c['attn_ffn_homeo']} threshold: rate 1.0 until {c.get('attn_ffn_ramp_start', 0.6):.0%}, "
+                 f"then geometric to {c['attn_ffn_rate_target']} by {c.get('attn_ffn_ramp_end', 0.9):.0%} "
+                 f"(lr {c.get('attn_ffn_homeo_lr', 0.01)})" if _homeo_acts else ""))
+    if c.get("gdn2_cumsum_eager_max_b"):
+        import delta_chunked as _dc                     # Inductor SplitScan workaround (see delta_chunked.py)
+        _dc.CUMSUM_EAGER_MAX_B = int(c["gdn2_cumsum_eager_max_b"])
+    if c.get("compile") and device == "cuda" and c.get("mqar_aug", False) and c.get("compile_regional", False):
+        # 2026-10-03: regional mode -- raw_model's blocks are already compiled; a second whole-model compile on top
+        # doubles the graphs/memory. MQAR shapes stay fixed with mqar_pad_to (else each MQAR length recompiles).
+        print("MQAR path uses the regionally compiled blocks (set mqar_pad_to to avoid per-length recompiles)")
+    elif c.get("compile") and device == "cuda" and c.get("mqar_aug", False):
+        # mqar_compile_static (2026-10-04, default off = byte-identical): dynamic=False for the MQAR wrapper. With
+        # mqar_pad_to (+ mqar_gap_pad_to) the MQAR shapes are fixed anyway (65 / 512), and the dynamic=True graph hit
+        # an Inductor codegen crash on the 512-token gap batches (r21c, InductorError get_block_shape NoneType).
+        mqar_model = torch.compile(raw_model, mode="default", dynamic=not c.get("mqar_compile_static", False))
         print("torch.compile enabled for MQAR path (mode=default, dynamic=True)")
 
     ckdir = f"/home/glenn/projects/neuro/models/checkpoints/{c['run_name']}"
@@ -711,7 +762,10 @@ def main():
         if _sglu_blocks:
             _kc = spikeglu_k_at(c, step, total_steps)
             for _b in _sglu_blocks: _b.ffn.k_cur = _kc
-        for _ in range(c["grad_accum"]):
+        if _homeo_acts:
+            _rt = mlp_rate_target_at(c, step, total_steps)
+            for _m in _homeo_acts: _m.rate_target = _rt
+        for _micro in range(c["grad_accum"]):
             if stateful:
                 x, y, reset = seq_stream.next(c["block_size"], device)
                 # ST Phase 6: stochastic state reset (document-boundary proxy) —
@@ -889,7 +943,12 @@ def main():
                 # requires 30M screen confirmation; default 1 = pre-2026-07-16
                 # behavior (every step).
                 mqar_cad = int(c.get("mqar_cadence", 1))
-                if c.get("mqar_aug", False) and (step % mqar_cad == 0):
+                # mqar_once_per_step (2026-10-03, default off = byte-identical): the MQAR aux runs on the FIRST
+                # micro-step only, with batch x grad_accum and weight x grad_accum -> same MQAR samples per optimizer
+                # step and the same expected gradient, but 1 small launch-bound pass instead of grad_accum of them
+                # (1B GA8: the per-micro aux cost ~32% of the step; mqar off 16.7k vs 11.3k tok/s).
+                _mq_mult = c["grad_accum"] if c.get("mqar_once_per_step", False) else 1
+                if c.get("mqar_aug", False) and (step % mqar_cad == 0) and (_mq_mult == 1 or _micro == 0):
                     n_lo = c.get("mqar_N_min", 4); n_hi = c.get("mqar_N_max", 32)
                     # mqar_N_power biases sampling toward high N (the recall
                     # failure region). power=1.0 -> uniform (byte-identical to
@@ -923,12 +982,12 @@ def main():
                         _rf = float(c.get("mqar_gap_ramp_frac", 0.0))
                         _cur = _gmax if _rf <= 0 else max(1, int(_gmax * min(1.0, (step - _g0) / max(1.0, _rf * total_steps))))
                         g_mq = int(_mqar_gap_rng.randint(0, _cur + 1))
-                        x_mq, tgt_mq = mqar_gap_batch(int(c.get("mqar_batch", c["batch_size"])), N_mq, g_mq,
+                        x_mq, tgt_mq = mqar_gap_batch(int(c.get("mqar_batch", c["batch_size"])) * _mq_mult, N_mq, g_mq,
                                                       data, _mqar_gap_rng, device)
                         if _gs is not None:
                             _mq_w = c.get("mqar_gap_weight", _mq_w)
                     else:
-                        x_mq, tgt_mq = mqar_aug_batch(c["batch_size"], N_mq, device)
+                        x_mq, tgt_mq = mqar_aug_batch(c["batch_size"] * _mq_mult, N_mq, device)
                     # mqar_model: separate compiled wrapper (mode=default,
                     # dynamic=True, never cudagraphs) -- see setup comment
                     # above. Falls back to raw_model (eager) when compile is
@@ -938,12 +997,18 @@ def main():
                     # Every layer is causal, so the pads cannot reach the query position read below.
                     _L_mq = x_mq.shape[1]
                     _pad_to = int(c.get("mqar_pad_to") or 0)
+                    # mqar_gap_pad_to (2026-10-04, default unset = byte-identical): pad GAP batches (length up to
+                    # 2N+1+gap) to their own fixed length and plain batches to mqar_pad_to -> two compiled shapes, and
+                    # the 70% of training before the gap dose no longer pays for 512-token MQAR passes (r21b: 31.8 GB
+                    # reserved -> WDDM spill, 7.8k vs 34k tok/s).
+                    if c.get("mqar_gap_pad_to") and _L_mq > _pad_to:
+                        _pad_to = int(c["mqar_gap_pad_to"])
                     if _pad_to:
                         assert _L_mq <= _pad_to, f"mqar_pad_to {_pad_to} < MQAR length {_L_mq}"
                         x_mq = F.pad(x_mq, (0, _pad_to - _L_mq))
                     logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
-                    main_loss = main_loss + _mq_w * mqar_cad * mqar_ce
+                    main_loss = main_loss + _mq_w * mqar_cad * _mq_mult * mqar_ce
                 loss = main_loss / c["grad_accum"]
             loss.backward()
         # NaN/Inf guard (added 2026-08-07). Without this, a numerical blowup
@@ -973,6 +1038,7 @@ def main():
         else:
             _NAN_GUARD["consecutive"] = 0
             for o in opts: o.step()
+            for _m in _homeo_acts: _m.homeo_step(float(c.get("attn_ffn_homeo_lr", 0.01)))
         step += 1; tokens += per_step_tok
         if setms and step % c.get("set_every", 200) == 0:
             for blk, s in setms:
@@ -996,6 +1062,12 @@ def main():
                     (f"rate={f._last_rate.item():.3f} beta={torch.sigmoid(f.beta_logit).mean().item():.3f}"
                      if f.lif and f._last_rate is not None else f"k={f.k if f.k_cur is None else f.k_cur}")
                     for f in _dsn), flush=True)
+            # r19 sparse-MLP telemetry: each block's firing rate (last forward = eval) and mean threshold.
+            if _sparse_acts:
+                print("  [mlp] " + " ".join(
+                    f"rate={m._last_rate.item():.3f}" + (f" thr={m.theta.mean().item():.3f}" if m.homeo else "")
+                    for m in _sparse_acts if m._last_rate is not None)
+                      + (f" | target {_homeo_acts[0].rate_target:.3f}" if _homeo_acts else ""), flush=True)
             # Output-head weight-norm telemetry (2026-08-25). The 363M flagship
             # diverged via runaway LM-head norm growth while every block and the
             # embedding decayed normally, and NOTHING in the log showed it -- it

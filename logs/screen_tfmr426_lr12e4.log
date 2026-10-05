@@ -1,0 +1,25 @@
+optimizer: AdamW (fused) (lr=0.0012)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=421.48M device=cuda target=0.060B tok | 36864 tok/step | total_steps≈1627 | warmup=32 | lr_sched=cosine | grad_clip=1.0
+step 200 | 7.4M tok | loss 13.214 | 22,612 tok/s | vram 7.2/20.3 GB
+step 400 | 14.7M tok | loss 12.385 | 31,551 tok/s | vram 7.2/20.3 GB
+  [eval] val_ppl 356.62 | ablated_ppl 356.62 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=229.12 | head=180.86 | mtp_proj.0=23.41 | mtp_proj.2=23.21
+step 600 | 22.1M tok | loss 12.168 | 30,198 tok/s | vram 7.2/19.9 GB
+step 800 | 29.5M tok | loss 10.898 | 32,657 tok/s | vram 7.2/19.9 GB
+  [eval] val_ppl 187.21 | ablated_ppl 187.21 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=256.26 (+11.85%) | head=215.51 (+19.16%) | mtp_proj.0=27.23 (+16.32%) | mtp_proj.2=27.51 (+18.53%)
+
+[SIGINT] received — finishing current step, then saving final ckpt + exiting
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_tfmr426_lr12e4/step_0000824.pt
+done: 30.4M tok in 0.31h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    1832910848.0 |    1832910848.0 |         1.00x
+    4096 |    2550398976.0 |    2550398976.0 |         1.00x
+
+block mix: 0 spiking + 17 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 554,434,560 MAC + 0 AC
+note: 17 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

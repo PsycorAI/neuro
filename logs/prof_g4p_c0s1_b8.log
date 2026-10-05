@@ -1,0 +1,76 @@
+optimizer: NorMuon (72 matrices, lr=0.005) + AdamW (115 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+SpikeGLU k-ramp: dense (8192) until 60%, then geometric to k=768 by 90% (12 blocks)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.28M device=cuda target=0.000B tok | 4096 tok/step | total_steps≈23 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.0M tok | loss 14.913 | 575 tok/s | vram 13.6/26.5 GB
+step 10 | 0.0M tok | loss 14.046 | 5,982 tok/s | vram 13.6/26.5 GB
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+step 15 | 0.1M tok | loss 13.374 | 5,172 tok/s | vram 13.6/26.8 GB
+step 20 | 0.1M tok | loss 13.512 | 3,027 tok/s | vram 13.6/26.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_g4p_c0s1_b8/step_0000023.pt
+done: 0.1M tok in 0.03h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3356457694.2 |    3443943014.4 |         1.03x
+    4096 |    4166797227.1 |    4321810841.6 |         1.04x
+
+block mix: 1 spiking + 12 attention | spike_rate 0.176 reported -> 0.176 spiking-only
+spiking op mix/token @ seq 4096: 901,775,360 MAC + 20,700,634 AC
+note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                                  Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                         ProfilerStep*         0.00%       0.000us         0.00%       0.000us       0.000us        5.529s       169.64%        5.529s        5.529s             1  
+                                              Optimizer.step#Muon.step         0.00%       0.000us         0.00%       0.000us       0.000us        2.763s        84.77%        2.763s     460.491ms             6  
+                                                              aten::mm         4.69%     463.018ms         8.03%     793.453ms      89.052us        2.092s        64.19%        2.092s     234.828us          8910  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     521.828ms        16.01%     521.828ms     349.283us          1494  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     287.865ms         8.83%     287.865ms     363.466us           792  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     256.005ms         7.85%     256.005ms     338.631us           756  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     250.629ms         7.69%     250.629ms     386.774us           648  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     243.373ms         7.47%     243.373ms     362.161us           672  
+                                                             aten::add         1.75%     173.373ms         3.79%     374.192ms      63.059us     221.826ms         6.81%     221.826ms      37.382us          5934  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     218.396ms         6.70%     218.396ms      90.771us          2406  
+void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_...         0.00%       0.000us         0.00%       0.000us       0.000us     169.140ms         5.19%     169.140ms     144.564us          1170  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     133.109ms         4.08%     133.109ms     434.996us           306  
+                                                            aten::topk         0.39%      38.160ms         2.30%     227.351ms     789.412us     125.102ms         3.84%     156.144ms     542.166us           288  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     119.108ms         3.65%     119.108ms     228.177us           522  
+void at::native::vectorized_elementwise_kernel<4, at::native::CUDAF...         0.00%       0.000us         0.00%       0.000us       0.000us     113.251ms         3.47%     113.251ms      38.055us          2976  
+                                                             aten::bmm         1.31%     129.349ms         2.39%     235.855ms      88.137us      91.232ms         2.80%      91.719ms      34.275us          2676  
+                                                            aten::add_         0.49%      48.497ms         1.30%     128.616ms      50.556us      87.362ms         2.68%      87.362ms      34.340us          2544  
+                                                             aten::mul         2.14%     211.577ms         4.58%     452.167ms      65.361us      70.170ms         2.15%      70.271ms      10.158us          6918  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us      52.973ms         1.63%      52.973ms      91.968us           576  
+                                                             aten::pow         0.49%      48.442ms         0.99%      98.058ms      75.662us      41.789ms         1.28%      41.789ms      32.245us          1296  
+void at::native::vectorized_elementwise_kernel<4, at::native::(anon...         0.00%       0.000us         0.00%       0.000us       0.000us      41.789ms         1.28%      41.789ms      32.245us          1296  
+void at::native::vectorized_elementwise_kernel<4, at::native::AUnar...         0.00%       0.000us         0.00%       0.000us       0.000us      40.864ms         1.25%      40.864ms      30.541us          1338  
+                                                            aten::mul_         0.34%      33.146ms         0.81%      80.393ms      62.032us      40.506ms         1.24%      40.506ms      31.255us          1296  
+                                                           aten::copy_         0.29%      28.764ms         0.89%      87.977ms      59.605us      39.033ms         1.20%      39.051ms      26.457us          1476  
+void at::native::vectorized_elementwise_kernel<4, at::native::AUnar...         0.00%       0.000us         0.00%       0.000us       0.000us      34.278ms         1.05%      34.278ms       5.590us          6132  
+                                                   aten::_foreach_mul_         0.02%       2.289ms         0.11%      11.037ms       1.840ms      33.279ms         1.02%      33.279ms       5.546ms             6  
+void at::native::(anonymous namespace)::multi_tensor_apply_kernel<a...         0.00%       0.000us         0.00%       0.000us       0.000us      33.279ms         1.02%      33.279ms     102.713us           324  
+                                                             aten::div         0.55%      54.051ms         1.15%     113.763ms      65.835us      28.515ms         0.87%      28.515ms      16.502us          1728  
+void at::native::vectorized_elementwise_kernel<4, at::native::CUDAF...         0.00%       0.000us         0.00%       0.000us       0.000us      25.154ms         0.77%      25.154ms       8.591us          2928  
+void at::native::mbtopk::gatherTopK<c10::BFloat16, unsigned int, 2>...         0.00%       0.000us         0.00%       0.000us       0.000us      24.029ms         0.74%      24.029ms     111.248us           216  
+                                             Optimizer.step#AdamW.step         0.00%       0.000us         0.00%       0.000us       0.000us      23.647ms         0.73%      23.647ms       3.941ms             6  
+void at::native::mbtopk::computeBlockDigitCounts<c10::BFloat16, uns...         0.00%       0.000us         0.00%       0.000us       0.000us      23.056ms         0.71%      23.056ms      53.371us           432  
+                                                   aten::_fused_adamw_         0.01%     920.181us         0.03%       2.609ms     217.391us      22.711ms         0.70%      22.711ms       1.893ms            12  
+void at::native::(anonymous namespace)::multi_tensor_apply_kernel<a...         0.00%       0.000us         0.00%       0.000us       0.000us      22.711ms         0.70%      22.711ms     270.369us            84  
+void at::native::mbtopk::computeBlockwiseWithinKCounts<unsigned int...         0.00%       0.000us         0.00%       0.000us       0.000us      22.545ms         0.69%      22.545ms      52.186us           432  
+                                         triton_poi_fused__to_copy_t_0         0.13%      12.658ms         0.29%      28.372ms      62.220us      21.495ms         0.66%      21.495ms      47.137us           456  
+                                         triton_poi_fused__to_copy_t_0         0.00%       0.000us         0.00%       0.000us       0.000us      21.495ms         0.66%      21.495ms      47.137us           456  
+                                                             aten::abs         0.13%      12.859ms         0.58%      57.087ms      76.730us      20.808ms         0.64%      41.616ms      55.936us           744  
+void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_...         0.00%       0.000us         0.00%       0.000us       0.000us      20.566ms         0.63%      20.566ms      47.606us           432  
+                                                           aten::addmm         0.05%       4.487ms         0.07%       7.360ms     102.219us      19.688ms         0.60%      19.688ms     273.442us            72  
+void at_cuda_detail::cub::DeviceSegmentedRadixSortKernel<at_cuda_de...         0.00%       0.000us         0.00%       0.000us       0.000us      18.572ms         0.57%      18.572ms     193.461us            96  
+                                           triton_poi_fused__to_copy_0         0.21%      20.815ms         0.49%      48.776ms      62.533us      18.321ms         0.56%      18.321ms      23.489us           780  
+                                           triton_poi_fused__to_copy_0         0.00%       0.000us         0.00%       0.000us       0.000us      18.321ms         0.56%      18.321ms      23.489us           780  
+                                                            aten::mean         0.71%      70.390ms         1.48%     145.884ms     105.713us      18.277ms         0.56%      18.291ms      13.254us          1380  
+void at::native::unrolled_elementwise_kernel<at::native::BinaryFunc...         0.00%       0.000us         0.00%       0.000us       0.000us      17.838ms         0.55%      17.838ms      61.937us           288  
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 9.880s
+Self CUDA time total: 3.259s
+
+[prof g4p_c0s1_b8] median step 989 ms = 4,143 tok/s (B8xGA1, 10 steps, PROFILER ON)
+[prof g4p_c0s1_b8] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

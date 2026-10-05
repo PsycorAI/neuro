@@ -1,0 +1,40 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (115 other params, lr=0.0006)
+sparse MLP: relu2 x12, homeostatic unit threshold: rate 1.0 until 60%, then geometric to 0.1 by 90% (lr 0.02)
+arch=spiking params=1109.28M device=cuda target=0.000B tok | 32768 tok/step | total_steps≈15 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/profile_train.py", line 92, in <module>
+    train_gpu.main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 986, in main
+    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
+                ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1604, in forward
+    out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 363, in forward_sequence
+    z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 139, in forward
+    r = torch.where(fire, a, torch.zeros_like(a))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready

@@ -1,0 +1,6 @@
+b32ga2 exit=0 [prof b32ga2] median step 963 ms = 34,038 tok/s (B32xGA2, 14 steps) vram 14.6/61.8 GB
+b32ga2_once exit=0 [prof b32ga2_once] median step 936 ms = 35,002 tok/s (B32xGA2, 14 steps) vram 14.8/66.0 GB
+b64ga1 exit=0 [prof b64ga1] median step 852 ms = 38,444 tok/s (B64xGA1, 14 steps) vram 15.6/96.8 GB
+b32ga2_nomq exit=0 [prof b32ga2_nomq] median step 775 ms = 42,261 tok/s (B32xGA2, 14 steps) vram 14.3/57.5 GB
+b16ga4_once exit=0 [prof b16ga4_once] median step 1116 ms = 29,355 tok/s (B16xGA4, 14 steps) vram 14.8/66.9 GB
+tokens/day at the best = 86400 x tok/s; 16B tokens needs >= 18.5k tok/s for 10 days

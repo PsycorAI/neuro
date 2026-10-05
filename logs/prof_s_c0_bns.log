@@ -1,0 +1,26 @@
+optimizer: NorMuon (27 matrices, lr=0.005) + AdamW (43 other params, lr=0.0006)
+SpikeGLU k-ramp: dense (2752) until 60%, then geometric to k=256 by 90% (3 blocks)
+arch=spiking params=90.11M device=cuda target=0.001B tok | 16384 tok/step | total_steps≈50 | warmup=1 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.1M tok | loss 14.498 | 11,836 tok/s | vram 1.7/10.2 GB
+step 10 | 0.2M tok | loss 13.814 | 32,420 tok/s | vram 1.7/10.2 GB
+step 15 | 0.2M tok | loss 13.416 | 32,266 tok/s | vram 1.7/10.2 GB
+step 20 | 0.3M tok | loss 13.002 | 30,735 tok/s | vram 1.7/10.2 GB
+step 25 | 0.4M tok | loss 12.569 | 32,414 tok/s | vram 1.7/10.2 GB
+step 30 | 0.5M tok | loss 12.560 | 32,481 tok/s | vram 1.7/10.2 GB
+step 35 | 0.6M tok | loss 12.138 | 32,579 tok/s | vram 1.7/10.4 GB
+step 40 | 0.7M tok | loss 12.643 | 25,372 tok/s | vram 1.7/10.4 GB
+step 45 | 0.7M tok | loss 12.647 | 25,179 tok/s | vram 1.7/10.4 GB
+step 50 | 0.8M tok | loss 12.876 | 25,511 tok/s | vram 1.7/10.4 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_s_c0_bns/step_0000050.pt
+done: 0.8M tok in 0.01h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     291785733.1 |     327994572.8 |         1.12x
+    4096 |     393078174.8 |     463051161.6 |         1.18x
+
+block mix: 1 spiking + 3 attention | spike_rate 0.180 reported -> 0.180 spiking-only
+spiking op mix/token @ seq 4096: 84,934,656 MAC + 2,643,064 AC
+note: 3 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof s_c0_bns] median step 538 ms = 30,473 tok/s (B32xGA1, 34 steps)
+[prof s_c0_bns] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

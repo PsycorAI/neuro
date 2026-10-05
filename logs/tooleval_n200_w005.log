@@ -1,0 +1,20 @@
+screen_sftab_w005_363m: 426M params, step 367, vocab 32768
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+held-out test examples: 200 (bad lines 0)
+  [free] gold=TOOL calculator | pred="ANSWER I can't do that with the tools I have here.\n###"
+  [free] gold=ANSWER - | pred="ANSWER I'd need a tool I don't have access to here.\n###"
+  [free] gold=TOOL translate | pred='ANSWER 1. A 2. A 3. B 4. B 5. B 6. B 7. B 8. B 9. B 10. B 11. B 12. C 12. C 13. C 12. C 13'
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef is a simple and delicious, and onions are often us'
+  [free] gold=ANSWER - | pred='ANSWER The type of data in the given data is the number of customer reviews.\n###'
+  free         parse=0.995 mode_acc=0.885 halluc=0.025 tool_acc=0.852 args_exact=0.689 refuse_acc=0.897  (2136s)
+
+metric                free
+parse                0.995
+mode_acc             0.885
+tool_acc             0.852
+args_exact           0.689
+refuse_acc           0.897
+halluc               0.025
+
+(n=200 gold-TOOL + gold-ANSWER mixed; halluc lower is better)

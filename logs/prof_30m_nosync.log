@@ -1,0 +1,39 @@
+optimizer: NorMuon (19 matrices, lr=0.005) + AdamW (30 other params, lr=0.0006)
+arch=spiking params=59.58M device=cuda target=0.002B tok | 16384 tok/step | total_steps≈125 | warmup=2 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.1M tok | loss 13.996 | 7,500 tok/s | vram 1.4/7.3 GB
+step 10 | 0.2M tok | loss 12.770 | 16,433 tok/s | vram 1.3/7.8 GB
+step 15 | 0.2M tok | loss 12.477 | 17,773 tok/s | vram 1.3/7.8 GB
+step 20 | 0.3M tok | loss 12.308 | 13,765 tok/s | vram 1.4/7.8 GB
+step 25 | 0.4M tok | loss 12.015 | 11,696 tok/s | vram 1.4/7.8 GB
+step 30 | 0.5M tok | loss 12.049 | 11,677 tok/s | vram 1.4/7.8 GB
+step 35 | 0.6M tok | loss 11.642 | 13,586 tok/s | vram 1.4/7.8 GB
+step 40 | 0.7M tok | loss 11.881 | 11,889 tok/s | vram 1.4/7.8 GB
+step 45 | 0.7M tok | loss 11.788 | 13,108 tok/s | vram 1.4/7.8 GB
+step 50 | 0.8M tok | loss 11.735 | 14,601 tok/s | vram 1.4/7.8 GB
+step 55 | 0.9M tok | loss 11.583 | 11,709 tok/s | vram 1.3/7.8 GB
+step 60 | 1.0M tok | loss 11.332 | 12,747 tok/s | vram 1.4/7.8 GB
+step 65 | 1.1M tok | loss 11.558 | 9,823 tok/s | vram 1.4/7.8 GB
+step 70 | 1.1M tok | loss 11.434 | 13,350 tok/s | vram 1.4/7.8 GB
+step 75 | 1.2M tok | loss 11.386 | 20,343 tok/s | vram 1.4/7.8 GB
+step 80 | 1.3M tok | loss 11.081 | 17,225 tok/s | vram 1.3/7.8 GB
+step 85 | 1.4M tok | loss 11.307 | 20,563 tok/s | vram 1.4/7.8 GB
+step 90 | 1.5M tok | loss 11.194 | 18,623 tok/s | vram 1.4/7.8 GB
+step 95 | 1.6M tok | loss 11.635 | 13,394 tok/s | vram 1.4/7.8 GB
+step 100 | 1.6M tok | loss 11.359 | 13,594 tok/s | vram 1.3/7.8 GB
+step 105 | 1.7M tok | loss 11.316 | 13,084 tok/s | vram 1.4/7.8 GB
+step 110 | 1.8M tok | loss 10.915 | 11,487 tok/s | vram 1.4/7.8 GB
+step 115 | 1.9M tok | loss 11.200 | 13,353 tok/s | vram 1.3/7.8 GB
+step 120 | 2.0M tok | loss 11.342 | 10,123 tok/s | vram 1.3/7.8 GB
+step 125 | 2.0M tok | loss 11.016 | 13,890 tok/s | vram 1.3/7.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_30m_nosync/step_0000125.pt
+done: 2.0M tok in 0.04h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     131338507.8 |     202584883.2 |         1.54x
+    4096 |     131338507.8 |     270113177.6 |         2.06x
+
+block mix: 2 spiking + 0 attention | spike_rate 0.224 reported -> 0.224 spiking-only
+spiking op mix/token @ seq 4096: 27,262,976 MAC + 6,587,576 AC
+note: spiking cost is constant in seq_len; transformer grows with it.
+[prof 30m_nosync] median step 1233 ms = 13,292 tok/s (B32xGA1, 104 steps)
+[prof 30m_nosync] lif_calls=902 scans=9922 -> mean fixed-point iters/call = 10.00

@@ -1,0 +1,12 @@
+[indepwin 00:21:06] waiting for depth screen to finish
+[indepwin 00:21:06] === indepwin 30M screen START/RESUME ===
+[indepwin 00:21:06] [screen_indepwin_s0_30m] already complete -- skip
+[indepwin 00:21:06] [screen_indepwin_s1_30m] already complete -- skip
+[indepwin 00:21:06] === indepwin 30M screen DONE ===
+[depth 00:21:06] === depth 30M screen START/RESUME ===
+0, NVIDIA GeForce RTX 5090, 6312 MiB, 32607 MiB
+1, NVIDIA GeForce RTX 5080, 466 MiB, 16303 MiB
+[depth 00:21:06] [screen_depth_L4_s0_30m] START/RESUME configs/screen_depth_L4_s0_30m.yaml
+[depth 01:26:08] [screen_depth_L4_s0_30m] COMPLETE
+[depth 01:26:08] [screen_depth_L4_s1_30m] START/RESUME configs/screen_depth_L4_s1_30m.yaml
+[depth 04:01:59] [screen_depth_L4_s1_30m] STOPPED exit=1

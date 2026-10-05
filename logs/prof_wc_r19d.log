@@ -1,0 +1,44 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (115 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic unit threshold: rate 1.0 until 60%, then geometric to 0.1 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.28M device=cuda target=0.001B tok | 32768 tok/step | total_steps≈21 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+V1003 13:55:52.917000 318741 torch/_dynamo/guards.py:4760] [1/1] [__recompiles] Recompiling function forward in /home/glenn/projects/neuro/src/engram_v2.py:146
+V1003 13:55:52.917000 318741 torch/_dynamo/guards.py:4760] [1/1] [__recompiles]     triggered by the following guard failure(s):
+V1003 13:55:52.917000 318741 torch/_dynamo/guards.py:4760] [1/1] [__recompiles]     - 1/0: tensor 'idx' size mismatch at index 1. expected 512, actual 65
+V1003 13:55:57.693000 318741 torch/_dynamo/guards.py:4760] [2/1] [__recompiles] Recompiling function forward_sequence in /home/glenn/projects/neuro/src/model.py:704
+V1003 13:55:57.693000 318741 torch/_dynamo/guards.py:4760] [2/1] [__recompiles]     triggered by the following guard failure(s):
+V1003 13:55:57.693000 318741 torch/_dynamo/guards.py:4760] [2/1] [__recompiles]     - 2/0: tensor 'x_seq' size mismatch at index 1. expected 512, actual 65
+V1003 13:55:58.978000 318741 torch/_dynamo/guards.py:4760] [3/1] [__recompiles] Recompiling function torch_dynamo_resume_in_forward_sequence_at_763 in /home/glenn/projects/neuro/src/model.py:763
+V1003 13:55:58.978000 318741 torch/_dynamo/guards.py:4760] [3/1] [__recompiles]     triggered by the following guard failure(s):
+V1003 13:55:58.978000 318741 torch/_dynamo/guards.py:4760] [3/1] [__recompiles]     - 3/0: tensor '___stack0[0]' size mismatch at index 1. expected 512, actual 65
+V1003 13:56:01.954000 318741 torch/_dynamo/guards.py:4760] [5/1] [__recompiles] Recompiling function forward_sequence in /home/glenn/projects/neuro/src/hybrid_attn.py:349
+V1003 13:56:01.954000 318741 torch/_dynamo/guards.py:4760] [5/1] [__recompiles]     triggered by the following guard failure(s):
+V1003 13:56:01.954000 318741 torch/_dynamo/guards.py:4760] [5/1] [__recompiles]     - 5/0: tensor 'x_seq' size mismatch at index 1. expected 512, actual 65
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/lowering.py:7836: UserWarning: 
+Online softmax is disabled on the fly since Inductor decides to
+split the reduction. Cut an issue to PyTorch if this is an
+important use case and you want to speed it up with online
+softmax.
+
+  warnings.warn(
+V1003 13:56:28.118000 318741 torch/_dynamo/guards.py:4760] [6/1] [__recompiles] Recompiling function forward in /home/glenn/projects/neuro/src/model.py:94
+V1003 13:56:28.118000 318741 torch/_dynamo/guards.py:4760] [6/1] [__recompiles]     triggered by the following guard failure(s):
+V1003 13:56:28.118000 318741 torch/_dynamo/guards.py:4760] [6/1] [__recompiles]     - 6/0: tensor 'x' size mismatch at index 1. expected 512, actual 65
+step 5 | 0.2M tok | loss 13.469 | 2,075 tok/s | vram 13.6/29.1 GB
+step 10 | 0.3M tok | loss 13.027 | 10,777 tok/s | vram 13.6/29.4 GB
+step 15 | 0.5M tok | loss 12.691 | 10,838 tok/s | vram 13.6/29.4 GB
+step 20 | 0.7M tok | loss 12.923 | 11,401 tok/s | vram 13.6/29.4 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_wc_r19d/step_0000021.pt
+done: 0.7M tok in 0.05h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3356386661.8 |    3443943014.4 |         1.03x
+    4096 |    4166726194.6 |    4321810841.6 |         1.04x
+
+block mix: 1 spiking + 12 attention | spike_rate 0.176 reported -> 0.176 spiking-only
+spiking op mix/token @ seq 4096: 901,775,360 MAC + 20,621,710 AC
+note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof wc_r19d] median step 2889 ms = 11,342 tok/s (B8xGA8, 14 steps)
+[prof wc_r19d] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

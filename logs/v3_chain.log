@@ -1,0 +1,9 @@
+[v3chain 09-28 10:44:26] waiting for 5090 screen streams to finish
+[v3chain 09-28 10:53:06] waiter replaced by temp/run_5090_seq.sh (screens -> 426M tfmr LR check -> this chain)
+[v3chain 09-28 15:23:57] waiting for 5090 screen streams to finish
+[v3chain 09-28 15:24:12] HEAL start/resume (tokens so far: 0)
+[v3chain 09-30 00:40:21] heal exit=0
+[v3chain 09-30 00:40:50] heal complete (11000033280 tokens): 41.15 41.08 41.05 
+[v3chain 09-30 00:40:50] archived leak-base post-training ckpts -> models/archive_leakbase_2026_09_28; cleared .done markers
+[v3chain 09-30 00:40:50] POST-TRAINING start (healed base)
+[v3chain 10-02 10:48:27] post-training exit=0

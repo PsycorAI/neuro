@@ -5268,3 +5268,22 @@ step 268000 | 9879.6M tok | loss 4.874 | 9,577 tok/s | vram 8.1/28.4 GB
   [alpha] blk0: μ=0.998 hi=0% lo=0% | blk1: μ=0.830 hi=0% lo=0% | blk2: μ=0.919 hi=0% lo=0% | blk3: μ=0.920 hi=0% lo=0% | blk4: n/a | blk5: μ=0.929 hi=0% lo=0% | blk6: μ=0.896 hi=0% lo=0% | blk7: μ=0.902 hi=0% lo=0% | blk8: μ=0.867 hi=2% lo=0%
   saved /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m/step_0268000.pt
 step 269000 | 9916.4M tok | loss 4.769 | 9,224 tok/s | vram 8.0/28.3 GB
+step 270000 | 9953.3M tok | loss 4.254 | 9,071 tok/s | vram 8.0/28.3 GB
+  [eval] val_ppl 17.57 | ablated_ppl 770.25 (memory Δ=+752.68) | spike 0.144
+  [wnorm] embed=147.20 (-0.15%) | head=28.76 (-0.28%) | mtp_proj.0=21.72 (+0.17%) | mtp_proj.2=15.79 (+0.10%)
+  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.51 dead=0% at_floor=1% | blk2: μ=0.35 dead=0% at_floor=0% | blk3: μ=0.33 dead=0% at_floor=0% | blk4: n/a | blk5: μ=0.58 dead=0% at_floor=0% | blk6: μ=0.42 dead=0% at_floor=0% | blk7: μ=0.50 dead=0% at_floor=1% | blk8: μ=0.47 dead=0% at_floor=0%
+  [gates sat] (d=neverforget/fastforget) blk0: e=2% w=1% d=99/0% dstd=0.5 | blk1: e=2% w=1% d=2/0% dstd=0.6 | blk2: e=4% w=1% d=2/0% dstd=0.5 | blk3: e=3% w=1% d=1/0% dstd=0.4 | blk4: n/a | blk5: e=41% w=0% d=1/0% dstd=0.5 | blk6: e=38% w=1% d=1/0% dstd=0.5 | blk7: e=72% w=1% d=1/0% dstd=0.5 | blk8: e=50% w=0% d=38/0% dstd=2.4
+  [spike] reported=0.144 spiking_only=0.162 (8/9 blocks spike)
+  [alpha] blk0: μ=0.998 hi=0% lo=0% | blk1: μ=0.830 hi=0% lo=0% | blk2: μ=0.919 hi=0% lo=0% | blk3: μ=0.920 hi=0% lo=0% | blk4: n/a | blk5: μ=0.929 hi=0% lo=0% | blk6: μ=0.896 hi=0% lo=0% | blk7: μ=0.902 hi=0% lo=0% | blk8: μ=0.868 hi=2% lo=0%
+step 271000 | 9990.1M tok | loss 4.390 | 9,117 tok/s | vram 8.0/28.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/flagship_v3_363m/step_0271268.pt
+done: 10000.0M tok in 110.66h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     691539562.2 |    1061158912.0 |         1.53x
+    4096 |     733744746.2 |    1441005568.0 |         1.96x
+
+block mix: 8 spiking + 1 attention | spike_rate 0.145 reported -> 0.163 spiking-only
+spiking op mix/token @ seq 4096: 150,732,800 MAC + 44,859,851 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

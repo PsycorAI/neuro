@@ -1,0 +1,8 @@
+== r14b: 4096 tokens, H(token) 5.72 nats; matched density +0.047 / -0.046
+  L0 spk units  2048 | half-units scored  3967 (skipped 129) | median top1 0.093  top5 0.283  ent 0.306 | p90 top1 0.235
+  L1 mlp units  4096 | half-units scored  8192 (skipped 0) | median top1 0.122  top5 0.306  ent 0.280 | p90 top1 0.218
+  L2 mlp units  4096 | half-units scored  8192 (skipped 0) | median top1 0.112  top5 0.277  ent 0.258 | p90 top1 0.202
+== tfmr3: 4096 tokens, H(token) 5.72 nats; matched density +0.050 / -0.050
+  L0 mlp units  4096 | half-units scored  8192 (skipped 0) | median top1 0.128  top5 0.337  ent 0.306 | p90 top1 0.434
+  L1 mlp units  4096 | half-units scored  8192 (skipped 0) | median top1 0.102  top5 0.279  ent 0.265 | p90 top1 0.244
+  L2 mlp units  4096 | half-units scored  8192 (skipped 0) | median top1 0.112  top5 0.293  ent 0.272 | p90 top1 0.229

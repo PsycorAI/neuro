@@ -1,0 +1,4 @@
+r17f         N8 gap0 | fwd/full 100.0 | fwd/attn_off 100.0 | fwd/mem_off  25.0 | rev/full   1.6 | rev/attn_off   1.6 | rev/mem_off  10.9 | hop2/full  14.1 | hop2/attn_off  18.8 | hop2/mem_off   1.6
+r17g         N8 gap0 | fwd/full 100.0 | fwd/attn_off 100.0 | fwd/mem_off  29.7 | rev/full   3.1 | rev/attn_off   1.6 | rev/mem_off   4.7 | hop2/full  18.8 | hop2/attn_off  14.1 | hop2/mem_off   6.2
+l4           N8 gap0 | fwd/full 100.0 | fwd/attn_off 100.0 | fwd/mem_off  39.1 | rev/full   3.1 | rev/attn_off   3.1 | rev/mem_off   4.7 | hop2/full  17.2 | hop2/attn_off  18.8 | hop2/mem_off   3.1
+chance = 12.5%

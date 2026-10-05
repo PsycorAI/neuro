@@ -1,0 +1,4 @@
+v4d_b8_amb05: [prof v4d_b8_amb05] median step 1409 ms = 2,908 tok/s (B8xGA1, 24 steps) 0 OOM | vram 4.5/9.6 GB
+v4d_b20_amb03: [prof v4d_b20_amb03] median step 2548 ms = 4,020 tok/s (B20xGA1, 24 steps) 0 OOM | vram 5.3/18.0 GB
+v4d_b16_amb05_r2: [prof v4d_b16_amb05_r2] median step 1488 ms = 5,504 tok/s (B16xGA1, 24 steps) 0 OOM | vram 5.0/14.8 GB
+v4d_b12_r2: [prof v4d_b12_r2] median step 1208 ms = 5,086 tok/s (B12xGA1, 24 steps) 0 OOM | vram 4.8/15.4 GB

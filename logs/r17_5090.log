@@ -1,0 +1,15 @@
+[r17 10-02 10:48:07] waiting for logs/5090_seq.lock (v3 post-training chain must end first)
+[r17 10-02 10:48:27] lock held; GPU0 free
+[r17 10-02 10:49:29] t_c0: [prof t_c0] median step 525 ms = 31,201 tok/s (B32xGA1, 34 steps)
+[r17 10-02 10:50:20] t_x2: [prof t_x2] median step 533 ms = 30,763 tok/s (B32xGA1, 34 steps)
+[r17 10-02 10:51:09] t_l3: [prof t_l3] median step 508 ms = 32,274 tok/s (B32xGA1, 34 steps)
+[r17 10-02 10:51:34] t_t4: [prof t_t4] median step 145 ms = 113,251 tok/s (B32xGA1, 34 steps)
+[r17 10-02 10:52:19] t_c0_ch256: [prof t_c0_ch256] median step 416 ms = 39,349 tok/s (B32xGA1, 34 steps)
+[r17 10-02 10:53:08] t_c0_flash: [prof t_c0_flash] median step 501 ms = 32,734 tok/s (B32xGA1, 34 steps)
+[r17 10-02 11:21:21] t_c0_compile: [prof t_c0_compile] median step 20711 ms = 791 tok/s (B32xGA1, 34 steps)
+[r17 10-02 11:23:35] t_t4_compile: [prof t_t4_compile] median step 86 ms = 190,091 tok/s (B32xGA1, 34 steps)
+[r17 10-02 11:24:29] t_c0_b64: [prof t_c0_b64] median step 625 ms = 52,419 tok/s (B64xGA1, 34 steps)
+[r17 10-02 11:25:43] p_c0: [prof p_c0] median step 791 ms = 20,706 tok/s (B32xGA1, 10 steps, PROFILER ON)
+[r17 10-02 11:26:16] p_t4: [prof p_t4] median step 180 ms = 91,000 tok/s (B32xGA1, 10 steps, PROFILER ON)
+[r17 10-02 11:26:16] profiles done
+[r17 10-02 17:07:12] DONE

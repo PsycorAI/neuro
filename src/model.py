@@ -1107,7 +1107,7 @@ class SpikingHebbianLM(nn.Module):
                  spk_layerscale=0.0, attn_ffn=True, attn_ffn_spikeglu_k=0,
                  attn_ffn_hidden=None, attn_topk=0,
                  engram_v2_hash="lo", spk_out_norm=True, attn_out_gate=False, attn_canon=0,
-                 attn_ffn_spikeglu_lif=False):
+                 attn_ffn_spikeglu_lif=False, attn_ffn_act="gelu", attn_ffn_homeo=None):
         super().__init__()
         self.vocab = vocab
         # attn_single_residual (2026-09-25 fix, default off = byte-identical to
@@ -1215,7 +1215,8 @@ class SpikingHebbianLM(nn.Module):
                     ffn_hidden=attn_ffn_hidden, use_ffn=attn_ffn,
                     spikeglu_k=attn_ffn_spikeglu_k, topk=attn_topk,
                     out_gate=attn_out_gate, canon=attn_canon, spikeglu_lif=attn_ffn_spikeglu_lif,
-                    lif_levels=lif_levels, lif_signed=lif_signed))
+                    lif_levels=lif_levels, lif_signed=lif_signed,
+                    ffn_act=attn_ffn_act, ffn_homeo=attn_ffn_homeo))
             elif n_experts > 1:
                 from moe_hebbian import MoEHebbianBlock
                 blocks.append(MoEHebbianBlock(

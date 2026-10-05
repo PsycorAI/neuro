@@ -71,13 +71,19 @@ class Capture:
             b.forward_sequence = fs
             if hasattr(b, "qkv") and b.ffn is not None:
                 last = b.ffn.w2 if hasattr(b.ffn, "w2") else b.ffn[-1]
-                kind = "dsn" if hasattr(b.ffn, "k_cur") else "mlp"
+                kind = ("dsn" if hasattr(b.ffn, "k_cur") else
+                        "sparse" if _is_sparse_mlp(b.ffn) else "mlp")       # r19 SparseAct MLP = event units
                 def pre(mod, inp, _i=i, _k=kind):
                     h = inp[0]
                     if self.grad and h.requires_grad:
                         h.retain_grad()
                     self.acts[_i] = (_k, h)
                 last.register_forward_pre_hook(pre)
+
+
+def _is_sparse_mlp(f):
+    """r19 (2026-10-03): plain 2-matrix MLP whose activation is SparseAct (relu2/relu, optional homeostatic threshold)."""
+    return isinstance(f, torch.nn.Sequential) and type(f[1]).__name__ == "SparseAct"
 
 
 def val_batch(c, B, T, seed=0):
@@ -107,7 +113,7 @@ def selectivity(acts, toks, H_all, firing):
     rows = {}
     for i, (kind, a) in sorted(acts.items()):
         a = a.detach().float().reshape(-1, a.shape[-1]).cpu()
-        if kind in ("spk", "dsn"):
+        if kind in ("spk", "dsn", "sparse"):
             masks = [a > 0, a < 0]
             firing[i] = (kind, (a != 0).float().mean().item())
         else:
@@ -234,6 +240,10 @@ def op_model(m, c, firing, seq_len):
                 H = f.w1.out_features; r = firing.get(i, ("dsn", f.k / H))[1]
                 mac += dm * H                                                 # apical gate (dense)
                 ev += 2 * r * H * dm                                          # basal payload + down-proj, winners only
+            elif _is_sparse_mlp(f):                                           # r19: up-proj dense, down-proj firing units only
+                H = f[-1].in_features; r = firing.get(i, ("sparse", 1.0))[1]
+                mac += dm * H
+                ev += r * H * dm
             else:
                 H = f.w2.in_features if hasattr(f, "w2") else f[-1].in_features
                 mac += (3 if hasattr(f, "w2") else 2) * dm * H

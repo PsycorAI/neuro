@@ -1,0 +1,12 @@
+[lifx 11:16:57] [g1_t18] START
+[lifx 11:42:58] [g1_t18] KILL eval1 183.17 > 110
+[lifx 11:43:19] [g0_t18] START
+[lifx 12:05:50] [g0_t18] KILL eval1 195.38 > 110
+[lifx 12:06:31] DONE
+[lifx 12:06:31] [fptK3] START
+[lifx 12:30:32] [fptK3] KILL eval1 235.87 > 110
+[lifx 12:30:58] [fptK1] START
+[lifx 12:56:29] [fptK1] KILL eval1 258.11 > 110
+[lifx 12:56:57] DONE (K arms)
+[lifx 12:56:57] [fptK0] START
+[lifx] STOPPED by Claude: FPT control found to LEAK future tokens under bf16 (_scan_chunked arange in bf16) -> all comparisons vs control invalid

@@ -111,6 +111,52 @@ class SpikeGLU(nn.Module):
         return self.w2(a * self.w3(x))
 
 
+class SparseAct(nn.Module):
+    """r19 (2026-10-03, sparse "best of both worlds" MLP; default off). Activation for the plain 2-matrix MLP:
+    kind "relu2" = relu(a)^2 (Primer); "relu" = relu(a). Optional homeostatic threshold (homeo = "layer": one
+    threshold per block, "unit": one per hidden neuron): a neuron fires only when a > theta, and emits a graded
+    value (relu2/relu of a). theta is NOT trained by gradient: after each optimizer step the trainer calls
+    homeo_step(), which nudges theta so the firing rate tracks rate_target (set per step by the trainer; 1.0 =
+    no threshold pressure). Gradient flows through the units that fired. Rates are fractions of nonzero outputs."""
+    def __init__(self, hidden, kind="relu2", homeo=None):
+        super().__init__()
+        assert kind in ("relu2", "relu") and homeo in (None, "layer", "unit")
+        self.kind, self.homeo = kind, homeo
+        self.rate_target = 1.0
+        # Rate bookkeeping lives in non-persistent buffers updated IN PLACE (2026-10-03): no Python state changes
+        # inside forward, so torch.compile does not guard/recompile on it and CUDA-graph capture is safe. Same math
+        # as the first (Python-counter) version, bit-identical (temp/parity_sparseact.py).
+        self.register_buffer("last_rate", torch.zeros(()), persistent=False)
+        if homeo:
+            self.register_buffer("theta", torch.zeros(hidden if homeo == "unit" else 1))
+            self.register_buffer("rate_acc", torch.zeros(hidden if homeo == "unit" else 1), persistent=False)
+            self.register_buffer("rate_n", torch.zeros(()), persistent=False)
+    @property
+    def _last_rate(self):                     # name used by the trainer telemetry and the scorecard
+        return self.last_rate
+    def forward(self, a):
+        fire = a > (self.theta.to(a.dtype) if self.homeo else 0)
+        r = torch.where(fire, a, torch.zeros_like(a))
+        h = r * r if self.kind == "relu2" else r
+        with torch.no_grad():
+            f = fire.float()
+            self.last_rate.copy_(f.mean())
+            if self.homeo and self.training:
+                u = f.reshape(-1, f.shape[-1]).mean(0) if self.homeo == "unit" else f.mean().reshape(1)
+                self.rate_acc.add_(u)
+                self.rate_n.add_(1)
+        return h
+    @torch.no_grad()
+    def homeo_step(self, lr):
+        """theta += lr * (rate - target) / target, clamped at 0 (relative error, so the step size is target-free).
+        No host sync: a step with no training forward (rate_n == 0) adds nothing."""
+        if not self.homeo:
+            return
+        upd = lr * (self.rate_acc / self.rate_n.clamp(min=1) - self.rate_target) / self.rate_target
+        self.theta.add_(torch.where(self.rate_n > 0, upd, torch.zeros_like(upd))).clamp_(min=0)
+        self.rate_acc.zero_(); self.rate_n.zero_()
+
+
 @torch.compiler.disable
 def _kwta(ffn, a):
     """k-WTA on the apical input. Compiler-disabled and reads ffn.k_cur itself (2026-10-02 speed plan): the k-ramp
@@ -135,7 +181,8 @@ class HybridAttentionBlock(nn.Module):
                  use_swiglu=True, depth_scale=1.0, max_seq_len=4096,
                  rope_base=10000.0, ffn_hidden=None, bias=False,
                  use_qk_norm=True, use_ffn=True, spikeglu_k=0, topk=0,
-                 out_gate=False, canon=0, spikeglu_lif=False, lif_levels=1, lif_signed=True):
+                 out_gate=False, canon=0, spikeglu_lif=False, lif_levels=1, lif_signed=True,
+                 ffn_act="gelu", ffn_homeo=None):
         super().__init__()
         if d_in != d_mem:
             # Attention block currently only supports the mid-stack case where
@@ -193,8 +240,10 @@ class HybridAttentionBlock(nn.Module):
             out_linear = self.ffn.w2
         else:
             hidden = ffn_hidden or (4 * d_mem)
+            # r19 ffn_act (default "gelu" = byte-identical): "relu2"/"relu" = SparseAct (no params, same state_dict
+            # names apart from the homeostatic theta buffer).
             self.ffn = nn.Sequential(nn.Linear(d_mem, hidden, bias=bias),
-                                     nn.GELU(),
+                                     nn.GELU() if ffn_act == "gelu" else SparseAct(hidden, ffn_act, ffn_homeo),
                                      nn.Linear(hidden, d_mem, bias=bias))
             out_linear = self.ffn[-1]
         # Depth-scaled init on the two residual-adjacent output projections

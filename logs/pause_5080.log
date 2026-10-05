@@ -1,0 +1,6 @@
+[pause 18:50:00] pausing 5080 screens
+[pause 18:50:00] stopped queued depth-resume waiter
+[pause 18:50:00] done. 5080: 751 MiB
+screen_indepwin_s0_30m |     1 |     1 |     1 |   245 |  1076
+screen_indepwin_s1_30m |     1 |     1 |     1 |   550 |  1768
+[indepwin 18:28:34] === indepwin 30M screen DONE ===

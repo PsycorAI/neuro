@@ -1,0 +1,24 @@
+val ppl (40x8x512 tok, EVAL_SEED windows)
+POSITION buckets       [0,1)      [1,4)     [4,16)    [16,64)   [64,256)  [256,512)      all
+lif_exact              559.1      234.3      178.0      124.5      108.7       97.7    106.4
+lif_exact -mem         559.1      300.1      289.7      298.7      294.4      278.5    287.0
+fpt                    685.6      317.6      192.4      156.2      147.2      137.0    144.8
+fpt -mem               685.6      353.2      323.1      398.5      592.7      575.2    553.1
+tfmr                  1245.9      211.3      103.7       76.0       72.4       69.5     72.7
+ratio lif_exact         0.45       1.11       1.72       1.64       1.50       1.41     1.46
+ratio fpt               0.55       1.50       1.86       2.05       2.03       1.97     1.99
+
+TARGET-FREQ buckets (rank)         0-100    100-1000   1000-4000  4000-16384
+token share                        48.7%       22.4%       15.5%       13.5%
+lif_exact                           16.8       161.6       807.1      3687.5
+fpt                                 18.9       222.0      1335.7      7648.4
+tfmr                                12.3       110.5       514.2      2145.9
+ratio lif_exact                     1.37        1.46        1.57        1.72
+ratio fpt                           1.54        2.01        2.60        3.56
+
+SPIKE stats (4 batches x 8 x 512)
+lif_exact  blk0: rate 0.066 | dead(<1e-4)   0.0% | >50%   0.1% | active/tok mean 134 p10 83 p90 195 | spk==cur>1 agree 94.1% | spikes needing history 71.9% | cur std 0.50 mean 0.00
+lif_exact  blk1: rate 0.031 | dead(<1e-4)   2.3% | >50%   1.1% | active/tok mean 64 p10 49 p90 77 | spk==cur>1 agree 97.7% | spikes needing history 45.9% | cur std 0.70 mean -0.52
+fpt        blk0: rate 0.124 | dead(<1e-4)   0.0% | >50%   1.6% | active/tok mean 254 p10 110 p90 438 | spk==cur>1 agree 87.8% | spikes needing history 81.1% | cur std 0.60 mean -0.02
+fpt        blk1: rate 0.087 | dead(<1e-4)   0.8% | >50%   2.2% | active/tok mean 178 p10 140 p90 221 | spk==cur>1 agree 92.7% | spikes needing history 68.1% | cur std 0.76 mean -0.40
+EXIT=0

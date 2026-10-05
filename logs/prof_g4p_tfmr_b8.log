@@ -1,0 +1,75 @@
+optimizer: AdamW (fused) (lr=0.001)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1096.01M device=cuda target=0.000B tok | 4096 tok/step | total_steps≈23 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.0M tok | loss 14.168 | 354 tok/s | vram 16.7/27.7 GB
+step 10 | 0.0M tok | loss 13.723 | 15,553 tok/s | vram 16.7/27.7 GB
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+step 15 | 0.1M tok | loss 13.665 | 14,478 tok/s | vram 16.7/27.7 GB
+step 20 | 0.1M tok | loss 13.560 | 10,097 tok/s | vram 16.7/27.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_g4p_tfmr_b8/step_0000023.pt
+done: 0.1M tok in 0.04h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3443943014.4 |    3443943014.4 |         1.00x
+    4096 |    4321810841.6 |    4321810841.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 939,524,096 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                                  Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                         ProfilerStep*         0.00%       0.000us         0.00%       0.000us       0.000us        1.892s       156.42%        1.892s        1.892s             1  
+                                                              aten::mm         4.05%     114.455ms         7.04%     198.942ms      82.893us     768.475ms        63.52%     768.475ms     320.198us          2400  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     215.015ms        17.77%     215.015ms     447.948us           480  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     161.233ms        13.33%     161.233ms     395.180us           408  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     148.218ms        12.25%     148.218ms     380.047us           390  
+                                             Optimizer.step#AdamW.step         0.00%       0.000us         0.00%       0.000us       0.000us     115.912ms         9.58%     115.912ms      19.319ms             6  
+                                                   aten::_fused_adamw_         0.06%       1.727ms         0.24%       6.805ms       1.134ms     113.622ms         9.39%     113.622ms      18.937ms             6  
+void at::native::(anonymous namespace)::multi_tensor_apply_kernel<a...         0.00%       0.000us         0.00%       0.000us       0.000us     113.622ms         9.39%     113.622ms     357.302us           318  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us     106.028ms         8.76%     106.028ms     654.491us           162  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us      93.680ms         7.74%      93.680ms     600.512us           156  
+void at::native::vectorized_elementwise_kernel<4, at::native::CUDAF...         0.00%       0.000us         0.00%       0.000us       0.000us      45.971ms         3.80%      45.971ms      47.005us           978  
+                                                            aten::add_         0.38%      10.733ms         1.12%      31.811ms      32.727us      45.965ms         3.80%      45.965ms      47.289us           972  
+                                                   aten::_foreach_mul_         0.07%       1.977ms         0.35%       9.806ms       1.634ms      32.860ms         2.72%      32.860ms       5.477ms             6  
+void at::native::(anonymous namespace)::multi_tensor_apply_kernel<a...         0.00%       0.000us         0.00%       0.000us       0.000us      32.860ms         2.72%      32.860ms     103.334us           318  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us      27.646ms         2.29%      27.646ms     170.655us           162  
+                                                   aten::_foreach_norm         0.23%       6.393ms         0.56%      15.827ms       2.638ms      15.620ms         1.29%      15.624ms       2.604ms             6  
+void at::native::(anonymous namespace)::multi_tensor_apply_kernel<a...         0.00%       0.000us         0.00%       0.000us       0.000us      15.610ms         1.29%      15.610ms      49.087us           318  
+                                                           aten::addmm         0.02%     677.986us         0.04%       1.137ms      94.768us      15.109ms         1.25%      15.109ms       1.259ms            12  
+                                       aten::_flash_attention_backward         0.20%       5.633ms         1.00%      28.253ms     181.108us      14.309ms         1.18%      16.271ms     104.299us           156  
+                                        triton_poi_fused__to_copy_t_14         0.14%       3.935ms         0.32%       8.950ms      57.375us      12.461ms         1.03%      12.461ms      79.875us           156  
+                                        triton_poi_fused__to_copy_t_14         0.00%       0.000us         0.00%       0.000us       0.000us      12.461ms         1.03%      12.461ms      79.875us           156  
+                                        triton_poi_fused__to_copy_t_15         0.13%       3.813ms         0.33%       9.472ms      60.717us      11.672ms         0.96%      11.672ms      74.823us           156  
+                                        triton_poi_fused__to_copy_t_15         0.00%       0.000us         0.00%       0.000us       0.000us      11.672ms         0.96%      11.672ms      74.823us           156  
+               triton_poi_fused__unsafe_view_gelu_gelu_backward_view_2         0.06%       1.765ms         0.14%       4.062ms      52.078us      11.575ms         0.96%      11.575ms     148.402us            78  
+               triton_poi_fused__unsafe_view_gelu_gelu_backward_view_2         0.00%       0.000us         0.00%       0.000us       0.000us      11.575ms         0.96%      11.575ms     148.402us            78  
+void pytorch_flash::flash_bwd_dq_dk_dv_loop_seqk_parallel_kernel<Fl...         0.00%       0.000us         0.00%       0.000us       0.000us      10.376ms         0.86%      10.376ms     133.024us            78  
+                                          triton_poi_fused__to_copy_36         0.12%       3.282ms         0.28%       7.971ms      49.205us      10.318ms         0.85%      10.318ms      63.689us           162  
+                                          triton_poi_fused__to_copy_36         0.00%       0.000us         0.00%       0.000us       0.000us      10.318ms         0.85%      10.318ms      63.689us           162  
+                                           triton_poi_fused__to_copy_7         0.14%       3.972ms         0.34%       9.482ms      60.781us      10.136ms         0.84%      10.136ms      64.972us           156  
+                                           triton_poi_fused__to_copy_7         0.00%       0.000us         0.00%       0.000us       0.000us      10.136ms         0.84%      10.136ms      64.972us           156  
+                                 triton_poi_fused__unsafe_view_gelu_15         0.06%       1.763ms         0.15%       4.240ms      54.363us       9.274ms         0.77%       9.274ms     118.897us            78  
+                                 triton_poi_fused__unsafe_view_gelu_15         0.00%       0.000us         0.00%       0.000us       0.000us       9.274ms         0.77%       9.274ms     118.897us            78  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us       9.147ms         0.76%       9.147ms      39.090us           234  
+void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf1...         0.00%       0.000us         0.00%       0.000us       0.000us       8.639ms         0.71%       8.639ms      55.378us           156  
+                                            aten::convolution_backward         0.38%      10.674ms         1.34%      37.797ms     242.290us       8.459ms         0.70%      14.013ms      89.826us           156  
+                                                           aten::copy_         0.24%       6.751ms         0.78%      21.968ms      67.803us       7.601ms         0.63%       7.618ms      23.513us           324  
+void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_...         0.00%       0.000us         0.00%       0.000us       0.000us       7.538ms         0.62%       7.538ms      31.410us           240  
+void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16...         0.00%       0.000us         0.00%       0.000us       0.000us       7.108ms         0.59%       7.108ms      91.129us            78  
+triton_poi_fused__to_copy_add_constant_pad_nd_native_layer_norm_bac...         0.09%       2.541ms         0.17%       4.680ms      65.003us       6.973ms         0.58%       6.973ms      96.853us            72  
+triton_poi_fused__to_copy_add_constant_pad_nd_native_layer_norm_bac...         0.00%       0.000us         0.00%       0.000us       0.000us       6.973ms         0.58%       6.973ms      96.853us            72  
+triton_red_fused__scaled_dot_product_flash_attention__to_copy__unsa...         0.11%       3.015ms         0.19%       5.499ms      76.372us       6.649ms         0.55%       6.649ms      92.351us            72  
+triton_red_fused__scaled_dot_product_flash_attention__to_copy__unsa...         0.00%       0.000us         0.00%       0.000us       0.000us       6.649ms         0.55%       6.649ms      92.351us            72  
+                                        aten::_flash_attention_forward         0.14%       4.053ms         0.59%      16.644ms     106.695us       6.568ms         0.54%       6.568ms      42.100us           156  
+                                               aten::_conv_depthwise2d         0.09%       2.475ms         0.37%      10.527ms      67.484us       5.768ms         0.48%       5.768ms      36.972us           156  
+void at::native::(anonymous namespace)::conv_depthwise2d_forward_ke...         0.00%       0.000us         0.00%       0.000us       0.000us       5.768ms         0.48%       5.768ms      36.972us           156  
+----------------------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 2.828s
+Self CUDA time total: 1.210s
+
+[prof g4p_tfmr_b8] median step 319 ms = 12,839 tok/s (B8xGA1, 10 steps, PROFILER ON)
+[prof g4p_tfmr_b8] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00

@@ -1,0 +1,22 @@
+== l3gelu (89.91M, 53.3s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.086 p90 0.1761 | ent med 0.2769 | firing 0.0893
+  L1 mlp units  4096 dead 0.000 | top1 med 0.0976 p90 0.2829 | ent med 0.264 | firing 1.0
+  L2 mlp units  4096 dead 0.000 | top1 med 0.1024 p90 0.1805 | ent med 0.2432 | firing 1.0
+  L3 mlp units  4096 dead 0.000 | top1 med 0.1073 p90 0.1951 | ent med 0.2439 | firing 1.0
+  L1 attn breadth90 11.21 sink 0.0011 (topk 16)
+  L2 attn breadth90 8.32 sink 0.0006 (topk 16)
+  L3 attn breadth90 9.5 sink 0.002 (topk 16)
+  circuit mqar {'entries90_med': 31855, 'active_entries_med': 148504, 'frac_of_active': 0.2144} | lm {'entries90_med': 330551, 'active_entries_med': 1755671, 'frac_of_active': 0.1908}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.445, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.9, 'top1_share': 0.1496, 'recall_acc': 0.4688}}
+  events {512: {'event_share': 0.0115, 'ac_share': 0.0115, 'mops': 65.87}, 4096: {'event_share': 0.0099, 'ac_share': 0.0099, 'mops': 76.88}}
+== r19a (89.91M, 46.1s)
+  L0 spk units  2048 dead 0.000 | top1 med 0.0839 p90 0.1787 | ent med 0.277 | firing 0.0884
+  L1 sparse units  4096 dead 0.000 | top1 med 0.0502 p90 0.1178 | ent med 0.0356 | firing 0.253
+  L2 sparse units  4096 dead 0.000 | top1 med 0.0801 p90 0.1798 | ent med 0.0942 | firing 0.2683
+  L3 sparse units  4096 dead 0.000 | top1 med 0.1003 p90 0.15 | ent med 0.0661 | firing 0.4376
+  L1 attn breadth90 11.53 sink 0.0013 (topk 16)
+  L2 attn breadth90 8.72 sink 0.0006 (topk 16)
+  L3 attn breadth90 9.51 sink 0.0093 (topk 16)
+  circuit mqar {'entries90_med': 8752, 'active_entries_med': 66539, 'frac_of_active': 0.1329} | lm {'entries90_med': 65592, 'active_entries_med': 515338, 'frac_of_active': 0.1319}
+  mem_trace {0: {'trace': 1.0, 'trace_given_correct': 1.0, 'top1_share': 0.4292, 'recall_acc': 1.0}, 192: {'trace': 0.7969, 'trace_given_correct': 0.8824, 'top1_share': 0.1608, 'recall_acc': 0.5312}}
+  events {512: {'event_share': 0.0833, 'ac_share': 0.0131, 'mops': 57.3}, 4096: {'event_share': 0.0699, 'ac_share': 0.011, 'mops': 68.31}}

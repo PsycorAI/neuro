@@ -1,0 +1,25 @@
+optimizer: NorMuon (93 matrices, lr=0.005) + AdamW (125 other params, lr=0.0005)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=310.47M device=cuda target=0.001B tok | 16384 tok/step | total_steps≈35 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.1M tok | loss 18.207 | 987 tok/s | vram 4.5/12.6 GB
+step 10 | 0.2M tok | loss 16.920 | 1,801 tok/s | vram 4.5/12.6 GB
+step 15 | 0.2M tok | loss 17.029 | 3,895 tok/s | vram 4.4/12.6 GB
+step 20 | 0.3M tok | loss 15.599 | 1,903 tok/s | vram 4.4/12.6 GB
+step 25 | 0.4M tok | loss 15.426 | 1,990 tok/s | vram 4.4/12.6 GB
+step 30 | 0.5M tok | loss 15.850 | 3,818 tok/s | vram 4.5/12.6 GB
+step 35 | 0.6M tok | loss 14.598 | 3,782 tok/s | vram 4.5/12.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_v4d_b8_ga4/step_0000035.pt
+done: 0.6M tok in 0.08h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     744322456.0 |    1061158912.0 |         1.43x
+    4096 |     786527640.0 |    1441005568.0 |         1.83x
+
+block mix: 8 spiking + 1 attention | spike_rate 0.334 reported -> 0.376 spiking-only
+spiking op mix/token @ seq 4096: 150,732,800 MAC + 103,507,511 AC
+note: 1 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof v4d_b8_ga4] median step 4294 ms = 3,816 tok/s (B8xGA4, 14 steps)
+[prof v4d_b8_ga4] lif_calls=3848 scans=42304 -> mean fixed-point iters/call = 9.99
