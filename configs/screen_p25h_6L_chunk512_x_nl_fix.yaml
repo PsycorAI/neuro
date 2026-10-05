@@ -1,4 +1,4 @@
-# screen_p25h_6L_chunk512_x_nl_fix -- AUTO-GEN temp/mk_r25_configs.py (2026-10-04) from screen_r23b_g3w_6L_x1e. p25f + plain MQAR batch 32 + xchunk from 30%.
+# screen_p25h_6L_chunk512_x_nl_fix -- AUTO-GEN temp/mk_r25_configs.py (2026-10-04) from screen_r23b_g3w_6L_x1e. p25f + plain MQAR batch 32 + xchunk from 30%; B8 x GA2 to fit 16 GB.
 arch: spiking
 vocab: 32768
 d: 768
@@ -10,8 +10,8 @@ recurrent_depth: 1
 recurrent_bptt_k: 0
 recurrent_router_enabled: false
 block_size: 1024
-batch_size: 16
-grad_accum: 1
+batch_size: 8
+grad_accum: 2
 eval_batch: 4
 use_fpt: true
 fpt_K: 10
@@ -104,17 +104,17 @@ mqar_gap_max: 440
 mqar_gap_start_frac: 0.0
 mqar_gap_ramp_frac: 0.1
 mqar_gap_weight: 0.15
-mqar_batch: 8
+mqar_batch: 4
 mqar_gap_pad_to: 512
 mqar_compile_static: true
 gdn2_cumsum_eager_max_b: 16
 attn_chunk: 512
-mqar_xchunk_batch: 4
+mqar_aug_batch: 16
+mqar_xchunk_batch: 2
 mqar_xchunk_frac: 0.5
 nlfact_every: 2
 nlfact_batch: 4
 nlfact_weight: 0.15
 nlfact_in_frac: 0.3
 nlfact_k_max: 4
-mqar_aug_batch: 32
 mqar_xchunk_start_frac: 0.3

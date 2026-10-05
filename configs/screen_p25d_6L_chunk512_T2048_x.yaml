@@ -10,8 +10,8 @@ recurrent_depth: 1
 recurrent_bptt_k: 0
 recurrent_router_enabled: false
 block_size: 2048
-batch_size: 8
-grad_accum: 1
+batch_size: 4
+grad_accum: 2
 eval_batch: 2
 use_fpt: true
 fpt_K: 10
@@ -104,12 +104,12 @@ mqar_gap_max: 440
 mqar_gap_start_frac: 0.0
 mqar_gap_ramp_frac: 0.1
 mqar_gap_weight: 0.15
-mqar_batch: 8
+mqar_batch: 4
 mqar_gap_pad_to: 512
 mqar_compile_static: true
 gdn2_cumsum_eager_max_b: 16
 attn_chunk: 512
-mqar_xchunk_batch: 4
+mqar_xchunk_batch: 2
 mqar_xchunk_frac: 0.5
-mqar_aug_batch: 32
+mqar_aug_batch: 16
 mqar_xchunk_start_frac: 0.3

@@ -478,3 +478,38 @@
   r25-evals r24b_stateful_x1e_150m     C=512 N8:  18.8  10.2  11.7  13.3 (mem off  18.8) | N32:   0.0   3.1   5.5   2.3 (mem off   0.0)
   r25-evals r24b_stateful_x1e_150m     C=512 | K1 in@0  73.4 | K1 in@200  38.0 | K1 x@0   6.2 | K1 x@200   6.8 | K1 x@0 off   6.2 | K1 in@0 para  17.7 | K1 x@0 para   6.2 | K4 in@0  17.7 | K4 in@200  15.6 | K4 x@0  10.4 | K4 x@200   7.8 | K4 x@0 off   9.9 | K4 in@0 para  13.0 | K4 x@0 para   6.8
 [s1 10-05 03:40] p25a: memory USED (chunk2 Δ +10) but recall collapsed (plain MQAR batch 16 + xchunk from 0) -> fix flags mqar_aug_batch / mqar_xchunk_start_frac; 5080 queue relaunched: p25f evals, then p25g (fix), p25b, p25h (nl+fix), p25e, p25d, p25c
+[q0 10-05 05:08:24] [r21b_x1_150m] exit=0 :: 195.64 104.54 75.79 63.64 56.73 51.93 47.73 44.14 45.80 41.08 38.88 37.59 
+  recall           r21b_x1_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r21b_x1_150m   N8: 100.0 100.0 100.0  99.6 | N32:  99.6 100.0 100.0 100.0
+[q0 10-05 05:08:59] queue DONE
+  r25-evals r21b_x1_150m               C=512 T=1024 | chunk1   38.84 (mem off   38.83) | chunks2+   39.48 (off   39.47, Δ -0.02) | first64 of 2+   58.71 (off   58.64, Δ -0.07) vs first64 of chunk1   59.01
+  r25-evals r21b_x1_150m               C=512 N8:   9.4  14.1  15.6   9.4 (mem off  10.9) | N32:   3.9   2.3   7.8   1.6 (mem off   3.1)
+  r25-evals r21b_x1_150m               C=512 | K1 in@0  95.3 | K1 in@200  57.8 | K1 x@0   7.8 | K1 x@200   5.2 | K1 x@0 off   7.8 | K1 in@0 para  22.4 | K1 x@0 para   7.3 | K4 in@0  21.4 | K4 in@200  15.1 | K4 x@0  10.9 | K4 x@200   6.2 | K4 x@0 off   9.9 | K4 in@0 para  15.6 | K4 x@0 para  10.4
+[q0 10-05 05:11:51] [r25a_chunk_x1_150m] START
+[s1 10-05 05:31:22] p25f KILLED: WDDM spill (17.1 GB on 16 GB, 2.4k tok/s); watchdog now 5 lines past step 300; p25h = B8xGA2; NL-fact test moved to 5090 r25c (after r25b)
+[wd 10-05 05:31:22] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[s1 10-05 05:31:40] [screen_p25f_6L_chunk512_x_nl] exit=143 :: 284.72 190.25 
+[s1 10-05 05:31:40] scheduler DONE
+  r25-evals screen_p25f_6L_chunk512_x_nl C=512 T=1024 | chunk1  198.26 (mem off  209.60) | chunks2+  193.82 (off  206.94, Δ +13.12) | first64 of 2+  205.60 (off  220.56, Δ +14.97) vs first64 of chunk1  230.08
+  r25-evals screen_p25f_6L_chunk512_x_nl C=512 N8:   9.4  10.9  10.9  14.1 (mem off   7.0) | N32:   1.6   3.1   3.1   4.7 (mem off   2.3)
+  r25-evals screen_p25f_6L_chunk512_x_nl C=512 | K1 in@0   5.7 | K1 in@200   6.2 | K1 x@0   4.2 | K1 x@200   4.7 | K1 x@0 off   3.1 | K1 in@0 para   7.8 | K1 x@0 para   8.3 | K4 in@0   7.3 | K4 in@200   8.3 | K4 x@0   9.4 | K4 x@200   8.9 | K4 x@0 off  10.4 | K4 in@0 para   9.9 | K4 x@0 para   9.4
+[s1 10-05 05:33:01] scheduler waiting for GPU 1 lock
+[s1 10-05 05:37:02] [screen_p25g_6L_chunk512_x_fix] START
+[wd 10-05 06:26:23] [screen_p25g_6L_chunk512_x_fix] median 7994 tok/s < 8000 (spill/hang?) -> SIGTERM 380295
+[s1 10-05 06:26:43] [screen_p25g_6L_chunk512_x_fix] exit=143 :: 204.32 131.10 
+[s1 10-05 06:26:43] scheduler DONE
+[s1 10-05 06:26:43] [screen_p25g_6L_chunk512_x_fix] not DONE -> skipping its evals
+[s1 10-05 06:26:43] scheduler waiting for GPU 1 lock
+[s1 10-05 06:27:47] p25g SPILLED (plain MQAR batch 32 -> 15.3 GB, 8k tok/s; watchdog kill). 6L proxies now B/2 x GA2 (aux batches halved per micro); chain relaunched: g, b, h, e, d, c
+[s1 10-05 06:27:47] scheduler waiting for GPU 1 lock
+[s1 10-05 06:31:47] [screen_p25g_6L_chunk512_x_fix] START
+[q0 10-05 07:27:04] [r25a_chunk_x1_150m] exit=0 :: 210.34 113.37 79.58 66.50 58.94 53.27 48.89 45.31 51.78 47.07 43.54 42.26 
+  recall     r25a_chunk_x1_150m |   97% |  100% |  100% |  100% |   97%
+  haystack (gap 0/64/192/440) r25a_chunk_x1_150m N8: 100.0 100.0  99.6  99.6 | N32:  99.2 100.0 100.0  98.8
+[q0 10-05 07:27:47] queue DONE
+  r25-evals r25a_chunk_x1_150m         C=512 T=1024 | chunk1   43.10 (mem off   43.09) | chunks2+   43.42 (off   43.43, Δ +0.01) | first64 of 2+   61.17 (off   61.17, Δ +0.00) vs first64 of chunk1   65.45
+  r25-evals r25a_chunk_x1_150m         C=512 N8:  10.9  11.7  10.9  10.9 (mem off  10.9) | N32:   1.6   0.0   5.5   2.3 (mem off   1.6)
+  r25-evals r25a_chunk_x1_150m         C=512 | K1 in@0  91.1 | K1 in@200  29.7 | K1 x@0   7.8 | K1 x@200   5.2 | K1 x@0 off   7.8 | K1 in@0 para  19.8 | K1 x@0 para   4.7 | K4 in@0  22.4 | K4 in@200  13.0 | K4 x@0  10.9 | K4 x@200  11.5 | K4 x@0 off  11.5 | K4 in@0 para  15.1 | K4 x@0 para  11.5
+[q0 10-05 07:29:10] [r25b_chunk_x1e_150m] START
+[q0 10-05 07:38:04] [r25d_chunk_x1e_read_150m] START
+[q0 10-05 07:38:04] r25a (12L chunk, late xchunk) = memory UNUSED (Δ -6 at eval 1 -> 0; chunk1 43.10 vs r21b 38.84). r25b STOPPED; r25d (late read mem_read_layers [4,8], xchunk from 0) started. 5080 chain: p25g (running) -> p25i (late read) -> p25e -> p25h -> p25d -> p25b -> p25c

@@ -25,6 +25,12 @@ def emit(name, src, note, **upd):
     if upd.get("mqar_xchunk_frac"):
         upd.setdefault("mqar_xchunk_start_frac", 0.3)
     c.update(upd, run_name=name)
+    # 10-05 06:30: the 16 GB 5080 spills with the plain-MQAR batch at 32 (p25g 15.3 GB, 20.5k -> 8k tok/s). 6L proxies
+    # that have not run yet use 2 micro-batches with every per-micro aux halved (same samples per optimizer step).
+    if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
+                "screen_p25d_6L_chunk512_T2048_x", "screen_p25c_6L_chunk256_x"):
+        c.update(batch_size=c["batch_size"] // 2, grad_accum=2, mqar_aug_batch=c["mqar_aug_batch"] // 2,
+                 mqar_batch=c["mqar_batch"] // 2, mqar_xchunk_batch=max(1, c.get("mqar_xchunk_batch", 4) // 2))
     with open(R + name + ".yaml", "w") as f:
         f.write(f"# {name} -- AUTO-GEN temp/mk_r25_configs.py (2026-10-04) from {src}. {note}\n")
         yaml.safe_dump(c, f, sort_keys=False)
@@ -55,5 +61,15 @@ NL = dict(nlfact_every=2, nlfact_batch=4, nlfact_weight=0.15, nlfact_in_frac=0.3
 emit("screen_p25f_6L_chunk512_x_nl", P, "+ attn_chunk 512, T 1024, xchunk 0.5, NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, mqar_aug_batch=16, mqar_xchunk_start_frac=0.0,
      **X, **NL)                                   # ran 10-05 03:30 with the pre-fix MQAR settings
-emit("screen_p25h_6L_chunk512_x_nl_fix", P, "p25f + plain MQAR batch 32 + xchunk from 30%.",
-     block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, **X, **NL)
+# p25f spilled on the 16 GB 5080 (17.1 GB): p25h = 2 micro-batches of 8, every per-micro aux halved (same samples/step)
+emit("screen_p25h_6L_chunk512_x_nl_fix", P, "p25f + plain MQAR batch 32 + xchunk from 30%; B8 x GA2 to fit 16 GB.",
+     block_size=1024, attn_chunk=512, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4,
+     mqar_xchunk_batch=2, **X, **NL)
+# 10-05 07:45: r25a (12L) memory Δ -6 at eval 1, then 0 -> the READ path fails at depth. Late read = H0's memory
+# read-out re-injected after blocks 4 and 8 (6L: 3) through zero-init projections; xchunk from step 0 (p25a 6L used it).
+emit("r25d_chunk_x1e_read_150m", "r21i_x1early_150m", "+ chunk512/T1024 + xchunk 0.5 from step 0 + mem_read_layers [4, 8].",
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, mqar_xchunk_start_frac=0.0, mem_read_layers=[4, 8], **X)
+emit("screen_p25i_6L_chunk512_x_read", P, "+ chunk512/T1024 + xchunk 0.5 from step 0 + mem_read_layers [3]; B8xGA2.",
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, mqar_xchunk_start_frac=0.0, mem_read_layers=[3], **X)
+emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

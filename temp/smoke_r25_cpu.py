@@ -51,6 +51,12 @@ with torch.no_grad():
     da = (m1(x2, ablate_memory=True)[:, C:] - m1(x, ablate_memory=True)[:, C:]).abs().max().item()
     print(f"chunk2 change when chunk1 changes: memory on {dm:.2e} | memory ablated {da:.2e}")
     assert dm > 1e-4
+    # mem_read_layers: zero-init -> identical logits to the same weights without the flag
+    torch.manual_seed(0); m2 = build_model(dict(base, attn_chunk=C, mem_read_layers=[1, 2])).eval()
+    miss = m2.load_state_dict(m1.state_dict(), strict=False)
+    d_mr = (m2(x) - full1).abs().max().item()
+    print(f"mem_read_layers zero-init vs off: {d_mr:.2e} (new params: {len(miss.missing_keys)})")
+    assert d_mr < 1e-6 and len(miss.missing_keys) == 3
 print("[OK] r25 parity")
 # NOTE on the ablated case: the H0 LIF membrane and Engram n-grams still carry a little across the boundary, so da
 # is small but need not be 0; reported, not asserted.
@@ -61,6 +67,8 @@ CASES = {
     "smoke_r25_chunk_xmq": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                                 mqar_xchunk_frac=0.5, mqar_xchunk_batch=2, mqar_gap_start_frac=0.0,
                                 mqar_aug_batch=3, mqar_xchunk_start_frac=0.3),
+    "smoke_r25_memread": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
+                              mem_read_layers=[2, 3], mqar_xchunk_frac=0.5, mqar_xchunk_batch=2),
     "smoke_r25_nlfact": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                              nlfact_every=2, nlfact_batch=2, nlfact_k_max=2),
 }

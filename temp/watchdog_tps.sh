@@ -17,8 +17,9 @@ while pgrep -f "[q]ueue_5080_r25.sh|[q]ueue_5090_r25.sh|[r]un_gap_queue.sh|[r]un
     lg=logs/$cfg.log; [ -f "$lg" ] || continue
     age=$(( ($(date +%s) - $(stat -c %Y "$lg")) / 60 ))
     if [ $age -ge $STALL_MIN ]; then say "[$cfg] log silent ${age} min -> SIGTERM $pid"; kill -TERM $pid; continue; fi
-    med=$(grep -E '^step [0-9]+ \|' "$lg" | awk '{s=$2} s>1000' | tail -10 | sed -n 's/.*| \([0-9,]*\) tok\/s.*/\1/p' \
-          | tr -d ',' | sort -n | awk '{a[NR]=$1} END{if (NR>=10) print a[int((NR+1)/2)]}')
+    # 10-05: 5 lines past step 300 (p25f spilled at 2.4k tok/s for 3.5 h and never reached 10 lines past step 1000)
+    med=$(grep -E '^step [0-9]+ \|' "$lg" | awk '{s=$2} s>300' | tail -5 | sed -n 's/.*| \([0-9,]*\) tok\/s.*/\1/p' \
+          | tr -d ',' | sort -n | awk '{a[NR]=$1} END{if (NR>=5) print a[int((NR+1)/2)]}')
     if [ -n "$med" ] && [ "$med" -lt $MIN_TPS ]; then
       say "[$cfg] median ${med} tok/s < ${MIN_TPS} (spill/hang?) -> SIGTERM $pid"; kill -TERM $pid
     fi

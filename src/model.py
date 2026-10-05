@@ -1048,6 +1048,7 @@ class SpikingHebbianBlock(nn.Module):
             if self.swa_window:
                 r_seq = r_seq + self._swa_read(spk_seq, v_seq)
             out_seq = self.norm(r_seq + ff_seq)
+            r_late = r_seq                       # r25 mem_read_layers: the memory read-out, re-injected deeper
         elif self.swa_window:
             out_seq = self.norm(ff_seq + self._swa_read(spk_seq, v_seq))
         else:
@@ -1060,6 +1061,8 @@ class SpikingHebbianBlock(nn.Module):
                                     vth=1.0, K=fpt_K)
             out_seq = out_seq + self.W_down(spk_m)
             spk_seq = torch.cat([spk_seq, spk_m], dim=-1)   # stats only (sparsity penalty covers both)
+        if getattr(self, "return_mem_read", False):        # r25 mem_read_layers (set by the LM; default off)
+            return out_seq, mem_final, M, spk_seq, final_spk, (r_late if not ablate_memory else None)
         return out_seq, mem_final, M, spk_seq, final_spk
 
 
@@ -1107,7 +1110,8 @@ class SpikingHebbianLM(nn.Module):
                  spk_layerscale=0.0, attn_ffn=True, attn_ffn_spikeglu_k=0,
                  attn_ffn_hidden=None, attn_topk=0,
                  engram_v2_hash="lo", spk_out_norm=True, attn_out_gate=False, attn_canon=0,
-                 attn_ffn_spikeglu_lif=False, attn_ffn_act="gelu", attn_ffn_homeo=None):
+                 attn_ffn_spikeglu_lif=False, attn_ffn_act="gelu", attn_ffn_homeo=None,
+                 mem_read_layers=None):
         super().__init__()
         self.vocab = vocab
         # attn_single_residual (2026-09-25 fix, default off = byte-identical to
@@ -1374,6 +1378,22 @@ class SpikingHebbianLM(nn.Module):
                 K=engram_v2_K, heads=engram_v2_heads, rank=engram_v2_rank,
                 hash_hi=(engram_v2_hash == "hi"))
 
+        # r25 mem_read_layers (2026-10-05, default None = byte-identical; created last so existing inits are unchanged):
+        # the first spiking block also returns its memory read-out, and after each listed block index l the LM adds
+        # Linear_l(RMSNorm(read)) to the residual stream. Zero-init -> exact no-op at the start.
+        self.mem_read_proj = None
+        if mem_read_layers:
+            assert not act_ckpt, "mem_read_layers is wired into the plain single-pass loop only"
+            spk = [b for b in self.blocks if isinstance(b, SpikingHebbianBlock)]
+            assert spk and all(0 <= int(l) < n_layers for l in mem_read_layers)
+            spk[0].return_mem_read = True
+            self.mem_read_norm = RMSNorm(d_mem)
+            self.mem_read_proj = nn.ModuleDict()
+            for l in mem_read_layers:
+                lin = nn.Linear(d_mem, d_mem, bias=False)
+                nn.init.zeros_(lin.weight)
+                self.mem_read_proj[str(int(l))] = lin
+
     def _attn_owns_residual(self, block):
         """True when the loop must NOT add the residual: attn_single_residual is
         on and the block is a HybridAttentionBlock (it adds its own)."""
@@ -1583,6 +1603,7 @@ class SpikingHebbianLM(nn.Module):
                 # Single-pass (original behavior; also the path for stateful
                 # inference with an initial_state). Unchanged.
                 x_seq = base                                   # (B, T, d)
+                _mem_read = None
                 for l, block in enumerate(self.blocks):
                     if kv_cache is not None and hasattr(block, "qkv"):
                         # Incremental attention: use the KV cache instead of a
@@ -1601,13 +1622,21 @@ class SpikingHebbianLM(nn.Module):
                             use_reentrant=False)
                         prev_spks[l] = final_spk
                     else:
-                        out_seq, mems[l], Ms[l], spk_seq, final_spk = block.forward_sequence(
+                        _res = block.forward_sequence(
                             x_seq, mems[l], Ms[l], prev_spks[l],
                             ablate_memory=ablate_memory, fpt_K=self.fpt_K)
+                        out_seq, mems[l], Ms[l], spk_seq, final_spk = _res[:5]
+                        if len(_res) == 6:
+                            _mem_read = _res[5]
                         prev_spks[l] = final_spk
                     if L > 1 and (l > 0 or use_residual) and not self._attn_owns_residual(block):
                         out_seq = self.fracconns[l](out_seq, x_seq) if self.fracconn_enabled else out_seq + x_seq
                     x_seq = out_seq
+                    # r25 mem_read_layers (default None = byte-identical): H0's memory read-out is re-injected into the
+                    # residual stream AFTER block l through a zero-init projection, so deep layers read the memory
+                    # directly (r25a 12L: memory written but ignored when it enters only at layer 0).
+                    if self.mem_read_proj is not None and str(l) in self.mem_read_proj and _mem_read is not None:
+                        x_seq = x_seq + self.mem_read_proj[str(l)](self.mem_read_norm(_mem_read.to(x_seq.dtype)))
                     if return_stats:
                         spike_accum.append(spk_seq)
                     if getattr(block, "_last_aux_loss", None) is not None:

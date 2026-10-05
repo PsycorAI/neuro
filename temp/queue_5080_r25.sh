@@ -17,9 +17,9 @@ r25evals(){   # $1 = run, $2 = forced chunk ("" = model's own), $3 = T
 flock logs/gap_queue_gpu1.lock true            # r23b (queue_5080_r23.sh) finishes first
 # 10-05 03:40 relaunch (p25a: memory used but recall never emerged -> fix = plain MQAR batch 32 + xchunk from 30%):
 # p25f (running under the previous loop) gets its r25 evals here, then the fixed runs.
-r25evals screen_p25f_6L_chunk512_x_nl ""
-for r in screen_p25g_6L_chunk512_x_fix screen_p25b_6L_chunk512 screen_p25h_6L_chunk512_x_nl_fix \
-         screen_p25e_6L_chunk512_x_H3 screen_p25d_6L_chunk512_T2048_x screen_p25c_6L_chunk256_x; do
+# (p25f evals done)
+for r in screen_p25g_6L_chunk512_x_fix screen_p25i_6L_chunk512_x_read screen_p25e_6L_chunk512_x_H3 \
+         screen_p25h_6L_chunk512_x_nl_fix screen_p25d_6L_chunk512_T2048_x screen_p25b_6L_chunk512 screen_p25c_6L_chunk256_x; do
   [ "$(date +%s)" -ge $END ] && { say "[$r] not started (window ends $UNTIL_AT)"; break; }
   GPU=1 UNTIL="$UNTIL_AT" bash temp/run_5080_sched.sh $r
   if [ ! -f models/checkpoints/$r/DONE ]; then        # crashed / killed by the watchdog -> next run (window allowing)

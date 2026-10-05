@@ -5,9 +5,9 @@ import sys, os, shutil, yaml
 sys.path.insert(0, "/home/glenn/projects/neuro/src")
 import train_gpu
 
-for src, name in (("screen_p25f_6L_chunk512_x_nl", "smoke_r25g_f"),):
+for src, name in (("r25d_chunk_x1e_read_150m", "smoke_r25g_rd"),):
     c = yaml.safe_load(open(f"/home/glenn/projects/neuro/configs/{src}.yaml"))
-    c.update(d=128, n_neurons=256, d_mem=128, attention_heads=4, n_layers=4, attention_layer_positions=[1, 2, 3],
+    c.update(d=128, n_neurons=256, d_mem=128, attention_heads=4, n_layers=4, attention_layer_positions=[1, 2, 3], mem_read_layers=[2],
              attn_ffn_hidden=512, max_tokens=c["block_size"] * c["batch_size"] * 120, eval_every=40, eval_iters=3,
              ckpt_every=1000, log_every=20, engram_v2_K=1024, engram_v2_rank=16, mqar_gap_start_frac=0.0,
              attn_ffn_ramp_start=0.1, attn_ffn_ramp_end=0.5, run_name=name)
