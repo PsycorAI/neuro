@@ -27,7 +27,7 @@ def emit(name, src, note, **upd):
     c.update(upd, run_name=name)
     # 10-05 06:30: the 16 GB 5080 spills with the plain-MQAR batch at 32 (p25g 15.3 GB, 20.5k -> 8k tok/s). 6L proxies
     # that have not run yet use 2 micro-batches with every per-micro aux halved (same samples per optimizer step).
-    if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
+    if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25l_6L_chunk512_x_H3_nl", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
                 "screen_p25d_6L_chunk512_T2048_x", "screen_p25c_6L_chunk256_x"):
         c.update(batch_size=c["batch_size"] // 2, grad_accum=2, mqar_aug_batch=c["mqar_aug_batch"] // 2,
                  mqar_batch=c["mqar_batch"] // 2, mqar_xchunk_batch=max(1, c.get("mqar_xchunk_batch", 4) // 2))
@@ -71,5 +71,29 @@ emit("r25d_chunk_x1e_read_150m", "r21i_x1early_150m", "+ chunk512/T1024 + xchunk
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, mqar_xchunk_start_frac=0.0, mem_read_layers=[4, 8], **X)
 emit("screen_p25i_6L_chunk512_x_read", P, "+ chunk512/T1024 + xchunk 0.5 from step 0 + mem_read_layers [3]; B8xGA2.",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, mqar_xchunk_start_frac=0.0, mem_read_layers=[3], **X)
+# 10-05 10:20: every run that forces memory use from the start costs 10-40% ppl (attention never matures). LATE MEMORY
+# PHASE: resume r21b's final ckpt (37.59, 200M tok; copied into the run dir by temp/queue_5090_r25fg.sh) and train 40M more
+# tokens with chunks + xchunk MQAR (the gap dose is already on past 70%), with / without the late read.
+LATE = dict(block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, mqar_xchunk_start_frac=0.0, max_tokens=240_000_000)
+emit("r25f_late_chunk_read_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +40M tok chunk512/T1024 + xchunk + "
+     "mem_read_layers [4, 8].", mem_read_layers=[4, 8], **LATE, **X)
+emit("r25g_late_chunk_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +40M tok chunk512/T1024 + xchunk (no late read).",
+     **LATE, **X)
+# 10-05 11:10: r25f = memory used at 12L with NO ppl cost (chunk1 38.34 vs r21b 38.84) but cross-chunk recall at chance
+# -> stronger late dose: 80M tok, every gap batch cross-chunk, gap weight 0.5.
+emit("r25h_late_read_xstrong_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +80M tok chunk512/T1024 + late read "
+     "[4, 8] + xchunk frac 1.0, gap weight 0.5.", mem_read_layers=[4, 8], mqar_gap_weight=0.5,
+     **dict(LATE, max_tokens=280_000_000), **dict(X, mqar_xchunk_frac=1.0))
+# 10-05 13:00: p25e (6L, 2nd memory at depth 3) = cross-chunk haystack N8 ~89% / N32 ~80% (mem off chance), +10% ppl.
+# r25h (late phase, xchunk 1.0, w 0.5) = cross-chunk N8 59-79% / N32 ~30% at 12L, chunk1 +4%, in-window haystack fell
+# (no in-chunk gap batches). Next: balanced late phase (r25i) and 12L from scratch with a 2nd memory layer (r25j).
+emit("r25i_late_read_xbal_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +80M tok chunk512/T1024 + late read "
+     "[4, 8] + xchunk frac 0.5, gap weight 0.3.", mem_read_layers=[4, 8], mqar_gap_weight=0.3,
+     **dict(LATE, max_tokens=280_000_000), **X)
+emit("r25j_chunk_H6_150m", "r21b_x1_150m", "+ chunk512/T1024 + xchunk 0.5 + 2nd memory layer at depth 6 (H0 + H6).",
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11],
+     **X)
+emit("screen_p25l_6L_chunk512_x_H3_nl", P, "p25e (H0 + H3) + NL-fact aux; B8xGA2.", block_size=1024, attn_chunk=512,
+     mqar_xchunk_batch=4, attention_layer_positions=[1, 2, 4, 5], **X, **NL)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)
