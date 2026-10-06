@@ -167,5 +167,14 @@ emit("screen_p25s3_7L_spk_sc2", PO, "CONVERSION: p25o + 20M tok, L4, thresholds 
 emit("screen_p25s4_7L_spk_tern", PO, "CONVERSION: p25o + 20M tok, TERNARY spikes (L1 signed, hidden L2).",
      max_tokens=120_000_000, **dict(SPK, spike_levels=1, spike_levels_hidden=2))
 emit("screen_p25t_7L_spk_scratch", PO, "p25o with spike_code from STEP 0 (way 1 without conversion), L4.", **SPK)
+# 10-06 12:15 review: r25t (L8, 80M conv) = NO ppl cost (41.67 vs 41.74), 5.0x. Real-text recall beyond the window fails
+# (xcopy 30 vs 28 mem-off) -> xcopy augmentation. Energy next: KD + 1.5x thresholds.
+emit("r25v_13L_H6_xcopy_150m", "r25o_13L_H6only_150m", "r25o recipe + xcopy_frac 0.25 (cross-chunk copy augmentation), "
+     "from scratch.", xcopy_frac=0.25)
+emit("screen_p25u_7L_spk_kd", PO, "CONVERSION: p25o + 40M tok, L8, thresholds 1.5x (SCALE env), self-KD from p25o "
+     "(alpha 0.5, every 4th position).", max_tokens=140_000_000, kd_self_ckpt=
+     "/home/glenn/projects/neuro/models/checkpoints/screen_p25o_7L_chunk512_x_H3add/step_0006104.pt",
+     kd_self_alpha=0.5, kd_self_stride=4, **dict(SPK, spike_levels=8, spike_levels_hidden=16))
+emit("screen_p25v_7L_xcopy", PO, "p25o + xcopy_frac 0.25, from scratch.", xcopy_frac=0.25)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

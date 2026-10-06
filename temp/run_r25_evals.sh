@@ -8,3 +8,4 @@ CH=${CHUNK:+--chunk $CHUNK}
 $PY temp/chunk_eval.py $CH --iters ${ITERS:-20} --T ${T:-1024} "$@" 2>&1 | grep -E 'C=|Error|error'
 $PY temp/xchunk_haystack_eval.py $CH "$@" 2>&1 | grep -E 'C=|Error|error'
 $PY temp/nl_fact_eval.py $CH "$@" 2>&1 | grep -E 'C=|Error|error'
+$PY temp/xcopy_eval.py $CH "$@" 2>&1 | grep -E 'C=|Error|error'

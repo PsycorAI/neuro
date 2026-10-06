@@ -64,6 +64,7 @@ with torch.no_grad():
     d_sc = (m3(x) - full1).abs().max().item()
     print(f"spike_code on vs off: max|dlogit| {d_sc:.3f} ({len(miss3.missing_keys)} thetas)")
     assert d_sc > 0
+    torch.save({"cfg": dict(base, attn_chunk=C), "model": m1.state_dict()}, "/tmp/kd_teacher_smoke.pt")
 print("[OK] r25 parity")
 # NOTE on the ablated case: the H0 LIF membrane and Engram n-grams still carry a little across the boundary, so da
 # is small but need not be 0; reported, not asserted.
@@ -78,6 +79,9 @@ CASES = {
                               mem_read_layers=[2, 3], mqar_xchunk_frac=0.5, mqar_xchunk_batch=2),
     "smoke_spk": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                       spike_code=["qkv", "o", "up", "down", "head", "mem"]),
+    "smoke_xcopy_kd": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
+                           spike_code=["qkv", "o", "up", "down", "head", "mem"], xcopy_frac=0.5,
+                           kd_self_ckpt="/tmp/kd_teacher_smoke.pt", kd_self_topk=8),
     "smoke_r25_nlfact": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                              nlfact_every=2, nlfact_batch=2, nlfact_k_max=2),
 }

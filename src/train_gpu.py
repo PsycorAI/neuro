@@ -593,8 +593,41 @@ def main():
     # (still real dev work, not free) is expected to recover most of that.
     mqar_model = raw_model
     _mqar_gap_rng = np.random.RandomState(int(c.get("seed", 0)) + 7919)   # haystack MQAR only (mqar_gap_max)
+    # xcopy_frac (2026-10-06, default 0 = off, own RNG): cross-chunk COPY augmentation of the LM batch. In that fraction of
+    # rows a real-text span (16-64 tok) from attention chunk A is pasted at a random point of chunk B; the ordinary LM loss
+    # then rewards continuing it, which only the memory can do (attention can't see chunk A). Trains general "recall what
+    # was said earlier, beyond the window" (the demo's fact recall is this pattern), at no extra forward cost.
+    _xcopy_frac = float(c.get("xcopy_frac", 0) or 0)
+    if _xcopy_frac:
+        assert int(c.get("attn_chunk", 0) or 0), "xcopy_frac needs attn_chunk"
+        _xc_rng = np.random.RandomState(int(c.get("seed", 0)) + 104729)
+        _xC = int(c["attn_chunk"])
+
+        def _xcopy(x, y):
+            w = torch.cat([x, y[:, -1:]], 1)                       # (B, T+1) raw window
+            T1 = w.shape[1]
+            for i in range(w.shape[0]):
+                if _xc_rng.rand() >= _xcopy_frac:
+                    continue
+                S = int(_xc_rng.randint(min(16, _xC // 4), min(65, _xC // 2 + 1)))
+                a = int(_xc_rng.randint(0, _xC - S))               # span inside chunk A
+                b = int(_xc_rng.randint(_xC, T1 - S))              # paste inside chunk B (or later)
+                w[i, b:b + S] = w[i, a:a + S].clone()
+            return w[:, :-1].contiguous(), w[:, 1:].contiguous()
     # r25 nlfact (2026-10-05, default off): natural-language fact episodes, facts in attention chunk A and the question
     # in chunk B (src/nl_fact_aux.py; own RNG, so every other stream is untouched). Needs attn_chunk.
+    # kd_self_ckpt (2026-10-06 energy plan, default off): self-distillation for spike conversion -- the frozen dense
+    # model (same architecture, its own cfg) teaches the spike-coded student: + kd_self_alpha * KL(teacher top-K ||
+    # student) on the LM logits (SpikingBrain / SpikingMamba convert with distillation from the source model).
+    _kd_self = None
+    if c.get("kd_self_ckpt"):
+        _ts = torch.load(c["kd_self_ckpt"], map_location="cpu", weights_only=False)
+        _kd_self = build_model(dict(_ts["cfg"])).to(device)
+        _kd_self.load_state_dict(_ts["model"], strict=False); _kd_self.eval()
+        for _p in _kd_self.parameters():
+            _p.requires_grad_(False)
+        del _ts
+        print(f"self-KD teacher: {c['kd_self_ckpt']} (alpha {c.get('kd_self_alpha', 0.5)}, top-{c.get('kd_self_topk', 64)})")
     _nlf = None
     if int(c.get("nlfact_every", 0) or 0):
         from nl_fact_aux import NLFactAux
@@ -811,6 +844,8 @@ def main():
                                         device, return_raw=True)
             else:
                 x, y = data.batch(c["batch_size"], c["block_size"], "train", device)
+                if _xcopy_frac:
+                    x, y = _xcopy(x, y)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=c["amp"] and device == "cuda"):
                 # Forward (with optional return_stats for sparsity penalty).
                 # return_mtp=True passes the MTP head's logits back as an extra
@@ -867,6 +902,17 @@ def main():
                         main_loss = main._liger_ce(out.reshape(-1, c["vocab"]), y.reshape(-1))
                     else:
                         main_loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
+                if _kd_self is not None:
+                    with torch.no_grad():
+                        _tl = _kd_self(x)
+                        _tv, _ti = (_tl[0] if isinstance(_tl, tuple) else _tl).float().topk(int(c.get("kd_self_topk", 64)), -1)
+                        _tp = torch.softmax(_tv, -1)
+                    _st = int(c.get("kd_self_stride", 1))      # KD on every k-th position (VRAM)
+                    _sl = out[:, ::_st].float()
+                    _ti, _tp = _ti[:, ::_st], _tp[:, ::_st]
+                    _slp = _sl.gather(-1, _ti) - torch.logsumexp(_sl, -1, keepdim=True)
+                    _kd = (_tp * (_tp.clamp_min(1e-9).log() - _slp)).sum(-1).mean()
+                    main_loss = main_loss + float(c.get("kd_self_alpha", 0.5)) * _kd
                 # Sparsity penalty
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)
