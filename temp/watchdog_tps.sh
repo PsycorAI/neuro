@@ -10,7 +10,7 @@ LOG=logs/gap_queue.log
 MIN_TPS=${MIN_TPS:-8000}; STALL_MIN=${STALL_MIN:-25}
 say(){ echo "[wd $(date '+%m-%d %H:%M:%S')] $*" >> "$LOG"; }
 say "watchdog started (min ${MIN_TPS} tok/s past step 1000, stall ${STALL_MIN} min)"
-while pgrep -f "[q]ueue_5080_r25.sh|[q]ueue_5090_r25.sh|[r]un_gap_queue.sh|[r]un_5080_sched.sh|[q]ueue_5090_r25l2.sh|[q]ueue_5080_p25mn.sh" > /dev/null; do
+while pgrep -f "[q]ueue_50[89]0_|[r]un_gap_queue.sh|[r]un_5080_sched.sh" > /dev/null; do
   for pid in $(pgrep -f "[s]rc/train_gpu.py"); do
     cfg=$(tr '\0' ' ' < /proc/$pid/cmdline | sed -n 's/.*--config configs\/\([^ ]*\)\.yaml.*/\1/p')
     [ -z "$cfg" ] && continue

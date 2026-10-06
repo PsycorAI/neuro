@@ -28,7 +28,8 @@ def emit(name, src, note, **upd):
     # 10-05 06:30: the 16 GB 5080 spills with the plain-MQAR batch at 32 (p25g 15.3 GB, 20.5k -> 8k tok/s). 6L proxies
     # that have not run yet use 2 micro-batches with every per-micro aux halved (same samples per optimizer step).
     if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25l_6L_chunk512_x_H3_nl",
-                "screen_p25m_7L_chunk512_x_H0H3", "screen_p25n_6L_chunk512_x_H3only", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
+                "screen_p25m_7L_chunk512_x_H0H3", "screen_p25n_6L_chunk512_x_H3only", "screen_p25o_7L_chunk512_x_H3add",
+                "screen_p25p_7L_H3add_nl", "screen_p25q_7L_H3add_T2048", "screen_p25r_7L_H3add_T512c256", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
                 "screen_p25d_6L_chunk512_T2048_x", "screen_p25c_6L_chunk256_x"):
         c.update(batch_size=c["batch_size"] // 2, grad_accum=2, mqar_aug_batch=c["mqar_aug_batch"] // 2,
                  mqar_batch=c["mqar_batch"] // 2, mqar_xchunk_batch=max(1, c.get("mqar_xchunk_batch", 4) // 2))
@@ -127,5 +128,26 @@ emit("r25m_late_insH6_strong_150m", "r21b_x1_150m", "LATE PHASE from r21b: inser
 emit("r25n_13L_H0H6add_150m", "r21b_x1_150m", "13L from scratch: H0 + H6 ADDED (all 11 attention layers kept) + chunk512/"
      "T1024 + xchunk 0.5 (late gap dose); B8xGA2.", n_layers=13, attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4, **X)
+# 10-06 03:05: p25n (H3 only) = cross-chunk 94/85% (best), +8.5% ppl -> p25o: H3 only, ADDED (6 attention layers kept).
+emit("screen_p25o_7L_chunk512_x_H3add", P, "7L: attention at 0,1,2,4,5,6 + memory ONLY at depth 3 (added) + chunk + "
+     "xchunk; B8xGA2.", n_layers=7, block_size=1024, attn_chunk=512, mqar_xchunk_batch=4,
+     attention_layer_positions=[0, 1, 2, 4, 5, 6], **X)
+# 10-06 05:00: p25o (7L, H3 only, added) = +0.8% ppl, cross-chunk ~91/81% -> 12L analog.
+emit("r25o_13L_H6only_150m", "r21b_x1_150m", "13L from scratch: 12 attention layers + memory ONLY at depth 6 (added) + "
+     "chunk512/T1024 + xchunk 0.5 (late gap dose); B8xGA2.", n_layers=13,
+     attention_layer_positions=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], block_size=1024, attn_chunk=512,
+     mqar_xchunk_batch=4, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4, **X)
+emit("screen_p25p_7L_H3add_nl", P, "p25o + NL-fact aux; B8xGA2.", n_layers=7, block_size=1024, attn_chunk=512,
+     mqar_xchunk_batch=4, attention_layer_positions=[0, 1, 2, 4, 5, 6], **X, **NL)
+emit("screen_p25q_7L_H3add_T2048", P, "p25o at T 2048 (3 chunk boundaries); B4xGA2.", n_layers=7, block_size=2048,
+     attn_chunk=512, mqar_xchunk_batch=4, attention_layer_positions=[0, 1, 2, 4, 5, 6], **X)
+# 10-06 05:15: r25n (13L H0+H6 added) = cross-chunk 99/93% but chunk1 +23%; chunking itself costs at 12L (r25a +11%).
+# Suspect: half as many independent windows per step (16x1024 vs 32x512). p25r = p25o at T512 / chunk 256 (32 windows).
+emit("screen_p25r_7L_H3add_T512c256", P, "p25o at T 512, chunk 256 (same window count as r23b); B16xGA2.", n_layers=7,
+     block_size=512, attn_chunk=256, mqar_xchunk_batch=4, attention_layer_positions=[0, 1, 2, 4, 5, 6], **X)
+# 10-06 08:30: r25o (13L, 12 attn + H6 only) = BEST 12L: chunk1 41.74 (+7.5%), cross-chunk ~100/84-100%, in-window 100%.
+emit("r25q_13L_H6only_nl_150m", "r21b_x1_150m", "r25o + NL-fact aux (every 2nd step, w 0.15); B8xGA2.", n_layers=13,
+     attention_layer_positions=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], block_size=1024, attn_chunk=512,
+     mqar_xchunk_batch=4, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4, **X, **NL)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

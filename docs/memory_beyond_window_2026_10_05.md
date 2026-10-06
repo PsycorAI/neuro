@@ -88,3 +88,21 @@ at chance (6.8%; chance 8.3%). Even **inside** the window, NL fact recall with 2
   memory at depth or multi-reader (E).
 - **Fails** at 12L but works at 6L → memory at depth (D/E) at 12L next.
 - **Fails everywhere** → fallback: v4 ships with attention recall (r21b recipe); memory stays a streaming bonus.
+
+## 7. Results (10-05 → 10-06 morning)
+
+| run | layout | chunk-1 ppl (vs control) | memory Δ chunks 2+ | cross-chunk haystack N8 / N32 | in-window recall |
+|---|---|---|---|---|---|
+| r21b | 12L H0 + 11 attn, T512 (fallback) | 38.84 | 0 | chance | 100% |
+| r25a | r21b + chunks (late xchunk) | 43.10 (+11%) | 0 | chance | 100% |
+| r25f / r25i | r21b ckpt + late chunk phase + late read | 38.34 | +2.2 | chance | 100% |
+| r25h / r25m | late phase, strong xchunk | 40.5–41.0 (+4–6%) | small | 59–79 / ~30 | haystack drops |
+| r25j | 12L H0 + **H6 replaces** attn, chunked | 47.28 (+22%) | +1.8 | **100 / 100** | 100% |
+| r25n | 13L H0 + H6 added | 47.89 (+23%) | +1.7 | 99 / 93 | 100% |
+| **r25o** | **13L: 12 attn + H6 only** | **41.74 (+7.5%)** | +2.2 (+11.9 on chunk starts) | **~100 / 84–100** | 100% |
+| p25o / p25p | 7L: 6 attn + H3 only (6L control r23b 68.47) | 69.0 / 67.5 (+0.8% / −1.4%) | +4.7 / +6.2 | 91 / 81 | 75–97% |
+
+- **Recipe found:** memory belongs at **mid-depth** (contextual keys), **added** on top of the attention stack, with **aligned chunked attention** so it has a unique job. H0 (layer-0 memory) is not needed for beyond-window recall.
+- Late insertion of a depth memory into a trained model stays silent or plateaus ~60%; train it from scratch.
+- NL facts beyond the window are still at chance everywhere (in-window NL improves with the NL aux). Open problem for the demo.
+- Remaining 12L cost (+7.5%) may come from halving independent windows per step; p25r (T512, chunk 256) tests that.

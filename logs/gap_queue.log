@@ -670,3 +670,63 @@
 [s1 10-05 23:56:52] scheduler waiting for GPU 1 lock
 [s1 10-06 00:00:53] [screen_p25n_6L_chunk512_x_H3only] START
 [q0 10-06 00:55] p25m (7L H3 added): +2.8% ppl, xchunk ~90/83%. Queued r25n (13L H0+H6 added from scratch) after r25m
+[q0 10-06 00:59:57] [r25m_late_insH6_strong_150m] exit=0 :: 42.78 41.99 41.39 40.22 39.80 
+  haystack (gap 0/64/192/440) r25m_late_insH6_strong_150m N8:  86.7  62.1  60.2  64.5 | N32:  58.6  37.5  36.3  29.7
+  r25-evals r25m_late_insH6_strong_150m C=512 T=1024 | chunk1   41.01 (mem off   40.78) | chunks2+   41.53 (off   41.22, Δ -0.31) | first64 of 2+   55.36 (off   59.68, Δ +4.32) vs first64 of chunk1   61.65
+  r25-evals r25m_late_insH6_strong_150m C=512 N8:  52.3  55.5  64.8  59.4 (mem off  14.1) | N32:  30.5  28.1  34.4  27.3 (mem off   1.6)
+  r25-evals r25m_late_insH6_strong_150m C=512 | K1 in@0  87.0 | K1 in@200  33.9 | K1 x@0   7.8 | K1 x@200   6.2 | K1 x@0 off   7.8 | K1 in@0 para  19.3 | K1 x@0 para   4.7 | K4 in@0  18.2 | K4 in@200  13.0 | K4 x@0   8.9 | K4 x@200   7.8 | K4 x@0 off   9.4 | K4 in@0 para  16.7 | K4 x@0 para   8.3
+[q0 10-06 01:02:04] r25m queue DONE
+[q0 10-06 01:02:35] [r25n_13L_H0H6add_150m] START
+[s1 10-06 01:21:55] [screen_p25n_6L_chunk512_x_H3only] exit=0 :: 152.25 105.17 92.02 84.34 75.04 70.39 
+  recall screen_p25n_6L_chunk512_x_H3only |  100% |   94% |   94% |   84% |   66%
+  haystack (gap 0/64/192/440) screen_p25n_6L_chunk512_x_H3only N8:  94.9  97.3  96.1  94.5 | N32:  84.8  85.9  89.1  84.8
+[s1 10-06 01:26:29] scheduler DONE
+  r25-evals screen_p25n_6L_chunk512_x_H3only C=512 T=1024 | chunk1   74.26 (mem off   79.15) | chunks2+   71.41 (off   78.47, Δ +7.06) | first64 of 2+   80.99 (off   97.26, Δ +16.27) vs first64 of chunk1  103.36
+  r25-evals screen_p25n_6L_chunk512_x_H3only C=512 N8:  94.5  94.5  96.1  93.0 (mem off  18.0) | N32:  82.8  84.4  84.4  86.7 (mem off   1.6)
+  r25-evals screen_p25n_6L_chunk512_x_H3only C=512 | K1 in@0  12.0 | K1 in@200   6.2 | K1 x@0   4.2 | K1 x@200   5.2 | K1 x@0 off   4.2 | K1 in@0 para   5.7 | K1 x@0 para   4.2 | K4 in@0  12.0 | K4 in@200   8.3 | K4 x@0   8.9 | K4 x@200   9.4 | K4 x@0 off   8.3 | K4 in@0 para  10.4 | K4 x@0 para   6.8
+[s1 10-06 01:27:37] p25m/n queue DONE
+[wd 10-06 01:28:18] watchdog exit (no queues left)
+[s1 10-06 03:05] p25n (6L H3 only): xchunk 94/85%, +8.5% ppl. Queued p25o (7L, H3 only, added); watchdog relaunched
+[wd 10-06 03:01:19] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[s1 10-06 03:01:19] scheduler waiting for GPU 1 lock
+[s1 10-06 03:05:19] [screen_p25o_7L_chunk512_x_H3add] START
+[s1 10-06 04:38:22] [screen_p25o_7L_chunk512_x_H3add] exit=0 :: 151.15 102.17 82.24 79.21 70.82 66.04 
+  recall screen_p25o_7L_chunk512_x_H3add |   97% |   97% |   94% |   91% |   75%
+  haystack (gap 0/64/192/440) screen_p25o_7L_chunk512_x_H3add N8:  91.8  93.0  94.9  94.1 | N32:  84.4  81.2  85.2  88.7
+[s1 10-06 04:43:07] scheduler DONE
+  r25-evals screen_p25o_7L_chunk512_x_H3add C=512 T=1024 | chunk1   69.02 (mem off   71.93) | chunks2+   67.28 (off   71.95, Δ +4.67) | first64 of 2+   77.25 (off   90.73, Δ +13.47) vs first64 of chunk1   95.60
+  r25-evals screen_p25o_7L_chunk512_x_H3add C=512 N8:  93.0  91.4  90.6  91.4 (mem off  12.5) | N32:  85.2  84.4  78.9  75.8 (mem off   0.8)
+  r25-evals screen_p25o_7L_chunk512_x_H3add C=512 | K1 in@0  12.5 | K1 in@200   6.8 | K1 x@0   6.2 | K1 x@200   4.7 | K1 x@0 off   6.2 | K1 in@0 para  10.4 | K1 x@0 para   5.7 | K4 in@0  14.1 | K4 in@200   9.4 | K4 x@0   9.9 | K4 x@200  11.5 | K4 x@0 off   9.9 | K4 in@0 para  10.9 | K4 x@0 para   8.9
+[s1 10-06 04:44:29] p25o queue DONE
+[q0 10-06 05:00] p25o (7L H3 only added): chunk1 69.02 (+0.8% vs r23b), xchunk 91/81%. Queued r25o (13L, H6 only) after r25n
+[wd 10-06 05:00:08] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[s1 10-06 05:10] queued p25p (p25o + NL facts) -> p25q (p25o at T2048), UNTIL 18:00
+[s1 10-06 05:00:28] scheduler waiting for GPU 1 lock
+[s1 10-06 05:04:28] [screen_p25p_7L_H3add_nl] START
+[q0 10-06 05:05:50] [r25n_13L_H0H6add_150m] exit=0 :: 142.44 89.36 74.48 95.36 81.62 63.99 52.89 48.26 50.34 49.39 48.30 45.71 
+  recall  r25n_13L_H0H6add_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25n_13L_H0H6add_150m N8:  99.6 100.0 100.0 100.0 | N32: 100.0  99.6  99.6  99.6
+  r25-evals r25n_13L_H0H6add_150m      C=512 T=1024 | chunk1   47.89 (mem off   48.10) | chunks2+   47.01 (off   48.75, Δ +1.74) | first64 of 2+   56.93 (off   67.52, Δ +10.59) vs first64 of chunk1   72.28
+  r25-evals r25n_13L_H0H6add_150m      C=512 N8:  99.2  99.2  98.4  99.2 (mem off  14.8) | N32:  84.4  94.5  93.8  97.7 (mem off   1.6)
+  r25-evals r25n_13L_H0H6add_150m      C=512 | K1 in@0  80.7 | K1 in@200  35.9 | K1 x@0   6.8 | K1 x@200   7.3 | K1 x@0 off   6.8 | K1 in@0 para  28.6 | K1 x@0 para   4.2 | K4 in@0  18.8 | K4 in@200  14.1 | K4 x@0   8.3 | K4 x@200   6.2 | K4 x@0 off   8.9 | K4 in@0 para  11.5 | K4 x@0 para  10.9
+[q0 10-06 05:08:13] r25n queue DONE
+[q0 10-06 05:08:58] [r25o_13L_H6only_150m] START
+[s1 10-06 05:20] r25n (13L H0+H6 added): xchunk 99/93%, chunk1 47.89 (+23%). Queued p25r (p25o at T512 chunk256: window-count test) after p25q
+[s1 10-06 06:47:31] [screen_p25p_7L_H3add_nl] exit=0 :: 158.89 105.01 79.23 70.28 67.37 64.03 
+  recall screen_p25p_7L_H3add_nl |   69% |   81% |   69% |   66% |   53%
+  haystack (gap 0/64/192/440) screen_p25p_7L_H3add_nl N8:  69.1  95.3  95.3  94.1 | N32:  57.4  82.0  83.2  85.2
+[s1 10-06 06:52:04] scheduler DONE
+  r25-evals screen_p25p_7L_H3add_nl    C=512 T=1024 | chunk1   67.52 (mem off   71.76) | chunks2+   65.34 (off   71.51, Δ +6.16) | first64 of 2+   73.48 (off   87.98, Δ +14.50) vs first64 of chunk1   93.25
+  r25-evals screen_p25p_7L_H3add_nl    C=512 N8:  89.1  90.6  90.6  84.4 (mem off  16.4) | N32:  80.5  77.3  73.4  78.9 (mem off   1.6)
+  r25-evals screen_p25p_7L_H3add_nl    C=512 | K1 in@0  27.6 | K1 in@200  14.6 | K1 x@0   8.3 | K1 x@200   8.3 | K1 x@0 off   4.2 | K1 in@0 para  10.9 | K1 x@0 para   7.8 | K4 in@0  16.1 | K4 in@200  14.1 | K4 x@0  11.5 | K4 x@200   9.4 | K4 x@0 off  10.4 | K4 in@0 para  10.4 | K4 x@0 para   7.3
+[s1 10-06 06:53:22] scheduler waiting for GPU 1 lock
+[s1 10-06 06:57:22] [screen_p25q_7L_H3add_T2048] START
+[q0 10-06 08:21:52] [r25o_13L_H6only_150m] exit=0 :: 137.96 87.32 80.84 83.79 72.14 58.65 50.82 46.06 45.79 43.24 41.20 39.63 
+  recall   r25o_13L_H6only_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25o_13L_H6only_150m N8: 100.0 100.0 100.0  99.6 | N32: 100.0 100.0 100.0  99.6
+  r25-evals r25o_13L_H6only_150m       C=512 T=1024 | chunk1   41.74 (mem off   42.19) | chunks2+   40.25 (off   42.46, Δ +2.21) | first64 of 2+   47.49 (off   59.39, Δ +11.90) vs first64 of chunk1   63.47
+  r25-evals r25o_13L_H6only_150m       C=512 N8:  98.4 100.0 100.0 100.0 (mem off  14.1) | N32:  84.4  99.2  96.9 100.0 (mem off   4.7)
+  r25-evals r25o_13L_H6only_150m       C=512 | K1 in@0  96.4 | K1 in@200  41.1 | K1 x@0   5.2 | K1 x@200   6.2 | K1 x@0 off   7.8 | K1 in@0 para  28.6 | K1 x@0 para   3.6 | K4 in@0  21.4 | K4 in@200  15.6 | K4 x@0   9.4 | K4 x@200  14.1 | K4 x@0 off   8.3 | K4 in@0 para  15.1 | K4 x@0 para   9.4
+[q0 10-06 08:24:13] r25o queue DONE
+[q0 10-06 08:30] r25o (13L 12 attn + H6 only) = BEST 12L: chunk1 41.74 (+7.5% vs r21b), xchunk ~100/84-100%, in-window 100%. Started r25q (r25o + NL facts)
+[q0 10-06 08:26:48] [r25q_13L_H6only_nl_150m] START
