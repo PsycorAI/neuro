@@ -156,5 +156,16 @@ emit("screen_p25s_7L_spk_conv", "screen_p25o_7L_chunk512_x_H3add", "CONVERSION: 
      "on every linear input (L4 signed, hidden L8).", max_tokens=120_000_000, **SPK)
 emit("r25s_13L_spk_conv_150m", "r25o_13L_H6only_150m", "CONVERSION: r25o ckpt + 40M tok with spike_code on every linear "
      "input (L4 signed, hidden L8).", max_tokens=240_000_000, **SPK)
+# 10-06 10:10: r25s = 5.56x energy (from 1.39x), memory intact, chunk1 +7.8% -> sweep levels / thresholds / data.
+emit("r25t_13L_spk_L8_80M_150m", "r25o_13L_H6only_150m", "CONVERSION: r25o + 80M tok, spike levels 8 (hidden 16).",
+     max_tokens=280_000_000, **dict(SPK, spike_levels=8, spike_levels_hidden=16))
+PO = "screen_p25o_7L_chunk512_x_H3add"
+emit("screen_p25s2_7L_spk_L8", PO, "CONVERSION: p25o + 20M tok, levels 8 (hidden 16).", max_tokens=120_000_000,
+     **dict(SPK, spike_levels=8, spike_levels_hidden=16))
+emit("screen_p25s3_7L_spk_sc2", PO, "CONVERSION: p25o + 20M tok, L4, thresholds calibrated at 2x (fewer spikes).",
+     max_tokens=120_000_000, **SPK)
+emit("screen_p25s4_7L_spk_tern", PO, "CONVERSION: p25o + 20M tok, TERNARY spikes (L1 signed, hidden L2).",
+     max_tokens=120_000_000, **dict(SPK, spike_levels=1, spike_levels_hidden=2))
+emit("screen_p25t_7L_spk_scratch", PO, "p25o with spike_code from STEP 0 (way 1 without conversion), L4.", **SPK)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

@@ -743,3 +743,14 @@
 [q0 10-06 09:05:42] r25q STOPPED at 34M tok (10k tok/s; NL aux never helped) -> energy plan: spike conversions r25s (5090) / p25s (5080)
   [r25s_13L_spk_conv_150m] seed [OK] 50 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.27 -> coded 64.21 | mean spikes/input 0.712 | saved models/checkpoints/r25s_13L_spk_conv_150m @ step 12208
 [g0 10-06 09:06:10] [r25s_13L_spk_conv_150m] START
+[g0 10-06 09:59:39] [r25s_13L_spk_conv_150m] exit=0 :: 45.04 43.20 
+  recall r25s_13L_spk_conv_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25s_13L_spk_conv_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r25s_13L_spk_conv_150m     C=512 T=1024 | chunk1   45.00 (mem off   45.42) | chunks2+   43.53 (off   45.90, Δ +2.37) | first64 of 2+   51.83 (off   65.19, Δ +13.36) vs first64 of chunk1   68.33
+  r25-evals r25s_13L_spk_conv_150m     C=512 N8:  96.9  99.2 100.0 100.0 (mem off  10.9) | N32:  83.6  99.2  99.2  97.7 (mem off   4.7)
+  r25-evals r25s_13L_spk_conv_150m     C=512 | K1 in@0  93.8 | K1 in@200  47.9 | K1 x@0   5.7 | K1 x@200   4.2 | K1 x@0 off   4.7 | K1 in@0 para  35.9 | K1 x@0 para   6.2 | K4 in@0  14.6 | K4 in@200  17.2 | K4 x@0   7.8 | K4 x@200  10.4 | K4 x@0 off   7.8 | K4 in@0 para  16.1 | K4 x@0 para   7.3
+  energy r25s_13L_spk_conv_150m       energy  112.7 uJ/tok vs dense  626.1 -> 5.56x | MAC   4.7M AC 101.0M (dense 136.1M) | top: up 26.0uJ, head 23.9uJ, qkv 19.1uJ, attn_gate 6.4uJ, o_proj 5.2uJ, to_current 2.1uJ
+  energy src                          energy  449.4 uJ/tok vs dense  626.1 -> 1.39x | MAC  97.5M AC   0.9M (dense 136.1M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-06 10:02:32] r25s_13L_spk_conv_150m queue DONE
+[q0 10-06 10:04:11] r25s: 5.56x energy (src 1.39x), memory intact, chunk1 45.00 (+7.8% vs r25o). Queued r25t (L8, 80M) on 5090; 5080 sweep p25s2 L8 / p25s3 2x thresh / p25s4 ternary / p25t from-scratch after p25s
+[wd 10-06 10:04:35] watchdog started (min 8000 tok/s past step 1000, stall 25 min)

@@ -7,7 +7,7 @@ G=$1; r=$2; SRC=$3; W=${4:-}
 LOG=logs/gap_queue.log; PY=/home/glenn/projects/bdh/venv/bin/python
 [ -n "$W" ] && while pgrep -f "$W" > /dev/null; do sleep 60; done
 rm -rf models/checkpoints/$r
-CUDA_VISIBLE_DEVICES=$G $PY temp/mk_spike_seed.py $SRC models/checkpoints/$r configs/$r.yaml 1.0 2>&1 | grep OK | sed "s/^/  [$r] seed /" >> $LOG
+CUDA_VISIBLE_DEVICES=$G $PY temp/mk_spike_seed.py $SRC models/checkpoints/$r configs/$r.yaml ${SCALE:-1.0} 2>&1 | grep OK | sed "s/^/  [$r] seed /" >> $LOG
 echo "[g$G $(date '+%m-%d %H:%M:%S')] [$r] START" >> $LOG
 CUDA_VISIBLE_DEVICES=$G PYTHONUNBUFFERED=1 $PY src/train_gpu.py --config configs/$r.yaml --device cuda > logs/$r.log 2>&1
 echo "[g$G $(date '+%m-%d %H:%M:%S')] [$r] exit=$? :: $(grep 'eval\] val_ppl' logs/$r.log | awk '{print $3}' | tr '\n' ' ')" >> $LOG
