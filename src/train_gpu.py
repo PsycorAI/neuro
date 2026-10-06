@@ -270,7 +270,9 @@ def build_model(c):
                                 attn_ffn_spikeglu_lif=c.get("attn_ffn_spikeglu_lif", False),
                                 attn_ffn_act=c.get("attn_ffn_act", "gelu"),
                                 attn_ffn_homeo=c.get("attn_ffn_homeo"),
-                                mem_read_layers=c.get("mem_read_layers"))
+                                mem_read_layers=c.get("mem_read_layers"),
+                                spike_code=c.get("spike_code"), spike_levels=int(c.get("spike_levels", 4)),
+                                spike_levels_hidden=int(c.get("spike_levels_hidden", 8)))
         # attn_window_fixed (2026-10-04, default 0 = byte-identical): every attention block uses a fixed causal
         # sliding window of W keys at train AND eval (set here so every eval script that builds the model inherits
         # it). Purpose: give the memory layer a job attention cannot do (G3: with full 512 windows in 11 attention

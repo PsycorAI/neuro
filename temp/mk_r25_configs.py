@@ -149,5 +149,12 @@ emit("screen_p25r_7L_H3add_T512c256", P, "p25o at T 512, chunk 256 (same window 
 emit("r25q_13L_H6only_nl_150m", "r21b_x1_150m", "r25o + NL-fact aux (every 2nd step, w 0.15); B8xGA2.", n_layers=13,
      attention_layer_positions=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], block_size=1024, attn_chunk=512,
      mqar_xchunk_batch=4, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4, **X, **NL)
+# 10-06 09:30 ENERGY PLAN (docs/energy_plan_2026_10_06.md): way (1)+(3) = spike-code every linear input, as a late
+# CONVERSION phase from the trained ckpt (seeded + calibrated by temp/mk_spike_seed.py).
+SPK = dict(spike_code=["qkv", "o", "up", "down", "head", "mem"], spike_levels=4, spike_levels_hidden=8)
+emit("screen_p25s_7L_spk_conv", "screen_p25o_7L_chunk512_x_H3add", "CONVERSION: p25o ckpt + 20M tok with spike_code "
+     "on every linear input (L4 signed, hidden L8).", max_tokens=120_000_000, **SPK)
+emit("r25s_13L_spk_conv_150m", "r25o_13L_H6only_150m", "CONVERSION: r25o ckpt + 40M tok with spike_code on every linear "
+     "input (L4 signed, hidden L8).", max_tokens=240_000_000, **SPK)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

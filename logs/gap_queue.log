@@ -730,3 +730,16 @@
 [q0 10-06 08:24:13] r25o queue DONE
 [q0 10-06 08:30] r25o (13L 12 attn + H6 only) = BEST 12L: chunk1 41.74 (+7.5% vs r21b), xchunk ~100/84-100%, in-window 100%. Started r25q (r25o + NL facts)
 [q0 10-06 08:26:48] [r25q_13L_H6only_nl_150m] START
+[s1 10-06 08:47:06] [screen_p25q_7L_H3add_T2048] exit=0 :: 157.24 102.96 80.20 78.16 71.72 68.00 
+  recall screen_p25q_7L_H3add_T2048 |   81% |   78% |   53% |   66% |   53%
+  haystack (gap 0/64/192/440) screen_p25q_7L_H3add_T2048 N8:  64.1  95.7  95.7  95.3 | N32:  50.8  87.5  85.9  88.3
+[s1 10-06 08:51:40] scheduler DONE
+  r25-evals screen_p25q_7L_H3add_T2048 C=512 T=1024 | chunk1   69.83 (mem off   76.89) | chunks2+   66.85 (off   76.79, Δ +9.93) | first64 of 2+   73.36 (off   92.33, Δ +18.97) vs first64 of chunk1   96.45
+  r25-evals screen_p25q_7L_H3add_T2048 C=512 N8:  94.5  91.4  86.7  89.1 (mem off  11.7) | N32:  84.4  75.8  83.6  80.5 (mem off   5.5)
+  r25-evals screen_p25q_7L_H3add_T2048 C=512 | K1 in@0  12.5 | K1 in@200   9.4 | K1 x@0   6.8 | K1 x@200   6.8 | K1 x@0 off   7.3 | K1 in@0 para   5.7 | K1 x@0 para   5.7 | K4 in@0  13.0 | K4 in@200  10.4 | K4 x@0   9.9 | K4 x@200  10.9 | K4 x@0 off   8.3 | K4 in@0 para  11.5 | K4 x@0 para   8.9
+[s1 10-06 08:53:01] p25pq queue DONE
+[s1 10-06 08:53:31] scheduler waiting for GPU 1 lock
+[s1 10-06 08:57:31] [screen_p25r_7L_H3add_T512c256] START
+[q0 10-06 09:05:42] r25q STOPPED at 34M tok (10k tok/s; NL aux never helped) -> energy plan: spike conversions r25s (5090) / p25s (5080)
+  [r25s_13L_spk_conv_150m] seed [OK] 50 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.27 -> coded 64.21 | mean spikes/input 0.712 | saved models/checkpoints/r25s_13L_spk_conv_150m @ step 12208
+[g0 10-06 09:06:10] [r25s_13L_spk_conv_150m] START

@@ -182,7 +182,7 @@ class HybridAttentionBlock(nn.Module):
                  rope_base=10000.0, ffn_hidden=None, bias=False,
                  use_qk_norm=True, use_ffn=True, spikeglu_k=0, topk=0,
                  out_gate=False, canon=0, spikeglu_lif=False, lif_levels=1, lif_signed=True,
-                 ffn_act="gelu", ffn_homeo=None):
+                 ffn_act="gelu", ffn_homeo=None, spike_code=None, spike_levels=4, spike_levels_hidden=8):
         super().__init__()
         if d_in != d_mem:
             # Attention block currently only supports the mid-stack case where
@@ -278,9 +278,27 @@ class HybridAttentionBlock(nn.Module):
         self.attn_canon = int(canon)
         if self.attn_canon:
             self.canon_w = nn.Parameter(torch.zeros(d_mem, 1, self.attn_canon))
+        # spike_code (2026-10-06 energy plan; None = off, byte-identical; created last): integer spike coding of the
+        # INPUTS of qkv / o_proj / MLP up / MLP down (src/spike_code.py) -> those matmuls become sparse accumulates.
+        sites = set(spike_code or [])
+        assert sites <= {"qkv", "o", "up", "down"}, sites
+        from spike_code import SpikeCode
+        self.sc = nn.ModuleDict()
+        if "qkv" in sites:
+            self.sc["qkv"] = SpikeCode(d_mem, spike_levels, signed=True, init=0.8)
+        if "o" in sites:
+            self.sc["o"] = SpikeCode(d_mem, spike_levels, signed=True, init=0.3)
+        if sites & {"up", "down"}:
+            assert isinstance(self.ffn, nn.Sequential), "spike_code up/down needs the plain 2-matrix MLP"
+        if "up" in sites:
+            self.sc["up"] = SpikeCode(d_mem, spike_levels, signed=True, init=0.8)
+        if "down" in sites:
+            self.sc["down"] = SpikeCode(self.ffn[0].out_features, spike_levels_hidden, signed=False, init=0.1)
 
     def _attn(self, x):
         B, T, D = x.shape
+        if "qkv" in self.sc:                  # spike_code: one coded input feeds qkv AND the attention gate
+            x = self.sc["qkv"](x)
         qkv = self.qkv(x)                                        # (B, T, 3D)
         q, k, v = qkv.chunk(3, dim=-1)
         H, Dh = self.n_heads, self.d_head
@@ -313,7 +331,7 @@ class HybridAttentionBlock(nn.Module):
         out = out.transpose(1, 2).contiguous().view(B, T, D)
         if self.attn_gate is not None:
             out = out * torch.sigmoid(self.attn_gate(x))
-        return self.o_proj(out)
+        return self.o_proj(self.sc["o"](out) if "o" in self.sc else out)
 
     def _topk_weights(self, q, k, qpos=None, kpos=None, w=0):
         """r15c: hard top-k attention weights (B, H, tq, tk). Scores in fp32, causal (and optional
@@ -350,6 +368,16 @@ class HybridAttentionBlock(nn.Module):
         s = s.masked_fill(torch.ones(T, T, dtype=torch.bool, device=x.device).triu(1), float("-inf"))
         return torch.softmax(s, dim=-1)
 
+    def _ffn(self, h):
+        if not ("up" in self.sc or "down" in self.sc):
+            return self.ffn(h)
+        if "up" in self.sc:
+            h = self.sc["up"](h)
+        h = self.ffn[1](self.ffn[0](h))
+        if "down" in self.sc:
+            h = self.sc["down"](h)
+        return self.ffn[2](h)
+
     def _block(self, x_seq):
         # attention + FFN with pre-norm residuals
         x_a = x_seq
@@ -357,7 +385,7 @@ class HybridAttentionBlock(nn.Module):
             x_a = x_seq + F.conv1d(F.pad(x_seq.transpose(1, 2), (self.attn_canon - 1, 0)),
                                    self.canon_w.to(x_seq.dtype), groups=x_seq.size(-1)).transpose(1, 2)
         y = x_seq + self._attn(self.norm_attn(x_a))
-        return y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+        return y if self.ffn is None else y + self._ffn(self.norm_ffn(y))
 
     def forward_sequence(self, x_seq, mem, M, prev_spk,
                           ablate_memory=False, fpt_K=10):
@@ -407,6 +435,8 @@ class HybridAttentionBlock(nn.Module):
         """
         B, t, D = x.shape
         H, Dh = self.n_heads, self.d_head
+        if "qkv" in self.sc:
+            x = self.sc["qkv"](x)
         qkv = self.qkv(x)
         q, k, v = qkv.chunk(3, dim=-1)
         q = q.view(B, t, H, Dh).transpose(1, 2)                 # (B, H, t, Dh)
@@ -442,7 +472,7 @@ class HybridAttentionBlock(nn.Module):
         out = out.transpose(1, 2).contiguous().view(B, t, D)
         if self.attn_gate is not None:
             out = out * torch.sigmoid(self.attn_gate(x))
-        return self.o_proj(out), new_cache
+        return self.o_proj(self.sc["o"](out) if "o" in self.sc else out), new_cache
 
     def step_kv(self, x, cache=None):
         """Pre-norm residual block over new tokens `x` (B, t, D) with a KV cache.
@@ -458,5 +488,5 @@ class HybridAttentionBlock(nn.Module):
                                       "(r25 chunked decode TO-BUILD)")
         a, new_cache = self._attn_kv(self.norm_attn(x), cache)
         y = x + a
-        z = y if self.ffn is None else y + self.ffn(self.norm_ffn(y))
+        z = y if self.ffn is None else y + self._ffn(self.norm_ffn(y))
         return z, new_cache

@@ -57,6 +57,13 @@ with torch.no_grad():
     d_mr = (m2(x) - full1).abs().max().item()
     print(f"mem_read_layers zero-init vs off: {d_mr:.2e} (new params: {len(miss.missing_keys)})")
     assert d_mr < 1e-6 and len(miss.missing_keys) == 3
+    # spike_code: off = same params as before; on = only theta params added, coded forward runs and differs
+    m3 = build_model(dict(base, attn_chunk=C, spike_code=["qkv", "o", "up", "down", "head", "mem"])).eval()
+    miss3 = m3.load_state_dict(m1.state_dict(), strict=False)
+    assert all(k.endswith("theta") for k in miss3.missing_keys) and not miss3.unexpected_keys
+    d_sc = (m3(x) - full1).abs().max().item()
+    print(f"spike_code on vs off: max|dlogit| {d_sc:.3f} ({len(miss3.missing_keys)} thetas)")
+    assert d_sc > 0
 print("[OK] r25 parity")
 # NOTE on the ablated case: the H0 LIF membrane and Engram n-grams still carry a little across the boundary, so da
 # is small but need not be 0; reported, not asserted.
@@ -69,6 +76,8 @@ CASES = {
                                 mqar_aug_batch=3, mqar_xchunk_start_frac=0.3),
     "smoke_r25_memread": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                               mem_read_layers=[2, 3], mqar_xchunk_frac=0.5, mqar_xchunk_batch=2),
+    "smoke_spk": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
+                      spike_code=["qkv", "o", "up", "down", "head", "mem"]),
     "smoke_r25_nlfact": dict(base, block_size=128, batch_size=2, attn_chunk=64, max_tokens=2 * 128 * 60,
                              nlfact_every=2, nlfact_batch=2, nlfact_k_max=2),
 }

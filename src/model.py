@@ -744,7 +744,8 @@ class SpikingHebbianBlock(nn.Module):
                                      self.canon_a_w.to(x_seq.dtype), groups=x_seq.size(-1)).transpose(1, 2)
         x_cur = x_cur if self.pre_norm is None else self.pre_norm(x_cur)
         B, T, _ = x_seq.shape
-        cur_seq = self.to_current(x_cur)                       # (B, T, N)
+        _sc = getattr(self, "sc_in", None)                     # spike_code "mem" (default off)
+        cur_seq = self.to_current(_sc(x_cur) if _sc is not None else x_cur)   # (B, T, N)
         if self.recurrent:
             # prev_spk at t=0 from carry, at t>=1 from "previous-in-sequence".
             # Cheap approximation: use a one-step FPT preview. We use prev_spk
@@ -1111,7 +1112,7 @@ class SpikingHebbianLM(nn.Module):
                  attn_ffn_hidden=None, attn_topk=0,
                  engram_v2_hash="lo", spk_out_norm=True, attn_out_gate=False, attn_canon=0,
                  attn_ffn_spikeglu_lif=False, attn_ffn_act="gelu", attn_ffn_homeo=None,
-                 mem_read_layers=None):
+                 mem_read_layers=None, spike_code=None, spike_levels=4, spike_levels_hidden=8):
         super().__init__()
         self.vocab = vocab
         # attn_single_residual (2026-09-25 fix, default off = byte-identical to
@@ -1220,7 +1221,9 @@ class SpikingHebbianLM(nn.Module):
                     spikeglu_k=attn_ffn_spikeglu_k, topk=attn_topk,
                     out_gate=attn_out_gate, canon=attn_canon, spikeglu_lif=attn_ffn_spikeglu_lif,
                     lif_levels=lif_levels, lif_signed=lif_signed,
-                    ffn_act=attn_ffn_act, ffn_homeo=attn_ffn_homeo))
+                    ffn_act=attn_ffn_act, ffn_homeo=attn_ffn_homeo,
+                    spike_code=[x for x in (spike_code or []) if x in ("qkv", "o", "up", "down")] or None,
+                    spike_levels=spike_levels, spike_levels_hidden=spike_levels_hidden))
             elif n_experts > 1:
                 from moe_hebbian import MoEHebbianBlock
                 blocks.append(MoEHebbianBlock(
@@ -1381,6 +1384,17 @@ class SpikingHebbianLM(nn.Module):
         # r25 mem_read_layers (2026-10-05, default None = byte-identical; created last so existing inits are unchanged):
         # the first spiking block also returns its memory read-out, and after each listed block index l the LM adds
         # Linear_l(RMSNorm(read)) to the residual stream. Zero-init -> exact no-op at the start.
+        # spike_code (2026-10-06 energy plan; None = off; created last): "head" codes the LM-head input, "mem" the
+        # input current of every spiking memory block (to_current); attention-block sites are passed above.
+        self.sc_head = None
+        if spike_code:
+            from spike_code import SpikeCode
+            if "head" in spike_code:
+                self.sc_head = SpikeCode(d_mem, spike_levels, signed=True, init=0.8)
+            if "mem" in spike_code:
+                for b in self.blocks:
+                    if isinstance(b, SpikingHebbianBlock):
+                        b.sc_in = SpikeCode(b.to_current.in_features, spike_levels, signed=True, init=0.8)
         self.mem_read_proj = None
         if mem_read_layers:
             assert not act_ckpt, "mem_read_layers is wired into the plain single-pass loop only"
@@ -1660,7 +1674,7 @@ class SpikingHebbianLM(nn.Module):
                 self._last_ponder_aux = None
             if self.out_norm is not None:
                 x_seq = self.out_norm(x_seq)
-            logits = self.head(x_seq)                          # (B, T, vocab)
+            logits = self.head(self.sc_head(x_seq) if self.sc_head is not None else x_seq)   # (B, T, vocab)
             if self.mtp_enabled:
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
             else:
