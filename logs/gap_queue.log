@@ -846,3 +846,5 @@
 [s1 10-06 14:42:15] p25u/v queue DONE
   [screen_p25u_7L_spk_kd] seed [OK] 26 spike codes calibrated (scale 1.5) | zero-shot ppl dense 77.64 -> coded 111.88 | mean spikes/input 0.485 | saved models/checkpoints/screen_p25u_7L_spk_kd @ step 6104
 [g1 10-06 14:42:54] [screen_p25u_7L_spk_kd] START
+[q0 10-06 15:18:57] [r25v_13L_H6_xcopy_150m] exit=0 :: 146.63 93.88 101.89 82.71 73.17 65.30 61.21 55.90 54.82 48.71 45.62 43.55 
+[q0 10-06 15:45] factorised LM head (head_rank, SVD init) built; r25y head256/512 queued after r25w (zero-shot seed energy 10.6x vs original dense)

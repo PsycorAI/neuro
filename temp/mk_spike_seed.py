@@ -13,7 +13,14 @@ scale = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
 c = yaml.safe_load(open(cfg))
 s = torch.load(src, map_location="cpu", weights_only=False)
 m = build_model(c).cuda()
-miss = m.load_state_dict(s["model"], strict=False)
+sd = dict(s["model"])
+if c.get("head_rank") and sd["head.weight"].shape[1] != int(c["head_rank"]):
+    # factorised head from the trained head's SVD: W (V x d) ~ (U sqrt S)(sqrt S Vh), rank r
+    r = int(c["head_rank"])
+    U, S, Vh = torch.linalg.svd(sd.pop("head.weight").float().cuda(), full_matrices=False)
+    sd["head_in.weight"] = (S[:r].sqrt()[:, None] * Vh[:r]).cpu()
+    sd["head.weight"] = (U[:, :r] * S[:r].sqrt()).cpu()
+miss = m.load_state_dict(sd, strict=False)
 assert all(k.split(".")[-1] == "theta" for k in miss.missing_keys), miss.missing_keys[:5]
 data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
                   val_tokens=c.get("data_val_tokens"))

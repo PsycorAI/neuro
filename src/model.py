@@ -1112,7 +1112,7 @@ class SpikingHebbianLM(nn.Module):
                  attn_ffn_hidden=None, attn_topk=0,
                  engram_v2_hash="lo", spk_out_norm=True, attn_out_gate=False, attn_canon=0,
                  attn_ffn_spikeglu_lif=False, attn_ffn_act="gelu", attn_ffn_homeo=None,
-                 mem_read_layers=None, spike_code=None, spike_levels=4, spike_levels_hidden=8):
+                 mem_read_layers=None, spike_code=None, spike_levels=4, spike_levels_hidden=8, head_rank=None):
         super().__init__()
         self.vocab = vocab
         # attn_single_residual (2026-09-25 fix, default off = byte-identical to
@@ -1278,7 +1278,10 @@ class SpikingHebbianLM(nn.Module):
             from fracconn import FracConnection
             self.fracconns = nn.ModuleList(
                 [FracConnection(d_mem, n_frac=fracconn_n) for _ in range(n_layers)])
-        self.head = nn.Linear(d_mem, vocab)
+        # head_rank (2026-10-06 energy plan, default None = byte-identical): factorised head d -> r -> V (head_in then
+        # head), ~(d + V) * r ops instead of d * V; conversion runs initialise it from the trained head's SVD.
+        self.head_in = nn.Linear(d_mem, int(head_rank), bias=False) if head_rank else None
+        self.head = nn.Linear(int(head_rank) if head_rank else d_mem, vocab)
         # Final pre-head norm (2026-08-26). Default off => spiking path
         # unchanged. Required for attention-heavy stacks (matched-
         # transformer baseline): 14 pre-norm attention layers grow the
@@ -1389,6 +1392,8 @@ class SpikingHebbianLM(nn.Module):
         self.sc_head = None
         if spike_code:
             from spike_code import SpikeCode
+            if "head" in spike_code and self.head_in is not None:
+                self.sc_head_mid = SpikeCode(self.head_in.out_features, spike_levels, signed=True, init=0.8)
             if "head" in spike_code:
                 self.sc_head = SpikeCode(d_mem, spike_levels, signed=True, init=0.8)
             if "mem" in spike_code:
@@ -1674,7 +1679,12 @@ class SpikingHebbianLM(nn.Module):
                 self._last_ponder_aux = None
             if self.out_norm is not None:
                 x_seq = self.out_norm(x_seq)
-            logits = self.head(self.sc_head(x_seq) if self.sc_head is not None else x_seq)   # (B, T, vocab)
+            _h = self.sc_head(x_seq) if self.sc_head is not None else x_seq
+            if self.head_in is not None:
+                _h = self.head_in(_h)
+                if getattr(self, "sc_head_mid", None) is not None:
+                    _h = self.sc_head_mid(_h)
+            logits = self.head(_h)                                           # (B, T, vocab)
             if self.mtp_enabled:
                 self._last_mtp_logits = self.head(self.mtp_proj(self.mtp_norm(x_seq)))
             else:

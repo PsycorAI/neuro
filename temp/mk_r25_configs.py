@@ -180,6 +180,13 @@ emit("r25w_13L_spk_kd_sc15_150m", "r25o_13L_H6only_150m", "CONVERSION: r25o + 80
      "/home/glenn/projects/neuro/models/checkpoints/r25o_13L_H6only_150m/step_0012208.pt", kd_self_alpha=0.5,
      kd_self_stride=4, **dict(SPK, spike_levels=8, spike_levels_hidden=16,
                               spike_code=SPK["spike_code"] + ["q", "v"]))   # 10-06 15:20: + spike-driven attention
+# 10-06 15:40 (Glenn): test the factorised head properly -- trained during conversion with self-KD, not zero-shot.
+for _r in (256, 512):
+    emit(f"r25y_13L_spk_kd_head{_r}_150m", "r25o_13L_H6only_150m", f"r25w recipe + factorised LM head rank {_r} (SVD init, "
+         "middle spike-coded).", max_tokens=280_000_000, kd_self_ckpt=
+         "/home/glenn/projects/neuro/models/checkpoints/r25o_13L_H6only_150m/step_0012208.pt", kd_self_alpha=0.5,
+         kd_self_stride=4, head_rank=_r, **dict(SPK, spike_levels=8, spike_levels_hidden=16,
+                                               spike_code=SPK["spike_code"] + ["q", "v"]))
 emit("screen_p25v_7L_xcopy", PO, "p25o + xcopy_frac 0.25, from scratch.", xcopy_frac=0.25)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)
