@@ -848,3 +848,23 @@
 [g1 10-06 14:42:54] [screen_p25u_7L_spk_kd] START
 [q0 10-06 15:18:57] [r25v_13L_H6_xcopy_150m] exit=0 :: 146.63 93.88 101.89 82.71 73.17 65.30 61.21 55.90 54.82 48.71 45.62 43.55 
 [q0 10-06 15:45] factorised LM head (head_rank, SVD init) built; r25y head256/512 queued after r25w (zero-shot seed energy 10.6x vs original dense)
+  recall r25v_13L_H6_xcopy_150m |  100% |  100% |  100% |  100% |   97%
+  haystack (gap 0/64/192/440) r25v_13L_H6_xcopy_150m N8: 100.0 100.0 100.0 100.0 | N32:  99.6 100.0 100.0 100.0
+[q0 10-06 15:19:39] queue DONE
+  r25-evals r25v_13L_H6_xcopy_150m     C=512 T=1024 | chunk1   45.45 (mem off   45.33) | chunks2+   45.08 (off   45.53, Δ +0.45) | first64 of 2+   59.81 (off   64.12, Δ +4.31) vs first64 of chunk1   67.96
+  r25-evals r25v_13L_H6_xcopy_150m     C=512 N8: 100.0 100.0 100.0 100.0 (mem off  17.2) | N32:  99.2 100.0 100.0 100.0 (mem off   1.6)
+  r25-evals r25v_13L_H6_xcopy_150m     C=512 | K1 in@0  80.7 | K1 in@200  35.4 | K1 x@0   8.3 | K1 x@200   5.2 | K1 x@0 off   6.8 | K1 in@0 para  25.5 | K1 x@0 para   5.2 | K4 in@0  20.8 | K4 in@200  16.1 | K4 x@0  10.4 | K4 x@200  11.5 | K4 x@0 off   9.4 | K4 in@0 para  13.5 | K4 x@0 para   9.9
+  r25-evals r25v_13L_H6_xcopy_150m       C=512 xcopy top1 | none  33.7 | in-window  50.0 | beyond (memory)  27.5 | beyond mem-off  27.3
+[q0 10-06 15:21:21] r25v queue DONE
+  [r25w_13L_spk_kd_sc15_150m] seed [OK] 74 spike codes calibrated (scale 1.5) | zero-shot ppl dense 47.27 -> coded 70.91 | mean spikes/input 0.519 | saved models/checkpoints/r25w_13L_spk_kd_sc15_150m @ step 12208
+[g0 10-06 15:21:55] [r25w_13L_spk_kd_sc15_150m] START
+[g1 10-06 15:38:25] [screen_p25u_7L_spk_kd] exit=0 :: 78.79 73.74 
+  recall  screen_p25u_7L_spk_kd |   72% |   72% |   59% |   59% |   44%
+  haystack (gap 0/64/192/440) screen_p25u_7L_spk_kd N8:  74.2  96.9  96.9  97.3 | N32:  58.6  85.9  87.9  91.4
+  r25-evals screen_p25u_7L_spk_kd      C=512 T=1024 | chunk1   76.24 (mem off   79.25) | chunks2+   73.93 (off   79.00, Δ +5.07) | first64 of 2+   85.20 (off   98.95, Δ +13.76) vs first64 of chunk1  106.04
+  r25-evals screen_p25u_7L_spk_kd      C=512 N8:  94.5  96.1  91.4  93.8 (mem off  10.9) | N32:  87.5  82.0  82.8  84.4 (mem off   0.8)
+  r25-evals screen_p25u_7L_spk_kd      C=512 | K1 in@0  15.6 | K1 in@200   6.8 | K1 x@0   6.8 | K1 x@200   2.6 | K1 x@0 off   5.7 | K1 in@0 para   9.4 | K1 x@0 para   8.3 | K4 in@0  16.1 | K4 in@200  10.4 | K4 x@0   8.3 | K4 x@200   9.9 | K4 x@0 off   7.8 | K4 in@0 para  10.9 | K4 x@0 para  12.0
+  r25-evals screen_p25u_7L_spk_kd        C=512 xcopy top1 | none  28.8 | in-window  31.1 | beyond (memory)  25.8 | beyond mem-off  23.7
+  energy screen_p25u_7L_spk_kd        energy   54.6 uJ/tok vs dense  403.6 -> 7.39x | MAC   3.5M AC  43.0M (dense  87.7M) | top: head 16.3uJ, up 8.5uJ, qkv 6.3uJ, o_proj 2.7uJ, attn_gate 2.1uJ, proj 1.8uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-06 15:41:00] screen_p25u_7L_spk_kd queue DONE
