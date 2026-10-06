@@ -28,3 +28,12 @@ more as the spike count drops.
 ## Decision rules
 ppl within ~5% of the dense model; cross-chunk recall ≥ 90%; energy ≥ 5× vs dense. Report energy honestly as a
 neuromorphic-hardware estimate (not GPU watts).
+
+## Results so far (10-06 15:20)
+- r25s (L4, 40M conv) 5.56x, chunk1 +7.8%; **r25t (L8, 80M conv) 5.0x, chunk1 41.67 = dense r25o 41.74, memory intact.**
+- 6L: L8 > L4; 2x thresholds 9.7x but +35% at 20M tok; ternary +89% (dropped).
+- Self-KD bug (Liger fused CE overwrites the logits in place) fixed: KD now computed before the CE. Reruns p25u / r25w.
+- Spike-driven attention (code q, v): +1.4% zero-shot, 5.0x -> 6.2x. Added to r25w (L8 + q,v + KD + 1.5x thresholds, 80M).
+- Low-rank LM head (SVD): r512 +6.6%, r384 +18% zero-shot for <=1/3 head saving -> parked.
+- Real-text recall beyond the window: r25o only 30.0 vs 28.2 mem-off (xcopy eval). xcopy augmentation: 7L no ppl cost but
+  barely helps (7L can't copy in-window either); 12L r25v pending.

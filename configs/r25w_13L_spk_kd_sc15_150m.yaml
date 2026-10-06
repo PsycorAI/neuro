@@ -130,5 +130,7 @@ spike_code:
 - down
 - head
 - mem
+- q
+- v
 spike_levels: 8
 spike_levels_hidden: 16

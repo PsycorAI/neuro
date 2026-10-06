@@ -281,9 +281,13 @@ class HybridAttentionBlock(nn.Module):
         # spike_code (2026-10-06 energy plan; None = off, byte-identical; created last): integer spike coding of the
         # INPUTS of qkv / o_proj / MLP up / MLP down (src/spike_code.py) -> those matmuls become sparse accumulates.
         sites = set(spike_code or [])
-        assert sites <= {"qkv", "o", "up", "down"}, sites
+        assert sites <= {"qkv", "o", "up", "down", "q", "v"}, sites
         from spike_code import SpikeCode
         self.sc = nn.ModuleDict()
+        if "q" in sites:
+            self.sc["q"] = SpikeCode(self.d_head, spike_levels, signed=True, init=0.8)
+        if "v" in sites:
+            self.sc["v"] = SpikeCode(self.d_head, spike_levels, signed=True, init=0.8)
         if "qkv" in sites:
             self.sc["qkv"] = SpikeCode(d_mem, spike_levels, signed=True, init=0.8)
         if "o" in sites:
@@ -313,6 +317,12 @@ class HybridAttentionBlock(nn.Module):
             k = self.k_norm(k)
         q = _apply_rope(q, self.rope_cos, self.rope_sin)
         k = _apply_rope(k, self.rope_cos, self.rope_sin)
+        # spike-driven attention (spike_code "q"/"v", 2026-10-06): integer spike counts for q (after RoPE) and v, so
+        # QK^T and att@V become accumulates (q.k = sum of k repeated |s_q| times; att@v likewise).
+        if "q" in self.sc:
+            q = self.sc["q"](q)
+        if "v" in self.sc:
+            v = self.sc["v"](v)
         # Causal SDPA (Flash if available). No mask needed with is_causal=True.
         w = self.attn_window
         if self.attn_topk:
@@ -450,6 +460,10 @@ class HybridAttentionBlock(nn.Module):
         past = 0 if cache is None else cache[0].shape[2]
         q = _apply_rope(q, self.rope_cos[past:past + t], self.rope_sin[past:past + t])
         k = _apply_rope(k, self.rope_cos[past:past + t], self.rope_sin[past:past + t])
+        if "q" in self.sc:
+            q = self.sc["q"](q)
+        if "v" in self.sc:
+            v = self.sc["v"](v)
         if cache is not None:
             k = torch.cat([cache[0], k], dim=2)                 # (B, H, past+t, Dh)
             v = torch.cat([cache[1], v], dim=2)

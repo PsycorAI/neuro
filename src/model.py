@@ -1222,7 +1222,7 @@ class SpikingHebbianLM(nn.Module):
                     out_gate=attn_out_gate, canon=attn_canon, spikeglu_lif=attn_ffn_spikeglu_lif,
                     lif_levels=lif_levels, lif_signed=lif_signed,
                     ffn_act=attn_ffn_act, ffn_homeo=attn_ffn_homeo,
-                    spike_code=[x for x in (spike_code or []) if x in ("qkv", "o", "up", "down")] or None,
+                    spike_code=[x for x in (spike_code or []) if x in ("qkv", "o", "up", "down", "q", "v")] or None,
                     spike_levels=spike_levels, spike_levels_hidden=spike_levels_hidden))
             elif n_experts > 1:
                 from moe_hebbian import MoEHebbianBlock

@@ -178,7 +178,8 @@ emit("screen_p25u_7L_spk_kd", PO, "CONVERSION: p25o + 40M tok, L8, thresholds 1.
 emit("r25w_13L_spk_kd_sc15_150m", "r25o_13L_H6only_150m", "CONVERSION: r25o + 80M tok, L8, thresholds 1.5x (SCALE env), "
      "self-KD from r25o (alpha 0.5, every 4th position).", max_tokens=280_000_000, kd_self_ckpt=
      "/home/glenn/projects/neuro/models/checkpoints/r25o_13L_H6only_150m/step_0012208.pt", kd_self_alpha=0.5,
-     kd_self_stride=4, **dict(SPK, spike_levels=8, spike_levels_hidden=16))
+     kd_self_stride=4, **dict(SPK, spike_levels=8, spike_levels_hidden=16,
+                              spike_code=SPK["spike_code"] + ["q", "v"]))   # 10-06 15:20: + spike-driven attention
 emit("screen_p25v_7L_xcopy", PO, "p25o + xcopy_frac 0.25, from scratch.", xcopy_frac=0.25)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

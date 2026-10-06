@@ -835,3 +835,14 @@
 [s1 10-06 13:00:56] scheduler waiting for GPU 1 lock
 [s1 10-06 13:04:56] [screen_p25v_7L_xcopy] START
 [q0 10-06 13:07:28] p25s4 ternary: +89% ppl -> dropped. p25u DIVERGED: bug = self-KD read the logits after Liger fused CE overwrote them in place (fixed: KD before CE). Reruns queued: p25u (5080 after p25v), r25w (12L KD+1.5x thr+L8, 5090 after r25v)
+[s1 10-06 14:35:40] [screen_p25v_7L_xcopy] exit=0 :: 153.04 100.96 79.33 78.21 69.92 65.59 
+  recall   screen_p25v_7L_xcopy |   94% |   91% |   81% |   84% |   78%
+  haystack (gap 0/64/192/440) screen_p25v_7L_xcopy N8:  87.9  95.3  92.2  93.8 | N32:  84.0  84.0  84.4  86.3
+[s1 10-06 14:40:26] scheduler DONE
+  r25-evals screen_p25v_7L_xcopy       C=512 T=1024 | chunk1   68.45 (mem off   71.63) | chunks2+   66.33 (off   71.59, Δ +5.26) | first64 of 2+   75.97 (off   89.62, Δ +13.66) vs first64 of chunk1   94.36
+  r25-evals screen_p25v_7L_xcopy       C=512 N8:  93.8  91.4  88.3  92.2 (mem off  17.2) | N32:  80.5  79.7  81.2  80.5 (mem off   3.1)
+  r25-evals screen_p25v_7L_xcopy       C=512 | K1 in@0  13.0 | K1 in@200   7.8 | K1 x@0   6.2 | K1 x@200   3.6 | K1 x@0 off   5.7 | K1 in@0 para   7.3 | K1 x@0 para   4.2 | K4 in@0  14.6 | K4 in@200   8.3 | K4 x@0   7.8 | K4 x@200  10.9 | K4 x@0 off   9.4 | K4 in@0 para  10.9 | K4 x@0 para   8.3
+  r25-evals screen_p25v_7L_xcopy         C=512 xcopy top1 | none  30.3 | in-window  34.0 | beyond (memory)  27.5 | beyond mem-off  24.0
+[s1 10-06 14:42:15] p25u/v queue DONE
+  [screen_p25u_7L_spk_kd] seed [OK] 26 spike codes calibrated (scale 1.5) | zero-shot ppl dense 77.64 -> coded 111.88 | mean spikes/input 0.485 | saved models/checkpoints/screen_p25u_7L_spk_kd @ step 6104
+[g1 10-06 14:42:54] [screen_p25u_7L_spk_kd] START

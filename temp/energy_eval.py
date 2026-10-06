@@ -57,11 +57,24 @@ for arg in sys.argv[1:]:
     n_attn = sum(1 for b in m.blocks if hasattr(b, "qkv"))
     n_mem = len(m.blocks) - n_attn
     topk = int(c.get("attn_topk", 0) or 0)
-    attn = n_attn * (d * ctx + d * (min(topk, ctx) if topk else ctx))
+    av_n = min(topk, ctx) if topk else ctx
+    attn, attn_ac = 0.0, 0.0                      # spike-coded q / v (spike_code "q"/"v") -> accumulates
+    for b in m.blocks:
+        if not hasattr(b, "qkv"):
+            continue
+        sc = getattr(b, "sc", {})
+        if "q" in sc:
+            attn_ac += float(sc["q"].last_count) * d * ctx
+        else:
+            attn += d * ctx
+        if "v" in sc:
+            attn_ac += float(sc["v"].last_count) * d * av_n
+        else:
+            attn += d * av_n
     attn_dense = n_attn * 2 * d * ctx
     mem = n_mem * 3 * d * d
     mac = sum(a[0] for a in acc.values()) / ntok + attn + mem
-    ac = sum(a[1] for a in acc.values()) / ntok
+    ac = sum(a[1] for a in acc.values()) / ntok + attn_ac
     dense = sum(a[2] for a in acc.values()) / ntok + attn_dense + mem
     e_ev, e_dn = mac * E_MAC + ac * E_AC, dense * E_MAC
     groups = {}
