@@ -882,6 +882,19 @@ def main():
                 # CE internally (via target_ids), so we must NOT also compute a
                 # standalone CE here when KD is on — that was a dead full-vocab
                 # softmax every microstep. Only compute CE on the non-KD path.
+                # self-KD BEFORE the CE: Liger fused CE overwrites the logits in place with their gradient
+                _kd_term = None
+                if _kd_self is not None:
+                    with torch.no_grad():
+                        _tl = _kd_self(x)
+                        _tv, _ti = (_tl[0] if isinstance(_tl, tuple) else _tl).float().topk(int(c.get("kd_self_topk", 64)), -1)
+                        _tp = torch.softmax(_tv, -1)
+                    _st = int(c.get("kd_self_stride", 1))      # KD on every k-th position (VRAM)
+                    _sl = out[:, ::_st].float()
+                    _ti, _tp = _ti[:, ::_st], _tp[:, ::_st]
+                    _slp = _sl.gather(-1, _ti) - torch.logsumexp(_sl, -1, keepdim=True)
+                    _kd = (_tp * (_tp.clamp_min(1e-9).log() - _slp)).sum(-1).mean()
+                    _kd_term = float(c.get("kd_self_alpha", 0.5)) * _kd
                 if kd_teacher is not None:
                     from kd import teacher_distribution, kd_loss
                     teacher_topk = teacher_distribution(
@@ -902,17 +915,8 @@ def main():
                         main_loss = main._liger_ce(out.reshape(-1, c["vocab"]), y.reshape(-1))
                     else:
                         main_loss = F.cross_entropy(out.reshape(-1, c["vocab"]), y.reshape(-1))
-                if _kd_self is not None:
-                    with torch.no_grad():
-                        _tl = _kd_self(x)
-                        _tv, _ti = (_tl[0] if isinstance(_tl, tuple) else _tl).float().topk(int(c.get("kd_self_topk", 64)), -1)
-                        _tp = torch.softmax(_tv, -1)
-                    _st = int(c.get("kd_self_stride", 1))      # KD on every k-th position (VRAM)
-                    _sl = out[:, ::_st].float()
-                    _ti, _tp = _ti[:, ::_st], _tp[:, ::_st]
-                    _slp = _sl.gather(-1, _ti) - torch.logsumexp(_sl, -1, keepdim=True)
-                    _kd = (_tp * (_tp.clamp_min(1e-9).log() - _slp)).sum(-1).mean()
-                    main_loss = main_loss + float(c.get("kd_self_alpha", 0.5)) * _kd
+                if _kd_term is not None:
+                    main_loss = main_loss + _kd_term
                 # Sparsity penalty
                 if sr is not None:
                     target = c.get("sparsity_target", 0.05)

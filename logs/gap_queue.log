@@ -810,3 +810,28 @@
 [g0 10-06 11:56:22] r25t_13L_spk_L8_80M_150m queue DONE
 [q0 10-06 12:00:06] REVIEW: r25t (L8, 80M conv) = no ppl cost (chunk1 41.67 vs 41.74), 5.0x energy, memory intact. 6L: L8 > L4; 2x thresholds 9.7x but +35% (20M conv). Real-text recall beyond window FAILS (xcopy 30 vs 28) -> r25v (12L + xcopy aug) on 5090; 5080: p25u (KD + 1.5x thr) -> p25v (7L xcopy); p25t dropped
 [q0 10-06 12:00:06] [r25v_13L_H6_xcopy_150m] START
+[g1 10-06 12:05:36] [screen_p25s4_7L_spk_tern] exit=0 :: 131.39 
+  recall screen_p25s4_7L_spk_tern |   69% |   75% |   47% |   41% |   16%
+  haystack (gap 0/64/192/440) screen_p25s4_7L_spk_tern N8:  56.6  64.5  63.3  57.8 | N32:  32.4  30.5  30.1  30.9
+  r25-evals screen_p25s4_7L_spk_tern   C=512 T=1024 | chunk1  130.37 (mem off  134.71) | chunks2+  127.80 (off  132.93, Δ +5.12) | first64 of 2+  141.33 (off  152.93, Δ +11.60) vs first64 of chunk1  161.79
+  r25-evals screen_p25s4_7L_spk_tern   C=512 N8:  51.6  56.2  57.8  53.9 (mem off  13.3) | N32:  31.2  32.8  26.6  35.2 (mem off   2.3)
+  r25-evals screen_p25s4_7L_spk_tern   C=512 | K1 in@0   9.4 | K1 in@200   4.7 | K1 x@0   5.2 | K1 x@200   4.7 | K1 x@0 off   4.2 | K1 in@0 para   9.4 | K1 x@0 para   6.8 | K4 in@0  13.0 | K4 in@200   9.4 | K4 x@0  13.0 | K4 x@200  13.5 | K4 x@0 off   9.9 | K4 in@0 para  10.4 | K4 x@0 para   8.3
+  r25-evals screen_p25s4_7L_spk_tern     C=512 xcopy top1 | none  23.7 | in-window  23.7 | beyond (memory)  21.6 | beyond mem-off  19.9
+  energy screen_p25s4_7L_spk_tern     energy   53.4 uJ/tok vs dense  403.6 -> 7.56x | MAC   3.5M AC  41.6M (dense  87.7M) | top: head 15.5uJ, up 8.7uJ, qkv 6.6uJ, attn_gate 2.2uJ, proj 1.8uJ, o_proj 1.7uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-06 12:08:05] screen_p25s4_7L_spk_tern queue DONE
+  [screen_p25u_7L_spk_kd] seed [OK] 26 spike codes calibrated (scale 1.5) | zero-shot ppl dense 77.64 -> coded 111.88 | mean spikes/input 0.485 | saved models/checkpoints/screen_p25u_7L_spk_kd @ step 6104
+[g1 10-06 12:08:18] [screen_p25u_7L_spk_kd] START
+[g1 10-06 12:58:17] [screen_p25u_7L_spk_kd] exit=0 :: 1120780.72 943076026.46 
+  recall  screen_p25u_7L_spk_kd |  100% |   97% |   94% |   91% |   72%
+  haystack (gap 0/64/192/440) screen_p25u_7L_spk_kd N8:  96.9  95.3  96.5  96.9 | N32:  88.7  87.5  84.0  85.5
+  r25-evals screen_p25u_7L_spk_kd      C=512 T=1024 | chunk1 26826432701.59 (mem off 30037707157.19) | chunks2+ 22446339402.47 (off 27288588553.71, Δ +4842249151.25) | first64 of 2+ 39025346863.15 (off 58728744198.25, Δ +19703397335.10) vs first64 of chunk1 208009733952.65
+  r25-evals screen_p25u_7L_spk_kd      C=512 N8:  91.4  90.6  96.1  93.8 (mem off  12.5) | N32:  83.6  85.2  82.0  79.7 (mem off   3.9)
+  r25-evals screen_p25u_7L_spk_kd      C=512 | K1 in@0   6.2 | K1 in@200   6.2 | K1 x@0   5.2 | K1 x@200   5.7 | K1 x@0 off   6.2 | K1 in@0 para   5.7 | K1 x@0 para   5.7 | K4 in@0  12.5 | K4 in@200  10.4 | K4 x@0   9.4 | K4 x@200   9.4 | K4 x@0 off   9.9 | K4 in@0 para  10.4 | K4 x@0 para   9.9
+  r25-evals screen_p25u_7L_spk_kd        C=512 xcopy top1 | none  21.7 | in-window  23.0 | beyond (memory)  20.8 | beyond mem-off  19.2
+  energy screen_p25u_7L_spk_kd        energy   61.8 uJ/tok vs dense  403.6 -> 6.53x | MAC   3.5M AC  51.0M (dense  87.7M) | top: head 22.9uJ, up 8.7uJ, qkv 6.3uJ, o_proj 2.7uJ, attn_gate 2.1uJ, proj 1.8uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-06 13:00:56] screen_p25u_7L_spk_kd queue DONE
+[s1 10-06 13:00:56] scheduler waiting for GPU 1 lock
+[s1 10-06 13:04:56] [screen_p25v_7L_xcopy] START
+[q0 10-06 13:07:28] p25s4 ternary: +89% ppl -> dropped. p25u DIVERGED: bug = self-KD read the logits after Liger fused CE overwrote them in place (fixed: KD before CE). Reruns queued: p25u (5080 after p25v), r25w (12L KD+1.5x thr+L8, 5090 after r25v)
