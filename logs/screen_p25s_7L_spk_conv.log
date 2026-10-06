@@ -1,0 +1,39 @@
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (93 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+  [warn] optimizer state in ckpt incompatible with current config; starting fresh
+resumed /home/glenn/projects/neuro/models/checkpoints/screen_p25s_7L_spk_conv/step_0006104.pt @ step 6104, 100.0M tok
+arch=spiking params=142.45M device=cuda target=0.120B tok | 16384 tok/step | total_steps≈7324 | warmup=146 | lr_sched=cosine | grad_clip=1.0
+step 6200 | 101.6M tok | loss 5.370 | 8,577 tok/s | vram 3.1/11.2 GB
+step 6300 | 103.2M tok | loss 5.911 | 18,530 tok/s | vram 3.1/11.2 GB
+step 6400 | 104.9M tok | loss 5.016 | 18,761 tok/s | vram 3.1/11.2 GB
+step 6500 | 106.5M tok | loss 4.773 | 19,481 tok/s | vram 3.1/11.2 GB
+step 6600 | 108.1M tok | loss 4.710 | 18,763 tok/s | vram 3.1/11.2 GB
+step 6700 | 109.8M tok | loss 4.220 | 18,757 tok/s | vram 3.1/11.2 GB
+step 6800 | 111.4M tok | loss 4.634 | 19,546 tok/s | vram 3.1/11.2 GB
+step 6900 | 113.0M tok | loss 4.596 | 19,735 tok/s | vram 3.1/11.2 GB
+step 7000 | 114.7M tok | loss 4.897 | 19,091 tok/s | vram 3.1/11.2 GB
+  [eval] val_ppl 72.44 | ablated_ppl 76.21 (memory Δ=+3.77) | spike 0.096
+  [mlp] rate=0.057 thr=0.454 rate=0.056 thr=0.333 rate=0.057 thr=0.442 rate=0.048 thr=0.849 rate=0.043 thr=0.941 rate=0.047 thr=1.360 | target 0.050
+  [wnorm] embed=4076.12 | head=208.85
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.10 dead=0% at_floor=91% | blk4: n/a | blk5: n/a | blk6: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: e=4% w=91% d=47/3% dstd=6.1 | blk4: n/a | blk5: n/a | blk6: n/a
+  [spike] reported=0.096 spiking_only=0.096 (1/7 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.714 hi=32% lo=1% | blk4: n/a | blk5: n/a | blk6: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_p25s_7L_spk_conv/step_0007000.pt
+step 7100 | 116.3M tok | loss 5.117 | 14,680 tok/s | vram 3.3/10.9 GB
+step 7200 | 118.0M tok | loss 4.990 | 18,839 tok/s | vram 3.3/10.9 GB
+step 7300 | 119.6M tok | loss 4.501 | 19,162 tok/s | vram 3.3/10.9 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_p25s_7L_spk_conv/step_0007325.pt
+done: 120.0M tok in 0.33h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     353236457.1 |     368993894.4 |         1.04x
+    1024 |     374941980.3 |     394317004.8 |         1.05x
+    4096 |     505175119.5 |     546255667.2 |         1.08x
+
+block mix: 1 spiking + 6 attention | spike_rate 0.096 reported -> 0.096 spiking-only
+spiking op mix/token @ seq 4096: 109,510,656 MAC + 1,584,558 AC
+note: 6 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

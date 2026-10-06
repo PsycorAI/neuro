@@ -1,0 +1,26 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (189 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+self-KD teacher: /home/glenn/projects/neuro/models/checkpoints/r25o_13L_H6only_150m/step_0012208.pt (alpha 0.5, top-64)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+  [warn] optimizer state in ckpt incompatible with current config; starting fresh
+resumed /home/glenn/projects/neuro/models/checkpoints/r25w_13L_spk_kd_sc15_150m/step_0012208.pt @ step 12208, 200.0M tok
+arch=spiking params=188.53M device=cuda target=0.280B tok | 16384 tok/step | total_steps≈17089 | warmup=341 | lr_sched=cosine | grad_clip=1.0
+step 12300 | 201.5M tok | loss 4.312 | 5,369 tok/s | vram 5.2/20.0 GB
+step 12400 | 203.2M tok | loss 4.225 | 10,807 tok/s | vram 5.5/20.0 GB
+step 12500 | 204.8M tok | loss 4.455 | 10,784 tok/s | vram 5.3/20.5 GB
+step 12600 | 206.4M tok | loss 4.207 | 10,735 tok/s | vram 5.3/20.5 GB
+step 12700 | 208.1M tok | loss 4.313 | 10,764 tok/s | vram 5.3/20.5 GB
+step 12800 | 209.7M tok | loss 4.338 | 10,919 tok/s | vram 5.3/20.5 GB
+step 12900 | 211.4M tok | loss 4.344 | 10,165 tok/s | vram 5.5/20.5 GB
+step 13000 | 213.0M tok | loss 4.073 | 10,225 tok/s | vram 5.5/20.5 GB
+  [eval] val_ppl 50.55 | ablated_ppl 52.02 (memory Δ=+1.47) | spike 0.098
+  [mlp] rate=0.219 thr=0.020 rate=0.189 thr=0.000 rate=0.174 thr=0.000 rate=0.160 thr=0.000 rate=0.178 thr=0.000 rate=0.219 thr=0.000 rate=0.221 thr=0.101 rate=0.239 thr=0.025 rate=0.251 thr=0.008 rate=0.242 thr=0.043 rate=0.166 thr=0.439 rate=0.143 thr=0.699 | target 0.201
+  [wnorm] embed=3317.18 | head=206.23
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.10 dead=0% at_floor=97% COLLAPSED | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=5% w=97% d=33/6% dstd=7.3 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [spike] reported=0.098 spiking_only=0.098 (1/13 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.619 hi=29% lo=1% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/r25w_13L_spk_kd_sc15_150m/step_0013000.pt
+step 13100 | 214.6M tok | loss 4.165 | 8,279 tok/s | vram 5.6/20.4 GB
+step 13200 | 216.3M tok | loss 4.417 | 10,480 tok/s | vram 5.5/20.4 GB
