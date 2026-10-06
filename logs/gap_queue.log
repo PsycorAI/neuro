@@ -581,3 +581,41 @@
 [q0 10-05 12:53:15] r25h queue DONE
 [q0 10-05 12:54:45] p25e (6L H0+H3) cross-chunk haystack N8 ~89% / N32 ~80% (mem off chance), ppl +10%; r25h (12L late, xchunk 1.0 w 0.5) cross-chunk N8 59-79% / N32 ~30%, chunk1 40.47 (+4%), in-window haystack fell. Queued: 5090 r25i (balanced late phase) -> r25j (12L H0+H6 from scratch); 5080 p25b -> p25l (H3 + NL) -> p25d -> p25c
 [q0 10-05 12:54:52] [r25i_late_read_xbal_150m] START
+[s1 10-05 13:54:17] [screen_p25b_6L_chunk512] exit=0 :: 204.62 123.95 89.65 83.30 74.63 68.72 
+  recall screen_p25b_6L_chunk512 |   97% |  100% |  100% |   97% |   94%
+[q0 10-05 13:58:57] [r25i_late_read_xbal_150m] exit=0 :: 42.04 40.62 39.06 37.94 37.00 
+  haystack (gap 0/64/192/440) screen_p25b_6L_chunk512 N8:  98.4  99.2 100.0  97.3 | N32:  97.7  97.7  97.3  98.0
+[s1 10-05 13:59:00] scheduler DONE
+[s1 10-05 13:59:01] scheduler waiting for GPU 1 lock
+[s1 10-05 13:59:01] [screen_p25b_6L_chunk512] already DONE, skip
+[s1 10-05 13:59:01] scheduler DONE
+  recall r25i_late_read_xbal_150m |   97% |  100% |   97% |  100% |  100%
+  haystack (gap 0/64/192/440) r25i_late_read_xbal_150m N8:  98.0 100.0 100.0  99.6 | N32: 100.0 100.0 100.0  99.6
+  r25-evals screen_p25b_6L_chunk512    C=512 T=1024 | chunk1   71.77 (mem off   75.45) | chunks2+   69.72 (off   74.66, Δ +4.94) | first64 of 2+   83.68 (off   94.45, Δ +10.77) vs first64 of chunk1  100.47
+  r25-evals screen_p25b_6L_chunk512    C=512 N8:  13.3  10.2  10.2  18.8 (mem off  12.5) | N32:   3.9   1.6   7.0   2.3 (mem off   3.1)
+  r25-evals screen_p25b_6L_chunk512    C=512 | K1 in@0  13.5 | K1 in@200   6.8 | K1 x@0   5.7 | K1 x@200   4.7 | K1 x@0 off   5.7 | K1 in@0 para   7.3 | K1 x@0 para   3.6 | K4 in@0  15.6 | K4 in@200  12.0 | K4 x@0   9.4 | K4 x@200  11.5 | K4 x@0 off   9.9 | K4 in@0 para  11.5 | K4 x@0 para   7.8
+[s1 10-05 14:00:10] scheduler waiting for GPU 1 lock
+  r25-evals r25i_late_read_xbal_150m   C=512 T=1024 | chunk1   38.34 (mem off   40.11) | chunks2+   38.50 (off   40.81, Δ +2.31) | first64 of 2+   54.81 (off   58.63, Δ +3.82) vs first64 of chunk1   57.99
+  r25-evals r25i_late_read_xbal_150m   C=512 N8:  15.6  13.3  11.7   8.6 (mem off  11.7) | N32:   4.7   5.5   0.0   1.6 (mem off   3.1)
+  r25-evals r25i_late_read_xbal_150m   C=512 | K1 in@0  89.6 | K1 in@200  43.2 | K1 x@0   8.3 | K1 x@200   4.7 | K1 x@0 off   6.8 | K1 in@0 para  20.8 | K1 x@0 para   6.2 | K4 in@0  17.2 | K4 in@200  15.1 | K4 x@0   8.3 | K4 x@200   7.3 | K4 x@0 off   8.9 | K4 in@0 para  14.6 | K4 x@0 para   9.4
+[q0 10-05 14:00:32] [r25j_chunk_H6_150m] START
+[q0 10-05 14:05] r25i (late xchunk 0.5 w0.3): chunk1 38.34, Δ +2.3, recall/haystack 100%, cross-chunk chance. p25b (6L chunk only): +5% ppl, recall 100%, Δ +4.9. Queued r25k (late, xchunk 0.75 w 0.5) after r25j
+[s1 10-05 14:04:10] [screen_p25l_6L_chunk512_x_H3_nl] START
+[s1 10-05 16:13:33] [screen_p25l_6L_chunk512_x_H3_nl] exit=0 :: 179.93 113.73 86.61 79.49 75.10 71.52 
+  recall screen_p25l_6L_chunk512_x_H3_nl |   69% |   81% |   75% |   69% |   53%
+  haystack (gap 0/64/192/440) screen_p25l_6L_chunk512_x_H3_nl N8:  79.7  92.2  91.8  90.6 | N32:  70.7  77.3  82.0  81.2
+[s1 10-05 16:18:14] scheduler DONE
+  r25-evals screen_p25l_6L_chunk512_x_H3_nl C=512 T=1024 | chunk1   76.29 (mem off   84.55) | chunks2+   72.58 (off   83.59, Δ +11.01) | first64 of 2+   80.77 (off   99.43, Δ +18.66) vs first64 of chunk1  103.89
+  r25-evals screen_p25l_6L_chunk512_x_H3_nl C=512 N8:  88.3  88.3  87.5  88.3 (mem off  13.3) | N32:  79.7  84.4  75.8  78.9 (mem off   3.9)
+  r25-evals screen_p25l_6L_chunk512_x_H3_nl C=512 | K1 in@0  14.6 | K1 in@200   6.8 | K1 x@0   7.3 | K1 x@200   7.3 | K1 x@0 off   5.7 | K1 in@0 para   7.3 | K1 x@0 para   5.7 | K4 in@0  15.6 | K4 in@200   9.9 | K4 x@0   9.4 | K4 x@200  12.0 | K4 x@0 off   7.8 | K4 in@0 para   8.9 | K4 x@0 para   8.3
+[s1 10-05 16:19:41] scheduler waiting for GPU 1 lock
+[s1 10-05 16:23:41] [screen_p25d_6L_chunk512_T2048_x] START
+[q0 10-05 17:05:03] [r25j_chunk_H6_150m] exit=0 :: 147.11 130.49 102.37 84.81 74.88 64.21 55.81 50.38 48.71 47.84 46.22 44.63 
+  recall     r25j_chunk_H6_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25j_chunk_H6_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r25j_chunk_H6_150m         C=512 T=1024 | chunk1   47.28 (mem off   47.63) | chunks2+   45.80 (off   47.58, Δ +1.78) | first64 of 2+   55.32 (off   65.83, Δ +10.51) vs first64 of chunk1   70.99
+  r25-evals r25j_chunk_H6_150m         C=512 N8: 100.0 100.0 100.0 100.0 (mem off  17.2) | N32: 100.0 100.0 100.0  99.2 (mem off   2.3)
+  r25-evals r25j_chunk_H6_150m         C=512 | K1 in@0  79.7 | K1 in@200  37.5 | K1 x@0   6.8 | K1 x@200   7.3 | K1 x@0 off   7.3 | K1 in@0 para  20.8 | K1 x@0 para   5.2 | K4 in@0  20.8 | K4 in@200  17.2 | K4 x@0   8.9 | K4 x@200   9.4 | K4 x@0 off  11.5 | K4 in@0 para  14.6 | K4 x@0 para   7.8
+[q0 10-05 17:07:43] r25i/j queue DONE
+[q0 10-05 17:08:24] [r25k_late_read_x075_150m] START (late phase from r21b)
+[q0 10-05 17:25] r25j (12L H0+H6 chunked from scratch): cross-chunk haystack 100% N8+N32 (mem off chance), in-window 100%, chunk1 47.28 (+22% vs r21b). p25l (6L H3+NL): cross-chunk ~85%, NL facts chance. Queued r25l = r21b + INSERTED H6 (13L) late phase after r25k

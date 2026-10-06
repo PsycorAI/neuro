@@ -95,5 +95,17 @@ emit("r25j_chunk_H6_150m", "r21b_x1_150m", "+ chunk512/T1024 + xchunk 0.5 + 2nd 
      **X)
 emit("screen_p25l_6L_chunk512_x_H3_nl", P, "p25e (H0 + H3) + NL-fact aux; B8xGA2.", block_size=1024, attn_chunk=512,
      mqar_xchunk_batch=4, attention_layer_positions=[1, 2, 4, 5], **X, **NL)
+# 10-05 14:05: r25i (xchunk 0.5, w 0.3) = no ppl cost, memory used, cross-chunk at chance; r25h (1.0, w 0.5) = cross-chunk
+# 59-79% but in-window haystack fell -> r25k in between: xchunk 0.75, w 0.5.
+emit("r25k_late_read_x075_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +80M tok chunk512/T1024 + late read "
+     "[4, 8] + xchunk frac 0.75, gap weight 0.5.", mem_read_layers=[4, 8], mqar_gap_weight=0.5,
+     **dict(LATE, max_tokens=280_000_000), **dict(X, mqar_xchunk_frac=0.75))
+# 10-05 17:15: r25j (12L H0+H6 chunked from scratch) = cross-chunk haystack 100% (N8+N32) but chunk1 47.28 (+22%).
+# r25l = LATE INSERTION: r21b ckpt + a NEW memory block at depth 6 (13L, all 11 attention layers kept; ckpt remapped by
+# temp/mk_insert_ckpt.py; spk_layerscale 0.01 so the new block starts near-silent, loaded H0 gets ls_gamma 1) + 80M tok
+# chunked with xchunk 0.5 at the default gap weight (r25j learned with that dose).
+emit("r25l_late_insH6_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: insert memory block at depth 6 (13L) + "
+     "chunk512/T1024 + xchunk 0.5, 80M tok.", n_layers=13, insert_blocks=[6], spk_layerscale=0.01,
+     attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], **dict(LATE, max_tokens=280_000_000), **X)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)
