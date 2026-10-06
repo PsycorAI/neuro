@@ -27,7 +27,8 @@ def emit(name, src, note, **upd):
     c.update(upd, run_name=name)
     # 10-05 06:30: the 16 GB 5080 spills with the plain-MQAR batch at 32 (p25g 15.3 GB, 20.5k -> 8k tok/s). 6L proxies
     # that have not run yet use 2 micro-batches with every per-micro aux halved (same samples per optimizer step).
-    if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25l_6L_chunk512_x_H3_nl", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
+    if name in ("screen_p25g_6L_chunk512_x_fix", "screen_p25i_6L_chunk512_x_read", "screen_p25l_6L_chunk512_x_H3_nl",
+                "screen_p25m_7L_chunk512_x_H0H3", "screen_p25n_6L_chunk512_x_H3only", "screen_p25b_6L_chunk512", "screen_p25e_6L_chunk512_x_H3",
                 "screen_p25d_6L_chunk512_T2048_x", "screen_p25c_6L_chunk256_x"):
         c.update(batch_size=c["batch_size"] // 2, grad_accum=2, mqar_aug_batch=c["mqar_aug_batch"] // 2,
                  mqar_batch=c["mqar_batch"] // 2, mqar_xchunk_batch=max(1, c.get("mqar_xchunk_batch", 4) // 2))
@@ -106,6 +107,25 @@ emit("r25k_late_read_x075_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: +8
 # chunked with xchunk 0.5 at the default gap weight (r25j learned with that dose).
 emit("r25l_late_insH6_150m", "r21b_x1_150m", "LATE PHASE from r21b @200M: insert memory block at depth 6 (13L) + "
      "chunk512/T1024 + xchunk 0.5, 80M tok.", n_layers=13, insert_blocks=[6], spk_layerscale=0.01,
-     attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], **dict(LATE, max_tokens=280_000_000), **X)
+     attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
+     **dict(LATE, max_tokens=280_000_000, mqar_xchunk_batch=4), **X,
+     # 10-05 20:55: 33.5 GB at B16 (WDDM spill, 3k tok/s) -> B8 x GA2, per-micro aux halved (same samples/step)
+     batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4)
+# 10-05 21:05 (5080 free): is p25e's +10% ppl from losing an attention layer, and is H0 needed once H3 exists?
+emit("screen_p25m_7L_chunk512_x_H0H3", P, "7L: H0 + H3 INSERTED (all 5 attention layers kept) + chunk + xchunk; B8xGA2.",
+     n_layers=7, block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, attention_layer_positions=[1, 2, 4, 5, 6], **X)
+emit("screen_p25n_6L_chunk512_x_H3only", P, "6L: memory ONLY at depth 3 (layer 0 = attention) + chunk + xchunk; B8xGA2.",
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, attention_layer_positions=[0, 1, 2, 4, 5], **X)
+# 10-05 22:55: r25l chunk1 36.94 but the inserted H6 stayed silent (Δ 0, cross-chunk chance) -> r25m: full-scale insert
+# (spk_layerscale 1.0) + strong dose (xchunk 1.0, gap weight 0.5).
+emit("r25m_late_insH6_strong_150m", "r21b_x1_150m", "LATE PHASE from r21b: insert H6 at layerscale 1.0 (13L) + chunk + "
+     "xchunk 1.0, gap w 0.5, 80M tok; B8xGA2.", n_layers=13, insert_blocks=[6], spk_layerscale=1.0, mqar_gap_weight=0.5,
+     attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
+     **dict(LATE, max_tokens=280_000_000, mqar_xchunk_batch=4), **dict(X, mqar_xchunk_frac=1.0),
+     batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4)
+# 10-06 00:50: p25m (7L, H3 ADDED, all attention kept) = +2.8% ppl, cross-chunk ~90/83% -> 12L analog from scratch.
+emit("r25n_13L_H0H6add_150m", "r21b_x1_150m", "13L from scratch: H0 + H6 ADDED (all 11 attention layers kept) + chunk512/"
+     "T1024 + xchunk 0.5 (late gap dose); B8xGA2.", n_layers=13, attention_layer_positions=[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
+     block_size=1024, attn_chunk=512, mqar_xchunk_batch=4, batch_size=8, grad_accum=2, mqar_aug_batch=16, mqar_batch=4, **X)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

@@ -619,3 +619,54 @@
 [q0 10-05 17:07:43] r25i/j queue DONE
 [q0 10-05 17:08:24] [r25k_late_read_x075_150m] START (late phase from r21b)
 [q0 10-05 17:25] r25j (12L H0+H6 chunked from scratch): cross-chunk haystack 100% N8+N32 (mem off chance), in-window 100%, chunk1 47.28 (+22% vs r21b). p25l (6L H3+NL): cross-chunk ~85%, NL facts chance. Queued r25l = r21b + INSERTED H6 (13L) late phase after r25k
+[s1 10-05 17:55:03] [screen_p25d_6L_chunk512_T2048_x] PAUSE (SIGINT -> final ckpt)
+[s1 10-05 17:56:03] [screen_p25d_6L_chunk512_T2048_x] paused at models/checkpoints/screen_p25d_6L_chunk512_T2048_x/step_0005190.pt
+[s1 10-05 17:56:03] [screen_p25d_6L_chunk512_T2048_x] before RESUME -- window ends 2026-10-05 18:00, queue exits
+[s1 10-05 17:56:03] [screen_p25d_6L_chunk512_T2048_x] not DONE -> skipping its evals
+[s1 10-05 17:56:03] [screen_p25c_6L_chunk256_x] not started (window ends 2026-10-05 18:00)
+[s1 10-05 17:56:03] r25 5080 queue DONE
+[wd 10-05 17:56:51] watchdog exit (no queues left)
+[q0 10-05 18:16:40] [r25k_late_read_x075_150m] exit=0 :: 43.01 42.17 40.97 39.79 39.01 
+  haystack (gap 0/64/192/440) r25k_late_read_x075_150m N8:  96.1 100.0 100.0  99.6 | N32:  98.8 100.0  99.2  99.2
+  r25-evals r25k_late_read_x075_150m   C=512 T=1024 | chunk1   40.29 (mem off   42.56) | chunks2+   40.75 (off   43.73, Δ +2.97) | first64 of 2+   57.71 (off   62.55, Δ +4.84) vs first64 of chunk1   60.58
+  r25-evals r25k_late_read_x075_150m   C=512 N8:  10.2  15.6  16.4  14.1 (mem off   8.6) | N32:   4.7   3.9   0.0   1.6 (mem off   1.6)
+  r25-evals r25k_late_read_x075_150m   C=512 | K1 in@0  87.5 | K1 in@200  37.5 | K1 x@0   6.2 | K1 x@200   5.2 | K1 x@0 off   5.7 | K1 in@0 para  12.0 | K1 x@0 para   6.2 | K4 in@0  18.2 | K4 in@200  14.1 | K4 x@0   7.3 | K4 x@200   7.3 | K4 x@0 off  10.4 | K4 in@0 para  14.6 | K4 x@0 para   8.3
+[q0 10-05 18:18:29] r25k queue DONE
+[OK] models/checkpoints/r21b_x1_150m/step_0012208.pt -> models/checkpoints/r25l_late_insH6_150m: inserted blocks [6], kept 12; step 12208
+[q0 10-05 18:19:38] [r25l_late_insH6_150m] START (r21b + inserted H6)
+[q0 10-05 20:52:40] [r25l_late_insH6_150m] RESUME as B8xGA2 (spilled at B16)
+[wd 10-05 20:52:40] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[wd 10-05 20:52:40] [r25l_late_insH6_150m] median 3049 tok/s < 8000 (spill/hang?) -> SIGTERM 410696
+[q0 10-05 20:52:40] [r25l_late_insH6_150m] exit=0 :: 40.81 39.44 
+[wd 10-05 20:53:11] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+  recall   r25l_late_insH6_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25l_late_insH6_150m N8:  99.6 100.0 100.0  98.8 | N32:  99.6  99.6  99.6  97.3
+  r25-evals r25l_late_insH6_150m       C=512 T=1024 | chunk1   42.43 (mem off   42.43) | chunks2+   42.65 (off   42.63, Δ -0.02) | first64 of 2+   60.99 (off   60.98, Δ -0.02) vs first64 of chunk1   64.94
+  r25-evals r25l_late_insH6_150m       C=512 N8:  11.7  12.5   7.0  10.2 (mem off  14.1) | N32:   3.9   1.6   3.1   2.3 (mem off   3.1)
+  r25-evals r25l_late_insH6_150m       C=512 | K1 in@0  95.8 | K1 in@200  36.5 | K1 x@0   8.3 | K1 x@200   7.3 | K1 x@0 off   8.3 | K1 in@0 para  20.3 | K1 x@0 para   5.7 | K4 in@0  11.5 | K4 in@200  10.9 | K4 x@0   8.3 | K4 x@200   8.3 | K4 x@0 off   8.3 | K4 in@0 para  16.1 | K4 x@0 para   9.9
+[q0 10-05 20:55:11] r25l queue DONE
+[q0 10-05 21:00] r25l resume killed by the OLD watchdog (read pre-resume spill lines); evals above = step-14000 spilled ckpt. Resumed again with fixed watchdog
+[q0 10-05 20:55:45] [r25l_late_insH6_150m] RESUME as B8xGA2 (spilled at B16)
+[s1 10-05 21:05] queued (Glenn: 5080 free): p25m (7L H0+inserted H3) -> p25n (H3 only), UNTIL 18:00 10-06
+[s1 10-05 21:47:18] scheduler waiting for GPU 1 lock
+[s1 10-05 21:51:19] [screen_p25m_7L_chunk512_x_H0H3] START
+[q0 10-05 22:50:12] [r25l_late_insH6_150m] exit=0 :: 40.81 39.44 37.21 36.47 36.11 35.80 
+  recall   r25l_late_insH6_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25l_late_insH6_150m N8: 100.0 100.0 100.0  98.8 | N32: 100.0  99.2  98.4  82.8
+  r25-evals r25l_late_insH6_150m       C=512 T=1024 | chunk1   36.94 (mem off   36.90) | chunks2+   37.26 (off   37.19, Δ -0.06) | first64 of 2+   53.29 (off   53.35, Δ +0.06) vs first64 of chunk1   55.95
+  r25-evals r25l_late_insH6_150m       C=512 N8:  14.8  15.6  11.7  14.8 (mem off  16.4) | N32:   0.8   7.0   2.3   3.1 (mem off   3.9)
+  r25-evals r25l_late_insH6_150m       C=512 | K1 in@0  96.4 | K1 in@200  50.0 | K1 x@0   8.3 | K1 x@200   4.2 | K1 x@0 off   8.9 | K1 in@0 para  24.0 | K1 x@0 para   5.7 | K4 in@0  20.3 | K4 in@200  16.1 | K4 x@0  10.9 | K4 x@200   9.9 | K4 x@0 off  10.4 | K4 in@0 para  15.1 | K4 x@0 para  11.5
+[q0 10-05 22:52:44] r25l queue DONE
+[q0 10-05 23:00] r25l: chunk1 36.94 (r21b 38.84) but inserted H6 silent (Δ 0, xchunk chance). Started r25m (insert at layerscale 1.0, xchunk 1.0 w 0.5)
+[OK] models/checkpoints/r21b_x1_150m/step_0012208.pt -> models/checkpoints/r25m_late_insH6_strong_150m: inserted blocks [6], kept 12; step 12208
+[q0 10-05 22:54:01] [r25m_late_insH6_strong_150m] START
+[s1 10-05 23:50:22] [screen_p25m_7L_chunk512_x_H0H3] exit=0 :: 171.06 107.40 81.72 79.27 71.16 67.23 
+  recall screen_p25m_7L_chunk512_x_H0H3 |   91% |   97% |   91% |   88% |   84%
+  haystack (gap 0/64/192/440) screen_p25m_7L_chunk512_x_H0H3 N8:  89.1  91.4  93.0  91.8 | N32:  73.0  79.3  86.3  79.7
+[s1 10-05 23:55:02] scheduler DONE
+  r25-evals screen_p25m_7L_chunk512_x_H0H3 C=512 T=1024 | chunk1   70.36 (mem off   74.03) | chunks2+   68.70 (off   73.99, Δ +5.29) | first64 of 2+   79.30 (off   91.58, Δ +12.29) vs first64 of chunk1   97.27
+  r25-evals screen_p25m_7L_chunk512_x_H0H3 C=512 N8:  87.5  87.5  91.4  92.2 (mem off   8.6) | N32:  85.2  76.6  84.4  84.4 (mem off   2.3)
+  r25-evals screen_p25m_7L_chunk512_x_H0H3 C=512 | K1 in@0  18.2 | K1 in@200   6.8 | K1 x@0   4.7 | K1 x@200   3.1 | K1 x@0 off   5.2 | K1 in@0 para   5.7 | K1 x@0 para   4.2 | K4 in@0  15.6 | K4 in@200   9.9 | K4 x@0   8.3 | K4 x@200   8.3 | K4 x@0 off   8.9 | K4 in@0 para  10.4 | K4 x@0 para   7.8
+[s1 10-05 23:56:52] scheduler waiting for GPU 1 lock
+[s1 10-06 00:00:53] [screen_p25n_6L_chunk512_x_H3only] START
+[q0 10-06 00:55] p25m (7L H3 added): +2.8% ppl, xchunk ~90/83%. Queued r25n (13L H0+H6 added from scratch) after r25m
