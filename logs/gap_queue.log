@@ -879,3 +879,22 @@
   energy src                          energy  449.4 uJ/tok vs dense  626.1 -> 1.39x | MAC  97.5M AC   0.9M (dense 136.1M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
 [g0 10-06 17:38:30] r25w_13L_spk_kd_sc15_150m queue DONE
 [q0 10-06 17:40] r25w: chunk1 44.42 (+6.4% vs r25o), 7.5x energy, memory intact; r25y head256 -> head512 running (~19:40 / ~21:45)
+  [r25y_13L_spk_kd_head256_150m] seed [OK] 75 spike codes calibrated (scale 1.5) | zero-shot ppl dense 69.29 -> coded 140.43 | mean spikes/input 0.520 | saved models/checkpoints/r25y_13L_spk_kd_head256_150m @ step 12208
+[g0 10-06 17:39:21] [r25y_13L_spk_kd_head256_150m] START
+[g1 10-06 18:14:34] E1-E3 diagnostics (xcopy sweep, memory write probe, multi-chunk) DONE -> logs/e123_diag.log
+[g1 10-06 18:20] E1-E3 RESULT: real-text recall fails from SELECTIVITY: memory write gate w 0.83-0.91 on MQAR kv tokens vs 0.10 (= beta_floor) on ALL text, real or random spans (r25o/v/w); key matching works (random spans top-1 95-100%), yet random-span copy beyond window 0.0% (in-window 50-72%). Memory copy gain on real spans <=3 pts at the boundary, ~0 at 448 back (vs no-repeat control). xcopy aug r25v did not open the gate and HURT retention (N8 chunk8 28%). E3 retention r25o/r25w: N8 91-97%, N32 ~88% at chunk 8 (T4096); memory helps ppl in every chunk. Next = diverse/scattered MQAR or surprise-gated writes (docs/next_experiments_2026_10_06.md)
+[s1 10-06 18:46:54] scheduler waiting for GPU 1 lock
+[s1 10-06 18:50:54] [screen_p26e_7L_xscatter] START
+[g0 10-06 19:54:52] [r25y_13L_spk_kd_head256_150m] exit=0 :: 62.14 56.24 52.00 49.27 47.22 
+  recall r25y_13L_spk_kd_head256_150m |   97% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25y_13L_spk_kd_head256_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0  99.6  99.6
+  r25-evals r25y_13L_spk_kd_head256_150m C=512 T=1024 | chunk1   50.27 (mem off   50.98) | chunks2+   48.61 (off   51.41, Δ +2.81) | first64 of 2+   57.26 (off   71.87, Δ +14.61) vs first64 of chunk1   76.43
+  r25-evals r25y_13L_spk_kd_head256_150m C=512 N8:  99.2 100.0 100.0 100.0 (mem off  13.3) | N32:  89.8 100.0  97.7  99.2 (mem off   3.1)
+  r25-evals r25y_13L_spk_kd_head256_150m C=512 | K1 in@0  79.2 | K1 in@200  34.4 | K1 x@0   5.7 | K1 x@200   4.2 | K1 x@0 off   4.2 | K1 in@0 para  29.2 | K1 x@0 para   4.2 | K4 in@0  22.4 | K4 in@200  14.6 | K4 x@0  14.1 | K4 x@200  14.6 | K4 x@0 off   9.4 | K4 in@0 para  16.7 | K4 x@0 para  11.5
+  r25-evals r25y_13L_spk_kd_head256_150m C=512 xcopy top1 | none  32.4 | in-window  47.1 | beyond (memory)  29.1 | beyond mem-off  26.3
+  energy r25y_13L_spk_kd_head256_150m energy   70.2 uJ/tok vs dense  549.8 -> 7.83x | MAC   2.2M AC  66.7M (dense 119.5M) | top: up 18.7uJ, qkv 13.1uJ, head 8.3uJ, o_proj 5.4uJ, attn_gate 4.4uJ, proj 1.8uJ
+  energy src                          energy  449.4 uJ/tok vs dense  626.1 -> 1.39x | MAC  97.5M AC   0.9M (dense 136.1M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-06 19:58:27] r25y_13L_spk_kd_head256_150m queue DONE
+  [r25y_13L_spk_kd_head512_150m] seed [OK] 75 spike codes calibrated (scale 1.5) | zero-shot ppl dense 50.29 -> coded 103.68 | mean spikes/input 0.520 | saved models/checkpoints/r25y_13L_spk_kd_head512_150m @ step 12208
+[g0 10-06 19:58:46] [r25y_13L_spk_kd_head512_150m] START
+[q0 10-06 20:00] r25y head256: chunk1 50.27 (+13% vs r25w), 8.9x vs orig dense. Queued r25z (way 2: 14L, memory at depths 4+9) after r25y head512

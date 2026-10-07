@@ -187,6 +187,10 @@ for _r in (256, 512):
          "/home/glenn/projects/neuro/models/checkpoints/r25o_13L_H6only_150m/step_0012208.pt", kd_self_alpha=0.5,
          kd_self_stride=4, head_rank=_r, **dict(SPK, spike_levels=8, spike_levels_hidden=16,
                                                spike_code=SPK["spike_code"] + ["q", "v"]))
+# 10-06 20:00 WAY 2 (Glenn's "add more spiking memory"): 14L = 12 attention + memory blocks at depths 4 and 9, from scratch.
+emit("r25z_14L_H4H9_150m", "r25o_13L_H6only_150m", "WAY 2: 12 attention + TWO spiking memory blocks (depths 4, 9), "
+     "chunked, xchunk 0.5 (late gap dose); B8xGA2.", n_layers=14,
+     attention_layer_positions=[0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13])
 emit("screen_p25v_7L_xcopy", PO, "p25o + xcopy_frac 0.25, from scratch.", xcopy_frac=0.25)
 emit("r25c_chunk_x1_nl_150m", "r21b_x1_150m", "r25a + NL-fact aux (every 2nd step, w 0.15).",
      block_size=1024, attn_chunk=512, mqar_xchunk_batch=8, **X, **NL)

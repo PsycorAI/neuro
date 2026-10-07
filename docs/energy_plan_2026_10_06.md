@@ -38,3 +38,4 @@ neuromorphic-hardware estimate (not GPU watts).
 - Real-text recall beyond the window: r25o only 30.0 vs 28.2 mem-off (xcopy eval). xcopy augmentation: 7L no ppl cost but
   barely helps (7L can't copy in-window either); 12L r25v pending.
 - **r25w** (L8 + q/v + self-KD + 1.5x thresholds, 80M): chunk1 44.42 (+6.4% vs dense r25o; ~+14% vs r21b), **7.5x** energy, memory intact (cross-chunk 100/90-100). Trade-off vs r25t (5.0x, +0%). r25y (factorised head) running.
+- **r25y head 256**: chunk1 50.27 (+13% over r25w), 8.9x vs original dense (70.2 uJ) -> too costly; head 512 running. Way 2 r25z (14L, memory at 4 + 9) queued after.
