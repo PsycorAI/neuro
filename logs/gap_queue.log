@@ -898,3 +898,19 @@
   [r25y_13L_spk_kd_head512_150m] seed [OK] 75 spike codes calibrated (scale 1.5) | zero-shot ppl dense 50.29 -> coded 103.68 | mean spikes/input 0.520 | saved models/checkpoints/r25y_13L_spk_kd_head512_150m @ step 12208
 [g0 10-06 19:58:46] [r25y_13L_spk_kd_head512_150m] START
 [q0 10-06 20:00] r25y head256: chunk1 50.27 (+13% vs r25w), 8.9x vs orig dense. Queued r25z (way 2: 14L, memory at depths 4+9) after r25y head512
+[s1 10-06 20:09:35] [screen_p26e_7L_xscatter] training finished :: 147.55 116.49 102.56 88.51 80.31  -- 5080 FREE for Glenn; evals deferred (temp/eval_p26e_deferred.sh)
+[s1 10-06 20:11] CORRECTION: p26e was PAUSED by SIGINT at step 5299/6103 (not finished; DONE removed). Resume later: GPU=1 bash temp/run_5080_sched.sh screen_p26e_7L_xscatter (auto-resumes), then temp/eval_p26e_deferred.sh
+[g0 10-06 22:22:02] [r25y_13L_spk_kd_head512_150m] exit=0 :: 59.37 54.15 50.21 47.47 45.52 
+  recall r25y_13L_spk_kd_head512_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25y_13L_spk_kd_head512_150m N8: 100.0 100.0  99.6 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r25y_13L_spk_kd_head512_150m C=512 T=1024 | chunk1   48.52 (mem off   49.12) | chunks2+   46.72 (off   49.56, Δ +2.83) | first64 of 2+   54.94 (off   69.63, Δ +14.69) vs first64 of chunk1   74.66
+  r25-evals r25y_13L_spk_kd_head512_150m C=512 N8: 100.0 100.0  99.2 100.0 (mem off  14.1) | N32:  94.5  98.4 100.0  97.7 (mem off   1.6)
+  r25-evals r25y_13L_spk_kd_head512_150m C=512 | K1 in@0  88.0 | K1 in@200  28.1 | K1 x@0   8.9 | K1 x@200   6.8 | K1 x@0 off   7.3 | K1 in@0 para  21.4 | K1 x@0 para   7.8 | K4 in@0  20.3 | K4 in@200  14.6 | K4 x@0   9.9 | K4 x@200  11.5 | K4 x@0 off   6.8 | K4 in@0 para  14.6 | K4 x@0 para   8.3
+  r25-evals r25y_13L_spk_kd_head512_150m C=512 xcopy top1 | none  33.1 | in-window  45.6 | beyond (memory)  29.4 | beyond mem-off  26.9
+  energy r25y_13L_spk_kd_head512_150m energy   75.9 uJ/tok vs dense  589.3 -> 7.77x | MAC   2.2M AC  73.0M (dense 128.1M) | top: up 18.7uJ, head 13.7uJ, qkv 13.2uJ, o_proj 5.5uJ, attn_gate 4.4uJ, proj 1.8uJ
+  energy src                          energy  449.4 uJ/tok vs dense  626.1 -> 1.39x | MAC  97.5M AC   0.9M (dense 136.1M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-06 22:24:54] r25y_13L_spk_kd_head512_150m queue DONE
+[q0 10-06 22:25:08] [r25z_14L_H4H9_150m] START
+[s1 10-06 22:25:46] scheduler waiting for GPU 1 lock
+[s1 10-06 22:25:46] [screen_p26e_7L_xscatter] RESUME
+[q0 10-06 22:30] r25y head512: chunk1 48.52 (+9% vs r25w), 8.25x -> factorised head parked. r25z (way 2) running
