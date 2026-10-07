@@ -914,3 +914,56 @@
 [s1 10-06 22:25:46] scheduler waiting for GPU 1 lock
 [s1 10-06 22:25:46] [screen_p26e_7L_xscatter] RESUME
 [q0 10-06 22:30] r25y head512: chunk1 48.52 (+9% vs r25w), 8.25x -> factorised head parked. r25z (way 2) running
+[s1 10-06 22:39:26] [screen_p26e_7L_xscatter] exit=0 :: 147.55 116.49 102.56 88.51 80.31 77.03 
+  recall screen_p26e_7L_xscatter |   69% |   62% |   53% |   50% |   31%
+  haystack (gap 0/64/192/440) screen_p26e_7L_xscatter N8:  63.7  80.5  80.1  80.9 | N32:  50.4  53.5  57.8  52.7
+[s1 10-06 22:39:57] scheduler DONE
+  r25-evals screen_p26e_7L_xscatter    C=512 T=1024 | chunk1   79.78 (mem off   90.35) | chunks2+   78.18 (off   89.75, Δ +11.57) | first64 of 2+   84.54 (off  101.65, Δ +17.11) vs first64 of chunk1  107.15
+  r25-evals screen_p26e_7L_xscatter    C=512 N8:  73.4  65.6  57.8  41.4 (mem off  16.4) | N32:  56.2  42.2  45.3  28.9 (mem off   1.6)
+  r25-evals screen_p26e_7L_xscatter    C=512 | K1 in@0  13.0 | K1 in@200   5.7 | K1 x@0   7.3 | K1 x@200   4.2 | K1 x@0 off   6.8 | K1 in@0 para  11.5 | K1 x@0 para   4.7 | K4 in@0  10.4 | K4 in@200   6.2 | K4 x@0   7.3 | K4 x@200  10.9 | K4 x@0 off   7.3 | K4 in@0 para   9.9 | K4 x@0 para   7.8
+  r25-evals screen_p26e_7L_xscatter      C=512 xcopy top1 | none  27.7 | in-window  27.8 | beyond (memory)  26.5 | beyond mem-off  21.8
+[s1 10-06 22:45:46] p26e deferred evals DONE (diagnostics in logs/e123_diag.log)
+[s1 10-06 22:47:43] scheduler waiting for GPU 1 lock
+[s1 10-06 22:51:00] scheduler waiting for GPU 1 lock
+[s1 10-06 22:51:44] [screen_p26g_7L_xscatter25] START
+[n53 10-06 23:05] p26e (scatter 1.0) = write gate opens on unusual tokens, real-text copy near boundary 3x, BUT val_ppl 77.0 vs p25o 66.0 (+17%), haystack/retention degraded -> overnight: 5080 p26g (scatter 0.25) -> p26h (phrase keys 0.25); 5090 after r25z: r25x (r25w recipe at scale 1.0) -> r26c (chunk 1024/T2048). docs/next_experiments_2026_10_06.md
+[s1 10-06 23:08:56] scheduler waiting for GPU 1 lock
+[s1 10-07 00:21:47] [screen_p26g_7L_xscatter25] exit=0 :: 151.21 104.02 93.55 88.13 78.22 72.76 
+  recall screen_p26g_7L_xscatter25 |   84% |   88% |   81% |   84% |   75%
+  haystack (gap 0/64/192/440) screen_p26g_7L_xscatter25 N8:  90.6  93.4  92.2  93.8 | N32:  84.0  82.0  81.2  82.4
+[s1 10-07 00:26:20] scheduler DONE
+[s1 10-07 00:27:20] [screen_p26h_7L_xphrase25] before START -- GPU 1 in use (util 83%), waiting for it to be free
+  r25-evals screen_p26g_7L_xscatter25  C=512 T=1024 | chunk1   76.77 (mem off   83.20) | chunks2+   74.44 (off   82.40, Δ +7.96) | first64 of 2+   82.10 (off   97.21, Δ +15.11) vs first64 of chunk1  102.75
+  r25-evals screen_p26g_7L_xscatter25  C=512 N8:  93.8  92.2  93.8  88.3 (mem off  12.5) | N32:  82.8  78.9  84.4  84.4 (mem off   3.9)
+  r25-evals screen_p26g_7L_xscatter25  C=512 | K1 in@0  11.5 | K1 in@200   6.2 | K1 x@0   5.7 | K1 x@200   5.7 | K1 x@0 off   5.2 | K1 in@0 para   5.7 | K1 x@0 para   4.2 | K4 in@0  10.9 | K4 in@200   9.4 | K4 x@0  10.4 | K4 x@200   9.9 | K4 x@0 off   9.9 | K4 in@0 para  13.0 | K4 x@0 para   9.4
+  r25-evals screen_p26g_7L_xscatter25    C=512 xcopy top1 | none  29.3 | in-window  28.9 | beyond (memory)  27.7 | beyond mem-off  22.7
+[s1 10-07 00:29:39] [screen_p26g_7L_xscatter25] evals + E1-E3 DONE (logs/e123_diag.log)
+[n53 10-07 00:35] p26g (scatter 0.25) = val_ppl 72.76 (+10% vs p25o 66.04); synthetic recall kept (haystack 91/82, retention N8 75% / N32 56% at chunk 8 vs p25o 75/34); real-text copy gain beyond control S32 +4-5 pts near boundary vs p25o +2.4-3.2 -> modest. Whole-vocab rare targets suspected for the ppl cost; p26h (word phrases) running. r25z (Neuro 52, way 2) mid-run 83.0 vs r25o 58.7 @6000 (+42%) - likely fails the <=3% rule.
+[s1 10-07 00:34:20] [screen_p26h_7L_xphrase25] START
+[s1 10-07 02:06:03] [screen_p26h_7L_xphrase25] exit=0 :: 150.91 107.31 90.46 87.14 77.29 72.19 
+  recall screen_p26h_7L_xphrase25 |   88% |   88% |   81% |   88% |   66%
+  haystack (gap 0/64/192/440) screen_p26h_7L_xphrase25 N8:  90.6  93.0  92.2  91.0 | N32:  77.7  82.0  82.8  85.2
+[s1 10-07 02:10:51] scheduler DONE
+[s1 10-07 02:11:52] [screen_p26m_7L_polish] before RESUME -- GPU 1 in use (util 87%), waiting for it to be free
+  r25-evals screen_p26h_7L_xphrase25   C=512 T=1024 | chunk1   75.08 (mem off   79.88) | chunks2+   73.05 (off   79.61, Δ +6.56) | first64 of 2+   80.75 (off   95.54, Δ +14.79) vs first64 of chunk1  102.05
+  r25-evals screen_p26h_7L_xphrase25   C=512 N8:  94.5  89.1  88.3  93.0 (mem off  14.1) | N32:  80.5  81.2  82.0  82.0 (mem off   1.6)
+  r25-evals screen_p26h_7L_xphrase25   C=512 | K1 in@0  13.0 | K1 in@200   5.7 | K1 x@0   4.7 | K1 x@200   4.7 | K1 x@0 off   4.7 | K1 in@0 para   5.7 | K1 x@0 para   5.2 | K4 in@0  13.5 | K4 in@200   8.9 | K4 x@0   8.9 | K4 x@200   8.3 | K4 x@0 off   8.3 | K4 in@0 para  14.1 | K4 x@0 para   8.3
+  r25-evals screen_p26h_7L_xphrase25     C=512 xcopy top1 | none  28.5 | in-window  30.3 | beyond (memory)  27.0 | beyond mem-off  22.8
+[s1 10-07 02:14:53] [screen_p26h_7L_xphrase25] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-07 02:16:08] scheduler waiting for GPU 1 lock
+[n53 10-07 02:20] p26h (phrase 0.25) = 72.19 (+9%), same as p26g -> rare tokens not the cause; real-text gain ~p26g. Added p26s (p25o seed 1, noise control) to the 5080 queue. r25z @11000 47.16 vs r25o 41.20 (+14%).
+[s1 10-07 02:19:52] [screen_p26m_7L_polish] RESUME
+[s1 10-07 02:44:13] [screen_p26m_7L_polish] exit=0 :: 75.05 
+[q0 10-07 02:45:10] [r25z_14L_H4H9_150m] exit=0 :: 177.53 96.38 88.91 112.81 98.96 83.03 69.76 57.29 53.39 49.00 47.16 45.95 
+  recall     r25z_14L_H4H9_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25z_14L_H4H9_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0  99.6 100.0  98.4
+[q0 10-07 02:45:54] queue DONE
+  r25-evals r25z_14L_H4H9_150m         C=512 T=1024 | chunk1   48.45 (mem off   49.09) | chunks2+   47.71 (off   49.43, Δ +1.73) | first64 of 2+   58.85 (off   68.27, Δ +9.42) vs first64 of chunk1   72.15
+  r25-evals r25z_14L_H4H9_150m         C=512 N8:  18.0  14.1  14.1   9.4 (mem off  10.9) | N32:   3.1   3.9   3.1   0.8 (mem off   3.1)
+  r25-evals r25z_14L_H4H9_150m         C=512 | K1 in@0  80.2 | K1 in@200  23.4 | K1 x@0   4.7 | K1 x@200   2.6 | K1 x@0 off   6.8 | K1 in@0 para  16.1 | K1 x@0 para   5.7 | K4 in@0  15.1 | K4 in@200  10.9 | K4 x@0   7.3 | K4 x@200  11.5 | K4 x@0 off  10.4 | K4 in@0 para  15.6 | K4 x@0 para   9.4
+  r25-evals r25z_14L_H4H9_150m           C=512 xcopy top1 | none  33.0 | in-window  52.9 | beyond (memory)  26.6 | beyond mem-off  26.7
+  energy r25z_14L_H4H9_150m           energy  468.8 uJ/tok vs dense  689.6 -> 1.47x | MAC 101.7M AC   1.1M (dense 149.9M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 21.7uJ
+[q0 10-07 02:47:40] r25z queue DONE
+[n53 10-07 02:48:19] 5090 queue (r25x, r26c) starting
+  recall  screen_p26m_7L_polish |   59% |   47% |   53% |   34% |   34%
+[q0 10-07 02:50] r25z (way 2, memory at 4+9): chunk1 48.45 (+16%), cross-chunk CHANCE, instability -> closed-neg; Neuro 53 queue owns the 5090 next

@@ -29,6 +29,18 @@ more as the spike count drops.
 ppl within ~5% of the dense model; cross-chunk recall ≥ 90%; energy ≥ 5× vs dense. Report energy honestly as a
 neuromorphic-hardware estimate (not GPU watts).
 
+## Honest energy with weight reads (10-06 23:20, Neuro 53, `temp/energy_eval_v2.py`)
+The results below count arithmetic only. Real chips also read each weight (Horowitz 45 nm, 16-bit: on-chip SRAM
+~2.5 pJ, DRAM ~320 pJ per read); dense reads every weight per token, spiking only those of NONZERO inputs.
+| model | compute only | + SRAM weight reads | + DRAM weight reads | nonzero inputs |
+|---|---|---|---|---|
+| r25o (dense src) | 1.39× | 1.38× | 1.38× | 73% |
+| r25t (L8 conv) | 5.00× | 3.11× | 1.92× | 52% |
+| r25w (L8+q/v+KD, 1.5× thr) | 7.49× | 3.95× | 2.26× | 45% |
+- The honest lever is the **nonzero fraction** (one read per nonzero input, whatever its spike count), not the count.
+- Demo meter: show the on-chip (SRAM) number as the headline, with arithmetic-only and DRAM as the range.
+- Testing: p26k / p26l (7L, thresholds 2× / 3× + q/v + self-KD) on the 5080 overnight.
+
 ## Results so far (10-06 15:20)
 - r25s (L4, 40M conv) 5.56x, chunk1 +7.8%; **r25t (L8, 80M conv) 5.0x, chunk1 41.67 = dense r25o 41.74, memory intact.**
 - 6L: L8 > L4; 2x thresholds 9.7x but +35% at 20M tok; ternary +89% (dropped).
@@ -40,3 +52,4 @@ neuromorphic-hardware estimate (not GPU watts).
 - **r25w** (L8 + q/v + self-KD + 1.5x thresholds, 80M): chunk1 44.42 (+6.4% vs dense r25o; ~+14% vs r21b), **7.5x** energy, memory intact (cross-chunk 100/90-100). Trade-off vs r25t (5.0x, +0%). r25y (factorised head) running.
 - **r25y head 256**: chunk1 50.27 (+13% over r25w), 8.9x vs original dense (70.2 uJ) -> too costly; head 512 running. Way 2 r25z (14L, memory at 4 + 9) queued after.
 - **r25y head 512**: chunk1 48.52 (+9% over r25w), 8.25x vs original dense -> factorised head PARKED at 150M (both ranks: poor ppl/energy trade); revisit at 1B only if needed. Best: r25t (5.0x, +0%) or r25w (7.5x, +6.4%).
+- **r25z way 2** (14L, memory at depths 4 + 9, from scratch): chunk1 48.45 (+16% vs r25o), cross-chunk haystack at CHANCE, eval-4 instability spike -> two memory blocks closed-neg as configured; one mid-depth block stays the recipe.
