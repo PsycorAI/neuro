@@ -37,3 +37,4 @@ neuromorphic-hardware estimate (not GPU watts).
 - Low-rank LM head (SVD): r512 +6.6%, r384 +18% zero-shot for <=1/3 head saving -> parked.
 - Real-text recall beyond the window: r25o only 30.0 vs 28.2 mem-off (xcopy eval). xcopy augmentation: 7L no ppl cost but
   barely helps (7L can't copy in-window either); 12L r25v pending.
+- **r25w** (L8 + q/v + self-KD + 1.5x thresholds, 80M): chunk1 44.42 (+6.4% vs dense r25o; ~+14% vs r21b), **7.5x** energy, memory intact (cross-chunk 100/90-100). Trade-off vs r25t (5.0x, +0%). r25y (factorised head) running.
