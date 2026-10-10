@@ -1,0 +1,75 @@
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (109 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   3%|▎         | 4/146 [00:00<00:04, 32.70it/s]Loading weights:   5%|▌         | 8/146 [00:00<00:04, 28.15it/s]Loading weights:   9%|▉         | 13/146 [00:00<00:03, 35.72it/s]Loading weights:  16%|█▌        | 23/146 [00:00<00:02, 55.81it/s]Loading weights:  20%|█▉        | 29/146 [00:00<00:02, 41.28it/s]Loading weights:  23%|██▎       | 34/146 [00:00<00:03, 33.49it/s]Loading weights:  31%|███       | 45/146 [00:01<00:02, 40.38it/s]Loading weights:  34%|███▍      | 50/146 [00:01<00:02, 40.26it/s]Loading weights:  38%|███▊      | 55/146 [00:01<00:02, 39.16it/s]Loading weights:  41%|████      | 60/146 [00:01<00:02, 39.72it/s]Loading weights:  45%|████▍     | 65/146 [00:01<00:02, 38.40it/s]Loading weights:  47%|████▋     | 69/146 [00:01<00:02, 34.44it/s]Loading weights:  52%|█████▏    | 76/146 [00:01<00:01, 37.73it/s]Loading weights:  56%|█████▌    | 82/146 [00:02<00:01, 39.78it/s]Loading weights:  62%|██████▏   | 91/146 [00:02<00:01, 42.44it/s]Loading weights:  66%|██████▌   | 96/146 [00:02<00:01, 35.39it/s]Loading weights:  69%|██████▉   | 101/146 [00:02<00:01, 34.26it/s]Loading weights:  72%|███████▏  | 105/146 [00:02<00:01, 27.05it/s]Loading weights:  79%|███████▉  | 115/146 [00:03<00:00, 37.03it/s]Loading weights:  84%|████████▍ | 123/146 [00:03<00:00, 42.67it/s]Loading weights:  88%|████████▊ | 128/146 [00:03<00:00, 36.33it/s]Loading weights: 100%|██████████| 146/146 [00:03<00:00, 42.49it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+  [warn] optimizer state in ckpt incompatible with current config; starting fresh
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0002442.pt @ step 2442, 40.0M tok
+arch=spiking params=142.45M device=cuda target=0.056B tok | 16384 tok/step | total_steps≈3417 | warmup=68 | lr_sched=cosine | grad_clip=1.0
+step 2500 | 41.0M tok | loss 4.893 | 2,585 tok/s | vram 5.1/16.2 GB
+  [eval] val_ppl 155.43 | ablated_ppl 181.33 (memory Δ=+25.90) | spike 0.110
+  [mlp] rate=0.274 thr=0.163 rate=0.261 thr=0.000 rate=0.250 thr=0.000 rate=0.190 thr=0.418 rate=0.181 thr=0.461 rate=0.183 thr=0.667 | target 0.269
+  [wnorm] embed=4625.98 | head=180.53
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.14 dead=0% at_floor=81% | blk4: n/a | blk5: n/a | blk6: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: e=16% w=83% d=43/3% dstd=5.7 | blk4: n/a | blk5: n/a | blk6: n/a
+  [spike] reported=0.110 spiking_only=0.110 (1/7 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.663 hi=30% lo=0% | blk4: n/a | blk5: n/a | blk6: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0002500.pt
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (109 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:02, 55.91it/s]Loading weights:   8%|▊         | 12/146 [00:00<00:03, 36.06it/s]Loading weights:  12%|█▏        | 17/146 [00:00<00:03, 35.14it/s]Loading weights:  14%|█▍        | 21/146 [00:00<00:03, 34.80it/s]Loading weights:  17%|█▋        | 25/146 [00:00<00:04, 29.28it/s]Loading weights:  20%|█▉        | 29/146 [00:00<00:04, 27.91it/s]Loading weights:  23%|██▎       | 33/146 [00:01<00:04, 25.32it/s]Loading weights:  26%|██▌       | 38/146 [00:01<00:03, 29.97it/s]Loading weights:  29%|██▉       | 42/146 [00:01<00:03, 29.04it/s]Loading weights:  32%|███▏      | 47/146 [00:01<00:03, 32.18it/s]Loading weights:  35%|███▍      | 51/146 [00:01<00:03, 28.85it/s]Loading weights:  40%|███▉      | 58/146 [00:01<00:03, 28.33it/s]Loading weights:  47%|████▋     | 68/146 [00:02<00:02, 35.76it/s]Loading weights:  49%|████▉     | 72/146 [00:02<00:02, 35.11it/s]Loading weights:  53%|█████▎    | 78/146 [00:02<00:01, 34.25it/s]Loading weights:  56%|█████▌    | 82/146 [00:02<00:01, 32.16it/s]Loading weights:  59%|█████▉    | 86/146 [00:02<00:02, 29.52it/s]Loading weights:  62%|██████▏   | 91/146 [00:02<00:02, 27.49it/s]Loading weights:  68%|██████▊   | 99/146 [00:03<00:01, 34.80it/s]Loading weights:  71%|███████   | 103/146 [00:03<00:01, 34.53it/s]Loading weights:  74%|███████▍  | 108/146 [00:03<00:01, 31.37it/s]Loading weights:  77%|███████▋  | 112/146 [00:03<00:01, 33.10it/s]Loading weights:  80%|████████  | 117/146 [00:03<00:00, 33.12it/s]Loading weights: 100%|██████████| 146/146 [00:03<00:00, 38.95it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0002500.pt @ step 2500, 41.0M tok
+arch=spiking params=142.45M device=cuda target=0.056B tok | 16384 tok/step | total_steps≈3417 | warmup=68 | lr_sched=cosine | grad_clip=1.0
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (109 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   2%|▏         | 3/146 [00:00<00:04, 29.80it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:09, 14.85it/s]Loading weights:   5%|▌         | 8/146 [00:00<00:12, 10.90it/s]Loading weights:   8%|▊         | 11/146 [00:00<00:12, 10.72it/s]Loading weights:   9%|▉         | 13/146 [00:01<00:13,  9.59it/s]Loading weights:  11%|█         | 16/146 [00:01<00:13,  9.99it/s]Loading weights:  12%|█▏        | 18/146 [00:01<00:13,  9.34it/s]Loading weights:  14%|█▍        | 21/146 [00:02<00:12,  9.80it/s]Loading weights:  16%|█▌        | 23/146 [00:02<00:13,  9.22it/s]Loading weights:  18%|█▊        | 27/146 [00:02<00:13,  8.53it/s]Loading weights:  21%|██        | 31/146 [00:03<00:11, 10.03it/s]Loading weights:  23%|██▎       | 33/146 [00:03<00:10, 10.94it/s]Loading weights:  24%|██▍       | 35/146 [00:03<00:10, 10.56it/s]Loading weights:  27%|██▋       | 39/146 [00:03<00:08, 12.14it/s]Loading weights:  28%|██▊       | 41/146 [00:03<00:09, 10.51it/s]Loading weights:  32%|███▏      | 46/146 [00:04<00:07, 13.17it/s]Loading weights:  33%|███▎      | 48/146 [00:04<00:08, 11.36it/s]Loading weights:  36%|███▋      | 53/146 [00:04<00:05, 16.77it/s]Loading weights:  38%|███▊      | 56/146 [00:04<00:05, 15.42it/s]Loading weights:  40%|████      | 59/146 [00:04<00:05, 15.44it/s]Loading weights:  44%|████▍     | 64/146 [00:05<00:04, 17.11it/s]Loading weights:  45%|████▌     | 66/146 [00:05<00:05, 15.81it/s]Loading weights:  48%|████▊     | 70/146 [00:05<00:04, 17.53it/s]Loading weights:  50%|█████     | 73/146 [00:05<00:04, 17.71it/s]Loading weights:  51%|█████▏    | 75/146 [00:06<00:05, 13.00it/s]Loading weights:  55%|█████▌    | 81/146 [00:06<00:03, 16.41it/s]Loading weights:  61%|██████    | 89/146 [00:06<00:03, 18.90it/s]Loading weights:  62%|██████▏   | 91/146 [00:06<00:03, 17.93it/s]Loading weights:  66%|██████▌   | 96/146 [00:07<00:02, 18.65it/s]Loading weights:  68%|██████▊   | 99/146 [00:07<00:02, 16.90it/s]Loading weights:  70%|██████▉   | 102/146 [00:07<00:02, 15.68it/s]Loading weights: 100%|██████████| 146/146 [00:07<00:00, 19.37it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0002500.pt @ step 2500, 41.0M tok
+arch=spiking params=142.45M device=cuda target=0.056B tok | 16384 tok/step | total_steps≈3417 | warmup=68 | lr_sched=cosine | grad_clip=1.0
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (109 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:  64%|██████▎   | 93/146 [00:00<00:00, 920.72it/s]Loading weights: 100%|██████████| 146/146 [00:00<00:00, 1113.67it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0002500.pt @ step 2500, 41.0M tok
+arch=spiking params=142.45M device=cuda target=0.056B tok | 16384 tok/step | total_steps≈3417 | warmup=68 | lr_sched=cosine | grad_clip=1.0
+step 2600 | 42.6M tok | loss 5.329 | 2,125 tok/s | vram 5.0/11.2 GB
+step 2700 | 44.2M tok | loss 5.177 | 3,938 tok/s | vram 4.9/11.2 GB
+step 2800 | 45.9M tok | loss 5.474 | 4,149 tok/s | vram 4.9/11.2 GB
+step 2900 | 47.5M tok | loss 5.049 | 4,088 tok/s | vram 5.0/11.2 GB
+step 3000 | 49.2M tok | loss 5.476 | 4,061 tok/s | vram 5.0/11.2 GB
+  [eval] val_ppl 142.07 | ablated_ppl 167.59 (memory Δ=+25.52) | spike 0.103
+  [mlp] rate=0.073 thr=0.649 rate=0.077 thr=0.418 rate=0.075 thr=0.392 rate=0.060 thr=0.971 rate=0.062 thr=1.040 rate=0.074 thr=1.267 | target 0.062
+  [wnorm] embed=4619.25 | head=180.61
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.14 dead=0% at_floor=80% | blk4: n/a | blk5: n/a | blk6: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: e=12% w=81% d=43/3% dstd=5.6 | blk4: n/a | blk5: n/a | blk6: n/a
+  [spike] reported=0.103 spiking_only=0.103 (1/7 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.682 hi=30% lo=0% | blk4: n/a | blk5: n/a | blk6: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0003000.pt
+step 3100 | 50.8M tok | loss 5.065 | 3,647 tok/s | vram 5.2/11.4 GB
+step 3200 | 52.4M tok | loss 5.061 | 4,158 tok/s | vram 5.2/11.4 GB
+step 3300 | 54.1M tok | loss 4.746 | 3,833 tok/s | vram 5.3/11.4 GB
+step 3400 | 55.7M tok | loss 5.219 | 3,948 tok/s | vram 5.2/11.4 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/v4_reh_conv/step_0003418.pt
+done: 56.0M tok in 1.15h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     353308239.3 |     368993894.4 |         1.04x
+    2048 |     418424808.9 |     444963225.6 |         1.06x
+    4096 |     505246901.7 |     546255667.2 |         1.08x
+
+block mix: 1 spiking + 6 attention | spike_rate 0.101 reported -> 0.101 spiking-only
+spiking op mix/token @ seq 4096: 109,510,656 MAC + 1,664,316 AC
+note: 6 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

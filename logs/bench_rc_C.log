@@ -1,0 +1,38 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (115 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=188.46M device=cuda target=0.007B tok | 16384 tok/step | total_steps≈420 | warmup=8 | lr_sched=cosine | grad_clip=1.0
+step 20 | 0.3M tok | loss 7.527 | 6,708 tok/s | vram 3.2/17.2 GB
+step 40 | 0.7M tok | loss 7.137 | 19,604 tok/s | vram 3.2/17.2 GB
+step 60 | 1.0M tok | loss 6.721 | 18,873 tok/s | vram 3.2/17.2 GB
+step 80 | 1.3M tok | loss 6.890 | 18,508 tok/s | vram 3.2/17.2 GB
+step 100 | 1.6M tok | loss 6.260 | 17,884 tok/s | vram 3.2/17.2 GB
+step 120 | 2.0M tok | loss 6.278 | 19,056 tok/s | vram 3.2/17.2 GB
+step 140 | 2.3M tok | loss 6.371 | 18,061 tok/s | vram 3.2/17.2 GB
+step 160 | 2.6M tok | loss 6.330 | 19,831 tok/s | vram 3.2/17.2 GB
+step 180 | 2.9M tok | loss 6.051 | 19,708 tok/s | vram 3.2/17.2 GB
+step 200 | 3.3M tok | loss 6.039 | 18,019 tok/s | vram 3.2/17.2 GB
+step 220 | 3.6M tok | loss 5.886 | 18,317 tok/s | vram 3.2/17.2 GB
+step 240 | 3.9M tok | loss 5.996 | 18,428 tok/s | vram 3.2/17.2 GB
+step 260 | 4.3M tok | loss 6.004 | 16,895 tok/s | vram 3.2/17.2 GB
+step 280 | 4.6M tok | loss 6.100 | 18,408 tok/s | vram 3.2/17.2 GB
+step 300 | 4.9M tok | loss 6.327 | 2,020 tok/s | vram 4.0/39.1 GB
+step 320 | 5.2M tok | loss 5.692 | 1,047 tok/s | vram 4.0/39.1 GB
+step 340 | 5.6M tok | loss 5.946 | 1,046 tok/s | vram 4.0/39.1 GB
+step 360 | 5.9M tok | loss 6.137 | 1,086 tok/s | vram 3.3/39.1 GB
+step 380 | 6.2M tok | loss 6.224 | 1,186 tok/s | vram 4.0/39.1 GB
+step 400 | 6.6M tok | loss 5.877 | 1,140 tok/s | vram 3.3/39.1 GB
+step 420 | 6.9M tok | loss 6.236 | 1,204 tok/s | vram 4.0/39.1 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/bench_rc_C/step_0000420.pt
+done: 6.9M tok in 0.61h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     571194311.8 |     586049126.4 |         1.03x
+    2048 |     701427451.0 |     727135027.2 |         1.04x
+    4096 |     875071636.6 |     915249561.6 |         1.05x
+
+block mix: 1 spiking + 12 attention | spike_rate 0.157 reported -> 0.157 spiking-only
+spiking op mix/token @ seq 4096: 189,726,720 MAC + 2,587,472 AC
+note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

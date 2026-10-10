@@ -1,0 +1,608 @@
+[e123 10-06 18:05:29] START
+r25o                       C=512 E1 real   S12 mem on/off | d0    34.4/ 27.9 | d64   31.0/ 25.2 | d256  28.9/ 23.8 | d448  27.3/ 23.8
+r25o                       C=512 E1 real   S32 mem on/off | d0    34.9/ 28.8 | d64   32.7/ 27.4 | d256  30.6/ 26.6 | d448  29.6/ 26.5
+r25o                       C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r25o                       C=512 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+[e123 ctrl] r25o random-span copy: in-window 49.8 (MQAR-value range 71.7) | beyond 0.0 / 0.1 | beyond off 0.0 ; r25v: in-window 44.6 / 58.9 | beyond 0.0 / 0.0
+r25v                       C=512 E1 real   S12 mem on/off | d0    28.1/ 27.2 | d64   24.3/ 24.1 | d256  23.6/ 23.4 | d448  23.3/ 23.4
+r25v                       C=512 E1 real   S32 mem on/off | d0    29.4/ 28.5 | d64   27.2/ 26.6 | d256  26.4/ 26.4 | d448  26.3/ 25.8
+r25v                       C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r25v                       C=512 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r25w                       C=512 E1 real   S12 mem on/off | d0    32.2/ 27.0 | d64   30.2/ 24.1 | d256  27.8/ 23.3 | d448  27.0/ 24.4
+r25w                       C=512 E1 real   S32 mem on/off | d0    34.5/ 28.7 | d64   31.5/ 26.6 | d256  29.7/ 26.3 | d448  28.4/ 25.8
+r25o                       C=512 E1 none   S12 mem on/off | d0    32.4/ 29.0 | d64   32.4/ 29.0 | d256  32.4/ 29.0 | d448  32.4/ 29.0
+r25o                       C=512 E1 none   S32 mem on/off | d0    32.9/ 30.5 | d64   32.9/ 30.5 | d256  32.9/ 30.5 | d448  32.9/ 30.5
+r25w                       C=512 E1 none   S12 mem on/off | d0    31.6/ 28.7 | d64   31.6/ 28.7 | d256  31.6/ 28.7 | d448  31.6/ 28.7
+r25w                       C=512 E1 none   S32 mem on/off | d0    32.1/ 30.7 | d64   32.1/ 30.7 | d256  32.1/ 30.7 | d448  32.1/ 30.7
+r25w                       C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r25w                       C=512 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+[e123 10-06 18:11:53] E1 done
+r25o                       C=512 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.830 vs other 0.105 | surv 0.302 | match top1  93.8% top3  93.8% | median rank 1
+   blk6 MQAR N32          w 0.852 vs other 0.103 | surv 0.305 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.103 vs other 0.103 | surv 0.332 | match top1  70.5% top3  85.7% | median rank 1
+   blk6 xcopy real d64    w 0.103 vs other 0.103 | surv 0.317 | match top1  75.0% top3  89.3% | median rank 1
+   blk6 xcopy real d256   w 0.103 vs other 0.103 | surv 0.302 | match top1  54.5% top3  69.6% | median rank 1
+   blk6 xcopy real d448   w 0.101 vs other 0.104 | surv 0.296 | match top1  53.6% top3  75.0% | median rank 1
+   blk6 xcopy random d0   w 0.108 vs other 0.103 | surv 0.332 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.114 vs other 0.103 | surv 0.316 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.109 vs other 0.103 | surv 0.302 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.107 vs other 0.104 | surv 0.296 | match top1 100.0% top3 100.0% | median rank 1
+r25v                       C=512 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.889 vs other 0.118 | surv 0.384 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.910 vs other 0.117 | surv 0.384 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.116 vs other 0.117 | surv 0.214 | match top1  48.2% top3  65.2% | median rank 2
+   blk6 xcopy real d64    w 0.116 vs other 0.117 | surv 0.204 | match top1  64.3% top3  85.7% | median rank 1
+   blk6 xcopy real d256   w 0.116 vs other 0.117 | surv 0.203 | match top1  59.8% top3  86.6% | median rank 1
+   blk6 xcopy real d448   w 0.116 vs other 0.117 | surv 0.202 | match top1  66.1% top3  87.5% | median rank 1
+   blk6 xcopy random d0   w 0.116 vs other 0.117 | surv 0.188 | match top1  83.9% top3  94.6% | median rank 1
+   blk6 xcopy random d64  w 0.116 vs other 0.117 | surv 0.208 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.116 vs other 0.117 | surv 0.202 | match top1  96.4% top3  99.1% | median rank 1
+   blk6 xcopy random d448 w 0.116 vs other 0.117 | surv 0.199 | match top1  94.6% top3  97.3% | median rank 1
+r25w                       C=512 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.825 vs other 0.102 | surv 0.324 | match top1  75.0% top3  81.2% | median rank 1
+   blk6 MQAR N32          w 0.815 vs other 0.101 | surv 0.323 | match top1  81.2% top3  87.5% | median rank 1
+   blk6 xcopy real d0     w 0.107 vs other 0.109 | surv 0.339 | match top1  70.5% top3  90.2% | median rank 1
+   blk6 xcopy real d64    w 0.110 vs other 0.109 | surv 0.310 | match top1  62.5% top3  87.5% | median rank 1
+   blk6 xcopy real d256   w 0.108 vs other 0.109 | surv 0.270 | match top1  40.2% top3  61.6% | median rank 2
+   blk6 xcopy real d448   w 0.106 vs other 0.109 | surv 0.223 | match top1  41.1% top3  51.8% | median rank 3
+   blk6 xcopy random d0   w 0.115 vs other 0.109 | surv 0.345 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.128 vs other 0.109 | surv 0.310 | match top1  94.6% top3  95.5% | median rank 1
+   blk6 xcopy random d256 w 0.118 vs other 0.109 | surv 0.279 | match top1  94.6% top3  97.3% | median rank 1
+   blk6 xcopy random d448 w 0.119 vs other 0.110 | surv 0.219 | match top1  75.9% top3  78.6% | median rank 1
+[e123 10-06 18:12:52] E2 done
+r25o                       C=512 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2  15.6
+r25o                       C=512 E3 haystack N32 (chance 3.1) | chunk2  71.9 | chunk3  87.5 | chunk4  93.8 | chunk8  87.5 | off@2   0.0
+r25o                       C=512 E3 ppl by chunk (T=4096) mem on  |  38.71  33.64  35.90  36.30  33.30  31.96  35.05  39.83
+r25o                       C=512 E3 ppl by chunk (T=4096) mem off |  39.23  35.34  37.63  38.74  35.35  34.03  36.89  41.62
+r25v                       C=512 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3  81.2 | chunk4  34.4 | chunk8  28.1 | off@2  18.8
+r25v                       C=512 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3  71.9 | chunk4  25.0 | chunk8   6.2 | off@2   0.0
+r25v                       C=512 E3 ppl by chunk (T=4096) mem on  |  42.08  37.29  39.94  40.57  37.52  35.46  38.94  44.45
+r25v                       C=512 E3 ppl by chunk (T=4096) mem off |  42.03  37.63  40.23  41.12  38.05  35.95  39.31  44.83
+r25w                       C=512 E3 haystack N8 (chance 12.5) | chunk2  96.9 | chunk3 100.0 | chunk4  96.9 | chunk8  90.6 | off@2  15.6
+r25w                       C=512 E3 haystack N32 (chance 3.1) | chunk2  93.8 | chunk3  96.9 | chunk4  96.9 | chunk8  87.5 | off@2   0.0
+r25w                       C=512 E3 ppl by chunk (T=4096) mem on  |  41.24  35.78  37.97  38.49  35.62  33.43  36.54  42.40
+r25w                       C=512 E3 ppl by chunk (T=4096) mem off |  41.50  37.64  40.24  41.48  37.86  36.07  39.26  44.65
+[e123 10-06 18:14:34] E3 DONE
+p26e                       C=512 E1 real   S12 mem on/off | d0    32.2/ 21.2 | d64   30.5/ 22.0 | d256  26.8/ 22.3 | d448  23.6/ 20.1
+p26e                       C=512 E1 real   S32 mem on/off | d0    33.9/ 23.7 | d64   31.9/ 23.1 | d256  27.9/ 23.2 | d448  26.8/ 22.8
+p26e                       C=512 E1 random S12 mem on/off | d0     2.6/  0.0 | d64    1.8/  0.0 | d256   0.6/  0.0 | d448   0.2/  0.0
+p26e                       C=512 E1 random S32 mem on/off | d0     1.9/  0.0 | d64    1.3/  0.0 | d256   0.4/  0.0 | d448   0.2/  0.0
+p25o                       C=512 E1 real   S12 mem on/off | d0    28.9/ 24.2 | d64   26.5/ 22.2 | d256  27.5/ 22.6 | d448  25.4/ 21.5
+p25o                       C=512 E1 real   S32 mem on/off | d0    30.1/ 25.9 | d64   28.8/ 23.8 | d256  27.3/ 24.1 | d448  26.8/ 23.6
+p25o                       C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+p25o                       C=512 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.1/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+p26e                       C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.896 vs other 0.115 | surv 0.447 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.872 vs other 0.109 | surv 0.442 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.151 vs other 0.151 | surv 0.438 | match top1  91.1% top3  98.2% | median rank 1
+   blk3 xcopy real d64    w 0.151 vs other 0.151 | surv 0.399 | match top1  83.0% top3  96.4% | median rank 1
+   blk3 xcopy real d256   w 0.152 vs other 0.151 | surv 0.312 | match top1  65.2% top3  83.9% | median rank 1
+   blk3 xcopy real d448   w 0.139 vs other 0.152 | surv 0.254 | match top1  51.8% top3  72.3% | median rank 1
+   blk3 xcopy random d0   w 0.296 vs other 0.151 | surv 0.445 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.307 vs other 0.152 | surv 0.397 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.292 vs other 0.153 | surv 0.315 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.299 vs other 0.155 | surv 0.258 | match top1  95.5% top3 100.0% | median rank 1
+p25o                       C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.965 vs other 0.102 | surv 0.460 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.975 vs other 0.101 | surv 0.458 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.102 vs other 0.107 | surv 0.471 | match top1  63.4% top3  83.0% | median rank 1
+   blk3 xcopy real d64    w 0.107 vs other 0.107 | surv 0.449 | match top1  84.8% top3  94.6% | median rank 1
+   blk3 xcopy real d256   w 0.106 vs other 0.107 | surv 0.414 | match top1  71.4% top3  90.2% | median rank 1
+   blk3 xcopy real d448   w 0.104 vs other 0.107 | surv 0.394 | match top1  67.9% top3  86.6% | median rank 1
+   blk3 xcopy random d0   w 0.102 vs other 0.107 | surv 0.472 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.110 vs other 0.107 | surv 0.450 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.107 vs other 0.107 | surv 0.414 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.113 vs other 0.107 | surv 0.393 | match top1 100.0% top3 100.0% | median rank 1
+p26e                       C=512 E3 haystack N8 (chance 12.5) | chunk2  78.1 | chunk3  56.2 | chunk4  34.4 | chunk8   9.4 | off@2  21.9
+p26e                       C=512 E3 haystack N32 (chance 3.1) | chunk2  59.4 | chunk3  18.8 | chunk4   6.2 | chunk8   3.1 | off@2   6.2
+p26e                       C=512 E3 ppl by chunk (T=4096) mem on  |  76.62  69.37  75.44  82.04  75.10  77.41  85.66 111.34
+p26e                       C=512 E3 ppl by chunk (T=4096) mem off |  91.75  83.87  91.11  90.01  79.81  78.62  82.90  93.99
+p25o                       C=512 E3 haystack N8 (chance 12.5) | chunk2  96.9 | chunk3  90.6 | chunk4  78.1 | chunk8  75.0 | off@2   0.0
+p25o                       C=512 E3 haystack N32 (chance 3.1) | chunk2  87.5 | chunk3  84.4 | chunk4  75.0 | chunk8  34.4 | off@2   6.2
+p25o                       C=512 E3 ppl by chunk (T=4096) mem on  |  64.81  58.31  63.42  65.17  57.37  55.70  60.12  70.71
+p25o                       C=512 E3 ppl by chunk (T=4096) mem off |  69.59  63.21  68.96  70.21  61.47  59.94  63.77  74.32
+p26e                       C=512 E1-ctrl random-span copy | random vocab in-window   0.7 | random vocab beyond   0.9 | random vocab beyond off   0.0 | MQAR-value range in-window   2.0 | MQAR-value range beyond   2.2 | MQAR-value range beyond off   0.0
+p25o                       C=512 E1-ctrl random-span copy | random vocab in-window   0.3 | random vocab beyond   0.0 | random vocab beyond off   0.0 | MQAR-value range in-window   1.7 | MQAR-value range beyond   0.6 | MQAR-value range beyond off   0.0
+p26e                       C=512 E1 none   S12 mem on/off | d0    25.5/ 22.8 | d64   25.5/ 22.8 | d256  25.5/ 22.8 | d448  25.5/ 22.8
+p26e                       C=512 E1 none   S32 mem on/off | d0    26.8/ 25.1 | d64   26.8/ 25.1 | d256  26.8/ 25.1 | d448  26.8/ 25.1
+p25o                       C=512 E1 none   S12 mem on/off | d0    26.6/ 24.4 | d64   26.6/ 24.4 | d256  26.6/ 24.4 | d448  26.6/ 24.4
+p25o                       C=512 E1 none   S32 mem on/off | d0    28.3/ 26.5 | d64   28.3/ 26.5 | d256  28.3/ 26.5 | d448  28.3/ 26.5
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r25o                         energy-v2 | weight reads 94.2M of 129.6M (73%) | compute only 1.39x (449 vs 626 uJ) | +SRAM fetch 1.38x (701 vs 966 uJ) | +DRAM fetch 1.38x (30596 vs 42119 uJ)
+r25t                         energy-v2 | weight reads 68.0M of 129.6M (52%) | compute only 5.00x (125 vs 626 uJ) | +SRAM fetch 3.11x (311 vs 966 uJ) | +DRAM fetch 1.92x (21886 vs 42119 uJ)
+r25w                         energy-v2 | weight reads 57.8M of 129.6M (45%) | compute only 7.49x (84 vs 626 uJ) | +SRAM fetch 3.95x (244 vs 966 uJ) | +DRAM fetch 2.26x (18611 vs 42119 uJ)
+screen_p26g_7L_xscatter25  C=512 E1 real   S12 mem on/off | d0    28.4/ 22.5 | d64   29.0/ 20.9 | d256  29.3/ 22.9 | d448  25.9/ 20.9
+screen_p26g_7L_xscatter25  C=512 E1 real   S32 mem on/off | d0    31.4/ 24.9 | d64   31.0/ 23.7 | d256  28.4/ 23.0 | d448  27.4/ 23.9
+screen_p26g_7L_xscatter25  C=512 E1 random S12 mem on/off | d0     0.1/  0.0 | d64    0.1/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+screen_p26g_7L_xscatter25  C=512 E1 random S32 mem on/off | d0     0.2/  0.0 | d64    0.6/  0.0 | d256   0.3/  0.0 | d448   0.6/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26g_7L_xscatter25  C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.945 vs other 0.105 | surv 0.475 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.963 vs other 0.102 | surv 0.474 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.108 vs other 0.112 | surv 0.481 | match top1  66.1% top3  84.8% | median rank 1
+   blk3 xcopy real d64    w 0.112 vs other 0.112 | surv 0.467 | match top1  89.3% top3  98.2% | median rank 1
+   blk3 xcopy real d256   w 0.112 vs other 0.112 | surv 0.440 | match top1  78.6% top3  92.0% | median rank 1
+   blk3 xcopy real d448   w 0.110 vs other 0.112 | surv 0.426 | match top1  75.9% top3  89.3% | median rank 1
+   blk3 xcopy random d0   w 0.117 vs other 0.112 | surv 0.482 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.131 vs other 0.112 | surv 0.466 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.129 vs other 0.112 | surv 0.439 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.147 vs other 0.112 | surv 0.425 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26g_7L_xscatter25  C=512 E3 haystack N8 (chance 12.5) | chunk2  90.6 | chunk3  90.6 | chunk4  84.4 | chunk8  75.0 | off@2  12.5
+screen_p26g_7L_xscatter25  C=512 E3 haystack N32 (chance 3.1) | chunk2  87.5 | chunk3  84.4 | chunk4  75.0 | chunk8  56.2 | off@2   6.2
+screen_p26g_7L_xscatter25  C=512 E3 ppl by chunk (T=4096) mem on  |  72.99  66.20  70.77  71.63  64.21  63.34  67.90  80.12
+screen_p26g_7L_xscatter25  C=512 E3 ppl by chunk (T=4096) mem off |  83.16  75.46  81.82  80.34  72.54  70.77  74.55  85.38
+screen_p26g_7L_xscatter25  C=512 E1 none   S12 mem on/off | d0    26.5/ 22.9 | d64   26.5/ 22.9 | d256  26.5/ 22.9 | d448  26.5/ 22.9
+screen_p26g_7L_xscatter25  C=512 E1 none   S32 mem on/off | d0    28.0/ 25.7 | d64   28.0/ 25.7 | d256  28.0/ 25.7 | d448  28.0/ 25.7
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26h_7L_xphrase25   C=512 E1 real   S12 mem on/off | d0    27.8/ 22.9 | d64   27.7/ 22.6 | d256  28.4/ 22.4 | d448  26.1/ 21.3
+screen_p26h_7L_xphrase25   C=512 E1 real   S32 mem on/off | d0    30.8/ 24.7 | d64   29.9/ 23.7 | d256  27.7/ 23.4 | d448  27.5/ 23.2
+screen_p26h_7L_xphrase25   C=512 E1 random S12 mem on/off | d0     0.1/  0.0 | d64    0.6/  0.0 | d256   0.6/  0.0 | d448   0.2/  0.0
+screen_p26h_7L_xphrase25   C=512 E1 random S32 mem on/off | d0     0.2/  0.0 | d64    0.9/  0.0 | d256   0.5/  0.0 | d448   0.9/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26h_7L_xphrase25   C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.934 vs other 0.104 | surv 0.466 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.933 vs other 0.101 | surv 0.467 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.108 vs other 0.114 | surv 0.479 | match top1  72.3% top3  91.1% | median rank 1
+   blk3 xcopy real d64    w 0.116 vs other 0.113 | surv 0.458 | match top1  79.5% top3  96.4% | median rank 1
+   blk3 xcopy real d256   w 0.112 vs other 0.113 | surv 0.428 | match top1  75.9% top3  88.4% | median rank 1
+   blk3 xcopy real d448   w 0.109 vs other 0.114 | surv 0.415 | match top1  70.5% top3  85.7% | median rank 1
+   blk3 xcopy random d0   w 0.135 vs other 0.114 | surv 0.480 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.177 vs other 0.113 | surv 0.457 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.159 vs other 0.114 | surv 0.427 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.181 vs other 0.114 | surv 0.413 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26h_7L_xphrase25   C=512 E3 haystack N8 (chance 12.5) | chunk2  84.4 | chunk3  93.8 | chunk4  71.9 | chunk8  53.1 | off@2   9.4
+screen_p26h_7L_xphrase25   C=512 E3 haystack N32 (chance 3.1) | chunk2  78.1 | chunk3  62.5 | chunk4  78.1 | chunk8  56.2 | off@2   9.4
+screen_p26h_7L_xphrase25   C=512 E3 ppl by chunk (T=4096) mem on  |  71.25  64.79  70.17  70.95  63.09  61.67  67.14  78.99
+screen_p26h_7L_xphrase25   C=512 E3 ppl by chunk (T=4096) mem off |  78.64  71.82  79.19  77.76  69.21  67.65  72.02  82.92
+screen_p26h_7L_xphrase25   C=512 E1 none   S12 mem on/off | d0    25.8/ 24.2 | d64   25.8/ 24.2 | d256  25.8/ 24.2 | d448  25.8/ 24.2
+screen_p26h_7L_xphrase25   C=512 E1 none   S32 mem on/off | d0    27.4/ 26.1 | d64   27.4/ 26.1 | d256  27.4/ 26.1 | d448  27.4/ 26.1
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26m_7L_polish      C=512 E1 real   S12 mem on/off | d0    32.9/ 23.0 | d64   30.9/ 21.7 | d256  28.3/ 22.9 | d448  27.0/ 21.2
+screen_p26m_7L_polish      C=512 E1 real   S32 mem on/off | d0    32.9/ 24.4 | d64   31.6/ 23.9 | d256  30.1/ 23.6 | d448  29.0/ 23.8
+screen_p26m_7L_polish      C=512 E1 random S12 mem on/off | d0     1.9/  0.0 | d64    1.9/  0.0 | d256   0.5/  0.0 | d448   0.2/  0.0
+screen_p26m_7L_polish      C=512 E1 random S32 mem on/off | d0     2.4/  0.0 | d64    2.3/  0.0 | d256   1.5/  0.0 | d448   1.6/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26m_7L_polish      C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.919 vs other 0.108 | surv 0.461 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.919 vs other 0.105 | surv 0.458 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.124 vs other 0.124 | surv 0.467 | match top1  79.5% top3  95.5% | median rank 1
+   blk3 xcopy real d64    w 0.123 vs other 0.124 | surv 0.448 | match top1  82.1% top3  97.3% | median rank 1
+   blk3 xcopy real d256   w 0.123 vs other 0.124 | surv 0.422 | match top1  80.4% top3  92.0% | median rank 1
+   blk3 xcopy real d448   w 0.118 vs other 0.124 | surv 0.409 | match top1  73.2% top3  92.9% | median rank 1
+   blk3 xcopy random d0   w 0.196 vs other 0.124 | surv 0.468 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.204 vs other 0.124 | surv 0.447 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.191 vs other 0.125 | surv 0.419 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.209 vs other 0.127 | surv 0.401 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26m_7L_polish      C=512 E3 haystack N8 (chance 12.5) | chunk2  78.1 | chunk3  75.0 | chunk4  78.1 | chunk8  59.4 | off@2  18.8
+screen_p26m_7L_polish      C=512 E3 haystack N32 (chance 3.1) | chunk2  71.9 | chunk3  71.9 | chunk4  37.5 | chunk8  28.1 | off@2   6.2
+screen_p26m_7L_polish      C=512 E3 ppl by chunk (T=4096) mem on  |  73.20  66.15  72.04  75.21  67.49  67.31  73.88  89.77
+screen_p26m_7L_polish      C=512 E3 ppl by chunk (T=4096) mem off |  85.53  77.92  85.45  85.22  75.15  74.38  77.63  88.60
+screen_p26m_7L_polish      C=512 E1 none   S12 mem on/off | d0    26.9/ 23.3 | d64   26.9/ 23.3 | d256  26.9/ 23.3 | d448  26.9/ 23.3
+screen_p26m_7L_polish      C=512 E1 none   S32 mem on/off | d0    27.7/ 25.6 | d64   27.7/ 25.6 | d256  27.7/ 25.6 | d448  27.7/ 25.6
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26s_7L_p25o_seed1  C=512 E1 real   S12 mem on/off | d0    28.2/ 24.7 | d64   27.2/ 23.1 | d256  26.9/ 22.9 | d448  25.7/ 22.5
+screen_p26s_7L_p25o_seed1  C=512 E1 real   S32 mem on/off | d0    30.1/ 25.5 | d64   28.9/ 24.9 | d256  28.0/ 24.2 | d448  27.2/ 24.3
+screen_p26s_7L_p25o_seed1  C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.1/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+screen_p26s_7L_p25o_seed1  C=512 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26s_7L_p25o_seed1  C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.944 vs other 0.104 | surv 0.492 | match top1   0.0% top3   0.0% | median rank 512
+   blk3 MQAR N32          w 0.944 vs other 0.103 | surv 0.491 | match top1   0.0% top3   6.2% | median rank 512
+   blk3 xcopy real d0     w 0.104 vs other 0.107 | surv 0.506 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy real d64    w 0.106 vs other 0.107 | surv 0.488 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy real d256   w 0.106 vs other 0.107 | surv 0.459 | match top1   0.0% top3   0.0% | median rank 542
+   blk3 xcopy real d448   w 0.105 vs other 0.107 | surv 0.443 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy random d0   w 0.106 vs other 0.107 | surv 0.508 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy random d64  w 0.112 vs other 0.107 | surv 0.489 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy random d256 w 0.112 vs other 0.107 | surv 0.459 | match top1   0.0% top3   0.0% | median rank 543
+   blk3 xcopy random d448 w 0.119 vs other 0.107 | surv 0.446 | match top1   0.0% top3   0.0% | median rank 543
+screen_p26s_7L_p25o_seed1  C=512 E3 haystack N8 (chance 12.5) | chunk2  96.9 | chunk3  93.8 | chunk4  87.5 | chunk8  62.5 | off@2  12.5
+screen_p26s_7L_p25o_seed1  C=512 E3 haystack N32 (chance 3.1) | chunk2  87.5 | chunk3  84.4 | chunk4  78.1 | chunk8  59.4 | off@2   3.1
+screen_p26s_7L_p25o_seed1  C=512 E3 ppl by chunk (T=4096) mem on  |  64.52  57.26  60.29  62.82  55.94  53.34  58.47  70.25
+screen_p26s_7L_p25o_seed1  C=512 E3 ppl by chunk (T=4096) mem off |  69.39  62.56  65.99  67.67  60.01  57.65  62.14  73.63
+screen_p26s_7L_p25o_seed1  C=512 E1 none   S12 mem on/off | d0    27.3/ 25.9 | d64   27.3/ 25.9 | d256  27.3/ 25.9 | d448  27.3/ 25.9
+screen_p26s_7L_p25o_seed1  C=512 E1 none   S32 mem on/off | d0    28.5/ 26.9 | d64   28.5/ 26.9 | d256  28.5/ 26.9 | d448  28.5/ 26.9
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26n_7L_polish_kd   C=512 E1 real   S12 mem on/off | d0    29.2/ 22.2 | d64   29.2/ 21.7 | d256  28.6/ 23.6 | d448  26.4/ 20.1
+screen_p26n_7L_polish_kd   C=512 E1 real   S32 mem on/off | d0    32.3/ 24.6 | d64   31.0/ 23.3 | d256  29.4/ 23.2 | d448  28.3/ 23.5
+screen_p26n_7L_polish_kd   C=512 E1 random S12 mem on/off | d0     0.3/  0.0 | d64    0.4/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+screen_p26n_7L_polish_kd   C=512 E1 random S32 mem on/off | d0     0.7/  0.0 | d64    1.1/  0.0 | d256   0.6/  0.0 | d448   0.6/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26n_7L_polish_kd   C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.920 vs other 0.106 | surv 0.463 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.905 vs other 0.104 | surv 0.459 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.118 vs other 0.121 | surv 0.469 | match top1  75.9% top3  90.2% | median rank 1
+   blk3 xcopy real d64    w 0.119 vs other 0.121 | surv 0.447 | match top1  80.4% top3  95.5% | median rank 1
+   blk3 xcopy real d256   w 0.120 vs other 0.121 | surv 0.417 | match top1  74.1% top3  90.2% | median rank 1
+   blk3 xcopy real d448   w 0.116 vs other 0.121 | surv 0.402 | match top1  75.0% top3  91.1% | median rank 1
+   blk3 xcopy random d0   w 0.169 vs other 0.121 | surv 0.470 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.177 vs other 0.121 | surv 0.445 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.171 vs other 0.122 | surv 0.412 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.186 vs other 0.123 | surv 0.394 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26n_7L_polish_kd   C=512 E3 haystack N8 (chance 12.5) | chunk2  96.9 | chunk3  81.2 | chunk4  71.9 | chunk8  46.9 | off@2  12.5
+screen_p26n_7L_polish_kd   C=512 E3 haystack N32 (chance 3.1) | chunk2  78.1 | chunk3  65.6 | chunk4  46.9 | chunk8  21.9 | off@2   3.1
+screen_p26n_7L_polish_kd   C=512 E3 ppl by chunk (T=4096) mem on  |  72.97  64.25  69.71  71.34  63.31  61.85  67.52  80.53
+screen_p26n_7L_polish_kd   C=512 E3 ppl by chunk (T=4096) mem off |  84.18  76.33  83.96  83.62  73.85  72.32  75.89  87.62
+screen_p26n_7L_polish_kd   C=512 E1 none   S12 mem on/off | d0    26.1/ 23.4 | d64   26.1/ 23.4 | d256  26.1/ 23.4 | d448  26.1/ 23.4
+screen_p26n_7L_polish_kd   C=512 E1 none   S32 mem on/off | d0    27.9/ 25.9 | d64   27.9/ 25.9 | d256  27.9/ 25.9 | d448  27.9/ 25.9
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26q_7L_polish_rw   C=512 E1 real   S12 mem on/off | d0    31.9/ 22.9 | d64   29.1/ 21.8 | d256  28.3/ 22.2 | d448  26.9/ 21.3
+screen_p26q_7L_polish_rw   C=512 E1 real   S32 mem on/off | d0    32.8/ 24.8 | d64   31.7/ 23.6 | d256  29.9/ 23.5 | d448  28.2/ 23.1
+screen_p26q_7L_polish_rw   C=512 E1 random S12 mem on/off | d0     1.0/  0.0 | d64    2.1/  0.0 | d256   0.5/  0.0 | d448   0.1/  0.0
+screen_p26q_7L_polish_rw   C=512 E1 random S32 mem on/off | d0     1.7/  0.0 | d64    1.8/  0.0 | d256   1.1/  0.0 | d448   1.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26q_7L_polish_rw   C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.932 vs other 0.106 | surv 0.462 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.932 vs other 0.104 | surv 0.459 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.122 vs other 0.123 | surv 0.471 | match top1  81.2% top3  95.5% | median rank 1
+   blk3 xcopy real d64    w 0.122 vs other 0.123 | surv 0.449 | match top1  77.7% top3  97.3% | median rank 1
+   blk3 xcopy real d256   w 0.122 vs other 0.123 | surv 0.419 | match top1  78.6% top3  92.0% | median rank 1
+   blk3 xcopy real d448   w 0.117 vs other 0.124 | surv 0.405 | match top1  75.9% top3  91.1% | median rank 1
+   blk3 xcopy random d0   w 0.178 vs other 0.123 | surv 0.472 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.186 vs other 0.124 | surv 0.448 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.175 vs other 0.124 | surv 0.416 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.192 vs other 0.127 | surv 0.394 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26q_7L_polish_rw   C=512 E3 haystack N8 (chance 12.5) | chunk2  78.1 | chunk3  87.5 | chunk4  75.0 | chunk8  53.1 | off@2  15.6
+screen_p26q_7L_polish_rw   C=512 E3 haystack N32 (chance 3.1) | chunk2  62.5 | chunk3  56.2 | chunk4  53.1 | chunk8  34.4 | off@2   6.2
+screen_p26q_7L_polish_rw   C=512 E3 ppl by chunk (T=4096) mem on  |  73.90  66.50  72.84  75.74  69.10  68.02  74.89  91.42
+screen_p26q_7L_polish_rw   C=512 E3 ppl by chunk (T=4096) mem off |  85.82  77.59  84.81  84.70  74.91  73.47  77.55  87.97
+screen_p26q_7L_polish_rw   C=512 E1 none   S12 mem on/off | d0    26.7/ 23.9 | d64   26.7/ 23.9 | d256  26.7/ 23.9 | d448  26.7/ 23.9
+screen_p26q_7L_polish_rw   C=512 E1 none   S32 mem on/off | d0    27.8/ 25.4 | d64   27.8/ 25.4 | d256  27.8/ 25.4 | d448  27.8/ 25.4
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26r_7L_polish_rw_kd C=512 E1 real   S12 mem on/off | d0    29.7/ 22.4 | d64   28.3/ 22.1 | d256  28.6/ 23.8 | d448  25.6/ 21.1
+screen_p26r_7L_polish_rw_kd C=512 E1 real   S32 mem on/off | d0    31.8/ 24.4 | d64   30.8/ 23.4 | d256  29.2/ 23.3 | d448  27.5/ 23.4
+screen_p26r_7L_polish_rw_kd C=512 E1 random S12 mem on/off | d0     0.5/  0.0 | d64    0.6/  0.0 | d256   0.3/  0.0 | d448   0.3/  0.0
+screen_p26r_7L_polish_rw_kd C=512 E1 random S32 mem on/off | d0     0.8/  0.0 | d64    0.8/  0.0 | d256   0.4/  0.0 | d448   0.6/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26r_7L_polish_rw_kd C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.911 vs other 0.106 | surv 0.464 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.895 vs other 0.104 | surv 0.461 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.118 vs other 0.120 | surv 0.472 | match top1  75.0% top3  90.2% | median rank 1
+   blk3 xcopy real d64    w 0.118 vs other 0.120 | surv 0.451 | match top1  77.7% top3  94.6% | median rank 1
+   blk3 xcopy real d256   w 0.120 vs other 0.120 | surv 0.418 | match top1  78.6% top3  85.7% | median rank 1
+   blk3 xcopy real d448   w 0.115 vs other 0.120 | surv 0.405 | match top1  74.1% top3  92.9% | median rank 1
+   blk3 xcopy random d0   w 0.160 vs other 0.120 | surv 0.472 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.170 vs other 0.120 | surv 0.448 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.164 vs other 0.121 | surv 0.411 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.177 vs other 0.122 | surv 0.394 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26r_7L_polish_rw_kd C=512 E3 haystack N8 (chance 12.5) | chunk2  90.6 | chunk3  78.1 | chunk4  78.1 | chunk8  43.8 | off@2  12.5
+screen_p26r_7L_polish_rw_kd C=512 E3 haystack N32 (chance 3.1) | chunk2  75.0 | chunk3  71.9 | chunk4  37.5 | chunk8  21.9 | off@2   3.1
+screen_p26r_7L_polish_rw_kd C=512 E3 ppl by chunk (T=4096) mem on  |  72.62  64.50  70.22  71.69  64.09  63.42  68.59  81.35
+screen_p26r_7L_polish_rw_kd C=512 E3 ppl by chunk (T=4096) mem off |  83.23  75.73  83.06  82.79  72.90  72.06  75.43  86.75
+screen_p26r_7L_polish_rw_kd C=512 E1 none   S12 mem on/off | d0    27.0/ 23.2 | d64   27.0/ 23.2 | d256  27.0/ 23.2 | d448  27.0/ 23.2
+screen_p26r_7L_polish_rw_kd C=512 E1 none   S32 mem on/off | d0    27.7/ 25.4 | d64   27.7/ 25.4 | d256  27.7/ 25.4 | d448  27.7/ 25.4
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26c_13L_H6_chunk1024_150m C=1024 E1 real   S12 mem on/off | d0    27.7/ 25.7 | d64   25.2/ 23.0 | d256  27.5/ 24.8 | d448  23.3/ 21.7
+r26c_13L_H6_chunk1024_150m C=1024 E1 real   S32 mem on/off | d0    29.2/ 27.6 | d64   30.6/ 28.7 | d256  29.4/ 27.5 | d448  29.5/ 27.8
+r26c_13L_H6_chunk1024_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26c_13L_H6_chunk1024_150m C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26c_13L_H6_chunk1024_150m C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.891 vs other 0.102 | surv 0.332 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.897 vs other 0.101 | surv 0.334 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.101 vs other 0.101 | surv 0.352 | match top1  67.0% top3  80.4% | median rank 1
+   blk6 xcopy real d64    w 0.101 vs other 0.101 | surv 0.342 | match top1  58.0% top3  76.8% | median rank 1
+   blk6 xcopy real d256   w 0.101 vs other 0.101 | surv 0.332 | match top1  55.4% top3  75.0% | median rank 1
+   blk6 xcopy real d448   w 0.101 vs other 0.101 | surv 0.327 | match top1  47.3% top3  70.5% | median rank 2
+   blk6 xcopy random d0   w 0.102 vs other 0.101 | surv 0.352 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.103 vs other 0.101 | surv 0.341 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.103 vs other 0.101 | surv 0.332 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.103 vs other 0.101 | surv 0.328 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26v_7L_polish_rw_off C=512 E1 real   S12 mem on/off | d0    30.3/ 22.4 | d64   29.2/ 22.0 | d256  28.9/ 22.2 | d448  26.5/ 20.9
+screen_p26v_7L_polish_rw_off C=512 E1 real   S32 mem on/off | d0    32.8/ 24.6 | d64   31.0/ 23.8 | d256  29.6/ 23.9 | d448  28.8/ 23.9
+screen_p26v_7L_polish_rw_off C=512 E1 random S12 mem on/off | d0     0.1/  0.0 | d64    0.2/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+screen_p26v_7L_polish_rw_off C=512 E1 random S32 mem on/off | d0     0.2/  0.0 | d64    0.4/  0.0 | d256   0.2/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26v_7L_polish_rw_off C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.934 vs other 0.105 | surv 0.466 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.929 vs other 0.104 | surv 0.463 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.114 vs other 0.118 | surv 0.472 | match top1  83.0% top3  94.6% | median rank 1
+   blk3 xcopy real d64    w 0.115 vs other 0.118 | surv 0.455 | match top1  80.4% top3  96.4% | median rank 1
+   blk3 xcopy real d256   w 0.117 vs other 0.118 | surv 0.431 | match top1  78.6% top3  92.9% | median rank 1
+   blk3 xcopy real d448   w 0.115 vs other 0.118 | surv 0.418 | match top1  77.7% top3  93.8% | median rank 1
+   blk3 xcopy random d0   w 0.129 vs other 0.118 | surv 0.473 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.135 vs other 0.118 | surv 0.455 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.132 vs other 0.118 | surv 0.430 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.144 vs other 0.119 | surv 0.416 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26v_7L_polish_rw_off C=512 E3 haystack N8 (chance 12.5) | chunk2  78.1 | chunk3  71.9 | chunk4  75.0 | chunk8  62.5 | off@2  18.8
+screen_p26v_7L_polish_rw_off C=512 E3 haystack N32 (chance 3.1) | chunk2  78.1 | chunk3  75.0 | chunk4  56.2 | chunk8  31.2 | off@2   9.4
+screen_p26v_7L_polish_rw_off C=512 E3 ppl by chunk (T=4096) mem on  |  73.34  64.93  70.81  73.67  63.87  62.35  67.97  79.95
+screen_p26v_7L_polish_rw_off C=512 E3 ppl by chunk (T=4096) mem off |  83.99  76.09  83.52  83.96  73.48  72.63  76.40  87.00
+screen_p26v_7L_polish_rw_off C=512 E1 none   S12 mem on/off | d0    27.1/ 23.7 | d64   27.1/ 23.7 | d256  27.1/ 23.7 | d448  27.1/ 23.7
+screen_p26v_7L_polish_rw_off C=512 E1 none   S32 mem on/off | d0    27.8/ 25.7 | d64   27.8/ 25.7 | d256  27.8/ 25.7 | d448  27.8/ 25.7
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E1 real   S12 mem on/off | d0    28.5/ 27.3 | d64   25.3/ 24.0 | d256  26.8/ 24.2 | d448  23.7/ 21.9
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E1 real   S32 mem on/off | d0    29.3/ 27.2 | d64   30.6/ 28.3 | d256  28.8/ 27.2 | d448  29.2/ 27.7
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.837 vs other 0.102 | surv 0.328 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.828 vs other 0.101 | surv 0.330 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.100 vs other 0.101 | surv 0.355 | match top1  58.9% top3  70.5% | median rank 1
+   blk6 xcopy real d64    w 0.101 vs other 0.101 | surv 0.341 | match top1  58.0% top3  67.9% | median rank 1
+   blk6 xcopy real d256   w 0.101 vs other 0.101 | surv 0.328 | match top1  46.4% top3  63.4% | median rank 2
+   blk6 xcopy real d448   w 0.101 vs other 0.101 | surv 0.324 | match top1  45.5% top3  60.7% | median rank 2
+   blk6 xcopy random d0   w 0.101 vs other 0.101 | surv 0.353 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.102 vs other 0.101 | surv 0.340 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.102 vs other 0.101 | surv 0.328 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.101 vs other 0.101 | surv 0.324 | match top1 100.0% top3 100.0% | median rank 1
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  93.8 | chunk8  90.6 | off@2  21.9
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  62.5 | chunk3  84.4 | chunk4  78.1 | chunk8  68.8 | off@2   0.0
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  43.87  39.98  40.46  39.32  38.52  38.11  42.06  35.28
+r26t_13L_H6_chunk1024_seed1_150m C=1024 E3 ppl by chunk (T=8192) mem off |  43.97  40.50  41.10  39.78  38.72  38.22  41.97  35.29
+screen_p26y_7L_chunk_rand128 C=512 E1 real   S12 mem on/off | d0    31.0/ 23.6 | d64   29.3/ 21.1 | d256  27.5/ 22.9 | d448  26.5/ 21.5
+screen_p26y_7L_chunk_rand128 C=512 E1 real   S32 mem on/off | d0    33.0/ 24.9 | d64   30.9/ 23.5 | d256  28.5/ 23.5 | d448  28.2/ 24.0
+screen_p26y_7L_chunk_rand128 C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+screen_p26y_7L_chunk_rand128 C=512 E1 random S32 mem on/off | d0     0.1/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26y_7L_chunk_rand128 C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.949 vs other 0.111 | surv 0.463 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.953 vs other 0.109 | surv 0.464 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.114 vs other 0.115 | surv 0.474 | match top1  86.6% top3  98.2% | median rank 1
+   blk3 xcopy real d64    w 0.114 vs other 0.115 | surv 0.458 | match top1  83.0% top3  97.3% | median rank 1
+   blk3 xcopy real d256   w 0.114 vs other 0.115 | surv 0.431 | match top1  72.3% top3  90.2% | median rank 1
+   blk3 xcopy real d448   w 0.114 vs other 0.115 | surv 0.414 | match top1  72.3% top3  85.7% | median rank 1
+   blk3 xcopy random d0   w 0.117 vs other 0.115 | surv 0.476 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.117 vs other 0.115 | surv 0.460 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.116 vs other 0.115 | surv 0.435 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.124 vs other 0.114 | surv 0.427 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26y_7L_chunk_rand128 C=512 E3 haystack N8 (chance 12.5) | chunk2  87.5 | chunk3  93.8 | chunk4  84.4 | chunk8  84.4 | off@2  25.0
+screen_p26y_7L_chunk_rand128 C=512 E3 haystack N32 (chance 3.1) | chunk2  90.6 | chunk3  84.4 | chunk4  84.4 | chunk8  56.2 | off@2   0.0
+screen_p26y_7L_chunk_rand128 C=512 E3 ppl by chunk (T=4096) mem on  |  69.38  62.28  66.85  67.23  60.08  58.14  63.42  73.98
+screen_p26y_7L_chunk_rand128 C=512 E3 ppl by chunk (T=4096) mem off |  78.40  71.70  78.23  77.40  69.04  67.14  70.78  81.44
+screen_p26y_7L_chunk_rand128 C=512 E1 none   S12 mem on/off | d0    28.7/ 25.2 | d64   28.7/ 25.2 | d256  28.7/ 25.2 | d448  28.7/ 25.2
+screen_p26y_7L_chunk_rand128 C=512 E1 none   S32 mem on/off | d0    29.0/ 26.5 | d64   29.0/ 26.5 | d256  29.0/ 26.5 | d448  29.0/ 26.5
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26z_7L_hola64      C=512 E1 real   S12 mem on/off | d0    28.5/ 22.1 | d64   27.9/ 22.3 | d256  27.6/ 22.3 | d448  25.4/ 20.1
+screen_p26z_7L_hola64      C=512 E1 real   S32 mem on/off | d0    30.2/ 25.3 | d64   29.1/ 24.4 | d256  27.8/ 24.2 | d448  27.4/ 24.1
+screen_p26z_7L_hola64      C=512 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+screen_p26z_7L_hola64      C=512 E1 random S32 mem on/off | d0     0.1/  0.0 | d64    0.2/  0.0 | d256   0.1/  0.0 | d448   0.4/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26z_7L_hola64      C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.949 vs other 0.105 | surv 0.457 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.966 vs other 0.103 | surv 0.462 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.104 vs other 0.109 | surv 0.401 | match top1  67.9% top3  84.8% | median rank 1
+   blk3 xcopy real d64    w 0.108 vs other 0.108 | surv 0.364 | match top1  83.9% top3  93.8% | median rank 1
+   blk3 xcopy real d256   w 0.108 vs other 0.108 | surv 0.319 | match top1  62.5% top3  84.8% | median rank 1
+   blk3 xcopy real d448   w 0.106 vs other 0.108 | surv 0.293 | match top1  58.9% top3  75.9% | median rank 1
+   blk3 xcopy random d0   w 0.104 vs other 0.109 | surv 0.360 | match top1  97.3% top3  98.2% | median rank 1
+   blk3 xcopy random d64  w 0.111 vs other 0.108 | surv 0.366 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.111 vs other 0.108 | surv 0.322 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.120 vs other 0.108 | surv 0.303 | match top1  99.1% top3 100.0% | median rank 1
+screen_p26z_7L_hola64      C=512 E3 haystack N8 (chance 12.5) | chunk2  90.6 | chunk3  90.6 | chunk4  84.4 | chunk8  59.4 | off@2   9.4
+screen_p26z_7L_hola64      C=512 E3 haystack N32 (chance 3.1) | chunk2  90.6 | chunk3  84.4 | chunk4  78.1 | chunk8  18.8 | off@2   0.0
+screen_p26z_7L_hola64      C=512 E3 ppl by chunk (T=4096) mem on  |  67.56  59.80  64.02  64.26  57.41  55.33  60.73  70.09
+screen_p26z_7L_hola64      C=512 E3 ppl by chunk (T=4096) mem off |  72.70  66.05  71.28  70.42  62.77  61.17  66.55  75.41
+screen_p26z_7L_hola64      C=512 E1 none   S12 mem on/off | d0    28.3/ 26.2 | d64   28.3/ 26.2 | d256  28.3/ 26.2 | d448  28.3/ 26.2
+screen_p26z_7L_hola64      C=512 E1 none   S32 mem on/off | d0    28.8/ 26.9 | d64   28.8/ 26.9 | d256  28.8/ 26.9 | d448  28.8/ 26.9
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26za_7L_hola64_rand128 C=512 E1 real   S12 mem on/off | d0    30.9/ 23.4 | d64   28.8/ 21.7 | d256  28.7/ 22.5 | d448  27.7/ 22.0
+screen_p26za_7L_hola64_rand128 C=512 E1 real   S32 mem on/off | d0    33.4/ 25.0 | d64   31.3/ 24.3 | d256  29.7/ 24.1 | d448  28.9/ 23.5
+screen_p26za_7L_hola64_rand128 C=512 E1 random S12 mem on/off | d0     0.7/  0.0 | d64    0.5/  0.0 | d256   0.0/  0.0 | d448   0.1/  0.0
+screen_p26za_7L_hola64_rand128 C=512 E1 random S32 mem on/off | d0     1.1/  0.0 | d64    0.7/  0.0 | d256   0.4/  0.0 | d448   0.7/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+screen_p26za_7L_hola64_rand128 C=512 E2 memory blocks at [3] (one line set per block)
+   blk3 MQAR N8           w 0.966 vs other 0.114 | surv 0.507 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 MQAR N32          w 0.959 vs other 0.112 | surv 0.514 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy real d0     w 0.113 vs other 0.114 | surv 0.517 | match top1  89.3% top3  96.4% | median rank 1
+   blk3 xcopy real d64    w 0.113 vs other 0.114 | surv 0.490 | match top1  90.2% top3  95.5% | median rank 1
+   blk3 xcopy real d256   w 0.113 vs other 0.114 | surv 0.437 | match top1  68.8% top3  88.4% | median rank 1
+   blk3 xcopy real d448   w 0.113 vs other 0.114 | surv 0.397 | match top1  65.2% top3  82.1% | median rank 1
+   blk3 xcopy random d0   w 0.115 vs other 0.114 | surv 0.522 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d64  w 0.114 vs other 0.114 | surv 0.492 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d256 w 0.115 vs other 0.114 | surv 0.442 | match top1 100.0% top3 100.0% | median rank 1
+   blk3 xcopy random d448 w 0.118 vs other 0.114 | surv 0.422 | match top1 100.0% top3 100.0% | median rank 1
+screen_p26za_7L_hola64_rand128 C=512 E3 haystack N8 (chance 12.5) | chunk2  93.8 | chunk3  93.8 | chunk4  96.9 | chunk8  90.6 | off@2   9.4
+screen_p26za_7L_hola64_rand128 C=512 E3 haystack N32 (chance 3.1) | chunk2  96.9 | chunk3  84.4 | chunk4  90.6 | chunk8  68.8 | off@2   6.2
+screen_p26za_7L_hola64_rand128 C=512 E3 ppl by chunk (T=4096) mem on  |  70.95  62.77  67.34  67.78  59.39  57.62  63.23  73.29
+screen_p26za_7L_hola64_rand128 C=512 E3 ppl by chunk (T=4096) mem off |  78.72  72.20  78.61  77.42  68.23  65.75  71.50  81.83
+screen_p26za_7L_hola64_rand128 C=512 E1 none   S12 mem on/off | d0    27.8/ 24.2 | d64   27.8/ 24.2 | d256  27.8/ 24.2 | d448  27.8/ 24.2
+screen_p26za_7L_hola64_rand128 C=512 E1 none   S32 mem on/off | d0    28.7/ 25.9 | d64   28.7/ 25.9 | d256  28.7/ 25.9 | d448  28.7/ 25.9
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26h_13L_RC_hola64_150m    C=1024 E1 real   S12 mem on/off | d0    30.6/ 25.8 | d64   28.2/ 24.0 | d256  28.6/ 25.7 | d448  26.6/ 23.5
+r26h_13L_RC_hola64_150m    C=1024 E1 real   S32 mem on/off | d0    32.0/ 28.0 | d64   31.5/ 28.3 | d256  30.8/ 27.8 | d448  30.9/ 28.1
+r26h_13L_RC_hola64_150m    C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26h_13L_RC_hola64_150m    C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26h_13L_RC_hola64_150m    C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.824 vs other 0.104 | surv 0.263 | match top1  75.0% top3  81.2% | median rank 1
+   blk6 MQAR N32          w 0.840 vs other 0.104 | surv 0.296 | match top1  93.8% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.102 vs other 0.103 | surv 0.355 | match top1  71.4% top3  88.4% | median rank 1
+   blk6 xcopy real d64    w 0.103 vs other 0.103 | surv 0.331 | match top1  58.0% top3  81.2% | median rank 1
+   blk6 xcopy real d256   w 0.103 vs other 0.103 | surv 0.299 | match top1  53.6% top3  70.5% | median rank 1
+   blk6 xcopy real d448   w 0.103 vs other 0.103 | surv 0.279 | match top1  42.9% top3  65.2% | median rank 2
+   blk6 xcopy random d0   w 0.105 vs other 0.103 | surv 0.354 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.108 vs other 0.103 | surv 0.331 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.108 vs other 0.103 | surv 0.299 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.107 vs other 0.103 | surv 0.286 | match top1  99.1% top3 100.0% | median rank 1
+r26h_13L_RC_hola64_150m    C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8  93.8 | off@2  21.9
+r26h_13L_RC_hola64_150m    C=1024 E3 haystack N32 (chance 3.1) | chunk2  93.8 | chunk3 100.0 | chunk4  96.9 | chunk8  96.9 | off@2   0.0
+r26h_13L_RC_hola64_150m    C=1024 E3 ppl by chunk (T=8192) mem on  |  41.46  37.41  37.64  36.51  35.57  35.66  39.09  32.93
+r26h_13L_RC_hola64_150m    C=1024 E3 ppl by chunk (T=8192) mem off |  41.75  38.25  38.79  37.55  36.34  36.56  39.93  33.41
+r26h_13L_RC_hola64_150m    C=1024 E1 none   S12 mem on/off | d0    29.1/ 28.7 | d64   29.1/ 28.7 | d256  29.1/ 28.7 | d448  29.1/ 28.7
+r26h_13L_RC_hola64_150m    C=1024 E1 none   S32 mem on/off | d0    31.5/ 30.9 | d64   31.5/ 30.9 | d256  31.5/ 30.9 | d448  31.5/ 30.9
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 real   S12 mem on/off | d0    37.4/ 26.4 | d64   34.6/ 24.6 | d256  32.4/ 25.6 | d448  29.9/ 22.9
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 real   S32 mem on/off | d0    37.2/ 28.1 | d64   36.0/ 28.7 | d256  34.1/ 27.3 | d448  34.2/ 28.2
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 random S12 mem on/off | d0     0.3/  0.0 | d64    0.1/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 random S32 mem on/off | d0     0.4/  0.0 | d64    0.3/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.891 vs other 0.112 | surv 0.359 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.916 vs other 0.108 | surv 0.381 | match top1  93.8% top3  93.8% | median rank 1
+   blk6 xcopy real d0     w 0.128 vs other 0.117 | surv 0.396 | match top1  81.2% top3  94.6% | median rank 1
+   blk6 xcopy real d64    w 0.122 vs other 0.118 | surv 0.379 | match top1  62.5% top3  75.9% | median rank 1
+   blk6 xcopy real d256   w 0.120 vs other 0.118 | surv 0.361 | match top1  51.8% top3  73.2% | median rank 1
+   blk6 xcopy real d448   w 0.116 vs other 0.118 | surv 0.356 | match top1  45.5% top3  64.3% | median rank 2
+   blk6 xcopy random d0   w 0.125 vs other 0.117 | surv 0.396 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.124 vs other 0.118 | surv 0.385 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.121 vs other 0.118 | surv 0.365 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.117 vs other 0.118 | surv 0.362 | match top1  99.1% top3 100.0% | median rank 1
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  90.6 | chunk8  50.0 | off@2  18.8
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8  53.1 | off@2   3.1
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  41.60  37.00  37.43  35.95  35.40  35.34  38.37  32.80
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E3 ppl by chunk (T=8192) mem off |  43.76  40.25  41.35  39.73  38.49  38.61  41.62  35.42
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 none   S12 mem on/off | d0    32.3/ 29.0 | d64   32.3/ 29.0 | d256  32.3/ 29.0 | d448  32.3/ 29.0
+r26f_13L_H6_chunk1024_rand128_150m C=1024 E1 none   S32 mem on/off | d0    33.2/ 30.8 | d64   33.2/ 30.8 | d256  33.2/ 30.8 | d448  33.2/ 30.8
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26j_13L_RC2_conv_150m     C=1024 E1 real   S12 mem on/off | d0    33.0/ 26.6 | d64   28.2/ 23.1 | d256  28.1/ 25.3 | d448  26.2/ 22.9
+r26j_13L_RC2_conv_150m     C=1024 E1 real   S32 mem on/off | d0    33.2/ 28.5 | d64   33.0/ 29.2 | d256  30.5/ 27.5 | d448  30.2/ 27.6
+r26j_13L_RC2_conv_150m     C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.1/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26j_13L_RC2_conv_150m     C=1024 E1 random S32 mem on/off | d0     0.1/  0.0 | d64    0.1/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26j_13L_RC2_conv_150m     C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3  96.9 | chunk4  96.9 | chunk8 100.0 | off@2  31.2
+r26j_13L_RC2_conv_150m     C=1024 E3 haystack N32 (chance 3.1) | chunk2  90.6 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2   0.0
+r26j_13L_RC2_conv_150m     C=1024 E3 ppl by chunk (T=8192) mem on  |  41.02  36.67  36.89  35.62  34.62  34.54  38.02  32.08
+r26j_13L_RC2_conv_150m     C=1024 E3 ppl by chunk (T=8192) mem off |  41.27  37.84  38.34  36.92  35.75  35.76  39.14  33.02
+r26g_13L_RC_conv_llamakd_150m C=1024 E1 real   S12 mem on/off | d0    26.0/ 24.7 | d64   23.6/ 22.3 | d256  25.1/ 23.5 | d448  22.6/ 20.7
+r26g_13L_RC_conv_llamakd_150m C=1024 E1 real   S32 mem on/off | d0    26.6/ 26.5 | d64   27.3/ 26.3 | d256  27.3/ 24.9 | d448  27.6/ 25.8
+r26g_13L_RC_conv_llamakd_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26g_13L_RC_conv_llamakd_150m C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26g_13L_RC_conv_llamakd_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2  93.8 | chunk3 100.0 | chunk4  96.9 | chunk8  84.4 | off@2  18.8
+r26g_13L_RC_conv_llamakd_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  40.6 | chunk3  90.6 | chunk4  75.0 | chunk8  65.6 | off@2   3.1
+r26g_13L_RC_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  50.94  46.50  46.94  45.68  45.25  44.74  49.27  42.27
+r26g_13L_RC_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem off |  51.41  47.20  47.67  45.82  45.30  45.04  49.11  41.59
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 real   S12 mem on/off | d0    36.0/ 26.1 | d64   32.2/ 23.7 | d256  34.5/ 25.6 | d448  32.2/ 24.1
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 real   S32 mem on/off | d0    37.7/ 27.5 | d64   37.0/ 28.2 | d256  34.8/ 27.7 | d448  35.0/ 27.9
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 random S12 mem on/off | d0     4.8/  0.0 | d64    3.7/  0.0 | d256   2.7/  0.0 | d448   2.1/  0.0
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 random S32 mem on/off | d0     7.1/  0.0 | d64    6.1/  0.0 | d256   4.0/  0.0 | d448   3.2/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26i_13L_RC2_hola_rand128_150m C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.693 vs other 0.124 | surv 0.261 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.708 vs other 0.122 | surv 0.321 | match top1  93.8% top3  93.8% | median rank 1
+   blk6 xcopy real d0     w 0.126 vs other 0.123 | surv 0.379 | match top1  93.8% top3  99.1% | median rank 1
+   blk6 xcopy real d64    w 0.124 vs other 0.123 | surv 0.367 | match top1  68.8% top3  86.6% | median rank 1
+   blk6 xcopy real d256   w 0.124 vs other 0.123 | surv 0.349 | match top1  62.5% top3  77.7% | median rank 1
+   blk6 xcopy real d448   w 0.121 vs other 0.123 | surv 0.337 | match top1  56.2% top3  75.0% | median rank 1
+   blk6 xcopy random d0   w 0.125 vs other 0.123 | surv 0.379 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.123 vs other 0.123 | surv 0.367 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.123 vs other 0.123 | surv 0.353 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.123 vs other 0.123 | surv 0.340 | match top1 100.0% top3 100.0% | median rank 1
+r26i_13L_RC2_hola_rand128_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2  34.4
+r26i_13L_RC2_hola_rand128_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2   3.1
+r26i_13L_RC2_hola_rand128_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  43.56  38.62  38.76  37.39  36.64  37.08  39.96  34.27
+r26i_13L_RC2_hola_rand128_150m C=1024 E3 ppl by chunk (T=8192) mem off |  46.16  42.51  43.24  41.70  40.08  40.66  43.68  37.27
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 none   S12 mem on/off | d0    31.9/ 28.5 | d64   31.9/ 28.5 | d256  31.9/ 28.5 | d448  31.9/ 28.5
+r26i_13L_RC2_hola_rand128_150m C=1024 E1 none   S32 mem on/off | d0    33.1/ 30.1 | d64   33.1/ 30.1 | d256  33.1/ 30.1 | d448  33.1/ 30.1
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 real   S12 mem on/off | d0    29.1/ 26.0 | d64   28.4/ 23.3 | d256  27.9/ 25.2 | d448  26.4/ 23.1
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 real   S32 mem on/off | d0    30.8/ 27.8 | d64   32.4/ 29.1 | d256  30.2/ 27.3 | d448  30.9/ 28.3
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E2 memory blocks at [6] (one line set per block)
+   blk6 MQAR N8           w 0.802 vs other 0.103 | surv 0.336 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 MQAR N32          w 0.867 vs other 0.102 | surv 0.338 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy real d0     w 0.103 vs other 0.103 | surv 0.362 | match top1  74.1% top3  83.0% | median rank 1
+   blk6 xcopy real d64    w 0.104 vs other 0.103 | surv 0.347 | match top1  59.8% top3  79.5% | median rank 1
+   blk6 xcopy real d256   w 0.103 vs other 0.103 | surv 0.332 | match top1  59.8% top3  82.1% | median rank 1
+   blk6 xcopy real d448   w 0.103 vs other 0.103 | surv 0.323 | match top1  50.0% top3  65.2% | median rank 2
+   blk6 xcopy random d0   w 0.104 vs other 0.103 | surv 0.362 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d64  w 0.106 vs other 0.103 | surv 0.347 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d256 w 0.105 vs other 0.103 | surv 0.331 | match top1 100.0% top3 100.0% | median rank 1
+   blk6 xcopy random d448 w 0.104 vs other 0.103 | surv 0.324 | match top1 100.0% top3 100.0% | median rank 1
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2  93.8 | chunk3  96.9 | chunk4  93.8 | chunk8  81.2 | off@2  12.5
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  46.9 | chunk3  93.8 | chunk4  87.5 | chunk8  43.8 | off@2   3.1
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  41.24  37.26  37.68  36.31  35.55  35.34  38.54  32.88
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E3 ppl by chunk (T=8192) mem off |  41.70  38.59  39.08  37.46  36.45  36.21  39.23  33.40
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 none   S12 mem on/off | d0    30.7/ 28.1 | d64   30.7/ 28.1 | d256  30.7/ 28.1 | d448  30.7/ 28.1
+r26e_13L_H6_chunk1024_xlate_150m C=1024 E1 none   S32 mem on/off | d0    32.3/ 30.6 | d64   32.3/ 30.6 | d256  32.3/ 30.6 | d448  32.3/ 30.6
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E1 real   S12 mem on/off | d0    35.3/ 25.8 | d64   27.4/ 22.7 | d256  28.2/ 24.6 | d448  25.9/ 22.9
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E1 real   S32 mem on/off | d0    35.1/ 27.9 | d64   33.1/ 28.5 | d256  31.4/ 27.4 | d448  31.3/ 28.3
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E1 random S12 mem on/off | d0     0.5/  0.0 | d64    0.4/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E1 random S32 mem on/off | d0     1.0/  0.0 | d64    0.6/  0.0 | d256   0.3/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2  12.5
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  96.9 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   6.2
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  39.95  35.53  35.99  34.73  33.71  33.47  36.97  31.41
+r26g2_13L_RC2_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem off |  40.31  36.68  37.48  36.18  35.02  34.70  38.20  32.41
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E1 real   S12 mem on/off | d0    30.3/ 25.5 | d64   26.8/ 22.7 | d256  28.2/ 24.8 | d448  25.6/ 22.7
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E1 real   S32 mem on/off | d0    31.7/ 28.0 | d64   31.7/ 28.1 | d256  29.8/ 26.8 | d448  29.7/ 26.8
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.1/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E1 random S32 mem on/off | d0     0.4/  0.0 | d64    0.4/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8  96.9 | off@2   9.4
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  90.6 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   6.2
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  46.70  41.29  41.63  40.75  39.36  39.39  42.93  36.34
+r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 E3 ppl by chunk (T=8192) mem off |  47.03  43.04  43.59  42.44  40.86  40.76  44.65  37.62
+r26n_13L_RC2_xlate_150m    C=1024 E1 real   S12 mem on/off | d0    34.9/ 27.1 | d64   30.9/ 23.9 | d256  30.5/ 26.0 | d448  26.0/ 22.5
+r26n_13L_RC2_xlate_150m    C=1024 E1 real   S32 mem on/off | d0    35.6/ 28.0 | d64   33.7/ 28.2 | d256  31.6/ 28.1 | d448  30.3/ 28.4
+r26n_13L_RC2_xlate_150m    C=1024 E1 random S12 mem on/off | d0     0.6/  0.0 | d64    0.5/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+r26n_13L_RC2_xlate_150m    C=1024 E1 random S32 mem on/off | d0     1.4/  0.0 | d64    0.9/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26n_13L_RC2_xlate_150m    C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2  15.6
+r26n_13L_RC2_xlate_150m    C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2   3.1
+r26n_13L_RC2_xlate_150m    C=1024 E3 ppl by chunk (T=8192) mem on  |  40.17  36.23  36.51  35.27  34.50  34.56  37.71  31.82
+r26n_13L_RC2_xlate_150m    C=1024 E3 ppl by chunk (T=8192) mem off |  40.70  37.50  38.05  36.77  35.70  35.80  38.99  32.77
+r26n_13L_RC2_xlate_150m    C=1024 E1 none   S12 mem on/off | d0    30.1/ 28.7 | d64   30.1/ 28.7 | d256  30.1/ 28.7 | d448  30.1/ 28.7
+r26n_13L_RC2_xlate_150m    C=1024 E1 none   S32 mem on/off | d0    31.6/ 30.7 | d64   31.6/ 30.7 | d256  31.6/ 30.7 | d448  31.6/ 30.7
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 real   S12 mem on/off | d0    37.3/ 27.7 | d64   32.2/ 23.4 | d256  31.1/ 25.6 | d448  27.0/ 23.1
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 real   S32 mem on/off | d0    37.6/ 27.5 | d64   35.3/ 28.9 | d256  31.4/ 28.2 | d448  31.2/ 28.3
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 random S12 mem on/off | d0     2.1/  0.0 | d64    1.3/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 random S32 mem on/off | d0     3.3/  0.0 | d64    1.7/  0.0 | d256   0.3/  0.0 | d448   0.3/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26o_13L_RC3_conv_llamakd_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2  18.8
+r26o_13L_RC3_conv_llamakd_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2   3.1
+r26o_13L_RC3_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  38.72  35.00  35.13  33.90  33.07  32.44  35.93  30.56
+r26o_13L_RC3_conv_llamakd_150m C=1024 E3 ppl by chunk (T=8192) mem off |  39.38  36.51  37.09  35.77  34.45  34.02  37.42  31.71
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 none   S12 mem on/off | d0    32.9/ 31.0 | d64   32.9/ 31.0 | d256  32.9/ 31.0 | d448  32.9/ 31.0
+r26o_13L_RC3_conv_llamakd_150m C=1024 E1 none   S32 mem on/off | d0    33.3/ 31.2 | d64   33.3/ 31.2 | d256  33.3/ 31.2 | d448  33.3/ 31.2
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 real   S12 mem on/off | d0    27.8/ 26.1 | d64   25.7/ 23.4 | d256  26.5/ 24.9 | d448  25.7/ 23.7
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 real   S32 mem on/off | d0    29.1/ 27.4 | d64   30.9/ 28.7 | d256  29.1/ 27.3 | d448  29.4/ 28.0
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 random S32 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26k_13L_RC2_hola_seed1_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  90.6 | off@2  15.6
+r26k_13L_RC2_hola_seed1_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  93.8 | chunk3  90.6 | chunk4  96.9 | chunk8  75.0 | off@2   6.2
+r26k_13L_RC2_hola_seed1_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  45.49  41.21  41.49  40.79  40.18  39.81  43.77  37.07
+r26k_13L_RC2_hola_seed1_150m C=1024 E3 ppl by chunk (T=8192) mem off |  45.68  41.66  42.02  41.08  39.97  39.53  43.27  36.64
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 none   S12 mem on/off | d0    28.1/ 27.1 | d64   28.1/ 27.1 | d256  28.1/ 27.1 | d448  28.1/ 27.1
+r26k_13L_RC2_hola_seed1_150m C=1024 E1 none   S32 mem on/off | d0    29.9/ 29.2 | d64   29.9/ 29.2 | d256  29.9/ 29.2 | d448  29.9/ 29.2
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26m_13L_RC2_hola256_150m  C=1024 E1 real   S12 mem on/off | d0    36.4/ 25.0 | d64   31.4/ 22.8 | d256  32.3/ 25.4 | d448  28.9/ 23.4
+r26m_13L_RC2_hola256_150m  C=1024 E1 real   S32 mem on/off | d0    37.9/ 27.4 | d64   35.7/ 28.6 | d256  32.9/ 27.4 | d448  33.2/ 27.8
+r26m_13L_RC2_hola256_150m  C=1024 E1 random S12 mem on/off | d0     6.4/  0.0 | d64    3.2/  0.0 | d256   1.5/  0.0 | d448   1.1/  0.0
+r26m_13L_RC2_hola256_150m  C=1024 E1 random S32 mem on/off | d0     8.8/  0.0 | d64    5.5/  0.0 | d256   3.0/  0.0 | d448   2.2/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26m_13L_RC2_hola256_150m  C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2  15.6
+r26m_13L_RC2_hola256_150m  C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   6.2
+r26m_13L_RC2_hola256_150m  C=1024 E3 ppl by chunk (T=8192) mem on  |  43.46  39.12  39.60  38.22  37.71  37.79  41.29  35.25
+r26m_13L_RC2_hola256_150m  C=1024 E3 ppl by chunk (T=8192) mem off |  43.80  40.59  40.94  39.50  38.48  38.48  41.83  35.54
+r26m_13L_RC2_hola256_150m  C=1024 E1 none   S12 mem on/off | d0    30.3/ 28.2 | d64   30.3/ 28.2 | d256  30.3/ 28.2 | d448  30.3/ 28.2
+r26m_13L_RC2_hola256_150m  C=1024 E1 none   S32 mem on/off | d0    32.5/ 30.1 | d64   32.5/ 30.1 | d256  32.5/ 30.1 | d448  32.5/ 30.1
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26p_13L_RC3_headwd_150m   C=1024 E1 real   S12 mem on/off | d0    31.9/ 25.8 | d64   28.3/ 23.3 | d256  28.1/ 25.5 | d448  25.8/ 22.0
+r26p_13L_RC3_headwd_150m   C=1024 E1 real   S32 mem on/off | d0    33.9/ 28.2 | d64   32.6/ 28.7 | d256  30.7/ 28.1 | d448  30.5/ 28.1
+r26p_13L_RC3_headwd_150m   C=1024 E1 random S12 mem on/off | d0     0.2/  0.0 | d64    0.2/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26p_13L_RC3_headwd_150m   C=1024 E1 random S32 mem on/off | d0     0.3/  0.0 | d64    0.2/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26p_13L_RC3_headwd_150m   C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2  21.9
+r26p_13L_RC3_headwd_150m   C=1024 E3 haystack N32 (chance 3.1) | chunk2  78.1 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   3.1
+r26p_13L_RC3_headwd_150m   C=1024 E3 ppl by chunk (T=8192) mem on  |  41.02  36.92  37.07  36.09  35.38  35.16  38.45  32.84
+r26p_13L_RC3_headwd_150m   C=1024 E3 ppl by chunk (T=8192) mem off |  41.44  38.15  38.46  37.31  36.41  36.27  39.69  33.65
+r26q_13L_RC3_resume10k_150m C=1024 E1 real   S12 mem on/off | d0    32.8/ 26.3 | d64   28.0/ 24.0 | d256  28.1/ 25.5 | d448  26.2/ 24.1
+r26q_13L_RC3_resume10k_150m C=1024 E1 real   S32 mem on/off | d0    34.1/ 28.0 | d64   33.0/ 28.8 | d256  30.3/ 27.3 | d448  30.4/ 27.9
+r26q_13L_RC3_resume10k_150m C=1024 E1 random S12 mem on/off | d0     0.0/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26q_13L_RC3_resume10k_150m C=1024 E1 random S32 mem on/off | d0     0.2/  0.0 | d64    0.1/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26q_13L_RC3_resume10k_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3  96.9 | chunk4 100.0 | chunk8 100.0 | off@2  18.8
+r26q_13L_RC3_resume10k_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3  90.6 | chunk4 100.0 | chunk8  96.9 | off@2   3.1
+r26q_13L_RC3_resume10k_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  41.73  37.60  37.94  36.72  35.56  35.81  38.84  32.92
+r26q_13L_RC3_resume10k_150m C=1024 E3 ppl by chunk (T=8192) mem off |  42.20  38.85  39.44  38.15  36.62  36.84  39.96  33.78
+r26r_13L_RC3_seed1_150m    C=1024 E1 real   S12 mem on/off | d0    34.1/ 26.4 | d64   29.2/ 23.5 | d256  29.2/ 25.4 | d448  25.7/ 22.6
+r26r_13L_RC3_seed1_150m    C=1024 E1 real   S32 mem on/off | d0    35.8/ 27.9 | d64   33.5/ 28.2 | d256  31.4/ 28.0 | d448  30.2/ 28.0
+r26r_13L_RC3_seed1_150m    C=1024 E1 random S12 mem on/off | d0     0.5/  0.0 | d64    0.2/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26r_13L_RC3_seed1_150m    C=1024 E1 random S32 mem on/off | d0     0.8/  0.0 | d64    0.3/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26r_13L_RC3_seed1_150m    C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3  93.8 | chunk4 100.0 | chunk8  96.9 | off@2  21.9
+r26r_13L_RC3_seed1_150m    C=1024 E3 haystack N32 (chance 3.1) | chunk2  96.9 | chunk3 100.0 | chunk4 100.0 | chunk8  93.8 | off@2   9.4
+r26r_13L_RC3_seed1_150m    C=1024 E3 ppl by chunk (T=8192) mem on  |  41.17  36.71  37.22  35.62  35.13  34.58  37.93  32.49
+r26r_13L_RC3_seed1_150m    C=1024 E3 ppl by chunk (T=8192) mem off |  41.79  38.25  38.93  37.23  36.47  35.90  39.15  33.58

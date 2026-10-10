@@ -76,7 +76,7 @@ for arg in a.runs:
     else:
         enc, _ = load_tokenizer(c["vocab"])
     data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
-                      val_tokens=c.get("data_val_tokens"))
+                      val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
     out = []
     for K in [int(k) for k in a.K.split(",")]:
         # (label, question start index, ablate)

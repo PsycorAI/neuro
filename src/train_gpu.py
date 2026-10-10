@@ -76,6 +76,71 @@ def mqar_gap_batch(B, N, g, data, rng, device):
     return x.to(device), tg.to(device)
 
 
+def mqar_scatter_batch(B, N, C, o, data, rng, vocab, device):
+    """Scattered whole-vocab cross-chunk MQAR (p26e, 2026-10-06; flag mqar_xchunk_scatter): N key->value pairs (two
+    adjacent tokens, all 2N distinct ids drawn from the whole vocab) at random pair slots inside C tokens of real TRAIN
+    text (chunk A), then o tokens of text (chunk B) and the query key -> target its value. Same length (C + o + 1) as the
+    mqar_gap_batch it replaces. Unlike that block, the pairs carry no token-range or position cue, so the memory has to
+    learn to write ordinary-looking tokens (E2 diagnostic: the write gate opened only on the MQAR ranges)."""
+    L = C + o
+    starts = rng.randint(0, data.split - L - 1, size=B)
+    x = torch.from_numpy(data.lut[np.stack([np.asarray(data.data[s:s + L], dtype=np.int64) for s in starts])]).long()
+    q = torch.empty(B, 1, dtype=torch.long); tg = torch.empty(B, dtype=torch.long)
+    for i in range(B):
+        kv = torch.from_numpy(rng.choice(vocab - 100, size=2 * N, replace=False) + 100).long()
+        keys, vals = kv[:N], kv[N:]
+        row = x[i]
+        clash = torch.isin(row, keys)
+        while clash.any():                                   # a key must occur only in its pair and the query
+            row[clash] = torch.from_numpy(rng.randint(100, vocab, size=int(clash.sum()))).long()
+            clash = torch.isin(row, keys)
+        slots = torch.from_numpy(np.sort(rng.choice(C // 2, size=N, replace=False)) * 2).long()
+        row[slots] = keys; row[slots + 1] = vals
+        qi = int(rng.randint(0, N))
+        q[i, 0] = keys[qi]; tg[i] = vals[qi]
+    return torch.cat([x, q], 1).to(device), tg.to(device)
+
+
+def mqar_phrase_batch(B, N, C, o, data, rng, device):
+    """Phrase cross-chunk MQAR (p26h, 2026-10-06; mqar_scatter_mode "phrase"): like mqar_scatter_batch, but each key is
+    TWO ordinary text tokens drawn independently from the train stream (an unusual pairing of common words, closer to
+    a name or a fact's subject than one rare token) and the value is one ordinary text token. N (k1 k2 v) triples sit
+    at random slots in chunk A's text, then o tokens of chunk B, then the 2-token query -> its value. Length C + o + 2
+    (o capped at C - 2 so it still pads to 2C). Each key bigram occurs exactly once before the query."""
+    o = min(o, C - 2)
+    L = C + o
+    starts = rng.randint(0, data.split - L - 1, size=B)
+    x = torch.from_numpy(data.lut[np.stack([np.asarray(data.data[s:s + L], dtype=np.int64) for s in starts])]).long()
+    q = torch.empty(B, 2, dtype=torch.long); tg = torch.empty(B, dtype=torch.long)
+    V = int(data.lut.max()) + 1
+    # Key/value tokens: uniform over the DISTINCT tokens of one contiguous 8k-token train window (one sequential read;
+    # flattens the frequency skew, so words rather than mostly punctuation / function tokens).
+    s0 = int(rng.randint(0, data.split - 8193))
+    types = torch.from_numpy(np.unique(data.lut[np.asarray(data.data[s0:s0 + 8192], dtype=np.int64)])).long()
+
+    def text_tokens(n):
+        return types[torch.from_numpy(rng.randint(0, len(types), size=n)).long()]
+
+    i = 0
+    while i < B:
+        row = x[i].clone()
+        k1, k2, v = text_tokens(N), text_tokens(N), text_tokens(N)
+        seen = set((row[:-1] * V + row[1:]).tolist())
+        for j in range(N):                                   # key bigrams: distinct, absent from the text
+            while int(k1[j]) * V + int(k2[j]) in seen:
+                k1[j], k2[j] = text_tokens(1)[0], text_tokens(1)[0]
+            seen.add(int(k1[j]) * V + int(k2[j]))
+        slots = torch.from_numpy(np.sort(rng.choice(C // 3, size=N, replace=False)) * 3).long()
+        row[slots] = k1; row[slots + 1] = k2; row[slots + 2] = v
+        qi = int(rng.randint(0, N))
+        codes = row[:-1] * V + row[1:]
+        if int((codes == int(k1[qi]) * V + int(k2[qi])).sum()) != 1:
+            continue                                         # placement created a duplicate of the query (rare)
+        x[i] = row; q[i, 0], q[i, 1] = k1[qi], k2[qi]; tg[i] = v[qi]
+        i += 1
+    return torch.cat([x, q], 1).to(device), tg.to(device)
+
+
 def _build_optimizers(model, c, device):
     """Build a list of optimizer(s) based on config.
 
@@ -293,6 +358,13 @@ def build_model(c):
             for _b in m.blocks:
                 if hasattr(_b, "qkv"):
                     _b.attn_chunk = _ac
+        # hola_w (2026-10-07, Neuro 53; default 0 = byte-identical): HOLA exact episodic cache in every memory block
+        # (SpikingHebbianBlock.enable_hola), cache boundaries = the attention chunks. Needs gdn2_chunked memory blocks.
+        if int(c.get("hola_w", 0) or 0):
+            assert _ac, "hola_w needs attn_chunk (the cache holds tokens of earlier chunks)"
+            for _b in m.blocks:
+                if hasattr(_b, "enable_hola") and getattr(_b, "gdn2_enabled", False):
+                    _b.enable_hola(int(c["hola_w"]), _ac)
         return m
     return TinyTransformer(c["vocab"], d=c["d"], n_head=c["n_head"],
                            n_layer=c["n_layer"], max_T=c["block_size"])
@@ -379,7 +451,9 @@ def _valppl_watchdog_step(state, full, step, c):
             f"now {signal:.2f}" + (f" (ema; raw {full:.2f})" if alpha else "")
             + f" ({(signal / best - 1) * 100:+.1f}%)"
             + (f" | DIVERGING x{state['valppl_hits']}" if over else ""))
-    tripped = bool(c.get("watchdog_enabled", True)
+    # watchdog_valppl_only (2026-10-09, default off = unchanged): arms THIS tripwire alone with watchdog_enabled
+    # false. RC3 needs it: the gate tripwires below false-trip there (at_floor 99%, dstd 6.8 are normal with HOLA).
+    tripped = bool((c.get("watchdog_enabled", True) or c.get("watchdog_valppl_only", False))
                    and step > c.get("watchdog_grace_steps", 1500)
                    and state["valppl_hits"] >= c.get("watchdog_valppl_patience", 2))
     return line, tripped
@@ -533,6 +607,14 @@ def main():
         print(f"STATEFUL streaming enabled: {c['batch_size']} contiguous cursors, "
               f"TBPTT across {c['block_size']}-token chunks")
     raw_model = build_model(c).to(device)
+    # spike_theta_frozen (2026-10-07, Neuro 53; default off = unchanged): keep every SpikeCode threshold at its calibrated
+    # value. Learned thresholds drift DOWN in long conversions (p26u: 2x calibration, 120M tok -> energy 10.3x -> 8.5x),
+    # buying ppl back with spikes; frozen, the weights adapt instead and the energy stays where it was set.
+    if c.get("spike_theta_frozen", False):
+        from spike_code import SpikeCode
+        for _m in raw_model.modules():
+            if isinstance(_m, SpikeCode):
+                _m.theta.requires_grad_(False)
     nparams = sum(p.numel() for p in raw_model.parameters())
     opts = _build_optimizers(raw_model, c, device)
 
@@ -641,6 +723,13 @@ def main():
     # attn_window_long_frac of steps and every eval use full. The draw is keyed on (seed, step) -- no RNG stream is
     # consumed, so data/MQAR draws stay identical to the control and a resume reproduces the same windows.
     _win_short = int(c.get("attn_window_short", 0))
+    # attn_chunk_short (2026-10-07, Neuro 53; default 0 = byte-identical): SWAX-style stochastic CHUNK size (2509.24552
+    # randomises the window: 128 w.p. 0.5 else 2048, fixed for the last 10%). With prob attn_chunk_short_p a step's
+    # forward/backward uses aligned chunks of attn_chunk_short instead of attn_chunk, so ordinary text crosses chunk
+    # boundaries and the LM loss itself trains the memory to carry real text (E2: the write gate opened only for MQAR).
+    # Fixed attn_chunk for the last attn_chunk_anneal_frac and for every eval; draws keyed on (seed, step) like above.
+    _chunk_short = int(c.get("attn_chunk_short", 0) or 0)
+    _chunk_blocks = [b for b in raw_model.blocks if hasattr(b, "qkv")] if _chunk_short else []
     _attn_blocks = [b for b in raw_model.blocks if hasattr(b, "qkv")] if _win_short else []
     if _win_short:
         print(f"stochastic attention window: {_win_short} w.p. {c.get('attn_window_p', 0.5)}, else full; "
@@ -679,6 +768,11 @@ def main():
     ckdir = f"/home/glenn/projects/neuro/models/checkpoints/{c['run_name']}"
     os.makedirs(ckdir, exist_ok=True)
     step, tokens = 0, 0
+    # RESUME LR BUG (found 2026-10-10, r26q): the schedule's base LRs were read from the param groups AFTER the
+    # checkpoint's optimizer state was loaded, and that state holds the already-SCHEDULED lr of the save step -> every
+    # resume multiplied the LR by lr_scale(save step) again (r26q: x0.17 after a resume at 82% -> the last 18% of the
+    # run barely trained; r26k / r26m: flat val_ppl after their resumes). Read them from the fresh optimizers instead.
+    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
     cks = sorted(glob.glob(f"{ckdir}/step_*.pt"))
     if cks:
         s = torch.load(cks[-1], map_location=device, weights_only=False)
@@ -753,8 +847,6 @@ def main():
             return lr_min_frac + (1 - lr_min_frac) * (1 - min(1.0, p))
         raise ValueError(f"lr_schedule must be 'cosine' or 'wsd', got {lr_schedule!r}")
 
-    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
-
     # Optional lam (Hebbian decay) warmup: ramp from lam_start to lam_end over the
     # first lam_ramp_frac of training, then hold. Lets the model learn an easy
     # short-memory base early, then build long-lived memory late.
@@ -814,6 +906,13 @@ def main():
             _draw = np.random.RandomState((int(c.get("seed", 0)) * 1000003 + step) % (2 ** 32)).rand()
             _w = _win_short if (not _long and _draw < float(c.get("attn_window_p", 0.5))) else 0
             for _b in _attn_blocks: _b.attn_window = _w
+        if _chunk_short:
+            _late = step >= (1.0 - float(c.get("attn_chunk_anneal_frac", 0.1))) * total_steps
+            _cdraw = np.random.RandomState((int(c.get("seed", 0)) * 1000033 + step) % (2 ** 32)).rand()
+            _cs = _chunk_short if (not _late and _cdraw < float(c.get("attn_chunk_short_p", 0.5))) else int(c["attn_chunk"])
+            for _b in _chunk_blocks: _b.attn_chunk = _cs
+            for _b in raw_model.blocks:                      # HOLA cache boundaries follow the attention chunks
+                if getattr(_b, "hola_w", 0): _b.hola_chunk = _cs
         if _sglu_blocks:
             _kc = spikeglu_k_at(c, step, total_steps)
             for _b in _sglu_blocks: _b.ffn.k_cur = _kc
@@ -1070,8 +1169,20 @@ def main():
                         else:
                             g_mq = int(_mqar_gap_rng.randint(0, _cur + 1))
                             _B_mq = int(c.get("mqar_batch", c["batch_size"]))
-                        x_mq, tgt_mq = mqar_gap_batch(_B_mq * _mq_mult, N_mq, g_mq,
-                                                      data, _mqar_gap_rng, device)
+                        # mqar_xchunk_scatter (p26e, 2026-10-06; default 0 = byte-identical, RNG untouched): with this
+                        # probability an xchunk batch scatters whole-vocab kv pairs through chunk A's real text instead
+                        # of the range-coded block at its start (mqar_scatter_batch).
+                        _sc = float(c.get("mqar_xchunk_scatter", 0) or 0)
+                        if _xc and _sc > 0 and _mqar_gap_rng.rand() < _sc:
+                            if c.get("mqar_scatter_mode", "vocab") == "phrase":   # p26h: 2-token text keys
+                                x_mq, tgt_mq = mqar_phrase_batch(_B_mq * _mq_mult, N_mq, _C, g_mq - _C + 2 * N_mq,
+                                                                 data, _mqar_gap_rng, device)
+                            else:
+                                x_mq, tgt_mq = mqar_scatter_batch(_B_mq * _mq_mult, N_mq, _C, g_mq - _C + 2 * N_mq,
+                                                                  data, _mqar_gap_rng, c["vocab"], device)
+                        else:
+                            x_mq, tgt_mq = mqar_gap_batch(_B_mq * _mq_mult, N_mq, g_mq,
+                                                          data, _mqar_gap_rng, device)
                         if _gs is not None:
                             _mq_w = c.get("mqar_gap_weight", _mq_w)
                     else:
@@ -1112,6 +1223,10 @@ def main():
                         F.cross_entropy(lg_nf, tgt_nf)
                 loss = main_loss / c["grad_accum"]
             loss.backward()
+        if _chunk_short:                                     # evals (after the step) always see the full chunk
+            for _b in _chunk_blocks: _b.attn_chunk = int(c["attn_chunk"])
+            for _b in raw_model.blocks:
+                if getattr(_b, "hola_w", 0): _b.hola_chunk = int(c["attn_chunk"])
         # NaN/Inf guard (added 2026-08-07). Without this, a numerical blowup
         # (autocast boundary, unstable delta-rule state, corrupt data batch)
         # produces NaN grads → clip_grad_norm_ returns NaN → opts.step()

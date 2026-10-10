@@ -1,0 +1,26 @@
+[INFO 10-09 20:03:54] alert_watch started
+[DONE 10-09 20:03:57] test: alerts are live (r26p training on the 5090)
+[DONE 10-09 20:26:09] KD slice built: [OK] /mnt/g/neuro_corpus_v4/train_kd_slice_u32.bin: 2,014,527,194 tokens (7.50 GiB), val tail 14,527,194
+[ALERT 10-09 22:41:46] rehearsal: KD slice copy failed
+[INFO 10-09 22:44:51] cloud dress rehearsal started on the 5080
+[INFO 10-10 00:17:29] r26p_13L_RC3_headwd_150m started on the 5090
+[DONE 10-10 00:17:29] r26p_13L_RC3_headwd_150m chunk1 38.92 (r26n 38.09, +2.2%) val 39.74 | N8:  98.4 100.0 100.0 100.0 (mem off  11.7) | N32:  75.8 100.0  99.2 100.0 (mem off   4.7)
+[INFO 10-10 00:17:30] r26q_13L_RC3_resume10k_150m started on the 5090
+[ALERT 10-10 00:41:52] queue log: [wd 10-10 00:40:27] [v4_reh_conv] log silent 28 min -> SIGTERM 34991
+[INFO 10-10 00:43:06] rehearsal conversion: planned restart at B1xGA8 (5080 spill) -- its exit=143 is expected
+[INFO 10-10 00:44:53] rehearsal conversion: planned restart at B1xGA8 (5080 spill) -- its exit=143 is expected
+[DONE 10-10 02:01:54] rehearsal PASSED end to end: dense val 150.64 -> conv val 142.07, chunk1 123.29, energy ? (7L, 56M tok; pipeline check, not a quality number)
+[INFO 10-10 03:18:16] r26q_13L_RC3_resume10k_150m: PLANNED stop after step 10000 (resume control) -- the exit=143 alert that follows is expected
+[WARN 10-10 03:18:23] r26q_13L_RC3_resume10k_150m attempt 1 ended early (step 10000 | 163.8M tok | loss ) -> auto-resume
+[ALERT 10-10 03:19:58] queue log: [s0 10-10 03:18:23] [r26q_13L_RC3_resume10k_150m] exit=143 :: 148.42 92.92 91.54 87.42 74.44 60.45 52.57 47.95 46.37 43.00
+[DONE 10-10 04:19:25] r26q_13L_RC3_resume10k_150m chunk1 39.56 (r26n 38.09, +3.9%) val 40.29 | N8:  99.2 100.0 100.0 100.0 (mem off  10.2) | N32:  99.2  99.2 100.0 100.0 (mem off   5.5)
+[INFO 10-10 04:19:26] r26r_13L_RC3_seed1_150m started on the 5090
+[DONE 10-10 04:24:09] ROOT CAUSE FOUND + FIXED: every resume shrank the learning rate (x0.17 late in a run). r26k/r26m/r26q were hit by it. Confirmation run r26t queued. Details in chat / to-do.
+[DONE 10-10 04:47:02] screen_p26za_7L_RC3_x50 chunk1 ? val 60.28 | 
+[WARN 10-10 05:33:39] screen_p26zb_7L_RC3_x20 attempt 1 ended early (step 100 | 1.6M tok | loss 12. ) -> auto-resume
+[ALERT 10-10 05:34:17] queue log: [wd 10-10 05:33:31] [screen_p26zb_7L_RC3_x20] log silent 29 min -> SIGTERM 60750
+[ALERT 10-10 05:34:18] queue log: [s1 10-10 05:33:39] [screen_p26zb_7L_RC3_x20] exit=143 ::
+[DONE 10-10 08:25:04] screen_p26zb_7L_RC3_x20 chunk1 55.39 val 59.56 | 
+[DONE 10-10 08:29:34] screen_p26za_7L_RC3_x50 chunk1 55.99 val 60.28 | 
+[DONE 10-10 08:35:17] r26r_13L_RC3_seed1_150m chunk1 38.65 (r26n 38.09, +1.5%) val 39.28 | N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32: 100.0  99.2  99.2  99.2 (mem off   3.9)
+[INFO 10-10 08:35:18] r26t_13L_RC3_resume10k_fix_150m started on the 5090

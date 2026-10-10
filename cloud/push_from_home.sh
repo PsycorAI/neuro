@@ -9,10 +9,11 @@ cd /home/glenn/projects/neuro
 $SSH root@$H "mkdir -p /workspace/neuro/data /workspace/data/tokenized_v4 /workspace/neuro/logs /workspace/neuro/models/checkpoints"
 rsync -az --info=progress2 -e "$SSH" src scripts cloud root@$H:/workspace/neuro/
 $SSH root@$H "mkdir -p /workspace/neuro/temp"
-rsync -az -e "$SSH" temp/profile_train.py temp/haystack_recall_eval.py root@$H:/workspace/neuro/temp/
-rsync -az -e "$SSH" configs/v4_cloud.yaml root@$H:/workspace/neuro/configs/
+rsync -az -e "$SSH" temp/profile_train.py temp/haystack_recall_eval.py temp/mk_spike_seed.py \
+    root@$H:/workspace/neuro/temp/
+rsync -az -e "$SSH" configs/v4_cloud.yaml configs/v4_cloud_conv.yaml configs/v4_cloud_bench.yaml \
+    root@$H:/workspace/neuro/configs/
 rsync -az -e "$SSH" data/vocab_map_32768.npy root@$H:/workspace/neuro/data/
-rsync -a --partial --info=progress2 -e "$SSH" \
-    /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin \
-    /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.json root@$H:/workspace/data/tokenized_v4/
-echo "[push] done"
+# 2026-10-09: the corpus no longer goes over this DSL line (46 GB = ~80 h). Glenn uploads the pieces to Google Drive;
+# on the instance run: bash /workspace/neuro/cloud/pull_corpus.sh
+echo "[push] done -- next on the instance: setup_instance.sh, then pull_corpus.sh"

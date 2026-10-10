@@ -20,7 +20,7 @@ for arg in a.runs:
         if hasattr(b, "qkv"):
             b.attn_chunk = C
     data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
-                      val_tokens=c.get("data_val_tokens"))
+                      val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
     res = {}
     for mode in ("none", "in", "x", "x off"):
         np.random.seed(11); rng = np.random.RandomState(5)

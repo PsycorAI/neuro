@@ -29,7 +29,7 @@ for arg in sys.argv[1:]:
     name, path = arg.split("=", 1)
     s = torch.load(path, map_location="cpu", weights_only=False); c = dict(s["cfg"])
     m = build_model(c).to("cuda"); m.load_state_dict(s["model"], strict=False); m.eval(); del s
-    data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256))
+    data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256), prelut=c.get("data_prelut", False))
     res = {}
     for N in NS:
         for g in GAPS:

@@ -23,11 +23,18 @@ if c.get("head_rank") and sd["head.weight"].shape[1] != int(c["head_rank"]):
 miss = m.load_state_dict(sd, strict=False)
 assert all(k.split(".")[-1] == "theta" for k in miss.missing_keys), miss.missing_keys[:5]
 data = StreamText(c.get("data_bin", BIN), vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
-                  val_tokens=c.get("data_val_tokens"))
+                  val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
 np.random.seed(123)
 T = int(c["block_size"])
 with torch.autocast("cuda", dtype=torch.bfloat16):
     n = calibrate(m, [data.batch(4, T, "train", "cuda")[0] for _ in range(2)], scale=scale)
+# SITE_SCALE env (2026-10-07, Neuro 53; unset = unchanged): extra per-site threshold multipliers after the global
+# calibration, e.g. SITE_SCALE="head=2,up=2" -> raise thresholds only where the energy is (head / MLP input).
+SITE = {"sc_head": "head", "sc_in": "mem", "sc_head_mid": "head_mid"}
+_ss = dict(kv.split("=") for kv in os.environ.get("SITE_SCALE", "").split(",") if kv)
+for nm, mm in m.named_modules():
+    if _ss and isinstance(mm, SpikeCode) and SITE.get(nm.split(".")[-1], nm.split(".")[-1]) in _ss:
+        mm.theta.data.mul_(float(_ss[SITE.get(nm.split(".")[-1], nm.split(".")[-1])]))
 
 
 def ppl(model):

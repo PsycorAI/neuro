@@ -1,0 +1,12 @@
+[run_v4 10-09 22:44:51] start/resume v4_reh
+[run_v4 10-09 23:59:52] v4_reh exit=0
+[OK] 38 spike codes calibrated (scale 1.0) | zero-shot ppl dense 130.33 -> coded 152.03 | mean spikes/input 0.827 | saved models/checkpoints/v4_reh_conv @ step 2442
+[run_v4 10-10 00:00:27] start/resume v4_reh_conv
+[run_v4 10-10 00:40:28] v4_reh_conv exit=143
+[run_v4 10-10 00:41:26] start/resume v4_reh_conv
+[run_v4 10-10 00:43:06] v4_reh_conv exit=143
+[run_v4 10-10 00:44:04] start/resume v4_reh_conv
+[run_v4 10-10 00:44:53] v4_reh_conv exit=143
+[run_v4 10-10 00:45:51] start/resume v4_reh_conv
+[run_v4 10-10 01:56:07] v4_reh_conv exit=0
+[run_v4 10-10 01:56:07] ALL DONE

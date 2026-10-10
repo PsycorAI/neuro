@@ -1,2 +1,42 @@
-[demo] screen_r22a_x1_s0_30m: 89.9M params, 1 spiking + 3 attention layers, context 512 -> http://localhost:8765
 [transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[demo] sft_v3_363m: 426.5M params, 8 spiking + 1 attention layers, context 512 -> http://localhost:8765
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 61789)
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/scripts/demo/server.py", line 270, in do_POST
+    new_text, reply = DEMO.run(hist, req["text"], chat, maxt, temp, bool(req.get("ablate")), seed, emit,
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/server.py", line 202, in run
+    emit(dict(type="token", kind="gen", text=self.decode([out_ids[-1]]),
+  File "/home/glenn/projects/neuro/scripts/demo/server.py", line 260, in emit
+    self.wfile.write(f"data: {json.dumps(ev)}\n\n".encode()); self.wfile.flush()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 840, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/glenn/projects/neuro/scripts/demo/server.py", line 281, in do_POST
+    emit(dict(type="error", msg=f"{type(e).__name__}: {e}"))
+  File "/home/glenn/projects/neuro/scripts/demo/server.py", line 260, in emit
+    self.wfile.write(f"data: {json.dumps(ev)}\n\n".encode()); self.wfile.flush()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 840, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------

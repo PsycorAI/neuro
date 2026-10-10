@@ -261,6 +261,9 @@ def main():
     print(f"loaded student init: {init}")
 
     opts = build_optimizers(student, c, device)
+    # Base LRs from the FRESH optimizers, before a resume loads optimizer state: that state holds the already-scheduled
+    # lr, and reading it as the base multiplied the LR by lr_scale(save step) on every resume (train_gpu, 2026-10-10).
+    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
 
     # ---- teacher ----------------------------------------------------------
     teacher_id = c["opd_teacher"]
@@ -317,7 +320,6 @@ def main():
         pr = (s - warmup) / max(1, total_steps - warmup)
         return lr_min_frac + (1 - lr_min_frac) * 0.5 * (1 + math.cos(math.pi * min(1.0, pr)))
 
-    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
     gen_check_every = c.get("gen_check_every", c.get("ckpt_every", 500))
     gen_check_prompt = c.get("gen_check_prompt",
                              PROMPT_FMT.format(message="What is the capital of France?"))

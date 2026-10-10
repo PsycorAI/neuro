@@ -701,6 +701,47 @@ class SpikingHebbianBlock(nn.Module):
         o = F.scaled_dot_product_attention(q, k, v, attn_mask=band)
         return o.transpose(1, 2).reshape(B, T, -1) * self.swa_gate.to(o.dtype)
 
+    # --- HOLA hippocampus (2026-10-07, Neuro 53; arXiv 2607.02303; off unless enable_hola is called) ----------------
+    # A bounded EXACT episodic store next to the compressive delta-rule state: at every attention-chunk boundary keep
+    # the top-`w` earlier tokens by |u_t| (the correction the delta rule actually committed = write strength x
+    # prediction residual, i.e. "surprise"); queries in a chunk read those exact (k, v) pairs by a sharpened softmax
+    # (decoupled RMSNorm-gamma on q and k, plus a null sink) and add lambda * read to the state read (lambda zero-init:
+    # the model starts exactly as without it). Only tokens of EARLIER chunks enter the cache -> causal by construction.
+    def enable_hola(self, w=64, chunk=0):
+        D = self.d_mem
+        self.hola_w, self.hola_chunk = int(w), int(chunk)
+        self.hola_gq = nn.Parameter(torch.ones(D))
+        self.hola_gk = nn.Parameter(torch.ones(D))
+        self.hola_lam = nn.Parameter(torch.zeros(D))
+        self.hola_sink = nn.Parameter(torch.zeros(D))
+
+    def _hola_read(self, q, k, v, score):
+        B, T, D = q.shape
+        C, W = int(self.hola_chunk), int(self.hola_w)
+        if not C or C >= T:
+            return torch.zeros_like(v)
+        rms = lambda t: t * torch.rsqrt(t.float().pow(2).mean(-1, keepdim=True) + 1e-6).to(t.dtype)
+        qn, kn = rms(q) * self.hola_gq.to(q.dtype), rms(k) * self.hola_gk.to(k.dtype)
+        sink = self.hola_sink.to(q.dtype)
+        scale = D ** -0.5
+        parts = [torch.zeros_like(v[:, :C])]
+        cache_idx = cache_sc = None
+        for j in range(1, -(-T // C)):
+            lo, hi = (j - 1) * C, j * C
+            cand_idx = torch.arange(lo, hi, device=q.device).unsqueeze(0).expand(B, -1)
+            cand_sc = score[:, lo:hi]
+            if cache_idx is not None:
+                cand_idx, cand_sc = torch.cat([cache_idx, cand_idx], 1), torch.cat([cache_sc, cand_sc], 1)
+            top = cand_sc.topk(min(W, cand_sc.shape[1]), dim=1)
+            cache_idx, cache_sc = cand_idx.gather(1, top.indices), top.values
+            g = cache_idx.unsqueeze(-1).expand(-1, -1, D)
+            Kc, Vc = kn.gather(1, g), v.gather(1, g)                       # (B, W, D) exact pairs
+            Qj = qn[:, hi:hi + C]
+            logits = torch.cat([torch.bmm(Qj, Kc.transpose(1, 2)), (Qj * sink).sum(-1, keepdim=True)], -1) * scale
+            att = torch.softmax(logits.float(), dim=-1).to(v.dtype)[..., :-1]   # null sink: weight on "nothing"
+            parts.append(torch.bmm(att, Vc))
+        return torch.cat(parts, 1)[:, :T] * self.hola_lam.to(v.dtype)
+
     def forward_sequence(self, x_seq, mem, M, prev_spk, ablate_memory=False,
                          fpt_K=10):
         """FPT-parallel forward over the whole sequence.
@@ -891,6 +932,12 @@ class SpikingHebbianBlock(nn.Module):
                                 spk_for_qv, v_in, k_in, b_seq, w_seq, alpha_seq, q_in, M,
                                 chunk=self.gdn2_chunk_size,
                                 ckpt_chunks=self.training and self.gdn2_ckpt_chunks)
+                        elif getattr(self, "hola_w", 0):
+                            # HOLA (2026-10-07): also return |u_t|, the committed correction = cache eviction score
+                            r_in, M, _hola_score = gdn2_chunked_dense(
+                                v_in, k_in, q_in, b_seq, w_seq, alpha_seq, M, chunk=self.gdn2_chunk_size,
+                                ckpt_chunks=self.training and self.gdn2_ckpt_chunks, want_u=True)
+                            r_in = r_in + self._hola_read(q_in, k_in, v_in, _hola_score)
                         else:
                             r_in, M = gdn2_chunked_dense(v_in, k_in, q_in, b_seq, w_seq, alpha_seq, M,
                                                          chunk=self.gdn2_chunk_size,

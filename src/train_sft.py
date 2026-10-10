@@ -292,6 +292,9 @@ def main():
               f"({100*n_ap/n_all:.2f}% of {n_all/1e6:.1f}M) trainable")
 
     opts = build_optimizers(model, c, device)
+    # Base LRs from the FRESH optimizers, before a resume loads optimizer state: that state holds the already-scheduled
+    # lr, and reading it as the base multiplied the LR by lr_scale(save step) on every resume (train_gpu, 2026-10-10).
+    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
 
     # Generation sanity-check (see gen_check() docstring). Default ON at
     # ckpt_every cadence; set gen_check_every: 0 to disable.
@@ -334,7 +337,6 @@ def main():
         p = (s - warmup_steps) / max(1, total_steps - warmup_steps)
         return lr_min_frac + (1 - lr_min_frac) * 0.5 * (1 + math.cos(math.pi * min(1.0, p)))
 
-    base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
     print(f"arch={c['arch']} params={nparams:.2f}M device={device} | "
           f"per_step_tok={per_step_tok} | total_steps≈{total_steps} | warmup={warmup_steps}\n")
 

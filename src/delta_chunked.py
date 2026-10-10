@@ -360,7 +360,7 @@ def gdn2_sequential(v_seq, k_seq, q_seq, b_seq, w_seq, alpha_seq, M_init):
     return out, M
 
 
-def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16):
+def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16, want_u=False):
     """One chunk of gdn2_chunked_dense (pure function of tensor args, safe
     checkpoint target). Two-level GLA-style gating: intra-sub-block decay
     ratios exp(cs_t - cs_s) computed directly per (t,s,channel) pair (bounded
@@ -382,8 +382,8 @@ def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16):
         # instead: kn=v=q=b=0 and LogA=0 (alpha=1) rows give zero A/Bm rows+cols,
         # zero U, zero k_carry and leave cs[-1] unchanged -> exact no-op.
         z = lambda t: torch.nn.functional.pad(t, (0, 0, 0, pad))
-        S, r = _gdn2_dense_chunk(S, z(kn), z(v), z(q), z(b), z(LogA), sub)
-        return S, r[:, :C]
+        out = _gdn2_dense_chunk(S, z(kn), z(v), z(q), z(b), z(LogA), sub, want_u)
+        return (out[0], out[1][:, :C]) + ((out[2][:, :C],) if want_u else ())
     work = kn.dtype
     dev = kn.device
     # CUMSUM_EAGER_MAX_B (2026-10-04, default 0 = byte-identical): Inductor's SplitScan codegen crashes on this cumsum
@@ -443,11 +443,13 @@ def _gdn2_dense_chunk(S, kn, v, q, b, LogA, sub=16):
     gC = cs[:, -1:]                                                # (B,1,K) log Gamma_C
     k_carry = torch.exp(gC - cs) * kn                              # (Gamma_C/Gamma_s)*kn <= kn
     S = torch.exp(gC).transpose(1, 2) * S + torch.bmm(k_carry.transpose(1, 2), U)
+    if want_u:   # HOLA (2026-10-07): |u_t| = the correction actually committed to the state (write x residual)
+        return S, r, U.norm(dim=-1).detach()
     return S, r
 
 
 def gdn2_chunked_dense(v_seq, k_seq, q_seq, b_seq, w_seq, alpha_seq, M_init,
-                       chunk=64, ckpt_chunks=False):
+                       chunk=64, ckpt_chunks=False, want_u=False):
     """Chunkwise-parallel GDN-2 with the FULL DENSE state -- no head splitting.
 
     Exact WY-form reassociation of gdn2_sequential's recurrence (same math,
@@ -497,16 +499,25 @@ def gdn2_chunked_dense(v_seq, k_seq, q_seq, b_seq, w_seq, alpha_seq, M_init,
             v_seq.requires_grad or k_seq.requires_grad or S.requires_grad
             or q_seq.requires_grad or b_seq.requires_grad or w_seq.requires_grad
             or alpha_seq.requires_grad)
+        u_parts = []
         for start in range(0, T, chunk):
             end = min(start + chunk, T)
             args = (S, Kn[:, start:end], WV[:, start:end], Q[:, start:end],
                     Bg[:, start:end], LogA[:, start:end])
-            if grad_on:
+            if want_u:   # HOLA (2026-10-07; default off = the unchanged path below)
+                if grad_on:
+                    S, r, un = _ckpt(_gdn2_dense_chunk, *args, 16, True, use_reentrant=False)
+                else:
+                    S, r, un = _gdn2_dense_chunk(*args, 16, True)
+                u_parts.append(un)
+            elif grad_on:
                 S, r = _ckpt(_gdn2_dense_chunk, *args, use_reentrant=False)
             else:
                 S, r = _gdn2_dense_chunk(*args)
             r_parts.append(r)
         r_out = torch.cat(r_parts, dim=1)
+    if want_u:
+        return r_out.to(v_seq.dtype), S.transpose(1, 2).to(M_init.dtype), torch.cat(u_parts, dim=1)
     return r_out.to(v_seq.dtype), S.transpose(1, 2).to(M_init.dtype)
 
 

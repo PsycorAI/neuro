@@ -967,3 +967,597 @@
 [n53 10-07 02:48:19] 5090 queue (r25x, r26c) starting
   recall  screen_p26m_7L_polish |   59% |   47% |   53% |   34% |   34%
 [q0 10-07 02:50] r25z (way 2, memory at 4+9): chunk1 48.45 (+16%), cross-chunk CHANCE, instability -> closed-neg; Neuro 53 queue owns the 5090 next
+  [r25x_13L_spk_kd_sc10_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.27 -> coded 56.30 | mean spikes/input 0.814 | saved models/checkpoints/r25x_13L_spk_kd_sc10_150m @ step 12208
+[g0 10-07 02:48:40] [r25x_13L_spk_kd_sc10_150m] START
+  haystack (gap 0/64/192/440) screen_p26m_7L_polish N8:  50.8  89.5  90.2  90.6 | N32:  46.5  71.9  75.4  75.8
+[s1 10-07 02:48:42] scheduler DONE
+[s1 10-07 02:49:42] [screen_p26s_7L_p25o_seed1] before START -- GPU 1 in use (util 95%), waiting for it to be free
+  r25-evals screen_p26m_7L_polish      C=512 T=1024 | chunk1   76.95 (mem off   85.39) | chunks2+   75.20 (off   84.84, Δ +9.65) | first64 of 2+   81.38 (off   98.07, Δ +16.69) vs first64 of chunk1  103.69
+  r25-evals screen_p26m_7L_polish      C=512 N8:  76.6  85.9  86.7  78.1 (mem off  13.3) | N32:  71.9  67.2  72.7  64.8 (mem off   0.8)
+  r25-evals screen_p26m_7L_polish      C=512 | K1 in@0  13.0 | K1 in@200   6.2 | K1 x@0   5.2 | K1 x@200   4.2 | K1 x@0 off   5.7 | K1 in@0 para   6.8 | K1 x@0 para   5.2 | K4 in@0  12.0 | K4 in@200   6.8 | K4 x@0   8.3 | K4 x@200   9.9 | K4 x@0 off   9.9 | K4 in@0 para   8.9 | K4 x@0 para   5.7
+  r25-evals screen_p26m_7L_polish        C=512 xcopy top1 | none  27.7 | in-window  29.2 | beyond (memory)  27.3 | beyond mem-off  22.7
+[s1 10-07 02:52:27] [screen_p26m_7L_polish] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-07 02:52:27] scheduler waiting for GPU 1 lock
+[n53 10-07 02:55] p26m polish (p26e + 25M, scatter 0.25, no KD) = val_ppl 75.05 (p26e 77.03, p25o 66.04): recovers only ~2 of 11 pts at end-of-cosine LR; memory gains KEPT (real-text copy beyond control +5.6-6.4 near boundary = best so far; gate on unusual tokens 0.20) but multi-chunk retention weaker (N32 28% at chunk 8). p26n (+KD from p25o) next.
+[s1 10-07 02:56:43] [screen_p26s_7L_p25o_seed1] START
+[s1 10-07 04:34:50] [screen_p26s_7L_p25o_seed1] exit=0 :: 152.20 97.25 76.88 76.04 68.11 64.36 
+  recall screen_p26s_7L_p25o_seed1 |   78% |   81% |   66% |   62% |   47%
+  haystack (gap 0/64/192/440) screen_p26s_7L_p25o_seed1 N8:  77.0  94.5  92.6  93.4 | N32:  62.1  87.5  86.3  84.8
+[s1 10-07 04:39:27] scheduler DONE
+  r25-evals screen_p26s_7L_p25o_seed1  C=512 T=1024 | chunk1   67.28 (mem off   70.43) | chunks2+   65.48 (off   70.20, Δ +4.71) | first64 of 2+   74.19 (off   86.91, Δ +12.72) vs first64 of chunk1   94.23
+  r25-evals screen_p26s_7L_p25o_seed1  C=512 N8:  88.3  92.2  94.5  90.6 (mem off  14.1) | N32:  85.9  79.7  82.8  82.0 (mem off   3.1)
+  r25-evals screen_p26s_7L_p25o_seed1  C=512 | K1 in@0  18.8 | K1 in@200   3.6 | K1 x@0   4.2 | K1 x@200   5.7 | K1 x@0 off   4.7 | K1 in@0 para   6.8 | K1 x@0 para   4.7 | K4 in@0  12.5 | K4 in@200  10.4 | K4 x@0  13.0 | K4 x@200  12.0 | K4 x@0 off  13.0 | K4 in@0 para  10.4 | K4 x@0 para   7.8
+  r25-evals screen_p26s_7L_p25o_seed1    C=512 xcopy top1 | none  29.8 | in-window  34.9 | beyond (memory)  27.1 | beyond mem-off  24.4
+[s1 10-07 04:41:27] [screen_p26n_7L_polish_kd] before RESUME -- GPU 1 in use (util 73%), waiting for it to be free
+[s1 10-07 04:43:31] [screen_p26s_7L_p25o_seed1] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-07 04:48:28] [screen_p26n_7L_polish_kd] RESUME
+[n53 10-07 04:55] p26s (p25o seed 1) = val_ppl 64.36 vs seed 0 66.04 -> 7L seed noise ~2.5%; scatter cost (72.2-72.8) is real (+10-13%). p26n running (flock ran p26s first).
+[g0 10-07 05:07:39] [r25x_13L_spk_kd_sc10_150m] exit=0 :: 45.97 43.77 41.73 40.18 39.19 
+  recall r25x_13L_spk_kd_sc10_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r25x_13L_spk_kd_sc10_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r25x_13L_spk_kd_sc10_150m  C=512 T=1024 | chunk1   41.75 (mem off   42.19) | chunks2+   40.02 (off   42.45, Δ +2.43) | first64 of 2+   46.84 (off   59.82, Δ +12.98) vs first64 of chunk1   63.79
+  r25-evals r25x_13L_spk_kd_sc10_150m  C=512 N8: 100.0  99.2 100.0 100.0 (mem off  12.5) | N32:  96.9 100.0 100.0 100.0 (mem off   3.9)
+  r25-evals r25x_13L_spk_kd_sc10_150m  C=512 | K1 in@0  91.7 | K1 in@200  54.2 | K1 x@0   3.6 | K1 x@200   6.8 | K1 x@0 off   5.2 | K1 in@0 para  28.1 | K1 x@0 para   4.7 | K4 in@0  20.3 | K4 in@200  16.7 | K4 x@0   7.8 | K4 x@200  13.5 | K4 x@0 off   7.8 | K4 in@0 para  15.6 | K4 x@0 para   9.9
+  r25-evals r25x_13L_spk_kd_sc10_150m    C=512 xcopy top1 | none  34.0 | in-window  50.4 | beyond (memory)  30.6 | beyond mem-off  27.6
+  energy r25x_13L_spk_kd_sc10_150m    energy  122.3 uJ/tok vs dense  626.1 -> 5.12x | MAC   2.2M AC 124.6M (dense 136.1M) | top: head 34.3uJ, up 29.2uJ, qkv 20.5uJ, attn_gate 6.8uJ, o_proj 6.3uJ, to_current 2.3uJ
+  energy src                          energy  449.4 uJ/tok vs dense  626.1 -> 1.39x | MAC  97.5M AC   0.9M (dense 136.1M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-07 05:10:56] r25x_13L_spk_kd_sc10_150m queue DONE
+[q0 10-07 05:10:56] [r26c_13L_H6_chunk1024_150m] START
+[n53 10-07 05:12] r25x (r25w recipe at threshold scale 1.0) = chunk1 41.75 = dense r25o 41.74 (no cost), 5.12x compute-only, memory intact -> q/v+KD at 1.0 adds ~nothing over r25t (5.0x); thresholds buy the energy (r25w 7.5x at +6.4%). p26k/p26l (7L 2x/3x) map the curve. r26c (chunk 1024) started 05:10.
+[s1 10-07 05:20:09] [screen_p26n_7L_polish_kd] exit=0 :: 74.72 
+  recall screen_p26n_7L_polish_kd |   75% |   69% |   50% |   50% |   44%
+  haystack (gap 0/64/192/440) screen_p26n_7L_polish_kd N8:  67.2  89.1  89.5  91.0 | N32:  55.1  71.1  76.2  77.3
+[s1 10-07 05:24:38] scheduler DONE
+  r25-evals screen_p26n_7L_polish_kd   C=512 T=1024 | chunk1   76.07 (mem off   83.89) | chunks2+   73.78 (off   83.67, Δ +9.89) | first64 of 2+   79.89 (off   97.64, Δ +17.75) vs first64 of chunk1  103.52
+  r25-evals screen_p26n_7L_polish_kd   C=512 N8:  90.6  79.7  89.1  78.9 (mem off  11.7) | N32:  69.5  66.4  66.4  73.4 (mem off   2.3)
+  r25-evals screen_p26n_7L_polish_kd   C=512 | K1 in@0  14.1 | K1 in@200   7.3 | K1 x@0   6.2 | K1 x@200   5.2 | K1 x@0 off   7.3 | K1 in@0 para   6.2 | K1 x@0 para   4.7 | K4 in@0  15.1 | K4 in@200   7.8 | K4 x@0   9.4 | K4 x@200   7.3 | K4 x@0 off   9.9 | K4 in@0 para   9.9 | K4 x@0 para   7.3
+  r25-evals screen_p26n_7L_polish_kd     C=512 xcopy top1 | none  29.1 | in-window  28.6 | beyond (memory)  27.6 | beyond mem-off  22.7
+[s1 10-07 05:28:07] [screen_p26n_7L_polish_kd] evals + E1-E3 DONE (logs/e123_diag.log)
+  [screen_p26k_7L_spk_kd_qv_sc20] seed [OK] 38 spike codes calibrated (scale 2.0) | zero-shot ppl dense 77.64 -> coded 175.17 | mean spikes/input 0.388 | saved models/checkpoints/screen_p26k_7L_spk_kd_qv_sc20 @ step 6104
+[g1 10-07 05:28:47] [screen_p26k_7L_spk_kd_qv_sc20] START
+[s1 10-07 05:30:02] scheduler waiting for GPU 1 lock
+[n53 10-07 05:35] p26n polish+KD = 74.72 (p26m 75.05): KD adds ~nothing at the cosine tail; both recover only 2-3 of 11 pts, memory gains kept. Not a fair test (LR ~10% of peak) -> queued p26q/p26r = same polish with REWARMED LR (wsd from the resume step, peak 0.3x, linear decay) without/with KD, after p26k/p26l on the 5080.
+[s1 10-07 05:31:02] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 52%), waiting for it to be free
+[s1 10-07 05:47:04] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 27%), waiting for it to be free
+[s1 10-07 06:04:07] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 64%), waiting for it to be free
+[s1 10-07 06:19:09] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 35%), waiting for it to be free
+[g1 10-07 06:22:22] [screen_p26k_7L_spk_kd_qv_sc20] exit=0 :: 90.60 83.59 
+  recall screen_p26k_7L_spk_kd_qv_sc20 |   84% |   75% |   69% |   72% |   44%
+  haystack (gap 0/64/192/440) screen_p26k_7L_spk_kd_qv_sc20 N8:  78.5  94.5  96.5  96.9 | N32:  60.2  86.7  80.5  85.5
+  r25-evals screen_p26k_7L_spk_kd_qv_sc20 C=512 T=1024 | chunk1   85.75 (mem off   89.89) | chunks2+   83.17 (off   89.39, Δ +6.22) | first64 of 2+   95.41 (off  110.26, Δ +14.85) vs first64 of chunk1  118.21
+  r25-evals screen_p26k_7L_spk_kd_qv_sc20 C=512 N8:  94.5  89.8  92.2  91.4 (mem off  13.3) | N32:  80.5  73.4  75.8  76.6 (mem off   1.6)
+  r25-evals screen_p26k_7L_spk_kd_qv_sc20 C=512 | K1 in@0  12.5 | K1 in@200   4.7 | K1 x@0   4.7 | K1 x@200   4.7 | K1 x@0 off   5.7 | K1 in@0 para   7.8 | K1 x@0 para   8.3 | K4 in@0  11.5 | K4 in@200   7.8 | K4 x@0   7.8 | K4 x@200   8.3 | K4 x@0 off   8.9 | K4 in@0 para   8.9 | K4 x@0 para   9.4
+  r25-evals screen_p26k_7L_spk_kd_qv_sc20 C=512 xcopy top1 | none  26.6 | in-window  27.9 | beyond (memory)  25.6 | beyond mem-off  22.7
+  energy screen_p26k_7L_spk_kd_qv_sc20 energy   39.0 uJ/tok vs dense  403.6 -> 10.34x | MAC   2.2M AC  32.1M (dense  87.7M) | top: head 11.7uJ, up 6.1uJ, qkv 4.5uJ, o_proj 2.2uJ, proj 1.8uJ, attn_gate 1.5uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-07 06:24:50] screen_p26k_7L_spk_kd_qv_sc20 queue DONE
+  screen_p26k_7L_spk_kd_qv_sc20 energy-v2 | weight reads 29.3M of 83.6M (35%) | compute only 10.34x (39 vs 404 uJ) | +SRAM fetch 5.08x (123 vs 623 uJ) | +DRAM fetch 2.88x (9433 vs 27168 uJ)
+  p25o                         energy-v2 | weight reads 61.5M of 83.6M (74%) | compute only 1.38x (293 vs 404 uJ) | +SRAM fetch 1.36x (457 vs 623 uJ) | +DRAM fetch 1.36x (19975 vs 27168 uJ)
+  [screen_p26l_7L_spk_kd_qv_sc30] seed [OK] 38 spike codes calibrated (scale 3.0) | zero-shot ppl dense 77.64 -> coded 5528.23 | mean spikes/input 0.222 | saved models/checkpoints/screen_p26l_7L_spk_kd_qv_sc30 @ step 6104
+[g1 10-07 06:25:15] [screen_p26l_7L_spk_kd_qv_sc30] START
+[s1 10-07 06:36:13] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 53%), waiting for it to be free
+[s1 10-07 06:51:15] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 49%), waiting for it to be free
+[s1 10-07 07:06:18] [screen_p26q_7L_polish_rw] before RESUME -- GPU 1 in use (util 50%), waiting for it to be free
+[g1 10-07 07:16:51] [screen_p26l_7L_spk_kd_qv_sc30] exit=0 :: 121.91 108.30 
+  recall screen_p26l_7L_spk_kd_qv_sc30 |   88% |   84% |   78% |   59% |   41%
+  haystack (gap 0/64/192/440) screen_p26l_7L_spk_kd_qv_sc30 N8:  81.6  82.0  87.9  87.5 | N32:  60.2  60.9  58.2  59.4
+  r25-evals screen_p26l_7L_spk_kd_qv_sc30 C=512 T=1024 | chunk1  110.19 (mem off  115.89) | chunks2+  106.25 (off  114.88, Δ +8.63) | first64 of 2+  118.38 (off  137.10, Δ +18.72) vs first64 of chunk1  144.91
+  r25-evals screen_p26l_7L_spk_kd_qv_sc30 C=512 N8:  82.8  80.5  81.2  78.9 (mem off  14.1) | N32:  58.6  52.3  57.0  54.7 (mem off   0.8)
+  r25-evals screen_p26l_7L_spk_kd_qv_sc30 C=512 | K1 in@0  13.5 | K1 in@200   5.7 | K1 x@0   4.7 | K1 x@200   3.6 | K1 x@0 off   7.8 | K1 in@0 para   7.8 | K1 x@0 para   6.8 | K4 in@0  12.0 | K4 in@200   7.8 | K4 x@0   7.3 | K4 x@200  12.5 | K4 x@0 off   9.4 | K4 in@0 para  11.5 | K4 x@0 para   7.8
+  r25-evals screen_p26l_7L_spk_kd_qv_sc30 C=512 xcopy top1 | none  24.4 | in-window  24.0 | beyond (memory)  23.1 | beyond mem-off  21.4
+  energy screen_p26l_7L_spk_kd_qv_sc30 energy   27.5 uJ/tok vs dense  403.6 -> 14.70x | MAC   2.2M AC  19.2M (dense  87.7M) | top: head 6.7uJ, up 3.4uJ, qkv 2.4uJ, o_proj 1.8uJ, proj 1.8uJ, attn_gate 0.8uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-07 07:19:20] screen_p26l_7L_spk_kd_qv_sc30 queue DONE
+  screen_p26l_7L_spk_kd_qv_sc30 energy-v2 | weight reads 18.6M of 83.6M (22%) | compute only 14.70x (27 vs 404 uJ) | +SRAM fetch 7.40x (84 vs 623 uJ) | +DRAM fetch 4.54x (5981 vs 27168 uJ)
+  p25o                         energy-v2 | weight reads 61.5M of 83.6M (74%) | compute only 1.38x (293 vs 404 uJ) | +SRAM fetch 1.36x (457 vs 623 uJ) | +DRAM fetch 1.36x (19975 vs 27168 uJ)
+[n53 10-07 07:19:40] 5080 energy queue (p26k, p26l) DONE
+[n53 10-07 07:25] ENERGY CURVE 7L/40M conv (chunk1 vs dense 69.0): 1.5x thr +10% ~4x SRAM | 2x p26k +24% 5.1x SRAM (10.3x compute) | 3x p26l +60% 7.4x SRAM (14.7x). Honest >4x costs too much at this length -> p26u (2x, 120M conv) queued after the polish runs to size the cloud conversion.
+[s1 10-07 07:22:20] [screen_p26q_7L_polish_rw] RESUME
+[s1 10-07 07:47:01] [screen_p26q_7L_polish_rw] exit=0 :: 76.44 
+  recall screen_p26q_7L_polish_rw |   59% |   62% |   59% |   56% |   44%
+  haystack (gap 0/64/192/440) screen_p26q_7L_polish_rw N8:  57.4  89.1  88.7  88.3 | N32:  43.4  69.9  72.7  75.0
+[s1 10-07 07:51:38] scheduler DONE
+  r25-evals screen_p26q_7L_polish_rw   C=512 T=1024 | chunk1   76.70 (mem off   84.68) | chunks2+   75.59 (off   84.62, Δ +9.03) | first64 of 2+   82.29 (off   98.13, Δ +15.84) vs first64 of chunk1  103.31
+  r25-evals screen_p26q_7L_polish_rw   C=512 N8:  82.8  83.6  83.6  82.0 (mem off  13.3) | N32:  73.4  64.1  68.0  63.3 (mem off   2.3)
+  r25-evals screen_p26q_7L_polish_rw   C=512 | K1 in@0  13.5 | K1 in@200   6.8 | K1 x@0   6.2 | K1 x@200   3.1 | K1 x@0 off   6.8 | K1 in@0 para   8.3 | K1 x@0 para   5.2 | K4 in@0  14.1 | K4 in@200   6.8 | K4 x@0   8.9 | K4 x@200   9.4 | K4 x@0 off   9.4 | K4 in@0 para  11.5 | K4 x@0 para   6.2
+  r25-evals screen_p26q_7L_polish_rw     C=512 xcopy top1 | none  28.0 | in-window  29.4 | beyond (memory)  27.6 | beyond mem-off  22.4
+[s1 10-07 07:55:42] [screen_p26q_7L_polish_rw] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-07 07:55:42] scheduler waiting for GPU 1 lock
+[s1 10-07 07:59:43] [screen_p26r_7L_polish_rw_kd] RESUME
+[s1 10-07 08:31:44] [screen_p26r_7L_polish_rw_kd] exit=0 :: 75.50 
+  recall screen_p26r_7L_polish_rw_kd |   72% |   72% |   50% |   38% |   41%
+  haystack (gap 0/64/192/440) screen_p26r_7L_polish_rw_kd N8:  61.3  93.0  92.6  90.2 | N32:  46.9  70.3  71.9  70.3
+[s1 10-07 08:36:34] scheduler DONE
+  r25-evals screen_p26r_7L_polish_rw_kd C=512 T=1024 | chunk1   75.78 (mem off   83.47) | chunks2+   73.33 (off   83.01, Δ +9.68) | first64 of 2+   79.65 (off   96.95, Δ +17.31) vs first64 of chunk1  102.61
+  r25-evals screen_p26r_7L_polish_rw_kd C=512 N8:  89.1  86.7  85.9  83.6 (mem off  14.8) | N32:  71.9  68.8  69.5  64.8 (mem off   1.6)
+  r25-evals screen_p26r_7L_polish_rw_kd C=512 | K1 in@0  14.1 | K1 in@200   4.7 | K1 x@0   6.2 | K1 x@200   4.2 | K1 x@0 off   6.2 | K1 in@0 para   5.7 | K1 x@0 para   5.2 | K4 in@0  14.6 | K4 in@200   8.3 | K4 x@0   9.9 | K4 x@200   8.9 | K4 x@0 off  10.4 | K4 in@0 para   8.3 | K4 x@0 para   6.2
+  r25-evals screen_p26r_7L_polish_rw_kd  C=512 xcopy top1 | none  28.3 | in-window  28.8 | beyond (memory)  27.6 | beyond mem-off  22.7
+[s1 10-07 08:41:08] [screen_p26r_7L_polish_rw_kd] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-07 08:42:04] scheduler waiting for GPU 1 lock
+[n53 10-07 08:42] rewarmed polish p26q 76.44 / p26r (+KD) 75.50 = no better than tail polish (75.05/74.72): ppl cost does not come back while scatter stays on. Queued p26v (rewarmed polish, scatter OFF) after p26u.
+  [screen_p26u_7L_spk_kd_qv_sc20_120M] seed [OK] 38 spike codes calibrated (scale 2.0) | zero-shot ppl dense 77.64 -> coded 175.17 | mean spikes/input 0.388 | saved models/checkpoints/screen_p26u_7L_spk_kd_qv_sc20_120M @ step 6104
+[g1 10-07 08:42:23] [screen_p26u_7L_spk_kd_qv_sc20_120M] START
+[s1 10-07 08:43:04] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 14%), waiting for it to be free
+[s1 10-07 08:59:10] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 55%), waiting for it to be free
+[q0 10-07 09:05:03] [r26c_13L_H6_chunk1024_150m] exit=0 :: 147.48 92.03 72.94 82.40 72.05 59.98 52.05 47.09 49.01 45.09 43.07 41.42 
+  recall r26c_13L_H6_chunk1024_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26c_13L_H6_chunk1024_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[q0 10-07 09:06:02] queue DONE
+  r25-evals r26c_13L_H6_chunk1024_150m C=1024 T=2048 | chunk1   40.27 (mem off   40.36) | chunks2+   39.40 (off   40.06, Δ +0.66) | first64 of 2+   54.36 (off   63.83, Δ +9.48) vs first64 of chunk1   62.79
+  r25-evals r26c_13L_H6_chunk1024_150m C=1024 N8:  95.3 100.0 100.0 100.0 (mem off  13.3) | N32:  61.7  97.7  96.9  93.8 (mem off   5.5)
+  r25-evals r26c_13L_H6_chunk1024_150m C=1024 | K1 in@0  94.3 | K1 in@200  62.5 | K1 x@0   9.4 | K1 x@200   6.2 | K1 x@0 off   8.3 | K1 in@0 para  18.8 | K1 x@0 para   6.8 | K4 in@0  24.5 | K4 in@200  17.2 | K4 x@0  11.5 | K4 x@200  13.0 | K4 x@0 off  12.5 | K4 in@0 para  16.7 | K4 x@0 para  10.4
+  r25-evals r26c_13L_H6_chunk1024_150m   C=1024 xcopy top1 | none  34.1 | in-window  44.9 | beyond (memory)  28.5 | beyond mem-off  27.9
+  energy r26c_13L_H6_chunk1024_150m   energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.9M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[n53 10-07 09:11:25] 5090 queue (r25x, r26c) DONE
+[q0 10-07 09:11:42] [r26s_13L_H6_seed1_150m] START
+[n53 10-07 09:15] r26c (r25o at chunk 1024 / T2048) = chunk1 40.27 (r25o 41.74 at C512, -3.5%; vs r21b 38.84 +3.7% -> inside budget), cross-chunk N8 ~100% / N32 62-98, in-window NL facts K1 in@200 62.5 vs r25o 41.1, energy 1.41x (same). RECOMMEND chunk 1024 for v4 (check H200 tok/s). r26s (r25o seed 1) started on the 5090.
+[n53 10-07 09:13:58] r26s (r25o seed 1) stopped after 5 min -> r26t (r26c seed 1: robustness of the recommended chunk-1024 layout)
+[q0 10-07 09:13:58] [r26t_13L_H6_chunk1024_seed1_150m] START
+[s1 10-07 09:15:17] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 52%), waiting for it to be free
+[s1 10-07 09:30:19] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 74%), waiting for it to be free
+[s1 10-07 09:48:22] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 46%), waiting for it to be free
+[s1 10-07 10:03:24] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 53%), waiting for it to be free
+[s1 10-07 10:19:26] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 53%), waiting for it to be free
+[n53 10-07 09:55] RC = r26c layout + r25x conversion. Queued weakness tests: 5090 after r26t: throughput bench (B4xGA2 / B8xGA1 / mqar_once_per_step) -> r26d (RC conversion + honest energy) -> r26e (xchunk 0.25 from 50%, ppl); 5080 after p26u/p26v: per-site threshold sensitivity (7L+12L) -> p26w (2x thresholds at head + MLP input only). New: SITE_SCALE env in temp/mk_spike_seed.py (unset = unchanged).
+[s1 10-07 10:34:28] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 10%), waiting for it to be free
+[s1 10-07 10:50:31] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 60%), waiting for it to be free
+[s1 10-07 11:05:34] [screen_p26v_7L_polish_rw_off] before RESUME -- GPU 1 in use (util 11%), waiting for it to be free
+[g1 10-07 11:16:47] [screen_p26u_7L_spk_kd_qv_sc20_120M] exit=0 :: 104.55 93.58 86.60 80.96 76.50 72.65 69.87 
+  recall screen_p26u_7L_spk_kd_qv_sc20_120M |   88% |   81% |   75% |   81% |   69%
+  haystack (gap 0/64/192/440) screen_p26u_7L_spk_kd_qv_sc20_120M N8:  91.0  99.2  99.6  99.6 | N32:  81.6  95.7  96.5  94.9
+  r25-evals screen_p26u_7L_spk_kd_qv_sc20_120M C=512 T=1024 | chunk1   72.27 (mem off   73.28) | chunks2+   71.44 (off   73.65, Δ +2.21) | first64 of 2+   86.71 (off   96.50, Δ +9.79) vs first64 of chunk1  101.49
+  r25-evals screen_p26u_7L_spk_kd_qv_sc20_120M C=512 N8:  97.7  96.1  96.1  95.3 (mem off  14.8) | N32:  87.5  87.5  89.1  84.4 (mem off   1.6)
+  r25-evals screen_p26u_7L_spk_kd_qv_sc20_120M C=512 | K1 in@0  22.4 | K1 in@200   6.8 | K1 x@0   6.8 | K1 x@200   6.8 | K1 x@0 off   4.7 | K1 in@0 para   8.9 | K1 x@0 para   6.2 | K4 in@0  14.6 | K4 in@200   8.3 | K4 x@0   8.9 | K4 x@200  11.5 | K4 x@0 off   9.9 | K4 in@0 para   9.4 | K4 x@0 para   8.3
+  r25-evals screen_p26u_7L_spk_kd_qv_sc20_120M C=512 xcopy top1 | none  28.4 | in-window  33.3 | beyond (memory)  25.1 | beyond mem-off  23.7
+  energy screen_p26u_7L_spk_kd_qv_sc20_120M energy   47.4 uJ/tok vs dense  403.6 -> 8.52x | MAC   2.2M AC  41.3M (dense  87.7M) | top: head 17.1uJ, up 7.5uJ, qkv 5.2uJ, o_proj 2.6uJ, proj 1.8uJ, attn_gate 1.7uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-07 11:19:45] screen_p26u_7L_spk_kd_qv_sc20_120M queue DONE
+  screen_p26u_7L_spk_kd_qv_sc20_120M energy-v2 | weight reads 34.2M of 83.6M (41%) | compute only 8.52x (47 vs 404 uJ) | +SRAM fetch 4.35x (143 vs 623 uJ) | +DRAM fetch 2.47x (10996 vs 27168 uJ)
+[n53 10-07 11:19:54] p26u queue DONE -- 5080 free
+[s1 10-07 11:21:35] [screen_p26v_7L_polish_rw_off] RESUME
+[n53 10-07 11:30] p26u (2x thr, 120M conv) = chunk1 72.27 (+4.7% vs dense; p26k 40M +24%) but energy 8.52x / 4.35x SRAM (p26k 10.3/5.1): learned thresholds drift down. Built spike_theta_frozen (default off; CPU test temp/test_theta_frozen.py); p26x (p26u + frozen) queued on the 5080 after p26w.
+[s1 10-07 11:46:36] [screen_p26v_7L_polish_rw_off] exit=0 :: 75.75 
+  recall screen_p26v_7L_polish_rw_off |   59% |   66% |   44% |   41% |   25%
+  haystack (gap 0/64/192/440) screen_p26v_7L_polish_rw_off N8:  68.0  87.5  91.4  88.7 | N32:  59.0  74.2  77.0  74.6
+[s1 10-07 11:51:14] scheduler DONE
+  r25-evals screen_p26v_7L_polish_rw_off C=512 T=1024 | chunk1   76.04 (mem off   83.79) | chunks2+   73.86 (off   83.46, Δ +9.60) | first64 of 2+   80.00 (off   97.14, Δ +17.15) vs first64 of chunk1  103.45
+  r25-evals screen_p26v_7L_polish_rw_off C=512 N8:  90.6  82.0  89.1  82.8 (mem off  12.5) | N32:  75.0  73.4  68.0  65.6 (mem off   1.6)
+  r25-evals screen_p26v_7L_polish_rw_off C=512 | K1 in@0  18.8 | K1 in@200   6.2 | K1 x@0   6.8 | K1 x@200   5.2 | K1 x@0 off   6.2 | K1 in@0 para   8.9 | K1 x@0 para   4.7 | K4 in@0  13.0 | K4 in@200   8.3 | K4 x@0   7.8 | K4 x@200   8.3 | K4 x@0 off   8.9 | K4 in@0 para   8.9 | K4 x@0 para   7.8
+  r25-evals screen_p26v_7L_polish_rw_off C=512 xcopy top1 | none  27.8 | in-window  29.1 | beyond (memory)  28.0 | beyond mem-off  22.7
+[s1 10-07 11:55:16] [screen_p26v_7L_polish_rw_off] evals + E1-E3 DONE (logs/e123_diag.log)
+  site-sens p25o base (all sites 1.0x): coded ppl 90.96
+  site-sens p25o   site q         x2: ppl   93.51 ( +2.8%) | nonzero inputs  68.6% ->  42.2%
+  site-sens p25o   site v         x2: ppl   92.34 ( +1.5%) | nonzero inputs  68.1% ->  41.6%
+  site-sens p25o   site qkv       x2: ppl   96.63 ( +6.2%) | nonzero inputs  69.3% ->  42.8%
+  site-sens p25o   site o         x2: ppl   96.94 ( +6.6%) | nonzero inputs  56.2% ->  35.3%
+  site-sens p25o   site up        x2: ppl  109.37 (+20.2%) | nonzero inputs  69.3% ->  42.8%
+  site-sens p25o   site down      x2: ppl  102.67 (+12.9%) | nonzero inputs   4.4% ->   2.0%
+  site-sens p25o   site mem       x2: ppl   94.67 ( +4.1%) | nonzero inputs  69.3% ->  42.8%
+  site-sens p25o   site head      x2: ppl   98.62 ( +8.4%) | nonzero inputs  68.1% ->  41.3%
+[n53 10-07 11:58] p26v (rewarmed polish, scatter OFF) = 75.75 -> the scatter ppl cost is baked into the weights, not the live aux; no polish variant (tail / rewarm / KD / off) recovers it at 7L. Memory gains persist (real-text copy +6 pts near boundary). VERDICT: scatter MQAR not adopted for v4; recover-later works for energy (conversion), not for this memory aux.
+  site-sens r26c base (all sites 1.0x): coded ppl 59.51
+  site-sens r26c   site q         x2: ppl   60.84 ( +2.2%) | nonzero inputs  68.6% ->  42.2%
+  site-sens r26c   site v         x2: ppl   60.06 ( +0.9%) | nonzero inputs  67.5% ->  41.1%
+  site-sens r26c   site qkv       x2: ppl   64.36 ( +8.2%) | nonzero inputs  69.5% ->  42.9%
+  site-sens r26c   site o         x2: ppl   62.02 ( +4.2%) | nonzero inputs  51.1% ->  31.8%
+  site-sens r26c   site up        x2: ppl   69.91 (+17.5%) | nonzero inputs  69.6% ->  43.0%
+  site-sens r26c   site down      x2: ppl   66.34 (+11.5%) | nonzero inputs   4.0% ->   1.9%
+  site-sens r26c   site mem       x2: ppl   59.76 ( +0.4%) | nonzero inputs  69.6% ->  43.1%
+  site-sens r26c   site head      x2: ppl   67.21 (+12.9%) | nonzero inputs  65.4% ->  37.5%
+  [screen_p26w_7L_spk_kd_qv_site] seed [OK] 38 spike codes calibrated (scale 1.0) | zero-shot ppl dense 77.64 -> coded 119.46 | mean spikes/input 0.725 | saved models/checkpoints/screen_p26w_7L_spk_kd_qv_site @ step 6104
+[g1 10-07 11:57:01] [screen_p26w_7L_spk_kd_qv_site] START
+[g1 10-07 12:51:15] [screen_p26w_7L_spk_kd_qv_site] exit=0 :: 81.50 75.43 
+  recall screen_p26w_7L_spk_kd_qv_site |   94% |   94% |   84% |   88% |   69%
+  haystack (gap 0/64/192/440) screen_p26w_7L_spk_kd_qv_site N8:  92.6  96.5  98.0  98.0 | N32:  80.9  91.4  86.7  91.8
+  r25-evals screen_p26w_7L_spk_kd_qv_site C=512 T=1024 | chunk1   77.91 (mem off   80.88) | chunks2+   75.79 (off   80.95, Δ +5.16) | first64 of 2+   88.59 (off  103.16, Δ +14.57) vs first64 of chunk1  110.57
+  r25-evals screen_p26w_7L_spk_kd_qv_site C=512 N8:  95.3  95.3  96.1  93.0 (mem off  13.3) | N32:  88.3  89.8  85.9  85.2 (mem off   0.8)
+  r25-evals screen_p26w_7L_spk_kd_qv_site C=512 | K1 in@0  14.1 | K1 in@200   5.7 | K1 x@0   7.3 | K1 x@200   5.7 | K1 x@0 off   6.2 | K1 in@0 para   9.9 | K1 x@0 para   5.7 | K4 in@0  14.1 | K4 in@200   9.4 | K4 x@0   9.9 | K4 x@200   8.3 | K4 x@0 off   8.3 | K4 in@0 para  10.9 | K4 x@0 para   9.4
+  r25-evals screen_p26w_7L_spk_kd_qv_site C=512 xcopy top1 | none  28.4 | in-window  31.7 | beyond (memory)  26.0 | beyond mem-off  24.0
+  energy screen_p26w_7L_spk_kd_qv_site energy   49.6 uJ/tok vs dense  403.6 -> 8.14x | MAC   2.2M AC  43.8M (dense  87.7M) | top: head 11.8uJ, qkv 9.7uJ, up 6.1uJ, o_proj 3.5uJ, attn_gate 3.2uJ, to_current 2.2uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-07 12:54:17] screen_p26w_7L_spk_kd_qv_site queue DONE
+  screen_p26w_7L_spk_kd_qv_site energy-v2 | weight reads 34.3M of 83.6M (41%) | compute only 8.14x (50 vs 404 uJ) | +SRAM fetch 4.27x (146 vs 623 uJ) | +DRAM fetch 2.46x (11050 vs 27168 uJ)
+[n53 10-07 12:54:28] 5080 site queue DONE
+  [screen_p26x_7L_spk_kd_qv_sc20_120M_frz] seed [OK] 38 spike codes calibrated (scale 2.0) | zero-shot ppl dense 77.64 -> coded 175.17 | mean spikes/input 0.388 | saved models/checkpoints/screen_p26x_7L_spk_kd_qv_sc20_120M_frz @ step 6104
+[g1 10-07 12:55:33] [screen_p26x_7L_spk_kd_qv_sc20_120M_frz] START
+[n53 10-07 13:00] SITE SENSITIVITY (2x one site, zero-shot, 12L r26c): mem +0.4%, v +0.9%, q +2.2%, o +4.2%, qkv +8.2%, down +11.5%, head +12.9%, up +17.5% -> cheap sites carry little energy; ~1 uJ saved per 1% ppl everywhere -> per-site thresholds not a free lunch. p26w (head+up 2x, 40M) = chunk1 77.91 (+13%), 4.27x SRAM < p26u (all 2x, 120M) 72.27 / 4.35x. Best energy lever = longer conversion (p26x frozen thresholds running).
+[q0 10-07 13:09:58] [r26t_13L_H6_chunk1024_seed1_150m] exit=0 :: 145.22 90.87 89.07 91.56 76.78 62.41 53.33 48.00 47.75 46.66 44.14 42.52 
+  recall r26t_13L_H6_chunk1024_seed1_150m |   97% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26t_13L_H6_chunk1024_seed1_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0  99.6
+[q0 10-07 13:10:52] queue DONE
+  r25-evals r26t_13L_H6_chunk1024_seed1_150m C=1024 T=2048 | chunk1   41.33 (mem off   41.32) | chunks2+   40.41 (off   40.90, Δ +0.48) | first64 of 2+   56.54 (off   64.84, Δ +8.30) vs first64 of chunk1   64.85
+  r25-evals r26t_13L_H6_chunk1024_seed1_150m C=1024 N8:  90.6  99.2 100.0  98.4 (mem off  14.8) | N32:  61.7  95.3  96.9  97.7 (mem off   5.5)
+  r25-evals r26t_13L_H6_chunk1024_seed1_150m C=1024 | K1 in@0  92.7 | K1 in@200  52.6 | K1 x@0   4.2 | K1 x@200   5.7 | K1 x@0 off   5.2 | K1 in@0 para   9.9 | K1 x@0 para   5.7 | K4 in@0  20.8 | K4 in@200  15.1 | K4 x@0  10.9 | K4 x@200  12.5 | K4 x@0 off  10.9 | K4 in@0 para  10.4 | K4 x@0 para   9.9
+  r25-evals r26t_13L_H6_chunk1024_seed1_150m C=1024 xcopy top1 | none  34.7 | in-window  45.0 | beyond (memory)  27.1 | beyond mem-off  26.5
+[n53 10-07 13:16:47] r26t queue DONE
+[bench 10-07 13:27:33] RC tok/s A (batch_size: 4 grad_accum: 2 ): median 12574 (steps 300-420) | vram 3.5/26.5 GB
+[n53 10-07 13:45] RC REVIEW: built attn_chunk_short (SWAX-style stochastic chunk, default off; CPU smoke temp/smoke_chunk_short_cpu.py) -> p26y (7L, 5080 after p26x) + r26f (12L RC, 5090 after r26e); r26g = RC conversion with Llama-3.2-1B KD (vs r26d self-KD) queued after r26f. Lit: SWAX 2509.24552, HOLA 2607.02303, ARMT 2407.04841 (v4.x).
+[bench 10-07 14:51:36] RC tok/s B (batch_size: 8 grad_accum: 1 ): median 658 (steps 300-420) | vram 3.6/38.0 GB
+[g1 10-07 15:29:20] [screen_p26x_7L_spk_kd_qv_sc20_120M_frz] exit=0 :: 106.22 96.25 89.74 83.95 79.79 75.63 72.99 
+  recall screen_p26x_7L_spk_kd_qv_sc20_120M_frz |   75% |   75% |   69% |   69% |   44%
+  haystack (gap 0/64/192/440) screen_p26x_7L_spk_kd_qv_sc20_120M_frz N8:  87.9  98.8  97.7 100.0 | N32:  71.9  92.2  96.1  90.2
+  r25-evals screen_p26x_7L_spk_kd_qv_sc20_120M_frz C=512 T=1024 | chunk1   75.97 (mem off   77.18) | chunks2+   74.52 (off   77.13, Δ +2.62) | first64 of 2+   89.33 (off  100.36, Δ +11.02) vs first64 of chunk1  107.46
+  r25-evals screen_p26x_7L_spk_kd_qv_sc20_120M_frz C=512 N8:  96.9  95.3  93.8  93.8 (mem off  12.5) | N32:  84.4  89.8  89.8  87.5 (mem off   0.0)
+  r25-evals screen_p26x_7L_spk_kd_qv_sc20_120M_frz C=512 | K1 in@0  19.3 | K1 in@200   6.8 | K1 x@0   6.2 | K1 x@200   5.2 | K1 x@0 off   4.2 | K1 in@0 para  10.9 | K1 x@0 para   7.3 | K4 in@0  16.1 | K4 in@200  10.9 | K4 x@0   8.3 | K4 x@200  14.6 | K4 x@0 off   9.4 | K4 in@0 para  10.9 | K4 x@0 para   9.4
+  r25-evals screen_p26x_7L_spk_kd_qv_sc20_120M_frz C=512 xcopy top1 | none  28.2 | in-window  32.4 | beyond (memory)  25.2 | beyond mem-off  23.6
+  energy screen_p26x_7L_spk_kd_qv_sc20_120M_frz energy   41.6 uJ/tok vs dense  403.6 -> 9.71x | MAC   2.2M AC  34.9M (dense  87.7M) | top: head 13.5uJ, up 6.5uJ, qkv 4.8uJ, o_proj 2.2uJ, proj 1.8uJ, attn_gate 1.6uJ
+  energy src                          energy  293.3 uJ/tok vs dense  403.6 -> 1.38x | MAC  63.6M AC   0.9M (dense  87.7M) | top: head 115.8uJ, up 65.1uJ, qkv 48.8uJ, attn_gate 16.3uJ, o_proj 16.3uJ, to_current 10.9uJ
+[g1 10-07 15:33:38] screen_p26x_7L_spk_kd_qv_sc20_120M_frz queue DONE
+  screen_p26x_7L_spk_kd_qv_sc20_120M_frz energy-v2 | weight reads 30.9M of 83.6M (37%) | compute only 9.71x (42 vs 404 uJ) | +SRAM fetch 4.82x (129 vs 623 uJ) | +DRAM fetch 2.73x (9949 vs 27168 uJ)
+[n53 10-07 15:33:49] p26x queue DONE -- 5080 free
+[s1 10-07 15:33:56] scheduler waiting for GPU 1 lock
+[s1 10-07 15:37:57] [screen_p26y_7L_chunk_rand128] START
+[bench 10-07 15:44:03] RC tok/s C (batch_size: 4 grad_accum: 2 mqar_once_per_step: true ): median 1140 (steps 300-420) | vram 4.0/39.1 GB
+[n53 10-07 15:44:11] 5090 chain start: r26d -> r26h -> r26f -> r26e -> r26g
+[n53 10-07 15:55] r26t (r26c seed 1) = chunk1 41.33 (seed 0 40.27 -> RC layout 40.3-41.3, +4-6% vs r21b), cross-chunk N8 ~99 / N32 95-98 (62 at offset 0), retention N8 91% at chunk 8 -> RC layout robust. Bench: B8xGA1 658 tok/s and mqar_once_per_step 1140 tok/s = WDDM SPILL (38-39 GB reserved, 3-4 GB allocated) vs A 12574 -> re-bench with expandable_segments.
+  [r26d_13L_RC_conv_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 49.32 -> coded 59.51 | mean spikes/input 0.814 | saved models/checkpoints/r26d_13L_RC_conv_150m @ step 12208
+[g0 10-07 15:44:54] [r26d_13L_RC_conv_150m] START
+[n53 10-07 17:06:29] PAUSE (Glenn: disk space): chains stopped; r26d (5090) and p26y (5080) finish + save + evals, nothing new starts
+[n53 10-07 17:09:51] watchdog stopped: r26d at 8.4k tok/s (30.8 GB reserved) is the last 5090 run; resume_after_cleanup.sh restarts it
+[s1 10-07 17:15:01] [screen_p26y_7L_chunk_rand128] exit=0 :: 155.89 105.80 94.30 83.49 74.28 69.09 
+  recall screen_p26y_7L_chunk_rand128 |  100% |   91% |   94% |   94% |   81%
+  haystack (gap 0/64/192/440) screen_p26y_7L_chunk_rand128 N8:  91.8  94.5  95.7  96.5 | N32:  89.8  85.5  84.8  90.2
+[s1 10-07 17:19:43] scheduler DONE
+  r25-evals screen_p26y_7L_chunk_rand128 C=512 T=1024 | chunk1   72.45 (mem off   78.61) | chunks2+   69.94 (off   78.82, Δ +8.88) | first64 of 2+   74.90 (off   93.03, Δ +18.13) vs first64 of chunk1   97.84
+  r25-evals screen_p26y_7L_chunk_rand128 C=512 N8:  96.1  91.4  92.2  93.0 (mem off  10.9) | N32:  84.4  83.6  85.9  82.8 (mem off   1.6)
+  r25-evals screen_p26y_7L_chunk_rand128 C=512 | K1 in@0   9.4 | K1 in@200   6.2 | K1 x@0   6.8 | K1 x@200   7.3 | K1 x@0 off   6.2 | K1 in@0 para   7.8 | K1 x@0 para   5.2 | K4 in@0  11.5 | K4 in@200   8.3 | K4 x@0   8.9 | K4 x@200  10.4 | K4 x@0 off   9.4 | K4 in@0 para   9.9 | K4 x@0 para   8.9
+  r25-evals screen_p26y_7L_chunk_rand128 C=512 xcopy top1 | none  28.6 | in-window  30.0 | beyond (memory)  28.2 | beyond mem-off  23.1
+[n53 10-07 17:23:56] [screen_p26y_7L_chunk_rand128] evals + E1-E3 DONE
+[g0 10-07 18:26:42] [r26d_13L_RC_conv_150m] exit=0 :: 48.55 46.29 44.09 42.37 41.26 
+  recall  r26d_13L_RC_conv_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26d_13L_RC_conv_150m N8: 100.0 100.0  99.6 100.0 | N32: 100.0 100.0  99.6 100.0
+  r25-evals r26d_13L_RC_conv_150m      C=1024 T=2048 | chunk1   40.36 (mem off   40.50) | chunks2+   39.17 (off   40.02, Δ +0.85) | first64 of 2+   53.98 (off   64.31, Δ +10.33) vs first64 of chunk1   63.73
+  r25-evals r26d_13L_RC_conv_150m      C=1024 N8:  96.9  99.2 100.0 100.0 (mem off  12.5) | N32:  78.1  97.7  98.4  99.2 (mem off   2.3)
+  r25-evals r26d_13L_RC_conv_150m      C=1024 | K1 in@0  95.3 | K1 in@200  56.2 | K1 x@0   6.2 | K1 x@200   5.7 | K1 x@0 off   5.2 | K1 in@0 para  16.1 | K1 x@0 para   5.2 | K4 in@0  22.4 | K4 in@200  20.8 | K4 x@0  10.4 | K4 x@200  12.0 | K4 x@0 off   8.9 | K4 in@0 para  13.5 | K4 x@0 para   6.2
+  r25-evals r26d_13L_RC_conv_150m        C=1024 xcopy top1 | none  34.6 | in-window  44.4 | beyond (memory)  27.9 | beyond mem-off  27.5
+  energy r26d_13L_RC_conv_150m        energy  113.8 uJ/tok vs dense  647.8 -> 5.69x | MAC   2.2M AC 115.1M (dense 140.8M) | top: head 32.0uJ, up 28.7uJ, qkv 20.3uJ, attn_gate 6.8uJ, o_proj 6.3uJ, to_current 2.2uJ
+  energy src                          energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.9M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-07 18:30:28] r26d_13L_RC_conv_150m queue DONE
+  r26d                         energy-v2 | weight reads 68.3M of 129.6M (53%) | compute only 5.69x (114 vs 648 uJ) | +SRAM fetch 3.20x (313 vs 1000 uJ) | +DRAM fetch 1.92x (21997 vs 42152 uJ)
+[n53 10-07 21:03:49] 5090 chain start: r26h -> r26f -> r26e -> r26g
+[s1 10-07 21:03:49] scheduler waiting for GPU 1 lock
+[n53 10-07 21:03:49] RESUMED after cleanup: 5090 r26h -> r26f -> r26e -> r26g; 5080 p26z -> p26za
+[wd 10-07 21:03:49] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[q0 10-07 21:03:49] [r26h_13L_RC_hola64_150m] START
+[s1 10-07 21:07:50] [screen_p26z_7L_hola64] START
+[n53 10-07 21:15] r26d (RC conversion) = chunk1 40.36 = dense r26c 40.27 (free), 5.69x compute / 3.20x SRAM / 1.92x DRAM, cross-chunk ~100. p26y (stochastic chunk 7L) = val 69.09 / chunk1 72.45 (+5%, Glenn: OK for RCs), real-text copy gain ~2x p25o near the boundary (S32 +5.6/+4.9 vs +2.4/+3.2), retention N8 84% / N32 56% at chunk 8 (p25o 75/34) -> better trade than scatter. r26h (RC + HOLA) running at 17-18k tok/s = r26c (no HOLA overhead).
+[s1 10-07 22:05:47] scheduler waiting for GPU 1 lock
+[n53 10-07 22:05:58] PAUSED for vhdx compaction (Glenn): r26h + p26z SIGINT -> final ckpts; resume with temp/resume_after_compact.sh
+[n53 10-07 22:15] LOST r26h + p26z: the 21:xx cleanup (group A = all dirs not on the keep list) deleted their new ckpt dirs mid-run (saves failed). Cleanup script now skips running/recent dirs. Both rerun after compaction.
+[n53 10-07 23:42:28] 5090 chain start: r26h -> r26f -> r26e -> r26g
+[n53 10-07 23:42:28] RESUMED after cleanup: 5090 r26h -> r26f -> r26e -> r26g; 5080 p26z -> p26za
+[s1 10-07 23:42:28] scheduler waiting for GPU 1 lock
+[wd 10-07 23:42:28] watchdog started (min 8000 tok/s past step 1000, stall 25 min)
+[q0 10-07 23:42:28] [r26h_13L_RC_hola64_150m] START
+[s1 10-07 23:46:19] [screen_p26z_7L_hola64] START
+[s1 10-08 01:24:16] [screen_p26z_7L_hola64] exit=0 :: 149.63 100.89 96.93 83.14 72.50 67.42 
+  recall  screen_p26z_7L_hola64 |   94% |   97% |   88% |   91% |   84%
+  haystack (gap 0/64/192/440) screen_p26z_7L_hola64 N8:  94.9  95.7  94.9  94.9 | N32:  87.5  85.9  85.5  89.5
+[s1 10-08 01:28:37] scheduler DONE
+  r25-evals screen_p26z_7L_hola64      C=512 T=1024 | chunk1   70.80 (mem off   73.87) | chunks2+   68.36 (off   73.61, Δ +5.25) | first64 of 2+   78.35 (off   91.69, Δ +13.34) vs first64 of chunk1   97.61
+  r25-evals screen_p26z_7L_hola64      C=512 N8:  96.9  93.8  94.5  94.5 (mem off  13.3) | N32:  87.5  89.8  87.5  88.3 (mem off   2.3)
+  r25-evals screen_p26z_7L_hola64      C=512 | K1 in@0  20.3 | K1 in@200   7.8 | K1 x@0   8.3 | K1 x@200   5.2 | K1 x@0 off   6.8 | K1 in@0 para   7.8 | K1 x@0 para   4.7 | K4 in@0  13.0 | K4 in@200   8.9 | K4 x@0   8.9 | K4 x@200   9.9 | K4 x@0 off   7.3 | K4 in@0 para   9.9 | K4 x@0 para  13.0
+  r25-evals screen_p26z_7L_hola64        C=512 xcopy top1 | none  29.8 | in-window  31.4 | beyond (memory)  26.9 | beyond mem-off  23.6
+[s1 10-08 01:32:23] [screen_p26z_7L_hola64] evals + E1-E3 DONE (logs/e123_diag.log)
+[s1 10-08 01:32:23] scheduler waiting for GPU 1 lock
+[n53 10-08 01:40] p26z (7L HOLA 64) = val 67.42 (p25o seeds 66.04/64.36 -> ~+3%), chunk1 70.80 (+2.6%), cross-chunk 95/88, real-text copy gain = p25o (S32 +3.0/+2.8 vs +2.4/+3.2), retention at chunk 8 WORSE (N8 59 / N32 19 vs 75 / 34). Cache IS used (lambda 0 -> 0.26 mean, max 0.69; gq/gk ~1.03). Verdict at 7L: neutral; 7L cannot copy even in-window, so the decisive test is r26h (12L RC + HOLA, ~03:30).
+[s1 10-08 01:36:08] [screen_p26za_7L_hola64_rand128] START
+[s1 10-08 03:06:05] [screen_p26za_7L_hola64_rand128] exit=0 :: 155.47 104.13 102.59 87.30 76.48 70.39 
+  recall screen_p26za_7L_hola64_rand128 |  100% |   97% |  100% |   91% |   84%
+  haystack (gap 0/64/192/440) screen_p26za_7L_hola64_rand128 N8:  94.1  97.7  96.5  94.1 | N32:  89.5  86.3  89.8  89.5
+[s1 10-08 03:10:46] scheduler DONE
+  r25-evals screen_p26za_7L_hola64_rand128 C=512 T=1024 | chunk1   74.06 (mem off   79.06) | chunks2+   70.85 (off   79.27, Δ +8.42) | first64 of 2+   76.40 (off   94.34, Δ +17.94) vs first64 of chunk1   99.71
+  r25-evals screen_p26za_7L_hola64_rand128 C=512 N8:  96.9  95.3  96.1  93.0 (mem off  17.2) | N32:  91.4  88.3  92.2  87.5 (mem off   0.0)
+  r25-evals screen_p26za_7L_hola64_rand128 C=512 | K1 in@0   7.8 | K1 in@200   5.7 | K1 x@0   5.7 | K1 x@200   6.2 | K1 x@0 off   5.7 | K1 in@0 para   5.7 | K1 x@0 para   3.6 | K4 in@0  12.0 | K4 in@200   6.8 | K4 x@0   7.3 | K4 x@200   8.3 | K4 x@0 off   7.3 | K4 in@0 para  12.0 | K4 x@0 para   8.9
+  r25-evals screen_p26za_7L_hola64_rand128 C=512 xcopy top1 | none  28.4 | in-window  29.4 | beyond (memory)  28.3 | beyond mem-off  23.3
+[s1 10-08 03:15:07] [screen_p26za_7L_hola64_rand128] evals + E1-E3 DONE (logs/e123_diag.log)
+[n53 10-08 03:15:07] 5080 chain (p26z, p26za) DONE
+[q0 10-08 03:32:29] [r26h_13L_RC_hola64_150m] exit=0 :: 148.88 91.50 74.13 83.67 72.56 59.81 51.81 47.19 47.08 44.06 41.87 40.10 
+  recall r26h_13L_RC_hola64_150m |  100% |  100% |  100% |  100% |   97%
+  haystack (gap 0/64/192/440) r26h_13L_RC_hola64_150m N8: 100.0 100.0 100.0 100.0 | N32:  99.6 100.0  99.6 100.0
+[q0 10-08 03:32:59] queue DONE
+  r25-evals r26h_13L_RC_hola64_150m    C=1024 T=2048 | chunk1   39.30 (mem off   39.49) | chunks2+   37.98 (off   38.96, Δ +0.98) | first64 of 2+   50.62 (off   62.02, Δ +11.39) vs first64 of chunk1   62.01
+  r25-evals r26h_13L_RC_hola64_150m    C=1024 N8:  99.2 100.0 100.0 100.0 (mem off   9.4) | N32: 100.0 100.0 100.0  99.2 (mem off   4.7)
+  r25-evals r26h_13L_RC_hola64_150m    C=1024 | K1 in@0  80.7 | K1 in@200  54.2 | K1 x@0   3.6 | K1 x@200   4.2 | K1 x@0 off   4.7 | K1 in@0 para  43.8 | K1 x@0 para   9.4 | K4 in@0  20.8 | K4 in@200  14.1 | K4 x@0  12.5 | K4 x@200  12.5 | K4 x@0 off  11.5 | K4 in@0 para  19.3 | K4 x@0 para  13.5
+  r25-evals r26h_13L_RC_hola64_150m      C=1024 xcopy top1 | none  35.0 | in-window  45.3 | beyond (memory)  27.3 | beyond mem-off  26.6
+[n53 10-08 03:39:10] [r26h_13L_RC_hola64_150m] evals + diagnostics DONE
+[q0 10-08 03:39:10] [r26f_13L_H6_chunk1024_rand128_150m] START
+[n53 10-08 03:41:49] RC2 = RC + HOLA (r26h win). 5080: r26i (RC2 + random chunks, expandable_segments). 5090 chain3 after r26f: r26j (RC2 conversion) -> r26g -> r26e
+[s1 10-08 03:41:49] scheduler waiting for GPU 1 lock
+[s1 10-08 03:41:49] [r26i_13L_RC2_hola_rand128_150m] START
+[s1 10-08 03:45:09] [r26i_13L_RC2_hola_rand128_150m] exit=1 :: 
+[s1 10-08 03:45:09] scheduler DONE
+[wd 10-08 03:48:37] watchdog started (min 5000 tok/s past step 1000, stall 25 min)
+[n53 10-08 03:48:37] r26i crashed on the 5080 (CUDA 'device not ready' at B4 = VRAM pressure); retry B2xGA4 + expandable segments; watchdog MIN_TPS 5000
+[s1 10-08 03:48:37] scheduler waiting for GPU 1 lock
+[s1 10-08 03:48:37] [r26i_13L_RC2_hola_rand128_150m] START
+[n53 10-08 04:20] r26h (RC + HOLA) WIN -> RC2. r26i (RC2 + random chunks) on the 5080 at B2xGA4: 9.6k tok/s, 10.5 GB reserved, ETA ~10:40. r26f (RC + random chunks) on the 5090, ETA ~07:45; then r26j (RC2 conversion) -> r26g -> r26e.
+[q0 10-08 07:21:12] [r26f_13L_H6_chunk1024_rand128_150m] exit=0 :: 143.98 91.47 91.32 81.20 73.09 64.83 56.08 49.83 47.27 43.60 41.48 39.94 
+  recall r26f_13L_H6_chunk1024_rand128_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26f_13L_H6_chunk1024_rand128_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[q0 10-08 07:21:47] queue DONE
+  r25-evals r26f_13L_H6_chunk1024_rand128_150m C=1024 T=2048 | chunk1   39.51 (mem off   41.92) | chunks2+   37.80 (off   41.59, Δ +3.79) | first64 of 2+   45.29 (off   61.55, Δ +16.27) vs first64 of chunk1   60.77
+  r25-evals r26f_13L_H6_chunk1024_rand128_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  17.2) | N32: 100.0 100.0 100.0 100.0 (mem off   3.1)
+  r25-evals r26f_13L_H6_chunk1024_rand128_150m C=1024 | K1 in@0  85.9 | K1 in@200  32.3 | K1 x@0   4.7 | K1 x@200   4.2 | K1 x@0 off   4.2 | K1 in@0 para  12.5 | K1 x@0 para   6.8 | K4 in@0  21.4 | K4 in@200  14.1 | K4 x@0   8.3 | K4 x@200  12.5 | K4 x@0 off  10.4 | K4 in@0 para  11.5 | K4 x@0 para   7.3
+  r25-evals r26f_13L_H6_chunk1024_rand128_150m C=1024 xcopy top1 | none  34.5 | in-window  41.8 | beyond (memory)  30.3 | beyond mem-off  27.3
+[n53 10-08 07:28:25] [r26f_13L_H6_chunk1024_rand128_150m] evals + diagnostics DONE
+  [r26j_13L_RC2_conv_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.72 -> coded 57.50 | mean spikes/input 0.814 | saved models/checkpoints/r26j_13L_RC2_conv_150m @ step 12208
+[g0 10-08 07:28:46] [r26j_13L_RC2_conv_150m] START
+[n53 10-08 07:35] r26f (RC + random chunks 12L) = chunk1 39.51 / val 39.94 (r26c 40.27 / 41.42: BETTER), memory Δ chunks2+ +3.8 (r26c +0.7), real-text copy gain near boundary +7.7 / +6.7 (S12/S32; r26h +4.4/+3.4, r26c ~+2) = BEST, xchunk 100% everywhere; BUT retention at chunk 8 N8 50 / N32 53 (r26h 94/97) and in-window NL@200 32 (r26c 62). HOLA has the opposite profile -> r26i (RC2 + random chunks, 5080, ~10:30) is the key test.
+[s1 10-08 08:12:21] [r26i_13L_RC2_hola_rand128_150m] exit=1 :: 161.97 102.57 87.22 90.93 79.51 69.39 61.63 54.15 
+[s1 10-08 08:12:21] scheduler DONE
+[g0 10-08 10:06:22] [r26j_13L_RC2_conv_150m] exit=0 :: 46.20 43.64 41.35 39.99 39.06 
+  recall r26j_13L_RC2_conv_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26j_13L_RC2_conv_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r26j_13L_RC2_conv_150m     C=1024 T=2048 | chunk1   38.49 (mem off   38.85) | chunks2+   36.97 (off   38.23, Δ +1.26) | first64 of 2+   48.16 (off   60.96, Δ +12.80) vs first64 of chunk1   60.78
+  r25-evals r26j_13L_RC2_conv_150m     C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  11.7) | N32:  81.2 100.0 100.0  99.2 (mem off   7.8)
+  r25-evals r26j_13L_RC2_conv_150m     C=1024 | K1 in@0  90.6 | K1 in@200  55.2 | K1 x@0   4.2 | K1 x@200   3.6 | K1 x@0 off   4.2 | K1 in@0 para  29.2 | K1 x@0 para   8.9 | K4 in@0  18.2 | K4 in@200  14.1 | K4 x@0  10.4 | K4 x@200  12.5 | K4 x@0 off  10.9 | K4 in@0 para  16.7 | K4 x@0 para  12.0
+  r25-evals r26j_13L_RC2_conv_150m       C=1024 xcopy top1 | none  34.6 | in-window  44.1 | beyond (memory)  27.8 | beyond mem-off  27.0
+  energy r26j_13L_RC2_conv_150m       energy  118.1 uJ/tok vs dense  647.8 -> 5.49x | MAC   2.2M AC 119.9M (dense 140.8M) | top: head 34.7uJ, up 29.8uJ, qkv 20.7uJ, attn_gate 6.9uJ, o_proj 6.1uJ, to_current 2.3uJ
+  energy src                          energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.8M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-08 10:09:54] r26j_13L_RC2_conv_150m queue DONE
+  r26j_13L_RC2_conv_150m       energy-v2 | weight reads 68.8M of 129.6M (53%) | compute only 5.49x (118 vs 648 uJ) | +SRAM fetch 3.14x (318 vs 1000 uJ) | +DRAM fetch 1.90x (22177 vs 42152 uJ)
+  [r26g_13L_RC_conv_llamakd_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 49.32 -> coded 59.51 | mean spikes/input 0.814 | saved models/checkpoints/r26g_13L_RC_conv_llamakd_150m @ step 12208
+[g0 10-08 10:13:23] [r26g_13L_RC_conv_llamakd_150m] START
+[wd 10-08 11:37:10] [r26g_13L_RC_conv_llamakd_150m] median 1615 tok/s < 5000 (spill/hang?) -> SIGTERM 21118
+[g0 10-08 11:37:12] [r26g_13L_RC_conv_llamakd_150m] exit=0 :: 
+  recall r26g_13L_RC_conv_llamakd_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26g_13L_RC_conv_llamakd_150m N8: 100.0 100.0 100.0 100.0 | N32:  99.6 100.0 100.0  99.6
+  r25-evals r26g_13L_RC_conv_llamakd_150m C=1024 T=2048 | chunk1   48.86 (mem off   48.88) | chunks2+   48.08 (off   48.64, Δ +0.56) | first64 of 2+   67.38 (off   76.05, Δ +8.67) vs first64 of chunk1   75.81
+  r25-evals r26g_13L_RC_conv_llamakd_150m C=1024 N8:  90.6  99.2 100.0 100.0 (mem off  14.1) | N32:  53.1  93.0  96.1  96.9 (mem off   4.7)
+  r25-evals r26g_13L_RC_conv_llamakd_150m C=1024 | K1 in@0  91.1 | K1 in@200  62.0 | K1 x@0   7.3 | K1 x@200   8.9 | K1 x@0 off   7.3 | K1 in@0 para  23.4 | K1 x@0 para   5.7 | K4 in@0  25.5 | K4 in@200  20.8 | K4 x@0  13.0 | K4 x@200  12.5 | K4 x@0 off  14.1 | K4 in@0 para  17.7 | K4 x@0 para   9.4
+  r25-evals r26g_13L_RC_conv_llamakd_150m C=1024 xcopy top1 | none  31.5 | in-window  41.0 | beyond (memory)  26.1 | beyond mem-off  25.3
+  energy r26g_13L_RC_conv_llamakd_150m energy   93.7 uJ/tok vs dense  647.8 -> 6.91x | MAC   2.2M AC  92.8M (dense 140.8M) | top: up 24.7uJ, head 19.8uJ, qkv 18.6uJ, attn_gate 6.2uJ, o_proj 5.6uJ, to_current 2.1uJ
+  energy src                          energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.9M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-08 11:40:38] r26g_13L_RC_conv_llamakd_150m queue DONE
+  r26g_13L_RC_conv_llamakd_150m energy-v2 | weight reads 63.5M of 129.6M (49%) | compute only 6.91x (94 vs 648 uJ) | +SRAM fetch 3.57x (280 vs 1000 uJ) | +DRAM fetch 2.06x (20427 vs 42152 uJ)
+[q0 10-08 11:43:47] [r26e_13L_H6_chunk1024_xlate_150m] START
+[n53 10-08 12:41:58] r26i crashed twice on the 5080 (device not ready, 08:12) -> resumed on the 5090 from step 8000; r26e paused (SIGINT) and resumes after. r26g (Llama KD) spilled on the 5090 (watchdog kill at 1.6k tok/s; evals on a partial ckpt = invalid).
+[s0 10-08 12:41:58] scheduler waiting for GPU 0 lock
+[s0 10-08 12:41:58] [r26i_13L_RC2_hola_rand128_150m] RESUME
+[n53 10-08 12:55] 5080: r26k = RC2 seed 1 (B2xGA4, no expandable segments; pauses 17:50, resumes 00:00)
+[s1 10-08 12:55:22] scheduler waiting for GPU 1 lock
+[s1 10-08 12:55:22] [r26k_13L_RC2_hola_seed1_150m] START
+[n53 10-08 13:06:40] r26k: evening pause removed (Glenn: 5080 free all night); evals via temp/after_r26k.sh
+[n53 10-08 13:20] NIGHT QUEUE: 5090 after r26i+r26e: r26g2 (RC2 + Llama-1B KD conversion, B2xGA4) -> r26l (RC2 conversion 2x frozen thresholds, 120M); 5080 after r26k: r26m (RC2 + HOLA 256). All 12L.
+[s0 10-08 15:31:21] [r26i_13L_RC2_hola_rand128_150m] exit=0 :: 161.97 102.57 87.22 90.93 79.51 69.39 61.63 54.15 48.25 45.61 44.34 43.38 
+  recall r26i_13L_RC2_hola_rand128_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26i_13L_RC2_hola_rand128_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-08 15:32:15] scheduler DONE
+  r25-evals r26i_13L_RC2_hola_rand128_150m C=1024 T=2048 | chunk1   41.12 (mem off   44.01) | chunks2+   39.25 (off   43.44, Δ +4.19) | first64 of 2+   46.45 (off   63.15, Δ +16.70) vs first64 of chunk1   62.67
+  r25-evals r26i_13L_RC2_hola_rand128_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  11.7) | N32: 100.0 100.0 100.0 100.0 (mem off   3.1)
+  r25-evals r26i_13L_RC2_hola_rand128_150m C=1024 | K1 in@0  66.7 | K1 in@200  25.0 | K1 x@0   9.9 | K1 x@200   6.8 | K1 x@0 off   7.8 | K1 in@0 para  15.6 | K1 x@0 para   7.8 | K4 in@0  18.2 | K4 in@200  13.5 | K4 x@0  11.5 | K4 x@200  11.5 | K4 x@0 off   7.8 | K4 in@0 para   8.9 | K4 x@0 para  12.0
+  r25-evals r26i_13L_RC2_hola_rand128_150m C=1024 xcopy top1 | none  34.6 | in-window  39.3 | beyond (memory)  29.9 | beyond mem-off  26.2
+[n53 10-08 15:39:21] [r26i_13L_RC2_hola_rand128_150m] evals + diagnostics DONE
+[s0 10-08 15:39:21] scheduler waiting for GPU 0 lock
+[s0 10-08 15:39:21] [r26e_13L_H6_chunk1024_xlate_150m] RESUME
+[n53 10-08 15:45] r26i (RC2 + random chunks; B2xGA4, crash-resume 5080->5090) = chunk1 41.12 (r26h 39.30 / r26f 39.51; +4.6%), val 43.38; BEST MEMORY: real-text copy gain S32 +7.2/+5.8/+4.1/+4.1 (d0..d448), retention N8 97 / N32 100 at chunk 8, cross-chunk 100 everywhere, xcopy +3.7; in-window NL@200 25. Candidate RC3 (best memory, ~5% ppl, confounded by batch/resume).
+[wd 10-08 17:51:08] [r26k_13L_RC2_hola_seed1_150m] median 4428 tok/s < 5000 (spill/hang?) -> SIGTERM 24360
+[s1 10-08 17:51:43] [r26k_13L_RC2_hola_seed1_150m] exit :: 163.98 103.24 83.11 94.85 82.26 64.80 54.89 49.56 50.37 
+[n53] [r26k_13L_RC2_hola_seed1_150m] ENDED WITHOUT done:
+[s1 10-08 17:52:36] scheduler waiting for GPU 1 lock
+[s1 10-08 17:52:36] [r26m_13L_RC2_hola256_150m] START
+[s0 10-08 18:27:15] [r26e_13L_H6_chunk1024_xlate_150m] exit=0 :: 145.86 91.24 72.68 76.27 66.52 55.73 49.78 45.79 44.93 42.71 41.08 39.66 
+  recall r26e_13L_H6_chunk1024_xlate_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26e_13L_H6_chunk1024_xlate_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-08 18:27:54] scheduler DONE
+  r25-evals r26e_13L_H6_chunk1024_xlate_150m C=1024 T=2048 | chunk1   39.01 (mem off   39.53) | chunks2+   37.75 (off   38.99, Δ +1.23) | first64 of 2+   50.58 (off   61.61, Δ +11.03) vs first64 of chunk1   60.28
+  r25-evals r26e_13L_H6_chunk1024_xlate_150m C=1024 N8:  93.0  99.2  99.2  99.2 (mem off   9.4) | N32:  64.1  96.1  96.9  92.2 (mem off   0.8)
+  r25-evals r26e_13L_H6_chunk1024_xlate_150m C=1024 | K1 in@0  84.4 | K1 in@200  39.1 | K1 x@0   5.7 | K1 x@200   6.8 | K1 x@0 off   5.2 | K1 in@0 para  21.9 | K1 x@0 para   4.7 | K4 in@0  20.8 | K4 in@200  13.5 | K4 x@0  10.9 | K4 x@200   9.9 | K4 x@0 off   8.9 | K4 in@0 para  17.7 | K4 x@0 para  10.9
+  r25-evals r26e_13L_H6_chunk1024_xlate_150m C=1024 xcopy top1 | none  34.7 | in-window  44.2 | beyond (memory)  28.9 | beyond mem-off  27.3
+[n53 10-08 18:34:52] [r26e_13L_H6_chunk1024_xlate_150m] evals + diagnostics DONE
+  [r26g2_13L_RC2_conv_llamakd_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.72 -> coded 57.50 | mean spikes/input 0.814 | saved models/checkpoints/r26g2_13L_RC2_conv_llamakd_150m @ step 12208
+[g0 10-08 18:35:43] [r26g2_13L_RC2_conv_llamakd_150m] START
+[n53 10-08 19:45] r26e (RC + xchunk 0.25 from 50%) = chunk1 39.01 / val 39.66 (r26c 40.27/41.42), memory slightly weaker. r26k killed by watchdog at step 9300 (4.2k tok/s; CPU contention from the demo server?) -> resumes on the 5080 after r26m; r26n (RC2 + dose-down) queued on the 5090 after r26l.
+[g0 10-08 22:19:36] [r26g2_13L_RC2_conv_llamakd_150m] exit=0 :: 47.87 45.08 42.39 40.54 39.45 
+  recall r26g2_13L_RC2_conv_llamakd_150m |  100% |  100% |  100% |  100% |   97%
+  haystack (gap 0/64/192/440) r26g2_13L_RC2_conv_llamakd_150m N8: 100.0 100.0 100.0 100.0 | N32:  99.6  99.6 100.0 100.0
+  r25-evals r26g2_13L_RC2_conv_llamakd_150m C=1024 T=2048 | chunk1   37.48 (mem off   37.83) | chunks2+   36.00 (off   37.28, Δ +1.29) | first64 of 2+   46.87 (off   59.91, Δ +13.04) vs first64 of chunk1   60.66
+  r25-evals r26g2_13L_RC2_conv_llamakd_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  98.4 100.0 100.0  99.2 (mem off   5.5)
+  r25-evals r26g2_13L_RC2_conv_llamakd_150m C=1024 | K1 in@0  91.1 | K1 in@200  49.0 | K1 x@0   6.2 | K1 x@200   4.2 | K1 x@0 off   5.2 | K1 in@0 para  29.7 | K1 x@0 para   8.9 | K4 in@0  18.2 | K4 in@200  13.0 | K4 x@0  10.4 | K4 x@200  10.4 | K4 x@0 off  13.0 | K4 in@0 para  13.5 | K4 x@0 para  10.9
+  r25-evals r26g2_13L_RC2_conv_llamakd_150m C=1024 xcopy top1 | none  34.4 | in-window  46.1 | beyond (memory)  27.9 | beyond mem-off  27.2
+  energy r26g2_13L_RC2_conv_llamakd_150m energy  116.5 uJ/tok vs dense  647.8 -> 5.56x | MAC   2.2M AC 118.2M (dense 140.8M) | top: head 33.6uJ, up 29.2uJ, qkv 20.5uJ, attn_gate 6.8uJ, o_proj 6.4uJ, to_current 2.2uJ
+  energy src                          energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.8M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-08 22:24:25] r26g2_13L_RC2_conv_llamakd_150m queue DONE
+  r26g2_13L_RC2_conv_llamakd_150m energy-v2 | weight reads 68.7M of 129.6M (53%) | compute only 5.56x (117 vs 648 uJ) | +SRAM fetch 3.16x (316 vs 1000 uJ) | +DRAM fetch 1.90x (22131 vs 42152 uJ)
+[n53 10-08 22:27:57] [r26g2_13L_RC2_conv_llamakd_150m] energy-v2 + diagnostics DONE
+  [r26l_13L_RC2_conv_sc20frz_120M_150m] seed [OK] 74 spike codes calibrated (scale 2.0) | zero-shot ppl dense 47.72 -> coded 108.55 | mean spikes/input 0.391 | saved models/checkpoints/r26l_13L_RC2_conv_sc20frz_120M_150m @ step 12208
+[g0 10-08 22:28:22] [r26l_13L_RC2_conv_sc20frz_120M_150m] START
+[wd 10-08 22:58:13] [r26m_13L_RC2_hola256_150m] median 3841 tok/s < 5000 (spill/hang?) -> SIGTERM 35169
+[s1 10-08 22:58:21] [r26m_13L_RC2_hola256_150m] exit=143 :: 164.08 100.23 92.37 102.41 82.85 67.20 55.92 50.22 47.56 
+[s1 10-08 22:58:21] scheduler DONE
+[n53 10-08 23:11:44] r26m killed by watchdog (3.8k tok/s; demo-server CPU contention) -> 5080 resumes r26m (step 9000) then r26k (step 9000); watchdog MIN_TPS 2500. r26g2 (RC2 + Llama-1B KD conversion) = chunk1 37.48 (r26j 38.49, r21b 38.84) = NEW BEST, 5.56x / 3.16x SRAM, xchunk ~100.
+[wd 10-08 23:11:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[s1 10-08 23:11:44] scheduler waiting for GPU 1 lock
+[s1 10-08 23:11:44] [r26m_13L_RC2_hola256_150m] RESUME
+[wd 10-09 01:31:47] [r26m_13L_RC2_hola256_150m] median 2354 tok/s < 2500 (spill/hang?) -> SIGTERM 44454
+[s1 10-09 01:32:07] [r26m_13L_RC2_hola256_150m] exit=143 :: 164.08 100.23 92.37 102.41 82.85 67.20 55.92 50.22 47.56 43.21 
+[s1 10-09 01:32:07] scheduler DONE
+[s1 10-09 01:32:07] scheduler waiting for GPU 1 lock
+[s1 10-09 01:32:07] [r26k_13L_RC2_hola_seed1_150m] RESUME
+[g0 10-09 02:14:00] [r26l_13L_RC2_conv_sc20frz_120M_150m] exit=0 :: 61.05 57.84 54.16 50.70 47.96 46.16 44.92 
+  recall r26l_13L_RC2_conv_sc20frz_120M_150m |  100% |  100% |   97% |  100% |  100%
+  haystack (gap 0/64/192/440) r26l_13L_RC2_conv_sc20frz_120M_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0  99.6  99.6 100.0
+  r25-evals r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 T=2048 | chunk1   43.64 (mem off   44.21) | chunks2+   42.14 (off   43.71, Δ +1.57) | first64 of 2+   54.49 (off   68.50, Δ +14.00) vs first64 of chunk1   69.67
+  r25-evals r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  90.6 100.0 100.0  99.2 (mem off   3.9)
+  r25-evals r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 | K1 in@0  91.7 | K1 in@200  46.4 | K1 x@0   6.8 | K1 x@200   5.7 | K1 x@0 off   5.7 | K1 in@0 para  32.3 | K1 x@0 para   5.7 | K4 in@0  20.3 | K4 in@200  15.1 | K4 x@0  12.5 | K4 x@200  13.0 | K4 x@0 off   7.8 | K4 in@0 para  14.6 | K4 x@0 para  13.5
+  r25-evals r26l_13L_RC2_conv_sc20frz_120M_150m C=1024 xcopy top1 | none  33.6 | in-window  41.0 | beyond (memory)  26.6 | beyond mem-off  25.3
+  energy r26l_13L_RC2_conv_sc20frz_120M_150m energy   59.7 uJ/tok vs dense  647.8 -> 10.85x | MAC   2.2M AC  55.0M (dense 140.8M) | top: up 13.4uJ, head 13.0uJ, qkv 9.5uJ, o_proj 5.1uJ, attn_gate 3.2uJ, proj 1.8uJ
+  energy src                          energy  460.2 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.8M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-09 02:18:01] r26l_13L_RC2_conv_sc20frz_120M_150m queue DONE
+  r26l_13L_RC2_conv_sc20frz_120M_150m energy-v2 | weight reads 46.4M of 129.6M (36%) | compute only 10.85x (60 vs 648 uJ) | +SRAM fetch 4.91x (204 vs 1000 uJ) | +DRAM fetch 2.82x (14940 vs 42152 uJ)
+[n53 10-09 02:21:28] [r26l_13L_RC2_conv_sc20frz_120M_150m] energy-v2 + diagnostics DONE
+[n53 10-09 02:21:28] night queue 10-08 DONE
+[q0 10-09 02:21:47] [r26n_13L_RC2_xlate_150m] START
+[wd 10-09 03:16:48] [r26k_13L_RC2_hola_seed1_150m] median 2183 tok/s < 2500 (spill/hang?) -> SIGTERM 47156
+[s1 10-09 03:17:09] [r26k_13L_RC2_hola_seed1_150m] exit=143 :: 163.98 103.24 83.11 94.85 82.26 64.80 54.89 49.56 50.37 45.68 
+[s1 10-09 03:17:09] scheduler DONE
+[q0 10-09 05:59:06] [r26n_13L_RC2_xlate_150m] exit=0 :: 146.24 91.21 73.38 84.41 73.35 59.79 51.42 46.90 45.44 42.21 40.12 38.72 
+  recall r26n_13L_RC2_xlate_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26n_13L_RC2_xlate_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[q0 10-09 05:59:38] queue DONE
+[wd 10-09 06:01:51] watchdog exit (no queues left)
+  r25-evals r26n_13L_RC2_xlate_150m    C=1024 T=2048 | chunk1   38.09 (mem off   38.56) | chunks2+   36.73 (off   38.03, Δ +1.30) | first64 of 2+   47.65 (off   60.06, Δ +12.41) vs first64 of chunk1   59.86
+  r25-evals r26n_13L_RC2_xlate_150m    C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  13.3) | N32:  99.2 100.0 100.0 100.0 (mem off   4.7)
+  r25-evals r26n_13L_RC2_xlate_150m    C=1024 | K1 in@0  84.4 | K1 in@200  56.2 | K1 x@0   7.3 | K1 x@200   8.3 | K1 x@0 off   7.8 | K1 in@0 para  18.8 | K1 x@0 para   6.8 | K4 in@0  17.7 | K4 in@200  18.2 | K4 x@0  11.5 | K4 x@200  10.9 | K4 x@0 off   8.9 | K4 in@0 para  14.1 | K4 x@0 para  13.5
+  r25-evals r26n_13L_RC2_xlate_150m      C=1024 xcopy top1 | none  35.3 | in-window  45.7 | beyond (memory)  28.2 | beyond mem-off  27.3
+[n53 10-09 06:05:28] [r26n_13L_RC2_xlate_150m] evals + diagnostics DONE
+[n53 10-09 07:45] r26n = chunk1 38.09 (best dense) -> RC3. r26l (2x frozen conv) = chunk1 43.64, 10.85x / 4.91x SRAM. r26m + r26k killed on the 5080 at step 10000 (VRAM 16.2 GB reserved -> spill). GPUs idle since 03:17 / 06:05 -> restarted: 5090 r26o (RC3 + Llama KD conv); 5080 resume r26k -> r26m with max_split_size_mb:256.
+[wd 10-09 07:39:04] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[s1 10-09 07:39:04] scheduler waiting for GPU 1 lock
+[s1 10-09 07:39:04] [r26k_13L_RC2_hola_seed1_150m] RESUME
+  [r26o_13L_RC3_conv_llamakd_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 46.36 -> coded 56.11 | mean spikes/input 0.817 | saved models/checkpoints/r26o_13L_RC3_conv_llamakd_150m @ step 12208
+[g0 10-09 07:39:36] [r26o_13L_RC3_conv_llamakd_150m] START
+[wd 10-09 08:39:05] [r26k_13L_RC2_hola_seed1_150m] median 2385 tok/s < 2500 (spill/hang?) -> SIGTERM 51728
+[s1 10-09 08:39:25] [r26k_13L_RC2_hola_seed1_150m] exit=143 :: 163.98 103.24 83.11 94.85 82.26 64.80 54.89 49.56 50.37 45.68 
+[s1 10-09 08:39:25] scheduler DONE
+[s1 10-09 08:39:25] scheduler waiting for GPU 1 lock
+[s1 10-09 08:39:25] [r26m_13L_RC2_hola256_150m] RESUME
+[n53 10-09 08:39:49] r26k killed 3rd time on the 5080 (2.4k tok/s): 12L unreliable on the 5080 -> r26k + r26m resume on the 5090 after r26o.
+[n53 10-09 15:42:19] power outage ~10:25 -> 5090 resumes r26o (step 16000) -> r26k -> r26m
+[wd 10-09 15:42:19] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[s0 10-09 15:42:19] scheduler waiting for GPU 0 lock
+[s0 10-09 15:42:19] [r26o_13L_RC3_conv_llamakd_150m] RESUME
+[s0 10-09 16:41:45] [r26o_13L_RC3_conv_llamakd_150m] exit=0 :: 
+  recall r26o_13L_RC3_conv_llamakd_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26o_13L_RC3_conv_llamakd_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-09 16:42:27] scheduler DONE
+  recall r26o_13L_RC3_conv_llamakd_150m |  100% |  100% |  100% |  100% |  100%
+  r25-evals r26o_13L_RC3_conv_llamakd_150m C=1024 T=2048 | chunk1   36.55 (mem off   37.23) | chunks2+   35.37 (off   37.04, Δ +1.67) | first64 of 2+   44.84 (off   58.92, Δ +14.09) vs first64 of chunk1   59.29
+  r25-evals r26o_13L_RC3_conv_llamakd_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  16.4) | N32: 100.0 100.0 100.0 100.0 (mem off   5.5)
+  r25-evals r26o_13L_RC3_conv_llamakd_150m C=1024 | K1 in@0  88.5 | K1 in@200  49.5 | K1 x@0   7.3 | K1 x@200   6.8 | K1 x@0 off   5.7 | K1 in@0 para  21.9 | K1 x@0 para   4.2 | K4 in@0  15.6 | K4 in@200  12.5 | K4 x@0   9.4 | K4 x@200  11.5 | K4 x@0 off  11.5 | K4 in@0 para   9.9 | K4 x@0 para   9.4
+  r25-evals r26o_13L_RC3_conv_llamakd_150m C=1024 xcopy top1 | none  35.6 | in-window  45.0 | beyond (memory)  28.8 | beyond mem-off  27.1
+  r26o_13L_RC3_conv_llamakd_150m energy-v2 | weight reads 68.4M of 129.6M (53%) | compute only 5.65x (115 vs 648 uJ) | +SRAM fetch 3.19x (314 vs 1000 uJ) | +DRAM fetch 1.91x (22016 vs 42152 uJ)
+[n53 10-09 16:50:38] [r26o_13L_RC3_conv_llamakd_150m] energy-v2 + diagnostics DONE
+[s0 10-09 16:50:38] scheduler waiting for GPU 0 lock
+[s0 10-09 16:50:38] [r26k_13L_RC2_hola_seed1_150m] RESUME
+[s0 10-09 18:27:05] [r26k_13L_RC2_hola_seed1_150m] exit=0 :: 163.98 103.24 83.11 94.85 82.26 64.80 54.89 49.56 50.37 45.68 45.84 45.48 
+  recall r26k_13L_RC2_hola_seed1_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26k_13L_RC2_hola_seed1_150m N8: 100.0 100.0 100.0  98.8 | N32: 100.0 100.0 100.0 100.0
+[s0 10-09 18:27:42] scheduler DONE
+  recall r26k_13L_RC2_hola_seed1_150m |  100% |  100% |  100% |  100% |  100%
+  r25-evals r26k_13L_RC2_hola_seed1_150m C=1024 T=2048 | chunk1   42.69 (mem off   42.85) | chunks2+   41.93 (off   42.46, Δ +0.53) | first64 of 2+   58.05 (off   67.01, Δ +8.96) vs first64 of chunk1   65.95
+  r25-evals r26k_13L_RC2_hola_seed1_150m C=1024 N8:  97.7  98.4  99.2  99.2 (mem off  10.2) | N32:  93.8  96.9  97.7  96.9 (mem off   3.9)
+  r25-evals r26k_13L_RC2_hola_seed1_150m C=1024 | K1 in@0  70.8 | K1 in@200  41.7 | K1 x@0   5.7 | K1 x@200   5.2 | K1 x@0 off   5.7 | K1 in@0 para  12.0 | K1 x@0 para   7.3 | K4 in@0  16.7 | K4 in@200  15.6 | K4 x@0   9.9 | K4 x@200  11.5 | K4 x@0 off  10.9 | K4 in@0 para  13.0 | K4 x@0 para  11.5
+  r25-evals r26k_13L_RC2_hola_seed1_150m C=1024 xcopy top1 | none  34.0 | in-window  43.6 | beyond (memory)  26.9 | beyond mem-off  26.4
+[n53 10-09 18:33:55] [r26k_13L_RC2_hola_seed1_150m] evals + diagnostics DONE
+[s0 10-09 18:33:55] scheduler waiting for GPU 0 lock
+[s0 10-09 18:33:55] [r26m_13L_RC2_hola256_150m] RESUME
+[s0 10-09 19:56:40] [r26m_13L_RC2_hola256_150m] exit=0 :: 164.08 100.23 92.37 102.41 82.85 67.20 55.92 50.22 47.56 43.21 43.64 43.50 
+  recall r26m_13L_RC2_hola256_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26m_13L_RC2_hola256_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0  99.6  99.6  99.6
+[s0 10-09 19:57:10] scheduler DONE
+  recall r26m_13L_RC2_hola256_150m |  100% |  100% |  100% |  100% |  100%
+  r25-evals r26m_13L_RC2_hola256_150m  C=1024 T=2048 | chunk1   41.35 (mem off   41.65) | chunks2+   39.74 (off   41.13, Δ +1.38) | first64 of 2+   51.67 (off   65.68, Δ +14.02) vs first64 of chunk1   64.01
+  r25-evals r26m_13L_RC2_hola256_150m  C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  99.2 100.0 100.0 100.0 (mem off   5.5)
+  r25-evals r26m_13L_RC2_hola256_150m  C=1024 | K1 in@0  91.7 | K1 in@200  59.4 | K1 x@0   8.9 | K1 x@200   7.8 | K1 x@0 off   7.8 | K1 in@0 para  12.5 | K1 x@0 para   7.3 | K4 in@0  18.8 | K4 in@200  12.5 | K4 x@0   6.8 | K4 x@200  10.9 | K4 x@0 off   9.4 | K4 in@0 para  11.5 | K4 x@0 para   6.2
+  r25-evals r26m_13L_RC2_hola256_150m    C=1024 xcopy top1 | none  34.6 | in-window  44.9 | beyond (memory)  29.6 | beyond mem-off  26.9
+[n53 10-09 20:03:31] [r26m_13L_RC2_hola256_150m] evals + diagnostics DONE
+[n54 10-09 20:03:32] 5090: r26p_13L_RC3_headwd_150m (r26n + head_weight_decay 1.0; no-harm test for v4_cloud)
+[s0 10-09 20:03:32] scheduler waiting for GPU 0 lock
+[s0 10-09 20:03:32] [r26p_13L_RC3_headwd_150m] START
+[n54 10-09 22:44:51] 5080: cloud dress rehearsal v4_reh -> v4_reh_conv (cloud/run_v4.sh)
+[s0 10-10 00:10:40] [r26p_13L_RC3_headwd_150m] exit=0 :: 149.01 93.42 75.51 89.49 78.35 63.12 53.84 48.51 46.66 43.60 41.44 39.74 
+  recall r26p_13L_RC3_headwd_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26p_13L_RC3_headwd_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-10 00:11:24] scheduler DONE
+  r25-evals r26p_13L_RC3_headwd_150m   C=1024 T=2048 | chunk1   38.92 (mem off   39.31) | chunks2+   37.62 (off   38.82, Δ +1.20) | first64 of 2+   49.45 (off   61.37, Δ +11.92) vs first64 of chunk1   60.46
+  r25-evals r26p_13L_RC3_headwd_150m   C=1024 N8:  98.4 100.0 100.0 100.0 (mem off  11.7) | N32:  75.8 100.0  99.2 100.0 (mem off   4.7)
+  r25-evals r26p_13L_RC3_headwd_150m   C=1024 | K1 in@0  86.5 | K1 in@200  57.8 | K1 x@0   8.9 | K1 x@200   8.3 | K1 x@0 off  10.4 | K1 in@0 para  31.8 | K1 x@0 para   9.4 | K4 in@0  19.3 | K4 in@200  16.7 | K4 x@0   9.9 | K4 x@200  11.5 | K4 x@0 off   6.8 | K4 in@0 para  13.0 | K4 x@0 para   8.9
+  r25-evals r26p_13L_RC3_headwd_150m     C=1024 xcopy top1 | none  35.3 | in-window  44.7 | beyond (memory)  27.9 | beyond mem-off  27.5
+  [r26p_13L_RC3_headwd_150m]   head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+  [r26p_13L_RC3_headwd_150m]   [wnorm] embed=3359.19 (-0.66%) | head=66.12 (-1.69%)
+[n54 10-10 00:16:39] [r26p_13L_RC3_headwd_150m] evals + diagnostics DONE
+[n54 10-10 00:17:29] 5090 chain: r26p_13L_RC3_headwd_150m
+[s0 10-10 00:17:29] scheduler waiting for GPU 0 lock
+[s0 10-10 00:17:29] [r26p_13L_RC3_headwd_150m] already DONE, skip
+[s0 10-10 00:17:29] scheduler DONE
+[n54 10-10 00:17:30] 5090 chain: r26q_13L_RC3_resume10k_150m
+[s0 10-10 00:17:30] scheduler waiting for GPU 0 lock
+[s0 10-10 00:17:30] [r26q_13L_RC3_resume10k_150m] START
+[wd 10-10 00:40:27] [v4_reh_conv] log silent 28 min -> SIGTERM 34991
+  r25-evals v4_reh_conv                C=1024 T=2048 | chunk1  123.29 (mem off  144.18) | chunks2+  124.40 (off  146.44, Δ +22.04) | first64 of 2+  136.33 (off  169.03, Δ +32.70) vs first64 of chunk1  155.01
+  r25-evals v4_reh_conv                C=1024 N8: 100.0  99.2 100.0  98.4 (mem off  16.4) | N32:  96.9  96.1  98.4  95.3 (mem off   3.1)
+  r25-evals v4_reh_conv                C=1024 | K1 in@0  12.5 | K1 in@200   8.3 | K1 x@0   9.9 | K1 x@200   8.9 | K1 x@0 off   7.8 | K1 in@0 para   6.8 | K1 x@0 para   8.9 | K4 in@0   6.8 | K4 in@200   9.4 | K4 x@0   8.9 | K4 x@200   8.9 | K4 x@0 off   8.3 | K4 in@0 para   7.3 | K4 x@0 para   8.3
+  r25-evals v4_reh_conv                  C=1024 xcopy top1 | none  23.2 | in-window  23.3 | beyond (memory)  23.4 | beyond mem-off  19.1
+  v4_reh_conv                  energy-v2 | weight reads 43.1M of 83.6M (52%) | compute only 5.82x (71 vs 414 uJ) | +SRAM fetch 3.28x (195 vs 640 uJ) | +DRAM fetch 1.96x (13880 vs 27185 uJ)
+[n54 10-10 02:03:41] 5080 chain: screen_p26za_7L_RC3_x50
+[s1 10-10 02:03:41] scheduler waiting for GPU 1 lock
+[s1 10-10 02:03:41] [screen_p26za_7L_RC3_x50] START
+[n54 10-10 03:18:16] [r26q_13L_RC3_resume10k_150m] planned stop after step 10000 (resume control)
+[s0 10-10 03:18:23] [r26q_13L_RC3_resume10k_150m] exit=143 :: 148.42 92.92 91.54 87.42 74.44 60.45 52.57 47.95 46.37 43.00 
+[s0 10-10 03:18:23] scheduler DONE
+[s0 10-10 03:19:20] scheduler waiting for GPU 0 lock
+[s0 10-10 03:19:20] [r26q_13L_RC3_resume10k_150m] RESUME
+[s0 10-10 04:13:04] [r26q_13L_RC3_resume10k_150m] exit=0 :: 148.42 92.92 91.54 87.42 74.44 60.45 52.57 47.95 46.37 43.00 40.95 40.29 
+  recall r26q_13L_RC3_resume10k_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26q_13L_RC3_resume10k_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0  99.6  99.6 100.0
+[s0 10-10 04:13:38] scheduler DONE
+  r25-evals r26q_13L_RC3_resume10k_150m C=1024 T=2048 | chunk1   39.56 (mem off   40.02) | chunks2+   38.09 (off   39.41, Δ +1.32) | first64 of 2+   50.03 (off   62.70, Δ +12.67) vs first64 of chunk1   61.22
+  r25-evals r26q_13L_RC3_resume10k_150m C=1024 N8:  99.2 100.0 100.0 100.0 (mem off  10.2) | N32:  99.2  99.2 100.0 100.0 (mem off   5.5)
+  r25-evals r26q_13L_RC3_resume10k_150m C=1024 | K1 in@0  91.1 | K1 in@200  40.6 | K1 x@0   4.7 | K1 x@200   5.7 | K1 x@0 off   5.2 | K1 in@0 para  19.3 | K1 x@0 para   9.4 | K4 in@0  19.8 | K4 in@200  15.6 | K4 x@0   9.9 | K4 x@200   9.4 | K4 x@0 off   8.9 | K4 in@0 para   8.3 | K4 x@0 para   8.9
+  r25-evals r26q_13L_RC3_resume10k_150m  C=1024 xcopy top1 | none  34.9 | in-window  44.5 | beyond (memory)  28.0 | beyond mem-off  26.9
+[n54 10-10 04:19:25] [r26q_13L_RC3_resume10k_150m] evals + diagnostics DONE
+[n54 10-10 04:19:26] 5090 chain: r26r_13L_RC3_seed1_150m
+[s0 10-10 04:19:26] scheduler waiting for GPU 0 lock
+[s0 10-10 04:19:26] [r26r_13L_RC3_seed1_150m] START
+[s1 10-10 04:45:56] [screen_p26za_7L_RC3_x50] exit=0 :: 239.98 146.27 99.24 73.44 64.96 60.28 
+  recall screen_p26za_7L_RC3_x50 |  100% |  100% |  100% |  100% |  100%
+[s1 10-10 04:46:18] scheduler DONE
+  r25-evals     raise ValueError("Size of available data is not a "
+  r25-evals ValueError: Size of available data is not a multiple of the data-type size.
+  r25-evals     raise ValueError("Size of available data is not a "
+  r25-evals ValueError: Size of available data is not a multiple of the data-type size.
+  r25-evals     raise ValueError("Size of available data is not a "
+  r25-evals ValueError: Size of available data is not a multiple of the data-type size.
+  r25-evals     raise ValueError("Size of available data is not a "
+  r25-evals ValueError: Size of available data is not a multiple of the data-type size.
+[n54 10-10 04:47:02] [screen_p26za_7L_RC3_x50] evals DONE
+[n54 10-10 04:47:03] 5080 chain: screen_p26zb_7L_RC3_x20
+[s1 10-10 04:47:03] scheduler waiting for GPU 1 lock
+[s1 10-10 04:47:03] [screen_p26zb_7L_RC3_x20] START
+[wd 10-10 05:33:31] [screen_p26zb_7L_RC3_x20] log silent 29 min -> SIGTERM 60750
+[s1 10-10 05:33:39] [screen_p26zb_7L_RC3_x20] exit=143 :: 
+[s1 10-10 05:33:39] scheduler DONE
+[s1 10-10 05:34:38] scheduler waiting for GPU 1 lock
+[s1 10-10 05:34:38] [screen_p26zb_7L_RC3_x20] before START -- GPU 1 in use (util 100%), waiting for it to be free
+  r25-evals screen_p26za_7L_RC3_x50    C=1024 T=2048 | chunk1   55.99 (mem off   62.84) | chunks2+   54.36 (off   62.69, Δ +8.33) | first64 of 2+   67.63 (off   85.27, Δ +17.64) vs first64 of chunk1   81.39
+[s1 10-10 05:35:36] [screen_p26zb_7L_RC3_x20] START
+[s1 10-10 08:15:59] [screen_p26zb_7L_RC3_x20] exit=0 :: 241.84 147.21 98.53 72.62 64.15 59.56 
+  recall screen_p26zb_7L_RC3_x20 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zb_7L_RC3_x20 N8: 100.0  99.6 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-10 08:18:21] scheduler DONE
+  r25-evals screen_p26zb_7L_RC3_x20    C=1024 T=2048 | chunk1   55.39 (mem off   60.70) | chunks2+   53.85 (off   60.37, Δ +6.52) | first64 of 2+   67.10 (off   83.74, Δ +16.63) vs first64 of chunk1   82.47
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals screen_p26zb_7L_RC3_x20      C=1024 xcopy top1 | none  31.3 | in-window  37.0 | beyond (memory)  28.9 | beyond mem-off  25.4
+[n54 10-10 08:25:04] [screen_p26zb_7L_RC3_x20] evals DONE
+[n54 10-10 08:25:06] 5080 chain: screen_p26za_7L_RC3_x50
+[s1 10-10 08:25:06] scheduler waiting for GPU 1 lock
+[s1 10-10 08:25:06] [screen_p26za_7L_RC3_x50] already DONE, skip
+[s1 10-10 08:25:06] scheduler DONE
+[s0 10-10 08:29:00] [r26r_13L_RC3_seed1_150m] exit=0 :: 146.47 91.36 71.49 82.93 74.46 62.18 52.72 47.48 46.22 42.92 40.80 39.28 
+  recall r26r_13L_RC3_seed1_150m |  100% |  100% |  100% |  100% |  100%
+  r25-evals screen_p26za_7L_RC3_x50    C=1024 T=2048 | chunk1   55.99 (mem off   62.84) | chunks2+   54.36 (off   62.69, Δ +8.33) | first64 of 2+   67.63 (off   85.27, Δ +17.64) vs first64 of chunk1   81.39
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals screen_p26za_7L_RC3_x50      C=1024 xcopy top1 | none  31.6 | in-window  35.4 | beyond (memory)  28.7 | beyond mem-off  23.9
+[n54 10-10 08:29:34] [screen_p26za_7L_RC3_x50] evals DONE
+[n54 10-10 08:29:35] 5080 chain: screen_p26zc_7L_RC3_x50_s1
+[s1 10-10 08:29:35] scheduler waiting for GPU 1 lock
+[s1 10-10 08:29:35] [screen_p26zc_7L_RC3_x50_s1] START
+  haystack (gap 0/64/192/440) r26r_13L_RC3_seed1_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-10 08:29:41] scheduler DONE
+  r25-evals r26r_13L_RC3_seed1_150m    C=1024 T=2048 | chunk1   38.65 (mem off   39.27) | chunks2+   37.27 (off   38.81, Δ +1.54) | first64 of 2+   48.23 (off   60.97, Δ +12.74) vs first64 of chunk1   60.49
+  r25-evals r26r_13L_RC3_seed1_150m    C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32: 100.0  99.2  99.2  99.2 (mem off   3.9)
+  r25-evals r26r_13L_RC3_seed1_150m    C=1024 | K1 in@0  87.5 | K1 in@200  41.7 | K1 x@0   6.2 | K1 x@200   7.3 | K1 x@0 off   5.7 | K1 in@0 para  20.3 | K1 x@0 para   5.2 | K4 in@0  13.0 | K4 in@200  12.0 | K4 x@0   9.4 | K4 x@200  10.4 | K4 x@0 off   9.4 | K4 in@0 para  13.0 | K4 x@0 para  10.4
+  r25-evals r26r_13L_RC3_seed1_150m      C=1024 xcopy top1 | none  35.7 | in-window  43.8 | beyond (memory)  27.6 | beyond mem-off  26.8
+[n54 10-10 08:35:17] [r26r_13L_RC3_seed1_150m] evals + diagnostics DONE
+[n54 10-10 08:35:18] 5090 chain: r26t_13L_RC3_resume10k_fix_150m
+[s0 10-10 08:35:18] scheduler waiting for GPU 0 lock
+[s0 10-10 08:35:18] [r26t_13L_RC3_resume10k_fix_150m] START
