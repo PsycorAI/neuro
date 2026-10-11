@@ -1709,3 +1709,11 @@
 [s0 10-11 10:14:55] [r26x_13L_RC3_headwd01_150m] START
 [s1 10-11 10:20:19] [screen_p26zg_7L_RC3_gap20_x20] exit=0 :: 239.34 171.84 121.03 91.05 75.00 67.94 
   recall screen_p26zg_7L_RC3_gap20_x20 |  100% |  100% |  100% |  100% |  100%
+[s1 10-11 12:07:36] scheduler DONE
+[n55 10-11 12:07:41] [screen_p26zg_7L_RC3_gap20_x20] haystack_recall_eval killed after a 1 h 50 WDDM spill (no result line; to rerun on the 5090)
+  r25-evals screen_p26zg_7L_RC3_gap20_x20 C=1024 T=2048 | chunk1   62.69 (mem off   67.09) | chunks2+   60.96 (off   66.51, Δ +5.55) | first64 of 2+   78.99 (off   92.76, Δ +13.77) vs first64 of chunk1   91.44
+  r25-evals screen_p26zg_7L_RC3_gap20_x20 C=1024 xcopy top1 | none  29.1 | in-window  35.3 | beyond (memory)  26.7 | beyond mem-off  23.9
+[n54 10-11 12:09:35] [screen_p26zg_7L_RC3_gap20_x20] evals DONE
+[n54 10-11 12:09:36] 5080 chain: screen_p26zh_7L_RC3_hwd01
+[s1 10-11 12:09:36] scheduler waiting for GPU 1 lock
+[s1 10-11 12:09:36] [screen_p26zh_7L_RC3_hwd01] START

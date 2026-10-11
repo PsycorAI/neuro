@@ -240,3 +240,11 @@ emit("screen_p26zj_7L_RC3_hwd10_s1", "v4_reh", "7L RC3 + head_weight_decay 1.0, 
 # temp/mk_kd_control_seed.py). Conversion cost in ppl = r26o 36.55 - r26y. Queued last on the 5090 (after r26x).
 emit("r26y_13L_RC3_kdonly_150m", "r26o_13L_RC3_conv_llamakd_150m", "CONTROL for r26o: +80M tok with Llama KD, NO spike codes.",
      spike_code=None)
+# 10-11 13:30 (Neuro 55). The last two 5080 slots: p26zi (early start, seed 1) and p26zj (decay 1.0, seed 1) add little
+# (early start is negative at 13L and 7L; 7L shows no decay cost at any value) -> full 7L TRAINING runs with the new
+# memory flags instead, against the no-decay 7L band (seed 0: 55.99 / 55.39, seed 1: 55.45 / 55.43):
+#   zk = mqar_separate_backward + mqar_aux_splits 2, seed 0     zl = mqar_separate_backward, seed 1
+emit("screen_p26zk_7L_RC3_sepbw_s2", "v4_reh", "7L RC3, no head decay, mqar_separate_backward + 2 aux splits.",
+     **_n, mqar_separate_backward=True, mqar_aux_splits=2)
+emit("screen_p26zl_7L_RC3_sepbw_s1", "v4_reh", "7L RC3, no head decay, mqar_separate_backward, seed 1.",
+     **_n, seed=1, mqar_separate_backward=True)

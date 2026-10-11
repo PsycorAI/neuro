@@ -59,6 +59,14 @@ while [ ! -f temp/alert_watch.STOP ]; do
       eval "[ \$gidle$gi = 8 ]" && A WARN "GPU $gi has had no job for 16 min (${gm} MiB in use): idle"
     else eval "gidle$gi=0"; fi
   done < <(nvidia-smi --query-gpu=index,memory.used --format=csv,noheader,nounits 2>/dev/null)
+  # 5c. (10-11, Neuro 55) an eval script that has run for 30 min is stuck or spilling (normal: 1-10 min). The p26zg
+  #     haystack eval held the 5080 chain for 1 h 50 and no other check saw it (card "busy", other logs changing).
+  for ep in $(pgrep -f "[_]eval[a-z0-9_]*\.py "); do
+    [ "$(ps -o comm= -p $ep 2>/dev/null)" = timeout ] && continue      # the "timeout N python ..." wrapper of the same eval
+    et=$(ps -o etimes= -p $ep 2>/dev/null | tr -d ' ')
+    [ -n "$et" ] && [ "$et" -ge 1800 ] && once "slow-eval $ep" && \
+      A WARN "an eval has been running for $((et / 60)) min (pid $ep): $(tr '\0' ' ' < /proc/$ep/cmdline 2>/dev/null | sed 's#.*/temp/##; s#.*/scripts/##' | cut -c1-70)"
+  done
   # 6. disk
   for m in /mnt/g:40 /:20; do
     free=$(df -BG --output=avail ${m%%:*} 2>/dev/null | tail -1 | tr -dc '0-9')

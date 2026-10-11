@@ -67,3 +67,8 @@
 [INFO 10-11 09:58:59] separate-backward validation started on the 5090
 [DONE 10-11 10:14:54] separate backward: 1B CONVERSION at the real T2048 shape with the full recipe now PASSES on the 5090 | sep_xchunk_T2048: peak allocated 21.4 GB | peak reserved 21.7 GB | vra (was 24.9 GB)
 [INFO 10-11 10:14:55] r26x_13L_RC3_headwd01_150m started on the 5090
+[DONE 10-11 12:09:35] screen_p26zg_7L_RC3_gap20_x20 chunk1 62.69 val 67.94 | 
+[INFO 10-11 12:10:01] alert_watch stopped (STOP file)
+[INFO 10-11 12:10:02] alert_watch started
+[INFO 10-11 12:11:56] alert_watch stopped (STOP file)
+[INFO 10-11 12:11:58] alert_watch started

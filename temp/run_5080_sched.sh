@@ -67,7 +67,12 @@ for run in "$@"; do
     late_nostart || break
   done
   last=$(ls $ck/step_*.pt 2>/dev/null | tail -1)
-  "$PY" scripts/recall_eval.py --runs $run --Ns 4,8,16,32,64 --B 32 2>&1 | grep -E "^ *$run" | head -1 | sed "s/^/  recall /" >> "$LOG"
-  [ -n "$last" ] && "$PY" temp/haystack_recall_eval.py $run=$last 2>&1 | grep -E "^$run" | sed "s/^/  haystack (gap 0\/64\/192\/440) /" >> "$LOG"
+  # 2026-10-11: both evals are time-limited (45 min; normal: under a minute) -- the haystack eval of screen_p26zg
+  # spilled the 16 GB card for 1 h 50 and held the whole 5080 chain. On cards under 20 GB it now runs at batch 16 x 16
+  # reps instead of 64 x 4 (the same 256 samples per cell).
+  mem=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits -i $GPU 2>/dev/null | tr -dc '0-9')
+  hb=64; [ -n "$mem" ] && [ "$mem" -lt 20000 ] && hb=16
+  timeout 2700 "$PY" scripts/recall_eval.py --runs $run --Ns 4,8,16,32,64 --B 32 2>&1 | grep -E "^ *$run" | head -1 | sed "s/^/  recall /" >> "$LOG"
+  [ -n "$last" ] && HAYSTACK_B=$hb timeout 2700 "$PY" temp/haystack_recall_eval.py $run=$last 2>&1 | grep -E "^$run" | sed "s/^/  haystack (gap 0\/64\/192\/440) /" >> "$LOG"
 done
 say "scheduler DONE"

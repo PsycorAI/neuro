@@ -1,0 +1,50 @@
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (71 other params, lr=0.0006)
+  head_weight_decay=0.1 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=142.42M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
+step 100 | 1.6M tok | loss 12.455 | 9,272 tok/s | vram 2.2/7.7 GB
+step 200 | 3.3M tok | loss 11.232 | 11,228 tok/s | vram 2.2/7.7 GB
+step 300 | 4.9M tok | loss 11.191 | 11,582 tok/s | vram 2.2/7.7 GB
+step 400 | 6.6M tok | loss 9.656 | 11,720 tok/s | vram 2.2/7.7 GB
+step 500 | 8.2M tok | loss 9.956 | 11,463 tok/s | vram 2.2/7.7 GB
+step 600 | 9.8M tok | loss 9.552 | 11,257 tok/s | vram 2.2/7.7 GB
+step 700 | 11.5M tok | loss 8.654 | 11,959 tok/s | vram 2.2/7.7 GB
+step 800 | 13.1M tok | loss 8.146 | 9,667 tok/s | vram 2.2/7.7 GB
+step 900 | 14.7M tok | loss 8.091 | 10,801 tok/s | vram 2.2/7.7 GB
+step 1000 | 16.4M tok | loss 6.806 | 10,880 tok/s | vram 2.2/7.7 GB
+  [eval] val_ppl 240.77 | ablated_ppl 283.87 (memory Δ=+43.11) | spike 0.220
+  [mlp] rate=0.419 thr=0.000 rate=0.226 thr=0.000 rate=0.239 thr=0.000 rate=0.380 thr=0.000 rate=0.358 thr=0.000 rate=0.410 thr=0.000 | target 1.000
+  [wnorm] embed=4747.56 | head=173.01
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.21 dead=0% at_floor=72% | blk4: n/a | blk5: n/a | blk6: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: e=58% w=78% d=26/1% dstd=2.5 | blk4: n/a | blk5: n/a | blk6: n/a
+  [spike] reported=0.220 spiking_only=0.220 (1/7 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.804 hi=0% lo=0% | blk4: n/a | blk5: n/a | blk6: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_p26zh_7L_RC3_hwd01/step_0001000.pt
+step 1100 | 18.0M tok | loss 6.899 | 8,566 tok/s | vram 2.5/8.0 GB
+step 1200 | 19.7M tok | loss 7.478 | 10,774 tok/s | vram 2.5/8.0 GB
+step 1300 | 21.3M tok | loss 5.995 | 10,524 tok/s | vram 2.5/8.0 GB
+step 1400 | 22.9M tok | loss 6.267 | 10,553 tok/s | vram 2.5/8.0 GB
+step 1500 | 24.6M tok | loss 5.912 | 10,582 tok/s | vram 2.5/8.0 GB
+step 1600 | 26.2M tok | loss 5.068 | 9,024 tok/s | vram 2.5/8.0 GB
+step 1700 | 27.9M tok | loss 5.859 | 10,873 tok/s | vram 2.5/8.0 GB
+step 1800 | 29.5M tok | loss 5.183 | 11,130 tok/s | vram 2.5/8.0 GB
+step 1900 | 31.1M tok | loss 5.515 | 10,888 tok/s | vram 2.5/8.0 GB
+step 2000 | 32.8M tok | loss 5.090 | 10,431 tok/s | vram 2.5/8.0 GB
+  [eval] val_ppl 145.82 | ablated_ppl 174.64 (memory Δ=+28.83) | spike 0.179
+  [mlp] rate=0.295 thr=0.000 rate=0.120 thr=0.000 rate=0.136 thr=0.000 rate=0.253 thr=0.000 rate=0.255 thr=0.000 rate=0.353 thr=0.000 | target 1.000
+  [wnorm] embed=4504.74 (-5.11%) | head=191.07 (+10.44%)
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.15 dead=0% at_floor=88% | blk4: n/a | blk5: n/a | blk6: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: e=47% w=91% d=42/1% dstd=3.5 | blk4: n/a | blk5: n/a | blk6: n/a
+  [spike] reported=0.179 spiking_only=0.179 (1/7 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.746 hi=1% lo=0% | blk4: n/a | blk5: n/a | blk6: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_p26zh_7L_RC3_hwd01/step_0002000.pt
+step 2100 | 34.4M tok | loss 5.155 | 8,157 tok/s | vram 2.5/7.8 GB
+step 2200 | 36.0M tok | loss 4.761 | 9,978 tok/s | vram 2.5/7.8 GB
+step 2300 | 37.7M tok | loss 4.803 | 10,094 tok/s | vram 2.5/7.8 GB
+step 2400 | 39.3M tok | loss 4.969 | 9,914 tok/s | vram 2.5/7.8 GB
+step 2500 | 41.0M tok | loss 4.775 | 9,730 tok/s | vram 2.5/7.8 GB
+step 2600 | 42.6M tok | loss 4.769 | 10,510 tok/s | vram 2.5/7.8 GB
+step 2700 | 44.2M tok | loss 4.858 | 10,305 tok/s | vram 2.5/7.8 GB
+step 2800 | 45.9M tok | loss 4.048 | 8,647 tok/s | vram 2.5/7.8 GB

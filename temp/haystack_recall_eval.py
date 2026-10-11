@@ -3,11 +3,13 @@ Sequence = [k1 v1 ... kN vN] + g tokens of real val text (distractors) + [kq] ->
 Same key/value token ranges as MQAR aux + recall_eval. Gap tokens that collide with this sequence's keys are replaced
 by random tokens from 6000-7999 (outside both ranges). Reports among-candidates accuracy per (N, gap).
   python temp/haystack_recall_eval.py name=path/to/ckpt.pt [name=path ...]"""
-import sys, torch
+import os, sys, torch
 sys.path.insert(0, "/home/glenn/projects/neuro/src")
 from train_gpu import build_model, StreamText, BIN, MQAR_KEY_LO, MQAR_KEY_HI, MQAR_VAL_LO, MQAR_VAL_HI
 import numpy as np
-NS, GAPS, B, REPS = (8, 32), (0, 64, 192, 440), 64, 4
+# 2026-10-11: HAYSTACK_B (default 64 = unchanged) lowers the batch on a 16 GB card; reps keep 256 samples per cell.
+B = int(os.environ.get("HAYSTACK_B", 64))
+NS, GAPS, REPS = (8, 32), (0, 64, 192, 440), 256 // B
 torch.set_float32_matmul_precision("high")
 
 def batch(N, g, data, gen):

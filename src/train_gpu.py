@@ -774,8 +774,23 @@ def main():
     # run barely trained; r26k / r26m: flat val_ppl after their resumes). Read them from the fresh optimizers instead.
     base_lrs = [[g["lr"] for g in o.param_groups] for o in opts]
     cks = sorted(glob.glob(f"{ckdir}/step_*.pt"))
+    # 2026-10-11 (interruptible cloud run): (1) a save that is cut off leaves its ~10 GB step_*.pt.tmp behind and nothing
+    # removed it -> clear them here; (2) if the newest checkpoint cannot be read (host crash before the data reached the
+    # disk), resume from the one before it instead of failing on it at every restart. No readable checkpoint at all is
+    # still an error (never restart a run from step 0 silently).
+    for _t in glob.glob(f"{ckdir}/step_*.pt.tmp"):
+        os.remove(_t)
+    _had_ck = bool(cks)
+    while cks:
+        try:
+            s = torch.load(cks[-1], map_location=device, weights_only=False)
+            break
+        except Exception as e:
+            print(f"  [warn] cannot read {cks[-1]} ({type(e).__name__}: {str(e)[:80]}); trying the checkpoint before it")
+            cks.pop()
+    if _had_ck and not cks:
+        raise RuntimeError(f"no readable checkpoint in {ckdir}")
     if cks:
-        s = torch.load(cks[-1], map_location=device, weights_only=False)
         missing, unexpected = raw_model.load_state_dict(s["model"], strict=False)
         if unexpected:
             print(f"  [info] ignoring {len(unexpected)} unused keys from ckpt "
