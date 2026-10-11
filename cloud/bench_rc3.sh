@@ -16,9 +16,11 @@
 # Prints tok/s + peak memory per arm, then the budget that fits DAYS at Glenn's 71% dense / 29% conversion split and
 # the mk_v4_cloud.py command for the chosen splits.
 # A candidate "B:GA:s" runs with mqar_separate_backward (2026-10-11: the LM loss is back-propagated before the aux
-# forward -> peak = max(LM, aux) instead of the sum; same gradients, temp/test_sep_backward.py). It is what may let
-# B16 x GA1 fit; plain "8:2" is the fallback that fits without it.
-# Usage (instance):  BG="16:1:s 8:2 4:4" bash cloud/bench_rc3.sh        ~30-45 min at 1B (mostly compile)
+# forward -> peak = max(LM, aux) instead of the sum), "B:GA:sN" also with mqar_aux_splits N (the aux batch in N parts,
+# each with its own backward). Same gradients (temp/test_sep_backward.py). 1B on the 5090 (logs/sepbw.log): LM ~4.4 GB
+# per T2048 sample, but one cross-chunk aux sequence ~8 GB -> at B16 the aux pass alone is ~141 GB of 143, so B16 needs
+# "s2" (~85 GB); "8:2:s" is ~77 GB dense / ~84 GB conversion; plain "8:2" ~113 / ~124 GB.
+# Usage (instance):  BG="16:1:s2 8:2:s 4:4:s" bash cloud/bench_rc3.sh        ~30-45 min at 1B (mostly compile)
 # Home test (7L):    ROOT=/home/glenn/projects/neuro PY=/home/glenn/projects/bdh/venv/bin/python \
 #                    HF_HOME=/home/glenn/.cache/huggingface DENSE=v4_reh CONV=v4_reh_conv bash cloud/bench_rc3.sh
 cd ${ROOT:=/workspace/neuro}
@@ -32,7 +34,8 @@ b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA" or "B:GA:s" (s = mq
   if [ "$bg" = - ]; then B=$(key $cfg batch_size); GA=$(key $cfg grad_accum); AUX=""
   else IFS=: read -r B GA SB <<< "$bg"
     AUX="mqar_batch=$B mqar_xchunk_batch=$B mqar_aug_batch=$(( ($([ $cfg = $CONV ] && echo 2 || echo 4)) * B ))"
-    [ "$SB" = s ] && AUX="$AUX mqar_separate_backward=true"; fi
+    [ "${SB:0:1}" = s ] && AUX="$AUX mqar_separate_backward=true"          # "s" or "sN" (N = mqar_aux_splits)
+    [ -n "${SB:1}" ] && [ "${SB:1}" -gt 1 ] && AUX="$AUX mqar_aux_splits=${SB:1}"; fi
   # Real data not on the instance yet (Drive download / KD slice upload pending)? Use the small stand-ins that
   # push_from_home.sh sends (temp/mk_bench_data.py): speed and memory do not depend on which tokens are read.
   db=$(key $cfg data_bin)
@@ -44,7 +47,7 @@ b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA" or "B:GA:s" (s = mq
   $PY temp/profile_train.py --config configs/$cfg.yaml --tag $tag --noprof --wait ${WAIT:-8} --active ${ACTIVE:-12} \
       --batch $B --grad_accum $GA --set $AUX "$@" > logs/bench_$tag.log 2>&1
   rc=$?
-  echo "$tag B${B}xGA${GA}${SB:+ sep-backward} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
+  echo "$tag B${B}xGA${GA}${SB:+ sep-backward($SB)} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
   rm -rf models/checkpoints/screen_prof_$tag temp/prof_$tag.yaml
   grep -qE '^\[prof.*tok/s' logs/bench_$tag.log; }
 LATE="mqar_gap_start_frac=0 mqar_gap_ramp_frac=0 mqar_xchunk_start_frac=0"
@@ -71,13 +74,15 @@ late = lambda g, x: (1 - xf) / v[g] + xf / v[x]                      # seconds p
 s_dense = gs / v["dense_plain"] + (1 - gs) * late("dense_gap", "dense_xchunk")
 s_conv = late("conv_gap", "conv_xchunk")
 r = 0.29 / 0.71
-def parts(a):                                                          # "B:GA" or "B:GA:s"
-    p = a.split(":"); return p[0], p[1], len(p) > 2 and p[2] == "s"
+def parts(a):                                                          # "B:GA", "B:GA:s" or "B:GA:sN"
+    p = a.split(":"); s = p[2] if len(p) > 2 else ""
+    return p[0], p[1], ("" if s[:1] != "s" else (s[1:] if s[1:] not in ("", "1") else " "))   # "" = off, " " = on, "N" = on + N splits
 if sys.argv[4] == "-" or sys.argv[5] == "-":
     split = ""
 else:
     (dB, dGA, ds), (cB, _, cs) = parts(sys.argv[4]), parts(sys.argv[5])
-    split = f" {dB} {dGA} {cB} " + ((("d" if ds else "") + ("c" if cs else "")) or "-")   # last = separate backward: d / c / dc / -
+    sep = ",".join(ph + n.strip() for ph, n in (("d", ds), ("c", cs)) if n) or "-"   # e.g. "d2,c" = dense: separate backward + 2 aux splits; conversion: separate backward
+    split = f" {dB} {dGA} {cB} {sep}"
 for margin in (0.0, 0.07):                                            # 7% = evals, checkpoints, seed step, restarts
     D = days * 86400 * (1 - margin) / (s_dense + r * s_conv)
     print(f"budget for {days} days, margin {margin:.0%}: dense {D / 1e9:.2f}B + conversion {r * D / 1e9:.2f}B tok "

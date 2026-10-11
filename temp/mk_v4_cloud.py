@@ -39,11 +39,15 @@ c.update(run_name="v4_cloud", max_tokens=DENSE_TOK,
 c.update(head_weight_decay=1.0)
 c.update(watchdog_enabled=False, watchdog_valppl_only=True, watchdog_valppl_ema_alpha=0.4, watchdog_valppl_tol=0.07,
          watchdog_valppl_patience=2)
-# 2026-10-11: argv 6 = the phases that run with mqar_separate_backward: "d" (dense), "c" (conversion), "dc" or "-"
-# (default: key absent = off). cloud/bench_rc3.sh prints the right value for the batch splits it picked.
+# 2026-10-11: argv 6 = the phases that run with mqar_separate_backward, comma-separated: "d" (dense), "c" (conversion),
+# each optionally followed by mqar_aux_splits, e.g. "d2,c" = dense with 2 aux splits + conversion; "-" = neither
+# (default: keys absent = off). cloud/bench_rc3.sh prints the right value for the batch splits it picked.
 SEP = sys.argv[6] if len(sys.argv) > 6 else "-"
-if "d" in SEP:
+_sep = {t[0]: int(t[1:] or 1) for t in SEP.split(",") if t and t[0] in "dc"}
+if "d" in _sep:
     c["mqar_separate_backward"] = True
+    if _sep["d"] > 1:
+        c["mqar_aux_splits"] = _sep["d"]
 with open(R + "v4_cloud.yaml", "w") as f:
     f.write("# v4_cloud -- AUTO-GEN temp/mk_v4_cloud.py (2026-10-09). RC3 dense phase (r26n) at the 1B shape. DRAFT: "
             "token budget + batch pending the H200 re-bench.\n")
@@ -62,9 +66,11 @@ k.update({key: v for key, v in conv.items() if rc3.get(key) != v and key not in
 CB = int(sys.argv[5]) if len(sys.argv) > 5 else B
 assert 16 % CB == 0
 k.update(batch_size=CB, grad_accum=16 // CB, mqar_batch=CB, mqar_xchunk_batch=CB)
-k.pop("mqar_separate_backward", None)
-if "c" in SEP:
+k.pop("mqar_separate_backward", None); k.pop("mqar_aux_splits", None)
+if "c" in _sep:
     k["mqar_separate_backward"] = True
+    if _sep["c"] > 1:
+        k["mqar_aux_splits"] = _sep["c"]
 k.update(run_name="v4_cloud_conv", max_tokens=DENSE_TOK + CONV_TOK, mqar_aug_batch=2 * CB,   # r26o: 4 at B2
          data_bin="/workspace/data/tokenized_v4/train_kd_slice_u32.bin", data_prelut=False)
 with open(R + "v4_cloud_conv.yaml", "w") as f:

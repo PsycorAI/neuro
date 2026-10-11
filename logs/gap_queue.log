@@ -1707,3 +1707,5 @@
 [n54 10-11 10:14:55] 5090 chain: r26x_13L_RC3_headwd01_150m
 [s0 10-11 10:14:55] scheduler waiting for GPU 0 lock
 [s0 10-11 10:14:55] [r26x_13L_RC3_headwd01_150m] START
+[s1 10-11 10:20:19] [screen_p26zg_7L_RC3_gap20_x20] exit=0 :: 239.34 171.84 121.03 91.05 75.00 67.94 
+  recall screen_p26zg_7L_RC3_gap20_x20 |  100% |  100% |  100% |  100% |  100%

@@ -1232,9 +1232,23 @@ def main():
                         _sep_main = main_loss.detach() / c["grad_accum"]
                         main_loss = torch.zeros((), device=device)
                         out = mtp_logits = None              # drop the (B, T, V) logits before the aux forward
-                    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
-                    mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
-                    main_loss = main_loss + _mq_w * mqar_cad * _mq_mult * mqar_ce
+                    # mqar_aux_splits (2026-10-11, default 1 = unchanged; only with mqar_separate_backward): run the
+                    # aux batch in N parts, each back-propagated on its own -> aux peak / N. 1B probe: one 2048-token
+                    # cross-chunk sequence costs ~8 GB in the aux pass (the LM forward: 4.4), so at B16 the aux pass
+                    # alone is ~141 GB. The batch-mean CE is the share-weighted sum of the part means: same gradient.
+                    _ns = int(c.get("mqar_aux_splits", 1))
+                    if _sep_main is not None and _ns > 1 and x_mq.shape[0] >= _ns:
+                        _wq = _mq_w * mqar_cad * _mq_mult / c["grad_accum"]
+                        _nq = x_mq.shape[0]; _accq = 0.0
+                        for _xq, _tq in zip(x_mq.tensor_split(_ns), tgt_mq.tensor_split(_ns)):
+                            _ceq = F.cross_entropy(mqar_model(_xq)[:, _L_mq - 1, :], _tq) * (_xq.shape[0] / _nq)
+                            (_wq * _ceq).backward()
+                            _accq = _accq + _ceq.detach()
+                        _sep_main = _sep_main + _wq * _accq  # this aux is already back-propagated; kept for the log
+                    else:
+                        logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
+                        mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
+                        main_loss = main_loss + _mq_w * mqar_cad * _mq_mult * mqar_ce
                 # r25 nlfact aux (default off): every nlfact_every-th step from nlfact_start_frac, first micro-step only.
                 # Same compiled wrapper and padded length (2 * attn_chunk) as the xchunk MQAR batches.
                 if (_nlf is not None and _micro == 0 and step % int(c["nlfact_every"]) == 0
@@ -1244,7 +1258,8 @@ def main():
                     main_loss = main_loss + float(c.get("nlfact_weight", 0.15)) * int(c["nlfact_every"]) * \
                         F.cross_entropy(lg_nf, tgt_nf)
                 loss = main_loss / c["grad_accum"]
-            loss.backward()
+            if _sep_main is None or loss.requires_grad:      # (with mqar_aux_splits nothing may be left to back-propagate)
+                loss.backward()
             if _sep_main is not None:                        # logged / guarded value = LM part + aux part
                 loss = loss.detach() + _sep_main
         if _chunk_short:                                     # evals (after the step) always see the full chunk

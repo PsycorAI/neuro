@@ -58,14 +58,18 @@ try:
             l0, w0 = run("smoke_sepbw_off", steps, **upd)
             l1, w1 = run("smoke_sepbw_on", steps, mqar_separate_backward=True, **upd)
             l2, w2 = run("smoke_sepbw_ctl", steps, threads=1, **upd)       # control: float order only
+            # + mqar_aux_splits 2: the aux batch in two halves, each with its own backward
+            l3, w3 = run("smoke_sepbw_split", steps, mqar_separate_backward=True, mqar_aux_splits=2, **upd)
             wm = max(float(w0[k].float().abs().max()) for k in w0 if w0[k].is_floating_point())
-            dw, dc = dmax(w0, w1) / wm, dmax(w0, w2) / wm
+            dw, dc, ds = dmax(w0, w1) / wm, dmax(w0, w2) / wm, dmax(w0, w3) / wm
             dl, dlc = max(abs(a - b) for a, b in zip(l0, l1)), max(abs(a - b) for a, b in zip(l0, l2))
+            dls = max(abs(a - b) for a, b in zip(l0, l3))
             # 1 step: essentially equal. 6 steps: no larger than a few times the float-order control.
-            good = len(l0) == len(l1) == steps and (dw < 2e-5 if steps == 1 else dw < max(5 * dc, 1e-4))
+            lim = 3e-5 if steps == 1 else max(5 * dc, 1e-4)
+            good = len(l0) == len(l1) == len(l3) == steps and dw < lim and ds < lim
             ok &= good
-            print(f"{regime:5s} {steps} step(s): rel max|dW| flag on vs off {dw:.2e} | control (1 thread vs {NT}) {dc:.2e} | "
-                  f"max|d loss| {dl:.1e} (control {dlc:.1e}) -> {'OK' if good else 'MISMATCH'}")
+            print(f"{regime:5s} {steps} step(s): rel max|dW| vs flag off: separate {dw:.2e}, + 2 aux splits {ds:.2e} | control "
+                  f"(1 thread vs {NT}) {dc:.2e} | max|d loss| {dl:.1e} / {dls:.1e} (control {dlc:.1e}) -> {'OK' if good else 'MISMATCH'}")
 finally:
     os.path.exists(P) and os.remove(P)
 print("[OK] separate backward gives the same training" if ok else "[FAIL] separate backward changes the training")

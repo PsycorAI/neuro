@@ -29,8 +29,8 @@ Interruptible means the instance can stop whenever someone outbids us. `run_v4.s
    - `bash /workspace/neuro/cloud/setup_instance.sh` — venv + GPU check.
    - `bash /workspace/neuro/cloud/pull_corpus.sh` — downloads whatever corpus pieces are on Drive and joins them. Re-run it when more pieces are up, then restart the trainer (it sees the file size only at start).
    - `HF_TOKEN=hf_... bash /workspace/neuro/cloud/get_teacher.sh` — the gated teacher. Without a token on the instance: `TEACHER=1 bash cloud/push_from_home.sh <host> <port>` from home (~4 h), then `bash cloud/get_teacher.sh` to check it.
-4. **Bench (30–45 min):** `BG="16:1:s 8:2 4:4" bash /workspace/neuro/cloud/bench_rc3.sh`. It prints tok/s and peak memory per kind of step, the batch split that fits, the token budget for 4.5 days, and the exact `mk_v4_cloud.py` command. `16:1:s` = batch 16 with `mqar_separate_backward` (the only way batch 16 can fit 143 GB); `8:2` is the fallback that fits without it.
-5. **Set the budget at home:** run the printed `python temp/mk_v4_cloud.py <DENSE> <CONV> <B> <GA> <CONV_B> <SEP>`, run `/audit-config`, then push again (step 2).
+4. **Bench (30–45 min):** `BG="16:1:s2 8:2:s 4:4:s" bash /workspace/neuro/cloud/bench_rc3.sh`. It prints tok/s and peak memory per kind of step, the batch split that fits, the token budget for 4.5 days, and the exact `mk_v4_cloud.py` command. `s` = `mqar_separate_backward` (the main loss is back-propagated before the recall batch, so their memory does not add up); `s2` also runs the recall batch in two halves, which batch 16 needs. Estimated peaks on 143 GB: `16:1:s2` ~85 GB, `8:2:s` ~77 GB dense / ~84 GB conversion.
+5. **Set the budget at home:** run the printed `python temp/mk_v4_cloud.py <DENSE> <CONV> <B> <GA> <CONV_B> <SEP>` (SEP looks like `d2,c`), run `/audit-config`, then push again (step 2).
 6. **Launch on the instance:** `touch /workspace/neuro/GO && cd /workspace/neuro && setsid -f bash cloud/run_v4.sh < /dev/null > /dev/null 2>&1`
 7. **At home, both under `setsid -f`:**
    - `bash cloud/pull_ckpts.sh <host> <port>` — newest checkpoint of both phases every 2 h, keeps the last 2 per phase.

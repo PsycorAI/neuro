@@ -111,3 +111,16 @@ step 6000 | 98.3M tok | loss 4.232 | 5,270 tok/s | vram 2.6/10.2 GB
   [spike] reported=0.093 spiking_only=0.093 (1/7 blocks spike)
   [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: μ=0.803 hi=6% lo=0% | blk4: n/a | blk5: n/a | blk6: n/a
   saved /home/glenn/projects/neuro/models/checkpoints/screen_p26zg_7L_RC3_gap20_x20/step_0006000.pt
+step 6100 | 99.9M tok | loss 4.239 | 6,858 tok/s | vram 2.6/10.7 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_p26zg_7L_RC3_gap20_x20/step_0006104.pt
+done: 100.0M tok in 3.26h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     353195229.1 |     368993894.4 |         1.04x
+    2048 |     418311798.7 |     444963225.6 |         1.06x
+    4096 |     505133891.5 |     546255667.2 |         1.08x
+
+block mix: 1 spiking + 6 attention | spike_rate 0.093 reported -> 0.093 spiking-only
+spiking op mix/token @ seq 4096: 109,510,656 MAC + 1,538,749 AC
+note: 6 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
