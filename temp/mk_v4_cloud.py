@@ -37,8 +37,14 @@ c.update(run_name="v4_cloud", max_tokens=DENSE_TOK,
 # on a ~300k-step run with no slack. r26p (150M): +2.2% chunk1, inside the ~2% same-seed noise. Not resume-compatible:
 # it must be in from step 0.
 c.update(head_weight_decay=1.0)
-c.update(watchdog_enabled=False, watchdog_valppl_only=True, watchdog_valppl_ema_alpha=0.4, watchdog_valppl_tol=0.07,
-         watchdog_valppl_patience=2)
+# 2026-10-11 (Glenn: the averaged ppl monitor must not stop the run on noise): still the EMA-smoothed tripwire
+# (alpha 0.4), but tol 0.07 -> 0.15 and patience 2 -> 3. temp/sim_tripwire.py at the cloud's eval density (one eval per
+# 3000 steps): 2% eval noise never trips either setting, but every dense run has a +15-18% bump when plain MQAR
+# emerges (r26n 73.4 -> 84.4 -> 73.4; two evals long in r26w) and 0.07 / 2 trips on a bump of two evals. 0.15 / 3 never
+# trips on it and still stops a steady runaway (+1.5% per eval) after ~14 evals. Early warning without a stop:
+# cloud/cloud_watch.sh warns after 3 rising evals.
+c.update(watchdog_enabled=False, watchdog_valppl_only=True, watchdog_valppl_ema_alpha=0.4, watchdog_valppl_tol=0.15,
+         watchdog_valppl_patience=3)
 # 2026-10-11: argv 6 = the phases that run with mqar_separate_backward, comma-separated: "d" (dense), "c" (conversion),
 # each optionally followed by mqar_aux_splits, e.g. "d2,c" = dense with 2 aux splits + conversion; "-" = neither
 # (default: keys absent = off). cloud/bench_rc3.sh prints the right value for the batch splits it picked.

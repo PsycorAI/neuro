@@ -189,3 +189,9 @@ step 10000 | 163.8M tok | loss 3.942 | 10,555 tok/s | vram 3.4/27.2 GB
 step 10100 | 165.5M tok | loss 4.053 | 8,420 tok/s | vram 3.8/26.8 GB
 step 10200 | 167.1M tok | loss 3.471 | 11,012 tok/s | vram 3.4/26.8 GB
 step 10300 | 168.8M tok | loss 4.061 | 8,906 tok/s | vram 3.8/26.9 GB
+step 10400 | 170.4M tok | loss 3.884 | 10,974 tok/s | vram 3.4/26.9 GB
+step 10500 | 172.0M tok | loss 3.546 | 11,341 tok/s | vram 3.4/26.9 GB
+step 10600 | 173.7M tok | loss 3.840 | 11,140 tok/s | vram 3.4/26.9 GB
+step 10700 | 175.3M tok | loss 4.045 | 11,221 tok/s | vram 3.4/26.9 GB
+step 10800 | 176.9M tok | loss 3.625 | 10,795 tok/s | vram 3.4/26.9 GB
+step 10900 | 178.6M tok | loss 3.069 | 10,840 tok/s | vram 3.3/27.0 GB

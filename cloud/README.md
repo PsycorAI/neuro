@@ -32,8 +32,9 @@ Interruptible means the instance can stop whenever someone outbids us. `run_v4.s
 4. **Bench (30–45 min):** `BG="16:1:s2 8:2:s 4:4:s" bash /workspace/neuro/cloud/bench_rc3.sh`. It prints tok/s and peak memory per kind of step, the batch split that fits, the token budget for 4.5 days, and the exact `mk_v4_cloud.py` command. `s` = `mqar_separate_backward` (the main loss is back-propagated before the recall batch, so their memory does not add up); `s2` also runs the recall batch in two halves, which batch 16 needs. Estimated peaks on 143 GB: `16:1:s2` ~85 GB, `8:2:s` ~77 GB dense / ~84 GB conversion.
 5. **Set the budget at home:** run the printed `python temp/mk_v4_cloud.py <DENSE> <CONV> <B> <GA> <CONV_B> <SEP>` (SEP looks like `d2,c`), run `/audit-config`, then push again (step 2).
 6. **Launch on the instance:** `touch /workspace/neuro/GO && cd /workspace/neuro && setsid -f bash cloud/run_v4.sh < /dev/null > /dev/null 2>&1`
-7. **At home, both under `setsid -f`:**
-   - `bash cloud/pull_ckpts.sh <host> <port>` — newest checkpoint of both phases every 2 h, keeps the last 2 per phase.
+7. **Off-instance checkpoint copies (on the instance):** `setsid -f bash cloud/push_ckpts_drive.sh` — newest checkpoint of each phase to Google Drive every 6 h with rclone, at datacenter speed (the home line is 19 Mbps = 70+ min per 10 GB checkpoint). Needs a one-time `rclone config` by Glenn; the steps are in the script header. Never run yet.
+8. **At home, under `setsid -f`:**
+   - (optional, instead of step 7) `bash cloud/pull_ckpts.sh <host> <port>` — newest checkpoint of both phases every 2 h over the home line, keeps the last 2 per phase.
    - `bash cloud/cloud_watch.sh <host> <port>` — alerts (toast + `logs/alerts.log`) if the instance is unreachable, the run stops, the tripwire fires, the log goes silent, or the disk fills; a status line every 6 h. Set `MIN_TPS` to about 60% of the benched speed.
 
 ## Things to know

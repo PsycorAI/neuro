@@ -38,6 +38,11 @@ while :; do
   elif [ "$(get log_age_min)" -ge $STALL_MIN ] 2>/dev/null; then
     once "stall|$ph|$sl" ALERT "cloud: $ph log silent $(get log_age_min) min (trainer $(get trainer), gpu $(get gpu)) | $now"
   fi
+  # 2026-10-11: early warning WITHOUT stopping the run -- the last 3 evals rise and the newest is > 3% above the first.
+  # (The in-trainer tripwire is deliberately slow now: EMA 0.4, tol 0.15, patience 3, so eval noise or the mid-run
+  # "recall emerges" bump cannot stop the run; a human decides on this warning.)
+  rise=$(get val | awk 'NF == 3 && $2 > $1 && $3 > $2 && $3 > 1.03 * $1 {print "1"}')
+  [ "$rise" = 1 ] && once "rising|$ph|$(get val)" WARN "cloud: val_ppl has risen 3 evals in a row in $ph: $(get val)($sl)"
   [ "$(get disk_free_gb)" -lt $DISK_MIN ] 2>/dev/null && once "disk|$(date +%d%H)" ALERT "cloud: only $(get disk_free_gb) GB free on the instance"
   t=$(get tps_med)
   [ $MIN_TPS -gt 0 ] && [ -n "$t" ] && [ "$t" -lt $MIN_TPS ] 2>/dev/null && once "slow|$(date +%d%H)" WARN "cloud: $t tok/s < $MIN_TPS ($now)"
