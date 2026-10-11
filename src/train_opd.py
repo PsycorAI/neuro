@@ -259,6 +259,10 @@ def main():
     if miss:
         print(f"  [warn] {len(miss)} keys missing in ckpt: {miss[:3]}")
     print(f"loaded student init: {init}")
+    # 2026-10-11: release the init ckpt held on the device (~10 GB at 1B; same leak as train_gpu's resume / train_sft)
+    del blob
+    if device == "cuda":
+        torch.cuda.empty_cache()
 
     opts = build_optimizers(student, c, device)
     # Base LRs from the FRESH optimizers, before a resume loads optimizer state: that state holds the already-scheduled
@@ -307,6 +311,9 @@ def main():
                 o.load_state_dict(st)
         step, tokens = s["step"], s["tokens"]
         print(f"resumed OPD ckpt @ step {step}, {tokens/1e6:.1f}M tok")
+        del s                                   # 2026-10-11: free the ckpt held on the device
+        if device == "cuda":
+            torch.cuda.empty_cache()
 
     per_step_tok = c["batch_size"] * c["grad_accum"] * max_new
     total_steps = max(1, c["max_tokens"] // per_step_tok)

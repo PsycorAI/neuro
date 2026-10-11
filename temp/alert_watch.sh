@@ -50,6 +50,15 @@ while [ ! -f temp/alert_watch.STOP ]; do
   if [ $q = 1 ] && [ $age -ge 45 ]; then once "hung $(stat -c %Y "$newest")" && A ALERT "a queue is alive but no log changed for $age min (hung chain?)"; fi
   if [ $q = 0 ] && [ $tr = 0 ]; then idle=$((idle + 1)); [ $idle = 8 ] && A INFO "no queue and no trainer for 15 min: GPUs idle"
   else idle=0; fi
+  # 5b. (10-11, Neuro 55) per GPU: no job on a card for 16 min -> WARN (a session's wait_alert.sh wakes on WARN, not on
+  #     INFO, and check 5 only fires when BOTH cards are idle). One alert per idle episode. "No job" = < 3 GB in use.
+  while IFS=, read -r gi gm; do
+    gi=${gi// /}; gm=${gm// /}; [ -n "$gi" ] || continue
+    if [ "${gm:-9999}" -lt 3000 ]; then
+      eval "gidle$gi=\$(( \${gidle$gi:-0} + 1 ))"
+      eval "[ \$gidle$gi = 8 ]" && A WARN "GPU $gi has had no job for 16 min (${gm} MiB in use): idle"
+    else eval "gidle$gi=0"; fi
+  done < <(nvidia-smi --query-gpu=index,memory.used --format=csv,noheader,nounits 2>/dev/null)
   # 6. disk
   for m in /mnt/g:40 /:20; do
     free=$(df -BG --output=avail ${m%%:*} 2>/dev/null | tail -1 | tr -dc '0-9')

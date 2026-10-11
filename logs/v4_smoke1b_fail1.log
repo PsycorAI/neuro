@@ -1,0 +1,328 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.29M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈150 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+step 10 | 0.0M tok | loss 13.475 | 184 tok/s | vram 13.4/26.5 GB
+step 20 | 0.1M tok | loss 12.738 | 3,657 tok/s | vram 13.4/26.5 GB
+step 30 | 0.1M tok | loss 14.130 | 3,953 tok/s | vram 13.4/26.5 GB
+step 40 | 0.2M tok | loss 12.585 | 3,737 tok/s | vram 13.4/26.5 GB
+step 50 | 0.2M tok | loss 12.275 | 3,758 tok/s | vram 13.4/26.5 GB
+  [eval] val_ppl 1166.43 | ablated_ppl 1420.46 (memory Δ=+254.03) | spike 0.268
+  [mlp] rate=0.501 thr=0.000 rate=0.495 thr=0.000 rate=0.491 thr=0.000 rate=0.490 thr=0.000 rate=0.492 thr=0.000 rate=0.490 thr=0.000 rate=0.493 thr=0.000 rate=0.496 thr=0.000 rate=0.493 thr=0.000 rate=0.497 thr=0.000 rate=0.495 thr=0.000 rate=0.493 thr=0.000 | target 1.000
+  [wnorm] embed=8170.91 | head=124.99
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.55 dead=0% at_floor=12% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=41% w=25% d=0/0% dstd=0.2 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [spike] reported=0.268 spiking_only=0.268 (1/13 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.952 hi=0% lo=0% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+step 60 | 0.2M tok | loss 12.164 | 1,031 tok/s | vram 13.7/27.0 GB
+step 70 | 0.3M tok | loss 11.851 | 3,608 tok/s | vram 13.7/27.0 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000050.pt
+step 80 | 0.3M tok | loss 12.080 | 2,822 tok/s | vram 13.7/27.0 GB
+step 90 | 0.4M tok | loss 12.473 | 3,966 tok/s | vram 13.7/27.0 GB
+step 100 | 0.4M tok | loss 12.765 | 3,671 tok/s | vram 13.7/27.0 GB
+  [eval] val_ppl 735.77 | ablated_ppl 933.52 (memory Δ=+197.75) | spike 0.252
+  [mlp] rate=0.500 thr=0.000 rate=0.488 thr=0.000 rate=0.484 thr=0.000 rate=0.481 thr=0.000 rate=0.487 thr=0.000 rate=0.485 thr=0.000 rate=0.495 thr=0.000 rate=0.492 thr=0.000 rate=0.494 thr=0.000 rate=0.495 thr=0.000 rate=0.493 thr=0.000 rate=0.493 thr=0.000 | target 0.549
+  [wnorm] embed=8157.02 (-0.17%) | head=131.32 (+5.07%)
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.55 dead=0% at_floor=24% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=44% w=49% d=0/0% dstd=0.4 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [spike] reported=0.252 spiking_only=0.252 (1/13 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.949 hi=0% lo=0% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000050.pt @ step 50, 0.2M tok
+arch=spiking params=1109.29M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈150 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+step 60 | 0.2M tok | loss 7.230 | 1,226 tok/s | vram 17.5/30.7 GB
+step 70 | 0.3M tok | loss 7.328 | 4,194 tok/s | vram 17.5/30.7 GB
+step 80 | 0.3M tok | loss 6.907 | 3,842 tok/s | vram 17.5/30.8 GB
+step 90 | 0.4M tok | loss 7.131 | 3,910 tok/s | vram 17.5/30.8 GB
+step 100 | 0.4M tok | loss 6.871 | 4,299 tok/s | vram 17.5/30.8 GB
+  [eval] val_ppl 806.94 | ablated_ppl 1230.13 (memory Δ=+423.19) | spike 0.233
+  [mlp] rate=0.501 thr=0.000 rate=0.489 thr=0.000 rate=0.486 thr=0.000 rate=0.484 thr=0.000 rate=0.487 thr=0.000 rate=0.487 thr=0.000 rate=0.492 thr=0.000 rate=0.492 thr=0.000 rate=0.492 thr=0.000 rate=0.493 thr=0.000 rate=0.492 thr=0.000 rate=0.492 thr=0.000 | target 0.549
+  [wnorm] embed=8157.15 | head=132.95
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.55 dead=0% at_floor=21% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=41% w=41% d=0/0% dstd=0.3 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [spike] reported=0.233 spiking_only=0.233 (1/13 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.950 hi=0% lo=0% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1500, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1225, in main
+    loss.backward()
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 317, in apply
+    return user_fn(self, *args)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2748, in backward
+    return impl_fn()
+           ^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2734, in impl_fn
+    out = CompiledFunction._backward_impl(ctx, all_args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2918, in _backward_impl
+    out = call_func_at_runtime_with_args(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 656, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3401, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_glenn/vg/cvgp7mkj4ijvqkbettl6atiy2dk77foeucbcewpnk5sz42olar3w.py", line 871, in call
+    buf17 = empty_strided_cuda((524288, 64), (64, 1), torch.float32)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready
+  saved /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000100.pt
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000100.pt @ step 100, 0.4M tok
+arch=spiking params=1109.29M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈150 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1500, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1213, in main
+    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
+                ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 472, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1024, in compile_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1691, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 400, in forward_sequence
+    def forward_sequence(self, x_seq, mem, M, prev_spk,
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py", line 1200, in forward
+    return compiled_fn(full_args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2298, in __call__
+    return self.compiled_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 566, in runtime_wrapper
+    all_outs = call_func_at_runtime_with_args(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 105, in g
+    return f(*args)
+           ^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 596, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2503, in forward
+    fw_outs = call_func_at_runtime_with_args(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 783, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 656, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3401, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_glenn/uv/cuvb3fanwqtjkt6vlynco62phz7rshenvnaha7ntfgx532d2aph4.py", line 1760, in call
+    buf24 = torch.ops.aten.topk.default(buf23, 16)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_ops.py", line 865, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000100.pt @ step 100, 0.4M tok
+arch=spiking params=1109.29M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈150 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1500, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1213, in main
+    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
+                ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 472, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1024, in compile_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1691, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 400, in forward_sequence
+    def forward_sequence(self, x_seq, mem, M, prev_spk,
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py", line 1200, in forward
+    return compiled_fn(full_args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2298, in __call__
+    return self.compiled_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 566, in runtime_wrapper
+    all_outs = call_func_at_runtime_with_args(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 105, in g
+    return f(*args)
+           ^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 596, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2503, in forward
+    fw_outs = call_func_at_runtime_with_args(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 783, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 656, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3401, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_glenn/uv/cuvb3fanwqtjkt6vlynco62phz7rshenvnaha7ntfgx532d2aph4.py", line 1760, in call
+    buf24 = torch.ops.aten.topk.default(buf23, 16)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_ops.py", line 865, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+resumed /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b/step_0000100.pt @ step 100, 0.4M tok
+arch=spiking params=1109.29M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈150 | warmup=3 | lr_sched=cosine | grad_clip=1.0
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1500, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1213, in main
+    logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
+                ^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 472, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1024, in compile_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1691, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 400, in forward_sequence
+    def forward_sequence(self, x_seq, mem, M, prev_spk,
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py", line 1200, in forward
+    return compiled_fn(full_args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2298, in __call__
+    return self.compiled_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 566, in runtime_wrapper
+    all_outs = call_func_at_runtime_with_args(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 105, in g
+    return f(*args)
+           ^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 596, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2503, in forward
+    fw_outs = call_func_at_runtime_with_args(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 783, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 656, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3401, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_glenn/uv/cuvb3fanwqtjkt6vlynco62phz7rshenvnaha7ntfgx532d2aph4.py", line 1760, in call
+    buf24 = torch.ops.aten.topk.default(buf23, 16)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_ops.py", line 865, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready

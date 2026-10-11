@@ -10,3 +10,30 @@
 [run_v4 10-10 00:45:51] start/resume v4_reh_conv
 [run_v4 10-10 01:56:07] v4_reh_conv exit=0
 [run_v4 10-10 01:56:07] ALL DONE
+[run_v4 10-10 16:38:03] start/resume v4_smoke1b
+[run_v4 10-10 16:44:39] v4_smoke1b exit=143
+[run_v4 10-10 16:45:37] start/resume v4_smoke1b
+[run_v4 10-10 16:49:06] v4_smoke1b exit=1
+[run_v4 10-10 16:50:05] start/resume v4_smoke1b
+[run_v4 10-10 16:52:12] v4_smoke1b exit=1
+[run_v4 10-10 16:53:10] start/resume v4_smoke1b
+[run_v4 10-10 16:54:39] v4_smoke1b exit=1
+[run_v4 10-10 16:55:37] start/resume v4_smoke1b
+[run_v4 10-10 16:57:05] v4_smoke1b exit=1
+[run_v4 10-10 16:57:05] 5 failures in a row, giving up
+[run_v4 10-10 23:28:32] start/resume v4_smoke1b
+[run_v4 10-10 23:36:45] v4_smoke1b exit=143
+[run_v4 10-10 23:37:41] start/resume v4_smoke1b
+[run_v4 10-10 23:45:40] v4_smoke1b exit=0
+[OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 557.30 -> coded 581.03 | mean spikes/input 0.839 | saved models/checkpoints/v4_smoke1b_conv @ step 150
+[run_v4 10-10 23:47:27] start/resume v4_smoke1b_conv
+[run_v4 10-10 23:50:36] v4_smoke1b_conv exit=1
+[run_v4 10-10 23:51:32] start/resume v4_smoke1b_conv
+[run_v4 10-10 23:53:06] v4_smoke1b_conv exit=1
+[run_v4 10-10 23:54:02] start/resume v4_smoke1b_conv
+[run_v4 10-10 23:55:28] v4_smoke1b_conv exit=1
+[run_v4 10-10 23:56:24] start/resume v4_smoke1b_conv
+[run_v4 10-10 23:58:01] v4_smoke1b_conv exit=1
+[run_v4 10-10 23:58:57] start/resume v4_smoke1b_conv
+[run_v4 10-11 00:00:21] v4_smoke1b_conv exit=1
+[run_v4 10-11 00:00:21] 5 failures in a row, giving up

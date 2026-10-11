@@ -812,6 +812,17 @@ def main():
         # where we resumed. CurriculumStream's per-call counter is advanced to
         # its already-consumed count (grad_accum train-window draws per step).
         np.random.seed(c.get("seed", 0) + step)
+        # RESUME MQAR REPLAY (found 2026-10-10, 1B smoke): the torch global RNG (plain MQAR batches + N draws) and the
+        # haystack RNG were NOT advanced, so every resume replayed the MQAR / gap / xchunk batches from step 0 (smoke:
+        # logged loss 12.2 fresh vs 7.0 resumed at the same steps = replayed batches already memorised). Same
+        # seed+step keying as above; a fresh run is untouched. Test: temp/test_resume_loss.py.
+        torch.manual_seed(c.get("seed", 0) + step)
+        _mqar_gap_rng.seed(int(c.get("seed", 0)) + 7919 + step)
+        # The checkpoint was loaded onto the device and stayed referenced for the whole run (1B smoke: 17.5 / 30.8 GB
+        # after a resume vs 13.7 / 27.0 fresh -> over the 5090 WDDM cliff at the first gap batch). Release it.
+        del s
+        if device == "cuda":
+            torch.cuda.empty_cache()
         if hasattr(data, "_train_calls"):
             data._train_calls = step * c["grad_accum"]
         # Stateful streams: move the cursors past what was already trained on (2026-09-29; before this a resume

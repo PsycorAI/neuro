@@ -1,0 +1,11 @@
+== bench_rc3 10-11 00:37 v4_reh / v4_reh_conv  BG=config
+  (dense_xchunk: /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin missing -> /home/glenn/projects/neuro/data/bench_u16.bin)
+dense_xchunk B2xGA4 exit=0 median step 1943 ms = 8,431 tok/s (B2xGA4, 12 steps) | peak allocated 9.4 GB | peak reserved 9.7 GB 
+  (dense_gap: /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin missing -> /home/glenn/projects/neuro/data/bench_u16.bin)
+dense_gap B2xGA4 exit=0 median step 1978 ms = 8,283 tok/s (B2xGA4, 12 steps) | peak allocated 6.9 GB | peak reserved 7.7 GB 
+  (dense_plain: /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin missing -> /home/glenn/projects/neuro/data/bench_u16.bin)
+dense_plain B2xGA4 exit=0 median step 1733 ms = 9,456 tok/s (B2xGA4, 12 steps) | peak allocated 6.9 GB | peak reserved 7.4 GB 
+dense split: -
+  (conv_xchunk: /home/glenn/projects/bdh/data/tokenized_v4/train_kd_slice_u32.bin missing -> /home/glenn/projects/neuro/data/bench_u32.bin)
+conv_xchunk B1xGA8 exit=0 median step 4711 ms = 3,478 tok/s (B1xGA8, 12 steps) | peak allocated 8.9 GB | peak reserved 9.4 GB 
+  (conv_gap: /home/glenn/projects/bdh/data/tokenized_v4/train_kd_slice_u32.bin missing -> /home/glenn/projects/neuro/data/bench_u32.bin)

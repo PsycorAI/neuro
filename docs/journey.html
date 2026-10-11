@@ -39,7 +39,7 @@
 </head><body>
 
 <h1>Specialized Brain Mods — research journey</h1>
-<p class="date">Live document — last updated 2026-10-09. Each new experiment added as it completes.</p>
+<p class="date">Live document — last updated 2026-10-10. Each new experiment added as it completes.</p>
 
 <div class="toc">
 <strong>Table of contents</strong>
@@ -122,6 +122,7 @@
   <li><a href="#h200-memory-ignored-demo">76. The H200 is twice as fast as needed; the memory writes but nobody reads it; demo page stage 1</a></li>
   <li><a href="#memory-at-depth-spike-conversion">77. Aligned chunks + memory at mid-depth; every weight multiply turned into spikes</a></li>
   <li><a href="#hippocampus-rc3">78. A hippocampus for surprises; a spiking model below the attention baseline</a></li>
+  <li><a href="#resume-lr-bug-cloud-prep">79. RC3 readied for the H200; the resume bug that shrank the learning rate</a></li>
 </ol>
 </div>
 
@@ -2250,5 +2251,29 @@ The frequency split showed why the two wins stack. Attention fixed common tokens
 
 <hr>
 <p class="date">Major version: 1.63 (Write gate = MQAR detector; synthetic fixes too costly. Honest energy with weight reads ~3-4x. HOLA hippocampus built: 12L win [r26h]; random chunks best real-text copy; xchunk dose-down -> RC3. Llama-1B KD conversion: r26o chunk-1 36.55 vs attention-only 38.84, memory 100%, 5.65x / 3.19x energy. v4 recipe = RC3.)</p>
+
+<h2 id="resume-lr-bug-cloud-prep">79. Getting RC3 ready for the H200: a rehearsal, a second seed, and the bug that shrank the learning rate on every resume</h2>
+<p class="date">2026-10-09/10 (Neuro 54)</p>
+
+<p>With RC3 chosen (<a href="#hippocampus-rc3">&sect;78</a>) the job became logistics: write the cloud configs, prove the pipeline, and launch. <code>temp/mk_v4_cloud.py</code> writes <code>v4_cloud.yaml</code> (<code>r26n</code> at the 1B shape) and <code>v4_cloud_conv.yaml</code> (the <code>r26o</code> conversion in its own run directory). Keeping the conversion at 40% of the dense budget reproduces <code>r26o</code>'s learning-rate profile at the hand-off. One blocker surfaced at once: the Llama teacher needs raw Llama-3 ids, and the uint16 cloud corpus has none (3.66% of its tokens are the unknown id), so the conversion phase reads a separate 7.5 GiB raw slice.</p>
+
+<p>Glenn rejected a blocking wait on a run and asked for alerts, not monitoring. The result is a supervisor (<code>temp/alert_watch.sh</code>), one alert log with desktop toasts (<code>temp/alert.sh</code>) and list-driven chains with auto-resume (<code>temp/queue_5090_n54.sh</code>).</p>
+
+<div class="setback"><p><b>The HOLA seed and cache-size runs came back worse, and flat.</b> <code>r26k</code> (seed 1) 42.69 and <code>r26m</code> (cache 256) 41.35 against <code>r26h</code> 39.30. Both had been killed and resumed several times, and in both the validation ppl stopped improving after the last resume, where <code>r26h</code> still gained 9%.</p></div>
+
+<p>A control settled it. <code>r26q</code> is <code>r26n</code> exactly, with one planned stop and resume after step 10000: chunk-1 39.56 against 38.09, and the weight norms shrank about six times more slowly after the resume. Weight-decay shrinkage follows the learning rate, and that was the clue.</p>
+
+<div class="milestone"><p><b>Every resume multiplied the learning rate by the schedule again.</b> The trainer read its base learning rates from the optimizer after loading the checkpoint, and the checkpoint holds the already-scheduled rate. A resume at 82% of a cosine run gave &times;0.17, compounding with each further resume. Fixed in <code>train_gpu</code>, <code>train_sft</code> and <code>train_opd</code>; <code>temp/test_resume_lr.py</code> runs the real trainer through a resume. <code>r26k</code>, <code>r26m</code> and <code>r26i</code> are not evidence, and every older run resumed after warmup trained too slowly afterwards. On an interruptible H200 it would have cut the rate at every interruption.</p></div>
+
+<p>The same control showed that two runs with the same config and seed differ by about 2% (<code>r26q</code> before its stop against <code>r26n</code>). So <code>r26p</code> (head weight decay, 38.92, +2.2%) decided nothing; Glenn turned it on for v4 as insurance on a 300k-step run. The clean second seed, <code>r26r</code>, gave 38.65 with memory at 100%: RC3 is seed-robust.</p>
+
+<p>A dress rehearsal of the real <code>cloud/run_v4.sh</code> at 7 layers on the 5080 passed end to end (dense on the uint16 corpus, spike seeding, Llama conversion on the raw slice, evals, energy 5.82&times; / 3.28&times;), after the teacher spilled the 16 GB card at batch 2. A second pipeline bug followed: eight eval scripts ignored the uint16 corpus flag and printed nothing on a dense checkpoint.</p>
+
+<p>Two more facts shape the launch. The corpus is not shuffled across pieces (000&ndash;013 are the old mix, 014&ndash;021 pure FineWeb-Edu, the validation split is the tail of the last piece), so a partial start needs both kinds of piece plus a small validation-tail file. The resume control with the fix, <code>r26t</code>, then matched the uninterrupted run: 38.27 against 38.09, with the same weight-norm shrink after the resume.</p>
+
+<div class="setback"><p><b>A test that tested nothing.</b> To bring the memory go/no-go forward we started the cross-chunk aux at 20% instead of 50% (<code>r26s</code> 38.21, and a two-seed 7-layer pair, all ties). Reading the trainer afterwards showed why they tied: cross-chunk batches are drawn only inside the gap-MQAR branch, which starts at 70% in every RC config. RC3's memory training has always started at 70%, both arms were the same run, and the only yield was a noise estimate: about 0.5% on chunk-1 ppl at 12 layers. That makes <code>r26p</code>'s +2.2% for head weight decay a probable real cost. The real early-start test (<code>r26v</code>, gap and cross-chunk both from 20%) is queued behind a 1B-shape smoke test and a second-seed conversion (<code>r26u</code>).</p></div>
+
+<hr>
+<p class="date">Major version: 1.64 (v4 cloud configs + pipeline rehearsed on the 5080. RESUME LR BUG found with a planned-stop control [r26q] and fixed in three trainers; r26k/r26m/r26i contaminated. Same-seed noise ~2%. RC3 seed 1 [r26r] 38.65 vs 38.09. Corpus not shuffled across pieces -> partial-start rule. head_weight_decay ON for v4. Commit a47d553.)</p>
 
 </body></html>

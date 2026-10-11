@@ -109,3 +109,7 @@ if dts:
           f"{len(dts)} steps{', PROFILER ON' if prof else ''})")
 print(f"[prof {a.tag}] lif_calls={stats['lif_calls']} scans={stats['scans']} "
       f"-> mean fixed-point iters/call = {stats['scans']/max(stats['lif_calls'],1) - 1:.2f}")
+# 2026-10-11 (Neuro 55): true peak, for batch sizing on the H200 (the trainer's "vram a/b" = allocated NOW / reserved)
+if torch.cuda.is_available():
+    print(f"[prof {a.tag}] peak allocated {torch.cuda.max_memory_allocated() / 2**30:.1f} GB | peak reserved "
+          f"{torch.cuda.max_memory_reserved() / 2**30:.1f} GB")

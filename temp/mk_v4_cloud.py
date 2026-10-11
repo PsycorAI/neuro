@@ -18,14 +18,25 @@ for k in ("d", "n_neurons", "d_mem", "attention_heads", "attn_ffn_hidden"):
     c[k] = bench[k]
 # 32,768 tok/step as in the H200 bench (B64 x T512 there). RC3 aux doses per LM token kept: gap / xchunk batch = B,
 # plain MQAR batch = 4 x B (r26n: 4 / 4 / 16 at B4).
-B = 16
-c.update(batch_size=B, grad_accum=1, eval_batch=2, mqar_batch=B, mqar_xchunk_batch=B, mqar_aug_batch=4 * B)
+# 2026-10-11: batch split from the command line (argv 3 / 4). B x GA must stay 16 = 32,768 tok/step; the aux doses
+# below follow B per micro-step, so the dose per LM token is the same for any split (r26n: B4 x GA2).
+# DEFAULT B8 x GA2 (was B16 x GA1): 1B memory probe on the 5090 (logs/mem1b.log, B1): 13.4 GB held + 8.3 GB per
+# T2048 sample, + 3.2 GB per sample on a cross-chunk step (conversion: 15.7 + ~8.9 + ~3.5). B16 = 163-197 GB on a
+# cross-chunk step vs 143 GB on the H200 -> it would have died at the FIRST xchunk batch, 70% into the dense phase.
+# B8 = 89-105 GB (dense), 97-115 GB (conversion). cloud/bench_rc3.sh measures the real peak and picks the split.
+B = int(sys.argv[3]) if len(sys.argv) > 3 else 8
+GA = int(sys.argv[4]) if len(sys.argv) > 4 else 16 // B
+assert B * GA == 16, 'B x GA must be 16 (32,768 tok/step)'
+c.update(batch_size=B, grad_accum=GA, eval_batch=2, mqar_batch=B, mqar_xchunk_batch=B, mqar_aug_batch=4 * B)
 c.update(run_name="v4_cloud", max_tokens=DENSE_TOK,
          data_bin="/workspace/data/tokenized_v4/train_lut32768_u16.bin", data_prelut=True, lut_subword_fallback=True,
          eval_every=3000, ckpt_every=1500, keep_last=3)        # ~1 step/s on the H200 -> a ckpt every ~25 min
 # Long-run guard (Glenn 10-09): the val_ppl tripwire alone, with the flagship_v3 tuning (the gate tripwires false-trip
 # on RC3). r26n's val series does not trip it. Its state is not checkpointed: it restarts after every resume.
-# head_weight_decay joins only if r26p (150M no-harm test) is clean.
+# head_weight_decay 1.0 = ON (Glenn 10-10): insurance against the late LM-head runaway of flagship v1 (v3 ran with it)
+# on a ~300k-step run with no slack. r26p (150M): +2.2% chunk1, inside the ~2% same-seed noise. Not resume-compatible:
+# it must be in from step 0.
+c.update(head_weight_decay=1.0)
 c.update(watchdog_enabled=False, watchdog_valppl_only=True, watchdog_valppl_ema_alpha=0.4, watchdog_valppl_tol=0.07,
          watchdog_valppl_patience=2)
 with open(R + "v4_cloud.yaml", "w") as f:
@@ -41,7 +52,12 @@ k.update({key: v for key, v in conv.items() if rc3.get(key) != v and key not in
 # The Llama teacher needs RAW Llama-3 ids; the uint16 corpus has none (3.66% of its tokens are id 0 = OOV, so an
 # inverse LUT would corrupt the teacher's context). -> a uint32 slice of the raw corpus + the val tail (temp/mk_kd_slice.py,
 # not written yet), read without prelut.
-k.update(run_name="v4_cloud_conv", max_tokens=DENSE_TOK + CONV_TOK, mqar_aug_batch=2 * B,   # r26o: 4 at B2
+# 2026-10-11: the conversion phase may need a smaller batch than the dense phase (spike codes + the Llama teacher cost
+# ~1.5x the activation memory per token: 1B smoke on the 5090) -> its own split from argv 5 (default = the dense B).
+CB = int(sys.argv[5]) if len(sys.argv) > 5 else B
+assert 16 % CB == 0
+k.update(batch_size=CB, grad_accum=16 // CB, mqar_batch=CB, mqar_xchunk_batch=CB)
+k.update(run_name="v4_cloud_conv", max_tokens=DENSE_TOK + CONV_TOK, mqar_aug_batch=2 * CB,   # r26o: 4 at B2
          data_bin="/workspace/data/tokenized_v4/train_kd_slice_u32.bin", data_prelut=False)
 with open(R + "v4_cloud_conv.yaml", "w") as f:
     f.write("# v4_cloud_conv -- AUTO-GEN temp/mk_v4_cloud.py (2026-10-09). RC3 conversion phase (r26o: spike codes + "
@@ -64,6 +80,21 @@ for src, name, upd in ((c, "v4_reh", dict(max_tokens=40_000_000, mqar_aug_batch=
         f.write(f"# {name} -- AUTO-GEN temp/mk_v4_cloud.py (2026-10-09). 5080 dress rehearsal of {src['run_name']} "
                 "(7L, 40M + 16M tok).\n")
         yaml.safe_dump(r, f, sort_keys=False)
-print(f"[OK] v4_cloud.yaml ({DENSE_TOK / 1e9:.1f}B tok, {DENSE_TOK // (B * c['block_size'])} steps) + v4_cloud_conv.yaml "
+# 1B SMOKE on the 5090 (Glenn 10-10; temp/queue_5090_smoke1b.sh runs cloud/run_v4.sh on these): the REAL cloud configs
+# at the 1B shape, only batch (B1xGA2 = 4,096 tok/step), budget (150 + 60 steps), eval / ckpt cadence and home data
+# paths differ. Covers at 1B: build + compile, xchunk from 50%, gap MQAR from 70%, sparsity ramp, eval, ckpt, a planned
+# stop + resume, mk_spike_seed, Llama KD conversion. Not a quality or a speed number.
+SMK = dict(batch_size=1, grad_accum=2, eval_batch=1, mqar_batch=1, mqar_xchunk_batch=1, eval_every=50, ckpt_every=50,
+           log_every=10, keep_last=2, eval_iters=10)
+for src, name, upd in ((c, "v4_smoke1b", dict(max_tokens=4096 * 150, mqar_aug_batch=4,
+                                               data_bin=T4 + "train_lut32768_u16.bin")),
+                       (k, "v4_smoke1b_conv", dict(max_tokens=4096 * 210, mqar_aug_batch=2,
+                                                    data_bin=T4 + "train_kd_slice_u32.bin"))):
+    r = dict(src, **{**SMK, **upd}, run_name=name)
+    with open(R + name + ".yaml", "w") as f:
+        f.write(f"# {name} -- AUTO-GEN temp/mk_v4_cloud.py (2026-10-10). 5090 smoke of {src['run_name']} at the 1B shape "
+                "(150 + 60 steps).\n")
+        yaml.safe_dump(r, f, sort_keys=False)
+print(f"[OK] v4_cloud.yaml ({DENSE_TOK / 1e9:.1f}B tok, {DENSE_TOK // (B * GA * c['block_size'])} steps, B{B} x GA{GA}) + v4_cloud_conv.yaml "
       f"(+{CONV_TOK / 1e9:.1f}B)")
 print("conv keys vs dense:", {key: k[key] for key in k if c.get(key) != k[key]})

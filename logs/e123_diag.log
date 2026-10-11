@@ -606,3 +606,30 @@ r26r_13L_RC3_seed1_150m    C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | 
 r26r_13L_RC3_seed1_150m    C=1024 E3 haystack N32 (chance 3.1) | chunk2  96.9 | chunk3 100.0 | chunk4 100.0 | chunk8  93.8 | off@2   9.4
 r26r_13L_RC3_seed1_150m    C=1024 E3 ppl by chunk (T=8192) mem on  |  41.17  36.71  37.22  35.62  35.13  34.58  37.93  32.49
 r26r_13L_RC3_seed1_150m    C=1024 E3 ppl by chunk (T=8192) mem off |  41.79  38.25  38.93  37.23  36.47  35.90  39.15  33.58
+r26t_13L_RC3_resume10k_fix_150m C=1024 E1 real   S12 mem on/off | d0    34.7/ 27.6 | d64   29.0/ 23.2 | d256  29.2/ 25.4 | d448  26.6/ 23.5
+r26t_13L_RC3_resume10k_fix_150m C=1024 E1 real   S32 mem on/off | d0    35.3/ 28.0 | d64   33.4/ 28.7 | d256  30.8/ 27.7 | d448  30.9/ 28.4
+r26t_13L_RC3_resume10k_fix_150m C=1024 E1 random S12 mem on/off | d0     0.2/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26t_13L_RC3_resume10k_fix_150m C=1024 E1 random S32 mem on/off | d0     0.4/  0.0 | d64    0.3/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26t_13L_RC3_resume10k_fix_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   6.2
+r26t_13L_RC3_resume10k_fix_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2   3.1
+r26t_13L_RC3_resume10k_fix_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  40.60  36.44  36.82  35.67  34.74  34.51  37.52  32.26
+r26t_13L_RC3_resume10k_fix_150m C=1024 E3 ppl by chunk (T=8192) mem off |  41.19  37.83  38.38  37.18  35.87  35.70  38.71  33.21
+r26s_13L_RC3_x20_150m      C=1024 E1 real   S12 mem on/off | d0    34.4/ 27.1 | d64   30.9/ 24.1 | d256  29.2/ 24.2 | d448  26.2/ 23.8
+r26s_13L_RC3_x20_150m      C=1024 E1 real   S32 mem on/off | d0    35.4/ 27.9 | d64   33.6/ 29.3 | d256  31.1/ 27.9 | d448  30.5/ 29.1
+r26s_13L_RC3_x20_150m      C=1024 E1 random S12 mem on/off | d0     0.5/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26s_13L_RC3_x20_150m      C=1024 E1 random S32 mem on/off | d0     0.7/  0.0 | d64    0.3/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26s_13L_RC3_x20_150m      C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3  96.9 | chunk4 100.0 | chunk8 100.0 | off@2  28.1
+r26s_13L_RC3_x20_150m      C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2   0.0
+r26s_13L_RC3_x20_150m      C=1024 E3 ppl by chunk (T=8192) mem on  |  40.49  36.56  36.60  35.27  34.59  34.47  37.71  32.28
+r26s_13L_RC3_x20_150m      C=1024 E3 ppl by chunk (T=8192) mem off |  41.02  37.88  38.09  36.71  35.74  35.71  38.85  33.29
+r26v_13L_RC3_gap20_x20_150m C=1024 E1 real   S12 mem on/off | d0    33.8/ 25.7 | d64   25.8/ 23.1 | d256  27.9/ 24.9 | d448  23.7/ 22.1
+r26v_13L_RC3_gap20_x20_150m C=1024 E1 real   S32 mem on/off | d0    32.2/ 28.3 | d64   31.0/ 28.7 | d256  28.9/ 27.7 | d448  28.8/ 27.6
+r26v_13L_RC3_gap20_x20_150m C=1024 E1 random S12 mem on/off | d0     0.8/  0.0 | d64    0.3/  0.0 | d256   0.2/  0.0 | d448   0.0/  0.0
+r26v_13L_RC3_gap20_x20_150m C=1024 E1 random S32 mem on/off | d0     0.6/  0.0 | d64    0.4/  0.0 | d256   0.3/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26v_13L_RC3_gap20_x20_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8  96.9 | off@2   9.4
+r26v_13L_RC3_gap20_x20_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  93.8 | chunk3  90.6 | chunk4  93.8 | chunk8  87.5 | off@2   6.2
+r26v_13L_RC3_gap20_x20_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  43.17  39.03  39.32  38.02  37.28  37.46  40.50  34.37
+r26v_13L_RC3_gap20_x20_150m C=1024 E3 ppl by chunk (T=8192) mem off |  43.39  39.85  40.16  38.80  37.98  38.19  41.16  34.91

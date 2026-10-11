@@ -199,3 +199,44 @@ emit("screen_p26zb_7L_RC3_x20", "v4_reh", "7L RC3 (v4_reh layout), xchunk 0.25 f
 emit("screen_p26zc_7L_RC3_x50_s1", "v4_reh", "7L RC3, xchunk 0.25 from 50%, seed 1.", **_7, seed=1)
 emit("screen_p26zd_7L_RC3_x20_s1", "v4_reh", "7L RC3, xchunk 0.25 from 20%, seed 1.", **_7, seed=1,
      mqar_xchunk_start_frac=0.2)
+# 10-10 16:45 r26s = 38.21 and the 7L pair tied -- but the test was a NO-OP: xchunk batches are drawn only inside the
+# gap-MQAR branch, which starts at mqar_gap_start_frac = 0.7 in every RC config, so xchunk_start 0.5 and 0.2 both mean
+# "from 70%" (r26s / p26za-zd are same-seed replicates: chunk1 noise 38.09 / 38.27 / 38.21 = ~0.5%, 7L ~1%).
+# r26v = the REAL early start: gap MQAR and xchunk both from 20% (ramp 0.1 as before). Costs step time too (gap
+# batches run for 80% of the run instead of 30%). Judge vs 38.09-38.27 and memory 100%.
+emit("r26v_13L_RC3_gap20_x20_150m", "r26n_13L_RC2_xlate_150m", "RC3 dense with gap MQAR + xchunk aux both from 20% "
+     "(RC3: both effectively from 70%).", mqar_gap_start_frac=0.2, mqar_xchunk_start_frac=0.2)
+# 10-10 09:30 r26r (RC3 dense seed 1, clean) = 38.65 (r26n 38.09) -> RC3 dense is seed-robust. r26u = the r26o
+# conversion (Llama-3.2-1B KD, B2xGA4) from r26r: 2nd seed of the 36.55 headline, and the first conversion that is
+# not resumed (r26o's last 6% ran at ~0.1x LR after the outage resume).
+emit("r26u_13L_RC3_conv_llamakd_s1_150m", "r26r_13L_RC3_seed1_150m", "RC3 CONVERSION with Llama-3.2-1B KD from r26r "
+     "(seed 1), B2xGA4.", kd_enabled=True, kd_teacher="meta-llama/Llama-3.2-1B", kd_alpha=0.5, kd_temperature=1.0,
+     **dict(_g, mqar_aug_batch=4), **B24)
+# 10-10 18:00 (Neuro 55; Glenn: test a milder head weight decay). r26p (1.0) = 38.92 vs same-seed replicates 38.09 /
+# 38.27 / 38.21 (noise ~0.5%) = a real ~2% cost. r26w / r26x = 0.3 / 0.1: does the cost shrink while the head norm
+# stays bounded ([wnorm] head: r26p 66 vs r26n 214)? Judge chunk1 vs 38.09-38.27 and the head norm at the end.
+emit("r26w_13L_RC3_headwd03_150m", "r26n_13L_RC2_xlate_150m", "RC3 dense (r26n) + head_weight_decay 0.3.",
+     head_weight_decay=0.3)
+emit("r26x_13L_RC3_headwd01_150m", "r26n_13L_RC2_xlate_150m", "RC3 dense (r26n) + head_weight_decay 0.1.",
+     head_weight_decay=0.1)
+# 10-10 23:40 (Neuro 55; Glenn: the 5080 is free all night + 10-11). 7L twins of the two open 12L questions, 100M tok.
+# NOTE: v4_reh now carries head_weight_decay 1.0, but p26za-zd RAN WITHOUT it (no head_weight_decay line in their
+# logs) -> they are the no-decay baseline: seed 0 55.99 / 55.39, seed 1 55.45 / 55.43 (chunk1). Set it explicitly here.
+#  ze / zf / zh = head_weight_decay 1.0 / 0.3 / 0.1 (seed 0), zj = 1.0 seed 1: the cost curve at 7L.
+#  zg / zi = gap MQAR + xchunk both from 20% (the r26v test), no decay, seeds 0 / 1.
+_n = dict(_7, head_weight_decay=None)
+emit("screen_p26ze_7L_RC3_hwd10", "v4_reh", "7L RC3 + head_weight_decay 1.0.", **dict(_7, head_weight_decay=1.0))
+emit("screen_p26zf_7L_RC3_hwd03", "v4_reh", "7L RC3 + head_weight_decay 0.3.", **dict(_7, head_weight_decay=0.3))
+emit("screen_p26zg_7L_RC3_gap20_x20", "v4_reh", "7L RC3, gap MQAR + xchunk both from 20%, no head decay.", **_n,
+     mqar_gap_start_frac=0.2, mqar_xchunk_start_frac=0.2)
+emit("screen_p26zh_7L_RC3_hwd01", "v4_reh", "7L RC3 + head_weight_decay 0.1.", **dict(_7, head_weight_decay=0.1))
+emit("screen_p26zi_7L_RC3_gap20_x20_s1", "v4_reh", "7L RC3, gap MQAR + xchunk both from 20%, no head decay, seed 1.",
+     **_n, seed=1, mqar_gap_start_frac=0.2, mqar_xchunk_start_frac=0.2)
+emit("screen_p26zj_7L_RC3_hwd10_s1", "v4_reh", "7L RC3 + head_weight_decay 1.0, seed 1.",
+     **dict(_7, head_weight_decay=1.0), seed=1)
+# 10-11 00:30 (Neuro 55, overnight review). The conversion headline has no like-for-like control: r26o (36.55) = r26n
+# + 80M tokens + Llama KD + spike codes, compared with r26n at 200M tokens and no teacher (38.09). r26y = r26o WITHOUT
+# the spike codes (same +80M tokens, KD, B2xGA4, LR profile; seed = r26n's last ckpt without optimizer state,
+# temp/mk_kd_control_seed.py). Conversion cost in ppl = r26o 36.55 - r26y. Queued last on the 5090 (after r26x).
+emit("r26y_13L_RC3_kdonly_150m", "r26o_13L_RC3_conv_llamakd_150m", "CONTROL for r26o: +80M tok with Llama KD, NO spike codes.",
+     spike_code=None)

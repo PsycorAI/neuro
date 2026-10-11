@@ -1,0 +1,23 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.29M device=cuda target=0.000B tok | 2048 tok/step | total_steps≈12 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.0M tok | loss 10.706 | 393 tok/s | vram 13.5/25.1 GB
+step 10 | 0.0M tok | loss 10.032 | 2,151 tok/s | vram 13.5/25.1 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_d_xchunk_T2048/step_0000012.pt
+done: 0.0M tok in 0.03h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3360786893.6 |    3443943014.4 |         1.02x
+    2048 |    3708075264.8 |    3820172083.2 |         1.03x
+    4096 |    4171126426.4 |    4321810841.6 |         1.04x
+
+block mix: 1 spiking + 12 attention | spike_rate 0.217 reported -> 0.217 spiking-only
+spiking op mix/token @ seq 4096: 901,775,360 MAC + 25,510,856 AC
+note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof d_xchunk_T2048] median step 989 ms = 2,070 tok/s (B1xGA1, 8 steps)
+[prof d_xchunk_T2048] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00
+[prof d_xchunk_T2048] peak allocated 24.9 GB | peak reserved 25.1 GB

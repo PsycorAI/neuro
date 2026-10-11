@@ -1,0 +1,6 @@
+== 1B memory probe 10-11 00:51 (B1 x GA1; vram = allocated between steps / reserved)
+d_plain_T2048: peak allocated 21.7 GB | peak reserved 22.4 GB | vram 13.4/22.4 GB | 2,552 tok/s 
+d_plain_T1024: peak allocated 18.7 GB | peak reserved 19.2 GB | vram 13.4/19.2 GB | 1,326 tok/s 
+d_gap_T2048: peak allocated 21.7 GB | peak reserved 22.7 GB | vram 13.4/22.7 GB | 2,470 tok/s 
+d_xchunk_T2048: peak allocated 24.9 GB | peak reserved 25.1 GB | vram 13.5/25.1 GB | 2,070 tok/s 
+c_plain_T1024: peak allocated 21.4 GB | peak reserved 22.0 GB | vram 15.7/22.0 GB | 1,308 tok/s 

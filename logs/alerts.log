@@ -24,3 +24,41 @@
 [DONE 10-10 08:29:34] screen_p26za_7L_RC3_x50 chunk1 55.99 val 60.28 | 
 [DONE 10-10 08:35:17] r26r_13L_RC3_seed1_150m chunk1 38.65 (r26n 38.09, +1.5%) val 39.28 | N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32: 100.0  99.2  99.2  99.2 (mem off   3.9)
 [INFO 10-10 08:35:18] r26t_13L_RC3_resume10k_fix_150m started on the 5090
+[DONE 10-10 11:18:51] screen_p26zc_7L_RC3_x50_s1 chunk1 55.45 val 59.96 | 
+[INFO 10-10 11:44:08] r26t_13L_RC3_resume10k_fix_150m: PLANNED stop after step 10000 (resume control) -- the exit=143 alert that follows is expected
+[WARN 10-10 11:44:20] r26t_13L_RC3_resume10k_fix_150m attempt 1 ended early (step 10000 | 163.8M tok | loss ) -> auto-resume
+[ALERT 10-10 11:45:30] queue log: [s0 10-10 11:44:20] [r26t_13L_RC3_resume10k_fix_150m] exit=143 :: 149.11 91.04 72.42 82.23 73.25 59.76 51.74 47.11 45.69 42.46
+[DONE 10-10 12:44:02] r26t_13L_RC3_resume10k_fix_150m chunk1 38.27 (r26n 38.09, +0.5%) val 39.05 | N8:  98.4 100.0 100.0  99.2 (mem off  14.1) | N32: 100.0 100.0 100.0 100.0 (mem off   5.5)
+[INFO 10-10 12:44:03] r26s_13L_RC3_x20_150m started on the 5090
+[DONE 10-10 14:06:02] screen_p26zd_7L_RC3_x20_s1 chunk1 55.43 val 59.53 | 
+[DONE 10-10 14:06:03] 5080 chain finished: the 5080 is idle
+[DONE 10-10 16:37:23] r26s_13L_RC3_x20_150m chunk1 38.21 (r26n 38.09, +0.3%) val 39.05 | N8: 100.0 100.0 100.0 100.0 (mem off  18.0) | N32: 100.0 100.0 100.0 100.0 (mem off   3.1)
+[DONE 10-10 16:37:24] 5090 chain finished: the 5090 is idle
+[INFO 10-10 16:38:03] 1B smoke started on the 5090
+[INFO 10-10 16:44:36] v4_smoke1b: PLANNED stop after step 50 (resume control) -- the exit=143 alert that follows is expected
+[ALERT 10-10 16:57:05] 1B SMOKE FAILED (params=1109.29M, dense val 1166.43 735.77 806.94 ): [run_v4 10-10 16:57:05] 5 failures in a row, giving up | RuntimeError: CUDA driver error: device not ready
+[INFO 10-10 16:57:06] r26u_13L_RC3_conv_llamakd_s1_150m started on the 5090
+[INFO 10-10 21:29:17] alert_watch started
+[INFO 10-10 21:29:17] r26u_13L_RC3_conv_llamakd_s1_150m resumed on the 5090 after the power loss
+[WARN 10-10 21:29:17] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-10 21:31:13] queue log: [wd 10-10 21:29:17] [r26u_13L_RC3_conv_llamakd_s1_150m] log silent 151 min -> SIGTERM 2520
+[INFO 10-10 21:32:27] r26u_13L_RC3_conv_llamakd_s1_150m resumed on the 5090 after the power loss
+[DONE 10-10 23:28:31] r26u_13L_RC3_conv_llamakd_s1_150m chunk1 37.04 (r26o seed 0: 36.55; its dense r26r: 38.65; RESUMED once at step 15000) energy 5.50x / 3.14x SRAM | N8: 100.0 100.0 100.0 100.0 (mem off  13.3) | N32:  99.2 100.0 100.0 100.0 (mem 
+[INFO 10-10 23:28:32] 1B smoke RERUN started on the 5090
+[INFO 10-10 23:36:42] v4_smoke1b: PLANNED stop after step 50 (resume control) -- the exit=143 alert that follows is expected
+[ALERT 10-11 00:00:21] 1B SMOKE RERUN FAILED (params=1109.29M, dense val 1168.11 733.14 638.30 , vram 13.4/29.4 GB): [run_v4 10-11 00:00:21] 5 failures in a row, giving up | RuntimeError: CUDA driver error: device not ready
+[DONE 10-11 00:00:22] 5090 chain finished: the 5090 is idle
+[INFO 10-11 00:00:39] 1B conversion smoke (T1024) started on the 5090
+[INFO 10-11 00:14:10] v4_smoke1b_conv_t1024: PLANNED stop after step 400 (resume control) -- the exit=143 alert that follows is expected
+[ALERT 10-11 00:14:58] queue log: [n55 10-11 00:14:11] [v4_smoke1b_conv_t1024] attempt 1 exit=143 last ckpt step 400
+[INFO 10-11 00:26:20] alert_watch stopped (STOP file)
+[INFO 10-11 00:26:20] alert_watch started
+[DONE 10-11 00:32:11] 1B CONVERSION SMOKE at T1024 PASSED (steps 150 -> 750, gap phase from 630): val 899.06 833.35 819.07 660.14 603.88 596.00 569.01 541.73 492.86 465.97 451.56 435.45 398.96 | vram 15.9/26.5 GB | 1,243 1,780 1,469 tok/s | 2 resumes | 
+[INFO 10-11 00:37:50] 1B conversion at the real T2048 shape WITHOUT the MQAR aux fits the 5090: val 525.34 | vram 16.0/25.9 GB | 3,954 3,512 965 tok/s | 1 resumes | 
+[INFO 10-11 00:51:51] bench_rc3 home test (7L, 5090): 4 of 5 arms ok | 
+[INFO 10-11 01:04:17] 1B memory probe done: 5 of 5 arms | d_plain_T2048: peak allocated 21.7 GB | peak reserved 22.4 GB | vram 13.4/22.4 GB | 2,552 
+[INFO 10-11 01:04:17] r26v_13L_RC3_gap20_x20_150m started on the 5090
+[DONE 10-11 03:55:20] screen_p26ze_7L_RC3_hwd10 chunk1 55.80 val 60.28 | 
+[DONE 10-11 05:50:16] r26v_13L_RC3_gap20_x20_150m chunk1 41.04 (r26n 38.09, +7.7%) val 41.94 | N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  90.6  93.8  93.0  93.8 (mem off   2.3)
+[INFO 10-11 05:50:16] r26w_13L_RC3_headwd03_150m started on the 5090
+[DONE 10-11 07:03:50] screen_p26zf_7L_RC3_hwd03 chunk1 55.30 val 59.27 | 

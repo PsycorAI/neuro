@@ -1561,3 +1561,137 @@
 [n54 10-10 08:35:18] 5090 chain: r26t_13L_RC3_resume10k_fix_150m
 [s0 10-10 08:35:18] scheduler waiting for GPU 0 lock
 [s0 10-10 08:35:18] [r26t_13L_RC3_resume10k_fix_150m] START
+[s1 10-10 11:10:27] [screen_p26zc_7L_RC3_x50_s1] exit=0 :: 241.82 146.74 98.54 72.67 64.79 59.96 
+  recall screen_p26zc_7L_RC3_x50_s1 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zc_7L_RC3_x50_s1 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-10 11:13:07] scheduler DONE
+  r25-evals screen_p26zc_7L_RC3_x50_s1 C=1024 T=2048 | chunk1   55.45 (mem off   61.55) | chunks2+   53.98 (off   61.31, Δ +7.33) | first64 of 2+   68.05 (off   86.00, Δ +17.94) vs first64 of chunk1   81.77
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals screen_p26zc_7L_RC3_x50_s1   C=1024 xcopy top1 | none  30.8 | in-window  37.8 | beyond (memory)  28.5 | beyond mem-off  25.0
+[n54 10-10 11:18:51] [screen_p26zc_7L_RC3_x50_s1] evals DONE
+[n54 10-10 11:18:53] 5080 chain: screen_p26zd_7L_RC3_x20_s1
+[s1 10-10 11:18:53] scheduler waiting for GPU 1 lock
+[s1 10-10 11:18:53] [screen_p26zd_7L_RC3_x20_s1] START
+[n54 10-10 11:44:08] [r26t_13L_RC3_resume10k_fix_150m] planned stop after step 10000 (resume control)
+[s0 10-10 11:44:20] [r26t_13L_RC3_resume10k_fix_150m] exit=143 :: 149.11 91.04 72.42 82.23 73.25 59.76 51.74 47.11 45.69 42.46 
+[s0 10-10 11:44:20] scheduler DONE
+[s0 10-10 11:45:18] scheduler waiting for GPU 0 lock
+[s0 10-10 11:45:18] [r26t_13L_RC3_resume10k_fix_150m] RESUME
+[s0 10-10 12:38:07] [r26t_13L_RC3_resume10k_fix_150m] exit=0 :: 149.11 91.04 72.42 82.23 73.25 59.76 51.74 47.11 45.69 42.46 40.52 39.05 
+  recall r26t_13L_RC3_resume10k_fix_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26t_13L_RC3_resume10k_fix_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-10 12:38:42] scheduler DONE
+  r25-evals r26t_13L_RC3_resume10k_fix_150m C=1024 T=2048 | chunk1   38.27 (mem off   38.77) | chunks2+   36.87 (off   38.27, Δ +1.40) | first64 of 2+   47.67 (off   60.14, Δ +12.47) vs first64 of chunk1   59.45
+  r25-evals r26t_13L_RC3_resume10k_fix_150m C=1024 N8:  98.4 100.0 100.0  99.2 (mem off  14.1) | N32: 100.0 100.0 100.0 100.0 (mem off   5.5)
+  r25-evals r26t_13L_RC3_resume10k_fix_150m C=1024 | K1 in@0  98.4 | K1 in@200  64.6 | K1 x@0   5.7 | K1 x@200   5.2 | K1 x@0 off   6.2 | K1 in@0 para  18.8 | K1 x@0 para   6.8 | K4 in@0  23.4 | K4 in@200  15.1 | K4 x@0  12.0 | K4 x@200  14.6 | K4 x@0 off  13.0 | K4 in@0 para  14.1 | K4 x@0 para   9.4
+  r25-evals r26t_13L_RC3_resume10k_fix_150m C=1024 xcopy top1 | none  35.5 | in-window  46.3 | beyond (memory)  28.4 | beyond mem-off  27.2
+[n54 10-10 12:44:02] [r26t_13L_RC3_resume10k_fix_150m] evals + diagnostics DONE
+[n54 10-10 12:44:03] 5090 chain: r26s_13L_RC3_x20_150m
+[s0 10-10 12:44:03] scheduler waiting for GPU 0 lock
+[s0 10-10 12:44:03] [r26s_13L_RC3_x20_150m] START
+[s1 10-10 13:57:46] [screen_p26zd_7L_RC3_x20_s1] exit=0 :: 244.86 147.18 97.81 72.34 64.30 59.53 
+  recall screen_p26zd_7L_RC3_x20_s1 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zd_7L_RC3_x20_s1 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-10 14:00:12] scheduler DONE
+  r25-evals screen_p26zd_7L_RC3_x20_s1 C=1024 T=2048 | chunk1   55.43 (mem off   62.17) | chunks2+   53.68 (off   61.79, Δ +8.11) | first64 of 2+   67.56 (off   86.02, Δ +18.46) vs first64 of chunk1   81.91
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals screen_p26zd_7L_RC3_x20_s1   C=1024 xcopy top1 | none  30.5 | in-window  37.1 | beyond (memory)  28.8 | beyond mem-off  25.0
+[n54 10-10 14:06:02] [screen_p26zd_7L_RC3_x20_s1] evals DONE
+[s0 10-10 16:31:34] [r26s_13L_RC3_x20_150m] exit=0 :: 148.67 91.91 72.67 82.51 73.51 59.36 51.88 47.13 45.61 42.46 40.44 39.05 
+  recall  r26s_13L_RC3_x20_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26s_13L_RC3_x20_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-10 16:32:14] scheduler DONE
+  r25-evals r26s_13L_RC3_x20_150m      C=1024 T=2048 | chunk1   38.21 (mem off   38.75) | chunks2+   36.96 (off   38.33, Δ +1.37) | first64 of 2+   48.62 (off   61.42, Δ +12.80) vs first64 of chunk1   59.74
+  r25-evals r26s_13L_RC3_x20_150m      C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  18.0) | N32: 100.0 100.0 100.0 100.0 (mem off   3.1)
+  r25-evals r26s_13L_RC3_x20_150m      C=1024 | K1 in@0  90.6 | K1 in@200  55.2 | K1 x@0   6.8 | K1 x@200   8.3 | K1 x@0 off   6.2 | K1 in@0 para  22.4 | K1 x@0 para   7.3 | K4 in@0  23.4 | K4 in@200  15.6 | K4 x@0   9.9 | K4 x@200  10.9 | K4 x@0 off  10.4 | K4 in@0 para  13.0 | K4 x@0 para   9.9
+  r25-evals r26s_13L_RC3_x20_150m        C=1024 xcopy top1 | none  35.0 | in-window  45.1 | beyond (memory)  28.1 | beyond mem-off  27.5
+[n54 10-10 16:37:23] [r26s_13L_RC3_x20_150m] evals + diagnostics DONE
+[n54 10-10 16:38:03] 5090: 1B smoke v4_smoke1b -> v4_smoke1b_conv (cloud/run_v4.sh)
+[n54 10-10 16:44:36] [v4_smoke1b] planned stop after step 50 (resume control)
+  [r26u_13L_RC3_conv_llamakd_s1_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 47.06 -> coded 56.29 | mean spikes/input 0.815 | saved models/checkpoints/r26u_13L_RC3_conv_llamakd_s1_150m @ step 12208
+[g0 10-10 16:57:28] [r26u_13L_RC3_conv_llamakd_s1_150m] START
+[n55 10-10 21:29:17] [r26u_13L_RC3_conv_llamakd_s1_150m] RESUME after the power loss (models/checkpoints/r26u_13L_RC3_conv_llamakd_s1_150m/step_0015000.pt)
+[wd 10-10 21:29:17] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-10 21:29:17] [r26u_13L_RC3_conv_llamakd_s1_150m] log silent 151 min -> SIGTERM 2520
+[g0 10-10 21:29:17] [r26u_13L_RC3_conv_llamakd_s1_150m] exit=0 :: 46.26 43.78 41.30 
+  recall r26u_13L_RC3_conv_llamakd_s1_150m |   97% |  100% |  100% |   97% |  100%
+  haystack (gap 0/64/192/440) r26u_13L_RC3_conv_llamakd_s1_150m N8:  99.2 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 T=2048 | chunk1   39.64 (mem off   40.35) | chunks2+   38.24 (off   39.96, Δ +1.72) | first64 of 2+   48.74 (off   62.84, Δ +14.10) vs first64 of chunk1   63.13
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32:  99.2 100.0 100.0 100.0 (mem off   3.1)
+[n55 10-10 21:32:27] [r26u_13L_RC3_conv_llamakd_s1_150m] RESUME after the power loss (models/checkpoints/r26u_13L_RC3_conv_llamakd_s1_150m/step_0015000.pt)
+[g0 10-10 23:23:53] [r26u_13L_RC3_conv_llamakd_s1_150m] exit=0 :: 46.26 43.78 41.30 39.80 38.87 
+  recall r26u_13L_RC3_conv_llamakd_s1_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26u_13L_RC3_conv_llamakd_s1_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 T=2048 | chunk1   37.04 (mem off   37.74) | chunks2+   35.62 (off   37.37, Δ +1.75) | first64 of 2+   45.30 (off   59.37, Δ +14.07) vs first64 of chunk1   59.29
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  13.3) | N32:  99.2 100.0 100.0 100.0 (mem off   2.3)
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 | K1 in@0  87.5 | K1 in@200  39.1 | K1 x@0   6.8 | K1 x@200   6.8 | K1 x@0 off   6.8 | K1 in@0 para  24.5 | K1 x@0 para   3.6 | K4 in@0  17.7 | K4 in@200  16.7 | K4 x@0  10.4 | K4 x@200   7.3 | K4 x@0 off   9.4 | K4 in@0 para  18.2 | K4 x@0 para   9.4
+  r25-evals r26u_13L_RC3_conv_llamakd_s1_150m C=1024 xcopy top1 | none  35.0 | in-window  44.6 | beyond (memory)  28.1 | beyond mem-off  27.2
+  energy r26u_13L_RC3_conv_llamakd_s1_150m energy  117.8 uJ/tok vs dense  647.8 -> 5.50x | MAC   2.2M AC 119.6M (dense 140.8M) | top: head 34.4uJ, up 29.6uJ, qkv 20.5uJ, attn_gate 6.8uJ, o_proj 6.4uJ, to_current 2.3uJ
+  energy src                          energy  459.9 uJ/tok vs dense  647.8 -> 1.41x | MAC  99.9M AC   0.7M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-10 23:28:11] r26u_13L_RC3_conv_llamakd_s1_150m queue DONE
+  r26u_13L_RC3_conv_llamakd_s1_150m energy-v2 | weight reads 68.9M of 129.6M (53%) | compute only 5.50x (118 vs 648 uJ) | +SRAM fetch 3.14x (318 vs 1000 uJ) | +DRAM fetch 1.90x (22200 vs 42152 uJ)
+[n55 10-10 23:28:32] 5090: 1B smoke RERUN v4_smoke1b -> v4_smoke1b_conv (cloud/run_v4.sh)
+[n54 10-10 23:34:07] 5080 chain: screen_p26ze_7L_RC3_hwd10
+[s1 10-10 23:34:07] scheduler waiting for GPU 1 lock
+[s1 10-10 23:34:07] [screen_p26ze_7L_RC3_hwd10] before START -- GPU 1 in use (util 40%), waiting for it to be free
+[s1 10-10 23:36:02] [screen_p26ze_7L_RC3_hwd10] START
+[n54 10-10 23:36:42] [v4_smoke1b] planned stop after step 50 (resume control)
+[n55 10-11 00:00:39] [v4_smoke1b_conv_t1024] conversion smoke, attempt 1
+[wd 10-11 00:03:26] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n54 10-11 00:14:10] [v4_smoke1b_conv_t1024] planned stop after step 400 (resume control)
+[n55 10-11 00:14:11] [v4_smoke1b_conv_t1024] attempt 1 exit=143 last ckpt step 400
+[n55 10-11 00:14:54] [v4_smoke1b_conv_t1024] conversion smoke, attempt 2
+[n55 10-11 00:32:11] [v4_smoke1b_conv_t1024] attempt 2 exit=0 last ckpt step 750
+[n55 10-11 00:32:12] [v4_smoke1b_conv_noaux] conversion smoke, attempt 1
+[n55 10-11 00:37:49] [v4_smoke1b_conv_noaux] attempt 1 exit=0 last ckpt step 210
+[n54 10-11 01:04:17] 5090 chain: r26v_13L_RC3_gap20_x20_150m
+[s0 10-11 01:04:17] scheduler waiting for GPU 0 lock
+[s0 10-11 01:04:17] [r26v_13L_RC3_gap20_x20_150m] START
+[s1 10-11 02:49:08] [screen_p26ze_7L_RC3_hwd10] exit=0 :: 235.94 144.12 100.56 74.42 65.39 60.28 
+  recall screen_p26ze_7L_RC3_hwd10 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26ze_7L_RC3_hwd10 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-11 03:11:34] scheduler DONE
+  r25-evals screen_p26ze_7L_RC3_hwd10  C=1024 T=2048 | chunk1   55.80 (mem off   62.33) | chunks2+   54.46 (off   62.40, Δ +7.94) | first64 of 2+   67.80 (off   84.65, Δ +16.86) vs first64 of chunk1   82.15
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals torch.AcceleratorError: CUDA error: out of memory
+  r25-evals Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+  r25-evals CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+  r25-evals screen_p26ze_7L_RC3_hwd10    C=1024 xcopy top1 | none  31.0 | in-window  35.6 | beyond (memory)  29.2 | beyond mem-off  24.8
+[n54 10-11 03:55:20] [screen_p26ze_7L_RC3_hwd10] evals DONE
+[n54 10-11 03:55:35] 5080 chain: screen_p26zf_7L_RC3_hwd03
+[s1 10-11 03:55:35] scheduler waiting for GPU 1 lock
+[s1 10-11 03:55:35] [screen_p26zf_7L_RC3_hwd03] START
+[s0 10-11 05:43:24] [r26v_13L_RC3_gap20_x20_150m] exit=0 :: 149.79 92.21 80.48 66.38 73.54 69.70 63.35 57.20 50.88 46.38 43.72 41.94 
+  recall r26v_13L_RC3_gap20_x20_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26v_13L_RC3_gap20_x20_150m N8:  99.6 100.0 100.0 100.0 | N32:  99.6 100.0 100.0 100.0
+[s0 10-11 05:44:17] scheduler DONE
+  r25-evals r26v_13L_RC3_gap20_x20_150m C=1024 T=2048 | chunk1   41.04 (mem off   41.10) | chunks2+   39.89 (off   40.66, Δ +0.77) | first64 of 2+   54.20 (off   64.07, Δ +9.88) vs first64 of chunk1   63.43
+  r25-evals r26v_13L_RC3_gap20_x20_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  90.6  93.8  93.0  93.8 (mem off   2.3)
+  r25-evals r26v_13L_RC3_gap20_x20_150m C=1024 | K1 in@0  80.7 | K1 in@200  44.3 | K1 x@0   5.2 | K1 x@200   6.2 | K1 x@0 off   5.7 | K1 in@0 para  24.5 | K1 x@0 para   8.3 | K4 in@0  21.4 | K4 in@200  17.2 | K4 x@0  12.0 | K4 x@200   8.9 | K4 x@0 off  10.4 | K4 in@0 para  10.9 | K4 x@0 para   6.8
+  r25-evals r26v_13L_RC3_gap20_x20_150m  C=1024 xcopy top1 | none  34.0 | in-window  43.8 | beyond (memory)  27.4 | beyond mem-off  27.4
+[n54 10-11 05:50:16] [r26v_13L_RC3_gap20_x20_150m] evals + diagnostics DONE
+[n54 10-11 05:50:16] 5090 chain: r26w_13L_RC3_headwd03_150m
+[s0 10-11 05:50:16] scheduler waiting for GPU 0 lock
+[s0 10-11 05:50:17] [r26w_13L_RC3_headwd03_150m] START
+[s1 10-11 06:40:24] [screen_p26zf_7L_RC3_hwd03] exit=0 :: 240.49 145.35 98.62 72.75 63.97 59.27 
+  recall screen_p26zf_7L_RC3_hwd03 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zf_7L_RC3_hwd03 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-11 07:02:44] scheduler DONE
+  r25-evals screen_p26zf_7L_RC3_hwd03  C=1024 T=2048 | chunk1   55.30 (mem off   61.21) | chunks2+   53.87 (off   61.02, Δ +7.15) | first64 of 2+   68.07 (off   84.50, Δ +16.43) vs first64 of chunk1   81.25
+  r25-evals screen_p26zf_7L_RC3_hwd03    C=1024 xcopy top1 | none  31.3 | in-window  37.2 | beyond (memory)  29.2 | beyond mem-off  24.4
+[n54 10-11 07:03:50] [screen_p26zf_7L_RC3_hwd03] evals DONE
+[n54 10-11 07:03:51] 5080 chain: screen_p26zg_7L_RC3_gap20_x20
+[s1 10-11 07:03:51] scheduler waiting for GPU 1 lock
+[s1 10-11 07:03:51] [screen_p26zg_7L_RC3_gap20_x20] START

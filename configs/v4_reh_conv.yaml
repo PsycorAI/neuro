@@ -117,6 +117,7 @@ mqar_xchunk_start_frac: 0.5
 hola_w: 64
 data_prelut: false
 lut_subword_fallback: true
+head_weight_decay: 1.0
 watchdog_valppl_only: true
 watchdog_valppl_ema_alpha: 0.4
 watchdog_valppl_tol: 0.07

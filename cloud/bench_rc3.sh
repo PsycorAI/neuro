@@ -1,0 +1,73 @@
+#!/bin/bash
+# bench_rc3.sh -- 2026-10-11 (Neuro 55). Throughput + memory bench of the RC3 run ITSELF, for batch split and budget.
+# (bench_h200.sh, 10-04, times the old r19d layout: T512, gap MQAR on every step -- not what v4_cloud runs.)
+# The dense run has three kinds of step, the conversion run two (it is entirely in the late phase and adds the Llama
+# teacher), so each is timed on its own with temp/profile_train.py (the real train_gpu loop, compile on, median step):
+#   dense_plain   first 70%: LM batch + plain MQAR
+#   dense_gap     last 30%, 75% of steps: + haystack (gap) MQAR batch
+#   dense_xchunk  last 30%, 25% of steps: + cross-chunk MQAR batch (padded to 2 x attn_chunk) = the memory peak
+#   conv_gap / conv_xchunk   the same two with spike codes + KD (needs the KD slice and the teacher in HF_HOME)
+# BATCH SPLIT: RC3 at T2048 needs far more memory per token than the 10-04 layout. 1B probe on the 5090 (B1,
+# logs/mem1b.log): 13.4 GB held + 8.3 GB per sample, + 3.2 GB per sample on a cross-chunk step -> B16 = 163-197 GB
+# there, over the H200's 143 GB; B8 = 89-105 GB. BG lists "B:GA" candidates, largest first (BG_CONV for the
+# conversion, default BG); per phase the first one whose worst arm (xchunk) runs is used for all its arms. The aux
+# batches follow B (gap / xchunk = B, plain = 4B dense, 2B conversion) as in temp/mk_v4_cloud.py. BG unset = each
+# config's own batch, aux batches untouched (home test).
+# Prints tok/s + peak memory per arm, then the budget that fits DAYS at Glenn's 71% dense / 29% conversion split and
+# the mk_v4_cloud.py command for the chosen splits.
+# Usage (instance):  BG="16:1 8:2 4:4" BG_CONV="8:2 4:4" bash cloud/bench_rc3.sh     ~30-45 min at 1B (mostly compile)
+# Home test (7L):    ROOT=/home/glenn/projects/neuro PY=/home/glenn/projects/bdh/venv/bin/python \
+#                    HF_HOME=/home/glenn/.cache/huggingface DENSE=v4_reh CONV=v4_reh_conv bash cloud/bench_rc3.sh
+cd ${ROOT:=/workspace/neuro}
+PY=${PY:-/workspace/venv/bin/python}; DENSE=${DENSE:-v4_cloud}; CONV=${CONV:-v4_cloud_conv}; DAYS=${DAYS:-4.5}
+export PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+export HF_HOME=${HF_HOME:-/workspace/hf} HF_HUB_OFFLINE=1
+OUT=logs/bench_rc3.log; echo "== bench_rc3 $(date '+%m-%d %H:%M') $DENSE / $CONV  BG=${BG:-config}" | tee -a $OUT
+key(){ grep "^$2:" configs/$1.yaml | awk '{print $2}'; }
+b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA", or "-" for the config's own batch
+  if [ "$bg" = - ]; then B=$(key $cfg batch_size); GA=$(key $cfg grad_accum); AUX=""
+  else B=${bg%:*}; GA=${bg#*:}; AUX="mqar_batch=$B mqar_xchunk_batch=$B mqar_aug_batch=$(( ($([ $cfg = $CONV ] && echo 2 || echo 4)) * B ))"; fi
+  # Real data not on the instance yet (Drive download / KD slice upload pending)? Use the small stand-ins that
+  # push_from_home.sh sends (temp/mk_bench_data.py): speed and memory do not depend on which tokens are read.
+  db=$(key $cfg data_bin)
+  if [ ! -f "$db" ] || [ "${FORCE_BENCH_DATA:-0}" = 1 ]; then
+    alt=$ROOT/data/bench_u32.bin; [ "$(key $cfg data_prelut)" = true ] && alt=$ROOT/data/bench_u16.bin
+    [ -f $alt ] && { AUX="$AUX data_bin=$alt"; echo "  ($tag: $db missing -> $alt)" | tee -a $OUT; }
+  fi
+  rm -f logs/bench_$tag.log
+  $PY temp/profile_train.py --config configs/$cfg.yaml --tag $tag --noprof --wait ${WAIT:-8} --active ${ACTIVE:-12} \
+      --batch $B --grad_accum $GA --set $AUX "$@" > logs/bench_$tag.log 2>&1
+  rc=$?
+  echo "$tag B${B}xGA${GA} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
+  rm -rf models/checkpoints/screen_prof_$tag temp/prof_$tag.yaml
+  grep -qE '^\[prof.*tok/s' logs/bench_$tag.log; }
+LATE="mqar_gap_start_frac=0 mqar_gap_ramp_frac=0 mqar_xchunk_start_frac=0"
+phase(){ p=$1; cfg=$2; pick=""
+  for bg in $3; do b ${p}_xchunk $cfg $bg $LATE mqar_xchunk_frac=1.0 && { pick=$bg; break; }; done
+  [ -n "$pick" ] || { echo "$p: no batch split ran -- see logs/bench_${p}_xchunk.log" | tee -a $OUT; return 1; }
+  b ${p}_gap $cfg $pick $LATE mqar_xchunk_frac=0
+  [ $p = dense ] && b dense_plain $cfg $pick mqar_gap_start_frac=2.0
+  echo "$p split: $pick" | tee -a $OUT; eval "PICK_$p=$pick"; }
+phase dense $DENSE "${BG:--}"; phase conv $CONV "${BG_CONV:-${BG:--}}"
+$PY - "$DAYS" "$(key $DENSE mqar_xchunk_frac)" "$(key $DENSE mqar_gap_start_frac)" "${PICK_dense:--}" "${PICK_conv:--}" <<'EOF' | tee -a $OUT
+import re, sys
+days, xf, gs = float(sys.argv[1]), float(sys.argv[2] or 0.25), float(sys.argv[3] or 0.7)
+v = {}
+for t in ("dense_plain", "dense_gap", "dense_xchunk", "conv_gap", "conv_xchunk"):
+    try:
+        m = re.search(r"= ([0-9,]+) tok/s", open(f"logs/bench_{t}.log").read())
+    except OSError:
+        m = None
+    v[t] = float(m.group(1).replace(",", "")) if m else None
+if not all(v.values()):
+    sys.exit(f"budget: missing arms {[t for t in v if not v[t]]} -- see logs/bench_<arm>.log")
+late = lambda g, x: (1 - xf) / v[g] + xf / v[x]                      # seconds per token in the late phase
+s_dense = gs / v["dense_plain"] + (1 - gs) * late("dense_gap", "dense_xchunk")
+s_conv = late("conv_gap", "conv_xchunk")
+r = 0.29 / 0.71
+split = "" if sys.argv[4] == "-" else " " + " ".join(sys.argv[4].split(":")) + " " + sys.argv[5].split(":")[0]
+for margin in (0.0, 0.07):                                            # 7% = evals, checkpoints, seed step, restarts
+    D = days * 86400 * (1 - margin) / (s_dense + r * s_conv)
+    print(f"budget for {days} days, margin {margin:.0%}: dense {D / 1e9:.2f}B + conversion {r * D / 1e9:.2f}B tok "
+          f"(mean {1 / s_dense:,.0f} / {1 / s_conv:,.0f} tok/s)  ->  python temp/mk_v4_cloud.py {D:.3e} {r * D:.3e}{split}")
+EOF

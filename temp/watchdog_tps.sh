@@ -16,7 +16,12 @@ while pgrep -f "[q]ueue_50[89]0_|[q]ueue_spk_|[r]un_gap_queue.sh|[r]un_5080_sche
     [ -z "$cfg" ] && continue
     lg=logs/$cfg.log; [ -f "$lg" ] || continue
     age=$(( ($(date +%s) - $(stat -c %Y "$lg")) / 60 ))
-    if [ $age -ge $STALL_MIN ]; then say "[$cfg] log silent ${age} min -> SIGTERM $pid"; kill -TERM $pid; continue; fi
+    # 10-11: the log of a RESUMED run keeps its old mtime until the first new line -> only a trainer that has itself
+    # been alive for STALL_MIN can be "silent" (10-10 21:29: r26u resumed after the outage, "silent 151 min", killed).
+    up=$(( $(ps -o etimes= -p $pid 2>/dev/null | tr -d ' ' || echo 0) / 60 ))
+    if [ $age -ge $STALL_MIN ] && [ ${up:-0} -ge $STALL_MIN ]; then say "[$cfg] log silent ${age} min -> SIGTERM $pid"; kill -TERM $pid; continue; fi
+    # 10-11: 1B smokes on the 5090 run at 2-4k tok/s by design -> no tok/s floor for them (the stall check still applies)
+    echo "$cfg" | grep -qE "${WD_SKIP:-^v4_smoke1b|^screen_prof_}" && continue
     # 10-05: 5 lines past step 300 (p25f spilled at 2.4k tok/s for 3.5 h and never reached 10 lines past step 1000)
     # only lines after the latest (re)start in the log (a resumed run appends to the old log)
     med=$(awk '/^resumed |^arch=/{n=0; delete a} /^step [0-9]+ \|/{a[++n]=$0} END{for(i=1;i<=n;i++) print a[i]}' "$lg" \

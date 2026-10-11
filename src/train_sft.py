@@ -273,6 +273,11 @@ def main():
     if unexp: print(f"  [info] ignoring {len(unexp)} ckpt keys (e.g. {unexp[0]})")
     if miss:  print(f"  [warn] {len(miss)} keys missing in ckpt: {miss[:3]}")
     print(f"loaded BASE: {sft_init} ({blob.get('tokens',0)/1e9:.2f}B tok)")
+    # 2026-10-11: the base ckpt (weights + its optimizer state, ~10 GB at 1B) was loaded onto the device and stayed
+    # referenced for the whole run (same leak as train_gpu's resume, found in the 1B smoke). Release it.
+    del blob
+    if device == "cuda":
+        torch.cuda.empty_cache()
 
     # LoRA (parameter-efficient SFT): inject adapters onto the frozen base AFTER
     # loading pretrained weights, so only the tiny A/B factors train. Default-off;
@@ -325,6 +330,9 @@ def main():
             for o, st in zip(opts, s["opt_states"]): o.load_state_dict(st)
         step, tokens = s["step"], s["tokens"]
         print(f"resumed SFT ckpt @ step {step}, {tokens/1e6:.1f}M tok")
+        del s                                   # 2026-10-11: free the ckpt held on the device (see `del blob` above)
+        if device == "cuda":
+            torch.cuda.empty_cache()
 
     per_step_tok = c["batch_size"] * c["grad_accum"] * max_len
     total_steps = max(1, c["max_tokens"] // per_step_tok)

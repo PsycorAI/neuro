@@ -27,6 +27,10 @@ sha256sum -c --ignore-missing SHA256SUMS || { echo "[pull_corpus] checksum FAILE
 if [ "$n" = "$want" ]; then
   cat train_lut32768_u16.bin.part_* > $D/train.tmp
   [ "$(stat -c %s $D/train.tmp)" = 46303176406 ] || { echo "[pull_corpus] joined size is wrong"; exit 1; }
+elif [ -f train_lut32768_u16.bin.part_021 ]; then
+  # 2026-10-11: piece 021 already ENDS with the val tail. Appending val_tail_u16.bin as well would put a second copy of
+  # the val tokens inside the TRAIN region (val leak). The pieces alone are a valid corpus with the same val windows.
+  cat train_lut32768_u16.bin.part_* > $D/train.tmp
 else
   sha256sum -c val_tail_u16.bin.sha256 || { echo "[pull_corpus] partial corpus needs val_tail_u16.bin"; exit 1; }
   cat train_lut32768_u16.bin.part_* val_tail_u16.bin > $D/train.tmp
