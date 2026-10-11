@@ -38,6 +38,7 @@ b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA" or "B:GA:s" (s = mq
     [ -n "${SB:1}" ] && [ "${SB:1}" -gt 1 ] && AUX="$AUX mqar_aux_splits=${SB:1}"; fi
   # Real data not on the instance yet (Drive download / KD slice upload pending)? Use the small stand-ins that
   # push_from_home.sh sends (temp/mk_bench_data.py): speed and memory do not depend on which tokens are read.
+  AUX="$AUX ${SET_ALL:-}"; [ $cfg = $CONV ] && AUX="$AUX ${SET_CONV:-}"      # e.g. SET_ALL="compile_mode=max-autotune-no-cudagraphs"
   db=$(key $cfg data_bin)
   if [ ! -f "$db" ] || [ "${FORCE_BENCH_DATA:-0}" = 1 ]; then
     alt=$ROOT/data/bench_u32.bin; [ "$(key $cfg data_prelut)" = true ] && alt=$ROOT/data/bench_u16.bin
@@ -47,7 +48,7 @@ b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA" or "B:GA:s" (s = mq
   $PY temp/profile_train.py --config configs/$cfg.yaml --tag $tag --noprof --wait ${WAIT:-8} --active ${ACTIVE:-12} \
       --batch $B --grad_accum $GA --set $AUX "$@" > logs/bench_$tag.log 2>&1
   rc=$?
-  echo "$tag B${B}xGA${GA}${SB:+ sep-backward($SB)} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
+  echo "$tag B${B}xGA${GA}${SB:+ sep-backward($SB)} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_0-9]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
   rm -rf models/checkpoints/screen_prof_$tag temp/prof_$tag.yaml
   grep -qE '^\[prof.*tok/s' logs/bench_$tag.log; }
 LATE="mqar_gap_start_frac=0 mqar_gap_ramp_frac=0 mqar_xchunk_start_frac=0"
@@ -58,6 +59,27 @@ phase(){ p=$1; cfg=$2; pick=""
   [ $p = dense ] && b dense_plain $cfg $pick mqar_gap_start_frac=2.0
   echo "$p split: $pick" | tee -a $OUT; eval "PICK_$p=$pick"; }
 phase dense $DENSE "${BG:--}"; phase conv $CONV "${BG_CONV:-${BG:--}}"
+# EXTRA arms (default on; EXTRA=0 skips): three throughput options on the picked splits, each against its base arm.
+# 5090 at 1B (logs/speed1b.log, 10-11): max-autotune +7%, compiled teacher +6% -- and the NorMuon step (Newton-Schulz
+# on 60 matrices) is a FIXED ~350 ms of GPU time per optimizer step there, so twice the tokens per step halves its
+# cost per token (that one changes the optimisation: half as many steps for the same tokens -- a decision, not a free win).
+# To adopt the first two: rerun with SET_ALL="compile_mode=max-autotune-no-cudagraphs" SET_CONV="kd_compile=true
+# kd_compile_mode=default" EXTRA=0 for the exact budget, and generate with CLOUD_COMPILE_MODE / CLOUD_KD_COMPILE.
+if [ "${EXTRA:-1}" = 1 ] && [ -n "${PICK_dense:-}" ]; then
+  tps(){ grep -E '^\[prof.*tok/s' logs/bench_$1.log 2>/dev/null | head -1 | sed -n 's/.*= \([0-9,]*\) tok\/s.*/\1/p' | tr -d ,; }
+  gain(){ a=$(tps $1); c=$(tps $2); [ -n "$a" ] && [ -n "$c" ] && echo "  extra: $3 = $a tok/s vs $c ($(awk -v a=$a -v c=$c 'BEGIN{printf "%+.1f%%", (a / c - 1) * 100}'))" | tee -a $OUT; }
+  b x_dense_maxauto $DENSE $PICK_dense mqar_gap_start_frac=2.0 compile_mode=max-autotune-no-cudagraphs
+  gain x_dense_maxauto dense_plain "dense, compile_mode max-autotune-no-cudagraphs"
+  if [ "$PICK_dense" != - ]; then
+    IFS=: read -r xb xga xs <<< "$PICK_dense"
+    b x_dense_2xtok $DENSE "$xb:$((2 * xga))${xs:+:$xs}" mqar_gap_start_frac=2.0
+    gain x_dense_2xtok dense_plain "dense, twice the tokens per optimizer step (B$xb x GA$((2 * xga)))"
+  fi
+  if [ -n "${PICK_conv:-}" ]; then
+    b x_conv_kdcompile $CONV $PICK_conv $LATE mqar_xchunk_frac=0 kd_compile=true kd_compile_mode=default
+    gain x_conv_kdcompile conv_gap "conversion, compiled teacher"
+  fi
+fi
 $PY - "$DAYS" "$(key $DENSE mqar_xchunk_frac)" "$(key $DENSE mqar_gap_start_frac)" "${PICK_dense:--}" "${PICK_conv:--}" <<'EOF' | tee -a $OUT
 import re, sys
 days, xf, gs = float(sys.argv[1]), float(sys.argv[2] or 0.25), float(sys.argv[3] or 0.7)

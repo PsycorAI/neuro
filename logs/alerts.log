@@ -72,3 +72,9 @@
 [INFO 10-11 12:10:02] alert_watch started
 [INFO 10-11 12:11:56] alert_watch stopped (STOP file)
 [INFO 10-11 12:11:58] alert_watch started
+[DONE 10-11 14:18:35] r26x_13L_RC3_headwd01_150m chunk1 39.00 (r26n 38.09, +2.4%) val 39.53 | N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32:  98.4 100.0  99.2  99.2 (mem off   3.1)
+[DONE 10-11 14:18:35] 5090 chain finished: the 5090 is idle
+[DONE 10-11 14:24:01] aux splits on the 5090 (1B): split_xchunk2: peak allocated 21.3 GB | peak reserved 21.5 G split_plain8: peak allocated 17.7 GB | peak reserved 18.2 GB 
+[DONE 10-11 15:03:17] 1B throughput arms done (logs/speed1b.log): 6 arms | t_dense_default=2,696 tok/s t_dense_maxauto=2,881 tok/s 
+[INFO 10-11 15:03:18] r26y_13L_RC3_kdonly_150m started on the 5090
+[INFO 10-11 15:07:50] r26z_13L_RC3_tok32k_150m started on the 5090

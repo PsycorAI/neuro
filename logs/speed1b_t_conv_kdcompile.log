@@ -1,0 +1,32 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:03, 41.80it/s]Loading weights:   9%|▉         | 13/146 [00:00<00:03, 40.17it/s]Loading weights:  13%|█▎        | 19/146 [00:00<00:02, 42.98it/s]Loading weights:  16%|█▋        | 24/146 [00:00<00:02, 41.60it/s]Loading weights:  22%|██▏       | 32/146 [00:00<00:02, 41.77it/s]Loading weights:  25%|██▌       | 37/146 [00:01<00:03, 32.94it/s]Loading weights:  28%|██▊       | 41/146 [00:01<00:03, 30.19it/s]Loading weights:  32%|███▏      | 47/146 [00:01<00:02, 34.96it/s]Loading weights:  35%|███▍      | 51/146 [00:01<00:02, 32.86it/s]Loading weights:  38%|███▊      | 55/146 [00:01<00:03, 24.91it/s]Loading weights:  45%|████▍     | 65/146 [00:01<00:02, 36.76it/s]Loading weights:  48%|████▊     | 70/146 [00:02<00:02, 30.59it/s]Loading weights:  52%|█████▏    | 76/146 [00:02<00:02, 32.45it/s]Loading weights:  56%|█████▌    | 82/146 [00:02<00:01, 37.10it/s]Loading weights:  60%|█████▉    | 87/146 [00:02<00:02, 27.01it/s]Loading weights:  62%|██████▏   | 91/146 [00:02<00:02, 24.96it/s]Loading weights:  67%|██████▋   | 98/146 [00:03<00:01, 24.55it/s]Loading weights:  71%|███████   | 103/146 [00:03<00:01, 26.27it/s]Loading weights:  73%|███████▎  | 106/146 [00:03<00:01, 21.39it/s]Loading weights:  75%|███████▍  | 109/146 [00:03<00:01, 21.47it/s]Loading weights:  77%|███████▋  | 112/146 [00:03<00:01, 19.01it/s]Loading weights:  83%|████████▎ | 121/146 [00:04<00:00, 29.02it/s]Loading weights:  86%|████████▌ | 125/146 [00:04<00:00, 28.33it/s]Loading weights: 100%|██████████| 146/146 [00:04<00:00, 34.50it/s]
+KD teacher compiled: mode=default
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.52M device=cuda target=0.000B tok | 1024 tok/step | total_steps≈38 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 5 | 0.0M tok | loss 14.511 | 78 tok/s | vram 15.7/22.0 GB
+step 10 | 0.0M tok | loss 14.883 | 1,842 tok/s | vram 15.7/22.0 GB
+step 15 | 0.0M tok | loss 13.038 | 1,301 tok/s | vram 15.7/22.0 GB
+step 20 | 0.0M tok | loss 12.815 | 1,362 tok/s | vram 15.7/22.0 GB
+step 25 | 0.0M tok | loss 13.011 | 1,208 tok/s | vram 15.7/22.0 GB
+step 30 | 0.0M tok | loss 13.370 | 1,298 tok/s | vram 15.7/22.0 GB
+step 35 | 0.0M tok | loss 13.389 | 1,379 tok/s | vram 15.7/22.0 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_t_conv_kdcompile/step_0000038.pt
+done: 0.0M tok in 0.04h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3361741822.4 |    3443943014.4 |         1.02x
+    1024 |    3477504612.8 |    3569352704.0 |         1.03x
+    4096 |    4172081355.2 |    4321810841.6 |         1.04x
+
+block mix: 1 spiking + 12 attention | spike_rate 0.226 reported -> 0.226 spiking-only
+spiking op mix/token @ seq 4096: 901,775,360 MAC + 26,571,888 AC
+note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[prof t_conv_kdcompile] median step 761 ms = 1,346 tok/s (B1xGA1, 33 steps)
+[prof t_conv_kdcompile] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00
+[prof t_conv_kdcompile] peak allocated 21.4 GB | peak reserved 22.0 GB

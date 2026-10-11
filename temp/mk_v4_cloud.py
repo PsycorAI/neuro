@@ -4,7 +4,7 @@
                               from the last dense ckpt by temp/mk_spike_seed.py into its OWN run dir (dense ckpt kept).
 DRAFT until the H200 re-bench and Glenn's token budget: DENSE_TOK / CONV_TOK / batch below are placeholders.
   python temp/mk_v4_cloud.py [DENSE_TOK] [CONV_TOK]"""
-import sys, yaml
+import os, sys, yaml
 R = "/home/glenn/projects/neuro/configs/"
 DENSE_TOK = int(float(sys.argv[1])) if len(sys.argv) > 1 else 10_000_000_000
 CONV_TOK = int(float(sys.argv[2])) if len(sys.argv) > 2 else 4_000_000_000   # r26o ratio: 80M on 200M = 40%
@@ -24,13 +24,21 @@ for k in ("d", "n_neurons", "d_mem", "attention_heads", "attn_ffn_hidden"):
 # T2048 sample, + 3.2 GB per sample on a cross-chunk step (conversion: 15.7 + ~8.9 + ~3.5). B16 = 163-197 GB on a
 # cross-chunk step vs 143 GB on the H200 -> it would have died at the FIRST xchunk batch, 70% into the dense phase.
 # B8 = 89-105 GB (dense), 97-115 GB (conversion). cloud/bench_rc3.sh measures the real peak and picks the split.
+# 2026-10-11 throughput options, from the environment so the positional arguments stay as cloud/bench_rc3.sh prints them:
+#   CLOUD_SAMPLES_PER_STEP (default 16 = 32,768 tok/step; 32 = 65,536: halves the NorMuon cost per token, but half as
+#                           many optimizer steps for the same tokens -- a recipe decision, not a free speed-up)
+#   CLOUD_COMPILE_MODE     (e.g. max-autotune-no-cudagraphs; default = r26n's "default")
+#   CLOUD_KD_COMPILE=1     (conversion: torch.compile the Llama teacher, mode default)
+S = int(os.environ.get("CLOUD_SAMPLES_PER_STEP", 16))
 B = int(sys.argv[3]) if len(sys.argv) > 3 else 8
-GA = int(sys.argv[4]) if len(sys.argv) > 4 else 16 // B
-assert B * GA == 16, 'B x GA must be 16 (32,768 tok/step)'
+GA = int(sys.argv[4]) if len(sys.argv) > 4 else S // B
+assert B * GA == S, f'B x GA must be {S} ({S * 2048:,} tok/step)'
 c.update(batch_size=B, grad_accum=GA, eval_batch=2, mqar_batch=B, mqar_xchunk_batch=B, mqar_aug_batch=4 * B)
 c.update(run_name="v4_cloud", max_tokens=DENSE_TOK,
          data_bin="/workspace/data/tokenized_v4/train_lut32768_u16.bin", data_prelut=True, lut_subword_fallback=True,
-         eval_every=3000, ckpt_every=1500, keep_last=3)        # ~1 step/s on the H200 -> a ckpt every ~25 min
+         eval_every=3000 * 16 // S, ckpt_every=1500 * 16 // S, keep_last=3)   # ~1 step/s on the H200 -> a ckpt every ~25 min
+if os.environ.get("CLOUD_COMPILE_MODE"):
+    c["compile_mode"] = os.environ["CLOUD_COMPILE_MODE"]
 # Long-run guard (Glenn 10-09): the val_ppl tripwire alone, with the flagship_v3 tuning (the gate tripwires false-trip
 # on RC3). r26n's val series does not trip it. Its state is not checkpointed: it restarts after every resume.
 # head_weight_decay 1.0 = ON (Glenn 10-10): insurance against the late LM-head runaway of flagship v1 (v3 ran with it)
@@ -70,8 +78,10 @@ k.update({key: v for key, v in conv.items() if rc3.get(key) != v and key not in
 # 2026-10-11: the conversion phase may need a smaller batch than the dense phase (spike codes + the Llama teacher cost
 # ~1.5x the activation memory per token: 1B smoke on the 5090) -> its own split from argv 5 (default = the dense B).
 CB = int(sys.argv[5]) if len(sys.argv) > 5 else B
-assert 16 % CB == 0
-k.update(batch_size=CB, grad_accum=16 // CB, mqar_batch=CB, mqar_xchunk_batch=CB)
+assert S % CB == 0
+k.update(batch_size=CB, grad_accum=S // CB, mqar_batch=CB, mqar_xchunk_batch=CB)
+if os.environ.get("CLOUD_KD_COMPILE") == "1":
+    k.update(kd_compile=True, kd_compile_mode="default")
 k.pop("mqar_separate_backward", None); k.pop("mqar_aux_splits", None)
 if "c" in _sep:
     k["mqar_separate_backward"] = True

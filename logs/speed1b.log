@@ -1,0 +1,7 @@
+== 1B throughput arms on the 5090 10-11 14:24 (B1 x GA1; the 5080 trains alongside -> compare arms, not absolutes)
+prof_dense: median step 995 ms = 2,057 tok/s (B1xGA1, 14 steps, PROFILER ON) | peak allocated 21.7 GB 
+t_dense_default: median step 760 ms = 2,696 tok/s (B1xGA1, 14 steps) | peak allocated 21.7 GB 
+t_dense_maxauto: median step 711 ms = 2,881 tok/s (B1xGA1, 14 steps) | peak allocated 21.2 GB E1011 14:50:24.403000 100404 torch/_inductor/select_algorithm.py:3924] [1/0] No valid trit
+prof_conv: median step 949 ms = 1,079 tok/s (B1xGA1, 33 steps, PROFILER ON) | peak allocated 21.4 GB 
+t_conv_default: median step 806 ms = 1,270 tok/s (B1xGA1, 33 steps) | peak allocated 21.4 GB 
+t_conv_kdcompile: median step 761 ms = 1,346 tok/s (B1xGA1, 33 steps) | peak allocated 21.4 GB 

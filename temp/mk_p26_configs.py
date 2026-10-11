@@ -248,3 +248,11 @@ emit("screen_p26zk_7L_RC3_sepbw_s2", "v4_reh", "7L RC3, no head decay, mqar_sepa
      **_n, mqar_separate_backward=True, mqar_aux_splits=2)
 emit("screen_p26zl_7L_RC3_sepbw_s1", "v4_reh", "7L RC3, no head decay, mqar_separate_backward, seed 1.",
      **_n, seed=1, mqar_separate_backward=True)
+# 10-11 15:20 (Neuro 55). 1B profile on the 5090 (logs/speed1b_prof_dense.log): the NorMuon step (Newton-Schulz on 60
+# matrices, ~40 TFLOP) is 354 ms of GPU time per optimizer step, whatever the batch -- 89% of the GPU kernel time at
+# 2,048 tok/step, and an estimated third of an H200 step at 32,768 tok/step. Its cost per TOKEN halves if a step
+# carries twice the tokens. r26z = r26n with B4 x GA4 = 32,768 tok/step (r26n: B4 x GA2 = 16,384), same 200M tokens ->
+# half the optimizer steps (6,103). Aux doses per token unchanged (the aux runs per micro-step). Judge chunk1 against
+# the 13L band 38.09-39.00: inside = halving the steps is harmless even in this step-starved 150M regime.
+emit("r26z_13L_RC3_tok32k_150m", "r26n_13L_RC2_xlate_150m", "RC3 dense (r26n) at 32,768 tok/step (B4 x GA4): half the "
+     "optimizer steps for the same 200M tokens.", grad_accum=4, eval_every=500, ckpt_every=500)

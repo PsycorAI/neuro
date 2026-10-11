@@ -1717,3 +1717,23 @@
 [n54 10-11 12:09:36] 5080 chain: screen_p26zh_7L_RC3_hwd01
 [s1 10-11 12:09:36] scheduler waiting for GPU 1 lock
 [s1 10-11 12:09:36] [screen_p26zh_7L_RC3_hwd01] START
+[s0 10-11 14:11:52] [r26x_13L_RC3_headwd01_150m] exit=0 :: 149.51 93.48 73.01 85.10 76.83 62.67 53.03 47.73 46.22 43.21 41.07 39.53 
+  recall r26x_13L_RC3_headwd01_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26x_13L_RC3_headwd01_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-11 14:12:57] scheduler DONE
+  r25-evals r26x_13L_RC3_headwd01_150m C=1024 T=2048 | chunk1   39.00 (mem off   39.35) | chunks2+   37.46 (off   38.63, Δ +1.17) | first64 of 2+   49.12 (off   61.17, Δ +12.05) vs first64 of chunk1   61.52
+  r25-evals r26x_13L_RC3_headwd01_150m C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32:  98.4 100.0  99.2  99.2 (mem off   3.1)
+  r25-evals r26x_13L_RC3_headwd01_150m C=1024 | K1 in@0  83.9 | K1 in@200  63.0 | K1 x@0  10.9 | K1 x@200   7.8 | K1 x@0 off   7.3 | K1 in@0 para   9.4 | K1 x@0 para   6.2 | K4 in@0  18.2 | K4 in@200  12.0 | K4 x@0   9.4 | K4 x@200   8.9 | K4 x@0 off   8.9 | K4 in@0 para   8.9 | K4 x@0 para   8.9
+  r25-evals r26x_13L_RC3_headwd01_150m   C=1024 xcopy top1 | none  35.7 | in-window  45.0 | beyond (memory)  28.4 | beyond mem-off  27.3
+[n54 10-11 14:18:35] [r26x_13L_RC3_headwd01_150m] evals + diagnostics DONE
+[n54 10-11 15:03:18] 5090 chain: r26y_13L_RC3_kdonly_150m
+[s0 10-11 15:03:18] scheduler waiting for GPU 0 lock
+[s0 10-11 15:03:19] [r26y_13L_RC3_kdonly_150m] RESUME
+[n55 10-11 15:07:50] 5090 reorder: r26y stopped (restarts from its seed later), r26z first
+[n54 10-11 15:07:50] 5090 chain: r26z_13L_RC3_tok32k_150m
+[s0 10-11 15:07:50] scheduler waiting for GPU 0 lock
+[s0 10-11 15:07:51] [r26z_13L_RC3_tok32k_150m] START
+[s1 10-11 15:10:21] [screen_p26zh_7L_RC3_hwd01] exit=0 :: 240.77 145.82 97.90 72.68 64.24 59.65 
+  recall screen_p26zh_7L_RC3_hwd01 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zh_7L_RC3_hwd01 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-11 15:11:15] scheduler DONE

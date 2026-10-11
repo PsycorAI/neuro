@@ -3,3 +3,6 @@ sep_xchunk_T2048: peak allocated 21.4 GB | peak reserved 21.7 GB | vram 13.4/21.
 sep_plain_T2048: peak allocated 17.8 GB | peak reserved 18.2 GB | vram 13.3/18.2 GB | 2,810 tok/s 
 sep_plain_T1024_B2: peak allocated 17.7 GB | peak reserved 18.1 GB | vram 13.3/18.1 GB | 2,896 tok/s 
 conv_T2048_full_recipe: exit=0 last ckpt step 210 | val 559.69 | vram 15.9/25.8 GB | 2,711 614 tok/s 
+== mqar_aux_splits 2 on the 5090 10-11 14:18 (1B, LM B1 x T2048, separate backward)
+split_xchunk2: peak allocated 21.3 GB | peak reserved 21.5 GB | vram 13.3/21.5 GB | 1,524 tok/s 
+split_plain8: peak allocated 17.7 GB | peak reserved 18.2 GB | vram 13.3/18.2 GB | 2,351 tok/s 

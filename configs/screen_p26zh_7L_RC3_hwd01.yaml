@@ -120,5 +120,5 @@ lut_subword_fallback: true
 head_weight_decay: 0.1
 watchdog_valppl_only: false
 watchdog_valppl_ema_alpha: 0.4
-watchdog_valppl_tol: 0.07
-watchdog_valppl_patience: 2
+watchdog_valppl_tol: 0.15
+watchdog_valppl_patience: 3

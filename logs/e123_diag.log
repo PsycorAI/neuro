@@ -642,3 +642,12 @@ r26w_13L_RC3_headwd03_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | 
 r26w_13L_RC3_headwd03_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8  96.9 | off@2   3.1
 r26w_13L_RC3_headwd03_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  40.66  36.71  36.64  35.39  34.67  34.77  37.90  32.11
 r26w_13L_RC3_headwd03_150m C=1024 E3 ppl by chunk (T=8192) mem off |  41.39  38.13  38.35  36.89  35.97  36.16  39.27  33.16
+r26x_13L_RC3_headwd01_150m C=1024 E1 real   S12 mem on/off | d0    33.6/ 26.1 | d64   29.3/ 23.7 | d256  28.5/ 24.5 | d448  26.1/ 23.6
+r26x_13L_RC3_headwd01_150m C=1024 E1 real   S32 mem on/off | d0    36.0/ 28.5 | d64   33.0/ 28.8 | d256  30.2/ 27.8 | d448  30.5/ 28.1
+r26x_13L_RC3_headwd01_150m C=1024 E1 random S12 mem on/off | d0     0.2/  0.0 | d64    0.0/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+r26x_13L_RC3_headwd01_150m C=1024 E1 random S32 mem on/off | d0     0.1/  0.0 | d64    0.1/  0.0 | d256   0.0/  0.0 | d448   0.0/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26x_13L_RC3_headwd01_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4 100.0 | chunk8 100.0 | off@2  15.6
+r26x_13L_RC3_headwd01_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  96.9 | chunk3 100.0 | chunk4 100.0 | chunk8  93.8 | off@2   3.1
+r26x_13L_RC3_headwd01_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  40.92  37.08  37.07  35.62  35.24  34.88  38.26  32.57
+r26x_13L_RC3_headwd01_150m C=1024 E3 ppl by chunk (T=8192) mem off |  41.32  38.33  38.52  36.90  36.41  36.03  39.40  33.48

@@ -9,7 +9,7 @@ cd /home/glenn/projects/neuro
 cat > /tmp/fakepy_bench <<'EOF'
 #!/bin/bash
 if [ "$1" = "-" ]; then exec /home/glenn/projects/bdh/venv/bin/python "$@"; fi
-tag=$(echo "$*" | sed -n 's/.*--tag \([a-z_]*\).*/\1/p'); B=$(echo "$*" | sed -n 's/.*--batch \([0-9]*\).*/\1/p')
+tag=$(echo "$*" | sed -n 's/.*--tag \([a-z_0-9]*\).*/\1/p'); B=$(echo "$*" | sed -n 's/.*--batch \([0-9]*\).*/\1/p')
 sep=0; echo "$*" | grep -q 'mqar_separate_backward=true' && sep=1
 spl=0; echo "$*" | grep -q 'mqar_aux_splits=2' && spl=1
 echo "ARGS: $*"
@@ -17,7 +17,7 @@ oom=0
 case $tag in dense_*) [ "$B" = 16 ] && { [ $sep = 0 ] || [ $spl = 0 ]; } && oom=1;;
              conv_*)  [ "$B" = 16 ] && oom=1; [ "$B" = 8 ] && [ $sep = 0 ] && oom=1;; esac
 if [ $oom = 1 ]; then echo "torch.OutOfMemoryError: CUDA out of memory (fake)"; exit 1; fi
-case $tag in dense_plain) v=34,000;; dense_gap) v=30,000;; dense_xchunk) v=24,000;; conv_gap) v=22,000;; conv_xchunk) v=18,000;; esac
+case $tag in dense_plain) v=34,000;; dense_gap) v=30,000;; dense_xchunk) v=24,000;; conv_gap) v=22,000;; conv_xchunk) v=18,000;; x_dense_maxauto) v=36,000;; x_dense_2xtok) v=40,000;; x_conv_kdcompile) v=24,000;; esac
 echo "[prof $tag] median step 1000 ms = $v tok/s (B${B}, 12 steps)"
 echo "[prof $tag] peak allocated 100.0 GB | peak reserved 101.0 GB"
 EOF
