@@ -633,3 +633,12 @@ r26v_13L_RC3_gap20_x20_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 |
 r26v_13L_RC3_gap20_x20_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2  93.8 | chunk3  90.6 | chunk4  93.8 | chunk8  87.5 | off@2   6.2
 r26v_13L_RC3_gap20_x20_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  43.17  39.03  39.32  38.02  37.28  37.46  40.50  34.37
 r26v_13L_RC3_gap20_x20_150m C=1024 E3 ppl by chunk (T=8192) mem off |  43.39  39.85  40.16  38.80  37.98  38.19  41.16  34.91
+r26w_13L_RC3_headwd03_150m C=1024 E1 real   S12 mem on/off | d0    34.0/ 25.6 | d64   31.1/ 24.8 | d256  28.2/ 25.5 | d448  28.9/ 24.2
+r26w_13L_RC3_headwd03_150m C=1024 E1 real   S32 mem on/off | d0    35.7/ 28.1 | d64   34.0/ 28.7 | d256  30.9/ 27.7 | d448  30.7/ 28.7
+r26w_13L_RC3_headwd03_150m C=1024 E1 random S12 mem on/off | d0     0.4/  0.0 | d64    0.3/  0.0 | d256   0.1/  0.0 | d448   0.0/  0.0
+r26w_13L_RC3_headwd03_150m C=1024 E1 random S32 mem on/off | d0     0.8/  0.0 | d64    0.4/  0.0 | d256   0.1/  0.0 | d448   0.1/  0.0
+E1 columns: d = tokens of chunk A written after the span (span ends d tokens before the boundary); repeat at chunk-B offset 16; top-1 % on span tokens after a 4-token cue, memory on / ablated
+r26w_13L_RC3_headwd03_150m C=1024 E3 haystack N8 (chance 12.5) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8 100.0 | off@2  15.6
+r26w_13L_RC3_headwd03_150m C=1024 E3 haystack N32 (chance 3.1) | chunk2 100.0 | chunk3 100.0 | chunk4  96.9 | chunk8  96.9 | off@2   3.1
+r26w_13L_RC3_headwd03_150m C=1024 E3 ppl by chunk (T=8192) mem on  |  40.66  36.71  36.64  35.39  34.67  34.77  37.90  32.11
+r26w_13L_RC3_headwd03_150m C=1024 E3 ppl by chunk (T=8192) mem off |  41.39  38.13  38.35  36.89  35.97  36.16  39.27  33.16

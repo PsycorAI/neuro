@@ -62,3 +62,8 @@
 [DONE 10-11 05:50:16] r26v_13L_RC3_gap20_x20_150m chunk1 41.04 (r26n 38.09, +7.7%) val 41.94 | N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32:  90.6  93.8  93.0  93.8 (mem off   2.3)
 [INFO 10-11 05:50:16] r26w_13L_RC3_headwd03_150m started on the 5090
 [DONE 10-11 07:03:50] screen_p26zf_7L_RC3_hwd03 chunk1 55.30 val 59.27 | 
+[DONE 10-11 09:58:45] r26w_13L_RC3_headwd03_150m chunk1 38.41 (r26n 38.09, +0.8%) val 39.05 | N8:  98.4  99.2 100.0 100.0 (mem off  11.7) | N32: 100.0 100.0 100.0 100.0 (mem off   4.7)
+[DONE 10-11 09:58:46] 5090 chain finished: the 5090 is idle
+[INFO 10-11 09:58:59] separate-backward validation started on the 5090
+[DONE 10-11 10:14:54] separate backward: 1B CONVERSION at the real T2048 shape with the full recipe now PASSES on the 5090 | sep_xchunk_T2048: peak allocated 21.4 GB | peak reserved 21.7 GB | vra (was 24.9 GB)
+[INFO 10-11 10:14:55] r26x_13L_RC3_headwd01_150m started on the 5090

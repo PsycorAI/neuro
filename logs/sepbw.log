@@ -1,0 +1,5 @@
+== mqar_separate_backward on the 5090 10-11 09:58 (1B, GA1; vram = allocated between steps / reserved)
+sep_xchunk_T2048: peak allocated 21.4 GB | peak reserved 21.7 GB | vram 13.4/21.7 GB | 1,942 tok/s 
+sep_plain_T2048: peak allocated 17.8 GB | peak reserved 18.2 GB | vram 13.3/18.2 GB | 2,810 tok/s 
+sep_plain_T1024_B2: peak allocated 17.7 GB | peak reserved 18.1 GB | vram 13.3/18.1 GB | 2,896 tok/s 
+conv_T2048_full_recipe: exit=0 last ckpt step 210 | val 559.69 | vram 15.9/25.8 GB | 2,711 614 tok/s 

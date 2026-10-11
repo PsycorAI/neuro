@@ -931,6 +931,7 @@ def main():
             _rt = mlp_rate_target_at(c, step, total_steps)
             for _m in _homeo_acts: _m.rate_target = _rt
         for _micro in range(c["grad_accum"]):
+            _sep_main = None                                 # mqar_separate_backward: the LM loss already back-propagated
             if stateful:
                 x, y, reset = seq_stream.next(c["block_size"], device)
                 # ST Phase 6: stochastic state reset (document-boundary proxy) —
@@ -1221,6 +1222,16 @@ def main():
                     if _pad_to:
                         assert _L_mq <= _pad_to, f"mqar_pad_to {_pad_to} < MQAR length {_L_mq}"
                         x_mq = F.pad(x_mq, (0, _pad_to - _L_mq))
+                    # mqar_separate_backward (2026-10-11, default off = byte-identical): back-propagate the LM loss
+                    # BEFORE the aux forward, so the LM graph is freed first and the step's peak memory is
+                    # max(LM, aux) instead of LM + aux (1B probe: +3.2 GB per sample on a cross-chunk step -> B16 on
+                    # the H200 = 163-197 GB jointly). Same gradients (they accumulate in .grad), one more backward
+                    # call per micro-step. Test: temp/test_sep_backward.py.
+                    if c.get("mqar_separate_backward", False) and main_loss.requires_grad:
+                        (main_loss / c["grad_accum"]).backward()
+                        _sep_main = main_loss.detach() / c["grad_accum"]
+                        main_loss = torch.zeros((), device=device)
+                        out = mtp_logits = None              # drop the (B, T, V) logits before the aux forward
                     logits_mq = mqar_model(x_mq)[:, _L_mq - 1, :]
                     mqar_ce = F.cross_entropy(logits_mq, tgt_mq)
                     main_loss = main_loss + _mq_w * mqar_cad * _mq_mult * mqar_ce
@@ -1234,6 +1245,8 @@ def main():
                         F.cross_entropy(lg_nf, tgt_nf)
                 loss = main_loss / c["grad_accum"]
             loss.backward()
+            if _sep_main is not None:                        # logged / guarded value = LM part + aux part
+                loss = loss.detach() + _sep_main
         if _chunk_short:                                     # evals (after the step) always see the full chunk
             for _b in _chunk_blocks: _b.attn_chunk = int(c["attn_chunk"])
             for _b in raw_model.blocks:

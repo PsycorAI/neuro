@@ -1695,3 +1695,15 @@
 [n54 10-11 07:03:51] 5080 chain: screen_p26zg_7L_RC3_gap20_x20
 [s1 10-11 07:03:51] scheduler waiting for GPU 1 lock
 [s1 10-11 07:03:51] [screen_p26zg_7L_RC3_gap20_x20] START
+[s0 10-11 09:51:39] [r26w_13L_RC3_headwd03_150m] exit=0 :: 149.04 92.50 84.50 86.79 73.49 60.19 52.40 47.58 45.70 42.52 40.63 39.05 
+  recall r26w_13L_RC3_headwd03_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26w_13L_RC3_headwd03_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0  99.6
+[s0 10-11 09:52:44] scheduler DONE
+  r25-evals r26w_13L_RC3_headwd03_150m C=1024 T=2048 | chunk1   38.41 (mem off   39.00) | chunks2+   36.89 (off   38.42, Δ +1.53) | first64 of 2+   48.13 (off   60.94, Δ +12.81) vs first64 of chunk1   60.70
+  r25-evals r26w_13L_RC3_headwd03_150m C=1024 N8:  98.4  99.2 100.0 100.0 (mem off  11.7) | N32: 100.0 100.0 100.0 100.0 (mem off   4.7)
+  r25-evals r26w_13L_RC3_headwd03_150m C=1024 | K1 in@0  78.6 | K1 in@200  53.6 | K1 x@0   6.2 | K1 x@200   4.2 | K1 x@0 off   5.7 | K1 in@0 para  27.1 | K1 x@0 para   4.7 | K4 in@0  19.3 | K4 in@200  15.1 | K4 x@0   9.4 | K4 x@200   9.4 | K4 x@0 off  10.4 | K4 in@0 para  12.0 | K4 x@0 para   9.9
+  r25-evals r26w_13L_RC3_headwd03_150m   C=1024 xcopy top1 | none  35.6 | in-window  44.9 | beyond (memory)  27.7 | beyond mem-off  27.2
+[n54 10-11 09:58:45] [r26w_13L_RC3_headwd03_150m] evals + diagnostics DONE
+[n54 10-11 10:14:55] 5090 chain: r26x_13L_RC3_headwd01_150m
+[s0 10-11 10:14:55] scheduler waiting for GPU 0 lock
+[s0 10-11 10:14:55] [r26x_13L_RC3_headwd01_150m] START

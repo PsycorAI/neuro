@@ -2,13 +2,14 @@
 # run_r25_evals.sh -- 2026-10-04. The three r25 "beyond the window" evals for one or more name=ckpt args.
 # Usage: GPU=0 CHUNK=512 bash temp/run_r25_evals.sh name=ckpt.pt [...]   (CHUNK unset = the model's own attn_chunk)
 # 2026-10-11 (Neuro 55): the evals of screen_p26ze took 66 min on the 5080 (earlier 7L screens: 1-9 min) and the two
-# that cannot fit a 16 GB card at T2048 printed nothing. -> each eval is cut off after EVAL_TMO seconds (default 900),
+# that cannot fit a 16 GB card at T2048 printed nothing. -> each eval is cut off after EVAL_TMO seconds (default 2700 = 45 min:
+# a guard against a hung eval only; a normal eval takes 1-10 min, so it never cuts a healthy one),
 # and xchunk_haystack / nl_fact are skipped on cards under 20 GB (SMALL_OK=1 forces them).
 cd /home/glenn/projects/neuro
 export CUDA_VISIBLE_DEVICES=${GPU:-0} PYTHONUNBUFFERED=1
 PY=${PY:-/home/glenn/projects/bdh/venv/bin/python}      # 10-11: overridable (instance: PY=/workspace/venv/bin/python)
 CH=${CHUNK:+--chunk $CHUNK}
-TMO="timeout ${EVAL_TMO:-900}"
+TMO="timeout ${EVAL_TMO:-2700}"
 mem=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits -i ${GPU:-0} 2>/dev/null | tr -dc '0-9')
 small=0; [ -n "$mem" ] && [ "$mem" -lt 20000 ] && [ "${SMALL_OK:-0}" != 1 ] && small=1
 $TMO $PY temp/chunk_eval.py $CH --iters ${ITERS:-20} --T ${T:-1024} "$@" 2>&1 | grep -E 'C=|Error|error'

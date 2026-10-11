@@ -15,7 +15,10 @@
 # config's own batch, aux batches untouched (home test).
 # Prints tok/s + peak memory per arm, then the budget that fits DAYS at Glenn's 71% dense / 29% conversion split and
 # the mk_v4_cloud.py command for the chosen splits.
-# Usage (instance):  BG="16:1 8:2 4:4" BG_CONV="8:2 4:4" bash cloud/bench_rc3.sh     ~30-45 min at 1B (mostly compile)
+# A candidate "B:GA:s" runs with mqar_separate_backward (2026-10-11: the LM loss is back-propagated before the aux
+# forward -> peak = max(LM, aux) instead of the sum; same gradients, temp/test_sep_backward.py). It is what may let
+# B16 x GA1 fit; plain "8:2" is the fallback that fits without it.
+# Usage (instance):  BG="16:1:s 8:2 4:4" bash cloud/bench_rc3.sh        ~30-45 min at 1B (mostly compile)
 # Home test (7L):    ROOT=/home/glenn/projects/neuro PY=/home/glenn/projects/bdh/venv/bin/python \
 #                    HF_HOME=/home/glenn/.cache/huggingface DENSE=v4_reh CONV=v4_reh_conv bash cloud/bench_rc3.sh
 cd ${ROOT:=/workspace/neuro}
@@ -24,9 +27,12 @@ export PYTHONUNBUFFERED=1 PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-exp
 export HF_HOME=${HF_HOME:-/workspace/hf} HF_HUB_OFFLINE=1
 OUT=logs/bench_rc3.log; echo "== bench_rc3 $(date '+%m-%d %H:%M') $DENSE / $CONV  BG=${BG:-config}" | tee -a $OUT
 key(){ grep "^$2:" configs/$1.yaml | awk '{print $2}'; }
-b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA", or "-" for the config's own batch
+b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA" or "B:GA:s" (s = mqar_separate_backward), "-" = the config's own batch
+  SB=""
   if [ "$bg" = - ]; then B=$(key $cfg batch_size); GA=$(key $cfg grad_accum); AUX=""
-  else B=${bg%:*}; GA=${bg#*:}; AUX="mqar_batch=$B mqar_xchunk_batch=$B mqar_aug_batch=$(( ($([ $cfg = $CONV ] && echo 2 || echo 4)) * B ))"; fi
+  else IFS=: read -r B GA SB <<< "$bg"
+    AUX="mqar_batch=$B mqar_xchunk_batch=$B mqar_aug_batch=$(( ($([ $cfg = $CONV ] && echo 2 || echo 4)) * B ))"
+    [ "$SB" = s ] && AUX="$AUX mqar_separate_backward=true"; fi
   # Real data not on the instance yet (Drive download / KD slice upload pending)? Use the small stand-ins that
   # push_from_home.sh sends (temp/mk_bench_data.py): speed and memory do not depend on which tokens are read.
   db=$(key $cfg data_bin)
@@ -38,7 +44,7 @@ b(){ tag=$1; cfg=$2; bg=$3; shift 3            # bg = "B:GA", or "-" for the con
   $PY temp/profile_train.py --config configs/$cfg.yaml --tag $tag --noprof --wait ${WAIT:-8} --active ${ACTIVE:-12} \
       --batch $B --grad_accum $GA --set $AUX "$@" > logs/bench_$tag.log 2>&1
   rc=$?
-  echo "$tag B${B}xGA${GA} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
+  echo "$tag B${B}xGA${GA}${SB:+ sep-backward} exit=$rc $(grep -E '^\[prof.*tok/s' logs/bench_$tag.log | head -1 | sed 's/^\[prof [a-z_]*\] //') | $(grep -o 'peak allocated.*' logs/bench_$tag.log | tail -1) $(grep -hE 'Error' logs/bench_$tag.log | tail -1 | cut -c1-100)" | tee -a $OUT
   rm -rf models/checkpoints/screen_prof_$tag temp/prof_$tag.yaml
   grep -qE '^\[prof.*tok/s' logs/bench_$tag.log; }
 LATE="mqar_gap_start_frac=0 mqar_gap_ramp_frac=0 mqar_xchunk_start_frac=0"
@@ -65,7 +71,13 @@ late = lambda g, x: (1 - xf) / v[g] + xf / v[x]                      # seconds p
 s_dense = gs / v["dense_plain"] + (1 - gs) * late("dense_gap", "dense_xchunk")
 s_conv = late("conv_gap", "conv_xchunk")
 r = 0.29 / 0.71
-split = "" if sys.argv[4] == "-" else " " + " ".join(sys.argv[4].split(":")) + " " + sys.argv[5].split(":")[0]
+def parts(a):                                                          # "B:GA" or "B:GA:s"
+    p = a.split(":"); return p[0], p[1], len(p) > 2 and p[2] == "s"
+if sys.argv[4] == "-" or sys.argv[5] == "-":
+    split = ""
+else:
+    (dB, dGA, ds), (cB, _, cs) = parts(sys.argv[4]), parts(sys.argv[5])
+    split = f" {dB} {dGA} {cB} " + ((("d" if ds else "") + ("c" if cs else "")) or "-")   # last = separate backward: d / c / dc / -
 for margin in (0.0, 0.07):                                            # 7% = evals, checkpoints, seed step, restarts
     D = days * 86400 * (1 - margin) / (s_dense + r * s_conv)
     print(f"budget for {days} days, margin {margin:.0%}: dense {D / 1e9:.2f}B + conversion {r * D / 1e9:.2f}B tok "
