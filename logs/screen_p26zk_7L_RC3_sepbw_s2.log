@@ -1,0 +1,12 @@
+optimizer: NorMuon (36 matrices, lr=0.005) + AdamW (71 other params, lr=0.0006)
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x6, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=142.42M device=cuda target=0.100B tok | 16384 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
+step 100 | 1.6M tok | loss 12.429 | 6,590 tok/s | vram 2.0/6.8 GB
+step 200 | 3.3M tok | loss 11.181 | 8,991 tok/s | vram 2.0/6.8 GB
+step 300 | 4.9M tok | loss 11.099 | 8,545 tok/s | vram 2.0/6.8 GB
+step 400 | 6.6M tok | loss 9.603 | 9,603 tok/s | vram 2.0/6.8 GB
+step 500 | 8.2M tok | loss 9.900 | 8,174 tok/s | vram 2.0/6.8 GB
+step 600 | 9.8M tok | loss 9.939 | 8,401 tok/s | vram 2.0/6.8 GB
+step 700 | 11.5M tok | loss 8.716 | 8,799 tok/s | vram 2.0/6.8 GB

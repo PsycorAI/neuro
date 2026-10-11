@@ -78,3 +78,4 @@
 [DONE 10-11 15:03:17] 1B throughput arms done (logs/speed1b.log): 6 arms | t_dense_default=2,696 tok/s t_dense_maxauto=2,881 tok/s 
 [INFO 10-11 15:03:18] r26y_13L_RC3_kdonly_150m started on the 5090
 [INFO 10-11 15:07:50] r26z_13L_RC3_tok32k_150m started on the 5090
+[DONE 10-11 15:12:03] screen_p26zh_7L_RC3_hwd01 chunk1 55.64 val 59.65 | 

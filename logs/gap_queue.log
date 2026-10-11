@@ -1737,3 +1737,9 @@
   recall screen_p26zh_7L_RC3_hwd01 |  100% |  100% |  100% |  100% |  100%
   haystack (gap 0/64/192/440) screen_p26zh_7L_RC3_hwd01 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
 [s1 10-11 15:11:15] scheduler DONE
+  r25-evals screen_p26zh_7L_RC3_hwd01  C=1024 T=2048 | chunk1   55.64 (mem off   61.68) | chunks2+   53.99 (off   61.33, Δ +7.34) | first64 of 2+   67.80 (off   85.56, Δ +17.77) vs first64 of chunk1   82.26
+  r25-evals screen_p26zh_7L_RC3_hwd01    C=1024 xcopy top1 | none  31.2 | in-window  36.9 | beyond (memory)  28.9 | beyond mem-off  24.7
+[n54 10-11 15:12:02] [screen_p26zh_7L_RC3_hwd01] evals DONE
+[n54 10-11 15:12:03] 5080 chain: screen_p26zk_7L_RC3_sepbw_s2
+[s1 10-11 15:12:03] scheduler waiting for GPU 1 lock
+[s1 10-11 15:12:04] [screen_p26zk_7L_RC3_sepbw_s2] START

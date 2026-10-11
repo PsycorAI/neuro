@@ -39,7 +39,7 @@
 </head><body>
 
 <h1>Specialized Brain Mods — research journey</h1>
-<p class="date">Live document — last updated 2026-10-10. Each new experiment added as it completes.</p>
+<p class="date">Live document — last updated 2026-10-11. Each new experiment added as it completes.</p>
 
 <div class="toc">
 <strong>Table of contents</strong>
@@ -123,6 +123,7 @@
   <li><a href="#memory-at-depth-spike-conversion">77. Aligned chunks + memory at mid-depth; every weight multiply turned into spikes</a></li>
   <li><a href="#hippocampus-rc3">78. A hippocampus for surprises; a spiking model below the attention baseline</a></li>
   <li><a href="#resume-lr-bug-cloud-prep">79. RC3 readied for the H200; the resume bug that shrank the learning rate</a></li>
+  <li><a href="#prelaunch-review-night">80. The night before the bench: a batch that would not fit, an optimizer that eats a third of the step</a></li>
 </ol>
 </div>
 
@@ -2275,5 +2276,27 @@ The frequency split showed why the two wins stack. Attention fixed common tokens
 
 <hr>
 <p class="date">Major version: 1.64 (v4 cloud configs + pipeline rehearsed on the 5080. RESUME LR BUG found with a planned-stop control [r26q] and fixed in three trainers; r26k/r26m/r26i contaminated. Same-seed noise ~2%. RC3 seed 1 [r26r] 38.65 vs 38.09. Corpus not shuffled across pieces -> partial-start rule. head_weight_decay ON for v4. Commit a47d553.)</p>
+
+<h2 id="prelaunch-review-night">80. The night before the bench: a second resume bug, a batch that would not fit the H200, and an optimizer that eats a third of the step</h2>
+<p class="date">2026-10-10/11 (Neuro 55)</p>
+
+<p>The plan left by <a href="#resume-lr-bug-cloud-prep">&sect;79</a> was short: confirm the resume fix, smoke RC3 at the 1B shape on the 5090, rent the H200. The fix held (<code>r26t</code>, one planned stop and resume, 38.27 against 38.09). The smoke did not: after its planned resume it died at the first gap batch with <code>device not ready</code>, the 5090's memory cliff.</p>
+
+<div class="milestone"><p><b>A second resume bug sat behind the first.</b> The smoke logged a training loss of 12.2 before its resume and 7.0 after, at the same steps. On resume only <code>np.random</code> was re-keyed; the torch generator and the haystack generator restarted, so every resume replayed the MQAR, gap and cross-chunk batches from step 0, and the 1B model had already memorised them. A CPU reproduction showed 9 of 20 batches repeating before the fix and none after (<code>temp/test_resume_loss.py</code>). The same edit releases the checkpoint from the GPU after loading: 17.5 GB held after a resume became 13.4.</p></div>
+
+<p>With both fixes the dense phase passed at the full shape, resume and gap phase included. The conversion phase still would not fit the 5090 with its recall batches, so that night it was proven at half length, and at full length without them. Glenn went to sleep and asked for a review of the results, scripts and configs.</p>
+
+<div class="setback"><p><b>The cloud config asked for a batch the H200 cannot hold.</b> A 1B memory probe on the 5090 (<code>logs/mem1b.log</code>) gave 13.4 GB held plus 8.3 GB per sample, and 3.2 GB more per sample on a cross-chunk step. Batch 16 comes to 163&ndash;197 GB against 143. The first cross-chunk step arrives at 70% of the dense phase, so the run would have died about two days in. The 10-04 bench never saw it: it timed the old layout at T512.</p></div>
+
+<p>The first answer was batch 8 with two accumulation steps. The better one came in the morning, when Glenn asked for the bigger batch if it could be had. The recall pass turned out to be the expensive part: one cross-chunk sequence costs about 8 GB, the language-model forward 4.4. So the trainer can now back-propagate the main loss before the recall pass (<code>mqar_separate_backward</code>) and run the recall batch in parts (<code>mqar_aux_splits</code>). The gradients are the same; on CPU the weights after one step differ by 1&ndash;2 parts in 100,000, the same as a control that only changes the floating-point order (<code>temp/test_sep_backward.py</code>). On the 5090 the cross-chunk peak fell from 24.9 to 21.4 GB, and the full-shape 1B conversion that had died twice ran. Batch 16 on the H200 is now estimated at about 85 GB.</p>
+
+<p>The review also rebuilt the launch tooling around the two-phase run: <code>cloud/bench_rc3.sh</code> (the old bench timed the wrong layout), a home-side monitor (<code>cloud/cloud_watch.sh</code>; nothing would have told us if the cloud run stopped), a <code>GO</code> file so the on-start command cannot train on a placeholder budget, and fixes to the corpus pull (a second copy of the validation text inside the training data), the checkpoint pull and the tok/s watchdog. A stuck eval then held the 5080 for 1 h 50 without any alarm, which produced time limits on every eval and two new alarms.</p>
+
+<div class="setback"><p><b>Two tidy stories did not survive a replicate.</b> Head weight decay looked like it cost 2% at strength 1.0 and 0.6% at 0.3. Then <code>r26x</code> at 0.1 came back at 39.00, and 0.1 is exactly the decay the baseline already applies: it was an unplanned repeat of <code>r26n</code>. The 13L band is therefore 38.09&ndash;39.00, about &plusmn;1.2%, and both decay results sit inside it. There is no measurable cost; the cloud keeps 1.0, the value flagship v3 ran with. Starting the memory training at 20% instead of 70% is outside any band: <code>r26v</code> 41.04 (+7.7%), weaker memory use, 21% slower, and the 7-layer twin agrees (62.69 against 55.4&ndash;56.0). RC3 keeps its 70% start.</p></div>
+
+<p>The last finding is about speed. A profiler pass at 1B showed that the model is not the bottleneck at small batches: the NorMuon step, Newton-Schulz on 60 matrices, costs about 354 ms of GPU time per optimizer step whatever the batch. That is 89% of the GPU time at the 5090's 2,048 tokens per step and an estimated third of an H200 step at 32,768. The top-16 attention, which we suspected, is 1.3%. The cheap gains are a stronger compile mode (+6.9%) and a compiled teacher (+6.0%). The large one is to put twice the tokens into each optimizer step, about +20% by estimate, at the price of half as many steps; <code>r26z</code> tests that at 13 layers while the bench waits for the instance.</p>
+
+<hr>
+<p class="date">Major version: 1.65 (Second resume bug: MQAR / gap / xchunk batches replayed after every resume, fixed + ckpt freed from the GPU. 1B smoke: dense passes at T2048; conversion passes at T1024, and at T2048 with the new flags. B16 does not fit the H200 [163-197 GB] -> mqar_separate_backward + mqar_aux_splits [~85 GB est.]. 13L run-to-run band 38.09-39.00; head decay no measurable cost, cloud keeps 1.0; early memory training negative [r26v 41.04]. NorMuon step = 354 ms per optimizer step, ~1/3 of an H200 step; max-autotune +6.9%, compiled teacher +6.0%; 2x tokens per step under test [r26z]. Cloud tooling: bench_rc3, cloud_watch, GO file, Drive checkpoint push; tripwire tol 0.15 / patience 3.)</p>
 
 </body></html>

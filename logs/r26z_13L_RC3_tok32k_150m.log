@@ -4,3 +4,17 @@ sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geo
 torch.compile enabled for MQAR path (mode=default, dynamic=True)
 arch=spiking params=188.46M device=cuda target=0.200B tok | 32768 tok/step | total_steps≈6103 | warmup=122 | lr_sched=cosine | grad_clip=1.0
 step 100 | 3.3M tok | loss 11.972 | 13,819 tok/s | vram 3.1/17.3 GB
+step 200 | 6.6M tok | loss 10.547 | 16,067 tok/s | vram 3.1/17.3 GB
+step 300 | 9.8M tok | loss 10.412 | 15,770 tok/s | vram 3.1/17.3 GB
+step 400 | 13.1M tok | loss 9.947 | 15,563 tok/s | vram 3.1/17.3 GB
+step 500 | 16.4M tok | loss 9.673 | 15,324 tok/s | vram 3.1/17.3 GB
+  [eval] val_ppl 177.36 | ablated_ppl 289.13 (memory Δ=+111.78) | spike 0.182
+  [mlp] rate=0.472 thr=0.000 rate=0.374 thr=0.000 rate=0.362 thr=0.000 rate=0.356 thr=0.000 rate=0.349 thr=0.000 rate=0.375 thr=0.000 rate=0.460 thr=0.000 rate=0.446 thr=0.000 rate=0.435 thr=0.000 rate=0.431 thr=0.000 rate=0.443 thr=0.000 rate=0.464 thr=0.000 | target 1.000
+  [wnorm] embed=4887.38 | head=156.79
+  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.38 dead=0% at_floor=33% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=50% w=41% d=21/1% dstd=2.2 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  [spike] reported=0.182 spiking_only=0.182 (1/13 blocks spike)
+  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.828 hi=0% lo=0% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
+  saved /home/glenn/projects/neuro/models/checkpoints/r26z_13L_RC3_tok32k_150m/step_0000500.pt
+step 600 | 19.7M tok | loss 9.496 | 12,046 tok/s | vram 3.4/17.1 GB
+step 700 | 22.9M tok | loss 9.742 | 14,760 tok/s | vram 3.4/17.1 GB
