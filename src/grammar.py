@@ -50,8 +50,9 @@ class ToolGrammar:
     are cheap; the expensive part is the per-node token masks, which are cached
     on the shared TokenTable)."""
 
-    def __init__(self, offered, tools=None):
+    def __init__(self, offered, tools=None, proto=1):
         self.tools = tools or load_tools()
+        self.proto = proto                   # 2 = `TOOL <say sentence> {json}` (tool_data.say_of); 1 = unchanged
         self.by = tools_by_name(self.tools)
         self.offered = [n for n in offered if n in self.by]
         self.nodes = []
@@ -88,9 +89,13 @@ class ToolGrammar:
         self.nodes[ans]["eos_from"] = self.end     # free text may stop any time
 
         # TOOL {"name": "<name>", "arguments": {...}}
-        head = self._lit(self.root, MODE_TOOL + ' {"name": "')
+        if self.proto >= 2:
+            head = self._lit(self.root, MODE_TOOL + " ")
+        else:
+            head = self._lit(self.root, MODE_TOOL + ' {"name": "')
         for name in self.offered:
-            after = self._lit(head, name + '", "arguments": {')
+            pre = f'{self.by[name]["say"]} {{"name": "' if self.proto >= 2 else ""
+            after = self._lit(head, pre + name + '", "arguments": {')
             params = self.by[name]["params"]
             if not params:
                 self._lit(after, "}}", self.end)
@@ -182,7 +187,7 @@ class TokenTable:
         # example and CPython reuses freed ids, so an id key served one grammar's
         # masks/node-ids to another (IndexError / silently wrong masks, 2026-09-26).
         # The DFA is fully determined by the offered list (+ the fixed tool schema).
-        key = (tuple(grammar.offered), node)
+        key = (tuple(grammar.offered), node) if grammar.proto < 2 else (tuple(grammar.offered), node, grammar.proto)
         hit = self._cache.get(key)
         if hit is not None:
             return hit[0].to(device), hit[1].to(device)

@@ -86,11 +86,31 @@ def format_prompt(instruction, offered, tools):
             + instruction.strip() + "\n\n### Response:\n")
 
 
-def format_response(rec, tools):
+def say_of(name, tools):
+    """Protocol v2 (2026-10-12, config tool_proto: 2): the fixed sentence the model writes before a call,
+    `TOOL I will calculate that for you. {json}` (tools.json "say")."""
+    return tools_by_name(tools)[name]["say"]
+
+
+def full_offer(rec, tools, full_frac):
+    """sft_tools_full_frac (2026-10-12, default 0 = unchanged): for that share of `tool` / `answer` records
+    (hash-chosen) the offered list becomes all tools, shuffled deterministically -- training offers 2-6 tools, the demo
+    all 9. Never for tool_absent (its gold tool must stay absent)."""
+    if full_frac <= 0 or rec.get("kind") not in ("tool", "answer"):
+        return rec["tools"]
+    h = int(hashlib.md5(("full|" + rec["instruction"]).encode("utf-8")).hexdigest()[:8], 16)
+    if (h % 1000) >= int(full_frac * 1000):
+        return rec["tools"]
+    names = [t["name"] for t in tools]
+    return sorted(names, key=lambda n: hashlib.md5(f"{h}|{n}".encode()).hexdigest())
+
+
+def format_response(rec, tools, proto=1):
     """rec is one line of training_data/posttrain/tools.jsonl."""
     if rec["target_mode"] == MODE_TOOL:
         call = rec["target_call"]
-        return f"{MODE_TOOL} {dumps_call(call['name'], call['arguments'], tools)}{EOS_MARK}"
+        say = f"{say_of(call['name'], tools)} " if proto >= 2 else ""
+        return f"{MODE_TOOL} {say}{dumps_call(call['name'], call['arguments'], tools)}{EOS_MARK}"
     return f"{MODE_ANSWER} {rec['target_text'].strip()}{EOS_MARK}"
 
 
@@ -119,9 +139,9 @@ def split_of(instruction, test_frac=0.1):
     return "test" if (h % 1000) < int(test_frac * 1000) else "train"
 
 
-def load_tool_jsonl(path, tools, split=None, test_frac=0.1):
+def load_tool_jsonl(path, tools, split=None, test_frac=0.1, proto=1, full_frac=0.0):
     """Read the generated JSONL into {prompt, response, kind, rec} records.
-    split: None (all), "train" or "test"."""
+    split: None (all), "train" or "test". proto / full_frac: see format_response / full_offer."""
     out, bad = [], 0
     by = tools_by_name(tools)
     with open(path, encoding="utf-8") as f:
@@ -140,9 +160,10 @@ def load_tool_jsonl(path, tools, split=None, test_frac=0.1):
                 if rec["target_mode"] == MODE_TOOL and rec["target_call"]["name"] not in by:
                     bad += 1; continue
                 rec = sanitize_arg_values(rec, tools)
+                rec["tools"] = full_offer(rec, tools, full_frac)
                 out.append({
                     "prompt": format_prompt(rec["instruction"], rec["tools"], tools),
-                    "response": format_response(rec, tools),
+                    "response": format_response(rec, tools, proto),
                     "kind": rec.get("kind", "?"),
                     "rec": rec,
                 })
@@ -176,6 +197,8 @@ def parse_response(text):
             t = t.split(cut)[0].strip()
     if t.startswith(MODE_TOOL):
         body = t[len(MODE_TOOL):].strip()
+        if "{" in body:                      # protocol v2: skip the sentence before the call
+            body = body[body.index("{"):]
         try:
             obj = json.loads(body)
         except json.JSONDecodeError:

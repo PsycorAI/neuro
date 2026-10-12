@@ -78,6 +78,7 @@ def main():
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--modes", default="constrained,free")
     ap.add_argument("--show", type=int, default=5)
+    ap.add_argument("--all-tools", action="store_true", help="offer all tools (the demo setting) on tool / answer records")
     args = ap.parse_args()
 
     blob = torch.load(latest(args.run), map_location=args.device, weights_only=False)
@@ -90,7 +91,9 @@ def main():
 
     encode, decode = make_encoder_pair(c)
     tools = tool_data.load_tools()
-    pairs, bad = tool_data.load_tool_jsonl(DATA, tools, split="test")
+    proto = c.get("tool_proto", 1)           # 2 = `TOOL <say sentence> {json}` (checkpoint config)
+    pairs, bad = tool_data.load_tool_jsonl(DATA, tools, split="test", proto=proto,
+                                           full_frac=1.0 if args.all_tools else 0.0)
     # The JSONL is grouped by kind (all 'answer' first), so a plain [:n] slice was
     # 100% gold-ANSWER -> tool_acc = 0/0. Seeded shuffle = mixed, reproducible slice.
     random.Random(0).shuffle(pairs)
@@ -107,7 +110,7 @@ def main():
             gold = p["rec"]
             pid = encode(p["prompt"])
             if mode == "constrained":
-                gr = G.ToolGrammar(gold["tools"], tools)
+                gr = G.ToolGrammar(gold["tools"], tools, proto=proto)
                 out, text, _ = G.constrained_generate(
                     model, pid, gr, table, c["block_size"], args.device,
                     max_new=args.max_new, temperature=0.0)
@@ -117,6 +120,9 @@ def main():
                 text = decode(out)
             pm, pc, _ = tool_data.parse_response(text)
             r = score(pm, pc, gold, tools)
+            if proto >= 2 and gold["target_mode"] == tool_data.MODE_TOOL:   # the announced sentence matches the call
+                by = tool_data.tools_by_name(tools)
+                r["say_ok"] = 1 if (pc and pc.get("name") in by and by[pc["name"]]["say"] in text) else 0
             for k, v in r.items():
                 agg[k] = agg.get(k, 0) + v
             n_tool += gold["target_mode"] == tool_data.MODE_TOOL
@@ -133,6 +139,7 @@ def main():
             "tool_acc": agg.get("tool_acc", 0) / max(1, n_tool),
             "args_exact": agg.get("args_exact", 0) / max(1, n_tool),
             "refuse_acc": agg.get("refuse_acc", 0) / max(1, n_ans),
+            **({"say_ok": agg.get("say_ok", 0) / max(1, n_tool)} if proto >= 2 else {}),
             "sec": time.time() - t0,
         }
         results[mode] = row

@@ -147,7 +147,8 @@ def load_sft_corpus(c, encode, max_len):
                 continue
             if "target_mode" in head:
                 # split="train": the hash-held-out test split is what tool_eval/head_eval score on
-                pairs, bad = tool_data.load_tool_jsonl(p, tools, split="train")
+                pairs, bad = tool_data.load_tool_jsonl(p, tools, split="train", proto=c.get("tool_proto", 1),
+                                                       full_frac=c.get("sft_tools_full_frac", 0.0))
                 enc, skipped = tool_data.build_tool_examples(pairs, encode, max_len)
                 kinds = {}
                 for q in pairs:
