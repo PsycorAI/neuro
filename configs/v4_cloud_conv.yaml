@@ -50,7 +50,7 @@ muon_fix_gate_matrices: true
 muon_route_embeddings_by_type: true
 lr: 0.0006
 lam: 0.98
-max_tokens: 14000000000
+max_tokens: 10510000000
 eval_every: 3000
 ckpt_every: 1500
 keep_last: 3
@@ -144,3 +144,6 @@ spike_code:
 - v
 spike_levels: 8
 spike_levels_hidden: 16
+kd_compile: true
+kd_compile_mode: default
+mqar_separate_backward: true

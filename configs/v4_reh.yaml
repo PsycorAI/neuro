@@ -57,7 +57,7 @@ keep_last: 3
 log_every: 100
 amp: true
 compile: true
-compile_mode: default
+compile_mode: max-autotune-no-cudagraphs
 compile_dynamic: false
 run_name: v4_reh
 seed: 0
@@ -122,3 +122,5 @@ watchdog_valppl_only: true
 watchdog_valppl_ema_alpha: 0.4
 watchdog_valppl_tol: 0.15
 watchdog_valppl_patience: 3
+mqar_separate_backward: true
+mqar_aux_splits: 2

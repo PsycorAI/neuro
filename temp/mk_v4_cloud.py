@@ -82,6 +82,11 @@ assert S % CB == 0
 k.update(batch_size=CB, grad_accum=S // CB, mqar_batch=CB, mqar_xchunk_batch=CB)
 if os.environ.get("CLOUD_KD_COMPILE") == "1":
     k.update(kd_compile=True, kd_compile_mode="default")
+# 2026-10-11 (Neuro 56): CLOUD_COMPILE_MODE applies to the DENSE phase only. On the H200 max-autotune-no-cudagraphs
+# was +3.7% on dense plain steps (3 interleaved pairs, baseline spread 0.3%), but its cold tune of the conversion
+# graph never finished an arm (the instance was outbid 10 min in) -> the conversion keeps r26n's mode unless
+# CLOUD_CONV_COMPILE_MODE is set (to-test on the next instance while the corpus downloads).
+k["compile_mode"] = os.environ.get("CLOUD_CONV_COMPILE_MODE", rc3["compile_mode"])
 k.pop("mqar_separate_backward", None); k.pop("mqar_aux_splits", None)
 if "c" in _sep:
     k["mqar_separate_backward"] = True

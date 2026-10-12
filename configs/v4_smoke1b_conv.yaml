@@ -144,4 +144,7 @@ spike_code:
 - v
 spike_levels: 8
 spike_levels_hidden: 16
+kd_compile: true
+kd_compile_mode: default
+mqar_separate_backward: true
 eval_iters: 10

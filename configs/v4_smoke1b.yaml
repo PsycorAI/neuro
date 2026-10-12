@@ -57,7 +57,7 @@ keep_last: 2
 log_every: 10
 amp: true
 compile: true
-compile_mode: default
+compile_mode: max-autotune-no-cudagraphs
 compile_dynamic: false
 run_name: v4_smoke1b
 seed: 0
@@ -129,4 +129,6 @@ watchdog_valppl_only: true
 watchdog_valppl_ema_alpha: 0.4
 watchdog_valppl_tol: 0.15
 watchdog_valppl_patience: 3
+mqar_separate_backward: true
+mqar_aux_splits: 2
 eval_iters: 10
