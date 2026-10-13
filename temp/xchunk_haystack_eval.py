@@ -15,6 +15,9 @@ ap.add_argument("--chunk", type=int, default=0)
 ap.add_argument("runs", nargs="+")
 a = ap.parse_args()
 NS, OFFS, B, REPS = (8, 32), (0, 64, 192, 448), 32, 4
+import os                                                   # 10-12 (Neuro 58): HAYSTACK_B = smaller batch, same sample count
+if os.environ.get("HAYSTACK_B"):
+    REPS = max(1, B * REPS // int(os.environ["HAYSTACK_B"])); B = int(os.environ["HAYSTACK_B"])
 
 
 def batch(N, g, data, gen):

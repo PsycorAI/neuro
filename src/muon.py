@@ -182,8 +182,14 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
                     normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
                     route_embeddings_by_type=False, precise_gate_filter=False,
                     head_weight_decay=None, muon_mem_lr=None, batched_ns=False,
-                    muon_attn_lr=None):
+                    muon_attn_lr=None, no_decay_names=None):
     """Split model parameters and return (muon, adamw) optimizers.
+
+    no_decay_names (2026-10-12, default None = byte-identical grouping): AdamW parameters whose name
+    contains one of these substrings go to the no-decay group (e.g. ["embed.weight"]). Found on the 1B
+    v4 run: the token embedding sits in the decay group, and decoupled decay over 227k steps shrank it
+    13x by 25% of training (13L / 12k steps: 1.4x). The groups keep their order and count, only their
+    membership changes -> resume from a checkpoint saved without it via remap_adamw_state().
 
     2D matrices in hidden layers -> Muon.
     Everything else (embeddings, biases, LayerNorm, output head if you want it
@@ -347,8 +353,13 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
         head_decay = ([p for p in adamw_params if id(p) in head_ids and p.dim() >= 2]
                       if head_weight_decay is not None else [])
         head_id_set = {id(p) for p in head_decay}
-        decay = [p for p in adamw_params if p.dim() >= 2 and id(p) not in head_id_set]
-        nodecay = [p for p in adamw_params if p.dim() < 2]
+        nd_ids = ({id(p) for n, p in model.named_parameters() if any(s in n for s in no_decay_names)}
+                  if no_decay_names else set()) - head_id_set
+        decay = [p for p in adamw_params if p.dim() >= 2 and id(p) not in head_id_set and id(p) not in nd_ids]
+        nodecay = [p for p in adamw_params if p.dim() < 2 or (id(p) in nd_ids and p.dim() >= 2)]
+        if nd_ids:
+            print(f"  no_decay_names={list(no_decay_names)}: {sum(1 for p in nodecay if p.dim() >= 2)} "
+                  f"matrices moved to the no-decay AdamW group")
         adamw_groups = [
             {"params": decay, "weight_decay": weight_decay},
             {"params": nodecay, "weight_decay": 0.0},
@@ -368,3 +379,15 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
             adamw_kwargs["fused"] = True
         adamw = torch.optim.AdamW(adamw_groups, **adamw_kwargs)
     return muon, adamw, len(muon_params), len(adamw_params)
+
+
+def remap_adamw_state(old_opt, new_opt, state):
+    """Optimizer state saved under old_opt's grouping -> a state dict new_opt can load (2026-10-12).
+    Both optimizers must hold the SAME parameter tensors, grouped differently (no_decay_names): the
+    per-parameter moments follow their tensor, the group hyperparameters are new_opt's own."""
+    old_idx = {id(p): i for i, p in enumerate(p for g in old_opt.param_groups for p in g["params"])}
+    new_params = [p for g in new_opt.param_groups for p in g["params"]]
+    assert set(old_idx) == {id(p) for p in new_params}, "remap_adamw_state: the two optimizers hold different parameters"
+    return {"state": {j: state["state"][old_idx[id(p)]] for j, p in enumerate(new_params)
+                      if old_idx[id(p)] in state["state"]},
+            "param_groups": new_opt.state_dict()["param_groups"]}

@@ -171,7 +171,8 @@ def _build_optimizers(model, c, device):
             head_weight_decay=c.get("head_weight_decay"),
             muon_mem_lr=c.get("muon_mem_lr"),
             muon_attn_lr=c.get("muon_attn_lr"),
-            batched_ns=c.get("muon_batched_ns", False))
+            batched_ns=c.get("muon_batched_ns", False),
+            no_decay_names=c.get("no_decay_names"))
         opt_name = "NorMuon" if use_normuon else "Muon"
         print(f"optimizer: {opt_name} ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
               f"+ {'AdamW8bit' if c.get('adamw_8bit', False) else 'AdamW'} "
@@ -800,6 +801,15 @@ def main():
         if not c.get("lora_enabled", False) and "opt_states" in s and len(s["opt_states"]) == len(opts):
             try:
                 for o, st in zip(opts, s["opt_states"]):
+                    # no_decay_names (2026-10-12) switched on at a resume: the checkpoint's AdamW state is laid out
+                    # for the old grouping -> carry each parameter's moments to its new place (muon.remap_adamw_state).
+                    if (c.get("no_decay_names") and isinstance(o, torch.optim.AdamW)
+                            and [len(g["params"]) for g in st["param_groups"]] != [len(g["params"]) for g in o.param_groups]):
+                        from muon import remap_adamw_state
+                        _old = [x for x in _build_optimizers(raw_model, dict(c, no_decay_names=None), device)
+                                if isinstance(x, torch.optim.AdamW)][0]
+                        st = remap_adamw_state(_old, o, st); del _old
+                        print("  [info] no_decay_names: AdamW state remapped to the new grouping")
                     o.load_state_dict(st)
             except (ValueError, KeyError) as e:
                 # Cross-stage resume (e.g. DPO Muon ckpt into pretrain NorMuon

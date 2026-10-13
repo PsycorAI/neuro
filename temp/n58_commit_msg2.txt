@@ -1,0 +1,12 @@
+v4 run health: embedding no-decay option + resume remap, 1B diagnostics, revival tests; Python + health brains (Neuro 58)
+
+- src: no_decay_names (muon.py, default None = unchanged grouping) + remap_adamw_state so it can be switched on at a
+  resume (train_gpu.py resume path); deployed on v4_cloud at step 64,206
+- temp: 1B diagnostics (spike / layer / dead-unit / FFN norms), cfg patch for cloud checkpoints, home probes
+  (cross-chunk, no-decay, revival, control, resume, decay A/B), cloud apply / rollback, Drive pull loop + health check,
+  KD slice fetch, restore scripts, CPU test test_no_decay_remap.py; xchunk_haystack_eval takes HAYSTACK_B
+- scripts: gen_pybrain_data, gen_fdcbrain_data, brain_code_quiz, merge_brain
+- configs: probe_v4_*, brain_py13, brain_fdc13, sft_v4_dense_speed
+- docs: to-do 10-12 entries (Neuro 58)
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

@@ -1,0 +1,10 @@
+Demo build at 13L: tool protocol v2, second pass, LoRA brain, self-knowledge probe; demo plan; handoffs 10-12 (Neuro 57)
+
+- docs: demo_v4_plan_2026_10_12, HANDOFF_2026_10_12 / 12b, journey 82, to-do 10-12 entries
+- src: tool_data / grammar / train_sft (tool_proto 2), tools.json
+- scripts: tool_eval, toolresult_eval, brain_quiz, selfknow_probe, gen_searchqa_data, gen_toolresult_data,
+  demo/tools_exec, demo/build_search_pack
+- configs: sft_v4_reh13_v2, sft_v4_reh13_v2tr, brain_mech13
+- temp: n57 scripts (cloud step, Drive pull, rclone, pin / instance tests), 5080 / 5090 queues, tool tests
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
