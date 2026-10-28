@@ -10,7 +10,7 @@ sys.path.insert(0, R + 'psymem')
 import core, bench
 
 BUILD = dict(graded=1, signed=1, n_fly=65536, fly_k=4096)
-ACT = dict(g_sem=1, qrate=1, g_t=1, nb=0.5, g_use=1)
+ACT = dict(g_sem=1, qrate=1, g_t=1, nb=0.5, nb_mode=1, nb_len=800, g_use=1)  # the shared benchmark config + learning
 G_WHO = 0.5  # who-cell gate when on (not in the benchmark config; a demo toggle)
 SEED = os.path.dirname(os.path.abspath(__file__)) + '/diary.json'
 
@@ -64,11 +64,16 @@ class Engine:
         p.use_s = {(j, s): v for j, s, v in meta['use_s']}
         p.dirty = True
 
-    def remember(self, text, who, date):
+    def remember(self, text, who, date):  # returns (memory id, front-end ms, synaptic write + consolidation ms)
         self._V = None
-        self.p.remember(f'{who}: {text}', self.emb([f'{who}: {text}'])[0], date, date, who)
+        t0 = time.perf_counter()
+        e = self.emb([f'{who}: {text}'])[0]
+        t1 = time.perf_counter()
+        self.p.remember(f'{who}: {text}', e, date, date, who)
+        self.p._compile()  # consolidate now (incremental), so the write cost is measured here, not in the next recall
+        t2 = time.perf_counter()
         self.save()
-        return len(self.p.diary) - 1
+        return len(self.p.diary) - 1, (t1 - t0) * 1e3, (t2 - t1) * 1e3
 
     def diary(self):
         return [dict(i=i, who=w, date=d, text=t.split(': ', 1)[-1]) for i, (t, d, s, w) in enumerate(self.p.diary)]

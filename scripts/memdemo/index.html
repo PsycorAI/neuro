@@ -142,6 +142,14 @@ svg{width:100%;height:auto;display:block}
         <div class="note">Ticks appear only on tour questions, where the right memory is known.</div>
       </div>
     </div>
+    <details class="panel"><summary style="cursor:pointer;color:var(--dim);font-size:13px;letter-spacing:1px;text-transform:uppercase">How it works</summary>
+      <div style="font-size:13px;margin-top:8px;display:grid;gap:6px">
+        <div><b style="color:var(--mem)">Every memory is a neuron.</b> Writing a memory wires it to the neurons that fired: one neuron per word, plus a sparse set of &ldquo;meaning&rdquo; neurons (4,096 of 65,536 win). That is a Hebbian update: no language model, no index rebuild.</div>
+        <div><b style="color:var(--spk)">Recall is one wave of spikes.</b> The question fires its own word and meaning neurons; their synapses push activity into the memories they touch. The memories that receive the most drive win.</div>
+        <div><b style="color:var(--mlp)">Time cells and who cells</b> gate that drive: &ldquo;last week&rdquo; lights the days it means, a named person keeps their own memories bright. Neighbouring turns of a chat support each other.</div>
+        <div><b style="color:var(--ok)">It learns from use.</b> Confirming an answer grows new synapses from that question&rsquo;s neurons to the memory, so the same and similar questions find it faster next time.</div>
+        <div><b>One file you own.</b> The diary and all its synapses live in one .plasmem file, on your machine.</div>
+      </div></details>
     <div class="note">Measured on benchmarks (not live): LoCoMo top-10 recall 76.7 for Plasmem vs 64.6 for keyword + vector search;
       one correction lifts recall of paraphrased questions from 57 to 89. Tour questions are chosen examples on this diary, not a score.
       Confidence (match coverage &times; share of the question&rsquo;s words that have a neuron) is experimental: it separates answerable
@@ -244,7 +252,8 @@ async function init(){await loadDiary();S.tour=await api("/api/tour");
   document.querySelectorAll(".tour").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tour").forEach(x=>x.classList.toggle("on",x===b));const t=S.tour.find(x=>x.id===b.dataset.t);$("now").value=S.today;ask(t.q,t)});
   $("ask").onclick=()=>{const q=$("q").value.trim();if(q)ask(q,null)};
   $("q").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("ask").click()}};
-  $("m_add").onclick=async()=>{const text=$("m_text").value.trim();if(!text)return;await api("/api/remember",{text,who:$("m_who").value,date:$("m_date").value});$("m_text").value="";S.last=null;await loadDiary();
+  $("m_add").onclick=async()=>{const text=$("m_text").value.trim();if(!text)return;const w=await api("/api/remember",{text,who:$("m_who").value,date:$("m_date").value});$("m_text").value="";S.last=null;await loadDiary();
+    $("tnote").textContent=`Stored. Front end ${w.ms_front.toFixed(0)} ms, synaptic write ${w.ms_write.toFixed(1)} ms, no language-model call. Ask about it now.`;
     const el=document.querySelector("#diary .mem:last-child");if(el)showIn(el)};
   $("reset").onclick=async()=>{if(!confirm("Forget everything learned and added, and go back to the original diary?"))return;await api("/api/reset",{});S.last=null;S.cur=null;await loadDiary();
     $("learnlog").innerHTML="";$("tnote").textContent="Memory reset to the original diary."};

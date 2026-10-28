@@ -84,8 +84,8 @@ class H(BaseHTTPRequestHandler):
                     text, who = str(req.get('text', '')).strip()[:1000], str(req.get('who', '')).strip()[:40] or 'Me'
                     if not text:
                         return self.send({'error': 'empty memory'}, 400)
-                    i = E.remember(text, who, date_or(req.get('date'), E.today))
-                    return self.send(dict(i=i, stats=E.stats()))
+                    i, ms_front, ms_write = E.remember(text, who, date_or(req.get('date'), E.today))
+                    return self.send(dict(i=i, ms_front=ms_front, ms_write=ms_write, stats=E.stats()))
                 if self.path == '/api/feedback':
                     span = int(req['span'])
                     if not 0 <= span < len(E.p.diary):
