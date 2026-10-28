@@ -1,7 +1,11 @@
 """scripts/memdemo/server.py -- 2026-10-27 (Neuro 85): the Plasmem demo server (recall only, v1). CPU only, never the GPUs.
 Run: CUDA_VISIBLE_DEVICES= python scripts/memdemo/server.py [--port 8766] [--name diary]
-Design: docs/n85_plasmem_demo_design_2026_10_27.md. Memory file: logs/memdemo/<name>.plasmem."""
-import os, re, sys, json, argparse, threading
+Design: docs/n85_plasmem_demo_design_2026_10_27.md. Memory file: logs/memdemo/<name>.plasmem.
+Web-page guard (10-28): another site open in the same browser must not read or change the memory. Every request needs a
+Host header naming this server (blocks DNS rebinding); every POST needs Content-Type application/json (a cross-site
+form or text/plain fetch cannot send it without a CORS preflight, which this server never grants), a same-server Origin
+when one is sent, and the per-run token that only this server's own page carries."""
+import os, re, sys, json, argparse, secrets, threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 os.environ.setdefault('CUDA_VISIBLE_DEVICES', '')
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,6 +35,9 @@ TOUR = [
 ]
 lock = threading.Lock()
 E = engine.Engine(args.name, front=args.front)
+TOKEN = secrets.token_urlsafe(24)  # new every run; reaches only this server's own page
+HOSTS = {f'{h}:{args.port}' for h in ('127.0.0.1', 'localhost', '[::1]', args.host)}
+ORIGINS = {f'http://{h}' for h in HOSTS}
 
 
 def date_or(x, default):  # only YYYY-MM-DD dates reach the parser
@@ -54,9 +61,22 @@ class H(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def blocked(self, post):  # the web-page guard (module docstring); True = refused
+        h = self.headers
+        ok = h.get('Host') in HOSTS and (not post or (
+            h.get('Content-Type', '').split(';')[0].strip() == 'application/json'
+            and h.get('Origin', next(iter(ORIGINS))) in ORIGINS
+            and secrets.compare_digest(h.get('X-Plasmem-Token', ''), TOKEN)))
+        if not ok:
+            self.send({'error': 'forbidden'}, 403)
+        return not ok
+
     def do_GET(self):
+        if self.blocked(post=False):
+            return
         if self.path in ('/', '/index.html'):
-            return self.send(open(HERE + '/index.html', 'rb').read(), ctype='text/html; charset=utf-8')
+            page = open(HERE + '/index.html', encoding='utf-8').read().replace('__PLASMEM_TOKEN__', TOKEN)
+            return self.send(page.encode(), ctype='text/html; charset=utf-8')
         with lock:
             if self.path == '/api/diary':
                 return self.send(dict(diary=E.diary(), stats=E.stats(), today=E.today))
@@ -65,6 +85,8 @@ class H(BaseHTTPRequestHandler):
         self.send({'error': 'not found'}, 404)
 
     def do_POST(self):
+        if self.blocked(post=True):
+            return
         try:
             n = int(self.headers.get('Content-Length', 0))
             if n > 65536:

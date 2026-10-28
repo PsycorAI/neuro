@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="plasmem-token" content="__PLASMEM_TOKEN__">
 <title>Plasmem demo</title>
 <!-- scripts/memdemo/index.html -- 2026-10-27 (Neuro 85): Plasmem demo v1 (recall only). Styled after scripts/demo/index.html.
      Design: docs/n85_plasmem_demo_design_2026_10_27.md -->
@@ -163,7 +164,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const fmt=n=>n.toLocaleString("en-US");
 const showIn=el=>{const d=$("diary");d.scrollTo({top:el.offsetTop-d.offsetTop-d.clientHeight/3,behavior:"smooth"})};  // scroll the diary only, not the page
 let S={diary:[],stats:{},tour:[],today:"",cur:null,last:null,picking:false};
-async function api(path,body){const r=await fetch(path,body?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}:{});
+const TOKEN=document.querySelector('meta[name="plasmem-token"]').content;  // per-run token from the server (web-page guard)
+async function api(path,body){const r=await fetch(path,body?{method:"POST",headers:{"Content-Type":"application/json","X-Plasmem-Token":TOKEN},body:JSON.stringify(body)}:{});
   const j=await r.json();if(j.error){$("err").textContent=j.error;throw new Error(j.error)}$("err").textContent="";return j}
 function chips(){const s=S.stats;$("chips").innerHTML=
   `<span class="chip">${fmt(s.memories)} memories</span><span class="chip">${fmt(s.synapses)} synapses</span>`+

@@ -13,6 +13,11 @@
 #   adapt = cue adaptation (explaining away): recall K spans one at a time; cue neurons a recalled span already explains
 #           fatigue by this fraction, so the next recall favours the cues not yet covered (multi-evidence questions).
 # Writes need no LLM calls. CPU numpy / scipy.sparse.
+# Storage (10-28): synapses live in column blocks (one column per span). Spans not yet frozen sit in a small live tail
+# (meaning codes kept dense); every B_FREEZE new spans freeze into a block, and equal-size neighbour blocks merge up to
+# B_CAP spans. Word synapses keep raw co-activation counts; the BM25 normalization (IDF, length) is applied at recall to
+# the cue's rows only. A write therefore costs about the same at any memory size (before: Wl / Ws rebuilt whole every
+# write, 2.5 s at 10k spans). Recall results are identical.
 import re, functools, collections, datetime
 import numpy as np, scipy.sparse as sp
 from dateutil import parser as dparser
@@ -107,6 +112,24 @@ def learned_proj(path):  # a learned expansion layer (psymem/hebb.py): P (n_fly 
     return d['P'], d['mu']
 
 
+B_FREEZE, B_CAP = 256, 16384  # live tail freezes every 256 spans; equal-size neighbour blocks merge up to 16,384 spans
+
+
+def _hcat(ms, rows):  # side-by-side concat of CSR matrices with equal rows, O(nnz) (scipy's hstack goes through COO)
+    ms = [m for m in ms if m.shape[1]]
+    if len(ms) < 2:
+        return ms[0] if ms else sp.csr_matrix((rows, 0))
+    ip = np.sum([m.indptr.astype(np.int64) for m in ms], 0)
+    data, idx = np.empty(ip[-1], ms[0].dtype), np.empty(ip[-1], np.int32)
+    cur, c0 = ip[:-1].copy(), 0
+    for m in ms:
+        cnt = np.diff(m.indptr)
+        pos = np.arange(m.nnz) + np.repeat(cur - m.indptr[:-1], cnt)
+        data[pos], idx[pos] = m.data, m.indices + c0
+        cur += cnt; c0 += m.shape[1]
+    return sp.csr_matrix((data, idx, ip), shape=(rows, c0))
+
+
 class Psymem:
     def __init__(self, dim=384, n_fly=16384, fly_k=256, fan_in=24, k1=1.2, b=0.75, seed=0, signed=0, graded=0, proj=None,
                  mu_global=0):
@@ -115,40 +138,40 @@ class Psymem:
         self.fly_k, self.k1, self.b, self.graded = fly_k, k1, b, graded  # graded: semantic synapse ~ the winner's rate
         self.diary, self.E, self.lex, self.hebb = [], [], {}, []  # hebb[s] = {lexical cue id: co-activation count}
         self.use_l, self.use_s = {}, {}  # learned-with-use synapses: (cue neuron, span) -> strength (lexical, semantic)
+        self._deg = np.zeros(0, np.int64)  # per word neuron: how many spans it is wired to (-> IDF)
+        self._esum, self._nl = np.zeros(dim), 0  # running embedding sum (drift test); word-synapse count
+        self._wsp = {}  # who cell -> spans wired to it (the speaker's own turns + turns that name them)
+        self._lb, self._sb, self._nf, self._nc = [], [], 0, 0  # frozen word / meaning blocks; spans frozen; spans coded
+        self._mu_c = None  # the centring mean all current meaning codes were made with
+        self._tc, self._tw = np.zeros((0, fly_k), np.int32), np.zeros((0, fly_k), np.float32)  # live tail codes, weights
+        self.sid, self.days, self.tlen, self.isq, self.ln = (np.zeros(0, object), np.zeros(0, int), np.zeros(0, int),
+                                                             np.zeros(0, bool), np.zeros(0))
         self.dirty = True
 
     def remember(self, text, emb, date=None, sid=None, who=None):
         """Write one turn: diary append + Hebbian co-activation counts. Returns the span id. who = the speaker."""
         self.diary.append((text, date, sid, who)); self.E.append(np.asarray(emb, np.float32))
-        self.hebb.append({self.lex.setdefault(w, len(self.lex)): n for w, n in bag(text).items()})
+        h = {self.lex.setdefault(w, len(self.lex)): n for w, n in bag(text).items()}
+        self.hebb.append(h)
+        if len(self.lex) > len(self._deg):  # grow by doubling (amortized O(1))
+            self._deg = np.r_[self._deg, np.zeros(max(len(self.lex), 2 * len(self._deg)) - len(self._deg), np.int64)]
+        self._deg[list(h)] += 1
+        self._esum += self.E[-1]; self._nl += len(h)
+        s = len(self.diary) - 1
+        if who:  # who cells: a new speaker also binds the earlier turns that name them (once per new speaker)
+            w = stem(who.lower())
+            if w not in self._wsp:
+                self._wsp[w] = [i for i, d in enumerate(self.diary[:-1]) if d[3] is not None and w in bag(d[0])]
+            for v, ids in self._wsp.items():
+                if v == w or v in bag(text):
+                    ids.append(s)
         self.dirty = True
-        return len(self.diary) - 1
+        return s
 
-    def _compile(self):  # consolidate: apply the normalization rules; re-derive FlyHash codes (the mean adapts as memory grows)
-        n = len(self.diary)
-        rows = np.fromiter((c for h in self.hebb for c in h), np.int64)
-        cols = np.repeat(np.arange(n), [len(h) for h in self.hebb])
-        tf = np.fromiter((v for h in self.hebb for v in h.values()), np.float32)
-        ln, deg = np.bincount(cols, tf, n), np.bincount(rows, minlength=len(self.lex))
-        w = tf * (self.k1 + 1) / (tf + self.k1 * (1 - self.b + self.b * ln[cols] / ln.mean()))
-        self.idf = np.log(1 + (n - deg + .5) / (deg + .5))
-        w *= self.idf[rows]
-        self.Wl = sp.csr_matrix((w, (rows, cols)), shape=(len(self.lex), n))
-        use = lambda d, m: sp.csr_matrix((list(d.values()), tuple(np.array(list(d)).T)), shape=(m, n)) if d else sp.csr_matrix((m, n))
-        self.Ul, self.Us = use(self.use_l, len(self.lex)), use(self.use_s, len(self.P))
-        E = np.stack(self.E); mu = self.mu0 if self.mu_global else E.mean(0)
-        # incremental (10-28): while the centring mean drifts < 5%, keep earlier spans' codes and code only the new spans
-        # (with the same mean, so cue codes stay consistent); a larger drift re-derives all codes ("dreaming")
-        k0 = getattr(self, '_nc', 0)
-        if 0 < k0 <= n and np.linalg.norm(mu - self._mu_c) <= 0.05 * (np.linalg.norm(self._mu_c) or 1.):
-            self.mu, start = self._mu_c, k0
-        else:
-            self.mu, start = mu, 0
-        codes = np.empty((n, self.fly_k), np.int32); ws = np.ones((n, self.fly_k), np.float32)
-        if start:
-            codes[:start], ws[:start] = self._codes[:start], self._ws[:start]
+    def _codes_of(self, E):  # FlyHash winners + graded weights for spans E, with the current centring mean self.mu
+        codes = np.empty((len(E), self.fly_k), np.int32); ws = np.ones((len(E), self.fly_k), np.float32)
         # in blocks of 1,024 spans: the full n x n_fly drive matrix was 7.9 GB at 30k spans (OOM, 10-27 night)
-        for i in range(start, n, 1024):
+        for i in range(0, len(E), 1024):
             X = (E[i:i + 1024] - self.mu) @ self.P.T
             c = np.argpartition(X, -self.fly_k, axis=1)[:, -self.fly_k:]
             codes[i:i + 1024] = c
@@ -157,17 +180,108 @@ class Psymem:
                 h -= h.min(1, keepdims=True) - 1e-6
                 ws[i:i + 1024] = h / h.mean(1, keepdims=True)
             del X
-        self._codes, self._ws, self._nc, self._mu_c = codes, ws, n, self.mu
-        self.Ws = sp.csr_matrix((ws.ravel(), (codes.ravel(), np.repeat(np.arange(n), self.fly_k))), shape=(len(self.P), n))
-        self.sid = np.array([d[2] for d in self.diary], object)
-        self.days = np.array([day(d[1]) if d[1] else 0 for d in self.diary])  # the time cell each span is wired to
-        self.tlen = np.array([len(d[0]) for d in self.diary])  # turn length (chars) and is-a-question, for gated S<->S links
-        self.isq = np.array([d[0].rstrip(' "\'').endswith('?') for d in self.diary], bool)
+        return codes, ws
+
+    def _word_block(self, a, z):  # raw co-activation counts of spans a..z-1 (word neurons x spans)
+        hs = self.hebb[a:z]
+        rows = np.fromiter((c for h in hs for c in h), np.int64)
+        tf = np.fromiter((v for h in hs for v in h.values()), np.float32)
+        return sp.csr_matrix((tf, (rows, np.repeat(np.arange(len(hs)), [len(h) for h in hs]))), shape=(len(self.lex), len(hs)))
+
+    def _freeze(self, m):  # the first m live-tail spans become one frozen block; equal-size neighbours merge up to B_CAP
+        c, w = self._tc[:m], self._tw[:m]
+        self._sb.append(sp.csr_matrix((w.ravel(), (c.ravel(), np.repeat(np.arange(m), self.fly_k))), shape=(len(self.P), m)))
+        self._lb.append(self._word_block(self._nf, self._nf + m))
+        self._tc, self._tw, self._nf = self._tc[m:], self._tw[m:], self._nf + m
+        while len(self._sb) > 1 and self._sb[-1].shape[1] == self._sb[-2].shape[1] < B_CAP:
+            self._sb[-2:] = [_hcat(self._sb[-2:], len(self.P))]
+            for b in self._lb[-2:]:
+                b.resize((len(self.lex), b.shape[1]))
+            self._lb[-2:] = [_hcat(self._lb[-2:], len(self.lex))]
+
+    def _compile(self):  # consolidate: apply the normalization rules; code new spans (all spans if the mean drifted)
+        n, V = len(self.diary), len(self.lex)
+        new = self.diary[len(self.days):]  # per-span facts, appended for new spans only
+        self.sid = np.r_[self.sid, np.array([d[2] for d in new] + [None], object)[:-1]]
+        self.days = np.r_[self.days, np.array([day(d[1]) if d[1] else 0 for d in new], int)]  # the time cell each span is wired to
+        self.tlen = np.r_[self.tlen, np.array([len(d[0]) for d in new], int)]  # turn length (chars) and is-a-question, for gated S<->S links
+        self.isq = np.r_[self.isq, np.array([d[0].rstrip(' "\'').endswith('?') for d in new], bool)]
+        self.ln = np.r_[self.ln, np.array([sum(h.values()) for h in self.hebb[len(self.ln):]], float)]  # BM25 span length
+        self._lnm = self.ln.mean()
+        if len(self._deg) < V:  # words grown by reinforce()
+            self._deg = np.r_[self._deg, np.zeros(V - len(self._deg), np.int64)]
+        self.deg = self._deg[:V]
+        self.idf = np.log(1 + (n - self.deg + .5) / (self.deg + .5))
+        use = lambda d, m: sp.csr_matrix((list(d.values()), tuple(np.array(list(d)).T)), shape=(m, n)) if d else sp.csr_matrix((m, n))
+        self.Ul, self.Us = use(self.use_l, V), use(self.use_s, len(self.P))
+        # incremental (10-28): while the centring mean drifts < 5%, keep earlier spans' codes and code only the new spans
+        # (with the same mean, so cue codes stay consistent); a larger drift re-derives all codes ("dreaming")
+        # All codes always share one mean, so (diary, _mu_c) fixes the state: a memory file restores _mu_c and reloads exact.
+        mu = self.mu0 if self.mu_global else self._esum / n
+        if self._mu_c is None or np.linalg.norm(mu - self._mu_c) > 0.05 * (np.linalg.norm(self._mu_c) or 1.):
+            self._mu_c, self._nc = self.mu0 if self.mu_global else np.stack(self.E).mean(0), 0
+        start = self._nc
+        if not start:
+            self._lb, self._sb, self._nf = [], [], 0
+            self._tc, self._tw = self._tc[:0], self._tw[:0]
+        self.mu = self._mu_c
+        if start < n:
+            c, w = self._codes_of(np.stack(self.E[start:]))
+            self._tc, self._tw = np.r_[self._tc, c], np.r_[self._tw, w]
+        self._nc = n
+        if len(self._tc) >= B_FREEZE:
+            self._freeze(len(self._tc) // B_FREEZE * B_FREEZE)
+        self._lt = self._word_block(self._nf, n)
+        self.nnz = self._nl + n * self.fly_k  # synapses (word + meaning)
+        self._full = {}
         # who cells: one per speaker; a span is wired to its speaker's cell and to the cells of speakers it names
-        self.whos = sorted({stem(d[3].lower()) for d in self.diary if d[3]})
-        self.who_w = np.array([[d[3] is not None and (stem(d[3].lower()) == w or w in bag(d[0])) for d in self.diary]
-                               for w in self.whos], bool).reshape(len(self.whos), n)
+        self.whos = sorted(self._wsp)
+        self.who_w = np.zeros((len(self.whos), n), bool)
+        for i, w in enumerate(self.whos):
+            self.who_w[i, self._wsp[w]] = True
         self.dirty = False
+
+    def word_rows(self, ids):  # BM25-weighted synapses of word neurons ids (len(ids) x spans), normalized at recall
+        ids, V = np.asarray(ids, np.int64), len(self.lex)
+        for b in self._lb:
+            if b.shape[0] < V:  # word neurons grown since this block froze
+                b.resize((V, b.shape[1]))
+        M = _hcat([b[ids] for b in self._lb + [self._lt]], len(ids))
+        tf, cols = M.data, M.indices
+        w = tf * (self.k1 + 1) / (tf + self.k1 * (1 - self.b + self.b * self.ln[cols] / self._lnm))
+        w *= self.idf[ids[np.repeat(np.arange(len(ids)), np.diff(M.indptr))]]
+        return sp.csr_matrix((w, cols, M.indptr), shape=M.shape)
+
+    def _meaning_parts(self, code):  # synapses of meaning neurons code, one CSR per frozen block + the live tail, in span order
+        parts = [b[code] for b in self._sb]
+        if len(self._tc):
+            pos = np.full(len(self.P), -1); pos[code] = np.arange(len(code))
+            r = pos[self._tc]; s, j = np.nonzero(r >= 0)
+            parts.append(sp.csr_matrix((self._tw[s, j], (r[s, j], s)), shape=(len(code), len(self._tc))))
+        return parts
+
+    def meaning_rows(self, code):  # the same as one matrix (len(code) x spans); recall itself skips the concatenation
+        return _hcat(self._meaning_parts(code), len(code))
+
+    @staticmethod
+    def _mv(parts, x):  # (rows of all parts)^T @ x, block by block -> one value per span
+        return np.concatenate([m.T @ x for m in parts]) if parts else np.zeros(0)
+
+    @staticmethod
+    def _colsum(parts):  # column sums, block by block (same arithmetic as summing the concatenated matrix)
+        return np.concatenate([np.asarray(m.sum(0)).ravel() for m in parts]) if parts else np.zeros(0)
+
+    @property
+    def Wl(self):  # the whole word-synapse matrix (only pattern completion / analysis need it; built on demand)
+        if 'l' not in self._full:
+            self._full['l'] = self.word_rows(np.arange(len(self.lex)))
+        return self._full['l']
+
+    @property
+    def Ws(self):  # the whole meaning-synapse matrix, on demand
+        if 's' not in self._full:
+            self._full['s'] = self.meaning_rows(np.arange(len(self.P)))
+        return self._full['s']
 
     def _who(self, cue, g_who):  # who-cell gate: spans bound to a person the cue names stay at 1, others drop to 1 - g_who
         named = [i for i, w in enumerate(self.whos) if w in bag(cue)]
@@ -177,8 +291,8 @@ class Psymem:
         return np.argpartition((E - self.mu) @ self.P.T, -self.fly_k, axis=1)[:, -self.fly_k:]
 
     def _sweep(self, lex_ids, code, g_sem):
-        al = np.asarray(self.Wl[lex_ids].sum(0)).ravel() if len(lex_ids) else np.zeros(self.Wl.shape[1])
-        a_s = np.asarray(self.Ws[code].sum(0)).ravel()
+        al = np.asarray(self.word_rows(lex_ids).sum(0)).ravel() if len(lex_ids) else np.zeros(len(self.diary))
+        a_s = self._colsum(self._meaning_parts(code))
         return _dn(al) + g_sem * _dn(a_s - np.median(a_s))
 
     def _time(self, lo, hi, now):  # time-cell drive: 1 inside [lo, hi], Gaussian fall-off, wider further back (scalar timing)
@@ -195,10 +309,10 @@ class Psymem:
         n, words = len(self.diary), list(bag(cue))
         if not words:
             return 0.
-        deg = np.array([self.Wl[self.lex[w]].nnz if w in self.lex else 0 for w in words])
+        deg = np.array([self.deg[self.lex[w]] if w in self.lex else 0 for w in words])
         cap = np.log(1 + (n - deg + .5) / (deg + .5)).sum()
-        cov = np.asarray(self.Wl[[self.lex[w] for w in words if w in self.lex]].sum(0)).ravel() / cap
-        ov = np.asarray(self.Ws[self._code(emb[None])[0]].sum(0)).ravel() / self.fly_k
+        cov = np.asarray(self.word_rows([self.lex[w] for w in words if w in self.lex]).sum(0)).ravel() / cap
+        ov = self._colsum(self._meaning_parts(self._code(emb[None])[0])) / self.fly_k
         return float(((np.minimum(cov, 1) + g_sem * ov) / (1 + g_sem) * self._who(cue, g_who)).max())
 
     def reinforce(self, cue, emb, spans, lr=1.):
@@ -206,11 +320,15 @@ class Psymem:
         New words get new cue neurons. (Codes use the current mean; dreaming would re-derive them as the memory grows.)"""
         if self.dirty:
             self._compile()
-        ids, code = [self.lex.setdefault(w, len(self.lex)) for w in bag(cue)], self._code(emb[None])[0]
+        return self.wire(list(bag(cue)), [int(j) for j in self._code(emb[None])[0]], spans, lr)
+
+    def wire(self, words, code, spans, lr=1.):  # the synaptic part of reinforce(); also replays it from a memory file
+        ids = [self.lex.setdefault(w, len(self.lex)) for w in words]
         for s in spans:
             for k, d in [((c, s), self.use_l) for c in ids] + [((j, s), self.use_s) for j in code]:
                 d[k] = d.get(k, 0.) + lr
         self.dirty = True
+        return words, code
 
     def activate(self, cue, emb, now=None, g_sem=1.0, prf=0, prf_c=10, beta=0.3, nb=0.0, g_t=0.0, g_who=0.0, adapt=0.0, K=20,
                  g_use=0.0, qrate=0, nb_mode=0, nb_len=300):
@@ -224,20 +342,22 @@ class Psymem:
             self._compile()
         lex_ids, code = [self.lex[w] for w in bag(cue) if w in self.lex], self._code(emb[None])[0]
         # this cue's synaptic rows, kept sparse (10-28: dense rows made recall O(fly_k x n): 378 ms at 20k spans)
-        Ml, Ms = self.Wl[lex_ids], self.Ws[code]
-        MlT, MsT = Ml.T, Ms.T  # CSC views: fast matvec, no conversion (tocsr was 70% of recall time)
-        gl, gs = np.ones(MlT.shape[1]), np.ones(MsT.shape[1])  # cue-neuron gains (adaptation lowers them)
+        Ml, Sp = self.word_rows(lex_ids), self._meaning_parts(code)  # meaning rows stay per block (no concatenation)
+        MlT = Ml.T  # CSC view: fast matvec, no conversion (tocsr was 70% of recall time)
+        gl, gs = np.ones(MlT.shape[1]), np.ones(len(code))  # cue-neuron gains (adaptation lowers them)
         if qrate:
             h = (emb - self.mu) @ self.P[code].T
             gs = (h - h.min() + 1e-6) / (h - h.min() + 1e-6).mean()
-        a_s0 = MsT @ gs
-        zl, med = (MlT @ gl).max(initial=0) or 1., np.median(a_s0)
+        a_l0, a_s0 = MlT @ gl, self._mv(Sp, gs)
+        zl, med = a_l0.max(initial=0) or 1., np.median(a_s0)
         zs = (a_s0.max() - med) or 1.
 
-        def drive():  # one C->S sweep, divisively normalized by the first sweep's peaks
-            return np.maximum(MlT @ gl, 0) / zl + g_sem * np.maximum(MsT @ gs - med, 0) / zs
+        def drive(al=None, as_=None):  # one C->S sweep, divisively normalized by the first sweep's peaks
+            al = MlT @ gl if al is None else al
+            as_ = self._mv(Sp, gs) if as_ is None else as_
+            return np.maximum(al, 0) / zl + g_sem * np.maximum(as_ - med, 0) / zs
         extra, gate = 0., 1.
-        a = drive()
+        a = drive(a_l0, a_s0)  # the first sweep is the one already computed
         if prf:  # pattern completion: the k-WTA top spans drive their cue neurons back (S->C), which sweep again (C->S)
             top = np.argpartition(-a, prf)[:prf]
             dl, ds = self.Wl[:, top] @ a[top], self.Ws[:, top] @ a[top]
@@ -268,7 +388,7 @@ class Psymem:
             return a + nb * np.maximum(np.r_[0, a[:-1]] * fp, np.r_[a[1:], 0] * fn) if nb else a
         a = post(a)
         if adapt:
-            out, picked = a.copy(), []
+            Ms, out, picked = _hcat(Sp, len(code)), a.copy(), []
             for r in range(K):
                 s = int(np.argmax(np.where(np.isin(np.arange(len(a)), picked), -np.inf, a)))
                 picked.append(s); out[s] = 1e3 + K - r

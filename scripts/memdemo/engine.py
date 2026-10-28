@@ -1,9 +1,11 @@
 # scripts/memdemo/engine.py -- 2026-10-27 (Neuro 85): the Plasmem demo engine. Wraps psymem.core.Psymem (the shared
 # benchmark config: big signed graded FlyHash + time cells + neighbour links) and adds explain(): what fired, what each
 # channel gave, confidence, and plain vector search (same embedder, cosine) for comparison. CPU only.
-# The memory lives in one file, logs/memdemo/<name>[_<front>].plasmem (npz: embeddings + JSON of diary, word neurons, use
-# synapses). front = 'bge' (bge-small, a transformer) or the name of a trained spiking encoder (models/psymem/enc_<front>.pt).
-import os, sys, json, time, datetime
+# The memory lives in one append-only file, logs/memdemo/<name>[_<front>].plasmem (10-28; JSON lines): a header, then one
+# line per write (turn + float32 embedding) or per learning event (cue words + meaning neurons + memory); loading replays
+# it. A write appends one line (was: the whole file re-written every write). Older npz files are converted on load.
+# front = 'bge' (bge-small, a transformer) or the name of a trained spiking encoder (models/psymem/enc_<front>.pt).
+import os, sys, json, time, base64, datetime
 import numpy as np
 R = os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + '/../..') + '/'
 sys.path.insert(0, R + 'psymem')
@@ -31,6 +33,7 @@ class Engine:
         self.emb = emb or Embedder()
         self.qpfx = bench.Embedder.QPFX if front == 'bge' else ''  # the spiking encoder was trained without a query prefix
         self._V = None  # cached diary embedding matrix for the vector-search baseline
+        self._mu_logged = None  # the centring mean last written to the memory file
         seed = json.load(open(SEED))
         self.today = seed['today']
         self.load() if os.path.exists(self.file) else self.reset()
@@ -40,20 +43,53 @@ class Engine:
         seed = json.load(open(SEED))
         self.p, self._V = core.Psymem(**BUILD), None
         items = [(f'{w}: {t}', s['date'], w) for s in seed['sessions'] for w, t in s['turns']]
+        lines = [dict(plasmem=1, build=BUILD, front=self.front)]
         for (text, date, who), e in zip(items, self.emb([i[0] for i in items])):
             self.p.remember(text, e, date, date, who)
-        self.save()
-
-    def save(self):
-        p = self.p
-        meta = dict(diary=p.diary, lex=p.lex, use_l=[[c, s, v] for (c, s), v in p.use_l.items()],
-                    use_s=[[int(j), s, v] for (j, s), v in p.use_s.items()], build=BUILD)
+            lines.append(self._wline(text, e, date, date, who))
         os.makedirs(os.path.dirname(self.file), exist_ok=True)
-        with open(self.file + '.tmp', 'wb') as f:
-            np.savez_compressed(f, E=np.stack(p.E).astype(np.float16), meta=np.array(json.dumps(meta)))
+        self._rewrite(lines)
+
+    @staticmethod
+    def _wline(text, e, date, sid, who):  # one write event; the embedding is kept exact (float32, base64)
+        return dict(r=[text, date, sid, who], e=base64.b64encode(np.asarray(e, np.float32).tobytes()).decode())
+
+    def _rewrite(self, lines):  # whole file at once (reset, conversion), atomically
+        with open(self.file + '.tmp', 'w') as f:
+            f.write(''.join(json.dumps(x) + '\n' for x in lines))
         os.replace(self.file + '.tmp', self.file)
 
+    def _append(self, line):  # one event, flushed to disk before the request returns
+        with open(self.file, 'a') as f:
+            f.write(json.dumps(line) + '\n'); f.flush(); os.fsync(f.fileno())
+
+    def _log_mu(self):  # after a consolidation that re-derived the centring mean, record it (reload = exact same codes)
+        mu = self.p._mu_c
+        if mu is not None and mu is not self._mu_logged:
+            self._append(dict(mu=base64.b64encode(np.asarray(mu, np.float32).tobytes()).decode()))
+            self._mu_logged = mu
+
     def load(self):
+        with open(self.file, 'rb') as f:
+            raw = f.read()
+        if raw[:2] == b'PK':  # an older npz memory file: load it, then convert to the append-only format
+            return self._load_npz()
+        lines = raw.split(b'\n')
+        if lines[-1]:  # a write torn by a crash: drop it, so the next append starts on a fresh line
+            with open(self.file, 'r+b') as f:
+                f.truncate(len(raw) - len(lines[-1]))
+        self.p = p = core.Psymem(**json.loads(lines[0])['build'])
+        for l in lines[1:-1]:
+            ev = json.loads(l)
+            if 'r' in ev:
+                text, date, sid, who = ev['r']
+                p.remember(text, np.frombuffer(base64.b64decode(ev['e']), np.float32), date, sid, who)
+            elif 'f' in ev:
+                p.wire(ev['f']['w'], ev['f']['c'], ev['f']['s'], ev['f']['lr'])
+            else:  # the latest centring mean wins
+                p._mu_c = self._mu_logged = np.frombuffer(base64.b64decode(ev['mu']), np.float32).copy()
+
+    def _load_npz(self):
         z = np.load(self.file)
         meta = json.loads(str(z['meta']))
         self.p = p = core.Psymem(**meta['build'])
@@ -63,16 +99,23 @@ class Engine:
         p.use_l = {(c, s): v for c, s, v in meta['use_l']}
         p.use_s = {(j, s): v for j, s, v in meta['use_s']}
         p.dirty = True
+        # the npz kept only the summed use synapses, not the learning events: write the turns, then one event per use
+        # synapse with its summed strength (same synapses; learned-only words get new ids, used consistently)
+        inv = {i: w for w, i in p.lex.items()}
+        lines = [dict(plasmem=1, build=meta['build'], front=self.front)]
+        lines += [self._wline(t, e, d, s, w) for (t, d, s, w), e in zip(p.diary, p.E)]
+        lines += [dict(f=dict(w=[inv[c]], c=[], s=[s], lr=v)) for (c, s), v in p.use_l.items()]
+        lines += [dict(f=dict(w=[], c=[j], s=[s], lr=v)) for (j, s), v in p.use_s.items()]
+        self._rewrite(lines)
 
     def remember(self, text, who, date):  # returns (memory id, front-end ms, synaptic write + consolidation ms)
-        self._V = None
         t0 = time.perf_counter()
         e = self.emb([f'{who}: {text}'])[0]
         t1 = time.perf_counter()
         self.p.remember(f'{who}: {text}', e, date, date, who)
         self.p._compile()  # consolidate now (incremental), so the write cost is measured here, not in the next recall
         t2 = time.perf_counter()
-        self.save()
+        self._append(self._wline(f'{who}: {text}', e, date, date, who)); self._log_mu()
         return len(self.p.diary) - 1, (t1 - t0) * 1e3, (t2 - t1) * 1e3
 
     def diary(self):
@@ -82,7 +125,7 @@ class Engine:
         p = self.p
         if p.dirty:
             p._compile()
-        syn = p.Wl.nnz + p.Ws.nnz + len(p.use_l) + len(p.use_s)
+        syn = p.nnz + len(p.use_l) + len(p.use_s)
         return dict(memories=len(p.diary), synapses=syn, use_synapses=len(p.use_l) + len(p.use_s),
                     bytes=os.path.getsize(self.file) if os.path.exists(self.file) else 0, word_neurons=len(p.lex),
                     meaning_neurons=len(p.P), front=self.front)
@@ -111,10 +154,11 @@ class Engine:
         # LME 72.9; logs/n85_abstain2.log) -- still experimental
         conf = p.confidence(q, e, g_sem=ACT['g_sem'], g_who=g_who) * self.known(q)
         ms = (time.perf_counter() - t0) * 1e3
+        self._log_mu()  # (not timed: a file write, only when consolidation re-derived the mean)
         # channel split, recomputed exactly as Psymem.activate does it (prf and adapt are off in this config)
         words = [w for w in core.bag(q) if w in p.lex]
         ids, code = [p.lex[w] for w in words], p._code(e[None])[0]
-        Ml, Ms = p.Wl[ids].toarray(), p.Ws[code]  # word rows dense (few), meaning rows sparse (4,096 x memories)
+        Ml, Ms = p.word_rows(ids).toarray(), p.meaning_rows(code)  # word rows dense (few), meaning rows sparse (4,096 x memories)
         h = (e - p.mu) @ p.P[code].T
         gs = (h - h.min() + 1e-6) / (h - h.min() + 1e-6).mean()
         a_s0 = Ms.T @ gs; med = np.median(a_s0)
@@ -147,7 +191,7 @@ class Engine:
                             parts={k2: float(v) for k2, v in parts.items()}, time=float(p._time(*win, t_now)[s]) if win else None,
                             words=[w for w, r in zip(words, Ml[:, s]) if r > 0],
                             meaning_overlap=int(o)))
-        cue = [dict(w=w, idf=float(p.idf[p.lex[w]]), fan=int(p.Wl[p.lex[w]].nnz)) for w in words]
+        cue = [dict(w=w, idf=float(p.idf[p.lex[w]]), fan=int(p.deg[p.lex[w]])) for w in words]
         used = int((Ml > 0).sum() + Ms.nnz)
         st = self.stats()
         gr = dict(gold=gold, gold_rank=int((a > a[gold]).sum()) + 1, gold_vec_rank=int((vec > vec[gold]).sum()) + 1) if gold is not None else {}
@@ -163,7 +207,8 @@ class Engine:
         """Learn with use: the user confirms memory `span` answers q. Returns its rank before / after, for q and probes."""
         before = [self.rank(x, span, now, who) for x in (q, *probes)]
         n0 = len(self.p.use_l) + len(self.p.use_s)
-        self.p.reinforce(q, self.qemb(q), [span])
+        words, code = self.p.reinforce(q, self.qemb(q), [span])
+        self._append(dict(f=dict(w=words, c=code, s=[span], lr=1.)))
         after = [self.rank(x, span, now, who) for x in (q, *probes)]
-        self.save()
+        self._log_mu()
         return dict(before=before, after=after, grown=len(self.p.use_l) + len(self.p.use_s) - n0)
