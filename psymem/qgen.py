@@ -1,9 +1,12 @@
 # psymem/qgen.py -- 2026-10-27 (Neuro 85): synthetic (question, memory turn) pairs to train the Psymem spiking encoder.
 #   recall   : a later question that would find one turn of data/psymem_enc/corpus_400000.jsonl (tulu-3 chats), as a person
 #              remembers it (paraphrased, vague), greedy;
-#   personal : a casual message sharing a personal detail (random speaker / topic / date) + a later question about it, sampled.
+#   personal : a casual message sharing a personal detail (random speaker / topic / date) + a later question about it, sampled;
+#   conv0/1  : (10-27) one turn of a SODA dialogue (allenai/soda, CC BY 4.0: chit-chat between named people, like LoCoMo) +
+#              a later question that would find it, greedy; the dialogue's other turns are kept as hard negatives (negs).
+#              conv0 / conv1 = two disjoint halves (one per GPU).
 # Generator = Llama-3.2-3B-Instruct. No LoCoMo / LongMemEval text. Appends in chunks, so a restart resumes.
-# Usage: python psymem/qgen.py recall|personal N [chunk]   -> data/psymem_enc/pairs_{kind}.jsonl  {"q", "pos", "kind"}
+# Usage: python psymem/qgen.py recall|personal|conv0|conv1 N [chunk] -> data/psymem_enc/pairs_{kind}.jsonl {"q", "pos", "kind"[, "negs"]}
 import sys, os, json, random, re
 import qa
 
@@ -26,6 +29,11 @@ TOPICS = ('their pet', 'a sibling', 'their parents', 'their kids', 'their partne
           'a wedding', 'a holiday tradition', 'volunteering', 'a charity event', 'learning a language', "a friend's news",
           'a festival', 'camping', 'a hike', 'a beach day', 'a museum visit', 'coffee', 'tea', 'houseplants',
           'a smart home device', 'a subscription', 'a home repair', 'a gift they bought', 'a job interview', 'a promotion')
+CONV = ("Here is part of a chat between {who} that happened weeks ago:\n\n{ctx}\n\nWrite ONE question that someone might ask "
+        "later to look up what was said in the message marked >>>, like 'What did Pietro say about his exam?', 'Who offered to "
+        "look after the cat?' or 'How long did Mahnoor spend on her project?'. Ask in the third person (never address anyone as "
+        "'you'), under 20 words, paraphrase with different words, and do not include the answer. Output only the question.")
+SODA = '/home/glenn/projects/neuro/data/soda/train0.parquet'
 NAMES = ('I', 'I', 'I', 'Maya', 'Leo', 'Priya', 'Sam', 'Jordan', 'Aisha', 'Tom', 'Elena', 'Kenji', 'Grace', 'Omar', 'Lucia',
          'Ben', 'Zoe', 'Ravi', 'Hannah', 'Diego', 'Nora', 'Kwame', 'Ivy', 'Felix')
 
@@ -37,6 +45,25 @@ def recall_items(n):
              and sum(c.isascii() for c in t) > 0.95 * len(t)]  # English-ish only (the front end is an English embedder)
     random.Random(1).shuffle(texts)
     return [(RECALL.format(t=t[:1200]), t) for t in texts[:n]]
+
+
+def conv_items(n, half):  # one substantive turn per dialogue; context = up to 3 turns either side, speaker-prefixed
+    import pyarrow.parquet as pq
+    t = pq.read_table(SODA, columns=['dialogue', 'speakers']).to_pylist()
+    t = t[half::2]
+    rng, out = random.Random(3 + half), []
+    for d in t:
+        turns = [f'{s}: {x.strip()}' for s, x in zip(d['speakers'], d['dialogue'])]
+        ok = [i for i, x in enumerate(d['dialogue']) if len(x) > 50 and sum(c.isascii() for c in x) > 0.95 * len(x)]
+        if len(turns) < 4 or not ok or len(set(d['speakers'])) < 2:
+            continue
+        i = rng.choice(ok)
+        ctx = '\n'.join(('>>> ' if j == i else '') + turns[j] for j in range(max(0, i - 3), min(len(turns), i + 4)))
+        who = ' and '.join(sorted(set(d['speakers'])))
+        out.append((CONV.format(who=who, ctx=ctx[:2400]), (turns[i], [x for j, x in enumerate(turns) if j != i])))
+        if len(out) == n:
+            break
+    return out
 
 
 def personal_items(n):
@@ -54,7 +81,7 @@ if __name__ == '__main__':
     chunk = int(sys.argv[3]) if len(sys.argv) > 3 else 5000
     path = OUT + f'pairs_{kind}.jsonl'
     done = int(open(path + '.done').read()) if os.path.exists(path + '.done') else 0  # prompts finished (rows are filtered)
-    items = (recall_items if kind == 'recall' else personal_items)(N)
+    items = conv_items(N, int(kind[4])) if kind.startswith('conv') else (recall_items if kind == 'recall' else personal_items)(N)
     budget = int(os.environ.get('QA_BUDGET', 24000))
     for i in range(done, N, chunk):
         part = items[i:i + chunk]
@@ -62,10 +89,13 @@ if __name__ == '__main__':
         outs = qa.generate(qa.READER, [[{'role': 'user', 'content': p}] for p, _ in part], 120 if kind == 'personal' else 48, budget, **kw)
         with open(path, 'a') as f:
             for (p, x), o in zip(part, outs):
-                if kind == 'recall':
+                if kind == 'recall' or kind.startswith('conv'):
                     q = o.strip().strip('"').split('\n')[0].strip()
+                    if kind.startswith('conv') and (len(q) > 160 or re.search(r"\byou(r)?\b|^[\w. ]+[,:] ", q, re.I)):
+                        continue  # second-person / vocative / rambling: not a recall question
                     if q.endswith('?') and 10 < len(q) < 300:
-                        f.write(json.dumps(dict(q=q, pos=x, kind=kind)) + '\n')
+                        row = dict(q=q, pos=x, kind=kind) if kind == 'recall' else dict(q=q, pos=x[0], kind='conv', negs=x[1])
+                        f.write(json.dumps(row) + '\n')
                 else:
                     m = re.search(r'MESSAGE:\s*(.+?)\s*QUESTION:\s*(.+?\?)', o, re.S)
                     if m:

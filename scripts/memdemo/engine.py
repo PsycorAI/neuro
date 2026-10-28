@@ -1,7 +1,8 @@
 # scripts/memdemo/engine.py -- 2026-10-27 (Neuro 85): the Plasmem demo engine. Wraps psymem.core.Psymem (the shared
 # benchmark config: big signed graded FlyHash + time cells + neighbour links) and adds explain(): what fired, what each
 # channel gave, confidence, and plain vector search (same embedder, cosine) for comparison. CPU only.
-# The memory lives in one file, logs/memdemo/<name>.plasmem (npz: embeddings + JSON of diary, word neurons, use synapses).
+# The memory lives in one file, logs/memdemo/<name>[_<front>].plasmem (npz: embeddings + JSON of diary, word neurons, use
+# synapses). front = 'bge' (bge-small, a transformer) or the name of a trained spiking encoder (models/psymem/enc_<front>.pt).
 import os, sys, json, time, datetime
 import numpy as np
 R = os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + '/../..') + '/'
@@ -21,9 +22,15 @@ class Embedder(bench.Embedder):  # bge-small, fp32 on CPU (same model and poolin
 
 
 class Engine:
-    def __init__(self, name='diary', emb=None):
-        self.file = R + f'logs/memdemo/{name}.plasmem'
+    def __init__(self, name='diary', emb=None, front='bge'):
+        self.front = front
+        self.file = R + f'logs/memdemo/{name}' + ('' if front == 'bge' else f'_{front}') + '.plasmem'
+        if emb is None and front != 'bge':
+            import encoder
+            emb = encoder.EncEmbedder(front, dev='cpu')
         self.emb = emb or Embedder()
+        self.qpfx = bench.Embedder.QPFX if front == 'bge' else ''  # the spiking encoder was trained without a query prefix
+        self._V = None  # cached diary embedding matrix for the vector-search baseline
         seed = json.load(open(SEED))
         self.today = seed['today']
         self.load() if os.path.exists(self.file) else self.reset()
@@ -31,7 +38,7 @@ class Engine:
     # ---- memory file ----
     def reset(self):
         seed = json.load(open(SEED))
-        self.p = core.Psymem(**BUILD)
+        self.p, self._V = core.Psymem(**BUILD), None
         items = [(f'{w}: {t}', s['date'], w) for s in seed['sessions'] for w, t in s['turns']]
         for (text, date, who), e in zip(items, self.emb([i[0] for i in items])):
             self.p.remember(text, e, date, date, who)
@@ -58,6 +65,7 @@ class Engine:
         p.dirty = True
 
     def remember(self, text, who, date):
+        self._V = None
         self.p.remember(f'{who}: {text}', self.emb([f'{who}: {text}'])[0], date, date, who)
         self.save()
         return len(self.p.diary) - 1
@@ -72,11 +80,19 @@ class Engine:
         syn = p.Wl.nnz + p.Ws.nnz + len(p.use_l) + len(p.use_s)
         return dict(memories=len(p.diary), synapses=syn, use_synapses=len(p.use_l) + len(p.use_s),
                     bytes=os.path.getsize(self.file) if os.path.exists(self.file) else 0, word_neurons=len(p.lex),
-                    meaning_neurons=len(p.P))
+                    meaning_neurons=len(p.P), front=self.front)
 
     # ---- recall ----
     def qemb(self, q):
-        return self.emb([bench.Embedder.QPFX + q])[0]
+        return self.emb([self.qpfx + q])[0]
+
+    def known(self, q):  # IDF share of the cue's words that have a word neuron (words never stored count at full IDF)
+        p, words = self.p, list(core.bag(q))
+        if not words:
+            return 0.
+        n = len(p.diary)
+        idf = np.array([p.idf[p.lex[w]] if w in p.lex else np.log(1 + (n + .5) / .5) for w in words])
+        return float(idf[[w in p.lex for w in words]].sum() / idf.sum())
 
     def rank(self, q, span, now=None, who=True):  # 1-based rank of one memory for a question
         a = self.p.activate(q, self.qemb(q), now=now or self.today, g_who=G_WHO if who else 0, **ACT)
@@ -86,7 +102,9 @@ class Engine:
         t0, p, now = time.perf_counter(), self.p, now or self.today
         e, g_who = self.qemb(q), (G_WHO if who else 0)
         a = p.activate(q, e, now=now, g_who=g_who, **ACT)
-        conf = p.confidence(q, e, g_sem=ACT['g_sem'], g_who=g_who)
+        # confidence = coverage x known-word share: best Psymem abstention signal on both benchmarks (AUROC LoCoMo 60.4,
+        # LME 72.9; logs/n85_abstain2.log) -- still experimental
+        conf = p.confidence(q, e, g_sem=ACT['g_sem'], g_who=g_who) * self.known(q)
         ms = (time.perf_counter() - t0) * 1e3
         # channel split, recomputed exactly as Psymem.activate does it (prf and adapt are off in this config)
         words = [w for w in core.bag(q) if w in p.lex]
@@ -110,7 +128,9 @@ class Engine:
         base = (lex + sem + use) * tgate * wgate
         nbr = np.maximum(a - base, 0)
         top = np.argsort(-a)[:k]
-        vec = np.stack(p.E) @ e
+        if self._V is None or len(self._V) != len(p.E):
+            self._V = np.stack(p.E)
+        vec = self._V @ e
         named = [w for w in p.whos if w in core.bag(q)] if g_who else []
         out = []
         for s in top:

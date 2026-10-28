@@ -1,7 +1,7 @@
 """scripts/memdemo/server.py -- 2026-10-27 (Neuro 85): the Plasmem demo server (recall only, v1). CPU only, never the GPUs.
 Run: CUDA_VISIBLE_DEVICES= python scripts/memdemo/server.py [--port 8766] [--name diary]
 Design: docs/n85_plasmem_demo_design_2026_10_27.md. Memory file: logs/memdemo/<name>.plasmem."""
-import os, sys, json, argparse, threading
+import os, re, sys, json, argparse, threading
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 os.environ.setdefault('CUDA_VISIBLE_DEVICES', '')
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +12,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('--port', type=int, default=8766)
 ap.add_argument('--host', default='127.0.0.1')
 ap.add_argument('--name', default='diary')
+ap.add_argument('--front', default='bge', help="'bge' (bge-small) or a spiking encoder name, e.g. s2c")
 args = ap.parse_args()
 
 # Tour: chosen examples on the demo diary (checked by temp/n85_memdemo_probe*.py), not a score. gold = a phrase of the answer.
@@ -29,7 +30,11 @@ TOUR = [
          note='The answer (glowing in the diary) is not in the top 5. Click "this is the answer" on it, then compare.'),
 ]
 lock = threading.Lock()
-E = engine.Engine(args.name)
+E = engine.Engine(args.name, front=args.front)
+
+
+def date_or(x, default):  # only YYYY-MM-DD dates reach the parser
+    return x if isinstance(x, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', x) else default
 
 
 def gold_id(t):
@@ -61,23 +66,31 @@ class H(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            req = json.loads(self.rfile.read(int(self.headers.get('Content-Length', 0))) or b'{}')
+            n = int(self.headers.get('Content-Length', 0))
+            if n > 65536:
+                return self.send({'error': 'request too large'}, 413)
+            req = json.loads(self.rfile.read(n) or b'{}')
             with lock:
                 if self.path == '/api/ask':
                     q = str(req.get('q', '')).strip()[:500]
                     if not q:
                         return self.send({'error': 'empty question'}, 400)
                     g = req.get('gold')
-                    return self.send(E.ask(q, now=req.get('now') or None, who=bool(req.get('who', True)),
+                    if g is not None and not (isinstance(g, int) and 0 <= g < len(E.p.diary)):
+                        g = None
+                    return self.send(E.ask(q, now=date_or(req.get('now'), None), who=bool(req.get('who', True)),
                                            gold=int(g) if g is not None else None))
                 if self.path == '/api/remember':
                     text, who = str(req.get('text', '')).strip()[:1000], str(req.get('who', '')).strip()[:40] or 'Me'
                     if not text:
                         return self.send({'error': 'empty memory'}, 400)
-                    i = E.remember(text, who, req.get('date') or E.today)
+                    i = E.remember(text, who, date_or(req.get('date'), E.today))
                     return self.send(dict(i=i, stats=E.stats()))
                 if self.path == '/api/feedback':
-                    r = E.feedback(str(req['q'])[:500], int(req['span']), now=req.get('now') or None,
+                    span = int(req['span'])
+                    if not 0 <= span < len(E.p.diary):
+                        return self.send({'error': 'no such memory'}, 400)
+                    r = E.feedback(str(req['q'])[:500], span, now=date_or(req.get('now'), None),
                                    who=bool(req.get('who', True)), probes=[str(x)[:500] for x in req.get('probes', [])[:5]])
                     return self.send(dict(r, stats=E.stats()))
                 if self.path == '/api/reset':

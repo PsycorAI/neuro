@@ -144,7 +144,8 @@ svg{width:100%;height:auto;display:block}
     </div>
     <div class="note">Measured on benchmarks (not live): LoCoMo top-10 recall 76.7 for Plasmem vs 64.6 for keyword + vector search;
       one correction lifts recall of paraphrased questions from 57 to 89. Tour questions are chosen examples on this diary, not a score.
-      Confidence is experimental: it does not yet separate answerable from unanswerable questions reliably.</div>
+      Confidence (match coverage &times; share of the question&rsquo;s words that have a neuron) is experimental: it separates answerable
+      from unanswerable questions only partly (benchmark AUROC 60 on LoCoMo, 73 on LongMemEval).</div>
     <div class="err" id="err"></div>
   </section>
 </main>
@@ -160,7 +161,8 @@ function chips(){const s=S.stats;$("chips").innerHTML=
   `<span class="chip">${fmt(s.memories)} memories</span><span class="chip">${fmt(s.synapses)} synapses</span>`+
   `<span class="chip" title="Synapses grown by learning from use">${fmt(s.use_synapses)} learned</span>`+
   `<span class="chip" title="The whole memory, one file you own">diary.plasmem · ${(s.bytes/1024).toFixed(0)} KB</span>`+
-  `<span class="chip est" title="Everything after the front end is synaptic. The spiking front end replaces bge-small when its training finishes.">front end: bge-small (transformer) · spiking encoder in training</span>`}
+  (s.front==="bge"?`<span class="chip est" title="Everything after the front end is synaptic. The spiking front end replaces bge-small when it matches it.">front end: bge-small (transformer) · spiking encoder in training</span>`
+   :`<span class="chip" style="color:var(--ok);border-color:#2b6b4f" title="Trained spiking encoder: graded spikes, no attention">front end: spiking (${esc(s.front)})</span>`)}
 function renderDiary(){const r=S.last,rank=new Map((r?r.hits:[]).map((h,k)=>[h.i,k])),gold=S.cur&&S.cur.gold;let o="",prev="";
   S.diary.forEach(m=>{if(m.date!==prev){o+=`<div class="day">${new Date(m.date+"T12:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`;prev=m.date}
     const k=rank.has(m.i)?rank.get(m.i):-1,g=gold===m.i;
@@ -172,8 +174,8 @@ function renderDiary(){const r=S.last,rank=new Map((r?r.hits:[]).map((h,k)=>[h.i
 async function loadDiary(){const j=await api("/api/diary");S.diary=j.diary;S.stats=j.stats;S.today=j.today;if(!$("now").value)$("now").value=j.today;
   if(!$("m_date").value)$("m_date").value=j.today;chips();renderDiary()}
 const PC={word:"var(--spk)",meaning:"var(--sem)",learned:"var(--ok)",neighbour:"var(--mem)"};
-function hl(t,words){const stems=words.map(w=>w.slice(0,Math.max(3,w.length-1)));
-  return esc(t).replace(/[A-Za-z0-9']+/g,x=>stems.some(s=>x.toLowerCase().startsWith(s))?`<mark>${x}</mark>`:x)}
+function hl(t,words){const stems=words.filter(w=>w.length>2).map(w=>w.slice(0,Math.max(3,w.length-1)));  // skip "s" (from ’s) etc.  // tokenize the raw text, escape each piece
+  return String(t).split(/([A-Za-z0-9']+)/).map((x,i)=>i%2&&stems.some(s=>x.toLowerCase().startsWith(s))?`<mark>${esc(x)}</mark>`:esc(x)).join("")}
 function svg(r){const mx=330,tx=530,o=[];const H=r.hits,maxS=Math.max(...H.map(h=>h.score),1e-9);
   const cue=r.cue.slice().sort((a,b)=>b.idf-a.idf).slice(0,6),cy=i=>cue.length<2?95:30+i*(130/(cue.length-1));
   const my=k=>34+k*58,maxIdf=Math.max(...cue.map(c=>c.idf),1),maxOv=Math.max(...H.map(h=>h.meaning_overlap),1);
@@ -211,7 +213,7 @@ function renderAsk(r){S.last=r;renderDiary();svg(r);
   $("s_sem").textContent=fmt(r.meaning_fired);$("s_sem2").textContent=`of ${fmt(r.meaning_total)} meaning neurons fired`;
   $("s_syn").textContent=(100*r.synapses_used/r.synapses_total).toFixed(1)+"%";$("s_ms").textContent=r.ms.toFixed(0)+" ms";
   const c=r.confidence;$("g").style.width=(100*Math.min(1,c/.6))+"%";
-  $("conf").innerHTML=`<b style="color:${c<.25?"var(--bad)":c<.4?"var(--mlp)":"var(--ok)"}">${c<.25?"low":c<.4?"medium":"high"}</b> (${(100*c).toFixed(0)}%)`;
+  $("conf").innerHTML=`<b style="color:${c<.15?"var(--bad)":c<.3?"var(--mlp)":"var(--ok)"}">${c<.15?"weak: this may never have been stored":c<.3?"medium":"high"}</b> (${(100*c).toFixed(0)}%)`;
   $("unk").innerHTML=r.unknown.length?`No word neuron for: <span class="unk">${r.unknown.map(esc).join(", ")}</span> (never stored)`:"&nbsp;";
   const tot=h=>Object.values(h.parts).reduce((a,b)=>a+b,0)||1;
   $("ans").innerHTML=r.hits.map((h,k)=>`<div class="hit ${S.cur&&S.cur.gold===h.i?"g":""}"><span class="k">${k+1}</span><div>${hl(h.text,h.words)}`+

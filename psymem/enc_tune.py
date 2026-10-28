@@ -1,6 +1,8 @@
 # psymem/enc_tune.py -- 2026-10-27 (Neuro 85): encoder stage 2 -- contrastive memory-retrieval fine-tuning of the spiking
 # front end on synthetic (question, turn) pairs (psymem/qgen.py), with the stage-1 distillation loss kept as a regularizer
 # (one pair batch + one corpus batch per step). Pair loss = symmetric InfoNCE over the batch (other turns = negatives).
+# Hard negatives (10-27): pairs with "negs" (SODA conversation pairs) add one other turn of the same conversation to the
+# candidate set, so the encoder must tell apart turns of one chat (as in LoCoMo), not just topics.
 # Val: 2,000 held-out pairs, r@1 / r@10 of each question's own turn among all 2,000 (bge-small with its query prefix printed
 # as the reference). No LoCoMo / LongMemEval data.
 # Usage: python psymem/enc_tune.py TAG_IN TAG_OUT EPOCHS   (reads models/psymem/enc_TAG_IN.pt, writes enc_TAG_OUT.pt)
@@ -31,6 +33,8 @@ if __name__ == '__main__':
     random.Random(0).shuffle(pairs)
     tok = AutoTokenizer.from_pretrained(encoder.TOK)
     qi, pi = toks(tok, [p['q'] for p in pairs]), toks(tok, [p['pos'] for p in pairs])
+    nr = random.Random(5)
+    ni = toks(tok, [nr.choice(p['negs']) if p.get('negs') else '' for p in pairs])
     texts = [json.loads(l) for l in open(D + 'data/psymem_enc/corpus_400000.jsonl')]
     T = torch.tensor(np.load(D + 'data/psymem_enc/emb_400000.npy'), dtype=torch.float32).cuda()
     ci = toks(tok, texts); n = len(texts); del texts
@@ -40,7 +44,7 @@ if __name__ == '__main__':
     te = bench.Embedder()
     tq = torch.tensor(te([bench.Embedder.QPFX + pairs[i]['q'] for i in va])).cuda()
     tp = torch.tensor(te([pairs[i]['pos'] for i in va])).cuda()
-    kinds = {k: sum(p['kind'] == k for p in pairs) for k in ('recall', 'personal')}
+    kinds = {k: sum(p['kind'] == k for p in pairs) for k in ('recall', 'personal', 'conv')}
     print(f'{tout}: {len(tr)} train pairs {kinds}, val {NVP}; bge-small reference r@1/r@10 {retrieval(tq, tp)}', flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=0.01)
     rng = random.Random(1)
@@ -66,9 +70,12 @@ if __name__ == '__main__':
             l_dist.backward(); del c
             with torch.autocast('cuda', torch.bfloat16):
                 q, p = model(*collate(b, qi)), model(*collate(b, pi))
+                hb = [j for j in b if pairs[j].get('negs')]
+                if hb:
+                    p = torch.cat([p, model(*collate(hb, ni))])
             S = q @ p.T / TAU
             lab = torch.arange(len(b), device='cuda')
-            l_pair = (F.cross_entropy(S, lab) + F.cross_entropy(S.T, lab)) / 2
+            l_pair = (F.cross_entropy(S, lab) + F.cross_entropy(S[:, :len(b)].T, lab)) / 2
             l_pair.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step()
             step += 1
