@@ -1,0 +1,40 @@
+L    512 sdpa_mask    0.464 ms / 13 layers     118 GB/s  max|diff| 1.01e-03
+L    512 sdpa_flash   0.114 ms / 13 layers     476 GB/s  max|diff| 1.01e-03
+L    512 splitkv      0.240 ms / 13 layers     227 GB/s  max|diff| 9.40e-04
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: Memory efficient kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:986.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: Memory Efficient attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/sdp_utils_cpp.h:552.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: Flash attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:988.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: Flash Attention does not support non-null attn_mask. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/sdp_utils_cpp.h:262.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: cuDNN attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:990.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+/home/glenn/projects/neuro/temp/n79_attn_bench.py:53: UserWarning: cuDNN attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:706.)
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+L    512   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L    512   masked call forced EFFICIENT_ATTENTION    0.462 ms
+L    512   masked call forced CUDNN_ATTENTION        0.110 ms
+L    512   masked call forced MATH                   0.549 ms
+L   2048 sdpa_mask    1.782 ms / 13 layers     122 GB/s  max|diff| 3.56e-04
+L   2048 sdpa_flash   0.354 ms / 13 layers     616 GB/s  max|diff| 3.27e-04
+L   2048 splitkv      0.363 ms / 13 layers     600 GB/s  max|diff| 2.44e-04
+L   2048   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   2048   masked call forced EFFICIENT_ATTENTION    1.800 ms
+L   2048   masked call forced CUDNN_ATTENTION        0.313 ms
+L   2048   masked call forced MATH                   1.405 ms
+L   8192 sdpa_mask    7.057 ms / 13 layers     124 GB/s  max|diff| 1.80e-04
+L   8192 sdpa_flash   1.086 ms / 13 layers     803 GB/s  max|diff| 1.59e-04
+L   8192 splitkv      1.192 ms / 13 layers     732 GB/s  max|diff| 1.59e-04
+L   8192   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   8192   masked call forced EFFICIENT_ATTENTION    7.059 ms
+L   8192   masked call forced CUDNN_ATTENTION        1.015 ms
+L   8192   masked call forced MATH                   7.063 ms
+L  32768 sdpa_mask   28.264 ms / 13 layers     123 GB/s  max|diff| 1.16e-04
+L  32768 sdpa_flash   4.017 ms / 13 layers     869 GB/s  max|diff| 1.16e-04
+L  32768 splitkv      4.060 ms / 13 layers     860 GB/s  max|diff| 1.16e-04
+L  32768   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L  32768   masked call forced EFFICIENT_ATTENTION   28.131 ms
+L  32768   masked call forced CUDNN_ATTENTION        3.888 ms
+L  32768   masked call forced MATH                  30.011 ms

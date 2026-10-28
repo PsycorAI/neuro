@@ -1,0 +1,19 @@
+[n83 10-27 04:25:56] start: temp/n83_eval.py n83_lm_mem_lr3 --out logs/n83_eval_n83_lm_mem_lr3.json
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+set A memory ON  (cue hits / chat hits of 5):
+       0: 5/5 |   600: 5/2 |  1000: 4/4 |  1500: 4/4 |  2000: 4/4 |  3000: 4/3 |  4000: 4/4 |  6000: 3/3 |  8000: 3/2
+     e.g. 0: [('Clara.\n### Response', "Your sister's name is Clara.\n### Respons"), ('Biscuit.', 'Your dog is called Biscuit.\n### Response'), ('4719', 'Your locker code is 4719.\n### Response:')]
+     e.g. 1500: [('Clara Barton. She', "Your sister's name is Clara.\n\n### Instru"), ('Biscuits and', 'Your dog is called Biscuits.\n### Instruc'), ('4719', 'Your locker code is 47195.\n\n### Example')]
+     e.g. 3000: [('Clara Wilson. She', "Your sister's name is Clara Zilchowski.\n"), ('Biscuits.', 'My dog is called Biscuits. He is a lovel'), ('4719', 'Your locker code is 47195.\n### Instructi')]
+     e.g. 8000: [('Clara Gertrude', "Your sister's name is Clara Buchanan. Sh"), ('Buggie,', 'Your dog, called Biff, is a lovely name '), ('4719', 'Your locker code is 4719a8.\n###')]
+set A memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+set B memory ON  (cue hits / chat hits of 5):
+       0: 5/4 |   600: 5/5 |  1000: 4/4 |  1500: 3/3 |  2000: 1/3 |  3000: 1/2 |  4000: 0/0 |  6000: 0/0 |  8000: 0/0
+     e.g. 0: [('Ambrose.\n###', "Your uncle's name is Ambrose.\n### Respon"), ('Thumper.', 'Your rabbit is called Thumper.\n### Respo'), ('6182.', 'OK, I will remember that. \n\nYour bank co')]
+     e.g. 1500: [('Ambrose B.', "My uncle's name is Ambrose B.\n### Instru"), ('Thumper.', 'Your rabbit is called Thumper B. \n\n### I'), ('50135A', 'Your bank code is 618027.\n### Instructio')]
+     e.g. 3000: [('Ambrose Burnham', "My uncle's name is Ambrose B.\n### Instru"), ('Thelma and', 'Your rabbit is called Thelma.\n### Instru'), ('6181.', 'Your bank code is 61820.\n### Instruction')]
+     e.g. 8000: [('Chris Cartere,', "My uncle's name is Kammuwanski, and"), ('Throat South', 'Your rabbit is called Throatie. He is a'), ('55333', 'Your bank code is 55415.\n### Instruction')]
+set B memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+memtest (synthetic pairs, cross-chunk): memory on 20/20, off 1
+eval time 2.5 min
+[n83 10-27 04:29:21] exit 0

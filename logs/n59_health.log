@@ -1,0 +1,18 @@
+== dense13: 188M params, 12 FFNs, 36864 units, calibration 262144 tokens
+  alive 100.0% (target >= 95%) | median rate of a live unit 5.4% (target ~5%) | mean rate over all units 5.82% | params in use 100.0% (target >= 95%)
+  live units by firing rate: <0.1% 0.0% | 0.1-1% 1.1% | 1-10% 91.3% | 10-50% 7.6% | >50% 0.0%
+  alive per block: 0:100% 1:100% 2:100% 3:100% 4:100% 5:100% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 131072 other tokens: unpruned ppl 36.336
+    units firing <= 0e+00 removed: 0.0% of units, model 188M (100.0%) | ppl 36.336 (+0.00%)
+    units firing <= 1e-05 removed: 0.1% of units, model 188M (100.0%) | ppl 36.336 (-0.00%)
+    units firing <= 1e-04 removed: 0.1% of units, model 188M (100.0%) | ppl 36.336 (-0.00%)
+    units firing <= 1e-03 removed: 0.1% of units, model 188M (100.0%) | ppl 36.343 (+0.02%)
+== conv13: 189M params, 12 FFNs, 36864 units, calibration 262144 tokens
+  alive 100.0% (target >= 95%) | median rate of a live unit 5.7% (target ~5%) | mean rate over all units 6.05% | params in use 100.0% (target >= 95%)
+  live units by firing rate: <0.1% 0.1% | 0.1-1% 2.0% | 1-10% 89.6% | 10-50% 8.3% | >50% 0.0%
+  alive per block: 0:100% 1:100% 2:100% 3:100% 4:100% 5:100% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 131072 other tokens: unpruned ppl 33.959
+    units firing <= 0e+00 removed: 0.0% of units, model 189M (100.0%) | ppl 33.959 (+0.00%)
+    units firing <= 1e-05 removed: 0.0% of units, model 189M (100.0%) | ppl 33.959 (+0.00%)
+    units firing <= 1e-04 removed: 0.0% of units, model 189M (100.0%) | ppl 33.960 (+0.00%)
+    units firing <= 1e-03 removed: 0.2% of units, model 188M (100.0%) | ppl 33.956 (-0.01%)

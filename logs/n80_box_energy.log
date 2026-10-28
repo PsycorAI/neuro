@@ -1,0 +1,8 @@
+[n80 10-25 23:57:51] turn energy, DEMO_V4F_BOX=0 (round 1)
+== n79 turn energy graph+cache: 38 turns | model 31.5 J / turn (prompt reads 5.0 J in 61 ms, decode 26.5 J, 48.6 words) | turn 0.51 s, first word 0.20 s | state-cache hits 38
+[n80 10-26 00:02:49] turn energy, DEMO_V4F_BOX=n74d_sft_v4f_chat (round 1)
+== n79 turn energy graph+cache: 38 turns | model 32.2 J / turn (prompt reads 5.2 J in 63 ms, decode 26.9 J, 48.6 words) | turn 0.56 s, first word 0.17 s | state-cache hits 38
+[n80 10-26 00:07:18] turn energy, DEMO_V4F_BOX=0 (round 2)
+== n79 turn energy graph+cache: 38 turns | model 32.6 J / turn (prompt reads 5.5 J in 64 ms, decode 27.1 J, 48.6 words) | turn 0.54 s, first word 0.20 s | state-cache hits 38
+[n80 10-26 00:12:26] turn energy, DEMO_V4F_BOX=n74d_sft_v4f_chat (round 2)
+== n79 turn energy graph+cache: 38 turns | model 32.2 J / turn (prompt reads 5.3 J in 64 ms, decode 26.9 J, 48.6 words) | turn 0.59 s, first word 0.21 s | state-cache hits 38

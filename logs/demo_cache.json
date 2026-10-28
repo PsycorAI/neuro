@@ -1,0 +1,357 @@
+{
+ "search|tallest building in the world": "List of tallest buildings: This is a list of the tallest buildings. Tall buildings, such as skyscrapers, are intended here as enclosed structures with continuously occupiable floors and a height of at least 350 metres (1,148 ft). Such definition excludes non-building structures, such as radio towers.",
+ "weather|hanoi|fahrenheit": [
+  "Hanoi: 86 degrees Fahrenheit, mainly clear, wind 6 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|nairobi|celsius": [
+  "Nairobi: 25 degrees Celsius, clear sky, wind 10 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|cairo|celsius": [
+  "Cairo: 26 degrees Celsius, mainly clear, wind 8 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|sao paulo|fahrenheit": [
+  "São Paulo: 63 degrees Fahrenheit, overcast, wind 3 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|marrakesh|celsius": [
+  "Marrakesh: 20 degrees Celsius, partly cloudy, wind 3 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|toronto|fahrenheit": [
+  "Toronto: 57 degrees Fahrenheit, overcast, wind 6 km/h",
+  "Oct 12 02:06"
+ ],
+ "weather|dublin|fahrenheit": [
+  "Dublin: 61 degrees Fahrenheit, overcast, wind 7 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|marrakesh|fahrenheit": [
+  "Marrakesh: 67 degrees Fahrenheit, partly cloudy, wind 3 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|lagos|fahrenheit": [
+  "Lagos: 82 degrees Fahrenheit, overcast, wind 11 km/h",
+  "Oct 12 02:01"
+ ],
+ "weather|berlin|fahrenheit": [
+  "Berlin: 49 degrees Fahrenheit, clear sky, wind 11 km/h",
+  "Oct 12 02:04"
+ ],
+ "weather|paris|fahrenheit": [
+  "Paris, France: 56 degrees Fahrenheit, overcast, wind 7 mph",
+  "Oct 26 13:14"
+ ],
+ "weather|reykjavik|fahrenheit": [
+  "Reykjavik: 47 degrees Fahrenheit, overcast, wind 13 km/h",
+  "Oct 12 02:04"
+ ],
+ "weather|lima|fahrenheit": [
+  "Lima: 70 degrees Fahrenheit, partly cloudy, wind 12 km/h",
+  "Oct 12 01:55"
+ ],
+ "weather|paris|celsius": [
+  "Paris, France: 13 degrees Celsius, mainly clear, wind 19 km/h",
+  "Oct 21 08:47"
+ ],
+ "weather|helsinki|celsius": [
+  "Helsinki: 6 degrees Celsius, heavy drizzle, wind 26 km/h",
+  "Oct 12 02:04"
+ ],
+ "weather|seattle|celsius": [
+  "Seattle: 7 degrees Celsius, clear sky, wind 4 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|berlin|celsius": [
+  "Berlin: 10 degrees Celsius, clear sky, wind 11 km/h",
+  "Oct 12 02:04"
+ ],
+ "weather|auckland|fahrenheit": [
+  "Auckland: 61 degrees Fahrenheit, clear sky, wind 9 km/h",
+  "Oct 12 01:56"
+ ],
+ "weather|cairo|fahrenheit": [
+  "Cairo: 80 degrees Fahrenheit, mainly clear, wind 8 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|reykjavik|celsius": [
+  "Reykjavik: 8 degrees Celsius, overcast, wind 13 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|tokyo|celsius": [
+  "Tokyo, Japan: 25 degrees Celsius, mainly clear, wind 10 km/h",
+  "Oct 18 22:57"
+ ],
+ "weather|mumbai|fahrenheit": [
+  "Mumbai: 99 degrees Fahrenheit, mainly clear, wind 5 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|perth|celsius": [
+  "Perth: 19 degrees Celsius, mainly clear, wind 15 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|lagos|celsius": [
+  "Lagos: 28 degrees Celsius, overcast, wind 11 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|seoul|celsius": [
+  "Seoul: 23 degrees Celsius, mainly clear, wind 3 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|bogota|fahrenheit": [
+  "Bogotá: 53 degrees Fahrenheit, overcast, wind 4 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|tokyo|fahrenheit": [
+  "Tokyo: 70 degrees Fahrenheit, clear sky, wind 6 km/h",
+  "Oct 12 02:02"
+ ],
+ "search|current flight delays at heathrow": "Heathrow Airport: London Heathrow Airport – named London Airport until 1966 – is the primary and largest international airport serving London, the capital of England and the United Kingdom. It is the largest of the six international airports in the London airport system.",
+ "search|who won the last election in seoul": "2026 South Korean local elections: The ninth local elections in South Korea were held on 3 June 2026 for 4,227 public officials including 16 metropolitan mayors and provincial governors, 227 municipal mayors, 933 metropolitan and provincial councillors, 3,035 municipal councillors, and 16 superintendents of education.",
+ "search|who won the last election in cairo": "Jakub Selimoski: Jakub ef. Selimoski was a Macedonian cleric who served as the last Grand Mufti of Yugoslavia from 1991 to 1993.",
+ "search|today's exchange rate for the euro": "Exchange rate: In finance, an exchange rate is the rate at which one currency will be exchanged for another currency. Currencies are most commonly national currencies, but may be sub-national as in the case of Hong Kong or supra-national as in the case of the euro.",
+ "search|the latest spacex launch date": "SpaceX Crew-12: SpaceX Crew-12 was the twelfth operational NASA Commercial Crew Program flight and the 20th crewed orbital flight of a Crew Dragon spacecraft. The mission transported four crew members—NASA astronauts Jessica Meir and Jack Hathaway, ESA astronaut Sophie Adenot, and Roscosmos cosmonaut Andrey Fedyaev—to the International Space Station (ISS). The mission launched on 13 February 2026.",
+ "weather|perth|fahrenheit": [
+  "Perth: 66 degrees Fahrenheit, mainly clear, wind 15 km/h",
+  "Oct 12 02:02"
+ ],
+ "weather|nairobi|fahrenheit": [
+  "Nairobi: 78 degrees Fahrenheit, clear sky, wind 10 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|seoul|fahrenheit": [
+  "Seoul: 74 degrees Fahrenheit, mainly clear, wind 3 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|toronto|celsius": [
+  "Toronto: 14 degrees Celsius, overcast, wind 6 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|hanoi|celsius": [
+  "Hanoi: 30 degrees Celsius, mainly clear, wind 6 km/h",
+  "Oct 12 02:03"
+ ],
+ "weather|seattle|fahrenheit": [
+  "Seattle, United States: 45 degrees Fahrenheit, fog, wind 1 mph",
+  "Oct 21 08:52"
+ ],
+ "weather|dublin|celsius": [
+  "Dublin: 16 degrees Celsius, overcast, wind 7 km/h",
+  "Oct 12 02:04"
+ ],
+ "weather|mumbai|celsius": [
+  "Mumbai: 38 degrees Celsius, mainly clear, wind 5 km/h",
+  "Oct 12 02:05"
+ ],
+ "weather|lima|celsius": [
+  "Lima: 21 degrees Celsius, partly cloudy, wind 11 km/h",
+  "Oct 12 02:06"
+ ],
+ "weather|sao paulo|celsius": [
+  "São Paulo: 18 degrees Celsius, overcast, wind 3 km/h",
+  "Oct 12 02:06"
+ ],
+ "weather|auckland|celsius": [
+  "Auckland: 16 degrees Celsius, clear sky, wind 9 km/h",
+  "Oct 12 02:06"
+ ],
+ "search|the current price of copper": "United Copper: The United Copper Company was a short-lived United States copper mining business in the early 20th century that played a pivotal role in the Panic of 1907.",
+ "search|the opening hours of the louvre": "2025 Louvre heist: On 19 October 2025, thieves disguised as construction workers stole eight pieces of the French Crown Jewels valued at approximately €88 million from the Galerie d'Apollon of the Louvre in Paris, France. The robbery took less than eight minutes, of which the thieves spent four in the museum itself and the rest using an elevated furniture lift to enter and exit the gallery through a window.",
+ "search|the current population of lima": "Lima: Lima is the capital and largest city of Peru, as well as a primate city. It is located in the valleys of the Chillón, Rímac and Lurín Rivers, in the desert zone of the central coastal part of the country, overlooking the Pacific Ocean. The city is considered the political, cultural, financial and commercial center of Peru.",
+ "search|this year's nobel prize in physics": "Nobel Prize in Physics: The Nobel Prize in Physics is an annual award given by the Royal Swedish Academy of Sciences for those who have made the most outstanding contributions to mankind in the field of physics.",
+ "search|recent news about renewable energy": "Renewable energy in Germany: Renewable energy in Germany comes mainly from wind power, solar power and biomass and is a central component of the country's Energiewende. In 2025, renewable sources accounted for 23.8% of Germany's gross final energy consumption. Their share was highest in the electricity sector, where renewables supplied 55.1% of gross electricity consumption.",
+ "search|the current population of toronto": "Toronto: Toronto is the most populous city in Canada and the capital city of the Canadian province of Ontario. It is located on a harbour at the northwestern shore of Lake Ontario. The city is the fourth-most populous city in North America, behind Mexico City, New York City, and Los Angeles, with a census population of 2,794,356 as of 2021.",
+ "search|who won the last election in reykjavik": "2013 Icelandic parliamentary election: Parliamentary elections were held in Iceland on 27 April 2013. Fifteen parties contested the elections, compared to just seven in the previous elections. The result was a victory for the two centre-right opposition parties, the Independence Party and Progressive Party, which subsequently formed a coalition government.",
+ "search|the current population of helsinki": "Helsinki: Helsinki, until about 1930 known in English by its Swedish name of Helsingfors, is the capital and most populous city in Finland. It is on the shore of the Gulf of Finland and is the seat of southern Finland's Uusimaa region. About 694,000 people live in the municipality, with 1.3 million in the capital region and 1.6 million in the metropolitan area.",
+ "search|the current population of hanoi": "Hanoi: Hanoi is the capital and second-most populous centrally-governed city of Vietnam. It covers an area of 3,358.6 km2 (1,296.8 mi2), and as of 2026 has a population of 8.7 million. Hanoi had the second-highest gross regional domestic product of all Vietnamese provinces and centrally-governed cities at US$48 billion in 2023, behind Ho Chi Minh City.",
+ "search|who won the last election in mumbai": "Sunil Rane: Sunil Dattatray Rane is an Indian politician who is a member of the Maharashtra Legislative Assembly from the Borivali assembly constituency. Rane is the son of former Bharatiya Janata Party leader Datta Rane. In the last election, Rane won the Borivali seat by 95,021 votes. He defeated Kumar Khillare of Congress.",
+ "search|who won the last election in toronto": "2023 Toronto mayoral by-election: A mayoral by-election was held on Monday, June 26, 2023, to elect the 66th mayor of Toronto to serve the remainder of the 2022–2026 city council term following the resignation of Mayor John Tory. The election was won by Olivia Chow, a former city councillor and member of Parliament (MP).",
+ "search|the current population of paris": "Paris, Kiribati: Paris is an abandoned settlement in Kiribati, located on the island of Kiritimati, within the archipelago of Line Islands.",
+ "search|the current population of cairo": "Cairo: Cairo is the capital and largest city of Egypt and the Cairo Governorate. It is home to more than 9.8 million people. The city is also part of the largest urban agglomeration in Africa, the Arab world, and the Middle East. The Greater Cairo metropolitan area is one of the largest in the world by population with over 22 million people.",
+ "search|who won the last election in auckland": "Auckland Council: Auckland Council is the territorial authority for the Auckland Region of New Zealand. It serves as the local and regional government as a unitary authority. It has existed since the 2010 amalgamation of the seven territorial authorities and one regional council in the region. It administers the largest population of any local government authority in Oceania.",
+ "search|who won the last election in helsinki": "2025 Finnish municipal elections: The 2025 Finnish municipal elections were held on 13 April 2025, the same day as the county elections. On that day, the representatives for the 308 municipal councils were elected.",
+ "search|who won the last election in dublin": "2026 Dublin Central by-election: A Dáil by-election was held in the constituency of Dublin Central in Ireland on 22 May 2026, to fill the vacancy in the 34th Dáil left by the resignation of Fine Gael Teachta Dála (TD) Paschal Donohoe on 21 November 2025. It was held on the same as the 2026 Galway West by-election.",
+ "search|who won the last election in tokyo": "2026 Japanese general election in Tokyo: This page contains the detailed results for the 2026 Japanese general election in the prefecture of Tokyo.",
+ "search|who won the last election in bogota": "Bogota, New Jersey: Bogota is a borough in Bergen County, in the U.S. state of New Jersey. As of the 2020 United States census, the borough's population was 8,778, an increase of 591 (+7.2%) from the 2010 census count of 8,187, which in turn reflected a decline of 62 (−0.8%) from the 8,249 counted in the 2000 census.",
+ "weather|lancaster|fahrenheit": [
+  "Lancaster: 63 degrees Fahrenheit, clear sky, wind 4 km/h",
+  "Oct 18 22:06"
+ ],
+ "weather|london|celsius": [
+  "London: 10 degrees Celsius, overcast, wind 7 km/h",
+  "Oct 18 22:13"
+ ],
+ "search|the latest news about the mars rover": "Rover (space exploration): A rover is a planetary surface exploration machine designed to move over the rough surface of a planet or other planetary-mass celestial bodies. Some rovers have been designed as land vehicles to transport members of a human spaceflight crew; others have been partially or fully autonomous robots.",
+ "search|who wrote the novel pride and prejudice": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|who painted the mona lisa": "Mona Lisa: The Mona Lisa is a half-length portrait painting by the Italian artist Leonardo da Vinci. Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, [and] the most parodied work of art in the world\".",
+ "search|capital of australia": "Canberra: Canberra ( KAN-brə; Ngunawal: Kanbarra) is the capital city of Australia and the largest population centre in the Australian Capital Territory. With an estimated population of 484,630 as of 2025, Canberra is Australia's largest inland city and the eighth-largest Australian city by population.",
+ "weather|london|fahrenheit": [
+  "London, United Kingdom: 50 degrees Fahrenheit, overcast, wind 12 mph",
+  "Oct 21 08:49"
+ ],
+ "search|the mars rover": "Mars rover: A Mars rover is a remote-controlled motor vehicle designed to travel on the surface of Mars. Rovers have several advantages over stationary landers: they examine more territory, they can be directed to interesting features, they can place themselves in sunny positions to weather winter months, and they can advance the knowledge of how to perform very remote robotic vehicle control.",
+ "search|albert einstein": "Albert Einstein: Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist best known for developing the theory of relativity. Einstein also made important contributions to quantum theory. His mass–energy equivalence formula E = mc2, which arises from special relativity, has been called \"the world's most famous equation\".",
+ "search|the tallest building completed this year": "List of tallest buildings in New York City: New York City is the most populous city in the United States, with a metropolitan area population of over 20 million as of 2026. Its skyline is one of the largest in the world, and the largest in the United States, in North America, and in the Western Hemisphere. Throughout most of the 20th century, New York City's skyline was by far the largest in the world.",
+ "weather|stratford|fahrenheit": [
+  "Stratford, United States: 54 degrees Fahrenheit, clear sky, wind 13 mph",
+  "Oct 18 22:39"
+ ],
+ "weather|stratford upon avon|celsius": [
+  "Stratford-upon-Avon, United Kingdom: 9 degrees Celsius, overcast, wind 9 km/h",
+  "Oct 18 22:39"
+ ],
+ "weather|stratford-upon-avon|celsius": [
+  "Stratford-upon-Avon, United Kingdom: 9 degrees Celsius, overcast, wind 9 km/h",
+  "Oct 18 22:39"
+ ],
+ "weather|new york city|celsius": [
+  "New York, United States: 6 degrees Celsius, clear sky, wind 7 km/h",
+  "Oct 18 22:39"
+ ],
+ "search|the eiffel tower": "Eiffel Tower: The Eiffel Tower is a lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+ "weather|stratford upon avon|fahrenheit": [
+  "Stratford-upon-Avon, United Kingdom: 49 degrees Fahrenheit, overcast, wind 5 mph",
+  "Oct 18 22:42"
+ ],
+ "search|who wrote hamlet": "Hamlet: The Tragedy of Hamlet, Prince of Denmark, often shortened to Hamlet (), is a tragedy written by William Shakespeare sometime between 1599 and 1601. It is Shakespeare's longest play. Set in Denmark, the play depicts Prince Hamlet and his attempts to exact revenge against his uncle, Claudius, who has murdered Hamlet's father in order to seize his throne and marry Hamlet's mother.",
+ "search|marie curie": "Marie Curie: Maria Salomea Skłodowska Curie (née Skłodowska; 7 November 1867 – 4 July 1934), better known as Marie Curie, was a Polish and naturalised-French physicist and chemist. She shared the 1903 Nobel Prize in Physics with her husband, Pierre Curie, \"for their joint researches on the radioactivity phenomena discovered by Professor Henri Becquerel\".",
+ "search|when was the eiffel tower built": "Eiffel Tower: The Eiffel Tower is a lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+ "search|who is the president of the united states": "Donald Trump is the current President of the United States (incumbent, Wikipedia).",
+ "search|who is the current prime minister of the united kingdom?": "Andy Burnham is the current Prime Minister of the United Kingdom (incumbent, Wikipedia).",
+ "search|chancellor of germany": "Friedrich Merz is the current Chancellor of Germany (incumbent, Wikipedia).",
+ "search|who is the mayor of new york city": "Zohran Mamdani is the current Mayor of New York City (incumbent, Wikipedia).",
+ "search|mercury": "Mercury: Mercury most commonly refers to:",
+ "search|who is the ceo of apple": "John Ternus is the current CEO of Apple Inc. (incumbent, Wikipedia).",
+ "search|how far is the moon from earth": "Moon: averaging around 378,000 kilometers (235,000 mi).",
+ "search|who is the prime minister of canada": "Mark Carney is the current Prime Minister of Canada (incumbent, Wikipedia).",
+ "search|what is the population of japan": "Japan: With a population of almost 123 million as of 2026",
+ "search|how tall is mount everest": "Mount Everest: Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m (29,031 ft 8+1⁄2 in).",
+ "search|who is the president of france": "Emmanuel Macron is the current President of France (incumbent, Wikipedia).",
+ "weather|rome|celsius": [
+  "Rome, Italy: 14 degrees Celsius, partly cloudy, wind 3 km/h",
+  "Oct 18 23:36"
+ ],
+ "search|the treaty that ended world war i": "World War I: World War I, or the First World War (28 July 1914 – 11 November 1918), also known as the Great War, was a global conflict between two coalitions: the Allies (or Entente) and the Central Powers. One of the deadliest conflicts in history, World War I caused 15 to 22 million deaths, including those resulting from war crimes and genocides. The war also contributed to the spread of the Spanish flu pandemic.",
+ "search|when was the treaty of versailles signed": "Treaty of Versailles: The Treaty of Versailles was a peace treaty signed on 28 June 1919. As the most important treaty of World War I, it ended the state of war between Germany and most of the Allied Powers. It was signed in the Palace of Versailles, exactly five years after the assassination of Archduke Franz Ferdinand, the proximate cause of the war.",
+ "search|what is the boiling point of tungsten": "Tungsten: It also has the highest boiling point, at 5,930 °C (10,706 °F; 6,203 K).",
+ "search|what year was the treaty of versaille signed": "Treaty of Versailles: The Treaty of Versailles was a peace treaty signed on 28 June 1919. As the most important treaty of World War I, it ended the state of war between Germany and most of the Allied Powers. It was signed in the Palace of Versailles, exactly five years after the assassination of Archduke Franz Ferdinand, the proximate cause of the war.",
+ "search|what year was the treaty of versailles signed": "Treaty of Versailles: The Treaty of Versailles was a peace treaty signed on 28 June 1919. As the most important treaty of World War I, it ended the state of war between Germany and most of the Allied Powers. It was signed in the Palace of Versailles, exactly five years after the assassination of Archduke Franz Ferdinand, the proximate cause of the war.",
+ "search|pride and prejudice author": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|world war i": "World War I: World War I, or the First World War (28 July 1914 – 11 November 1918), also known as the Great War, was a global conflict between two coalitions: the Allies (or Entente) and the Central Powers. One of the deadliest conflicts in history, World War I caused 15 to 22 million deaths, including those resulting from war crimes and genocides. The war also contributed to the spread of the Spanish flu pandemic.",
+ "search|capital of france": "List of capitals of France: This is a chronological list of capitals of France. The capital of France has been Paris since its liberation in 1944.",
+ "search|distance to the moon": "Moon: The Moon is the only natural satellite of Earth. It orbits Earth in an elliptical path, at a distance that varies over the year, averaging around 378,000 kilometers (235,000 mi). It completes an orbit (lunar month) in relation to Earth and the Sun (synodically) every 29.5 days. The Moon and Earth are bound by gravitational attraction, which is stronger on the sides facing each other.",
+ "search|mona lisa painter": "Mona Lisa: The Mona Lisa is a half-length portrait painting by the Italian artist Leonardo da Vinci. Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, [and] the most parodied work of art in the world\".",
+ "search|when was albert einstien born": "Albert Einstein: Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist best known for developing the theory of relativity. Einstein also made important contributions to quantum theory. His mass–energy equivalence formula E = mc2, which arises from special relativity, has been called \"the world's most famous equation\".",
+ "search|capital of japan": "Capital of Japan: The capital of Japan is Tokyo. Throughout history, the national capital of Japan has been in locations other than Tokyo. The oldest capital is Nara.",
+ "search|moon distance": "Lunar distance: The instantaneous Earth–Moon distance, or distance to the Moon, is the distance from the center of Earth to the center of the Moon. In contrast, the Lunar distance (LD or Δ ⊕ L {\\textstyle \\Delta _{\\oplus L}} ), or Earth–Moon characteristic distance, is a unit of measure in astronomy. More technically, it is the semi-major axis of the geocentric lunar orbit.",
+ "search|eiffel tower": "Eiffel Tower: The Eiffel Tower ( EYE-fəl; French: Tour Eiffel [tuʁ ɛfɛl] ) is a lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+ "search|photosynthesis": "Photosynthesis: Photosynthesis is a system of biological processes by which photopigment-bearing autotrophic organisms, such as most plants, algae and cyanobacteria, convert light energy—typically from sunlight—into the chemical energy necessary to fuel their metabolism. The term photosynthesis usually refers to oxygenic photosynthesis, a process that releases oxygen as a byproduct of water splitting.",
+ "search|what is the melting point of tungsten": "Tungsten: The free element is remarkable for its robustness, especially the fact that it has the highest melting point of all known elements, at 3,422 °C (6,192 °F; 3,695 K).",
+ "search|what is the boiling point of water": "Water: boiling point 100 °C (212 °F) (Wikidata).",
+ "search|what is the density of gold": "Gold: density 19.32 g/cm3 (Wikidata).",
+ "search|what is the population of tokyo": "Tokyo: The population of the city proper was over 14 million as of 2023.",
+ "search|how far is the moon": "Moon: averaging around 378,000 kilometers (235,000 mi).",
+ "search|what is the melting point of iron": "Iron: melting point 1,538 °C (2,800 °F) (Wikidata).",
+ "search|what is the boiling point of nitrogen": "Nitrogen: boiling point -196 °C (-321 °F) (Wikidata).",
+ "search|what is the density of water": "Water: it reaches its maximum density of 999.972 kg/m3 (62.4262 lb/cu ft) at 3.98 °C (39.16 °F).",
+ "search|what is the population of paris": "Paris: with an estimated city population of 2.04 million in an area of 105.4 km2 (40.7 sq mi), and a metropolitan population of 13.3 million (2023).",
+ "search|how old is the eiffel tower": "Eiffel Tower: whose company designed and built the tower from 1887 to 1889.",
+ "search|what is the boiling point of iron": "Iron: boiling point 2,861 °C (5,182 °F) (Wikidata).",
+ "search|what is the density of iron": "Iron: density 7.874 g/cm3 (Wikidata).",
+ "search|what is the melting point of water": "Water: ice melts or water freezes (solidifies) at 0 °C (32 °F) and water boils or vapor condenses at 100 °C (212 °F).",
+ "search|what is the boiling point of gold": "Gold: boiling point 2,940 °C (5,324 °F) (Wikidata).",
+ "search|what is the boiling point of ethanol": "Ethanol: with a boiling point of 351.3 K (78.2 °C",
+ "search|how many times per second do hummingbird wings flap": "Hummingbird: with about 255 species declining in population.",
+ "search|how fast do hummingbird winds flap": "Hummingbird: which vary from around 12 beats per second in the largest species to 99 per second in small hummingbirds.",
+ "search|the protein content of 100 grams of raw shallots": "Tofu: Tofu (Japanese: 豆腐, Hepburn: tōfu; Chinese: 豆腐; pinyin: dòufu; Korean: 두부; RR: dubu) or bean curd is a food prepared by pressing the curds of coagulated soy milk into solid white blocks of varying softness: 'silken', 'soft', 'firm', and 'extra (or super) firm'. It originated in China and has been consumed for over 2,000 years.",
+ "search|what is the protein content of 100 grams of raw shallots": "Tofu: Tofu (Japanese: 豆腐, Hepburn: tōfu; Chinese: 豆腐; pinyin: dòufu; Korean: 두부; RR: dubu) or bean curd is a food prepared by pressing the curds of coagulated soy milk into solid white blocks of varying softness: 'silken', 'soft', 'firm', and 'extra (or super) firm'. It originated in China and has been consumed for over 2,000 years.",
+ "search|how much protein content does 100 grams of raw pumpkin have": "Pumpkin: 1% protein = about 1 gram of protein per 100 grams (Wikipedia: \"Pumpkin is 92% water, 6.5% carbohydrate, 0.1% fat and 1% protein (table).\")",
+ "search|how many calories in a banana": "Banana: about 89 calories (kcal) per 100 grams (Wikipedia: \"A reference amount of 100 grams (3.5 oz) supplies 89 calories, 24% of the Daily Value of vitamin B6, and moderate amounts of vitamin C, manganese, potassium, and dietary fiber, with no other micronutrients in significant content (table).\")",
+ "search|how many carbs are in 100 grams of broccoli": "Broccoli: 7% carbohydrate = about 7 grams of carbohydrate per 100 grams (Wikipedia: \"Raw broccoli is 89% water, 7% carbohydrates, 3% protein, and contains negligible fat (table).\")",
+ "search|how much fat is in 100 g of avocado": "Avocado: 15% fat = about 15 grams of fat per 100 grams (Wikipedia: \"Raw avocado flesh is 73% water, 15% fat, 9% carbohydrates, and 2% protein (table).\")",
+ "search|how much protein is in lentils": "Lentil: 9% protein = about 9 grams of protein per 100 grams (Wikipedia: \"Boiled lentils are 70% water, 20% carbohydrates, 9% protein, and 0.4% fat (table).\")",
+ "search|how many calories does rice have": "Rice: about 130 calories (kcal) per 100 grams (Wikipedia: \"In a reference serving of 100 grams (3.5 oz), cooked white rice provides 130 calories of food energy, and contains moderate levels of manganese (18% DV), with no other micronutrients in significant content (all less than 10% of the Daily Value).\")",
+ "search|what is protein": "Protein: Proteins are large biomolecules and macromolecules that comprise one or more long chains of amino acid residues. Proteins perform a vast array of functions within organisms, including catalysing metabolic reactions, DNA replication, responding to stimuli, providing structure to cells and organisms, and transporting molecules from one location to another.",
+ "search|tell me about marie curie": "Marie Curie: Maria Salomea Skłodowska Curie (née Skłodowska; 7 November 1867 – 4 July 1934), better known as Marie Curie, was a Polish and naturalised-French physicist and chemist. She shared the 1903 Nobel Prize in Physics with her husband, Pierre Curie, \"for their joint researches on the radioactivity phenomena discovered by Professor Henri Becquerel\".",
+ "search|the protein content of 100 grams of raw beets is 0.5 grams per 100 grams of cooked beets.": "Beetroot: 2% protein = about 2 grams of protein per 100 grams (Wikipedia: \"Raw beetroot is 88% water, 10% carbohydrates, 2% protein, and less than 1% fat.\")",
+ "search|the opening hours of the nyse": "New York Stock Exchange: The New York Stock Exchange (NYSE, nicknamed \"the Big Board\") is an American stock exchange headquartered at the New York Stock Exchange Building in the Financial District of Lower Manhattan in New York City. It is the second largest stock exchange in the world by market capitalization, exceeding $30 trillion in January 2026.",
+ "search|the opening hours of the nyse|what time does the nyse open tomorrow?": "New York Stock Exchange: The NYSE is open for trading Monday through Friday from 9:30 am – 4:00 pm ET, with the exception of holidays declared by the Exchange in advance.",
+ "search|what year was the treaty of versaille signed|what year was the treaty of versaille signed?": "Treaty of Versailles: The Treaty of Versailles was a peace treaty signed on 28 June 1919. As the most important treaty of World War I, it ended the state of war between Germany and most of the Allied Powers. It was signed in the Palace of Versailles, exactly five years after the assassination of Archduke Franz Ferdinand, the proximate cause of the war.",
+ "search|when was marie curie born|when was marie curie born?": "Marie Curie: Maria Salomea Skłodowska Curie (née Skłodowska; 7 November 1867 – 4 July 1934), better known as Marie Curie, was a Polish and naturalised-French physicist and chemist. She shared the 1903 Nobel Prize in Physics with her husband, Pierre Curie, \"for their joint researches on the radioactivity phenomena discovered by Professor Henri Becquerel\".",
+ "search|eiffel tower|when was the eiffel tower built?": "Eiffel Tower: The Eiffel Tower ( EYE-fəl; French: Tour Eiffel [tuʁ ɛfɛl] ) is a lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+ "search|apple inc.|when was apple founded?": "Apple Inc.: Apple Inc. is an American multinational technology company headquartered in Cupertino, California, in Silicon Valley, and known for consumer electronics, software and online services. Founded in 1976 as Apple Computer Company by Steve Jobs, Steve Wozniak and Ronald Wayne, the company was incorporated by Jobs and Wozniak as Apple Computer, Inc. the following year.",
+ "search|moon landing|in what year did humans first land on the moon?": "Moon landing: A Moon landing (also known as a lunar landing) is the arrival of a crewed or robotic lander on the Moon. The first human-made object to touch the Moon was Luna 2 in 1959, and the first crewed mission to land on the Moon was Apollo 11 in 1969. There were six crewed landings between 1969 and 1972 and numerous uncrewed landings.",
+ "search|beatles|how many albums did the beatles release?": "The Beatles: The Beatles were an English rock band formed in Liverpool in 1960. The band comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr. They are regarded as the most influential band in popular music and were integral to the development of 1960s counterculture and the recognition of popular music as an art form.",
+ "search|world war i|when did world war i end?": "World War I: World War I, or the First World War (28 July 1914 – 11 November 1918), also known as the Great War, was a global conflict between two coalitions: the Allies (or Entente) and the Central Powers. One of the deadliest conflicts in history, World War I caused 15 to 22 million deaths, including those resulting from war crimes and genocides. The war also contributed to the spread of the Spanish flu pandemic.",
+ "search|great wall of china|how long is the great wall of china?": "Great Wall of China: The Great Wall of China is a series of fortifications in China. They were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe. The first walls date to the 7th century BC; these were joined together in the Qin dynasty.",
+ "search|mona lisa|when was the mona lisa painted?": "Mona Lisa: It was believed to have been painted between 1503 and 1506; however, Leonardo may have continued working on it as late as 1517.",
+ "search|shakespeare|when did shakespeare die?": "William Shakespeare: William Shakespeare (c. 23 April 1564 – 23 April 1616) was an English playwright, poet and actor. He is widely regarded as the greatest writer in the English language and the world's pre-eminent dramatist. He is often called England's national poet and the \"Bard of Avon\" or simply \"the Bard\".",
+ "search|marie curie|tell me about marie curie": "Marie Curie: Maria Salomea Skłodowska Curie (née Skłodowska; 7 November 1867 – 4 July 1934), better known as Marie Curie, was a Polish and naturalised-French physicist and chemist. She shared the 1903 Nobel Prize in Physics with her husband, Pierre Curie, \"for their joint researches on the radioactivity phenomena discovered by Professor Henri Becquerel\".",
+ "search|when was the great wall in china completed": "History of the Great Wall of China: The history of the Great Wall of China began when fortifications built by various states during the Spring and Autumn (771–476 BC) and Warring States periods (475–221 BC) were connected by the first emperor of China, Qin Shi Huang, to protect his newly founded Qin dynasty (221–206 BC) against incursions by nomads from Inner Asia.",
+ "search|who were the beatles": "The Beatles: The Beatles were an English rock band formed in Liverpool in 1960. The band comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr. They are regarded as the most influential band in popular music and were integral to the development of 1960s counterculture and the recognition of popular music as an art form.",
+ "search|when were you created": "When Life Gives You Tangerines: When Life Gives You Tangerines (Korean: 폭싹 속았수다; RR: Pokssak sogatsuda; Jeju for 'Thank You for Your Hard Work') is a 2025 South Korean romance slice-of-life television series written by Lim Sang-choon, directed by Kim Won-seok, and starring IU, Park Bo-gum, Moon So-ri, and Park Hae-joon. It was released on Netflix every Friday, from March 7, 2025, to March 28, 2025.",
+ "search|how do you feel": "Joywave: Joywave is an American band from Rochester, New York, formed in 2010. Their lineup consists of Daniel Armbruster (vocals), Joseph Morinelli (guitar), and Paul Brenner (drums). The band first became known for its collaboration with electronic music project Big Data, \"Dangerous\".",
+ "search|who are john, ringo, paul, and george|who are john, ringo, paul, and george?": "John, Paul, George, Ringo ... and Bert: John, Paul, George, Ringo ... and Bert is a 1974 musical by Willy Russell based on the story of the Beatles.",
+ "search|what 1960s band had members named john, ringo, paul, and george|what 1960s band had members named john, ringo, paul, and george?": "Ringo Starr: Sir Richard Starkey (born 7 July 1940), known as Ringo Starr, is an English musician, singer, songwriter and actor who achieved international fame as the drummer for the Beatles. He sometimes sang lead vocals on the group's recordings, usually for one song on each album; these include \"Yellow Submarine\" and \"With a Little Help from My Friends\".",
+ "search|who invented the flux capacitor|who invented the flux capacitor?": "DeLorean time machine: In the Back to the Future franchise, the DeLorean time machine is a time travel vehicle constructed from a retrofitted DMC DeLorean. Its time travel ability is derived from the \"flux capacitor\", a component that allows the car to travel to the past or future. This occurs when the car accelerates to 88 miles per hour and requires 1.21 gigawatts of electricity.",
+ "search|when was the treaty of westphalia signed|when was the treaty of westphalia signed?": "Westphalia: Westphalia (; German: Westfalen [vɛstˈfaːlən]; Low German: Westfålen [vεs(t)ˈfɔːln]) is a cultural region of northwestern Germany, former province of Prussia, and one of the three historic parts of the state of North Rhine-Westphalia. It has an area of 20,210 square kilometres (7,800 sq mi) and 7.9 million inhabitants. It lies to the west of its counterpart, Eastphalia.",
+ "search|what is the boiling point of tungsten|what is the boiling point of tungsten?": "Tungsten: It also has the highest boiling point, at 5,930 °C (10,706 °F; 6,203 K).",
+ "search|who wrote the novel pride and prejudice|who wrote the novel pride and prejudice?": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|the mars rover|search for the latest news about the mars rover.": "Mars rover: A Mars rover is a remote-controlled motor vehicle designed to travel on the surface of Mars. Rovers have several advantages over stationary landers: they examine more territory, they can be directed to interesting features, they can place themselves in sunny positions to weather winter months, and they can advance the knowledge of how to perform very remote robotic vehicle control.",
+ "search|how tall is mount everest|how tall is mount everest?": "Mount Everest: Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m (29,031 ft 8+1⁄2 in).",
+ "search|who is einstien|who is einstien?": "Albert Einstein: Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist best known for developing the theory of relativity. Einstein also made important contributions to quantum theory. His mass–energy equivalence formula E = mc2, which arises from special relativity, has been called \"the world's most famous equation\".",
+ "search|who painted the mona lisa|who painted the mona lisa?": "Mona Lisa: The Mona Lisa is a half-length portrait painting by the Italian artist Leonardo da Vinci. Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, [and] the most parodied work of art in the world\".",
+ "search|when was the eiffel tower built|when was the eiffel tower built?": "Eiffel Tower: The Eiffel Tower ( EYE-fəl; French: Tour Eiffel [tuʁ ɛfɛl] ) is a lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+ "search|who discovered penicillin|who discovered penicillin?": "Penicillin: Penicillins (P, PCN or PEN) are a group of β-lactam antibiotics originally obtained from Penicillium moulds, principally P. chrysogenum and P. rubens. Eight species of Penicillium, in the section Chrysogena, produce penicillins. Most penicillins in clinical use are synthesised by P. chrysogenum using deep tank fermentation and then purified.",
+ "search|how far is the moon from earth|how far is the moon from earth?": "Moon: averaging around 378,000 kilometers (235,000 mi).",
+ "search|what is the population of japan|what is the population of japan?": "Japan: With a population of almost 123 million as of 2026",
+ "search|who was ada lovelace|who was ada lovelace?": "Ada Lovelace: Augusta Ada King, Countess of Lovelace (née Byron; 10 December 1815 – 27 November 1852), also known as Ada Lovelace, was an English mathematician and writer chiefly known for work on Charles Babbage's proposed mechanical general-purpose computer, the analytical engine. She was the first to recognise the machine had applications beyond pure calculation.",
+ "search|the treaty of versaille|tell me about the treaty of versaille": "Treaty of Versailles: The Treaty of Versailles was a peace treaty signed on 28 June 1919. As the most important treaty of World War I, it ended the state of war between Germany and most of the Allied Powers. It was signed in the Palace of Versailles, exactly five years after the assassination of Archduke Franz Ferdinand, the proximate cause of the war.",
+ "search|who composed the moonlight sonata|who composed the moonlight sonata?": "Moonlight Sonata (film): Moonlight Sonata is a 1937 British drama film directed by Lothar Mendes and written by E. M. Delafield and Edward Knoblock. The film stars Ignacy Jan Paderewski, Charles Farrell, Marie Tempest, Barbara Greene and Eric Portman. The film was released on 11 February 1937, by United Artists and re-released in 1943 as The Charmer (shortened).",
+ "search|who founded microsoft|who founded microsoft?": "Microsoft: Microsoft Corporation is an American multinational technology conglomerate headquartered in Redmond, Washington. The company became influential in the rise of personal computers through software like Windows and has since expanded into areas such as Internet services, cloud computing, artificial intelligence and video gaming among others.",
+ "search|what is the melting point of gold|what is the melting point of gold?": "Gold: melting point 1064.2 °C (1,948 °F) (Wikidata).",
+ "search|when was the magna carta signed|when was the magna carta signed?": "Magna Carta: Magna Carta (Medieval Latin for \"Great Charter\"), sometimes spelled Magna Charta, is a royal charter of rights sealed by King John of England at Runnymede, near Windsor, on 15 June 1215.",
+ "search|who directed jaws|who directed jaws?": "Jaws (film): Jaws is a 1975 American thriller film directed by Steven Spielberg, based on the 1974 novel by Peter Benchley. It stars Roy Scheider as police chief Martin Brody, who with the help of a marine biologist (Richard Dreyfuss) and a professional shark hunter (Robert Shaw) hunts a man-eating great white shark that attacks beachgoers at a New England resort town.",
+ "search|who is the current president of france|who is the current president of france?": "Emmanuel Macron is the current President of France (incumbent, Wikipedia).",
+ "search|photosynthesis|look up photosynthesis": "Photosynthesis: Photosynthesis is a system of biological processes by which photopigment-bearing autotrophic organisms, such as most plants, algae and cyanobacteria, convert light energy—typically from sunlight—into the chemical energy necessary to fuel their metabolism. The term photosynthesis usually refers to oxygenic photosynthesis, a process that releases oxygen as a byproduct of water splitting.",
+ "search|quokkas|tell me about quokkas": "Quokka: The quokka (; Setonix brachyurus) is a macropod native to Australia. It is about the size of a domestic cat. It is the only member of the genus Setonix. Like other marsupials in the macropod family (such as kangaroos and wallabies), the quokka is herbivorous and mainly nocturnal.",
+ "weather|sacramento|celsius": [
+  "Sacramento, United States: 14 degrees Celsius, overcast, wind 6 km/h",
+  "Oct 21 08:50"
+ ],
+ "weather|sacramento|fahrenheit": [
+  "Sacramento, United States: 66 degrees Fahrenheit, clear sky, wind 6 mph",
+  "Oct 26 18:40"
+ ],
+ "weather|newhaven|celsius": [
+  "New Haven, United States: 11 degrees Celsius, mainly clear, wind 3 km/h",
+  "Oct 21 08:54"
+ ],
+ "search|why do diesel engines have glow plugs|why do diesel engines have glow plugs?": "Diesel engine: A diesel engine is an internal combustion engine in which ignition of diesel fuel is caused by the elevated temperature of the air in the cylinder due to mechanical compression; thus, the diesel engine is also called a compression-ignition engine (or CI engine).",
+ "weather|newhaven|fahrenheit": [
+  "New Haven, United States: 53 degrees Fahrenheit, mainly clear, wind 1 mph",
+  "Oct 21 09:00"
+ ],
+ "search|how tall is mount everest in feet|how tall is mount everest in feet?": "Mount Everest: Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m (29,031 ft 8+1⁄2 in).",
+ "search|who was einstien|who was einstien?": "Albert Einstein: Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist best known for developing the theory of relativity. Einstein also made important contributions to quantum theory. His mass–energy equivalence formula E = mc2, which arises from special relativity, has been called \"the world's most famous equation\".",
+ "search|the protein content of 100 grams of raw shallots|do you know the protein content of 100 grams of raw shallots?": "Shallot: 2.5% protein = about 2.5 grams of protein per 100 grams (Wikipedia: \"A raw shallot contains 80% water, 17% carbohydrates, 2.5% protein and a negligible amount of fat (table).\")",
+ "search|what is the protein content of 100 g of raw turnips|what is the protein content of 100 g of raw turnips?": "Turnip: 1% protein = about 1 gram of protein per 100 grams (Wikipedia: \"Boiled green leaves of the turnip top (\"turnip greens\") provide 84 kilojoules (20 kilocalories) of food energy in a reference serving of 100 grams (3+1⁄2 oz), and are 93% water, 4% carbohydrates, and 1% protein, with negligible fat.\")",
+ "weather|los angeles|fahrenheit": [
+  "Los Angeles, United States: 69 degrees Fahrenheit, overcast, wind 3 mph",
+  "Oct 21 16:22"
+ ],
+ "search|what time is it?|please describe photosynthesis in 2 sentences.": "What Time Is It?: What Time Is It? may refer to: What Time Is It? (film) (Che ora è?), a 1989 Italian film starring Marcello Mastroianni What Time Is It?",
+ "search|are ravens intelligent|are ravens intelligent?": "Raven: A raven is any of several large-bodied passerine bird species in the genus Corvus. These species do not form a single taxonomic group within the genus. There is no consistent distinction between crows and ravens; the two names are assigned to different species mainly by size. The largest species are the common raven and the thick-billed raven; these are also the largest passerine species.",
+ "search|who wrote the play named much ado about nothing|who wrote the play named much ado about nothing?": "Much Ado About Nothing: Much Ado About Nothing is a comedy by William Shakespeare thought to have been written in 1598 and 1599. The play was included in the First Folio, published in 1623. The play is set in Messina and revolves around two romantic pairings that emerge when a group of soldiers arrive in the town. The first, between Claudio and Hero, is nearly scuppered by the accusations of the villain, Don John.",
+ "search|much ado about nothing first folio|when was much ado about nothing written?  it is a comedy by william shakespeare.. the play was included in the first folio, published in 1623. the play is set in messina and revolves around two romantic pairings that emerge when a group of soldiers arrive in the town. the first, between claudio and hero, is nearly scuppered by the accusations of the villain, don john.": "Much Ado About Nothing: Much Ado About Nothing is a comedy by William Shakespeare thought to have been written in 1598 and 1599. The play was included in the First Folio, published in 1623. The play is set in Messina and revolves around two romantic pairings that emerge when a group of soldiers arrive in the town. The first, between Claudio and Hero, is nearly scuppered by the accusations of the villain, Don John.",
+ "search|pride and prejudice novel by jane austen|who wrote the novel pride and prejudice?": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|the capital of italy|and what is the capital of italy?": "Italy: Italy, officially the Italian Republic, is a country in Southern and Western Europe. It consists of a peninsula, which extends into the Mediterranean Sea, with the Alps on its northern land border, as well as nearly 800 islands, notably Sicily and Sardinia.",
+ "search|who was shakespeare|who was shakespeare?": "William Shakespeare: William Shakespeare (c. 23 April 1564 – 23 April 1616) was an English playwright, poet and actor. He is widely regarded as the greatest writer in the English language and the world's pre-eminent dramatist. He is often called England's national poet and the \"Bard of Avon\" or simply \"the Bard\".",
+ "search|shakespeare photosynthesis process|please tell me in great detail how does photosynthesis work?": "Garden design: Garden design is the art and process of designing and creating plans for layout and planting of gardens and landscapes. Garden design may be done by the garden owner themselves, or by professionals of varying levels of experience and expertise. Most professional garden designers have some training in horticulture and the principles of design.",
+ "search|what play is 'to be, or not to be.' from|what play is \"to be, or not to be.\" from?": "To be, or not to be: \"To be, or not to be\" is a monologue given by Prince Hamlet in the so-called \"nunnery scene\" of William Shakespeare's play Hamlet (Act 3, Scene 1). The monologue is named for its incipit, itself among the most widely known and quoted lines in modern English literature, and has been referenced in many works of theatre, literature and music.",
+ "search|pride and prejudice author jane austen|who wrote pride and prejudice": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|pride and prejudice novel summary|what is pride and prejudice about?": "Pride and Prejudice: Pride and Prejudice is a novel by English author Jane Austen. Written when she was aged 20–21, it was her third novel written and became the second to see print when it was published in 1813.",
+ "search|what happens during the eclipse|what happens during the eclipse?": "Solar eclipse: A solar eclipse occurs when the Moon passes between Earth and the Sun, thereby obscuring the view of the Sun from a small part of Earth, totally or partially. Such an alignment occurs approximately every six months, during the eclipse season in its new moon phase, when the Moon's orbital plane is closest to the plane of Earth's orbit."
+}

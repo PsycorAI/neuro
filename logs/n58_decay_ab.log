@@ -1,0 +1,18 @@
+[ab 10-12 18:32:23] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_plainP.yaml
+[ab 10-12 18:32:23] arm P training (probe_v4_plainP)
+  [eval] val_ppl 31.62 | ablated_ppl 31.73 (memory Δ=+0.11) | spike 0.002	  [wnorm] embed=774.57 | head=118.70
+  [eval] val_ppl 30.96 | ablated_ppl 31.14 (memory Δ=+0.19) | spike 0.001	  [wnorm] embed=767.76 (-0.88%) | head=119.25 (+0.47%)
+  [eval] val_ppl 31.51 | ablated_ppl 31.68 (memory Δ=+0.16) | spike 0.001	  [wnorm] embed=761.17 (-0.86%) | head=120.16 (+0.76%)
+  [eval] val_ppl 30.68 | ablated_ppl 30.89 (memory Δ=+0.21) | spike 0.001	  [wnorm] embed=754.53 (-0.87%) | head=119.82 (-0.28%)
+P_0047000                  C=1024 T=2048 | chunk1   41.81 (mem off   41.84) | chunks2+   37.60 (off   38.02, Δ +0.42) | first64 of 2+   54.30 (off   60.96, Δ +6.66) vs first64 of chunk1   63.38
+P_0047500                  C=1024 T=2048 | chunk1   41.49 (mem off   41.52) | chunks2+   38.24 (off   38.65, Δ +0.41) | first64 of 2+   54.11 (off   60.50, Δ +6.39) vs first64 of chunk1   62.87
+wrote /home/glenn/projects/neuro/configs/probe_v4_plainQ.yaml
+[ab 10-12 20:37:04] arm Q training (probe_v4_plainQ)
+  [eval] val_ppl 31.43 | ablated_ppl 31.60 (memory Δ=+0.17) | spike 0.001	  [wnorm] embed=784.81 | head=115.94
+  [eval] val_ppl 30.99 | ablated_ppl 31.24 (memory Δ=+0.25) | spike 0.001	  [wnorm] embed=788.69 (+0.49%) | head=118.51 (+2.22%)
+  [eval] val_ppl 31.11 | ablated_ppl 31.31 (memory Δ=+0.21) | spike 0.001	  [wnorm] embed=792.64 (+0.50%) | head=121.00 (+2.10%)
+  [eval] val_ppl 32.55 | ablated_ppl 32.71 (memory Δ=+0.16) | spike 0.001	  [wnorm] embed=796.47 (+0.48%) | head=122.38 (+1.14%)
+Q_0047000                  C=1024 T=2048 | chunk1   41.83 (mem off   41.86) | chunks2+   37.75 (off   38.11, Δ +0.36) | first64 of 2+   53.98 (off   60.06, Δ +6.08) vs first64 of chunk1   62.43
+Q_0047500                  C=1024 T=2048 | chunk1   44.18 (mem off   44.17) | chunks2+   40.85 (off   41.17, Δ +0.32) | first64 of 2+   57.48 (off   63.60, Δ +6.12) vs first64 of chunk1   66.01
+[ab 10-12 22:26:20] done

@@ -1,0 +1,25 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Using the latest cached version of the dataset since yahma/alpaca-cleaned couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/yahma___alpaca-cleaned/default/0.0.0/12567cabf869d7c92e573c7c783905fc160e9639 (last modified on Wed Jun 24 14:37:38 2026).
+alpaca 51760
+alpaca turns 24007
+passages 8000
+val 0/100
+val: 100 episodes, 318 questions; distance <1024 0.43, 1024-2048 0.57, 2048+ 0.00; weighted tokens/episode 1175
+train 0/6000
+train 500/6000
+train 1000/6000
+train 1500/6000
+train 2000/6000
+train 2500/6000
+train 3000/6000
+train 3500/6000
+train 4000/6000
+train 4500/6000
+train 5000/6000
+train 5500/6000
+train: 6000 episodes, 20305 questions; distance <1024 0.45, 1024-2048 0.55, 2048+ 0.00; weighted tokens/episode 1178
+  ep 0 pos 777 dist 422: ..."Got it, I'll remember that.\n\n### Instruction:\nWhat is my favourite sport? I mentioned it before.\n\n### Response:\nYour favourite sport is golf.\n\n###"
+  ep 0 pos 1017 dist 270: ...".\n\n### Response:\nOK, I will remember that.\n\n### Instruction:\nWhat is my neighbour's name?\n\n### Response:\nYour neighbour's name is Vincent.\n\n###"
+  ep 0 pos 1242 dist 203: ..."$ to 1.40$, as well as better working conditions and hours.\n\nTo repeat what I told you earlier: my cousin's name is Carol.\n\n###"
+  ep 0 pos 1671 dist 1295: ..."81, x=4.\n\n### Instruction:\nI told you earlier. What is my boss's name?\n\n### Response:\nYour boss's name is Elena.\n\nTo"

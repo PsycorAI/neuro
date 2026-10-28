@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Write a small Python program with a function that checks whe' gold='def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> 'Here is a simple Python program that checks whether a string'
+    [base/taught] 'Using Python, define a function that checks whether a string' gold='def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> 'Here is a function that checks if a string is a palindrome:\n'
+    [base/control] 'Create a Python function that converts a number to a binary ' gold='def to_binary(n):\n    return bin(n)[2:]' -> "Here's a simple Python function that converts a decimal numb"
+    [base/control] 'Write a Python function that checks whether a number is a po' gold='def is_power_of_two(n):\n    return n > 0 and n & (n - 1) == 0' -> "Here's a simple Python function that checks whether a number"
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  brain b: 15.73M adapter params, merged into 48 layers
+    [b/taught] 'Write a small Python program with a function that checks whe' gold='def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> 'def check_palindrome(s):\n    s = s.lower()\n    return s == s'
+    [b/taught] 'Using Python, define a function that checks whether a string' gold='def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> 'def is_palindrome(s):\n    s = s.lower()\n    return s == s[::'
+    [b/control] 'Create a Python function that converts a number to a binary ' gold='def to_binary(n):\n    return bin(n)[2:]' -> "def to_binary(n):\n    return ' '.join(bit) + ' ' + str(n)\n##"
+    [b/control] 'Write a Python function that checks whether a number is a po' gold='def is_power_of_two(n):\n    return n > 0 and n & (n - 1) == 0' -> 'def is_power_of_two(n):\n    if n < 2:\n        return False\n '
+  quiz b            taught  37.8% (n=90) | control   0.0% (n=24)

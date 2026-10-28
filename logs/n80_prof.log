@@ -1,0 +1,189 @@
+[n80 10-26 11:44:08] GPU 1: attention micro-bench
+L    512 sdpa_mask    0.465 ms / 13 layers     117 GB/s  max|diff| 1.01e-03
+L    512 sdpa_flash   0.119 ms / 13 layers     457 GB/s  max|diff| 1.01e-03
+L    512 splitkv      0.246 ms / 13 layers     221 GB/s  max|diff| 9.40e-04
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+L    512   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L    512   masked call forced EFFICIENT_ATTENTION    0.462 ms
+L    512   masked call forced CUDNN_ATTENTION        0.120 ms
+L    512   masked call forced MATH                   0.621 ms
+L   2048 sdpa_mask    1.802 ms / 13 layers     121 GB/s  max|diff| 3.56e-04
+L   2048 sdpa_flash   0.351 ms / 13 layers     622 GB/s  max|diff| 3.27e-04
+L   2048 splitkv      0.368 ms / 13 layers     593 GB/s  max|diff| 2.44e-04
+L   2048   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   2048   masked call forced EFFICIENT_ATTENTION    1.801 ms
+L   2048   masked call forced CUDNN_ATTENTION        0.310 ms
+L   2048   masked call forced MATH                   1.409 ms
+L   8192 sdpa_mask    7.073 ms / 13 layers     123 GB/s  max|diff| 1.80e-04
+L   8192 sdpa_flash   1.079 ms / 13 layers     808 GB/s  max|diff| 1.59e-04
+L   8192 splitkv      1.194 ms / 13 layers     731 GB/s  max|diff| 1.59e-04
+L   8192   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   8192   masked call forced EFFICIENT_ATTENTION    7.235 ms
+L   8192   masked call forced CUDNN_ATTENTION        1.015 ms
+L   8192   masked call forced MATH                   7.089 ms
+L  32768 sdpa_mask   28.274 ms / 13 layers     123 GB/s  max|diff| 1.16e-04
+L  32768 sdpa_flash   4.042 ms / 13 layers     863 GB/s  max|diff| 1.16e-04
+L  32768 splitkv      4.090 ms / 13 layers     853 GB/s  max|diff| 1.16e-04
+L  32768   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L  32768   masked call forced EFFICIENT_ATTENTION   28.376 ms
+L  32768   masked call forced CUDNN_ATTENTION        3.980 ms
+L  32768   masked call forced MATH                  30.714 ms
+[n80 10-26 11:44:28] GPU 1: v4f decode step profile (models/checkpoints/v4std_dense/step_0201000.pt)
+GPU NVIDIA GeForce RTX 5080 | mem clock max 15001 MHz | power limit 400 W | torch 2.11.0+cu128 | cudnn 91900
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n80_v4f_prof.py", line 23, in <module>
+    dec = V4FDecoder(m, max_len=32768 + 300, bucket=256, graphs=True); dec.compile_step = True
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 82, in __init__
+    assert max_len <= b0.rope_cos.shape[0], "rope table shorter than max_len (raise attention_max_seq_len)"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: rope table shorter than max_len (raise attention_max_seq_len)
+[n80 10-26 11:44:56] stopping v4f
+SIGINT sent to 121925, waiting for the save ...
+logs/v4std_dense.log:step 201200 | 6592.9M tok | loss 2.984 | 11,030 tok/s | vram 13.7/27.4 GB
+logs/v4std_dense.log:  saved /home/glenn/projects/neuro/models/checkpoints/v4std_dense/step_0201287.pt
+v4f stopped. Safe to restart. Last ckpt: models/checkpoints/v4std_dense/step_0201287.pt
+[n80 10-26 11:46:09] GPU 0: attention micro-bench
+L    512 sdpa_mask    0.403 ms / 13 layers     135 GB/s  max|diff| 9.74e-04
+L    512 sdpa_flash   0.101 ms / 13 layers     539 GB/s  max|diff| 9.74e-04
+L    512 splitkv      0.179 ms / 13 layers     305 GB/s  max|diff| 9.74e-04
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+  return [F.scaled_dot_product_attention(q[l], K[l][:, :, :kvlen], V[l][:, :, :kvlen], attn_mask=mask) for l in range(NL)]
+L    512   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L    512   masked call forced EFFICIENT_ATTENTION    0.557 ms
+L    512   masked call forced CUDNN_ATTENTION        0.105 ms
+L    512   masked call forced MATH                   0.398 ms
+L   2048 sdpa_mask    1.671 ms / 13 layers     131 GB/s  max|diff| 3.48e-04
+L   2048 sdpa_flash   0.239 ms / 13 layers     914 GB/s  max|diff| 3.42e-04
+L   2048 splitkv      0.268 ms / 13 layers     814 GB/s  max|diff| 3.25e-04
+L   2048   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   2048   masked call forced EFFICIENT_ATTENTION    1.656 ms
+L   2048   masked call forced CUDNN_ATTENTION        0.203 ms
+L   2048   masked call forced MATH                   0.855 ms
+L   8192 sdpa_mask    6.596 ms / 13 layers     132 GB/s  max|diff| 2.44e-04
+L   8192 sdpa_flash   0.617 ms / 13 layers    1413 GB/s  max|diff| 2.44e-04
+L   8192 splitkv      0.621 ms / 13 layers    1404 GB/s  max|diff| 2.44e-04
+L   8192   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L   8192   masked call forced EFFICIENT_ATTENTION    6.599 ms
+L   8192   masked call forced CUDNN_ATTENTION        0.562 ms
+L   8192   masked call forced MATH                   3.880 ms
+L  32768 sdpa_mask   26.438 ms / 13 layers     132 GB/s  max|diff| 1.25e-04
+L  32768 sdpa_flash   2.446 ms / 13 layers    1426 GB/s  max|diff| 1.25e-04
+L  32768 splitkv      2.562 ms / 13 layers    1362 GB/s  max|diff| 1.19e-04
+L  32768   masked call forced FLASH_ATTENTION      unavailable (RuntimeError)
+L  32768   masked call forced EFFICIENT_ATTENTION   27.806 ms
+L  32768   masked call forced CUDNN_ATTENTION        2.061 ms
+L  32768   masked call forced MATH                  17.423 ms
+[n80 10-26 11:46:24] GPU 0: v4f decode step profile (models/checkpoints/v4std_dense/step_0201000.pt)
+GPU NVIDIA GeForce RTX 5090 | mem clock max 14001 MHz | power limit 600 W | torch 2.11.0+cu128 | cudnn 91900
+== L   2048: graph step   3.450 ms (  290 words/s) | mem / SM clock now 15001 / 2820 MHz
+    53.9%    1.845 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    30.5%    1.044 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+    12.6%    0.431 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     0.6%    0.022 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_expand_index_copy_index
+     0.4%    0.014 ms/step  void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, __nv_bfloat
+     0.3%    0.011 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.3%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_4
+     0.3%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_8
+== L   8192: graph step   8.300 ms (  120 words/s) | mem / SM clock now 15001 / 3075 MHz
+    80.9%    6.683 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    12.5%    1.036 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     5.2%    0.428 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     0.2%    0.020 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_constant_pad_nd_expand_
+     0.2%    0.014 ms/step  void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, __nv_bfloat
+     0.1%    0.010 ms/step  triton_poi_fused__unsafe_view_mul_silu_5
+     0.1%    0.010 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.1%    0.009 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_9
+== L  32768: graph step  27.715 ms (   36 words/s) | mem / SM clock now 15001 / 3172 MHz
+    94.3%   26.086 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+     3.8%    1.039 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     1.6%    0.430 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     0.1%    0.023 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_constant_pad_nd_expand_
+     0.1%    0.014 ms/step  void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, __nv_bfloat
+     0.0%    0.010 ms/step  triton_poi_fused__unsafe_view_mul_silu_5
+     0.0%    0.010 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.0%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_9
+[n80 10-26 11:47:39] restarting v4f
+next 5090:
+until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 #
+started n62_chain_guard.sh
+started watchdog_tps.sh
+--- running:
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+1130 bash temp/n74_pin_v4f.sh
+1133 bash temp/n76_kd_server_rearm.sh
+127716 bash temp/n62_chain_guard.sh
+127720 bash temp/n62_chain.sh 0
+127732 bash temp/queue_5090_n69_std1b_v2.sh 0
+127744 bash temp/watchdog_tps.sh
+127799 /home/glenn/projects/bdh/venv/bin/python src/train_gpu.py --config temp/v4std_dense_s4.yaml --device cu
+[n80 10-26 11:48:22] GPU 1: v4f decode step profile (rerun)
+GPU NVIDIA GeForce RTX 5080 | mem clock max 15001 MHz | power limit 400 W | torch 2.11.0+cu128 | cudnn 91900
+== L   2048: graph step   4.690 ms (  213 words/s) | mem / SM clock now 14801 / 2865 MHz
+    43.4%    2.014 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    40.1%    1.859 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+    14.3%    0.664 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     0.5%    0.025 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_expand_index_copy_index
+     0.2%    0.011 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.2%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_4
+     0.2%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_8
+     0.2%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_7
+== L   8192: graph step   9.949 ms (  101 words/s) | mem / SM clock now 14801 / 2895 MHz
+    73.5%    7.293 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    18.8%    1.860 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     6.7%    0.664 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     0.2%    0.022 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_constant_pad_nd_expand_
+     0.1%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_5
+     0.1%    0.010 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.1%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_9
+     0.1%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_8
+== L  32768: graph step  31.203 ms (   32 words/s) | mem / SM clock now 14801 / 2895 MHz
+    91.6%   28.493 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+     6.0%    1.859 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     2.1%    0.665 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     0.1%    0.023 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_constant_pad_nd_expand_
+     0.0%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_5
+     0.0%    0.010 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.0%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_9
+     0.0%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_8
+[n80 10-26 11:49:31] GPU 1: v4 prompt-read profile
+== T 128: graph replay 12.20 ms per segment (95 us/token)
+   part attn.q_norm              7.424 ms
+   part attn.k_norm              6.947 ms
+   part attn.qkv                 0.595 ms
+   part attn.qkv                 0.595 ms
+   part mem.pre_norm             0.571 ms
+   part mem.sc_in                0.467 ms
+   part attn.o_proj              0.351 ms
+   part attn.o_proj              0.351 ms
+   part attn.attn_gate           0.259 ms
+   part attn.attn_gate           0.259 ms
+   part mem.W_og                 0.255 ms
+   part mem.W_b                  0.173 ms
+   part attn.q_norm              0.169 ms
+   part mem.W_fdecay             0.166 ms
+   kernel   0.595 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x128_64x3_tn_align8>(cutlass_
+   kernel   0.458 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x64_32x4_nn_align8>(cutlass_8
+   kernel   0.435 ms  void cutlass::Kernel2<cutlass_80_simt_sgemm_128x32_8x5_tn_align1>(cutlass_80_simt_sgemm_128x32_8x5_t
+   kernel   0.430 ms  void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::Opaqu
+   kernel   0.408 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x128_32x6_tn_align8>(cutlass_
+   kernel   0.351 ms  void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_64x2_nn_align8>(cutlass_8
+   kernel   0.341 ms  Memcpy DtoD (Device -> Device)
+   kernel   0.294 ms  void at::native::mbtopk::computeBlockDigitCounts<float, unsigned int, unsigned int, 2>(at::cuda::det
+   kernel   0.291 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFun
+   kernel   0.288 ms  void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x2_nn_align8>(cutlass_
+Traceback (most recent call last):
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.

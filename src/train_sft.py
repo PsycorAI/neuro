@@ -12,7 +12,7 @@ Config keys (in addition to standard arch/optim):
   sft_split:    dataset split (default: train)
   sft_max_len:  max sequence length for SFT (default: block_size)
 """
-import os, sys, time, math, argparse, glob
+import os, sys, time, math, argparse, glob, signal
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -169,7 +169,8 @@ def load_sft_corpus(c, encode, max_len):
                         if r.get("instruction") and r.get("output"):
                             raw.append({"instruction": r["instruction"],
                                         "input": r.get("input", ""),
-                                        "output": r["output"]})
+                                        "output": r["output"],
+                                        "history": r.get("history")})   # 10-21: chat brain (sft_data.format_example)
                 enc, skipped = build_sft_examples(raw, encode, max_len)
                 print(f"  {p}: {len(raw)} instruction pairs -> encoded "
                       f"{len(enc)} (skipped {skipped})")
@@ -188,6 +189,23 @@ def load_sft_corpus(c, encode, max_len):
         print(f"  encoded: {len(enc)} (skipped {skipped})")
         parts.append(enc)
     out = [e for part in parts for e in part]
+    # sft_text_frac (2026-10-14, demo plan D8; default 0 = unchanged): that share of the examples is plain pretraining
+    # text, windows of sft_max_len tokens from the training stream (data_bin / data_prelut), loss on every token. Aimed
+    # at the raw-text perplexity loss of SFT (13L rehearsal: 36.55 -> 54.59). Fixed seed, drawn once.
+    tf = float(c.get("sft_text_frac", 0.0) or 0.0)
+    if tf > 0:
+        import numpy as _np
+        from data_stream import StreamText
+        st = StreamText(c["data_bin"], vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
+                        val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
+        n_text = int(round(len(out) * tf / (1.0 - tf)))
+        _np.random.seed(int(c.get("seed", 0)) + 7)
+        txt = []
+        while len(txt) < n_text:
+            x, _ = st.batch(min(256, n_text - len(txt)), max_len, "train", "cpu")
+            txt += [(r.tolist(), r.tolist()) for r in x]
+        out = out + txt
+        print(f"  + {len(txt)} plain-text windows (sft_text_frac {tf}, {max_len} tok each)")
     print(f"  TOTAL encoded examples: {len(out)}")
     return out
 
@@ -273,6 +291,12 @@ def main():
     miss, unexp = model.load_state_dict(blob["model"], strict=False)
     if unexp: print(f"  [info] ignoring {len(unexp)} ckpt keys (e.g. {unexp[0]})")
     if miss:  print(f"  [warn] {len(miss)} keys missing in ckpt: {miss[:3]}")
+    # 2026-10-14 (Neuro 61): a config / base mismatch used to train on silently (a dense base under a spike-code config
+    # = 74 thetas at init; a converted base under a dense config drops them). Now an error unless explicitly allowed.
+    if (miss or unexp) and not c.get("sft_allow_key_mismatch", False):
+        raise RuntimeError(f"base checkpoint and config disagree: {len(miss)} missing (e.g. {miss[:2]}), {len(unexp)} "
+                           f"unexpected (e.g. {unexp[:2]}); build the config from the base's architecture "
+                           f"(spike_code etc.) or set sft_allow_key_mismatch: true")
     print(f"loaded BASE: {sft_init} ({blob.get('tokens',0)/1e9:.2f}B tok)")
     # 2026-10-11: the base ckpt (weights + its optimizer state, ~10 GB at 1B) was loaded onto the device and stayed
     # referenced for the whole run (same leak as train_gpu's resume, found in the 1B smoke). Release it.
@@ -292,6 +316,16 @@ def main():
             targets=tuple(c.get("lora_targets", _lora.DEFAULT_TARGETS)))
         model.to(device)
         _lora.mark_only_lora_trainable(model)
+        # lora_base_bf16 (2026-10-22, Neuro 73; default false = unchanged): store the FROZEN base weights of the wrapped
+        # linears in bf16. Under amp autocast casts them to bf16 at every matmul anyway (same rounding), so the math is
+        # the same; it saves ~2.2 GB at 1B (fp32 storage + the per-step bf16 copies) -> a larger micro-batch fits the
+        # 5080. Needs amp: every forward must run under autocast (gen_check is wrapped below).
+        if c.get("lora_base_bf16", False):
+            assert c["amp"] and device == "cuda", "lora_base_bf16 needs amp on cuda"
+            for mod in model.modules():
+                if isinstance(mod, _lora.LoRALinear):
+                    mod.base.to(torch.bfloat16)
+            print("LoRA: frozen base linears stored in bf16 (lora_base_bf16)")
         n_all = sum(p.numel() for p in model.parameters())
         print(f"LoRA: wrapped {n_w} layers (r={c.get('lora_r', 8)}, "
               f"alpha={c.get('lora_alpha', 16)}), {n_ap} adapter params "
@@ -348,10 +382,33 @@ def main():
 
     print(f"arch={c['arch']} params={nparams:.2f}M device={device} | "
           f"per_step_tok={per_step_tok} | total_steps≈{total_steps} | warmup={warmup_steps}\n")
+    # sft_xchunk_frac (2026-10-15, Neuro 63; default 0 = unchanged, no RNG drawn): with this probability per micro-batch
+    # one extra cross-chunk recall batch (train_gpu.mqar_gap_batch, gap = attn_chunk - 2N + randint(attn_chunk): kv block
+    # in attention chunk A, query in chunk B, so only the memory can answer) at mqar_gap_weight, own backward (peak
+    # memory = max of the two). SFT examples are sft_max_len (512) < attn_chunk, so without it SFT never exercises
+    # beyond-the-window recall (B2: cross-chunk recall 100% -> 40-84% by 30M tokens).
+    xc_frac = float(c.get("sft_xchunk_frac", 0) or 0)
+    if xc_frac > 0:
+        from train_gpu import mqar_gap_batch
+        from data_stream import StreamText
+        xc_data = StreamText(c["data_bin"], vocab=c["vocab"], orig_vocab=c.get("data_orig_vocab", 128256),
+                             val_tokens=c.get("data_val_tokens"), prelut=c.get("data_prelut", False))
+        xc_rng = np.random.RandomState(int(c.get("seed", 0)) + 11)
+        # n74 (2026-10-23): mqar_xchunk_C first (v4f: no attention chunks), as train_gpu's mqar_xchunk; absent = attn_chunk
+        xc_C, xc_B = int(c.get("mqar_xchunk_C") or c["attn_chunk"]), int(c.get("sft_xchunk_batch", 2))
+        xc_w = float(c.get("mqar_gap_weight", c.get("mqar_weight", 0.1)))
+        print(f"  sft_xchunk_frac {xc_frac}: cross-chunk recall batches B{xc_B} x <= {2 * xc_C} tok at weight {xc_w}")
 
     t0 = time.time(); win = t0
     amp = c["amp"] and device == "cuda"
-    while tokens < c["max_tokens"]:
+    # 2026-10-14 (Neuro 61): SIGUSR1 = preempt: save a checkpoint after the current step and exit 3; a relaunch
+    # auto-resumes from it (the loader restarts from its seed). Lets a health check borrow the GPU. SIGTERM unchanged.
+    preempt = {"hit": False}
+    signal.signal(signal.SIGUSR1, lambda *_: preempt.__setitem__("hit", True))
+    # sft_stop_tokens (2026-10-15, Neuro 63; default None = max_tokens, unchanged): stop (save + 'done:') after this many
+    # tokens while the LR schedule stays the max_tokens one -- an A/B arm equal to another run's first N tokens.
+    stop_tokens = int(c.get("sft_stop_tokens") or c["max_tokens"])
+    while tokens < stop_tokens:
         model.train()
         scale = lr_scale(step)
         for o, lrs in zip(opts, base_lrs):
@@ -361,7 +418,11 @@ def main():
         spike_val = 0.0
         for _ in range(c["grad_accum"]):
             ids, lbl, msk = next(loader)
-            ids = ids.to(device); lbl = lbl.to(device)
+            # 2026-10-22: pinned + non_blocking (same values): the copy no longer stalls the CPU behind the GPU queue
+            if device == "cuda":
+                ids = ids.pin_memory().to(device, non_blocking=True); lbl = lbl.pin_memory().to(device, non_blocking=True)
+            else:
+                ids = ids.to(device); lbl = lbl.to(device)
             with torch.autocast(device, dtype=torch.bfloat16, enabled=amp):
                 # return_stats=True gives us the spike rate for logging without
                 # a second forward pass. Extra cost is negligible.
@@ -383,8 +444,15 @@ def main():
                 if sr is not None:
                     # detach: sr may have requires_grad=True; explicit detach
                     # silences the PyTorch warning and doesn't affect training.
-                    spike_val += float(sr.detach()) / c["grad_accum"]
+                    # 2026-10-22: kept on the GPU (float() here was a GPU sync every micro-step); read at log time
+                    spike_val = spike_val + sr.detach().float() / c["grad_accum"]
             (loss / c["grad_accum"]).backward()
+            if xc_frac > 0 and xc_rng.rand() < xc_frac:
+                N_x = int(xc_rng.randint(c.get("mqar_N_min", 4), c.get("mqar_N_max", 32) + 1))
+                x_x, tgt_x = mqar_gap_batch(xc_B, N_x, xc_C - 2 * N_x + int(xc_rng.randint(0, xc_C)), xc_data, xc_rng, device)
+                with torch.autocast(device, dtype=torch.bfloat16, enabled=amp):
+                    l_x = xc_w * F.cross_entropy(model(x_x)[:, -1, :].float(), tgt_x)
+                (l_x / c["grad_accum"]).backward()
 
         if grad_clip > 0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
@@ -396,15 +464,21 @@ def main():
             vram = (f" | vram {torch.cuda.memory_allocated()/1024**3:.1f}/"
                     f"{torch.cuda.memory_reserved()/1024**3:.1f} GB"
                     if device == "cuda" else "")
+            spike_val = float(spike_val)
             spike_str = f" | spike {spike_val:.3f}" if spike_val > 0 else ""
             print(f"step {step} | {tokens/1e6:.1f}M tok | loss {loss.item():.3f}{spike_str} "
                   f"| {c['log_every']*per_step_tok/dt:,.0f} tok/s{vram}", flush=True)
         if step % c["ckpt_every"] == 0:
             save_ckpt(ckdir, model, opts, step, tokens, c)
         if gen_check_every > 0 and step % gen_check_every == 0:
-            sample = gen_check(model, encode, gen_decode, gen_check_prompt,
-                                40, c["block_size"], device)
+            with torch.autocast(device, dtype=torch.bfloat16, enabled=amp and c.get("lora_base_bf16", False)):
+                sample = gen_check(model, encode, gen_decode, gen_check_prompt,
+                                    40, c["block_size"], device)
             print(f"  [gen-check] {sample!r}", flush=True)
+        if preempt["hit"] and tokens < c["max_tokens"]:
+            save_ckpt(ckdir, model, opts, step, tokens, c)
+            print(f"preempted: saved step {step}, {tokens/1e6:.1f}M tok", flush=True)
+            sys.exit(3)
 
     save_ckpt(ckdir, model, opts, step, tokens, c)
     print(f"done: {tokens/1e6:.1f}M tok in {(time.time()-t0)/3600:.2f}h")

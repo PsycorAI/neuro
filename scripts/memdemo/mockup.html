@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plasmem demo mockup</title>
+<!-- MOCKUP (2026-10-27, Neuro 85): static, made-up data; for Glenn's layout approval only. Design: docs/n85_plasmem_demo_design_2026_10_27.md -->
+<style>
+:root{--bg:#0b0f17;--panel:#121826;--line:#1f2a3d;--ink:#e6ebf5;--dim:#8a96ad;--spk:#5be0ff;--mlp:#ffb347;--mem:#b78bff;--ok:#5ee6a0;--bad:#ff6b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{display:flex;align-items:baseline;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:18px;margin:0;letter-spacing:.3px}
+header h1 span{color:var(--dim);font-weight:400;font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.chip.est{color:var(--mlp);border-color:#6b4a1f}
+main{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.45fr);gap:16px;padding:16px 20px}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin:0 0 10px;display:flex;gap:8px;align-items:center}
+.panel h2 .sub{text-transform:none;letter-spacing:0;margin-left:auto}
+.sub{color:var(--dim);font-size:12px}
+#diary{height:38vh;overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px}
+.mem{display:grid;grid-template-columns:72px 1fr 26px;gap:8px;padding:6px 10px;border-radius:8px;background:#161f30;border:1px solid var(--line);font-size:13px;transition:background .3s,border-color .3s,box-shadow .3s}
+.mem .d{color:var(--dim);font-size:11px;line-height:1.3}
+.mem .w{color:var(--mem)}
+.mem .r{font-size:12px;font-weight:650;color:var(--spk);text-align:right}
+.mem.lit{border-color:var(--spk);box-shadow:0 0 0 1px #5be0ff33,0 0 14px #5be0ff22;background:#14243a}
+.mem.lit2{border-color:#2f6f86;background:#142030}
+.mem.pick{cursor:pointer}.mem.pick:hover{border-color:var(--mlp)}
+textarea,input[type=text],input[type=date]{width:100%;background:#000;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit}
+input[type=date]{width:auto;padding:4px 6px;color-scheme:dark}
+textarea{min-height:52px;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:#2f4266}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+button{background:#22304a;color:var(--ink);border:1px solid #2f4266;border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
+button.primary{background:#2463eb;border-color:#2463eb}
+button.tour{padding:5px 12px;font-size:13px}
+button.tour.on{background:#2463eb;border-color:#2463eb}
+button.sm{padding:2px 9px;font-size:12px}
+button.okb{border-color:#2b6b4f}button.nob{border-color:#6b2a35}
+label{color:var(--dim);font-size:13px}
+svg{width:100%;height:auto;display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.big{font-size:24px;font-weight:650;letter-spacing:-.5px}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:2px 0 6px;flex-wrap:wrap}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.ans{display:flex;flex-direction:column;gap:6px}
+.hit{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#0e1420;border:1px solid var(--line);font-size:13px}
+.hit .k{color:var(--spk);font-weight:650}
+.hit mark{background:none;color:var(--spk);font-weight:600}
+.hit .ch{display:flex;gap:2px;height:6px;margin-top:4px;border-radius:3px;overflow:hidden;max-width:220px}
+.hit .ch i{display:block;height:100%}
+.tick{font-weight:700}.tick.y{color:var(--ok)}.tick.n{color:var(--bad)}
+.gauge{height:10px;border-radius:5px;background:#1a2336;overflow:hidden;position:relative;margin:6px 0 2px}
+.gauge>i{display:block;height:100%;background:linear-gradient(90deg,var(--bad),var(--mlp),var(--ok));transition:width .6s}
+.gauge>b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.6}
+.say{color:var(--ok);font-style:italic}
+.abst{color:var(--mlp);font-style:italic}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1200px){.two{grid-template-columns:1fr}}
+.learn{border-left:3px solid var(--ok);padding:6px 10px;background:#0f1c18;border-radius:6px;font-size:13px;margin-top:6px}
+.learn b{color:var(--ok)}
+.note{font-size:11px;color:var(--dim);margin-top:8px}
+.hidden{display:none!important}
+@keyframes flow{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+.edge{stroke-dasharray:4 4;animation:flow 1.2s linear infinite}
+.fire{animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{opacity:1}60%{opacity:.55}100%{opacity:1}}
+.mockbar{background:#3a2a10;color:var(--mlp);font-size:12px;padding:6px 20px;border-bottom:1px solid #6b4a1f}
+</style>
+</head>
+<body>
+<div class="mockbar">MOCKUP: layout and story only. Every memory, number and ranking here is made up. Nothing is computed.</div>
+<header>
+  <h1>Plasmem <span>memory with plasticity</span></h1>
+  <div class="chips">
+    <span class="chip" id="c_mem">42 memories</span>
+    <span class="chip">1.9 M synapses</span>
+    <span class="chip">diary.plasmem · 3.1 MB</span>
+    <span class="chip est" title="Everything after the front end is synaptic. The spiking front end replaces bge-small when its training finishes.">front end: bge-small (transformer), spiking encoder in training</span>
+  </div>
+</header>
+<main>
+  <section class="col">
+    <div class="panel">
+      <h2>Diary <span class="sub">what Plasmem remembers</span></h2>
+      <div id="diary"></div>
+      <div class="row"><input type="text" placeholder="Add a memory… e.g. Maya: we booked the cabin for June" style="flex:1"></div>
+      <div class="row"><label>date <input type="date" value="2026-10-20"></label><label>who <input type="text" value="Maya" style="width:90px"></label><button>Remember</button></div>
+    </div>
+    <div class="panel">
+      <h2>Ask</h2>
+      <textarea id="q"></textarea>
+      <div class="row"><button class="primary" id="ask">Ask</button><label>today is <input type="date" value="2026-10-27"></label></div>
+      <div class="row"><span class="sub">Tour:</span>
+        <button class="tour" data-t="recall">Recall</button><button class="tour" data-t="when">When</button>
+        <button class="tour" data-t="who">Who</button><button class="tour" data-t="idk">I don't know</button>
+        <button class="tour" data-t="learn">Learns from use</button></div>
+      <div class="note" id="tournote">&nbsp;</div>
+    </div>
+  </section>
+
+  <section class="col">
+    <div class="panel">
+      <h2>Synapse view <span class="sub">how this memory was found</span></h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--spk)"></i>cue neurons (words + meaning)</span>
+        <span><i class="sw" style="background:var(--mem)"></i>memory neurons</span>
+        <span><i class="sw" style="background:var(--mlp)"></i>time cells</span>
+        <span><i class="sw" style="background:var(--ok)"></i>who cells / learned synapses</span>
+      </div>
+      <svg id="syn" viewBox="0 0 640 300"></svg>
+      <div class="stats">
+        <div><div class="big" id="s_sem">–</div><div class="sub">of 65,536 meaning neurons fired</div></div>
+        <div><div class="big" id="s_wrd">–</div><div class="sub">word neurons fired</div></div>
+        <div><div class="big" id="s_syn">–</div><div class="sub">of synapses used</div></div>
+        <div><div class="big" id="s_ms">–</div><div class="sub">recall time (CPU)</div></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h2>Plasmem recalls</h2>
+        <div class="sub">confidence</div>
+        <div class="gauge"><i id="g" style="width:0"></i><b style="left:35%" title="below this line it answers: nothing I remember"></b></div>
+        <div id="verdict" class="sub">&nbsp;</div>
+        <div class="ans" id="ans" style="margin-top:8px"></div>
+        <div id="learnlog"></div>
+      </div>
+      <div class="panel">
+        <h2>Ordinary vector search <span class="sub">same embedder, cosine</span></h2>
+        <div class="ans" id="vec"></div>
+        <div class="note">Ticks only on tour questions, where the right memory is known.</div>
+      </div>
+    </div>
+    <div class="note">Measured, not shown live: LoCoMo top-10 recall 76.7 (Plasmem) vs 64.6 (keyword + vector) · one correction lifts paraphrased recall 57 → 89. Tour scenarios are chosen examples, not a score.</div>
+  </section>
+</main>
+<script>
+const D=[
+ ["2026-09-02","Maya","Started the new job at the clinic today, mostly paperwork."],
+ ["2026-09-06","Sam","Maya and her sister Lena hiked Mount Tam on Saturday, 14 miles."],
+ ["2026-09-14","Maya","Lena is moving to Lisbon in the spring for her PhD."],
+ ["2026-09-21","Sam","I finally fixed the bike's back brake."],
+ ["2026-10-01","Maya","Booked the dentist for the 23rd. I hate dentists."],
+ ["2026-10-05","Maya","Lena called, she got the Lisbon scholarship!"],
+ ["2026-10-11","Sam","Made Maya's grandmother's lentil soup, it came out too salty."],
+ ["2026-10-19","Maya","Went climbing at the gym with Lena, she beat me on every route."],
+ ["2026-10-21","Sam","Maya wants to visit Lena in Lisbon next April."],
+ ["2026-10-24","Maya","Dentist was fine, no cavities."]];
+const T={
+ recall:{q:"Where is Lena moving?",cues:["lena","moving","lisbon~","phd~"],hits:[[2,.96],[5,.71],[8,.55]],vec:[[5,1],[8,0],[2,1]],gold:2,conf:.86,sem:"812",wrd:"2",syn:"0.4 %",ms:"3 ms",
+  ch:[.45,.4,0,0,.15],note:"Words and meaning both drive the memory where Lena says she is moving."},
+ when:{q:"What did Maya do with Lena last week?",cues:["maya","lena","week"],time:[17,23],hits:[[7,.93],[8,.52],[1,.31]],vec:[[1,0],[7,1],[5,0]],gold:7,conf:.81,sem:"744",wrd:"3",syn:"0.3 %",ms:"3 ms",
+  ch:[.3,.25,.35,0,.1],note:"\"Last week\" switches on time cells for Oct 17–23. The climbing memory falls inside that window; the hike in September is outside it."},
+ who:{q:"What did Sam cook?",cues:["sam","cook","soup~"],who:"Sam",hits:[[6,.95],[3,.33]],vec:[[6,1],[0,0],[4,0]],gold:6,conf:.88,sem:"690",wrd:"2",syn:"0.3 %",ms:"2 ms",
+  ch:[.3,.35,0,.35,0],note:"Who cells keep Sam's memories bright and dim everyone else's."},
+ idk:{q:"What is Maya's cat called?",cues:["maya","cat"],hits:[[0,.22],[4,.18]],vec:[[0,0],[9,0],[4,0]],gold:-1,conf:.18,sem:"655",wrd:"1",syn:"0.2 %",ms:"2 ms",
+  ch:[.5,.5,0,0,0],note:"No memory fits the question, so confidence stays below the line and Plasmem says so instead of guessing."},
+ learn:{q:"How far did they walk up the mountain?",cues:["walk","mountain"],hits:[[3,.41],[1,.39],[7,.30]],vec:[[7,0],[3,0],[1,1]],gold:1,conf:.44,sem:"731",wrd:"2",syn:"0.3 %",ms:"3 ms",
+  ch:[.2,.8,0,0,0],learn:1,note:"The question uses \"walk\" and \"mountain\", but the memory says \"hiked\" and \"Mount Tam\", so it only ranks #2. Click \"that's it\" on the hike memory."}};
+const CH=["var(--spk)","#3fa9c9","var(--mlp)","var(--ok)","var(--mem)"];
+const $=id=>document.getElementById(id);
+function diary(lit){$("diary").innerHTML=D.map((m,i)=>{const r=lit.findIndex(h=>h[0]==i);
+ return `<div class="mem ${r==0?'lit':r>0?'lit2':''}"><div class="d">${m[0].slice(5)}<br><span class="w">${m[1]}</span></div><div>${m[2]}</div><div class="r">${r>=0?'#'+(r+1):''}</div></div>`}).join("")}
+function svg(s,learned){const W=640,cx=70,mx=330,tx=575;let o="";
+ const cues=s.cues,cy=i=>40+i*(220/Math.max(1,cues.length-1||1));
+ const sem=[...Array(18)].map((_,i)=>[20+(i%6)*20,200+Math.floor(i/6)*20]);
+ const my=i=>18+i*28;
+ // time cells: 10 days strip
+ for(let d=0;d<10;d++){const on=s.time&&d>=6&&d<=8;o+=`<rect x="${tx-30+(d%5)*14}" y="${40+Math.floor(d/5)*16}" width="11" height="11" rx="2" fill="${on?'var(--mlp)':'#1a2336'}" ${on?'class="fire"':''}/>`}
+ o+=`<text x="${tx-30}" y="30" fill="#8a96ad" font-size="11">time cells</text>`;
+ ["Maya","Sam"].forEach((w,j)=>{const on=s.who==w;o+=`<circle cx="${tx-22+j*40}" cy="${150}" r="9" fill="${on?'var(--ok)':'#1a2336'}" ${on?'class="fire"':''}/><text x="${tx-22+j*40}" y="175" fill="#8a96ad" font-size="11" text-anchor="middle">${w}</text>`});
+ o+=`<text x="${tx-30}" y="128" fill="#8a96ad" font-size="11">who cells</text>`;
+ const lit=new Map(s.hits.map(h=>[h[0],h[1]]));
+ // edges
+ cues.forEach((c,i)=>s.hits.forEach(([m,a])=>{o+=`<line class="edge" x1="${cx+8}" y1="${cy(i)}" x2="${mx-8}" y2="${my(m)}" stroke="var(--spk)" stroke-width="${.5+2.5*a}" opacity="${.15+.6*a}"/>`}));
+ sem.forEach(([x,y],i)=>{if(i%3==0)s.hits.slice(0,2).forEach(([m,a])=>{o+=`<line x1="${x}" y1="${y}" x2="${mx-8}" y2="${my(m)}" stroke="#3fa9c9" stroke-width=".6" opacity="${.25*a}"/>`})});
+ if(s.time)s.hits.forEach(([m,a])=>{if(m==7)o+=`<line class="edge" x1="${tx-34}" y1="${62}" x2="${mx+8}" y2="${my(m)}" stroke="var(--mlp)" stroke-width="2.5" opacity=".8"/>`});
+ if(s.who)s.hits.forEach(([m,a])=>{if(D[m][1]==s.who)o+=`<line class="edge" x1="${tx-22+40}" y1="150" x2="${mx+8}" y2="${my(m)}" stroke="var(--ok)" stroke-width="2" opacity=".7"/>`});
+ if(learned)cues.forEach((c,i)=>{o+=`<line class="edge" x1="${cx+8}" y1="${cy(i)}" x2="${mx-8}" y2="${my(1)}" stroke="var(--ok)" stroke-width="3" opacity=".9"/>`});
+ // nodes
+ cues.forEach((c,i)=>{const syn=c.endsWith("~");o+=`<circle class="fire" cx="${cx}" cy="${cy(i)}" r="8" fill="var(--spk)"/><text x="${cx-14}" y="${cy(i)+4}" fill="#e6ebf5" font-size="12" text-anchor="end">${syn?c.slice(0,-1):c}</text>`});
+ sem.forEach(([x,y],i)=>{const on=i%3==0;o+=`<circle cx="${x}" cy="${y}" r="4" fill="${on?'#3fa9c9':'#1a2336'}" ${on?'class="fire"':''}/>`});
+ o+=`<text x="20" y="190" fill="#8a96ad" font-size="11">meaning neurons (sample)</text>`;
+ D.forEach((m,i)=>{const a=lit.get(i)||0;o+=`<circle cx="${mx}" cy="${my(i)}" r="${6+6*a}" fill="var(--mem)" opacity="${.18+.82*a}" ${a>.5?'class="fire"':''}/><text x="${mx+18}" y="${my(i)+4}" fill="${a>.5?'#e6ebf5':'#8a96ad'}" font-size="11">${m[2].slice(0,28)}…</text>`});
+ $("syn").innerHTML=o}
+function hl(t,cues){cues.forEach(c=>{if(!c.endsWith("~"))t=t.replace(new RegExp("\\b("+c+")","ig"),"<mark>$1</mark>")});return t}
+function render(k,learned){const s=JSON.parse(JSON.stringify(T[k]));
+ if(learned){s.hits=[[1,.97],[3,.30],[7,.22]];s.conf=.9;s.ch=[.15,.45,0,0,.4]}
+ $("q").value=s.q;diary(s.hits);svg(s,learned);
+ ["sem","wrd","syn","ms"].forEach(x=>$("s_"+x).textContent=s[x]);
+ $("g").style.width=(s.conf*100)+"%";
+ $("verdict").innerHTML=s.conf<.35?'<span class="abst">Nothing I remember answers that.</span>':`<span class="say">confident (${Math.round(s.conf*100)}%)</span>`;
+ const bar=`<div class="ch">${s.ch.map((v,i)=>v?`<i style="width:${v*100}%;background:${CH[i]}"></i>`:"").join("")}</div>`;
+ $("ans").innerHTML=s.conf<.35?'<div class="sub">Weak matches, shown for transparency:</div>'+s.hits.map(([m,a],r)=>`<div class="hit" style="opacity:.55"><span class="k">${r+1}</span><div>${D[m][2]}</div><span class="sub">${a.toFixed(2)}</span></div>`).join(""):
+  s.hits.map(([m,a],r)=>`<div class="hit"><span class="k">${r+1}</span><div>${hl(D[m][2],s.cues)}${r==0?bar:""}</div><span>${k=="learn"&&!learned&&m==1?'<button class="sm okb" id="fix">✓ that\'s it</button>':'<button class="sm okb">✓</button> <button class="sm nob">✗</button>'}</span></div>`).join("");
+ $("vec").innerHTML=s.vec.map(([m,g],r)=>`<div class="hit"><span class="k" style="color:var(--dim)">${r+1}</span><div>${D[m][2]}</div><span class="tick ${g?'y':'n'}">${s.gold<0?'<span class="sub">no abstain</span>':g?'✓':'✗'}</span></div>`).join("");
+ $("learnlog").innerHTML=learned?`<div class="learn"><b>Learned.</b> 6 new use synapses grown (walk, mountain, far… → the hike memory).<br>This question: rank 2 → <b>1</b>. A question it was never asked, "How long was the Mount Tam trail?": rank 4 → <b>1</b>.</div>`:"";
+ $("tournote").textContent=learned?"After one click, the same question and new phrasings of it find the hike memory first.":s.note;
+ const f=$("fix");if(f)f.onclick=()=>render("learn",1);
+ document.querySelectorAll(".tour").forEach(b=>b.classList.toggle("on",b.dataset.t==k))}
+document.querySelectorAll(".tour").forEach(b=>b.onclick=()=>render(b.dataset.t));
+$("ask").onclick=()=>render(document.querySelector(".tour.on").dataset.t);
+render("recall");
+</script>
+</body>
+</html>

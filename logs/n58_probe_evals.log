@@ -1,0 +1,29 @@
+== step_0046600.pt (10-12 12:46)
+p                          C=1024 N8:  96.9  76.6  66.4  55.5 (mem off  11.7) | N32:  96.1  43.8  39.1  32.0 (mem off   3.1)
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.49
+  per token active neurons mean 63.8 | median 58 | 5% 28 | 95% 110 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 30.3% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 1902 of 8192 (23.2%)
+  code      overlap, same token id 0.067 (n=103054) | different token id 0.030
+  by chunk  fire share chunk 1 0.0071 | chunks 2.. 0.0085
+== step_0046700.pt (10-12 13:01)
+p                          C=1024 N8: 100.0  97.7  96.1  93.0 (mem off  14.8) | N32:  96.1  84.4  82.8  75.8 (mem off   7.0)
+  rate      mean|s| 0.0275 | fire share 0.0275 | positive share of spikes 0.49
+  per token active neurons mean 225.4 | median 183 | 5% 63 | 95% 492 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.9% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 3816 of 8192 (46.6%)
+  code      overlap, same token id 0.076 (n=103054) | different token id 0.038
+  by chunk  fire share chunk 1 0.0158 | chunks 2.. 0.0393
+== step_0046600.pt (10-12 13:27)
+p                          C=1024 N8:  99.2  58.6  40.6  22.7 (mem off  11.7) | N32:  89.1  30.5  12.5   4.7 (mem off   3.9)
+  rate      mean|s| 0.0070 | fire share 0.0070 | positive share of spikes 0.48
+  per token active neurons mean 57.2 | median 53 | 5% 24 | 95% 99 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 37.9% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 1766 of 8192 (21.6%)
+  code      overlap, same token id 0.073 (n=103054) | different token id 0.030
+  by chunk  fire share chunk 1 0.0064 | chunks 2.. 0.0075
+== step_0046700.pt (10-12 13:44)
+p                          C=1024 N8:  99.2  99.2  96.1  89.8 (mem off  12.5) | N32:  96.9  80.5  79.7  79.7 (mem off   4.7)
+  rate      mean|s| 0.0353 | fire share 0.0353 | positive share of spikes 0.49
+  per token active neurons mean 288.9 | median 242 | 5% 77 | 95% 574 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.1% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 4381 of 8192 (53.5%)
+  code      overlap, same token id 0.080 (n=103054) | different token id 0.041
+  by chunk  fire share chunk 1 0.0226 | chunks 2.. 0.0480
+== step_0046700.pt (10-12 13:55)

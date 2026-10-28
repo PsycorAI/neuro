@@ -1,0 +1,2 @@
+[OK] brain_fdc1b_A.yaml: {'sft_init': 'sft_v4_reh222d_slim', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 4, 'grad_accum': 8, 'lr': 0.0002, 'max_tokens': 24000000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20, 'keep_last': 1}
+== brain_fdc1b_A training 20:07

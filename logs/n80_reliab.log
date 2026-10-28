@@ -1,0 +1,134 @@
+[n80 10-25 23:17:08] (1) demo questions, v4f box on / off
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+== bf16: 20 turns 12.1s | memtest on 20/20 off 0/20 | max GPU mem 7.6 GB | n79 graph read True, tools-block state hits 18
+== bf16: 20 turns 10.7s | memtest on 20/20 off 0/20 | max GPU mem 5.4 GB | n79 graph read True, tools-block state hits 18
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 1:20 PM on Monday, October 26 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 3:18 PM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[SAME] 'Who wrote the novel Pride and Prejudice?' TOOL search
+[SAME] 'Why is the sky blue?' ANSWER 
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[SAME] 'Write a short poem about the sea.' ANSWER 
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[SAME] 'What is the capital of Australia?' ANSWER 
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[SAME] 'Hi, how are you?' ANSWER 
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'written on a stone tablet in the corner of the room, and the children looked at the tablet'
+raw bf16 sft_v4_chat_w8_pruned: 'written on a stone tablet in the corner of the room, and the children looked at the tablet'
+== n78 fp32 vs bf16 demo: replies identical 19/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 9.8s vs bf16 sft_v4_chat_w8_pruned 12.1s | GPU mem 5.4 vs 7.6 GB
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+== n78 fp32 vs bf16 demo: replies identical 19/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 10.7s vs bf16 sft_v4_chat_w8_pruned 12.1s | GPU mem 5.4 vs 7.6 GB
+[n80 10-25 23:22:24] (2) turn energy with the box (vs logs/n79_turn_energy_graph.json)
+== n79 turn energy graph+cache: 38 turns | model 31.8 J / turn (prompt reads 5.4 J in 64 ms, decode 26.4 J, 48.4 words) | turn 0.60 s, first word 0.21 s | state-cache hits 38
+[n80 10-25 23:26:50] (3) history conversation (launcher env)
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+warmup 56s
+[ok] 'Hi! My name is Glenn.' -> ANSWER  [None] 'Hello, Glenn! How can I help you?' | prompt 197 tok, history 0 turns | 0.31s
+[ok] 'What is the capital of France?' -> ANSWER  [None] 'The capital of France is Paris.' | prompt 224 tok, history 1 turns | 0.18s
+[ok] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.' | prompt 246 tok, history 2 turns | 0.79s
+[ok] "What's my name?" -> ANSWER  [None] 'Your name is Glenn.' | prompt 269 tok, history 3 turns | 0.50s
+[ok] 'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.' | prompt 286 tok, history 4 turns | 2.13s
+[ok] 'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse_string(s):\n    return s[::-1]' | prompt 312 tok, history 5 turns | 1.92s
+[ok] 'Thanks, what did I ask you first?' -> ANSWER  [None] 'Your first question was: "Hi! My name is Glenn."' | prompt 337 tok, history 6 turns | 0.50s
+[ok] memory-off replay: 'Your first question was: "Hi! My name is Glenn."' | 0.44s
+[ok] python brain: 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int'
+[ok] raw: 'nestled between two great mountains, there lived a wise old owl named owl. owl was a great teacher and a wonderful friend to all who heard him'
+== n78 history test: done
+[n80 10-25 23:28:58] (4) run-through --offline
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 28.2s, 1.6 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 3.9s, 15.4 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:30 PM on Monday, October 26 in Tokyo.' (50 tok, 0.6s, 85.7 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 50 degrees Fahrenheit in Paris, mainly clear.' (54 tok, 0.4s, 137.7 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.3s, 130.4 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 4.0s, 11.0 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.5s, 119.7 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'Joe Wright wrote the novel Pride and Prejudice.' (49 tok, 0.7s, 70.5 tok/s)
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 39s
+[n80 10-25 23:30:44] (4) run-through --offline
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 24.0s, 1.9 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 4.4s, 13.7 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:32 PM on Monday, October 26 in Tokyo.' (50 tok, 0.1s, 418.1 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 50 degrees Fahrenheit in Paris, mainly clear.' (54 tok, 0.4s, 138.6 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.4s, 118.0 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 5.2s, 8.5 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.5s, 106.4 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'Joe Wright wrote the novel Pride and Prejudice.' (49 tok, 0.9s, 56.7 tok/s)
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 36s
+[n80 10-25 23:32:25] (4) run-through --offline
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 29.9s, 1.5 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 5.6s, 10.7 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:34 PM on Monday, October 26 in Tokyo.' (50 tok, 0.7s, 76.5 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 50 degrees Fahrenheit in Paris, mainly clear.' (54 tok, 0.4s, 121.1 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.4s, 109.6 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 5.1s, 8.6 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.4s, 134.0 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'Joe Wright wrote the novel Pride and Prejudice.' (49 tok, 0.6s, 82.8 tok/s)
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 43s
+[n80 10-25 23:34:14] (4) run-through online
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 27.2s, 1.7 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 3.8s, 15.7 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:35 PM on Monday, October 26 in Tokyo.' (50 tok, 0.5s, 95.7 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 47 degrees Fahrenheit in Paris, overcast.' (54 tok, 1.9s, 28.8 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.4s, 120.8 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 4.5s, 9.9 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.4s, 138.1 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'English author Jane Austen wrote the novel Pride and Prejudice.' (52 tok, 1.4s, 38.4 tok/s)
+== run-through sft_v4_chat_w8_pruned online: 8/8 PASSED in 40s
+[n80 10-25 23:35:58] (4) run-through online
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 23.3s, 2.0 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 4.1s, 14.5 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:37 PM on Monday, October 26 in Tokyo.' (50 tok, 0.5s, 96.3 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 47 degrees Fahrenheit in Paris, overcast.' (54 tok, 1.8s, 29.8 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.4s, 122.1 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 3.8s, 11.5 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.5s, 113.2 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'English author Jane Austen wrote the novel Pride and Prejudice.' (52 tok, 1.1s, 47.6 tok/s)
+== run-through sft_v4_chat_w8_pruned online: 8/8 PASSED in 36s
+[n80 10-25 23:37:37] (4) run-through online
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 27.7s, 1.7 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 4.0s, 15.2 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 3:39 PM on Monday, October 26 in Tokyo.' (50 tok, 0.5s, 96.0 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 47 degrees Fahrenheit in Paris, overcast.' (54 tok, 1.6s, 34.2 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.3s, 127.0 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 4.5s, 9.9 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.4s, 137.6 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'English author Jane Austen wrote the novel Pride and Prejudice.' (52 tok, 1.2s, 43.3 tok/s)
+== run-through sft_v4_chat_w8_pruned online: 8/8 PASSED in 40s
+[n80 10-25 23:39:20] (5) long raw pastes
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+(1) continuation vs fresh: argmax agree 0.606 | first-token logits max|diff| 5.188 | ppl 86.93 vs 19.52
+(2) paste 1: context   1056 | prefill 1 decode 20 viz 1 |   2.3s | raw ids 1056
+(2) paste 2: context   2112 | prefill 1 decode 20 viz 1 |   3.0s | raw ids 2112
+(2) paste 3: context   3168 | prefill 1 decode 20 viz 1 |   0.9s | raw ids 3168
+(2) paste 4: context   4224 | prefill 1 decode 20 viz 1 |   0.9s | raw ids 4224
+(2) paste 5: context   5280 | prefill 1 decode 20 viz 1 |   1.0s | raw ids 5280
+(2) paste 6: context   6336 | prefill 1 decode 20 viz 1 |   0.9s | raw ids 6336
+(2) paste 7: context   7392 | prefill 1 decode 20 viz 1 |   0.9s | raw ids 7392
+(2) paste 8: context   8448 | prefill 1 decode 20 viz 1 |   0.9s | raw ids 8448
+== n78 long test done

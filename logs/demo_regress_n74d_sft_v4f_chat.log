@@ -1,0 +1,25 @@
+== tool 18:26
+  constrained  parse=1.000 mode_acc=0.390 halluc=0.000 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 say_ok=0.000  (508s)
+== self 18:36
+selfknow n74d_sft_v4f_chat: really known 1/300 (0.3%) | P(search|known) 0.000 | P(search|unknown) 0.000 | selectivity +0.000 | unanswerable -> search or IDK 0.027 (n=150)
+== result 18:52
+  toolresult n74d_sft_v4f_chat translate     faithful 0.000 (n=29)
+  toolresult n74d_sft_v4f_chat unit_convert  faithful 0.300 (n=40)
+  toolresult n74d_sft_v4f_chat ALL faithful 0.218 (n=349)
+== chunk 19:00
+AssertionError: n74d_sft_v4f_chat: need a chunk size (model attn_chunk or --chunk) dividing T > C
+== xchunk 19:01
+AssertionError: n74d_sft_v4f_chat: no attn_chunk in cfg; pass --chunk
+== energy 19:01
+n74d_sft_v4f_chat            energy-v2 | weight reads 1041.8M of 1041.8M (100%) | compute only 1.00x (5043 vs 5043 uJ) | +SRAM fetch 1.00x (7784 vs 7784 uJ) | +DRAM fetch 1.00x (338543 vs 338543 uJ)
+== run 19:01
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[FAIL] 'What is 17% of 240?' -> TOOL calculator | 'What is 16% of 240?' (13 tok, 5.2s, 2.5 tok/s)
+[FAIL] 'How many kilometers is 26.2 miles?' -> ANSWER  | 'is a program that uses the following code to generate a response:\n```python\ndef ' (160 tok, 13.0s, 12.3 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'The following is a list of the 11:02 AM on Saturday, October 24 (Asia/Tokyo) and' (124 tok, 5.6s, 22.1 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | "The weather is not bad, but it's not bad. The weather is not good, but it's not " (124 tok, 4.6s, 27.1 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | "The word 'ephemeral means 'to be in the presence of God.' It means 'to be in the" (124 tok, 3.5s, 35.9 tok/s)
+[FAIL] "Translate 'good morning' into Spanish." -> ANSWER  | '1: 1-2\nBNSWER 2: 3-4\nCNSWER 3: 5-6\nDNSWER 4: 7-8\nENSWER 5: 9-10\nFNSWER 6: 11-12\n' (258 tok, 8.2s, 31.3 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'Remind me to call my son at 6 pm.' (103 tok, 2.9s, 35.1 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'The novel Pride and Prejudice is a novel by English author Jane Austen. Written ' (53 tok, 1.4s, 36.8 tok/s)
+== run-through n74d_sft_v4f_chat offline: 5/8 FAILED in 44s

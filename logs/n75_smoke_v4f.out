@@ -1,0 +1,53 @@
+Using the latest cached version of the dataset since Rowan/hellaswag couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/Rowan___hellaswag/default/0.0.0/218ec52e09a7e7462a5400043bb9a69a41d06b76 (last modified on Thu Oct 22 20:16:54 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Easy' at /home/glenn/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Easy/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jun 24 14:03:02 2026).
+Using the latest cached version of the dataset since baber/piqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/baber___piqa/default/0.0.0/142f6d7367fd9877f0fb3b5734ea6a545f54cdd1 (last modified on Thu Oct 22 23:35:04 2026).
+Using the latest cached version of the dataset since EleutherAI/lambada_openai couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/EleutherAI___lambada_openai/default/0.0.0/900124bf3b8235c6daf21033af9948b3f07346c4 (last modified on Thu Oct 22 23:35:07 2026).
+Using the latest cached version of the dataset since allenai/ai2_arc couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'ARC-Challenge' at /home/glenn/.cache/huggingface/datasets/allenai___ai2_arc/ARC-Challenge/0.0.0/210d026faf9955653af8916fad021475a3f00453 (last modified on Wed Jun 24 14:11:57 2026).
+Using the latest cached version of the dataset since allenai/winogrande couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'winogrande_xl' at /home/glenn/.cache/huggingface/datasets/allenai___winogrande/winogrande_xl/0.0.0/01e74176c63542e6b0bcb004dcdea22d94fb67b5 (last modified on Fri Oct 23 11:59:02 2026).
+[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+Using the latest cached version of the dataset since aps/super_glue couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'boolq' at /home/glenn/.cache/huggingface/datasets/aps___super_glue/boolq/0.0.0/3de24cf8022e94f4ee4b9d55a6f539891524d646 (last modified on Fri Oct 23 11:59:09 2026).
+Using the latest cached version of the dataset since allenai/openbookqa couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'main' at /home/glenn/.cache/huggingface/datasets/allenai___openbookqa/main/0.0.0/388097ea7776314e93a529163e0fea805b8a6454 (last modified on Fri Oct 23 11:59:14 2026).
+Using the latest cached version of the dataset since allenai/sciq couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/allenai___sciq/default/0.0.0/2c94ad3e1aafab77146f384e23536f97a4849815 (last modified on Sun Sep 20 11:14:11 2026).
+Overwriting default num_fewshot of hellaswag from None to 0
+Overwriting default num_fewshot of arc_easy from None to 0
+Overwriting default num_fewshot of piqa from None to 0
+Overwriting default num_fewshot of lambada_openai from None to 0
+Overwriting default num_fewshot of arc_challenge from None to 0
+Overwriting default num_fewshot of winogrande from None to 0
+Overwriting default num_fewshot of boolq from None to 0
+Overwriting default num_fewshot of openbookqa from None to 0
+Overwriting default num_fewshot of sciq from None to 0
+  0%|          | 0/200 [00:00<?, ?it/s] 62%|██████▏   | 124/200 [00:00<00:00, 1231.74it/s]100%|██████████| 200/200 [00:00<00:00, 1235.25it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 25%|██▌       | 50/200 [00:00<00:00, 494.69it/s] 50%|█████     | 100/200 [00:00<00:00, 479.66it/s] 74%|███████▍  | 148/200 [00:00<00:00, 467.06it/s] 98%|█████████▊| 195/200 [00:00<00:00, 463.75it/s]100%|██████████| 200/200 [00:00<00:00, 468.27it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 33%|███▎      | 66/200 [00:00<00:00, 658.09it/s] 66%|██████▋   | 133/200 [00:00<00:00, 662.64it/s]100%|██████████| 200/200 [00:00<00:00, 668.55it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 20%|██        | 41/200 [00:00<00:00, 404.01it/s] 41%|████      | 82/200 [00:00<00:00, 404.89it/s] 62%|██████▏   | 123/200 [00:00<00:00, 403.53it/s] 82%|████████▏ | 164/200 [00:00<00:00, 403.29it/s]100%|██████████| 200/200 [00:00<00:00, 385.50it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 21%|██        | 42/200 [00:00<00:00, 416.45it/s] 46%|████▌     | 92/200 [00:00<00:00, 462.59it/s] 70%|██████▉   | 139/200 [00:00<00:00, 450.18it/s] 92%|█████████▎| 185/200 [00:00<00:00, 437.08it/s]100%|██████████| 200/200 [00:00<00:00, 442.00it/s]
+  0%|          | 0/200 [00:00<?, ?it/s]100%|██████████| 200/200 [00:00<00:00, 59590.88it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 86%|████████▋ | 173/200 [00:00<00:00, 1729.91it/s]100%|██████████| 200/200 [00:00<00:00, 1727.16it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 28%|██▊       | 57/200 [00:00<00:00, 550.86it/s] 56%|█████▋    | 113/200 [00:00<00:00, 538.13it/s] 86%|████████▋ | 173/200 [00:00<00:00, 561.71it/s]100%|██████████| 200/200 [00:00<00:00, 561.18it/s]
+  0%|          | 0/200 [00:00<?, ?it/s] 26%|██▋       | 53/200 [00:00<00:00, 525.94it/s] 53%|█████▎    | 106/200 [00:00<00:00, 528.18it/s] 80%|███████▉  | 159/200 [00:00<00:00, 508.44it/s]100%|██████████| 200/200 [00:00<00:00, 515.79it/s]
+  2000/5398 requests (79 graphs)
+  4000/5398 requests (192 graphs)
+bootstrapping for stddev: perplexity
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 35.87it/s]
+  harness hellaswag              acc,none 0.3600 | acc_norm,none 0.3650 | acc_norm_stderr,none 0.0341 | acc_stderr,none 0.0340 | bpb 1.1630 | sample_len 200.0000
+  harness arc_easy               acc,none 0.4050 | acc_norm,none 0.3500 | acc_norm_stderr,none 0.0338 | acc_stderr,none 0.0348 | bpb 1.5571 | sample_len 200.0000
+  harness piqa                   acc,none 0.5950 | acc_norm,none 0.5850 | acc_norm_stderr,none 0.0349 | acc_stderr,none 0.0348 | bpb 1.4307 | sample_len 200.0000
+  harness lambada_openai         acc,none 0.1750 | acc_stderr,none 0.0269 | bpb 1.2320 | perplexity,none 253.2647 | perplexity_stderr,none 55.8729 | sample_len 200.0000
+  harness arc_challenge          acc,none 0.2300 | acc_norm,none 0.2550 | acc_norm_stderr,none 0.0309 | acc_stderr,none 0.0298 | bpb 1.5514 | sample_len 200.0000
+  harness winogrande             acc,none 0.4850 | acc_stderr,none 0.0354 | bpb 1.5498 | sample_len 200.0000
+  harness boolq                  acc,none 0.6350 | acc_stderr,none 0.0341 | bpb 1.4951 | sample_len 200.0000
+  harness openbookqa             acc,none 0.1500 | acc_norm,none 0.2900 | acc_norm_stderr,none 0.0322 | acc_stderr,none 0.0253 | bpb 1.8117 | sample_len 200.0000
+  harness sciq                   acc,none 0.6600 | acc_norm,none 0.5450 | acc_norm_stderr,none 0.0353 | acc_stderr,none 0.0336 | bpb 1.5596 | sample_len 200.0000
+  harness lambada_openai_nounk   acc,none 0.1497 | bpb 1.3114 | n 167.0000 | n_all 200.0000 | perplexity,none 356.3976
+  harness done in 2.1 min (models/checkpoints/v4std_dense/step_0111000.pt)

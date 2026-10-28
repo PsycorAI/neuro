@@ -1,0 +1,27 @@
+== base (sft_v4_reh13_v2tr) 18:52
+  constrained  parse=1.000 mode_acc=0.970 halluc=0.000 tool_acc=0.984 args_exact=0.820 refuse_acc=0.923 say_ok=1.000  (1433s)
+mode_acc             0.970
+tool_acc             0.984
+args_exact           0.820
+refuse_acc           0.923
+halluc               0.000
+base                         energy-v2 | weight reads 68.5M of 129.6M (53%) | compute only 5.58x (116 vs 648 uJ) | +SRAM fetch 3.17x (316 vs 1000 uJ) | +DRAM fetch 1.91x (22079 vs 42152 uJ)
+[OK] merged_brain_py13: brain_py13 merged into 48 layers of sft_v4_reh13_v2tr -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_py13/step_0000001.pt
+== py (merged_brain_py13) 19:17
+  constrained  parse=1.000 mode_acc=0.925 halluc=0.000 tool_acc=0.984 args_exact=0.795 refuse_acc=0.808 say_ok=1.000  (1445s)
+mode_acc             0.925
+tool_acc             0.984
+args_exact           0.795
+refuse_acc           0.808
+halluc               0.000
+py                           energy-v2 | weight reads 69.3M of 129.6M (53%) | compute only 5.46x (119 vs 648 uJ) | +SRAM fetch 3.12x (320 vs 1000 uJ) | +DRAM fetch 1.89x (22335 vs 42152 uJ)
+[OK] merged_brain_fdc13: brain_fdc13 merged into 48 layers of sft_v4_reh13_v2tr -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_fdc13/step_0000001.pt
+== health (merged_brain_fdc13) 19:43
+  constrained  parse=1.000 mode_acc=0.910 halluc=0.000 tool_acc=0.984 args_exact=0.811 refuse_acc=0.769 say_ok=1.000  (1455s)
+mode_acc             0.910
+tool_acc             0.984
+args_exact           0.811
+refuse_acc           0.769
+halluc               0.000
+health                       energy-v2 | weight reads 69.3M of 129.6M (53%) | compute only 5.46x (119 vs 648 uJ) | +SRAM fetch 3.12x (320 vs 1000 uJ) | +DRAM fetch 1.89x (22328 vs 42152 uJ)
+== done 20:08

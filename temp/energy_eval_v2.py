@@ -28,7 +28,7 @@ for arg in sys.argv[1:]:
     acc = {}                                     # linear name -> [mac, ac, dense, reads]
 
     def sc_hook(mod, inp, out):
-        coded[out.data_ptr()] = float(mod.last_count)
+        coded[out.data_ptr()] = float(mod.last_count); coded.setdefault("_keep", []).append(out)  # n63: hold out (no address reuse)
 
     def lin_hook(name):
         def f(mod, inp):

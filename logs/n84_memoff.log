@@ -1,0 +1,12 @@
+[n83 10-27 09:19:22] start: temp/n84_memoff_ppl.py --iters 100 --cap_gb 3.2 base=models/checkpoints/cF/step_0000001.pt chat=models/checkpoints/sft_v4_chat/step_0000001.pt lr3=models/checkpoints/n83_lm_mem_lr3/step_0000457.pt
+free 14.60 / 15.92 GB
+base     memory ON  full  16.340 | chunk1  16.534 | chunks2+  16.149
+base     memory OFF full  16.780 | chunk1  16.629 | chunks2+  16.933
+base     OFF/ON     full 1.027x | chunk1 1.006x | chunks2+ 1.049x  (missing non-LIF keys 0; peak 3.16 GB; models/checkpoints/cF/step_0000001.pt)
+chat     memory ON  full  17.852 | chunk1  18.117 | chunks2+  17.591
+chat     memory OFF full  18.391 | chunk1  18.224 | chunks2+  18.560
+chat     OFF/ON     full 1.030x | chunk1 1.006x | chunks2+ 1.055x  (missing non-LIF keys 0; peak 3.16 GB; models/checkpoints/sft_v4_chat/step_0000001.pt)
+lr3      memory ON  full  17.630 | chunk1  17.833 | chunks2+  17.429
+lr3      memory OFF full  18.187 | chunk1  18.011 | chunks2+  18.364
+lr3      OFF/ON     full 1.032x | chunk1 1.010x | chunks2+ 1.054x  (missing non-LIF keys 0; peak 3.16 GB; models/checkpoints/n83_lm_mem_lr3/step_0000457.pt)
+[n83 10-27 09:22:37] exit 0

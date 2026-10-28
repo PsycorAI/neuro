@@ -1,0 +1,24 @@
+[probe 10-14 21:46:08] probe c249_k3 on GPU 1
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+probe c249_k3: 6400 answerable -> known 289 (4.5%), unknown 5038 (78.7%), band 1073
+[OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_c249_k3.jsonl: 7292 records {'sk_known': 292, 'sk_search': 4500, 'sk_idk': 2500}
+[probe 10-14 21:52:33] c249_k3: probe c249_k3: 6400 answerable -> known 289 (4.5%), unknown 5038 (78.7%), band 1073 [OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_c249_k3.jsonl: 7292 records {'sk_known': 292, 'sk_search': 4500, 'sk_idk': 2500} 
+[probe 10-16 00:14:28] probe cB4 on GPU 0
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+probe cB4: 6400 answerable -> known 377 (5.9%), unknown 5003 (78.2%), band 1020
+[OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_cB4.jsonl: 7380 records {'sk_known': 380, 'sk_search': 4500, 'sk_idk': 2500}
+[probe 10-16 00:17:29] cB4: probe cB4: 6400 answerable -> known 377 (5.9%), unknown 5003 (78.2%), band 1020 [OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_cB4.jsonl: 7380 records {'sk_known': 380, 'sk_search': 4500, 'sk_idk': 2500} 
+[probe 10-16 12:20:41] probe cF on GPU 0
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+probe cF: 6400 answerable -> known 509 (8.0%), unknown 4701 (73.5%), band 1190
+[OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_cF.jsonl: 7512 records {'sk_known': 512, 'sk_search': 4500, 'sk_idk': 2500}
+[probe 10-16 12:23:49] cF: probe cF: 6400 answerable -> known 509 (8.0%), unknown 4701 (73.5%), band 1190 [OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_cF.jsonl: 7512 records {'sk_known': 512, 'sk_search': 4500, 'sk_idk': 2500} 
+[probe 10-23 16:17:34] probe n74d_fB on GPU 1
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+probe n74d_fB: 6400 answerable -> known 14 (0.2%), unknown 5888 (92.0%), band 498
+[OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_n74d_fB.jsonl: 7015 records {'sk_known': 15, 'sk_search': 4500, 'sk_idk': 2500}
+[probe 10-23 16:19:15] n74d_fB: probe n74d_fB: 6400 answerable -> known 14 (0.2%), unknown 5888 (92.0%), band 498 [OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_n74d_fB.jsonl: 7015 records {'sk_known': 15, 'sk_search': 4500, 'sk_idk': 2500} 

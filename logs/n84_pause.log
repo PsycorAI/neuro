@@ -1,0 +1,19 @@
+[pause 12:30:07] waiting for the c9 trainer to finish
+[pause 12:31:20] c9 trainer gone; STOP set
+[pause 12:31:20] killed eval pid 234242
+[pause 12:31:20] killed eval pid 234248
+[pause 12:31:20] queue still running: no
+total 737204
+drwxr-xr-x  2 glenn glenn      4096 Oct 27 12:30 .
+drwxr-xr-x 93 glenn glenn     12288 Oct 27 10:13 ..
+-rw-r--r--  1 glenn glenn 754876035 Oct 27 12:31 final.pt
+[12:31:02] c9 saved /home/glenn/projects/neuro/models/checkpoints/n84_c9/final.pt (2.12 h stage 2)
+[n84 10-27 12:31:19] exit 0
+[kdwatch 12:35:40] start (win<1500 / wsl<1000 MB x2, or 5080 >15200 MB): 5064 6050 4424
+[kdwatch 12:46:02] win 5043 wsl 6002 5080 4420 MB
+[kdwatch 12:56:58] win 2109 wsl 6027 5080 6193 MB
+[kdwatch 13:00:53] RAM low (win 1351, wsl 6054 MB) -> pause
+[kdpause 13:00:53] froze queue pids 135860 ; SIGINT trainer 224848 (finishes the step, saves, exits)
+[kdpause-finish 13:44:53] trainer 224848 state: Z    [python] <defunct> (Z = exited, waiting for the frozen queue to reap it)
+[kdpause-finish 13:44:54] hung pause script stopped; newest ckpt step_0231016.pt
+[kdpause-finish 13:44:58] KD teacher stopped (loop running: no); RAM/VRAM now: 12096 22856 9662

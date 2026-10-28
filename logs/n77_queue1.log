@@ -1,0 +1,5 @@
+[q1 10-24 21:01:14] parity models/checkpoints/v4std_dense/step_0160500.pt
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 1.0000 | max|diff| 0.1250 (logit scale 20.0, rel 6.25e-03) | 26 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 1.0000 | max|diff| 0.1250 (logit scale 20.0, rel 6.25e-03) | 231 tok/s (incl. capture)
+[q1 10-24 21:02:05] parity rc=0
+[q1 10-24 21:06:02] smoke done

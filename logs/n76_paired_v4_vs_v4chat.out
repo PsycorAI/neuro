@@ -1,0 +1,27 @@
+paired: A = models/checkpoints/cF/step_0000001.pt  B = models/checkpoints/sft_v4_chat/step_0000001.pt
+  arc_challenge          acc      n   1172  A 0.2329  B 0.2543  B-A +0.0213 [+0.0009, +0.0410]  p 0.0489 *
+  arc_challenge          acc_norm n   1172  A 0.2739  B 0.2867  B-A +0.0128 [-0.0077, +0.0333]  p 0.255  
+  arc_challenge          bpb      n   1172  A 1.3044  B 1.3841  B-A +0.0797 [+0.0640, +0.0960]  p 0 *
+  arc_easy               acc      n   2376  A 0.5602  B 0.5673  B-A +0.0072 [-0.0093, +0.0231]  p 0.412  
+  arc_easy               acc_norm n   2376  A 0.4937  B 0.5130  B-A +0.0194 [+0.0038, +0.0349]  p 0.0209 *
+  arc_easy               bpb      n   2376  A 1.2425  B 1.2974  B-A +0.0550 [+0.0399, +0.0712]  p 0 *
+  boolq                  acc      n   3270  A 0.5599  B 0.5679  B-A +0.0080 [-0.0070, +0.0229]  p 0.315  
+  boolq                  bpb      n   3270  A 1.4780  B 1.2353  B-A -0.2427 [-0.2525, -0.2330]  p 0 *
+  hellaswag              acc      n  10042  A 0.3189  B 0.3235  B-A +0.0047 [-0.0007, +0.0103]  p 0.102  
+  hellaswag              acc_norm n  10042  A 0.3694  B 0.3812  B-A +0.0118 [+0.0046, +0.0188]  p 0.0012 *
+  hellaswag              bpb      n  10042  A 0.8968  B 0.9870  B-A +0.0902 [+0.0882, +0.0922]  p 0 *
+  lambada_openai         acc      n   5153  A 0.3864  B 0.3575  B-A -0.0289 [-0.0398, -0.0175]  p 3.43e-07 *
+  lambada_openai         bpb      n   5153  A 0.7021  B 0.8102  B-A +0.1081 [+0.0938, +0.1222]  p 0 *
+  lambada_openai_nounk   acc      n   4373  A 0.3851  B 0.3670  B-A -0.0181 [-0.0295, -0.0069]  p 0.00211 *
+  lambada_openai_nounk   bpb      n   4373  A 0.7244  B 0.7557  B-A +0.0313 [+0.0225, +0.0402]  p 0 *
+  openbookqa             acc      n    500  A 0.2140  B 0.2160  B-A +0.0020 [-0.0280, +0.0320]  p 1  
+  openbookqa             acc_norm n    500  A 0.3280  B 0.3220  B-A -0.0060 [-0.0380, +0.0260]  p 0.807  
+  openbookqa             bpb      n    500  A 1.6823  B 1.7842  B-A +0.1019 [+0.0655, +0.1392]  p 0 *
+  piqa                   acc      n   1838  A 0.6610  B 0.6355  B-A -0.0256 [-0.0435, -0.0076]  p 0.00652 *
+  piqa                   acc_norm n   1838  A 0.6534  B 0.6279  B-A -0.0256 [-0.0435, -0.0071]  p 0.00652 *
+  piqa                   bpb      n   1838  A 1.1801  B 1.3109  B-A +0.1309 [+0.1217, +0.1403]  p 0 *
+  sciq                   acc      n   1000  A 0.7490  B 0.8260  B-A +0.0770 [+0.0540, +0.1000]  p 1.87e-10 *
+  sciq                   acc_norm n   1000  A 0.6830  B 0.7600  B-A +0.0770 [+0.0540, +0.1010]  p 5.95e-10 *
+  sciq                   bpb      n   1000  A 1.3045  B 1.2230  B-A -0.0815 [-0.1121, -0.0482]  p 0 *
+  winogrande             acc      n   1267  A 0.5241  B 0.5130  B-A -0.0110 [-0.0426, +0.0205]  p 0.523  
+  winogrande             bpb      n   1267  A 1.2679  B 1.4044  B-A +0.1366 [+0.1211, +0.1528]  p 0 *

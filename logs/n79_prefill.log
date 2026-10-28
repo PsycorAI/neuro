@@ -1,0 +1,53 @@
+[n79 10-25 19:25:13] graph feed test
+(1) P   199: ppl eager-feed 14.972 | graph-feed 15.391 | full forward 15.256 | prompt-end argmax agree 4/6 | max|logit diff| 1.648  (23s incl. capture)
+(1) P   512: ppl eager-feed 11.868 | graph-feed 11.868 | full forward 11.774 | prompt-end argmax agree 6/6 | max|logit diff| 0.031  (28s incl. capture)
+(1) P  1100: ppl eager-feed 10.941 | graph-feed 11.222 | full forward 11.153 | prompt-end argmax agree 5/6 | max|logit diff| 1.879  (42s incl. capture)
+(2) P   199 eager:   121.4 ms per prompt read (0.610 ms / token)
+(2) P   199 graph:    34.4 ms per prompt read (0.173 ms / token)
+    graph path GPU kernel time 29.7 ms in 8390 kernels
+    eager path GPU kernel time 11.8 ms in 4344 kernels
+(2) P   512 eager:   144.5 ms per prompt read (0.282 ms / token)
+(2) P   512 graph:    36.3 ms per prompt read (0.071 ms / token)
+    graph path GPU kernel time 33.8 ms in 2612 kernels
+    eager path GPU kernel time 23.3 ms in 5438 kernels
+(2) P  2048 eager:   354.8 ms per prompt read (0.173 ms / token)
+(2) P  2048 graph:   138.6 ms per prompt read (0.068 ms / token)
+    graph path GPU kernel time 135.2 ms in 10129 kernels
+    eager path GPU kernel time 152.7 ms in 12627 kernels
+== n79 graph feed test done
+[n79 10-25 19:27:07] gpu-energy prompt read (v4f models/checkpoints/v4std_dense/step_0181500.pt)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4g_pre@199  |   5652.2 tok/s |    22.70 mJ/tok total (22.28-22.77) |    13.52 active
+  gpu-energy v4g_pre@512  |  13640.1 tok/s |    11.13 mJ/tok total (10.93-11.18) |     7.35 active
+  gpu-energy v4g_pre@2048 |  14574.7 tok/s |    11.00 mJ/tok total (10.97-11.12) |     7.48 active
+  gpu-energy v4f_pre@199  |   5165.4 tok/s |    16.24 mJ/tok total (16.02-17.14) |     6.34 active
+  gpu-energy v4f_pre@512  |  13529.2 tok/s |     7.10 mJ/tok total (7.08-7.12) |     3.31 active
+  gpu-energy v4f_pre@2048 |  36972.7 tok/s |     4.40 mJ/tok total (4.35-4.55) |     2.99 active
+  gpu-energy v4_pre@199   |   1829.8 tok/s |    38.52 mJ/tok total (37.05-39.20) |    10.52 active
+  gpu-energy v4_pre@512   |   3992.5 tok/s |    19.24 mJ/tok total (18.99-20.46) |     6.43 active
+  gpu-energy v4_pre@2048  |   6728.4 tok/s |    16.33 mJ/tok total (15.64-16.74) |     8.62 active
+[n79 10-25 20:02:41] gpu-energy prompt read v2: ring skip + prefix cache (v4f models/checkpoints/v4std_dense/step_0181500.pt)
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+[n79 10-25 20:12:11] gpu-energy prompt read v2: ring skip + prefix cache (v4f models/checkpoints/v4std_dense/step_0183000.pt)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  17754.5 tok/s |     9.38 mJ/tok total (9.31-9.44) |     6.35 active
+  gpu-energy v4fg_pre@199 |  24817.0 tok/s |     6.74 mJ/tok total (6.72-6.83) |     4.62 active
+  gpu-energy v4fg_pre@512 |  37854.4 tok/s |     4.51 mJ/tok total (4.50-4.62) |     3.13 active
+  gpu-energy v4fg_pre@2048 |  39254.7 tok/s |     4.42 mJ/tok total (4.39-4.43) |     3.07 active
+  gpu-energy v4g_pre@143  |   4891.6 tok/s |    25.16 mJ/tok total (25.11-25.53) |    14.49 active
+  gpu-energy v4g_pre@199  |   6317.2 tok/s |    19.58 mJ/tok total (19.35-20.00) |    11.17 active
+  gpu-energy v4g_pre@512  |  19271.6 tok/s |     8.07 mJ/tok total (7.99-8.10) |     5.30 active
+  gpu-energy v4g_pre@2048 |  16668.0 tok/s |    10.07 mJ/tok total (10.01-10.20) |     6.82 active
+  gpu-energy v4p_pre@143  |   6614.4 tok/s |    17.44 mJ/tok total (17.10-17.51) |     9.19 active
+  gpu-energy v4p_pre@199  |   9255.1 tok/s |    12.37 mJ/tok total (12.27-12.46) |     6.70 active
+  gpu-energy v4p_pre@512  |  23115.8 tok/s |     4.99 mJ/tok total (4.96-5.00) |     2.69 active
+  gpu-energy v4p_pre@2048 |  88453.7 tok/s |     1.34 mJ/tok total (1.33-1.36) |     0.74 active
+  gpu-energy v4f_pre@143  |   3735.4 tok/s |    24.97 mJ/tok total (24.18-35.02) |    11.01 active
+  gpu-energy v4f_pre@199  |   5165.5 tok/s |    17.33 mJ/tok total (16.90-18.17) |     6.89 active
+  gpu-energy v4f_pre@512  |  12107.5 tok/s |     7.93 mJ/tok total (7.37-8.60) |     3.61 active
+  gpu-energy v4f_pre@2048 |  37172.2 tok/s |     4.52 mJ/tok total (4.47-4.54) |     3.10 active
+  gpu-energy v4_pre@143   |   1286.1 tok/s |    54.79 mJ/tok total (52.95-64.07) |    13.03 active
+  gpu-energy v4_pre@199   |   1706.2 tok/s |    42.67 mJ/tok total (42.04-42.98) |    11.52 active
+  gpu-energy v4_pre@512   |   4102.4 tok/s |    20.11 mJ/tok total (19.92-20.14) |     7.19 active
+  gpu-energy v4_pre@2048  |   6667.8 tok/s |    16.63 mJ/tok total (16.63-17.08) |     8.87 active

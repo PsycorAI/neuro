@@ -1,0 +1,10 @@
+[n68b 10-18 07:50] B4xGA4 rc=1 | median ? tok/s | vram ? GB | wall 7 min | extra:  | E1018 07:44:21.747000 27013 torch/_inductor/select_algorithm.py:3924] [0/0] No valid triton configs. OutOfMemoryError: o
+[n68b 10-18 09:12] B4xGA4 rc=124 | median ? tok/s | vram ? GB | wall 60 min | extra:  
+[n68b 10-18 09:17] B8xGA2 rc=1 | median ? tok/s | vram ? GB | wall 4 min | extra:  | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n68b 10-18 09:20] B16xGA1 rc=1 | median ? tok/s | vram ? GB | wall 3 min | extra:  | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n68b 10-18 09:22] B8xGA2_mq1 rc=1 | median ? tok/s | vram ? GB | wall 2 min | extra: mqar_once_per_step: true | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n68b 10-18 10:22] B4xGA4_mq1 rc=124 | median ? tok/s | vram ? GB | wall 60 min | extra: mqar_once_per_step: true 
+[n68b 10-18 10:24] B16xGA1_ro rc=1 | median ? tok/s | vram ? GB | wall 1 min | extra: compile_mode: reduce-overhead | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 31.84 GiB of wh
+[n68b 10-18 10:24] seed smoke rc=0 | out: step_0012208.pt  | blk10: revived units now fire on 0.486 of tokens wrote models/checkpoints/smoke_n68_seed/_prep_revived.pt [seed prep] revived dead FFN units [OK] 0 spike codes calibrated (scale 1.0) | zero-shot ppl dense 49.72 -> coded 49.72 | mean spikes/input nan | saved models/checkpoints/smoke_n68_seed @ step 1
+[n68b 10-18 12:30] B4xGA4 rc=143 | median 121 tok/s | vram 13.1/37.1 GB | wall 125 min | extra:  
+[n68b 10-18 13:02] B2xGA8 rc=0 | median 9650 tok/s | vram 13.1/26.1 GB | wall 32 min | extra:  

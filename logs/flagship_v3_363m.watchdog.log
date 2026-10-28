@@ -1,9 +1,0 @@
-[v3-watchdog] armed: baseline evals=46 best_val_ppl=30.67; silent unless an event fires.
-[v3-watchdog] ALERT val_ppl 31.31 is >2% above best 27.61 (1 consecutive eval(s)); trainer tripwire trips at 2.
-[v3-watchdog] ALERT PROCESS NOT RUNNING and no completion marker in log tail -- likely crash/OOM/WSL-kill. Investigate.
-[v3-watchdog] armed: baseline evals=53 best_val_ppl=27.61; silent unless an event fires.
-[v3-watchdog] ALERT val_ppl 28.59 is >7% above best 26.09 (1 consecutive eval(s)); trainer uses EMA+7% tripwire (2026-09-16).
-[v3-watchdog] ALERT val_ppl 27.00 is >7% above best 25.21 (1 consecutive eval(s)); trainer uses EMA+7% tripwire (2026-09-16).
-[v3-watchdog] ALERT val_ppl 27.94 is >7% above best 25.21 (1 consecutive eval(s)); trainer uses EMA+7% tripwire (2026-09-16).
-[v3-watchdog] ALERT val_ppl 27.71 is >7% above best 24.97 (1 consecutive eval(s)); trainer uses EMA+7% tripwire (2026-09-16).
-[v3-watchdog] ALERT val_ppl 26.72 is >7% above best 24.95 (1 consecutive eval(s)); trainer uses EMA+7% tripwire (2026-09-16).

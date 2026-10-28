@@ -1,0 +1,4 @@
+[n83 10-27 02:01:41] start: temp/n61_lawa.py --iters 50 --B 4 base=models/checkpoints/sft_v4_chat/step_0000001.pt mem=models/checkpoints/n83_lm_mem/step_0000457.pt
+base                   full  18.942 | chunk1  19.214 | chunks2+  18.674  (models/checkpoints/sft_v4_chat/step_0000001.pt)
+mem                    full  18.922 | chunk1  19.055 | chunks2+  18.790  (models/checkpoints/n83_lm_mem/step_0000457.pt)
+[n83 10-27 02:03:35] exit 0

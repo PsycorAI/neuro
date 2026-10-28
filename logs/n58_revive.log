@@ -1,0 +1,128 @@
+[revive 10-12 14:48:02] start
+[revive 10-12 14:48:15] evals of B46800
+B46800                     C=1024 T=2048 | chunk1   50.01 (mem off   49.55) | chunks2+   48.46 (off   46.58, Δ -1.88) | first64 of 2+   75.12 (off   78.94, Δ +3.81) vs first64 of chunk1   72.22
+B46800                     C=1024 N8:  98.4  96.9  97.7  97.7 (mem off  11.7) | N32:  93.8  85.2  88.3  85.2 (mem off   3.9)
+  blk 0 stream nan -> nan | pos 0.0278 mean -0.018 std 0.021 | act RMS 0.0009
+  blk 1 stream nan -> nan | pos 0.0152 mean -0.010 std 0.026 | act RMS 0.0024
+  blk 2 stream nan -> nan | pos 0.0040 mean -0.010 std 0.037 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.0000 mean -0.007 std 0.077 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.0000 mean -0.007 std 0.089 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1612 mean -0.272 std 0.282 | act RMS 0.0549
+  blk 8 stream nan -> nan | pos 0.1266 mean -0.241 std 0.284 | act RMS 0.0547
+  blk 9 stream nan -> nan | pos 0.1084 mean -0.299 std 0.329 | act RMS 0.0702
+  blk10 stream nan -> nan | pos 0.1127 mean -0.400 std 0.418 | act RMS 0.1083
+  blk11 stream nan -> nan | pos 0.1169 mean -0.541 std 0.520 | act RMS 0.1812
+  blk12 stream nan -> nan | pos 0.1525 mean -0.626 std 0.642 | act RMS 0.2898
+  embed.weight (32768, 2048) norm 784.2 rms 0.0957 | row norm: seen tokens median 4.290, unseen median 4.297, min 3.0567, max 5.90
+[revive 10-12 14:53:15] revive
+blk 0: 12288 units | dead 8439 (68.7%) | live fire share 0.061 | new row RMS 0.0105
+blk 1: 12288 units | dead 10672 (86.8%) | live fire share 0.955 | new row RMS 0.0000
+blk 2: 12288 units | dead 12249 (99.7%) | live fire share 0.913 | new row RMS 0.0177
+blk 3: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+blk 4: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+blk 5: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+blk 7: 12288 units | dead 11326 (92.2%) | live fire share 0.886 | new row RMS 0.0189
+blk 8: 12288 units | dead 11018 (89.7%) | live fire share 0.863 | new row RMS 0.0200
+blk 9: 12288 units | dead 11467 (93.3%) | live fire share 0.833 | new row RMS 0.0197
+blk10: 12288 units | dead 11712 (95.3%) | live fire share 0.846 | new row RMS 0.0194
+blk11: 12288 units | dead 11547 (94.0%) | live fire share 0.797 | new row RMS 0.0192
+blk12: 12288 units | dead 9464 (77.0%) | live fire share 0.894 | new row RMS 0.0182
+blk 0: revived units now fire on 0.502 of tokens
+blk 1: revived units now fire on 0.501 of tokens
+blk 2: revived units now fire on 0.498 of tokens
+blk 3: revived units now fire on 0.499 of tokens
+blk 4: revived units now fire on 0.493 of tokens
+blk 5: revived units now fire on 0.497 of tokens
+blk 7: revived units now fire on 0.494 of tokens
+blk 8: revived units now fire on 0.504 of tokens
+blk 9: revived units now fire on 0.501 of tokens
+blk10: revived units now fire on 0.499 of tokens
+blk11: revived units now fire on 0.500 of tokens
+blk12: revived units now fire on 0.494 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_revive/step_0046500.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_revive.yaml
+[revive 10-12 14:55:40] arm C training
+  [eval] val_ppl 56.76 | ablated_ppl 56.83 (memory Δ=+0.08) | spike 0.009	  [mlp] 0.344 0.449 0.492 0.495 0.485 0.484 0.459 0.464 0.462 0.459 0.446 0.430 	  [wnorm] embed=782.08 | head=112.24
+  [eval] val_ppl 65.95 | ablated_ppl 60.47 (memory Δ=-5.48) | spike 0.056	  [mlp] 0.317 0.448 0.477 0.478 0.474 0.476 0.437 0.433 0.417 0.406 0.385 0.398 	  [wnorm] embed=782.83 (+0.10%) | head=106.94 (-4.72%)
+  [eval] val_ppl 57.09 | ablated_ppl 55.06 (memory Δ=-2.03) | spike 0.079	  [mlp] 0.295 0.448 0.458 0.459 0.455 0.453 0.426 0.399 0.381 0.367 0.329 0.365 	  [wnorm] embed=783.51 (+0.09%) | head=102.06 (-4.56%)
+[revive 10-12 15:43:33] evals of C46800
+C46800                     C=1024 T=2048 | chunk1   72.31 (mem off   72.04) | chunks2+   67.87 (off   65.36, Δ -2.51) | first64 of 2+  100.93 (off  103.46, Δ +2.52) vs first64 of chunk1  106.67
+C46800                     C=1024 N8:  98.4  93.0  94.5  94.5 (mem off  14.1) | N32:  95.3  87.5  88.3  78.9 (mem off   4.7)
+  blk 0 stream nan -> nan | pos 0.3008 mean -0.011 std 0.028 | act RMS 0.0015
+  blk 1 stream nan -> nan | pos 0.4489 mean -0.002 std 0.019 | act RMS 0.0040
+  blk 2 stream nan -> nan | pos 0.4582 mean -0.003 std 0.033 | act RMS 0.0013
+  blk 3 stream nan -> nan | pos 0.4582 mean -0.005 std 0.049 | act RMS 0.0030
+  blk 4 stream nan -> nan | pos 0.4548 mean -0.011 std 0.093 | act RMS 0.0097
+  blk 5 stream nan -> nan | pos 0.4534 mean -0.005 std 0.052 | act RMS 0.0032
+  blk 7 stream nan -> nan | pos 0.4266 mean -0.046 std 0.276 | act RMS 0.0876
+  blk 8 stream nan -> nan | pos 0.4004 mean -0.078 std 0.318 | act RMS 0.1042
+  blk 9 stream nan -> nan | pos 0.3865 mean -0.105 std 0.366 | act RMS 0.1283
+  blk10 stream nan -> nan | pos 0.3694 mean -0.155 std 0.451 | act RMS 0.1707
+  blk11 stream nan -> nan | pos 0.3325 mean -0.224 std 0.509 | act RMS 0.2081
+  blk12 stream nan -> nan | pos 0.3640 mean -0.222 std 0.683 | act RMS 0.5188
+  embed.weight (32768, 2048) norm 783.5 rms 0.0956 | row norm: seen tokens median 4.287, unseen median 4.293, min 3.0714, max 5.96
+[revive 10-12 15:48:09] done
+[revive2 10-12 15:49:10] start: A/B at 46,700
+A46700                     C=1024 T=2048 | chunk1   43.00 (mem off   42.94) | chunks2+   41.94 (off   40.97, Δ -0.97) | first64 of 2+   64.03 (off   68.55, Δ +4.51) vs first64 of chunk1   63.37
+B46700                     C=1024 T=2048 | chunk1   43.27 (mem off   43.21) | chunks2+   44.46 (off   41.84, Δ -2.62) | first64 of 2+   64.98 (off   69.39, Δ +4.41) vs first64 of chunk1   62.83
+[revive2 10-12 15:51:34] narrow revive (blocks 2-5, 10% of dead units)
+blk 0: 12288 units | dead 8439 (68.7%) | live fire share 0.061 | new row RMS 0.0105
+blk 1: 12288 units | dead 10672 (86.8%) | live fire share 0.955 | new row RMS 0.0177
+blk 2: 12288 units | dead 12249 (99.7%) | live fire share 0.913 | new row RMS 0.0177
+       reviving 1224 of them
+blk 3: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+       reviving 1228 of them
+blk 4: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+       reviving 1228 of them
+blk 5: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0177
+       reviving 1228 of them
+blk 7: 12288 units | dead 11326 (92.2%) | live fire share 0.886 | new row RMS 0.0189
+blk 8: 12288 units | dead 11018 (89.7%) | live fire share 0.863 | new row RMS 0.0200
+blk 9: 12288 units | dead 11467 (93.3%) | live fire share 0.833 | new row RMS 0.0197
+blk10: 12288 units | dead 11712 (95.3%) | live fire share 0.846 | new row RMS 0.0194
+blk11: 12288 units | dead 11547 (94.0%) | live fire share 0.797 | new row RMS 0.0192
+blk12: 12288 units | dead 9464 (77.0%) | live fire share 0.894 | new row RMS 0.0182
+blk 2: revived units now fire on 0.476 of tokens
+blk 3: revived units now fire on 0.474 of tokens
+blk 4: revived units now fire on 0.491 of tokens
+blk 5: revived units now fire on 0.512 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_revive2/step_0046500.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_revive2.yaml
+[revive2 10-12 15:53:45] arm D training
+  [eval] val_ppl 39.73 | ablated_ppl 37.41 (memory Δ=-2.32) | spike 0.016	  [mlp] 0.022 0.012 0.048 0.047 0.043 0.043 0.114 0.098 0.076 0.084 0.091 0.150 	  [wnorm] embed=782.41 | head=113.03
+  [eval] val_ppl 34.28 | ablated_ppl 33.76 (memory Δ=-0.52) | spike 0.034	  [mlp] 0.024 0.014 0.043 0.050 0.038 0.035 0.122 0.104 0.085 0.090 0.100 0.156 	  [wnorm] embed=783.59 (+0.15%) | head=108.10 (-4.36%)
+  [eval] val_ppl 33.83 | ablated_ppl 32.72 (memory Δ=-1.11) | spike 0.049	  [mlp] 0.025 0.015 0.034 0.045 0.024 0.028 0.108 0.090 0.078 0.086 0.092 0.150 	  [wnorm] embed=784.65 (+0.13%) | head=104.28 (-3.53%)
+[revive2 10-12 16:45:55] evals of D46800
+D46800                     C=1024 T=2048 | chunk1   42.13 (mem off   42.07) | chunks2+   42.36 (off   40.56, Δ -1.80) | first64 of 2+   63.64 (off   67.66, Δ +4.02) vs first64 of chunk1   61.11
+D46800                     C=1024 N8: 100.0  94.5  97.7  97.7 (mem off  19.5) | N32:  94.5  89.8  89.8  80.5 (mem off   6.2)
+  blk 0 stream nan -> nan | pos 0.0264 mean -0.018 std 0.021 | act RMS 0.0006
+  blk 1 stream nan -> nan | pos 0.0151 mean -0.010 std 0.026 | act RMS 0.0019
+  blk 2 stream nan -> nan | pos 0.0340 mean -0.008 std 0.026 | act RMS 0.0004
+  blk 3 stream nan -> nan | pos 0.0452 mean -0.006 std 0.054 | act RMS 0.0007
+  blk 4 stream nan -> nan | pos 0.0238 mean -0.005 std 0.028 | act RMS 0.0012
+  blk 5 stream nan -> nan | pos 0.0277 mean -0.008 std 0.070 | act RMS 0.0012
+  blk 7 stream nan -> nan | pos 0.0980 mean -0.335 std 0.263 | act RMS 0.0469
+  blk 8 stream nan -> nan | pos 0.0890 mean -0.273 std 0.274 | act RMS 0.0507
+  blk 9 stream nan -> nan | pos 0.0820 mean -0.323 std 0.319 | act RMS 0.0667
+  blk10 stream nan -> nan | pos 0.0896 mean -0.421 std 0.398 | act RMS 0.1006
+  blk11 stream nan -> nan | pos 0.0954 mean -0.573 std 0.503 | act RMS 0.1746
+  blk12 stream nan -> nan | pos 0.1482 mean -0.620 std 0.628 | act RMS 0.2937
+[revive2 10-12 16:50:17] done
+wrote /home/glenn/projects/neuro/configs/probe_v4_ctl.yaml
+[ctl 10-12 16:51:32] control training (no revival)
+  [eval] val_ppl 37.26 | ablated_ppl 35.73 (memory Δ=-1.54) | spike 0.010	  [mlp] 0.023 0.012 0.005 0.000 0.000 0.000 0.105 0.085 0.069 0.075 0.085 0.143 	  [wnorm] embed=782.51 | head=113.37
+  [eval] val_ppl 33.98 | ablated_ppl 33.26 (memory Δ=-0.72) | spike 0.036	  [mlp] 0.032 0.013 0.006 0.000 0.000 0.000 0.118 0.104 0.085 0.091 0.100 0.156 	  [wnorm] embed=783.76 (+0.16%) | head=108.44 (-4.35%)
+  [eval] val_ppl 32.64 | ablated_ppl 32.48 (memory Δ=-0.16) | spike 0.036	  [mlp] 0.033 0.015 0.006 0.000 0.000 0.000 0.096 0.087 0.077 0.084 0.090 0.142 	  [wnorm] embed=784.86 (+0.14%) | head=104.79 (-3.36%)
+[ctl 10-12 17:43:51] evals of CTL46800
+CTL46800                   C=1024 T=2048 | chunk1   42.47 (mem off   42.43) | chunks2+   40.89 (off   40.42, Δ -0.47) | first64 of 2+   63.57 (off   67.70, Δ +4.14) vs first64 of chunk1   61.11
+CTL46800                   C=1024 N8:  97.7  96.9  96.9  92.2 (mem off  17.2) | N32:  93.0  87.5  85.9  81.2 (mem off   6.2)
+[ctl 10-12 17:47:24] done
+[resume 10-12 17:48:05] resume the control from step 46,700
+resumed /home/glenn/projects/neuro/models/checkpoints/probe_v4_ctl/step_0046500.pt @ step 46500, 1523.7M tok
+resumed /home/glenn/projects/neuro/models/checkpoints/probe_v4_ctl/step_0046700.pt @ step 46700, 1530.3M tok
+  [eval] val_ppl 34.01 | ablated_ppl 33.06 (memory Δ=-0.95) | spike 0.050	  [wnorm] embed=784.80 | head=104.57
+CTLR46800                  C=1024 T=2048 | chunk1   43.09 (mem off   42.88) | chunks2+   43.36 (off   41.09, Δ -2.27) | first64 of 2+   64.95 (off   68.62, Δ +3.67) vs first64 of chunk1   63.05
+[resume 10-12 18:11:46] done

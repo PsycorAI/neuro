@@ -1,0 +1,7 @@
+  speed v4           GPU NVIDIA GeForce RTX 5080 | weights 4.51 GiB
+  speed v4           L   1024 | prefill      4781 tok/s |   0.209 ms/token | peak   6.77 GiB
+  speed v4           L   2048 | prefill      7939 tok/s |   0.126 ms/token | peak   7.02 GiB
+  speed v4           L   4096 | prefill      7788 tok/s |   0.128 ms/token | peak   7.61 GiB
+  speed v4           L   8192 | prefill      7707 tok/s |   0.130 ms/token | peak   8.80 GiB
+  speed v4           L  16384 | prefill      7485 tok/s |   0.134 ms/token | peak  11.18 GiB
+  speed v4           L  32768 | OOM

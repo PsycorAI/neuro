@@ -1,0 +1,101 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_final_slim/step_0003663.pt (0.06B tok)
+LoRA: wrapped 48 layers (r=32, alpha=64), 15728640 adapter params (1.40% of 1125.2M) trainable
+optimizer: AdamW (LoRA adapters only, 15728640 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 400 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/python_sk_F/study.jsonl: 7301 tool pairs {'brain': 2424, 'answer': 959, 'tool': 2234, 'sk_search': 669, 'tool_absent': 547, 'sk_idk': 394, 'sk_known': 74} -> encoded 7299 (bad 0, skipped 2)
+  TOTAL encoded examples: 7299
+arch=spiking params=1109.52M device=cuda | per_step_tok=8192 | total_steps≈1623 | warmup=81
+
+step 20 | 0.2M tok | loss 0.416 | spike 0.013 | 1,139 tok/s | vram 4.5/13.3 GB
+step 40 | 0.3M tok | loss 0.092 | spike 0.013 | 1,109 tok/s | vram 4.5/13.3 GB
+step 60 | 0.5M tok | loss 0.014 | spike 0.013 | 1,265 tok/s | vram 4.6/13.3 GB
+step 80 | 0.7M tok | loss 0.003 | spike 0.013 | 1,219 tok/s | vram 4.6/13.3 GB
+step 100 | 0.8M tok | loss 0.129 | spike 0.014 | 1,115 tok/s | vram 4.6/13.3 GB
+step 120 | 1.0M tok | loss 0.049 | spike 0.013 | 1,136 tok/s | vram 4.5/13.3 GB
+step 140 | 1.1M tok | loss 0.036 | spike 0.014 | 1,115 tok/s | vram 4.5/13.3 GB
+step 160 | 1.3M tok | loss 0.088 | spike 0.013 | 1,163 tok/s | vram 4.5/13.3 GB
+step 180 | 1.5M tok | loss 0.535 | spike 0.014 | 1,160 tok/s | vram 4.6/13.3 GB
+step 200 | 1.6M tok | loss 0.569 | spike 0.014 | 1,138 tok/s | vram 4.6/13.3 GB
+step 220 | 1.8M tok | loss 0.444 | spike 0.013 | 1,153 tok/s | vram 4.6/13.3 GB
+step 240 | 2.0M tok | loss 0.016 | spike 0.014 | 1,127 tok/s | vram 4.6/13.3 GB
+step 260 | 2.1M tok | loss 0.008 | spike 0.013 | 1,115 tok/s | vram 4.6/13.3 GB
+step 280 | 2.3M tok | loss 0.436 | spike 0.014 | 1,193 tok/s | vram 4.6/13.3 GB
+step 300 | 2.5M tok | loss 0.001 | spike 0.014 | 1,180 tok/s | vram 4.6/13.3 GB
+step 320 | 2.6M tok | loss 0.004 | spike 0.013 | 1,085 tok/s | vram 4.6/13.3 GB
+step 340 | 2.8M tok | loss 0.223 | spike 0.014 | 1,162 tok/s | vram 4.6/13.3 GB
+step 360 | 2.9M tok | loss 0.045 | spike 0.013 | 1,162 tok/s | vram 4.6/13.3 GB
+step 380 | 3.1M tok | loss 0.013 | spike 0.014 | 1,234 tok/s | vram 4.6/13.3 GB
+step 400 | 3.3M tok | loss 0.030 | spike 0.014 | 1,253 tok/s | vram 4.6/13.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_py_F/step_0000400.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Question:\nWhat is the capital of France?\n\nThe capital of France is Paris.\n### Answer:\nThe capital of France is Paris.\n### Question:\nWhat is the'
+step 420 | 3.4M tok | loss 0.039 | spike 0.014 | 995 tok/s | vram 4.5/13.3 GB
+step 440 | 3.6M tok | loss 0.038 | spike 0.014 | 1,246 tok/s | vram 4.6/13.3 GB
+step 460 | 3.8M tok | loss 0.030 | spike 0.013 | 1,250 tok/s | vram 4.5/13.3 GB
+step 480 | 3.9M tok | loss 0.004 | spike 0.014 | 1,255 tok/s | vram 4.5/13.3 GB
+step 500 | 4.1M tok | loss 0.110 | spike 0.013 | 1,215 tok/s | vram 4.6/13.3 GB
+step 520 | 4.3M tok | loss 0.033 | spike 0.014 | 1,187 tok/s | vram 4.5/13.3 GB
+step 540 | 4.4M tok | loss 0.001 | spike 0.014 | 1,234 tok/s | vram 4.6/13.3 GB
+step 560 | 4.6M tok | loss 0.266 | spike 0.014 | 1,190 tok/s | vram 4.6/13.3 GB
+step 580 | 4.8M tok | loss 0.136 | spike 0.014 | 1,235 tok/s | vram 4.6/13.3 GB
+step 600 | 4.9M tok | loss 0.030 | spike 0.013 | 1,235 tok/s | vram 4.5/13.3 GB
+step 620 | 5.1M tok | loss 0.029 | spike 0.014 | 1,233 tok/s | vram 4.5/13.3 GB
+step 640 | 5.2M tok | loss 0.026 | spike 0.013 | 1,270 tok/s | vram 4.5/13.3 GB
+step 660 | 5.4M tok | loss 0.001 | spike 0.013 | 1,420 tok/s | vram 4.6/13.3 GB
+step 680 | 5.6M tok | loss 0.005 | spike 0.014 | 1,367 tok/s | vram 4.5/13.3 GB
+step 700 | 5.7M tok | loss 0.014 | spike 0.013 | 1,395 tok/s | vram 4.5/13.3 GB
+step 720 | 5.9M tok | loss 0.133 | spike 0.013 | 1,303 tok/s | vram 4.6/13.3 GB
+step 740 | 6.1M tok | loss 0.056 | spike 0.013 | 1,384 tok/s | vram 4.5/13.3 GB
+step 760 | 6.2M tok | loss 0.103 | spike 0.013 | 1,363 tok/s | vram 4.6/13.3 GB
+step 780 | 6.4M tok | loss 0.002 | spike 0.014 | 1,313 tok/s | vram 4.6/13.3 GB
+step 800 | 6.6M tok | loss 0.021 | spike 0.014 | 1,156 tok/s | vram 4.6/13.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_py_F/step_0000800.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital city of France is Paris.\n### Question: What is the capital city of France?\n\nThe capital city of France is Paris.\n### Answer: The capital city of France is Paris.\n### Question'
+step 820 | 6.7M tok | loss 0.015 | spike 0.013 | 1,109 tok/s | vram 4.5/13.3 GB
+step 840 | 6.9M tok | loss 0.026 | spike 0.013 | 1,383 tok/s | vram 4.5/13.3 GB
+step 860 | 7.0M tok | loss 0.018 | spike 0.013 | 1,372 tok/s | vram 4.5/13.3 GB
+step 880 | 7.2M tok | loss 0.013 | spike 0.014 | 1,401 tok/s | vram 4.6/13.3 GB
+step 900 | 7.4M tok | loss 0.005 | spike 0.014 | 1,372 tok/s | vram 4.6/13.3 GB
+step 920 | 7.5M tok | loss 0.061 | spike 0.014 | 1,438 tok/s | vram 4.6/13.3 GB
+step 940 | 7.7M tok | loss 0.003 | spike 0.014 | 1,402 tok/s | vram 4.6/13.3 GB
+step 960 | 7.9M tok | loss 0.016 | spike 0.014 | 1,390 tok/s | vram 4.6/13.3 GB
+step 980 | 8.0M tok | loss 0.005 | spike 0.014 | 1,397 tok/s | vram 4.6/13.3 GB
+step 1000 | 8.2M tok | loss 0.082 | spike 0.013 | 1,351 tok/s | vram 4.5/13.3 GB
+step 1020 | 8.4M tok | loss 0.001 | spike 0.013 | 1,398 tok/s | vram 4.5/13.3 GB
+step 1040 | 8.5M tok | loss 0.055 | spike 0.013 | 1,419 tok/s | vram 4.5/13.3 GB
+step 1060 | 8.7M tok | loss 0.073 | spike 0.014 | 1,406 tok/s | vram 4.6/13.3 GB
+step 1080 | 8.8M tok | loss 0.020 | spike 0.014 | 1,441 tok/s | vram 4.5/13.3 GB
+step 1100 | 9.0M tok | loss 0.099 | spike 0.014 | 1,320 tok/s | vram 4.6/13.3 GB
+step 1120 | 9.2M tok | loss 0.030 | spike 0.014 | 1,395 tok/s | vram 4.6/13.3 GB
+step 1140 | 9.3M tok | loss 0.045 | spike 0.014 | 1,426 tok/s | vram 4.5/13.3 GB
+step 1160 | 9.5M tok | loss 0.004 | spike 0.014 | 1,302 tok/s | vram 4.5/13.3 GB
+step 1180 | 9.7M tok | loss 0.009 | spike 0.014 | 1,398 tok/s | vram 4.6/13.3 GB
+step 1200 | 9.8M tok | loss 0.032 | spike 0.014 | 1,392 tok/s | vram 4.6/13.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_py_F/step_0001200.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital city of France is Paris.\n### Question: What is the capital city of France?\n\nAnswer: Paris is the capital city of France.\n### Question: What is the capital city of France?\n'
+step 1220 | 10.0M tok | loss 0.006 | spike 0.014 | 1,081 tok/s | vram 4.5/13.3 GB
+step 1240 | 10.2M tok | loss 0.001 | spike 0.014 | 1,292 tok/s | vram 4.5/13.3 GB
+step 1260 | 10.3M tok | loss 0.040 | spike 0.014 | 1,385 tok/s | vram 4.6/13.3 GB
+step 1280 | 10.5M tok | loss 0.000 | spike 0.014 | 1,371 tok/s | vram 4.6/13.3 GB
+step 1300 | 10.6M tok | loss 0.056 | spike 0.014 | 1,320 tok/s | vram 4.5/13.3 GB
+step 1320 | 10.8M tok | loss 0.012 | spike 0.015 | 1,313 tok/s | vram 4.6/13.3 GB
+step 1340 | 11.0M tok | loss 0.003 | spike 0.014 | 1,298 tok/s | vram 4.6/13.3 GB
+step 1360 | 11.1M tok | loss 0.004 | spike 0.014 | 1,299 tok/s | vram 4.6/13.3 GB
+step 1380 | 11.3M tok | loss 0.002 | spike 0.014 | 1,382 tok/s | vram 4.6/13.3 GB
+step 1400 | 11.5M tok | loss 0.029 | spike 0.014 | 1,402 tok/s | vram 4.5/13.3 GB
+step 1420 | 11.6M tok | loss 0.009 | spike 0.014 | 1,354 tok/s | vram 4.5/13.3 GB
+step 1440 | 11.8M tok | loss 0.020 | spike 0.014 | 1,398 tok/s | vram 4.6/13.3 GB
+step 1460 | 12.0M tok | loss 0.002 | spike 0.014 | 1,338 tok/s | vram 4.6/13.3 GB
+step 1480 | 12.1M tok | loss 0.016 | spike 0.014 | 1,382 tok/s | vram 4.5/13.3 GB
+step 1500 | 12.3M tok | loss 0.076 | spike 0.014 | 1,334 tok/s | vram 4.5/13.3 GB
+step 1520 | 12.5M tok | loss 0.085 | spike 0.014 | 1,356 tok/s | vram 4.6/13.3 GB
+step 1540 | 12.6M tok | loss 0.022 | spike 0.014 | 1,372 tok/s | vram 4.6/13.3 GB
+step 1560 | 12.8M tok | loss 0.012 | spike 0.014 | 1,375 tok/s | vram 4.5/13.3 GB
+step 1580 | 12.9M tok | loss 0.017 | spike 0.014 | 1,324 tok/s | vram 4.5/13.3 GB
+step 1600 | 13.1M tok | loss 0.056 | spike 0.014 | 1,335 tok/s | vram 4.5/13.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_py_F/step_0001600.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital city of France is Paris.\n### Question: What is the capital city of France?\n\nThe capital city of France is Paris.\n### Answer: Paris is the capital city of France.\n### Question'
+step 1620 | 13.3M tok | loss 0.072 | spike 0.014 | 1,063 tok/s | vram 4.6/13.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_py_F/step_0001624.pt
+done: 13.3M tok in 2.91h

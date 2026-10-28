@@ -1,0 +1,8 @@
+[OK] brain_stack.yaml: {'sft_init': 'sft_v4_chat_py', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/stack_hp/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 30000000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20, 'keep_last': 1, 'lora_base_bf16': True}
+[OK] brain_stack: spike_code=['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v']
+== brain_stack training 23:53
+== brain_stack quiz 02:46
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught  99.3% (n=150) | control   6.0% (n=150)
+[OK] merged_brain_stack: brain_stack merged into 48 layers of sft_v4_chat_py -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_stack/step_0000001.pt
+  constrained  parse=1.000 mode_acc=0.995 halluc=0.000 tool_acc=0.992 args_exact=0.902 refuse_acc=0.987 say_ok=1.000  (1146s)

@@ -1,0 +1,26 @@
+sft_v4_reh13: 189M params, step 733, vocab 32768
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+held-out test examples: 200 (bad lines 0)
+  [constrained] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [constrained] gold=ANSWER - | pred="ANSWER I don't have a tool for that one.\n###"
+  [constrained] gold=TOOL translate | pred='TOOL {"name": "calculator", "arguments": {"expression": "                                 '
+  [constrained] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a mix of flavors that make'
+  [constrained] gold=ANSWER - | pred='ANSWER The type of data is classified as a "Customer" or "Customer".\n###'
+  constrained  parse=0.995 mode_acc=0.915 halluc=0.000 tool_acc=0.959 args_exact=0.803 refuse_acc=0.833  (975s)
+  [free] gold=TOOL calculator | pred='TOOL {"name": "calculator", "arguments": {"expression": "893 * 25"}}\n###'
+  [free] gold=ANSWER - | pred="ANSWER I don't have a tool for that one.\n###"
+  [free] gold=TOOL translate | pred='TOOL {"name": "calculator", "arguments": {"expression": "                                 '
+  [free] gold=ANSWER - | pred='ANSWER The taste of a dish made of beef, peppers, and onions is a mix of flavors that make'
+  [free] gold=ANSWER - | pred='ANSWER The type of data is classified as a "Customer" or "Customer".\n###'
+  free         parse=0.995 mode_acc=0.915 halluc=0.040 tool_acc=0.959 args_exact=0.803 refuse_acc=0.833  (770s)
+
+metric         constrained          free
+parse                0.995         0.995
+mode_acc             0.915         0.915
+tool_acc             0.959         0.959
+args_exact           0.803         0.803
+refuse_acc           0.833         0.833
+halluc               0.000         0.040
+
+(n=200 gold-TOOL + gold-ANSWER mixed; halluc lower is better)

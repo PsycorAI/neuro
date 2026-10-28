@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>150M Spiking vs Transformer</title>
+<style>
+:root{--bg:#fff;--fg:#1d1d1f;--mut:#6b6b70;--line:#e3e3e8;--win:#1a7f37;--lose:#b42318;--card:#f6f6f8}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--fg:#ececf0;--mut:#9a9aa3;--line:#2c2c31;--win:#4ac26b;--lose:#ff7b72;--card:#1d1d21}}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:960px;padding:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}p,li{color:var(--fg)}.mut{color:var(--mut)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:right}
+th:first-child,td:first-child{text-align:left}th{color:var(--mut);font-weight:600}.w{color:var(--win);font-weight:600}.l{color:var(--lose);font-weight:600}
+.box{background:var(--card);border-radius:8px;padding:12px 16px}.scroll{overflow-x:auto}code{font-size:13px}
+</style></head><body>
+<h1>150M spiking hybrid vs matched transformer</h1>
+<p class="mut">Neuro 67 &middot; 2026-10-18 &middot; logs: <code>logs/n67_cmp.log</code>, <code>logs/gap_queue.log</code></p>
+
+<div class="box">
+<b>Setup (matched):</b> same data, tokens (200M dense + 80M with the Llama-3.2-1B teacher), seed, schedule, attention window (chunk 1024, T 2048), training aux, FFN, optimizer. Only difference: the spiking model's memory block (depth 6) is an attention layer in the transformer, and the transformer has no spike codes. Params 188.5M vs 184.1M.<br>
+<b>Fairness checks:</b> (1) clean re-run of the spiking final phase (r27e) matches r26o within 0.5% &rarr; the old low-LR tail did not matter; (2) transformer LR check: x0.5 / x1 / x2 &rarr; x1 gives the best final model (38.76 vs 39.15 at x0.5; x2 44.99 after phase A) &rarr; the transformer baseline is at its best LR; (3) a second seed for both.
+</div>
+
+<h2>Headline</h2>
+<div class="scroll"><table>
+<tr><th>Test</th><th>Spiking r26o</th><th>Spiking r27e (clean)</th><th>Transformer r27b</th><th>Spiking wins by</th></tr>
+<tr><td>Perplexity, first chunk (T2048)</td><td>36.55</td><td>36.70</td><td>38.76</td><td class="w">5.7%</td></tr>
+<tr><td>Perplexity, later chunks (T2048)</td><td>35.37</td><td>35.19</td><td>39.19</td><td class="w">9.7%</td></tr>
+<tr><td>First 64 tokens after a chunk boundary</td><td>44.84</td><td>44.70</td><td>61.74</td><td class="w">27%</td></tr>
+<tr><td>Later chunks at T 8192</td><td>32.35</td><td>&ndash;</td><td>36.26</td><td class="w">11%</td></tr>
+<tr><td>Later chunks at T 16384</td><td>36.08</td><td>36.23</td><td>40.35</td><td class="w">11%</td></tr>
+<tr><td>Recall beyond the window (N8 / N32)</td><td>100 / 100%</td><td>~100 / ~99%</td><td>~15 / ~4%</td><td class="w">memory works</td></tr>
+<tr><td>int4 activations (ppl rise)</td><td>+6.9%</td><td>&ndash;</td><td>+10.1%</td><td class="w">more robust</td></tr>
+<tr><td>Weight noise 10% (ppl rise)</td><td>+2.4%</td><td>&ndash;</td><td>+2.8%</td><td>about equal</td></tr>
+<tr><td>Zero inputs to layers (sparsity)</td><td>70.2%</td><td>&ndash;</td><td>46.5%</td><td class="w">sparser</td></tr>
+<tr><td>Compute energy / token (energy-v2)</td><td>115 &micro;J</td><td>118 &micro;J</td><td>467 &micro;J</td><td class="w">4.1x lower</td></tr>
+<tr><td>+ on-chip memory reads</td><td>314 &micro;J</td><td>&ndash;</td><td>733 &micro;J</td><td class="w">2.3x lower</td></tr>
+<tr><td>+ off-chip (DRAM) reads</td><td>22.0 mJ</td><td>&ndash;</td><td>31.3 mJ</td><td class="w">1.4x lower</td></tr>
+<tr><td>HellaSwag / ARC-e / ARC-c (acc_norm)</td><td>32.2 / 36.2 / 23.7</td><td>&ndash;</td><td>34.6 / 33.2 / 20.1</td><td>tie (near chance at 150M)</td></tr>
+<tr><td>GPU training speed</td><td>16.6k tok/s</td><td>&ndash;</td><td>25.6k tok/s</td><td class="l">transformer 1.55x faster</td></tr>
+</table></div>
+
+<h2>Second seed (seed 1)</h2>
+<div class="scroll"><table>
+<tr><th>Perplexity, first chunk</th><th>Spiking</th><th>Transformer</th><th>Spiking wins by</th></tr>
+<tr><td>After the dense phase</td><td>38.65 (r26r)</td><td>40.10 (r27c)</td><td class="w">3.6%</td></tr>
+<tr><td>Final</td><td>37.04 (r26u)</td><td>38.07 (r27d)</td><td class="w">2.7%</td></tr>
+<tr><td>Later chunks at T 16384</td><td>&ndash;</td><td>39.21</td><td>&ndash;</td></tr>
+</table></div>
+<p class="mut">Seed-1 spiking checkpoints were deleted earlier, so only their logged training-time numbers exist; the new robustness tests ran on seed 0 only.</p>
+
+<h2>Honest caveats</h2>
+<ul>
+<li>The seed-0 first-chunk gap (5.7%) is bigger than seed 1 (2.7%): the fair claim is "about 3&ndash;6% lower perplexity inside the window, about 10% lower across windows".</li>
+<li>Both models use chunked attention (window 1024). A full-attention transformer would close part of the cross-chunk gap; not tested yet (to-do, parked).</li>
+<li>Energy numbers are a model of the hardware (energy-v2), not chip measurements; the Lava simulator test is the next step.</li>
+<li>On GPUs the transformer trains 1.55x faster; the spiking advantages are quality, memory, robustness and estimated energy, not GPU speed.</li>
+<li>Benchmarks (HellaSwag / ARC) are near chance at 150M and do not separate the models.</li>
+</ul>
+</body></html>

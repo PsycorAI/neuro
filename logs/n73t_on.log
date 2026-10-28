@@ -1,0 +1,35 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13_v2tr/step_0000733.pt (0.01B tok)
+LoRA: frozen base linears stored in bf16 (lora_base_bf16)
+LoRA: wrapped 48 layers (r=32, alpha=64), 4718592 adapter params (2.44% of 193.2M) trainable
+optimizer: AdamW (LoRA adapters only, 4718592 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 10 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/python_r2/study.jsonl: 7255 tool pairs {'brain': 2424, 'answer': 1213, 'tool': 2861, 'tool_absent': 757} -> encoded 7255 (bad 0, skipped 0)
+  TOTAL encoded examples: 7255
+arch=spiking params=188.53M device=cuda | per_step_tok=8192 | total_steps≈20 | warmup=1
+
+step 1 | 0.0M tok | loss 0.919 | spike 0.091 | 164 tok/s | vram 0.9/5.1 GB
+step 2 | 0.0M tok | loss 1.315 | spike 0.090 | 561 tok/s | vram 0.9/5.1 GB
+step 3 | 0.0M tok | loss 0.608 | spike 0.089 | 341 tok/s | vram 0.9/5.6 GB
+step 4 | 0.0M tok | loss 0.703 | spike 0.088 | 691 tok/s | vram 0.8/5.6 GB
+step 5 | 0.0M tok | loss 0.897 | spike 0.093 | 288 tok/s | vram 0.9/6.1 GB
+step 6 | 0.0M tok | loss 0.861 | spike 0.088 | 428 tok/s | vram 0.8/6.1 GB
+step 7 | 0.1M tok | loss 0.656 | spike 0.090 | 412 tok/s | vram 0.9/6.1 GB
+step 8 | 0.1M tok | loss 1.052 | spike 0.086 | 555 tok/s | vram 0.8/6.1 GB
+step 9 | 0.1M tok | loss 0.974 | spike 0.090 | 400 tok/s | vram 0.8/6.1 GB
+step 10 | 0.1M tok | loss 1.428 | spike 0.089 | 358 tok/s | vram 0.9/6.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n'
+step 11 | 0.1M tok | loss 0.586 | spike 0.090 | 117 tok/s | vram 0.8/6.1 GB
+step 12 | 0.1M tok | loss 1.483 | spike 0.091 | 369 tok/s | vram 0.9/6.1 GB
+step 13 | 0.1M tok | loss 0.918 | spike 0.088 | 379 tok/s | vram 0.9/6.1 GB
+step 14 | 0.1M tok | loss 0.901 | spike 0.094 | 361 tok/s | vram 0.9/6.1 GB
+step 15 | 0.1M tok | loss 0.552 | spike 0.091 | 362 tok/s | vram 0.8/6.1 GB
+step 16 | 0.1M tok | loss 1.078 | spike 0.087 | 405 tok/s | vram 0.8/6.1 GB
+step 17 | 0.1M tok | loss 1.345 | spike 0.093 | 397 tok/s | vram 0.9/6.1 GB
+step 18 | 0.1M tok | loss 1.182 | spike 0.090 | 578 tok/s | vram 0.9/6.1 GB
+step 19 | 0.2M tok | loss 0.714 | spike 0.088 | 397 tok/s | vram 0.9/6.1 GB
+step 20 | 0.2M tok | loss 0.687 | spike 0.090 | 407 tok/s | vram 0.9/6.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Organization:\nThe capital of France is Paris.\n### Organization:\nThe capital of France is Paris.\n### Organization:\nThe capital of France is Paris.\n### Organization:\n'
+  saved /home/glenn/projects/neuro/models/checkpoints/n73t_on/step_0000020.pt
+done: 0.2M tok in 0.15h

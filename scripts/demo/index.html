@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Neuro Brain View</title>
+<title>Neuro v4 demo</title>
 <style>
 :root{--bg:#0b0f17;--panel:#121826;--line:#1f2a3d;--ink:#e6ebf5;--dim:#8a96ad;--spk:#5be0ff;--mlp:#ffb347;--mem:#b78bff;--ok:#5ee6a0;--bad:#ff6b6b}
 *{box-sizing:border-box}
@@ -22,7 +22,8 @@ main{display:grid;grid-template-columns:minmax(320px,1fr) minmax(420px,1.35fr);g
 .bot{background:#161f30;border:1px solid var(--line);max-width:95%}
 .bot.nomem{border-color:var(--bad)}
 .tag{font-size:11px;color:var(--dim);display:block;margin-bottom:2px}
-textarea{width:100%;min-height:70px;background:#0e1420;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;resize:vertical}
+textarea{width:100%;min-height:70px;background:#000;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;resize:vertical}
+textarea:focus{outline:none}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
 button{background:#22304a;color:var(--ink);border:1px solid #2f4266;border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
 button.primary{background:#2463eb;border-color:#2463eb}
@@ -32,8 +33,15 @@ label{color:var(--dim);font-size:13px}
 input[type=number],select{width:64px;background:#0e1420;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:3px}
 .right{display:flex;flex-direction:column;gap:16px}
 .brainwrap{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
-#brain{display:grid;grid-template-columns:repeat(16,12px);gap:4px}
-#brain div{width:12px;height:12px;border-radius:50%;background:#1a2336;transition:background .15s,box-shadow .15s}
+#brain,#brainf{display:grid;grid-template-columns:repeat(16,12px);gap:4px}
+#brain div,#brainf div{width:12px;height:12px;border-radius:50%;background:#1a2336;transition:background .15s,box-shadow .15s}
+.brains{display:grid;grid-template-columns:1fr;gap:16px}
+.brains.two{grid-template-columns:1fr 1fr}
+.brains.two .brainwrap{grid-template-columns:1fr}
+.brains>*{min-width:0}
+.brains.two #brain,.brains.two #brainf{grid-template-columns:repeat(16,1fr);gap:3px;max-width:252px}
+.brains.two #brain div,.brains.two #brainf div{width:100%;height:auto;aspect-ratio:1}
+@media(max-width:600px){.brains.two{grid-template-columns:1fr}}
 .big{font-size:34px;font-weight:650;letter-spacing:-.5px}
 .sub{color:var(--dim);font-size:12px}
 canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rendering:pixelated}
@@ -44,34 +52,56 @@ canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rende
 .bar{height:10px;border-radius:5px;background:#1a2336;overflow:hidden}
 .bar>i{display:block;height:100%}
 .note{font-size:11px;color:var(--dim);margin-top:8px}
+.card{margin-top:6px;border:1px solid #2f4266;border-radius:8px;padding:6px 10px;background:#0e1420;font-size:13px}
+.card b{color:var(--spk)}
+.src{font-size:11px;border-radius:999px;padding:1px 8px;margin-left:6px;border:1px solid var(--line);color:var(--dim)}
+.say{color:var(--ok);font-style:italic}
+.fix{font-size:11px;color:var(--mlp);margin-top:3px}
+.bad{color:var(--bad);border-color:var(--bad)}
+.scen{display:grid;grid-template-columns:120px 1fr 80px;gap:8px;align-items:center;margin:4px 0;font-size:12px}
+select.wide{width:auto}
+.tabs{display:flex;gap:6px;margin-left:auto}
+.tabbtn{padding:5px 12px;font-size:13px}
+.tabbtn.on{background:#2463eb;border-color:#2463eb}
+.hidden{display:none!important}
+.tagm{font-size:10px;letter-spacing:1px;border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:1px}
+.tagm.meas{color:var(--ok);border:1px solid var(--ok)}
+.tagm.est{color:var(--mlp);border:1px solid var(--mlp)}
 </style>
 </head>
 <body>
 <header>
   <h1>Neuro &mdash; live brain view</h1>
   <div class="chips" id="chips"></div>
+  <div class="tabs"><a class="sub" href="/sessions" target="_blank" style="align-self:center;margin-right:6px;color:var(--spk)"
+      title="Every conversation is saved after each answer (logs/demo_sessions); Reset starts a new one">saved sessions</a>
+    <button class="tabbtn on" data-tab="t_demo">Demo</button>
+    <button class="tabbtn" data-tab="t_future">Future hardware (estimated)</button></div>
 </header>
-<main>
+<main id="t_demo">
   <section class="panel">
     <h2>Conversation</h2>
     <div id="log"></div>
-    <textarea id="inp" placeholder="Type a message (Ctrl+Enter to send)"></textarea>
+    <textarea id="inp" placeholder="Type a message (Enter to send, Shift+Enter for a new line)"></textarea>
     <div class="row">
       <button class="primary" id="send">Send</button>
       <button class="warn" id="replay" disabled title="Run the last turn again with the memory switched off">Replay without memory</button>
       <button id="reset">Reset</button>
+      <button id="memtest" title="The trained key-value test: word pairs from the training's key / value token ranges, placed beyond the attention window, recalled with the memory on vs off. Natural-language facts across a chunk boundary are not reliably recalled yet.">Memory test</button>
     </div>
     <div class="row">
-      <label><input type="checkbox" id="chat"> chat template</label>
+      <label>mode <select id="mode" class="wide"><option value="ask">assistant (tools)</option><option value="raw">raw text</option></select></label>
+      <label title="A brain is a small add-on trained on documents. Router: the backend switches on the one brain each question needs (never two at once)">brain <select id="brainsel" class="wide"><option value="none">none</option></select></label>
+      <label title="Every tool uses its offline path (no network)"><input type="checkbox" id="offline"> offline</label>
       <label>temperature <input type="number" id="temp" value="0" step="0.1" min="0" max="2"></label>
-      <label>max tokens <input type="number" id="maxt" value="60" min="1" max="400"></label>
-      <label title="How many recent words attention can see. Anything older must come from the spiking memory.">attention sees last
-        <select id="win"><option value="">trained setting</option><option value="0">all words</option>
-          <option value="128">128 words</option><option value="64">64 words</option><option value="32">32 words</option></select></label>
+      <label>max words (raw) <input type="number" id="maxt" value="60" min="1" max="400"></label>
+    </div>
+    <div class="row"><span class="sub" id="histinfo">&nbsp;</span>
     </div>
   </section>
 
   <section class="right">
+    <div class="brains">
     <div class="panel">
       <h2>Brain, this word</h2>
       <div class="brainwrap">
@@ -83,6 +113,19 @@ canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rende
           <div class="sub" id="tokinfo">&nbsp;</div>
         </div>
       </div>
+    </div>
+    <div class="panel hidden" id="fpanel">
+      <h2>v4f transformer, this word</h2>
+      <div class="brainwrap">
+        <div id="brainf"></div>
+        <div>
+          <div class="big" id="active_f">&ndash;</div>
+          <div class="sub">of its feed-forward neurons active (nonzero) for the same word</div>
+          <div style="height:10px"></div>
+          <div class="sub" id="f_note">&nbsp;</div>
+        </div>
+      </div>
+    </div>
     </div>
 
     <div class="panel">
@@ -99,29 +142,88 @@ canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rende
     </div>
 
     <div class="panel">
-      <h2>Energy meter</h2>
+      <h2>Energy on this GPU<span class="tagm meas">MEASURED</span> <span class="sub" id="g_name"></span></h2>
       <div class="meter">
         <div>
-          <div class="sub">this word, event-driven (our model)</div>
+          <div class="sub">this answer: the model's GPU energy</div>
+          <div style="display:flex;align-items:baseline;column-gap:80px;row-gap:4px;flex-wrap:wrap">
+            <div class="big" id="g_ans">&ndash;</div>
+            <div id="g_save" style="display:flex;align-items:center;gap:6px;color:var(--ok)"
+              title="this answer (reading the prompt + writing the reply) priced for both models with the same test on this GPU">
+              <span class="big" id="g_save_x"></span><span id="g_save_t" style="font-size:15px;line-height:1.05"></span></div>
+          </div>
+          <div class="sub" id="g_ans2">&nbsp;</div>
+        </div>
+        <div>
+          <div class="sub">energy per word at this conversation's length (<span id="g_ctx">&ndash;</span> words), same test on this GPU</div>
+          <div class="scen"><span>v4 (this model)</span><div class="bar"><i id="g_b4" style="background:var(--ok);width:0"></i></div><b id="g_v4">&ndash;</b></div>
+          <div class="scen"><span>v4f transformer</span><div class="bar"><i id="g_bf" style="background:var(--dim);width:0"></i></div><b id="g_v4f">&ndash;</b></div>
+          <div class="sub" id="g_ratio">&nbsp;</div>
+        </div>
+      </div>
+      <div class="sub" style="margin-top:10px">energy per word vs conversation length, both models measured on this GPU
+        (<i class="sw" style="background:var(--ok)"></i>v4 &nbsp;<i class="sw" style="background:var(--dim)"></i>v4f; | = this conversation)</div>
+      <canvas id="g_curve" height="110"></canvas>
+      <div class="sub" id="g_sess" style="margin-top:6px">&nbsp;</div>
+      <div class="sub" style="margin-top:12px">this conversation so far, both models priced with the same test on this GPU at
+        each answer's length (reading the prompt + writing the reply)</div>
+      <div class="scen"><span>v4 (this model)</span><div class="bar"><i id="c_b4" style="background:var(--ok);width:0"></i></div><b id="c_v4">&ndash;</b></div>
+      <div class="scen"><span>v4f transformer</span><div class="bar"><i id="c_bf" style="background:var(--dim);width:0"></i></div><b id="c_vf">&ndash;</b></div>
+      <canvas id="c_curve" height="70"></canvas>
+      <div class="sub" id="c_ratio">&nbsp;</div>
+      <div class="note">Measured with the GPU's own power sensor (instant power, sampled 50 times a second in a separate
+        process; checked against a wall power meter). &ldquo;This answer&rdquo; = reading the prompt + writing the reply,
+        including the GPU's idle power; drawing the brain view on this page is measured separately and not counted. The
+        per-word bars and the curve: both models generating in the same test harness on this GPU, one word at a time
+        (<span id="g_src">no table for this GPU yet</span>). A standard transformer keeps every earlier word in its
+        attention cache, so its cost per word grows with the conversation; v4's attention window and memory state stay the
+        same size. Today's GPUs compute every weight densely; event-driven hardware would skip the silent neurons
+        (see Future hardware).</div>
+    </div>
+  </section>
+</main>
+
+<main id="t_future" class="hidden">
+  <section class="panel">
+    <h2>Future hardware<span class="tagm est">ESTIMATED</span></h2>
+    <div class="note" style="font-size:13px;color:var(--ink)">On event-driven (neuromorphic) hardware a silent neuron
+      costs nothing: only the weights of active inputs are read and spikes need only additions. This page estimates the
+      energy of every word the model has processed in this conversation on such a chip, against the v4f transformer
+      computed densely on the same hardware model with the same figures. Memory traffic is included, which is where most
+      of the energy goes; computation alone is shown separately, and is not the headline.</div>
+  </section>
+  <section class="right">
+    <div class="panel">
+      <h2>Energy meter, event-driven hardware<span class="tagm est">ESTIMATED</span></h2>
+      <div class="meter">
+        <div>
+          <div class="sub">energy for this word incl. weight reads, v4 event-driven</div>
           <div class="big" id="ev">&ndash;</div>
           <div class="bar"><i id="evbar" style="background:var(--ok);width:0"></i></div>
         </div>
         <div>
-          <div class="sub">same network computed densely</div>
+          <div class="sub" id="de_lab">v4f transformer, same hardware model, computed densely</div>
           <div class="big" id="de">&ndash;</div>
           <div class="bar"><i style="background:var(--dim);width:100%"></i></div>
         </div>
       </div>
       <div class="row" style="margin-top:12px">
-        <div><span class="big" id="ratio">&ndash;</span> <span class="sub">fewer operations</span></div>
-        <div style="margin-left:auto;text-align:right"><div class="sub">energy so far (45&nbsp;nm estimate)</div>
-          <div id="joules">&ndash;</div></div>
+        <div><span class="big" id="ratio">&ndash;</span> <span class="sub">less energy than v4f (incl. off-chip weight reads)</span><div class="sub" id="cratio">&ndash;</div><div class="sub" id="dratio">&ndash;</div><div class="sub" id="opsd">&ndash;</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="sub">v4 weights read for this word</div><div id="reads">&ndash;</div></div>
       </div>
-      <div class="note">Counts every multiply&ndash;add in the network for each word. Event-driven: a neuron that stays
-        silent costs nothing downstream, and spikes need only additions. Dense: every neuron computed, as a GPU or a
-        standard transformer does. Energy uses the standard 45&nbsp;nm per-operation figures (MAC 4.6&nbsp;pJ,
-        add 0.9&nbsp;pJ) and ignores memory traffic, so it is an estimate for neuromorphic hardware, not a GPU
-        measurement.</div>
+      <div class="sub" style="margin-top:10px">energy, this conversation: v4 event-driven (bar) vs v4f dense (full width)</div>
+      <div class="scen"><span>compute only</span><div class="bar"><i id="b_compute" style="background:var(--ok);width:0"></i></div><b id="r_compute">&ndash;</b></div>
+      <div class="scen"><span>+ on-chip memory</span><div class="bar"><i id="b_sram" style="background:var(--ok);width:0"></i></div><b id="r_sram">&ndash;</b></div>
+      <div class="scen"><span>+ off-chip memory</span><div class="bar"><i id="b_dram" style="background:var(--ok);width:0"></i></div><b id="r_dram">&ndash;</b></div>
+      <div id="joules" class="sub">&ndash;</div>
+      <div class="note">Per word, every layer is counted. Event-driven v4: a silent neuron costs nothing downstream, spikes
+        need only additions, and only the weights of active inputs are read. v4f: every weight read and multiplied, and
+        attention over every earlier word of the conversation. 45&nbsp;nm figures (Horowitz, ISSCC 2014)<span id="e_prec"></span>:
+        multiply&ndash;add <span id="e_mac">4.6</span>&nbsp;pJ, add <span id="e_ac">0.9</span>&nbsp;pJ, weight read from
+        on-chip memory <span id="e_sram">2.5</span>&nbsp;pJ, from off-chip DRAM <span id="e_dram">320</span>&nbsp;pJ; the
+        attention cache and the memory state are charged as on-chip reads in both models. An estimate for neuromorphic
+        hardware, not a measurement. Critiques of spiking-network energy claims (memory access dominates; compare against an
+        optimised transformer, not the same network) are why memory is included and v4f is the reference.</div>
     </div>
   </section>
 </main>
@@ -130,34 +232,156 @@ canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rende
 <script>
 const $ = id => document.getElementById(id);
 let info = null, cols = [], busy = false, totEv = 0, totDe = 0;
+const tot = { compute: [0, 0], sram: [0, 0], dram: [0, 0] };
 const COLW = 6;
 
 // brain dot grid
 for (let i = 0; i < 128; i++) $("brain").appendChild(document.createElement("div"));
+for (let i = 0; i < 128; i++) $("brainf").appendChild(document.createElement("div"));   // n80: the v4f box
 
 fetch("/info").then(r => r.json()).then(j => {
   info = j;
-  $("chat").checked = j.chat_default;
+  $("offline").checked = j.offline;
+  if ((j.brains || []).length) { const o = document.createElement("option"); o.value = "auto"; o.textContent = "router (one brain per question)"; $("brainsel").appendChild(o); }
+  (j.brains || []).forEach(b => { const o = document.createElement("option"); o.value = b; o.textContent = b + " only"; $("brainsel").appendChild(o); });
+  $("brainsel").value = j.brain || "none";
   const chips = [j.run, (j.params / 1e6).toFixed(0) + "M params",
-    `${j.spiking_layers} spiking + ${j.attn_layers} attention layers`,
-    `context ${j.block_size} words`, j.attn_window ? `attention window ${j.attn_window}` : "full attention",
-    `${(j.tokens_trained / 1e9).toFixed(2)}B training tokens`];
+    `${j.spiking_layers} spiking memory + ${j.attn_layers} attention layers`,
+    j.spike_coded ? "spike-coded: attention and feed-forward weights read spikes" : "dense",
+    `context ${j.block_size} words`,
+    j.attn_window ? `attention sees the last ${j.attn_window} words; older words only through the memory`   // n78
+                  : j.attn_chunk ? `attention sees ${j.attn_chunk}-word chunks; older words only through the memory` : "full attention",
+    j.base_tokens ? `${(j.base_tokens / 1e9).toFixed(2)}B pretraining + ${(j.tokens_trained / 1e9).toFixed(2)}B fine-tuning tokens`
+                  : `${(j.tokens_trained / 1e9).toFixed(2)}B training tokens`, `tool protocol v${j.tool_proto}`]
+    .filter(c => !/^0\.00B training tokens$/.test(c));   // n78: unknown (a merged / copied checkpoint) -> no misleading 0
+  if (j.home) chips.push(`here: ${j.home.city}${j.home.city_set ? "" : " (from the time zone)"} · ` +   // 10-21
+                         (j.home.imperial ? "°F, mph" : "°C, km/h"));
   $("chips").innerHTML = chips.map(c => `<span class="chip">${c}</span>`).join("");
-});
+  if (j.v4f_box) {   // n80 (Glenn 10-25): v4f's neurons for the same words, counted as v4's (exactly nonzero)
+    $("fpanel").classList.remove("hidden"); document.querySelector(".brains").classList.add("two");
+    $("f_note").textContent = `${j.v4f_box.neurons.toLocaleString()} neurons in ${j.v4f_box.layers} layers; its activation ` +
+      `(SwiGLU) is almost never exactly zero, so every neuron is computed and its weights read for every word`;
+  }
+  const e = j.energy || {};   // n76: the meter's figures come from the server (DEMO_PRECISION fp | int8)
+  if (e.mac_pj !== undefined) {
+    $("e_mac").textContent = +e.mac_pj.toFixed(2); $("e_ac").textContent = +e.ac_pj.toFixed(2);
+    $("e_sram").textContent = +e.sram_read_pj.toFixed(2); $("e_dram").textContent = +e.dram_read_pj.toFixed(2);
+    $("e_prec").textContent = e.precision === "int8" ? ", int8 weights in both (measured: no quality change), int8 arithmetic assumed" : "";
+  }
+  const g = j.gpu || {};       // n78 W4: the measured GPU meter
+  $("g_name").textContent = g.name ? "· " + g.name.replace("NVIDIA GeForce ", "") : "· no GPU meter (CPU run)";
+  gtab = g.table || null;
+  if (gtab) $("g_src").textContent = `measured ${gtab.source ? "with the W1 harness" : ""}; v4 = this model, bf16; v4f = the matched 1.1B transformer, bf16, KV cache`;
+  drawCurve();
+}).catch(() => { $("chips").innerHTML = `<span class="chip bad">demo server not reachable &mdash; start it, then reload</span>`; });
+
+// ---------------------------------------------------------------- n78 W4: measured GPU meter
+let gtab = null, gctx = 0, gsess = { J: 0, viz: 0, n: 0 };
+function curveRows(rows) { return Object.keys(rows).map(Number).sort((a, b) => a - b).map(k => [k, rows[k].mJ_tok]); }
+function drawCurve() {
+  const c = $("g_curve"); sizeCanvas(c);
+  const g = c.getContext("2d"); g.clearRect(0, 0, c.width, c.height);
+  if (!gtab) { g.fillStyle = "#8a96ad"; g.font = "12px system-ui"; g.fillText("no measured table for this GPU yet", 8, 20); return; }
+  const a = curveRows(gtab.v4_dec), b = curveRows(gtab.v4f_dec), all = a.concat(b);
+  const x0 = Math.log(256), x1 = Math.log(40000), ymax = Math.max(...all.map(p => p[1])) * 1.1;
+  const X = n => 30 + (Math.log(n) - x0) / (x1 - x0) * (c.width - 40), Y = v => c.height - 18 - v / ymax * (c.height - 28);
+  g.strokeStyle = "#1f2a3d"; g.fillStyle = "#8a96ad"; g.font = "10px system-ui";
+  for (const n of [512, 2048, 8192, 32768]) { g.beginPath(); g.moveTo(X(n), 6); g.lineTo(X(n), c.height - 18); g.stroke();
+    g.fillText(n >= 1024 ? n / 1024 + "k" : n, X(n) - 8, c.height - 5); }
+  g.fillText(Math.round(ymax) + " mJ", 0, 12); g.fillText("0", 18, c.height - 18);
+  for (const [pts, col] of [[b, "--dim"], [a, "--ok"]]) {
+    g.strokeStyle = rgba(col, 1); g.lineWidth = 2; g.beginPath();
+    pts.forEach(([n, v], i) => i ? g.lineTo(X(n), Y(v)) : g.moveTo(X(n), Y(v))); g.stroke();
+    g.fillStyle = rgba(col, 1); pts.forEach(([n, v]) => g.fillRect(X(n) - 2, Y(v) - 2, 4, 4));
+  }
+  g.lineWidth = 1;
+  if (gctx) { g.strokeStyle = "#e6ebf5"; g.beginPath(); g.moveTo(X(Math.max(gctx, 256)), 6); g.lineTo(X(Math.max(gctx, 256)), c.height - 18); g.stroke(); }
+}
+// n80 (Glenn 10-26): the conversation's cumulative energy, both models priced from the same-harness table on the SAME
+// tokens (decode at each answer's mid-context, prompt reads at the read length; v4's prompt rows = its graph-segment read).
+// v4f is priced on the tokens v4 actually read (v4 restores the tools block from a cache; v4f could cache it too).
+let gcum = { v4: 0, vf: 0, pts: [] };
+function atCtx(rows, x) {
+  const xs = Object.keys(rows || {}).map(Number).sort((a, b) => a - b);
+  if (!xs.length) return null;
+  if (x <= xs[0]) return rows[xs[0]].mJ_tok;
+  if (x >= xs[xs.length - 1]) return rows[xs[xs.length - 1]].mJ_tok;
+  for (let i = 0; i < xs.length - 1; i++) if (x <= xs[i + 1]) {
+    const a = xs[i], b = xs[i + 1], f = (Math.log(x) - Math.log(a)) / (Math.log(b) - Math.log(a));
+    return rows[a].mJ_tok + f * (rows[b].mJ_tok - rows[a].mJ_tok);
+  }
+}
+function cumAdd(ev) {
+  if (!gtab || !ev.by) return;
+  const n = ev.decode_tokens || 0, p = (ev.by.prefill || {}).n || 0, mid = Math.max(1, (ev.context || 1) - n / 2);
+  // n81 10-26: like for like -- v4's graph-captured read is priced against v4f's graph-captured read (v4fg_pre; was
+  // v4f's EAGER prefill, ~2x dearer at 143-199 tokens, which favoured v4); eager vs eager where a card has no graph rows
+  const pre4 = gtab.v4g_pre || gtab.v4_pre, pref = gtab.v4g_pre ? (gtab.v4fg_pre || gtab.v4f_pre) : gtab.v4f_pre;
+  const e4 = n * atCtx(gtab.v4_dec, mid) + (p && pre4 ? p * atCtx(pre4, p) : 0);
+  const ef = n * atCtx(gtab.v4f_dec, mid) + (p && pref ? p * atCtx(pref, p) : 0);
+  gcum.v4 += e4 / 1e3; gcum.vf += ef / 1e3; gcum.pts.push([ev.context || 0, gcum.v4, gcum.vf]);
+  // this answer, both models priced alike (the same pricing as the conversation bars below); said plainly either way
+  const less = ef >= e4, x = less ? ef / e4 : e4 / ef;
+  $("g_save_x").textContent = e4 > 0 ? x.toFixed(2) + "×" : "";
+  $("g_save_t").innerHTML = e4 > 0 ? (less ? "less<br>energy" : "more<br>energy") : "";
+  $("g_save").style.color = less ? "var(--ok)" : "var(--dim)";
+  drawCum();
+}
+function drawCum() {
+  const m = Math.max(gcum.v4, gcum.vf, 1e-9), c = $("c_curve"); sizeCanvas(c);
+  $("c_v4").textContent = gcum.pts.length ? gcum.v4.toFixed(1) + " J" : "–";
+  $("c_vf").textContent = gcum.pts.length ? gcum.vf.toFixed(1) + " J" : "–";
+  $("c_b4").style.width = (100 * gcum.v4 / m).toFixed(1) + "%"; $("c_bf").style.width = (100 * gcum.vf / m).toFixed(1) + "%";
+  $("c_ratio").textContent = gcum.pts.length ? (gcum.vf >= gcum.v4 ? `the v4 hybrid spiking model: ${(gcum.vf / gcum.v4).toFixed(2)}× less energy for this conversation, prompt reading included`
+    : `v4f: ${(gcum.v4 / gcum.vf).toFixed(2)}× less for this conversation`) + " (the gap grows with the conversation's length)" : " ";
+  const g = c.getContext("2d"); g.clearRect(0, 0, c.width, c.height);
+  if (gcum.pts.length < 1) return;
+  const xs = [[0, 0, 0], ...gcum.pts], X = i => 4 + i / (xs.length - 1 || 1) * (c.width - 8), Y = v => c.height - 4 - v / m * (c.height - 8);
+  for (const [k, col] of [[2, "--dim"], [1, "--ok"]]) {
+    g.strokeStyle = rgba(col, 1); g.lineWidth = 2; g.beginPath();
+    xs.forEach((p, i) => i ? g.lineTo(X(i), Y(p[k])) : g.moveTo(X(i), Y(p[k]))); g.stroke();
+  }
+  g.lineWidth = 1;
+}
+function gpuEnergy(ev) {
+  cumAdd(ev);
+  const f2 = x => x == null ? "–" : x.toFixed(2);
+  $("g_ans").textContent = ev.model_J.toFixed(1) + " J";
+  $("g_ans2").textContent = `${ev.decode_tokens} words · ${ev.mJ_tok != null ? ev.mJ_tok.toFixed(0) : "–"} mJ per word · ` +
+    `${ev.tok_s != null ? ev.tok_s.toFixed(0) : "–"} words/s · first word after ${f2(ev.first_token_s)} s`;
+  gsess.J += ev.model_J; gsess.viz += ev.by.viz.J; gsess.n += 1;
+  $("g_sess").textContent = `this conversation: ${gsess.J.toFixed(1)} J in ${gsess.n} answers (drawing the brain view` +
+    (info && info.v4f_box ? " and the v4f box: " : ": ") +
+    `${gsess.viz.toFixed(1)} J more, not counted) · GPU idle power ${ev.idle_W.toFixed(0)} W`;
+  if (ev.ref) {
+    gctx = ev.ref.context; $("g_ctx").textContent = gctx.toLocaleString();
+    const v4 = ev.ref.v4.mJ_tok, vf = ev.ref.v4f.mJ_tok, m = Math.max(v4, vf);
+    $("g_v4").textContent = v4.toFixed(0) + " mJ"; $("g_v4f").textContent = vf.toFixed(0) + " mJ";
+    $("g_b4").style.width = (100 * v4 / m).toFixed(1) + "%"; $("g_bf").style.width = (100 * vf / m).toFixed(1) + "%";
+    // the crossover (where v4f starts to cost more per word) from the measured curve, said plainly either way
+    const a = curveRows(gtab ? gtab.v4_dec : {}), b = curveRows(gtab ? gtab.v4f_dec : {});
+    let cross = null;
+    for (let i = 0; i < Math.min(a.length, b.length); i++) if (b[i][1] > a[i][1]) { cross = b[i][0]; break; }
+    $("g_ratio").textContent = vf >= v4 ? `this v4 hybrid spiking model uses ${(100 * (1 - v4 / vf)).toFixed(0)}% less energy per word here`
+      : `at this short length v4f uses ${(v4 / vf).toFixed(2)}× less per word` + (cross ? `; v4 uses less from about ${cross.toLocaleString()} words on` : "");
+  }
+  drawCurve();
+}
 
 function fmtOps(x) { return x >= 1e9 ? (x / 1e9).toFixed(2) + " G" : (x / 1e6).toFixed(1) + " M"; }
 function fmtJ(pj) {
   return pj >= 1e9 ? (pj / 1e9).toFixed(2) + " mJ" : pj >= 1e6 ? (pj / 1e6).toFixed(1) + " µJ" : (pj / 1e3).toFixed(1) + " nJ";
 }
 
+const _rgb = {};   // 10-21: the CSS colour read once (per cell it doubled the raster's draw time: 10.6 -> 5.1 ms)
 function rgba(hex, a) {
-  const v = getComputedStyle(document.documentElement).getPropertyValue(hex).trim();
-  const n = parseInt(v.slice(1), 16);
+  if (!(hex in _rgb)) _rgb[hex] = parseInt(getComputedStyle(document.documentElement).getPropertyValue(hex).trim().slice(1), 16);
+  const n = _rgb[hex];
   return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
 }
 
 function sizeCanvas(c) {
-  const w = Math.max(c.parentElement.clientWidth - 28, cols.length * COLW);
+  const w = Math.max(60, c.parentElement.clientWidth - 28);   // n68: was max(panel, cols*COLW) -> grew without bound
   if (c.width !== w) c.width = w;
 }
 
@@ -198,17 +422,48 @@ function showWord(c) {
     dots[i].style.boxShadow = a > 0.3 ? `0 0 8px ${rgba("--spk", a)}` : "none";
   });
   $("active").textContent = (c.active * 100).toFixed(1) + "%";
+  if (c.h0_f) {      // n80: the v4f box
+    const fd = $("brainf").children;
+    c.h0_f.forEach((v, i) => {
+      fd[i].style.background = v > 0 ? rgba("--mlp", 0.25 + 0.75 * Math.min(1, v)) : "#1a2336";
+      fd[i].style.boxShadow = v > 0.3 ? `0 0 8px ${rgba("--mlp", Math.min(1, v))}` : "none";
+    });
+    $("active_f").textContent = (c.active_f * 100).toFixed(1) + "%";
+  }
   $("tokinfo").textContent = `word: "${c.text}"` + (c.write != null ? ` · memory write ${(c.write * 100).toFixed(0)}%` : "");
-  $("ev").textContent = fmtOps(c.ops_event);
-  $("de").textContent = fmtOps(c.ops_dense);
-  $("evbar").style.width = (100 * c.ops_event / c.ops_dense).toFixed(1) + "%";
-  $("ratio").textContent = (c.ops_dense / c.ops_event).toFixed(2) + "×";
+  // n77 10-24 (Glenn OK, Demo plan v2 review): headline = energy INCLUDING off-chip weight reads (compute is ~1% of
+  // it; a compute-only headline is the exact critique of SNN energy claims); compute-only shown as a secondary line.
+  // (was n66 10-16: headline = compute energy)
+  const hv = c.energy ? c.energy.dram : {pj_event: c.pj_event, pj_dense: c.pj_dense};
+  // n78 W4 (Glenn 10-25: compare v4 with v4f): the reference is the v4f transformer computed densely on the same hardware
+  // model (pj_v4f, engine.Tracer); "v4 itself computed densely" stays as a secondary line
+  const ref = hv.pj_v4f !== undefined ? hv.pj_v4f : hv.pj_dense, cref = c.energy && c.energy.compute.pj_v4f !== undefined
+    ? c.energy.compute.pj_v4f : c.pj_dense;
+  if (hv.pj_v4f === undefined) $("de_lab").textContent = "same network computed densely (v4 itself)";
+  $("ev").textContent = fmtJ(hv.pj_event);
+  $("de").textContent = fmtJ(ref);
+  $("evbar").style.width = Math.min(100, 100 * hv.pj_event / ref).toFixed(1) + "%";
+  $("ratio").textContent = (ref / hv.pj_event).toFixed(2) + "×";
+  $("cratio").textContent = `compute only: ${(cref / c.pj_event).toFixed(2)}× less (${fmtJ(c.pj_event)} vs ${fmtJ(cref)})`;
+  $("dratio").textContent = `vs v4 itself computed densely: ${(hv.pj_dense / hv.pj_event).toFixed(2)}× less`;
+  $("opsd").textContent = `operations: ${fmtOps(c.ops_event)} (mostly additions) vs ${fmtOps(c.ops_dense)} multiply-adds`;
+  if (c.reads_dense) $("reads").textContent = `${fmtOps(c.reads_event)} of ${fmtOps(c.reads_dense)}`;
 }
 
 function addCol(ev) {
-  cols.push(ev);
+  cols.push(ev); if (cols.length > 5000) cols.splice(0, cols.length - 5000);
   totEv += ev.pj_event; totDe += ev.pj_dense;
-  $("joules").innerHTML = `<b>${fmtJ(totEv)}</b> <span class="sub">vs ${fmtJ(totDe)} dense</span>`;
+  if (ev.energy) {
+    for (const k of ["compute", "sram", "dram"]) {   // n78 W4: vs v4f when the server sends it (else v4 dense)
+      const e = ev.energy[k];
+      tot[k][0] += e.pj_event; tot[k][1] += e.pj_v4f !== undefined ? e.pj_v4f : e.pj_dense;
+      $("b_" + k).style.width = (100 * tot[k][0] / tot[k][1]).toFixed(1) + "%";
+      $("r_" + k).textContent = (tot[k][1] / tot[k][0]).toFixed(2) + "× less";
+    }
+    $("joules").innerHTML = `off-chip case so far: <b>${fmtJ(tot.dram[0])}</b> vs ${fmtJ(tot.dram[1])} for v4f`;
+  } else {
+    $("joules").innerHTML = `<b>${fmtJ(totEv)}</b> <span class="sub">vs ${fmtJ(totDe)} dense</span>`;
+  }
   showWord(ev);
 }
 
@@ -233,10 +488,15 @@ function bubble(cls, tag) {
   return d.querySelector(".t");
 }
 
+function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+function card(out, html) { const d = document.createElement("div"); d.className = "card"; d.innerHTML = html; out.parentElement.appendChild(d); return d; }
+
 async function stream(path, body, out) {
-  busy = true; ["send", "replay", "reset"].forEach(b => $(b).disabled = true);
+  let dbuf = "";
+  busy = true; ["send", "replay", "reset", "memtest"].forEach(b => $(b).disabled = true);
   try {
     const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!r.ok || !r.body) throw new Error(`server answered ${r.status}`);
     const rd = r.body.getReader(), dec = new TextDecoder();
     let buf = "", frame = false;
     for (;;) {
@@ -248,40 +508,148 @@ async function stream(path, body, out) {
         const line = buf.slice(0, i); buf = buf.slice(i + 2);
         if (!line.startsWith("data: ")) continue;
         const ev = JSON.parse(line.slice(6));
-        if (ev.type === "token") {
-          addCol(ev);
-          if (ev.kind === "gen") { out.textContent += ev.text; $("log").scrollTop = 1e9; }
+        if (ev.type === "token" || ev.type === "text") {   // n63: "text" = live answer text, its traces follow as
+          if (ev.type === "token") addCol(ev);              // token events with replay=true (raster / meter only)
+          if (ev.kind === "gen" && !ev.replay) {
+            if (ev.phase === "decide") {            // the mode word comes first: ANSWER streams, TOOL waits for its card
+              dbuf += ev.text;
+              if (/^\s*ANSWER/.test(dbuf)) out.textContent = dbuf.replace(/^\s*ANSWER\s*/, "");
+              else if (/^\s*TOOL/.test(dbuf)) out.textContent = "…";
+            } else { if (out.textContent === "…") out.textContent = ""; out.textContent += ev.text; }
+            $("log").scrollTop = 1e9;
+          }
           if (!frame) { frame = true; requestAnimationFrame(() => { draw(); frame = false; }); }
+        } else if (ev.type === "turn") {
+          $("histinfo").textContent = `history: ${ev.in_view} of ${ev.total_turns} earlier turns in view` +
+            (ev.brain ? ` · brain: ${ev.brain}` : (ev.auto ? " · brain: none" : "")) + (ev.auto ? " (auto)" : "") +
+            (ev.offline ? " · offline" : "");
+          if (ev.auto) out.parentElement.querySelector(".tag").textContent += ` · router: ${ev.brain ? ev.brain + " brain" : "no brain needed"}`;
+        } else if (ev.type === "tool_dropped") {     // n68: the backend dropped a tool call unrelated to the message
+          dbuf = ""; out.textContent = "…";
+          card(out, `<div class="fix">backend: dropped the model's call ${esc(ev.name)}(${esc(JSON.stringify(ev.arguments))}) &mdash; unrelated to your message; the model answers instead</div>`);
+          out.parentElement.appendChild(out);
+        } else if (ev.type === "tool_call") {
+          out.textContent = "";
+          card(out, `<span class="say">${esc(ev.say)}</span><br><b>${esc(ev.name)}</b>(${esc(JSON.stringify(ev.arguments))})` +
+            (ev.routed ? `<div class="fix">backend: the model answered without a tool; this request was routed to ${esc(ev.name)}</div>` : "") +
+            (ev.corrected_from ? `<div class="fix">backend: the model wrote ${esc(ev.corrected_from)}; corrected` +
+              (/this computer/.test(ev.corrected_from) ? "" : " from your question") + `</div>` : ""));
+        } else if (ev.type === "tool_result") {
+          card(out, `result <span class="src">${esc(ev.source || "")}</span>` + (ev.ok === false ? ` <span class="src bad">failed</span>` : "") +
+            `<br>${esc(ev.text || "")}`);
+          out.parentElement.appendChild(out);       // the reply goes under the cards
+        } else if (ev.type === "done") {
+          if (ev.mode !== "RAW" && ev.reply) out.textContent = ev.reply;
+          if (ev.mode === "BACKEND") out.parentElement.querySelector(".tag").textContent = "backend reply (fixed text, not the model)";
+          if (ev.spelling && ev.spelling.length) {
+            const d = document.createElement("div"); d.className = "fix";
+            d.textContent = "backend: spelling copied from the result (" + ev.spelling.join(", ") + ")";
+            out.parentElement.appendChild(d);
+          }
+        } else if (ev.type === "memtest_progress") {   // 10-20: one-click memory test
+          out.textContent = `running try ${ev.done} of ${ev.trials}: memory ON ${ev.on} correct, memory OFF ${ev.off} correct`;
+        } else if (ev.type === "memtest") {
+          const ok = b => b ? "&#10003;" : "&#10007;";
+          out.innerHTML = `The backend wrote ${ev.N} word pairs at the very start (` +
+            ev.pairs.map(p => `<b>${esc(p[0])}</b>&rarr;${esc(p[1])}`).join(", ") +
+            `), then ${ev.gap} words of ordinary text, then one word of a pair at word ${ev.pos + 1}. Attention only sees ` +
+            (info && info.attn_window ? `the last ${info.attn_window} words` : `the current ${ev.chunk}-word chunk`) +   // n78
+            `, so the pairs are out of its sight: only the memory can carry them.<br>` +
+            `Asked: <b>${esc(ev.query)}</b> &rarr; ? (correct: <b>${esc(ev.answer)}</b>)<br>` +
+            `Memory ON: <b>${esc(ev.on_pick)}</b> ${ok(ev.on_ok)} &nbsp; Memory OFF: <b>${esc(ev.off_pick)}</b> ${ok(ev.off_ok)}<br>` +
+            `Over ${ev.trials} tries with new pairs: <b>memory ON ${ev.on}/${ev.trials}</b> correct, ` +
+            `<b>memory OFF ${ev.off}/${ev.trials}</b> (guessing = ${ev.chance}%).<br>` +
+            `<span class="sub">This is the key&ndash;value format the model was trained to remember (pairs from the training's ` +
+            `key / value token ranges). Natural-language facts across a chunk boundary are not reliably recalled yet.</span>`;
+        } else if (ev.type === "gpu_energy") {       // n78 W4: measured GPU energy of this request
+          gpuEnergy(ev);
+        } else if (ev.type === "note") {             // 10-21: e.g. raw text longer than the model's context
+          const d = document.createElement("div"); d.className = "fix"; d.textContent = "backend: " + ev.msg;
+          out.parentElement.appendChild(d);
         } else if (ev.type === "error") { out.textContent += `\n[error: ${ev.msg}]`; }
       }
     }
+  } catch (e) {
+    out.textContent += (out.textContent ? " " : "") + `[could not reach the demo server: ${e.message}]`;
   } finally {
-    busy = false; ["send", "reset"].forEach(b => $(b).disabled = false); $("replay").disabled = false; draw();
+    busy = false; ["send", "reset", "memtest"].forEach(b => $(b).disabled = false); $("replay").disabled = false; draw();
   }
 }
 
 function params() {
-  const p = { temperature: +$("temp").value, max_tokens: +$("maxt").value, chat: $("chat").checked, seed: 0 };
-  if ($("win").value !== "") p.attn_window = +$("win").value;
-  return p;
+  return { temperature: +$("temp").value, max_tokens: +$("maxt").value, offline: $("offline").checked, seed: 0 };
 }
 
 $("send").onclick = () => {
   const text = $("inp").value; if (!text.trim() || busy) return;
   bubble("user", "you").textContent = text; $("inp").value = "";
-  stream("/generate", { ...params(), text }, bubble("bot", "model (memory on)"));
+  const raw = $("mode").value === "raw";
+  // 10-21: a pasted memory prompt (memory_prompts/A.txt, ~4,900 characters) must be followed by ONE word: at 60 words the
+  // model copies the passage, and the key typed next is read as more passage ("brown" -> "forest. The school ...")
+  if (raw && text.length > 3000) $("maxt").value = 1;
+  stream(raw ? "/raw" : "/ask", { ...params(), text }, bubble("bot", raw ? "model, raw text (memory on)" : "assistant (memory on)"));
 };
 $("replay").onclick = () => {
   if (busy) return;
   const t = bubble("bot nomem", "same question, memory switched OFF");
   stream("/replay", { ...params(), ablate: true }, t);
 };
+$("memtest").onclick = () => {
+  if (busy) return;
+  bubble("user", "you").textContent = "Memory test: can the model recall word pairs it can no longer see?";
+  stream("/memtest", { N: 8, trials: 20, seed: Math.floor(Math.random() * 1e6) },
+         bubble("bot", "memory test (the backend builds the input; the model answers, memory on and off)"))
+    .then(() => { $("replay").disabled = true; });   // 10-21: the test already ran memory off; Replay replayed the turn before
+};
 $("reset").onclick = async () => {
   await fetch("/reset", { method: "POST" });
-  $("log").innerHTML = ""; cols = []; totEv = totDe = 0; $("replay").disabled = true; draw();
+  $("log").innerHTML = ""; cols = []; totEv = totDe = 0; for (const k in tot) tot[k] = [0, 0];
+  gsess = { J: 0, viz: 0, n: 0 }; gctx = 0; $("g_sess").innerHTML = "&nbsp;"; drawCurve();
+  gcum = { v4: 0, vf: 0, pts: [] }; drawCum(); $("g_save_x").textContent = ""; $("g_save_t").innerHTML = "";
+  $("replay").disabled = true; $("histinfo").innerHTML = "&nbsp;"; draw();
 };
-$("inp").addEventListener("keydown", e => { if (e.key === "Enter" && e.ctrlKey) $("send").click(); });
-window.addEventListener("resize", draw);
+$("brainsel").onchange = async () => {
+  const r = await (await fetch("/brain", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: $("brainsel").value }) })).json();
+  if (r.error) alert(r.error);
+  $("brainsel").value = r.brain || "none";
+  bubble("bot", "system").textContent = r.brain === "auto" ? "router on: each question gets the one brain it needs" :
+    r.brain ? `brain "${r.brain}" is on` : "no brain";
+};
+// n81 (Glenn 10-26): continue a saved session (/?resume=<name>, the "continue" links of /sessions): the server restores
+// the conversation history and appends new turns to the same file; earlier turns come back as text only
+async function resumeSession(name) {
+  const j = await (await fetch("/resume", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }) })).json();
+  if (j.error) { bubble("bot", "system").textContent = j.error; return; }
+  $("log").innerHTML = "";
+  for (const it of j.items) {
+    if (it.kind === "note") { bubble("bot", "system").textContent = it.text; continue; }
+    const q = (it.req || {}).text, evs = it.events || [], done = evs.find(e => e.type === "done");
+    if (q) bubble("user", it.kind === "raw" ? "you (raw text)" : "you").textContent = q;
+    const out = bubble(it.kind === "replay" ? "bot nomem" : "bot", { ask: "assistant (earlier: text only)", raw: "model, raw text (earlier)",
+      replay: "same question, memory switched OFF (earlier)" }[it.kind] || "memory test (earlier)");
+    for (const ev of evs) {
+      if (ev.type === "tool_call") card(out, `<span class="say">${esc(ev.say)}</span><br><b>${esc(ev.name)}</b>(${esc(JSON.stringify(ev.arguments))})`);
+      else if (ev.type === "tool_result") card(out, `result <span class="src">${esc(ev.source || "")}</span><br>${esc(ev.text || "")}`);
+      else if (ev.type === "memtest") out.textContent = `memory ON ${ev.on}/${ev.trials} correct, memory OFF ${ev.off}/${ev.trials} (guessing = ${ev.chance}%)`;
+    }
+    if (done && done.reply) { out.textContent = done.reply; out.parentElement.appendChild(out); }
+  }
+  bubble("bot", "system").textContent = `Continuing the saved session ${name.slice(8).replace("_", " ")}: the turns above come back ` +
+    `as text only (no brain view or energy replay; the energy figures count from here). The model reads them as in a live ` +
+    `session (the last turns that fit its prompt budget). New turns are added to the same saved file.`;
+  $("replay").disabled = true; $("histinfo").textContent = `history: ${j.turns} earlier turns restored`;
+}
+const RESUME = new URLSearchParams(location.search).get("resume");
+if (RESUME) { history.replaceState(null, "", "/"); resumeSession(RESUME); }
+$("inp").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("send").click(); } });
+window.addEventListener("resize", () => { draw(); drawCurve(); drawCum(); });
+document.querySelectorAll(".tabbtn").forEach(b => b.onclick = () => {   // n78 W4: Demo | Future hardware
+  document.querySelectorAll(".tabbtn").forEach(x => x.classList.toggle("on", x === b));
+  for (const id of ["t_demo", "t_future"]) $(id).classList.toggle("hidden", id !== b.dataset.tab);
+  draw(); drawCurve();
+});
 </script>
 </body>
 </html>

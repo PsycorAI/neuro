@@ -1,0 +1,31 @@
+[spacing 10-15 20:55:09] armed
+[spacing 10-16 02:50:31] final models/checkpoints/v4_conv_all/step_0320740.pt (step 320740)
+[spacing 10-16 03:59:03] extra step_0318000.pt home, md5 917d763cd2b8f27739915b6bb358587b
+[spacing 10-16 05:06:45] extra step_0319500.pt home, md5 6cfa10f2294dbb940287b580b9b194ba
+[spacing 10-16 05:06:46] arm A: models/checkpoints/v4_conv_all/step_0320740.pt 
+[OK] sp_A: average of 1: ['step_0320740.pt@1.0']
+sp_A                       C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+[spacing 10-16 05:08:15] arm B: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0319500.pt models/checkpoints/v4_conv_extra/step_0318000.pt
+[OK] sp_B: average of 3: ['step_0320740.pt@1.0', 'step_0319500.pt@1.0', 'step_0318000.pt@1.0']
+sp_B                       C=1024 T=2048 | chunk1   18.76 (mem off   18.91) | chunks2+   16.93 (off   17.89, Δ +0.96) | first64 of 2+   25.47 (off   38.01, Δ +12.53) vs first64 of chunk1   31.88
+[spacing 10-16 05:10:34] arm C: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt
+[OK] sp_C: average of 3: ['step_0320740.pt@1.0', 'step_0318000.pt@1.0', 'step_0312000.pt@1.0']
+sp_C                       C=1024 T=2048 | chunk1   18.57 (mem off   18.74) | chunks2+   16.69 (off   17.60, Δ +0.92) | first64 of 2+   24.93 (off   36.57, Δ +11.64) vs first64 of chunk1   31.74
+[spacing 10-16 05:12:44] arm D: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0301500.pt
+[OK] sp_D: average of 3: ['step_0320740.pt@1.0', 'step_0312000.pt@1.0', 'step_0301500.pt@1.0']
+sp_D                       C=1024 T=2048 | chunk1   18.59 (mem off   18.75) | chunks2+   16.66 (off   17.58, Δ +0.91) | first64 of 2+   24.67 (off   36.73, Δ +12.06) vs first64 of chunk1   31.24
+[spacing 10-16 05:15:21] arm E: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0291000.pt
+[OK] sp_E: average of 3: ['step_0320740.pt@1.0', 'step_0307500.pt@1.0', 'step_0291000.pt@1.0']
+sp_E                       C=1024 T=2048 | chunk1   18.77 (mem off   18.91) | chunks2+   16.80 (off   17.69, Δ +0.89) | first64 of 2+   25.38 (off   37.42, Δ +12.04) vs first64 of chunk1   31.71
+[spacing 10-16 05:17:18] arm G: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0301500.pt
+[OK] sp_G: average of 5: ['step_0320740.pt@1.0', 'step_0318000.pt@1.0', 'step_0312000.pt@1.0', 'step_0307500.pt@1.0', 'step_0301500.pt@1.0']
+sp_G                       C=1024 T=2048 | chunk1   18.39 (mem off   18.53) | chunks2+   16.43 (off   17.35, Δ +0.92) | first64 of 2+   24.44 (off   36.40, Δ +11.97) vs first64 of chunk1   30.99
+[spacing 10-16 05:20:18] arm H: no checkpoints near the targets -- skipped
+[spacing 10-16 05:20:18] chunk1/memΔ: A 20.17/+1.00 | B 18.76/+0.96 | C 18.57/+0.92 | D 18.59/+0.91 | E 18.77/+0.89 | G 18.39/+0.92 -> best G: models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0301500.pt
+[spacing 10-16 05:21:06] arm I: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0301500.pt models/checkpoints/v4_conv_all/step_0297000.pt models/checkpoints/v4_conv_all/step_0291000.pt
+[OK] sp_I: average of 7: ['step_0320740.pt@1.0', 'step_0318000.pt@1.0', 'step_0312000.pt@1.0', 'step_0307500.pt@1.0', 'step_0301500.pt@1.0', 'step_0297000.pt@1.0', 'step_0291000.pt@1.0']
+sp_I                       C=1024 T=2048 | chunk1   18.40 (mem off   18.56) | chunks2+   16.46 (off   17.36, Δ +0.90) | first64 of 2+   24.43 (off   36.67, Δ +12.25) vs first64 of chunk1   31.14
+[spacing 10-16 05:24:13] arm J: models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0301500.pt models/checkpoints/v4_conv_all/step_0297000.pt models/checkpoints/v4_conv_all/step_0291000.pt models/checkpoints/v4_conv_all/step_0286500.pt models/checkpoints/v4_conv_all/step_0280500.pt models/checkpoints/v4_conv_all/step_0274500.pt
+[OK] sp_J: average of 10: ['step_0320740.pt@1.0', 'step_0318000.pt@1.0', 'step_0312000.pt@1.0', 'step_0307500.pt@1.0', 'step_0301500.pt@1.0', 'step_0297000.pt@1.0', 'step_0291000.pt@1.0', 'step_0286500.pt@1.0', 'step_0280500.pt@1.0', 'step_0274500.pt@1.0']
+sp_J                       C=1024 T=2048 | chunk1   18.61 (mem off   18.75) | chunks2+   16.76 (off   17.60, Δ +0.84) | first64 of 2+   24.93 (off   37.11, Δ +12.18) vs first64 of chunk1   31.15
+[spacing 10-16 05:28:30] wider: G 18.39/+0.92 | I 18.40/+0.90 | J 18.61/+0.84 -> best G

@@ -1,0 +1,67 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/v4_cloud_pin/step_0072000.pt (2.36B tok)
+optimizer: NorMuon (60 matrices, lr=0.001) + AdamW (119 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 100000 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 21546 tool pairs {'answer': 5382, 'tool': 12911, 'tool_absent': 3253} -> encoded 21546 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+  encoding: 10% (961/9605)
+  encoding: 20% (1921/9605)
+  encoding: 30% (2882/9605)
+  encoding: 40% (3842/9605)
+  encoding: 50% (4803/9605)
+  encoding: 60% (5763/9605)
+  encoding: 70% (6724/9605)
+  encoding: 80% (7684/9605)
+  encoding: 90% (8645/9605)
+  encoding: 100% (9605/9605)
+  /home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl: 9605 instruction pairs -> encoded 9605 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+Using the latest cached version of the dataset since yahma/alpaca-cleaned couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/yahma___alpaca-cleaned/default/0.0.0/12567cabf869d7c92e573c7c783905fc160e9639 (last modified on Wed Jun 24 14:37:38 2026).
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 73028
+arch=spiking params=1109.29M device=cuda | per_step_tok=16384 | total_steps≈91 | warmup=4
+
+step 5 | 0.1M tok | loss 3.270 | spike 0.003 | 2,969 tok/s | vram 13.4/25.0 GB
+step 10 | 0.2M tok | loss 3.048 | spike 0.003 | 3,775 tok/s | vram 13.4/25.1 GB
+step 15 | 0.2M tok | loss 2.217 | spike 0.003 | 3,815 tok/s | vram 13.4/25.3 GB
+step 20 | 0.3M tok | loss 2.976 | spike 0.003 | 3,991 tok/s | vram 13.4/25.6 GB
+step 25 | 0.4M tok | loss 2.542 | spike 0.003 | 4,000 tok/s | vram 13.5/25.6 GB
+step 30 | 0.5M tok | loss 3.086 | spike 0.003 | 4,011 tok/s | vram 13.5/25.6 GB
+step 35 | 0.6M tok | loss 2.257 | spike 0.003 | 3,848 tok/s | vram 13.4/25.6 GB
+step 40 | 0.7M tok | loss 2.749 | spike 0.003 | 4,039 tok/s | vram 13.4/25.8 GB
+step 45 | 0.7M tok | loss 2.603 | spike 0.003 | 4,042 tok/s | vram 13.4/25.8 GB
+step 50 | 0.8M tok | loss 2.362 | spike 0.003 | 3,997 tok/s | vram 13.5/25.8 GB
+step 55 | 0.9M tok | loss 2.894 | spike 0.003 | 3,840 tok/s | vram 13.4/25.8 GB
+step 60 | 1.0M tok | loss 1.910 | spike 0.003 | 4,069 tok/s | vram 13.4/25.8 GB
+step 65 | 1.1M tok | loss 2.351 | spike 0.003 | 3,800 tok/s | vram 13.4/25.8 GB
+step 70 | 1.1M tok | loss 2.135 | spike 0.003 | 3,667 tok/s | vram 13.4/25.8 GB
+step 75 | 1.2M tok | loss 2.795 | spike 0.003 | 3,549 tok/s | vram 13.4/25.8 GB
+step 80 | 1.3M tok | loss 1.894 | spike 0.003 | 3,585 tok/s | vram 13.4/25.8 GB
+step 85 | 1.4M tok | loss 3.040 | spike 0.003 | 3,613 tok/s | vram 13.4/25.8 GB
+step 90 | 1.5M tok | loss 1.248 | spike 0.003 | 3,783 tok/s | vram 13.3/25.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_dense_speed/step_0000092.pt
+done: 1.5M tok in 0.12h

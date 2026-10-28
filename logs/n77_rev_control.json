@@ -1,0 +1,78 @@
+{
+ "args": {
+  "ckpt": "models/checkpoints/cF/step_0000001.pt",
+  "arm": "control",
+  "steps": 2500,
+  "T": 1024,
+  "ga": 4,
+  "lr": 0.002,
+  "warmup": 100,
+  "decay_frac": 0.3,
+  "frac": 0.05,
+  "period": 100,
+  "scale": 0.5,
+  "ramp": 200,
+  "eval_every": 500,
+  "eval_iters": 20,
+  "count_tokens": 65536,
+  "out": "logs/n77_rev_control.json",
+  "max_minutes": 180.0,
+  "train_blocks": "0,1,2,3,4,5"
+ },
+ "evals": [
+  {
+   "step": 0,
+   "chunk1": 16.641874313354492,
+   "chunks2": 15.58515453338623,
+   "alive": 0.6252780490451388,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 500,
+   "chunk1": 16.498538970947266,
+   "chunks2": 15.277385711669922,
+   "alive": 0.6257392035590278,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 1000,
+   "chunk1": 16.458507537841797,
+   "chunks2": 15.263874053955078,
+   "alive": 0.6259697808159722,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 1500,
+   "chunk1": 16.798583984375,
+   "chunks2": 15.692399024963379,
+   "alive": 0.6263834635416666,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 2000,
+   "chunk1": 17.890804290771484,
+   "chunks2": 16.781225204467773,
+   "alive": 0.6266072591145834,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 2500,
+   "chunk1": 18.833576202392578,
+   "chunks2": 17.69845199584961,
+   "alive": 0.6269395616319444,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[OK]   loaded sft_v4_reh13_v2tr: 189M, 12 attn + 1 mem layers, chunk 1024, spike-coded True, proto 2 (11s)
+[OK]   meter compute: event 111.92 uJ/tok vs eval 112.95 (0.91%) | dense 615.26 vs 615.26 (0.00%) | ratio 5.45x
+[OK]   meter sram: event 293.48 uJ/tok vs eval 294.51 (0.35%) | dense 949.64 vs 949.64 (0.00%) | ratio 3.22x
+[OK]   meter dram: event 22038.08 uJ/tok vs eval 22039.11 (0.00%) | dense 42102.03 vs 42102.03 (0.00%) | ratio 1.91x
+[OK]   brain on: weights changed (+6963.4382)
+[OK]   brain set twice = same weights (no stacking)
+[OK]   brain off: weights restored exactly (+0.000e+00)
+[OK]   wrong-base brain refused (brain 'py' was trained on 'sft_v4_reh13_v2tr', not on the loaded model...)
+[OK]   calculator turn: mode TOOL, call calculator {'expression': '17% - 240'} say 'I will calculate that for you.'
+[OK]   executor: {'type': 'tool_result', 'name': 'calculator', 'ok': True, 'text': '-239.83', 'source': 'local', 'card': None}
+[OK]   second-pass reply carries the executor result '239': '17% of 240 is 239.' (38s, 58 traced tokens)
+[OK]   token events carry the energy-v2 meter (event < dense)
+[OK]   turn 2 (TOOL): 'octopuses are tentacles of octopus prepared as food.'; history 2 turns, 1 in view
+[OK]   memory-off run works: TOOL 'The result of 17% of 240 is 239.'
+== ALL PASSED in 142s

@@ -1,0 +1,23 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:   1%|          | 1/199 [00:00<00:22,  8.81it/s]Loading weights:   3%|▎         | 5/199 [00:00<00:10, 18.45it/s]Loading weights:  41%|████      | 81/199 [00:00<00:00, 261.56it/s]Loading weights:  96%|█████████▌| 191/199 [00:00<00:00, 529.23it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 383.43it/s]
+== locomo: 10 memories, systems ['bm25', 'dense', 'hybrid'], 53 s
+category                          bm25      bm25      bm25     dense     dense     dense    hybrid    hybrid    hybrid
+                                   r@5      r@10    all@10       r@5      r@10    all@10       r@5      r@10    all@10
+1                        281      24.0      35.8      16.0      28.6      39.1      17.1      29.8      40.4      17.8
+2                        320      66.2      70.4      67.5      60.0      67.7      65.0      67.2      74.1      71.6
+3                         89      25.2      29.2      20.2      22.0      36.3      27.0      25.9      34.5      25.8
+4                        841      61.8      69.8      68.1      52.7      64.1      62.5      62.8      72.2      71.0
+5                        446      62.1      71.3      70.9      34.3      44.2      43.5      50.7      64.8      63.9
+ALL                     1977      55.5      63.6      59.1      44.9      55.4      50.6      54.4      64.6      59.9
+exit 0 (locomo)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  57%|█████▋    | 113/199 [00:00<00:00, 1111.75it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1074.59it/s]
+== lme: 470 memories, systems ['bm25', 'dense', 'hybrid'], 206 s
+category                          bm25      bm25      bm25     dense     dense     dense    hybrid    hybrid    hybrid
+                                  sr@5      r@10    all@10      sr@5      r@10    all@10      sr@5      r@10    all@10
+ALL                      470      85.3      80.2      71.5      87.4      84.2      75.3      90.0      86.9      79.4
+knowledge-update          72      96.5      92.4      86.1      90.3      92.4      87.5      97.2      95.1      90.3
+multi-session            121      74.8      70.1      51.2      82.7      82.6      64.5      83.6      78.9      62.0
+single-session-assista    56     100.0      91.1      91.1     100.0      96.4      96.4     100.0      98.2      98.2
+single-session-prefere    30      70.0      54.4      43.3      93.3      84.4      76.7      93.3      72.2      63.3
+single-session-user       64      98.4      93.8      93.8      98.4      89.8      89.1     100.0      96.9      96.9
+temporal-reasoning       127      79.6      77.5      69.3      77.9      72.8      62.2      81.7      83.4      76.4
+exit 0 (lme)

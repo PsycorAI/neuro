@@ -1,0 +1,39 @@
+[battery] models/checkpoints/v4_cloud_pin/step_0046500.pt start 10-12 12:13
+== cfg patch (12:13)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 46500 | tokens 1523712000
+== spike diagnostics (12:14)
+v4 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0013 | fire share 0.0013 | positive share of spikes 0.46
+  per token active neurons mean 10.9 | median 5 | 5% 1 | 95% 35 | tokens with none 0.0% | with fewer than 3 21.9%
+  per neuron dead 8.7% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 3461 of 8192 (42.2%)
+  code      overlap, same token id 0.198 (n=33364) | different token id 0.124
+  signal    output RMS 0.072 | input RMS 0.222
+  by chunk  fire share chunk 1 0.0015 | chunks 2.. 0.0011
+== perplexity per chunk, memory on / off (12:16)
+v4                         C=1024 T=2048 | chunk1   42.42 (mem off   42.43) | chunks2+   38.65 (off   38.97, Δ +0.33) | first64 of 2+   54.91 (off   60.13, Δ +5.22) vs first64 of chunk1   62.75
+== haystack in-window (gap 0/64/192/440) (12:17)
+v4             N8: 100.0  13.3  12.5  14.5 | N32:  99.6   3.5   2.7   2.7
+columns: gap = (0, 64, 192, 440) tokens of real text between the key-value block and the query; chance = 100/N %
+== cross-chunk haystack (12:18)
+v4                         C=1024 N8:  15.6   8.6  16.4  11.7 (mem off  12.5) | N32:   6.2   1.6   3.1   5.5 (mem off   4.7)
+columns: query offset into chunk B = (0, 64, 192, 448) (kv block at the start of chunk A); chance N8 12.5%, N32 3.1%
+== nl_fact (n 64) (12:21)
+v4                         C=1024 | K1 in@0  85.9 | K1 in@200  53.1 | K1 x@0   7.8 | K1 x@200   6.2 | K1 x@0 off   7.8 | K1 in@0 para  75.0 | K1 x@0 para   6.2 | K4 in@0  12.5 | K4 in@200  15.6 | K4 x@0   9.4 | K4 x@200   7.8 | K4 x@0 off   9.4 | K4 in@0 para   6.2 | K4 x@0 para   6.2
+chance = 1/12 = 8.3%; copying a random in-context value = 100/K %
+== xcopy (12:22)
+v4                           C=1024 xcopy top1 | none  35.6 | in-window  60.8 | beyond (memory)  26.9 | beyond mem-off  26.7
+== energy-v2 (12:23)
+v4                           energy-v2 | weight reads 650.2M of 1008.3M (64%) | compute only 1.55x (3108 vs 4812 uJ) | +SRAM fetch 1.54x (4828 vs 7427 uJ) | +DRAM fetch 1.55x (211262 vs 327574 uJ)
+== text samples (12:24)
+[encoder] subword-fallback ENABLED (src/lut_spell)
+SAMPLE | The capital of France is named, and it is a province where the of the, the of the, the of the, and the of the are located in the municipality. But the of the, the
+SAMPLE | Once upon a time, a small dog named Alex who had been bitten by a stray dog was bitten by anpecting dog. This is what we call a "winter bite." It's like a cat biting into the cat, only it's actually biting into your cat. That
+SAMPLE | To make a cup of tea, first cut out the tea from the cup. Then, cut the tea from the cup and put them in the pot. Then, put the tea into the cup and put it on the cup. Then, put the tea in the cup and put
+SAMPLE | The main reason plants need sunlight is to develop new tissues or tissues that are not essential for growth. However, plants that are too light can have serious problems with growth. For example, if the plant grows too thin, they can develop a fungus called Myacterium tuberculosis
+SAMPLE | In 1969, astronauts discovered the world's firstvous mission, thevousvous (vous missions), which was avous that had been launched into space by thevous spacecraft. Such missions were called "vous missions." But they
+SAMPLE | Question: What is 2 + 2? / Answer: 2 is a of 2 / Answer: 2 is a of 2 / Answer: 2 is a of 2 / Answer: 2 is a of 2 / Answer: 2 is a
+== self-knowledge probe (12:25)
+[encoder] subword-fallback ENABLED (src/lut_spell)
+probe v4_cloud_pin: 6400 answerable -> known 35 (0.5%), unknown 5960 (93.1%), band 405
+[OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_v4_cloud_pin.jsonl: 7036 records {'sk_known': 36, 'sk_search': 4500, 'sk_idk': 2500}
+[battery] done 10-12 12:27

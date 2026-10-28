@@ -1,0 +1,5 @@
+[n74 n74d_v4fchat 10-23 19:03:05] suite phase 1: models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt (ppl)
+[n74 n74d_v4fchat 10-23 19:03:05] ppl start
+n74d_v4fchat           full  28.782 | chunk1     nan | chunks2+  28.782  (models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt)
+[n74 n74d_v4fchat 10-23 19:03:40] ppl done rc=0
+[n74 n74d_v4fchat 10-23 19:03:40] suite phase 1 done

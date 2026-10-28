@@ -1,0 +1,7 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Write a small Python program with a function that checks whether a str' -> FAIL 'Here is a small Python program that can do that few tools can access to the right'
+    [base/taught] 'Using Python, define a function that checks whether a string is a pali' -> FAIL "def is_palindrome (Eupe and I don't have a thes, 2002)\n        return bool(butester) == '2'\n    return s.sette"
+    [base/control] 'Create a Python function that converts a number to a binary string (ca' -> FAIL 'Here\'s a function that performs that don\'t have a specific language For, you can\'t do with the name "define". '
+    [base/control] 'Write a Python function that checks whether a number is a power of two' -> FAIL 'def is_power_of_twinx(2,4 *,):\n    return (n >= is_power,\n        and\n        (in is,.ngle,\n       ) is Nevere'
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)

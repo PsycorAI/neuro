@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neuro v4 demo</title>
+<style>
+:root{--bg:#0b0f17;--panel:#121826;--line:#1f2a3d;--ink:#e6ebf5;--dim:#8a96ad;--spk:#5be0ff;--mlp:#ffb347;--mem:#b78bff;--ok:#5ee6a0;--bad:#ff6b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{display:flex;align-items:baseline;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:18px;margin:0;letter-spacing:.3px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+main{display:grid;grid-template-columns:minmax(320px,1fr) minmax(420px,1.35fr);gap:16px;padding:16px 20px}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin:0 0 10px}
+#log{height:46vh;overflow:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}
+.msg{padding:8px 12px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
+.user{background:#1b2740;align-self:flex-end;max-width:90%}
+.bot{background:#161f30;border:1px solid var(--line);max-width:95%}
+.bot.nomem{border-color:var(--bad)}
+.tag{font-size:11px;color:var(--dim);display:block;margin-bottom:2px}
+textarea{width:100%;min-height:70px;background:#0e1420;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;resize:vertical}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+button{background:#22304a;color:var(--ink);border:1px solid #2f4266;border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
+button.primary{background:#2463eb;border-color:#2463eb}
+button.warn{background:#3a1d24;border-color:#6b2a35}
+button:disabled{opacity:.5;cursor:default}
+label{color:var(--dim);font-size:13px}
+input[type=number],select{width:64px;background:#0e1420;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:3px}
+.right{display:flex;flex-direction:column;gap:16px}
+.brainwrap{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+#brain{display:grid;grid-template-columns:repeat(16,12px);gap:4px}
+#brain div{width:12px;height:12px;border-radius:50%;background:#1a2336;transition:background .15s,box-shadow .15s}
+.big{font-size:34px;font-weight:650;letter-spacing:-.5px}
+.sub{color:var(--dim);font-size:12px}
+canvas{width:100%;display:block;background:#0a0e16;border-radius:6px;image-rendering:pixelated}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:6px 0 2px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+#tip{position:fixed;pointer-events:none;background:#0e1420;border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-size:12px;display:none;z-index:9}
+.meter{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bar{height:10px;border-radius:5px;background:#1a2336;overflow:hidden}
+.bar>i{display:block;height:100%}
+.note{font-size:11px;color:var(--dim);margin-top:8px}
+.card{margin-top:6px;border:1px solid #2f4266;border-radius:8px;padding:6px 10px;background:#0e1420;font-size:13px}
+.card b{color:var(--spk)}
+.src{font-size:11px;border-radius:999px;padding:1px 8px;margin-left:6px;border:1px solid var(--line);color:var(--dim)}
+.say{color:var(--ok);font-style:italic}
+.scen{display:grid;grid-template-columns:120px 1fr 80px;gap:8px;align-items:center;margin:4px 0;font-size:12px}
+select.wide{width:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Neuro &mdash; live brain view</h1>
+  <div class="chips" id="chips"></div>
+</header>
+<main>
+  <section class="panel">
+    <h2>Conversation</h2>
+    <div id="log"></div>
+    <textarea id="inp" placeholder="Type a message (Ctrl+Enter to send)"></textarea>
+    <div class="row">
+      <button class="primary" id="send">Send</button>
+      <button class="warn" id="replay" disabled title="Run the last turn again with the memory switched off">Replay without memory</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div class="row">
+      <label>mode <select id="mode" class="wide"><option value="ask">assistant (tools)</option><option value="raw">raw text</option></select></label>
+      <label title="A brain is a small add-on trained on documents; one at a time">brain <select id="brainsel" class="wide"><option value="none">none</option></select></label>
+      <label title="Every tool uses its offline path (no network)"><input type="checkbox" id="offline"> offline</label>
+      <label>temperature <input type="number" id="temp" value="0" step="0.1" min="0" max="2"></label>
+      <label>max words (raw) <input type="number" id="maxt" value="60" min="1" max="400"></label>
+    </div>
+    <div class="row"><span class="sub" id="histinfo">&nbsp;</span>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="panel">
+      <h2>Brain, this word</h2>
+      <div class="brainwrap">
+        <div id="brain"></div>
+        <div>
+          <div class="big" id="active">&ndash;</div>
+          <div class="sub">of neurons active for this word</div>
+          <div style="height:10px"></div>
+          <div class="sub" id="tokinfo">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Activity over time</h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--spk)"></i>spiking neurons (memory layer)</span>
+        <span><i class="sw" style="background:var(--mlp)"></i>MLP neurons, per layer</span>
+        <span><i class="sw" style="background:var(--mem)"></i>memory write strength (relative)</span>
+      </div>
+      <canvas id="raster" height="128"></canvas>
+      <canvas id="mlp" height="60" style="margin-top:6px"></canvas>
+      <canvas id="write" height="36" style="margin-top:6px"></canvas>
+      <div class="sub" style="margin-top:4px">one column per word (prompt words dim, generated words bright) &middot; hover for details</div>
+    </div>
+
+    <div class="panel">
+      <h2>Energy meter</h2>
+      <div class="meter">
+        <div>
+          <div class="sub">energy for this word, event-driven (our model)</div>
+          <div class="big" id="ev">&ndash;</div>
+          <div class="bar"><i id="evbar" style="background:var(--ok);width:0"></i></div>
+        </div>
+        <div>
+          <div class="sub">same network computed densely</div>
+          <div class="big" id="de">&ndash;</div>
+          <div class="bar"><i style="background:var(--dim);width:100%"></i></div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div><span class="big" id="ratio">&ndash;</span> <span class="sub">less energy (compute)</span><div class="sub" id="opsd" title="an addition (spike) costs ~5x less than a multiply-add (dense)">&ndash;</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="sub">weights read for this word</div><div id="reads">&ndash;</div></div>
+      </div>
+      <div class="sub" style="margin-top:10px">energy, this conversation: event-driven (bar) vs the same network computed densely (full width)</div>
+      <div class="scen"><span>compute only</span><div class="bar"><i id="b_compute" style="background:var(--ok);width:0"></i></div><b id="r_compute">&ndash;</b></div>
+      <div class="scen"><span>+ on-chip memory</span><div class="bar"><i id="b_sram" style="background:var(--ok);width:0"></i></div><b id="r_sram">&ndash;</b></div>
+      <div class="scen"><span>+ off-chip memory</span><div class="bar"><i id="b_dram" style="background:var(--ok);width:0"></i></div><b id="r_dram">&ndash;</b></div>
+      <div id="joules" class="sub">&ndash;</div>
+      <div class="note">Per word, every layer is counted. Event-driven: a silent neuron costs nothing downstream, spikes
+        need only additions, and only the weights of active inputs are read. Dense: every neuron computed and every weight
+        read, as a GPU or a standard transformer does. 45&nbsp;nm figures (Horowitz, ISSCC 2014): multiply&ndash;add
+        4.6&nbsp;pJ, add 0.9&nbsp;pJ, weight read from on-chip memory 2.5&nbsp;pJ, from off-chip DRAM 320&nbsp;pJ; the
+        attention cache and the memory state are charged the same in both. An estimate for neuromorphic hardware, not a
+        GPU measurement.</div>
+    </div>
+  </section>
+</main>
+<div id="tip"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+let info = null, cols = [], busy = false, totEv = 0, totDe = 0;
+const tot = { compute: [0, 0], sram: [0, 0], dram: [0, 0] };
+const COLW = 6;
+
+// brain dot grid
+for (let i = 0; i < 128; i++) $("brain").appendChild(document.createElement("div"));
+
+fetch("/info").then(r => r.json()).then(j => {
+  info = j;
+  $("offline").checked = j.offline;
+  (j.brains || []).forEach(b => { const o = document.createElement("option"); o.value = o.textContent = b; $("brainsel").appendChild(o); });
+  $("brainsel").value = j.brain || "none";
+  const chips = [j.run, (j.params / 1e6).toFixed(0) + "M params",
+    `${j.spiking_layers} spiking memory + ${j.attn_layers} attention layers`, j.spike_coded ? "spike-coded" : "dense",
+    `context ${j.block_size} words`,
+    j.attn_chunk ? `attention sees ${j.attn_chunk}-word chunks; older words only through the memory` : "full attention",
+    `${(j.tokens_trained / 1e9).toFixed(2)}B training tokens`, `tool protocol v${j.tool_proto}`];
+  $("chips").innerHTML = chips.map(c => `<span class="chip">${c}</span>`).join("");
+});
+
+function fmtOps(x) { return x >= 1e9 ? (x / 1e9).toFixed(2) + " G" : (x / 1e6).toFixed(1) + " M"; }
+function fmtJ(pj) {
+  return pj >= 1e9 ? (pj / 1e9).toFixed(2) + " mJ" : pj >= 1e6 ? (pj / 1e6).toFixed(1) + " µJ" : (pj / 1e3).toFixed(1) + " nJ";
+}
+
+function rgba(hex, a) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(hex).trim();
+  const n = parseInt(v.slice(1), 16);
+  return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
+}
+
+function sizeCanvas(c) {
+  const w = Math.max(c.parentElement.clientWidth - 28, cols.length * COLW);
+  if (c.width !== w) c.width = w;
+}
+
+function draw() {
+  const R = $("raster"), M = $("mlp"), W = $("write");
+  [R, M, W].forEach(sizeCanvas);
+  const start = Math.max(0, cols.length - Math.floor(R.width / COLW));
+  const view = cols.slice(start);
+  // spike raster: 128 neuron bins x words
+  let g = R.getContext("2d"); g.clearRect(0, 0, R.width, R.height);
+  view.forEach((c, x) => {
+    const dim = c.kind === "prompt" ? 0.55 : 1;
+    c.h0.forEach((v, y) => { if (v > 0) { g.fillStyle = rgba("--spk", Math.min(1, v * 3) * dim); g.fillRect(x * COLW, y, COLW - 1, 1); } });
+  });
+  // MLP layers: rows = layers, colour = fraction firing (full scale at 15%)
+  g = M.getContext("2d"); g.clearRect(0, 0, M.width, M.height);
+  const L = view.length ? view[0].mlp.length : 0, rh = L ? M.height / L : 0;
+  view.forEach((c, x) => {
+    const dim = c.kind === "prompt" ? 0.55 : 1;
+    c.mlp.forEach((v, l) => { g.fillStyle = rgba("--mlp", Math.min(1, v / 0.15) * dim); g.fillRect(x * COLW, l * rh, COLW - 1, rh - 1); });
+  });
+  // memory write strength, scaled to the strongest write in view (most words write at the gate's floor)
+  g = W.getContext("2d"); g.clearRect(0, 0, W.width, W.height);
+  const wmax = Math.max(1e-6, ...view.map(c => c.write || 0));
+  view.forEach((c, x) => {
+    if (c.write == null) return;
+    const h = (c.write / wmax) * W.height;
+    g.fillStyle = rgba("--mem", c.kind === "prompt" ? 0.55 : 1); g.fillRect(x * COLW, W.height - h, COLW - 1, h);
+  });
+  R._start = start;
+}
+
+function showWord(c) {
+  const dots = $("brain").children;
+  c.h0.forEach((v, i) => {
+    const a = Math.min(1, v * 4);
+    dots[i].style.background = a > 0 ? rgba("--spk", 0.25 + 0.75 * a) : "#1a2336";
+    dots[i].style.boxShadow = a > 0.3 ? `0 0 8px ${rgba("--spk", a)}` : "none";
+  });
+  $("active").textContent = (c.active * 100).toFixed(1) + "%";
+  $("tokinfo").textContent = `word: "${c.text}"` + (c.write != null ? ` · memory write ${(c.write * 100).toFixed(0)}%` : "");
+  // n66 10-16 (Glenn): headline = compute energy; op counts below (spike additions count as ops but cost ~5x less)
+  $("ev").textContent = fmtJ(c.pj_event);
+  $("de").textContent = fmtJ(c.pj_dense);
+  $("evbar").style.width = Math.min(100, 100 * c.pj_event / c.pj_dense).toFixed(1) + "%";
+  $("ratio").textContent = (c.pj_dense / c.pj_event).toFixed(2) + "×";
+  $("opsd").textContent = `operations: ${fmtOps(c.ops_event)} (mostly additions) vs ${fmtOps(c.ops_dense)} multiply-adds`;
+  if (c.reads_dense) $("reads").textContent = `${fmtOps(c.reads_event)} of ${fmtOps(c.reads_dense)}`;
+}
+
+function addCol(ev) {
+  cols.push(ev);
+  totEv += ev.pj_event; totDe += ev.pj_dense;
+  if (ev.energy) {
+    for (const k of ["compute", "sram", "dram"]) {
+      tot[k][0] += ev.energy[k].pj_event; tot[k][1] += ev.energy[k].pj_dense;
+      $("b_" + k).style.width = (100 * tot[k][0] / tot[k][1]).toFixed(1) + "%";
+      $("r_" + k).textContent = (tot[k][1] / tot[k][0]).toFixed(2) + "× less";
+    }
+    $("joules").innerHTML = `off-chip case so far: <b>${fmtJ(tot.dram[0])}</b> vs ${fmtJ(tot.dram[1])} dense`;
+  } else {
+    $("joules").innerHTML = `<b>${fmtJ(totEv)}</b> <span class="sub">vs ${fmtJ(totDe)} dense</span>`;
+  }
+  showWord(ev);
+}
+
+$("raster").addEventListener("mousemove", e => {
+  const R = $("raster"), r = R.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) * R.width / r.width / COLW) + (R._start || 0);
+  const c = cols[x], tip = $("tip");
+  if (!c) { tip.style.display = "none"; return; }
+  tip.style.display = "block"; tip.style.left = e.clientX + 12 + "px"; tip.style.top = e.clientY + 12 + "px";
+  tip.innerHTML = `<b>${c.text.replace(/</g, "&lt;")}</b> (${c.kind})<br>active ${(c.active * 100).toFixed(1)}%` +
+    (c.write != null ? `<br>memory write ${(c.write * 100).toFixed(0)}%` : "") +
+    `<br>${fmtOps(c.ops_event)} vs ${fmtOps(c.ops_dense)} ops`;
+  showWord(c);
+});
+$("raster").addEventListener("mouseleave", () => { $("tip").style.display = "none"; });
+
+function bubble(cls, tag) {
+  const d = document.createElement("div");
+  d.className = "msg " + cls;
+  d.innerHTML = `<span class="tag">${tag}</span><span class="t"></span>`;
+  $("log").appendChild(d); $("log").scrollTop = 1e9;
+  return d.querySelector(".t");
+}
+
+function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+function card(out, html) { const d = document.createElement("div"); d.className = "card"; d.innerHTML = html; out.parentElement.appendChild(d); return d; }
+
+async function stream(path, body, out) {
+  let dbuf = "";
+  busy = true; ["send", "replay", "reset"].forEach(b => $(b).disabled = true);
+  try {
+    const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const rd = r.body.getReader(), dec = new TextDecoder();
+    let buf = "", frame = false;
+    for (;;) {
+      const { value, done } = await rd.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let i;
+      while ((i = buf.indexOf("\n\n")) >= 0) {
+        const line = buf.slice(0, i); buf = buf.slice(i + 2);
+        if (!line.startsWith("data: ")) continue;
+        const ev = JSON.parse(line.slice(6));
+        if (ev.type === "token" || ev.type === "text") {   // n63: "text" = live answer text, its traces follow as
+          if (ev.type === "token") addCol(ev);              // token events with replay=true (raster / meter only)
+          if (ev.kind === "gen" && !ev.replay) {
+            if (ev.phase === "decide") {            // the mode word comes first: ANSWER streams, TOOL waits for its card
+              dbuf += ev.text;
+              if (/^\s*ANSWER/.test(dbuf)) out.textContent = dbuf.replace(/^\s*ANSWER\s*/, "");
+              else if (/^\s*TOOL/.test(dbuf)) out.textContent = "…";
+            } else { if (out.textContent === "…") out.textContent = ""; out.textContent += ev.text; }
+            $("log").scrollTop = 1e9;
+          }
+          if (!frame) { frame = true; requestAnimationFrame(() => { draw(); frame = false; }); }
+        } else if (ev.type === "turn") {
+          $("histinfo").textContent = `history: ${ev.in_view} of ${ev.total_turns} earlier turns in view` +
+            (ev.brain ? ` · brain: ${ev.brain}` : "") + (ev.offline ? " · offline" : "");
+        } else if (ev.type === "tool_call") {
+          out.textContent = "";
+          card(out, `<span class="say">${esc(ev.say)}</span><br><b>${esc(ev.name)}</b>(${esc(JSON.stringify(ev.arguments))})`);
+        } else if (ev.type === "tool_result") {
+          card(out, `result <span class="src">${esc(ev.source || "")}</span><br>${esc(ev.text || "")}`);
+          out.parentElement.appendChild(out);       // the reply goes under the cards
+        } else if (ev.type === "done") {
+          if (ev.mode !== "RAW" && ev.reply) out.textContent = ev.reply;
+        } else if (ev.type === "error") { out.textContent += `\n[error: ${ev.msg}]`; }
+      }
+    }
+  } finally {
+    busy = false; ["send", "reset"].forEach(b => $(b).disabled = false); $("replay").disabled = false; draw();
+  }
+}
+
+function params() {
+  return { temperature: +$("temp").value, max_tokens: +$("maxt").value, offline: $("offline").checked, seed: 0 };
+}
+
+$("send").onclick = () => {
+  const text = $("inp").value; if (!text.trim() || busy) return;
+  bubble("user", "you").textContent = text; $("inp").value = "";
+  const raw = $("mode").value === "raw";
+  stream(raw ? "/raw" : "/ask", { ...params(), text }, bubble("bot", raw ? "model, raw text (memory on)" : "assistant (memory on)"));
+};
+$("replay").onclick = () => {
+  if (busy) return;
+  const t = bubble("bot nomem", "same question, memory switched OFF");
+  stream("/replay", { ...params(), ablate: true }, t);
+};
+$("reset").onclick = async () => {
+  await fetch("/reset", { method: "POST" });
+  $("log").innerHTML = ""; cols = []; totEv = totDe = 0; for (const k in tot) tot[k] = [0, 0];
+  $("replay").disabled = true; $("histinfo").innerHTML = "&nbsp;"; draw();
+};
+$("brainsel").onchange = async () => {
+  const r = await (await fetch("/brain", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: $("brainsel").value }) })).json();
+  if (r.error) alert(r.error);
+  $("brainsel").value = r.brain || "none";
+  bubble("bot", "system").textContent = r.brain ? `brain "${r.brain}" is on` : "no brain";
+};
+$("inp").addEventListener("keydown", e => { if (e.key === "Enter" && e.ctrlKey) $("send").click(); });
+window.addEventListener("resize", draw);
+</script>
+</body>
+</html>

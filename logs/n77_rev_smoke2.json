@@ -1,0 +1,32 @@
+{
+ "args": {
+  "ckpt": "models/checkpoints/cF/step_0000001.pt",
+  "arm": "trickle",
+  "steps": 20,
+  "T": 1024,
+  "ga": 8,
+  "lr": 0.002,
+  "warmup": 100,
+  "decay_frac": 0.3,
+  "frac": 0.05,
+  "period": 5,
+  "scale": 0.5,
+  "ramp": 200,
+  "eval_every": 1000,
+  "eval_iters": 2,
+  "count_tokens": 16384,
+  "out": "logs/n77_rev_smoke2.json",
+  "max_minutes": 0
+ },
+ "evals": [
+  {
+   "step": 0,
+   "chunk1": 13.588528633117676,
+   "chunks2": 17.89640235900879,
+   "alive": 0.6252780490451388,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  }
+ ]
+}

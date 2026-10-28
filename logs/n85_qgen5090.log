@@ -1,0 +1,26 @@
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  37%|███▋      | 95/254 [00:00<00:00, 947.99it/s]Loading weights:  76%|███████▌  | 193/254 [00:00<00:00, 959.98it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1138.50it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+personal: 5000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  33%|███▎      | 83/254 [00:00<00:00, 827.88it/s]Loading weights:  70%|███████   | 178/254 [00:00<00:00, 889.30it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1029.27it/s]
+personal: 10000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  34%|███▍      | 86/254 [00:00<00:00, 837.53it/s]Loading weights:  72%|███████▏  | 182/254 [00:00<00:00, 903.38it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1066.72it/s]
+personal: 15000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  31%|███▏      | 80/254 [00:00<00:00, 792.28it/s]Loading weights:  65%|██████▍   | 164/254 [00:00<00:00, 816.38it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 995.40it/s]
+personal: 20000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  31%|███       | 79/254 [00:00<00:00, 787.33it/s]Loading weights:  66%|██████▌   | 168/254 [00:00<00:00, 840.84it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1025.02it/s]
+personal: 25000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  34%|███▍      | 86/254 [00:00<00:00, 854.48it/s]Loading weights:  69%|██████▊   | 174/254 [00:00<00:00, 865.82it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1091.40it/s]
+personal: 30000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  36%|███▌      | 91/254 [00:00<00:00, 900.85it/s]Loading weights:  72%|███████▏  | 182/254 [00:00<00:00, 888.84it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1086.50it/s]
+personal: 35000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 82/254 [00:00<00:00, 815.14it/s]Loading weights:  67%|██████▋   | 171/254 [00:00<00:00, 854.92it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1074.35it/s]
+personal: 40000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  34%|███▍      | 86/254 [00:00<00:00, 849.56it/s]Loading weights:  69%|██████▉   | 176/254 [00:00<00:00, 876.55it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1039.45it/s]
+personal: 45000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  40%|███▉      | 101/254 [00:00<00:00, 1009.07it/s]Loading weights:  80%|███████▉  | 202/254 [00:00<00:00, 990.14it/s] Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1190.47it/s]
+personal: 50000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  33%|███▎      | 83/254 [00:00<00:00, 825.93it/s]Loading weights:  65%|██████▌   | 166/254 [00:00<00:00, 806.83it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1052.54it/s]
+personal: 55000/60000 prompts done
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  35%|███▍      | 88/254 [00:00<00:00, 872.21it/s]Loading weights:  69%|██████▉   | 176/254 [00:00<00:00, 847.83it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 1037.26it/s]
+personal: 60000/60000 prompts done
+exit 0 (qgen.py personal 60000)

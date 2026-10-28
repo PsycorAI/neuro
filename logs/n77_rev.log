@@ -1,0 +1,357 @@
+[n77rev 10-24 21:05:29] smoke start: --arm trickle --steps 20 --period 5 --eval_every 1000 --eval_iters 2 --count_tokens 16384
+[n77rev trickle 10-24 21:05:56] dead units 55204 of 147456 (37.4%) on 16384 val tokens; per block b0:46% b1:2% b2:100% b3:100% b4:92% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-24 21:05:59] eval step 0 chunk1 13.59 chunks2 17.9 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-24 21:05:59] step 0: revived 2760 more (total 2760)
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_revive_screen.py", line 182, in <module>
+    lg = m(x); lg = lg[0] if isinstance(lg, tuple) else lg
+         ^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1693, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 459, in forward_sequence
+    z = self._block(xc.reshape(B_ * (T_ + pad) // C, C, D_)).reshape(B_, T_ + pad, D_)[:, :T_]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 440, in _block
+    y = x_seq + self._attn(self.norm_attn(x_a))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 343, in _attn
+    att = self._topk_weights(q, k, w=w if 0 < w < T else 0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 364, in _topk_weights
+    s = torch.matmul(q.float(), k.float().transpose(-2, -1)) * (q.shape[-1] ** -0.5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 64.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 1.04 GiB is free. Process 368394 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 13.53 GiB allowed; Of the allocated memory 13.42 GiB is allocated by PyTorch, and 83.72 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n77rev 10-24 21:06:02] smoke done rc=0
+[n77rev 10-24 21:24:41] smoke2 start: --arm trickle --T 1024 --ga 8 --steps 20 --period 5 --eval_every 1000 --eval_iters 2 --count_tokens 16384
+[n77rev trickle 10-24 21:25:06] dead units 55204 of 147456 (37.4%) on 16384 val tokens; per block b0:46% b1:2% b2:100% b3:100% b4:92% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-24 21:25:11] eval step 0 chunk1 13.59 chunks2 17.9 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-24 21:25:11] step 0: revived 2760 more (total 2760)
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:184: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev trickle 10-24 21:25:16] step 0 loss 2.8305 lr 2.00e-05 | 1467 tok/s | mem 13.0 GiB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_revive_screen.py", line 182, in <module>
+    lg = m(x); lg = lg[0] if isinstance(lg, tuple) else lg
+         ^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1693, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 461, in forward_sequence
+    z = self._block(x_seq)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 440, in _block
+    y = x_seq + self._attn(self.norm_attn(x_a))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 343, in _attn
+    att = self._topk_weights(q, k, w=w if 0 < w < T else 0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 374, in _topk_weights
+    return torch.softmax(s.masked_fill(s < kth, float("-inf")), dim=-1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 64.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 1.05 GiB is free. Process 368394 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 13.53 GiB allowed; Of the allocated memory 13.42 GiB is allocated by PyTorch, and 57.06 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n77rev 10-24 21:25:21] smoke2 done rc=0
+[n77rev 10-24 21:26:50] smoke3 start: --arm trickle --T 1024 --ga 4 --steps 20 --period 5 --eval_every 1000 --eval_iters 2 --count_tokens 16384
+[n77rev trickle 10-24 21:27:16] dead units 55204 of 147456 (37.4%) on 16384 val tokens; per block b0:46% b1:2% b2:100% b3:100% b4:92% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-24 21:27:20] eval step 0 chunk1 13.59 chunks2 17.9 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-24 21:27:20] step 0: revived 2700 more (total 2700)
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:196: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev trickle 10-24 21:27:23] step 0 loss 2.8924 lr 2.00e-05 | 1372 tok/s | mem 9.1 GiB
+[n77rev trickle 10-24 21:28:10] eval step 20 chunk1 nan chunks2 nan alive 0 revived 10800 revived_alive 0 revived_rate 0 zeroed_chunk1 nan zeroed_chunks2 nan
+[n77rev trickle 10-24 21:28:10] done
+[n77rev 10-24 21:28:14] smoke3 done rc=0
+[n77rev 10-24 21:28:14] control start: --arm control --T 1024 --ga 4 --steps 2500 --eval_every 500 --max_minutes 180
+[n77rev control 10-24 21:28:51] dead units 54943 of 147456 (37.3%) on 65536 val tokens; per block b0:45% b1:2% b2:100% b3:100% b4:90% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev control 10-24 21:29:01] eval step 0 chunk1 16.64 chunks2 15.59 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:196: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev control 10-24 21:29:04] step 0 loss 2.8924 lr 2.00e-05 | 1655 tok/s | mem 9.1 GiB
+[n77rev 10-24 21:57:26] smoke4 start: --arm trickle --T 1024 --ga 4 --steps 20 --period 5 --eval_every 1000 --eval_iters 2 --count_tokens 16384
+[n77rev trickle 10-24 21:57:59] dead units 55204 of 147456 (37.4%) on 16384 val tokens; per block b0:46% b1:2% b2:100% b3:100% b4:92% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-24 21:58:03] eval step 0 chunk1 13.59 chunks2 17.9 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-24 21:58:03] step 0: revived 2700 more (total 2700)
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:201: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev trickle 10-24 21:58:07] step 0 loss 2.8924 lr 2.00e-05 | 1120 tok/s | mem 9.1 GiB
+[n77rev trickle 10-24 21:58:57] eval step 20 chunk1 13.54 chunks2 17.91 alive 0.6359 revived 10800 revived_alive 0.1462 revived_rate 0.1044 zeroed_chunk1 13.57 zeroed_chunks2 17.86
+[n77rev trickle 10-24 21:58:57] done
+[n77rev 10-24 21:59:01] smoke4 done rc=0
+[n77rev 10-24 21:59:01] control start: --arm control --T 1024 --ga 4 --steps 2500 --eval_every 500 --max_minutes 180
+[n77rev control 10-24 21:59:35] dead units 54943 of 147456 (37.3%) on 65536 val tokens; per block b0:45% b1:2% b2:100% b3:100% b4:90% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev control 10-24 21:59:45] eval step 0 chunk1 16.64 chunks2 15.59 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:201: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev control 10-24 21:59:48] step 0 loss 2.8924 lr 2.00e-05 | 1748 tok/s | mem 9.1 GiB
+[n77rev control 10-24 22:01:47] step 50 loss 3.2873 lr 1.02e-03 | 1717 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:03:41] step 100 loss 2.7012 lr 2.00e-03 | 1754 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:05:36] step 150 loss 3.1736 lr 2.00e-03 | 1764 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:07:36] step 200 loss 2.6258 lr 2.00e-03 | 1749 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:09:35] step 250 loss 2.8016 lr 2.00e-03 | 1744 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:11:30] step 300 loss 2.6805 lr 2.00e-03 | 1750 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:13:27] step 350 loss 3.2027 lr 2.00e-03 | 1749 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:15:39] step 400 loss 2.9944 lr 2.00e-03 | 1723 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:17:44] step 450 loss 2.7701 lr 2.00e-03 | 1712 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:19:51] eval step 500 chunk1 16.5 chunks2 15.28 alive 0.6257 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-24 22:19:54] step 500 loss 2.7077 lr 2.00e-03 | 1698 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:21:49] step 550 loss 2.9728 lr 2.00e-03 | 1705 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:23:49] step 600 loss 3.0180 lr 2.00e-03 | 1705 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:25:47] step 650 loss 3.2767 lr 2.00e-03 | 1707 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:27:46] step 700 loss 2.0781 lr 2.00e-03 | 1709 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:29:43] step 750 loss 3.2489 lr 2.00e-03 | 1711 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:31:35] step 800 loss 2.7268 lr 2.00e-03 | 1718 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:33:32] step 850 loss 3.0466 lr 2.00e-03 | 1720 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:35:27] step 900 loss 2.9739 lr 2.00e-03 | 1723 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:37:26] step 950 loss 3.1124 lr 2.00e-03 | 1723 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:39:25] eval step 1000 chunk1 16.46 chunks2 15.26 alive 0.626 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-24 22:39:27] step 1000 loss 2.6899 lr 2.00e-03 | 1721 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:41:18] step 1050 loss 2.9287 lr 2.00e-03 | 1727 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:43:09] step 1100 loss 2.9859 lr 2.00e-03 | 1732 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:45:00] step 1150 loss 3.1734 lr 2.00e-03 | 1737 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:46:53] step 1200 loss 2.0166 lr 2.00e-03 | 1740 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:48:41] step 1250 loss 3.2064 lr 2.00e-03 | 1745 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:50:31] step 1300 loss 2.6532 lr 2.00e-03 | 1750 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:52:20] step 1350 loss 2.9457 lr 2.00e-03 | 1754 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:54:09] step 1400 loss 2.8579 lr 2.00e-03 | 1758 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:56:00] step 1450 loss 3.0061 lr 2.00e-03 | 1761 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:57:57] eval step 1500 chunk1 16.8 chunks2 15.69 alive 0.6264 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-24 22:57:59] step 1500 loss 2.6496 lr 2.00e-03 | 1760 tok/s | mem 10.2 GiB
+[n77rev control 10-24 22:59:51] step 1550 loss 2.8041 lr 2.00e-03 | 1762 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:01:40] step 1600 loss 2.8430 lr 2.00e-03 | 1765 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:03:31] step 1650 loss 3.0043 lr 2.00e-03 | 1768 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:05:20] step 1700 loss 1.8780 lr 2.00e-03 | 1771 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:07:09] step 1750 loss 3.0343 lr 2.00e-03 | 1774 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:08:58] step 1800 loss 2.5018 lr 1.87e-03 | 1776 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:10:50] step 1850 loss 2.7821 lr 1.73e-03 | 1778 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:12:39] step 1900 loss 2.6581 lr 1.60e-03 | 1780 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:14:30] step 1950 loss 2.7957 lr 1.47e-03 | 1782 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:16:30] eval step 2000 chunk1 17.89 chunks2 16.78 alive 0.6266 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-24 23:16:32] step 2000 loss 2.4631 lr 1.33e-03 | 1779 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:18:23] step 2050 loss 2.6784 lr 1.20e-03 | 1781 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:20:11] step 2100 loss 2.6452 lr 1.07e-03 | 1783 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:22:00] step 2150 loss 2.7452 lr 9.33e-04 | 1785 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:23:53] step 2200 loss 1.8228 lr 8.00e-04 | 1786 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:25:45] step 2250 loss 2.7832 lr 6.67e-04 | 1787 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:27:36] step 2300 loss 2.4492 lr 5.33e-04 | 1788 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:29:41] step 2350 loss 2.6003 lr 4.00e-04 | 1785 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:31:37] step 2400 loss 2.5945 lr 2.67e-04 | 1784 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:33:35] step 2450 loss 2.6356 lr 1.33e-04 | 1783 tok/s | mem 10.2 GiB
+[n77rev control 10-24 23:35:36] eval step 2500 chunk1 18.83 chunks2 17.7 alive 0.6269 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-24 23:35:37] done
+[n77rev 10-24 23:35:40] control done rc=0
+[n77rev 10-24 23:35:40] trickle start: --arm trickle --T 1024 --ga 4 --steps 2500 --eval_every 500 --max_minutes 180
+[n77rev trickle 10-24 23:36:14] dead units 54943 of 147456 (37.3%) on 65536 val tokens; per block b0:45% b1:2% b2:100% b3:100% b4:90% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-24 23:36:25] eval step 0 chunk1 16.64 chunks2 15.59 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-24 23:36:25] step 0: revived 2687 more (total 2687)
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:201: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev trickle 10-24 23:36:27] step 0 loss 2.8924 lr 2.00e-05 | 1513 tok/s | mem 9.1 GiB
+[n77rev trickle 10-24 23:38:24] step 50 loss 3.2841 lr 1.02e-03 | 1758 tok/s | mem 10.2 GiB
+[n77rev trickle 10-24 23:40:23] step 100 loss 2.7046 lr 2.00e-03 | 1739 tok/s | mem 10.2 GiB
+[n77rev trickle 10-24 23:42:18] step 150 loss 3.1787 lr 2.00e-03 | 1748 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:44:21] step 200 loss 2.6255 lr 2.00e-03 | 1730 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:46:30] step 250 loss 2.8073 lr 2.00e-03 | 1698 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:48:25] step 300 loss 2.6846 lr 2.00e-03 | 1711 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:50:20] step 350 loss 3.2025 lr 2.00e-03 | 1721 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:52:20] step 400 loss 2.9909 lr 2.00e-03 | 1719 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:54:16] step 450 loss 2.7714 lr 2.00e-03 | 1724 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:56:26] eval step 500 chunk1 16.49 chunks2 15.27 alive 0.6383 revived 13435 revived_alive 0.1383 revived_rate 0.08967
+[n77rev trickle 10-24 23:56:26] step 500: revived 2687 more (total 16122)
+[n77rev trickle 10-24 23:56:29] step 500 loss 2.7085 lr 2.00e-03 | 1705 tok/s | mem 10.3 GiB
+[n77rev trickle 10-24 23:58:27] step 550 loss 2.9796 lr 2.00e-03 | 1707 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:00:22] step 600 loss 3.0236 lr 2.00e-03 | 1712 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:02:21] step 650 loss 3.2751 lr 2.00e-03 | 1713 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:04:17] step 700 loss 2.0813 lr 2.00e-03 | 1717 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:06:20] step 750 loss 3.2486 lr 2.00e-03 | 1713 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:08:15] step 800 loss 2.7291 lr 2.00e-03 | 1717 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:10:14] step 850 loss 3.0480 lr 2.00e-03 | 1718 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:12:11] step 900 loss 2.9678 lr 2.00e-03 | 1719 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:14:07] step 950 loss 3.1082 lr 2.00e-03 | 1722 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:16:17] eval step 1000 chunk1 16.51 chunks2 15.31 alive 0.6495 revived 26870 revived_alive 0.1314 revived_rate 0.08617
+[n77rev trickle 10-25 00:16:17] step 1000: revived 2687 more (total 29557)
+[n77rev trickle 10-25 00:16:19] step 1000 loss 2.7128 lr 2.00e-03 | 1713 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:18:07] step 1050 loss 2.9590 lr 2.00e-03 | 1720 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:19:58] step 1100 loss 3.0055 lr 2.00e-03 | 1726 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:21:51] step 1150 loss 3.2522 lr 2.00e-03 | 1730 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:23:44] step 1200 loss 2.0583 lr 2.00e-03 | 1733 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:25:35] step 1250 loss 3.2151 lr 2.00e-03 | 1737 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:27:31] step 1300 loss 2.6815 lr 2.00e-03 | 1738 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:29:28] step 1350 loss 3.0010 lr 2.00e-03 | 1738 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:31:18] step 1400 loss 2.9031 lr 2.00e-03 | 1743 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:33:09] step 1450 loss 3.0016 lr 2.00e-03 | 1746 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:35:06] eval step 1500 chunk1 16.69 chunks2 15.55 alive 0.6602 revived 40305 revived_alive 0.1264 revived_rate 0.08047
+[n77rev trickle 10-25 00:35:06] step 1500: revived 2687 more (total 42992)
+[n77rev trickle 10-25 00:35:08] step 1500 loss 2.6827 lr 2.00e-03 | 1745 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:37:05] step 1550 loss 2.9038 lr 2.00e-03 | 1745 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:39:00] step 1600 loss 2.9891 lr 2.00e-03 | 1746 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:40:52] step 1650 loss 3.2461 lr 2.00e-03 | 1749 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:43:02] step 1700 loss 2.0430 lr 2.00e-03 | 1743 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:44:57] step 1750 loss 3.1901 lr 2.00e-03 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:46:55] step 1800 loss 2.6546 lr 1.87e-03 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:48:51] step 1850 loss 2.9181 lr 1.73e-03 | 1745 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:50:46] step 1900 loss 2.8317 lr 1.60e-03 | 1745 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:52:43] step 1950 loss 2.8542 lr 1.47e-03 | 1746 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:54:45] eval step 2000 chunk1 17.2 chunks2 16.05 alive 0.6723 revived 53725 revived_alive 0.1285 revived_rate 0.08109
+[n77rev trickle 10-25 00:54:45] step 2000: revived 29 more (total 53754)
+[n77rev trickle 10-25 00:54:48] step 2000 loss 2.5602 lr 1.33e-03 | 1743 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:56:42] step 2050 loss 2.8678 lr 1.20e-03 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 00:58:39] step 2100 loss 2.8307 lr 1.07e-03 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:00:36] step 2150 loss 3.1015 lr 9.33e-04 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:02:28] step 2200 loss 1.9976 lr 8.00e-04 | 1746 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:04:25] step 2250 loss 3.1414 lr 6.67e-04 | 1746 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:06:18] step 2300 loss 2.5515 lr 5.33e-04 | 1748 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:08:14] step 2350 loss 2.8764 lr 4.00e-04 | 1748 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:10:04] step 2400 loss 2.7403 lr 2.67e-04 | 1750 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:11:54] step 2450 loss 2.7899 lr 1.33e-04 | 1752 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 01:14:01] eval step 2500 chunk1 17.29 chunks2 16.18 alive 0.6717 revived 53754 revived_alive 0.1268 revived_rate 0.07878 zeroed_chunk1 17.35 zeroed_chunks2 16.3
+[n77rev trickle 10-25 01:14:01] done
+[n77rev 10-25 01:14:05] trickle done rc=0
+[n77rev 10-25 01:37:57] control_lr3e4 start: --arm control --lr 3e-4 --T 1024 --ga 4 --steps 2500 --eval_every 500 --max_minutes 150
+[n77rev control 10-25 01:38:39] dead units 54943 of 147456 (37.3%) on 65536 val tokens; per block b0:45% b1:2% b2:100% b3:100% b4:90% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev control 10-25 01:38:51] eval step 0 chunk1 16.64 chunks2 15.59 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:201: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev control 10-25 01:38:55] step 0 loss 2.8924 lr 3.00e-06 | 983 tok/s | mem 9.1 GiB
+[n77rev control 10-25 01:40:54] step 50 loss 3.2874 lr 1.53e-04 | 1698 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:42:54] step 100 loss 2.7064 lr 3.00e-04 | 1703 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:44:48] step 150 loss 3.1790 lr 3.00e-04 | 1730 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:46:42] step 200 loss 2.6262 lr 3.00e-04 | 1747 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:48:35] step 250 loss 2.8012 lr 3.00e-04 | 1760 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:50:29] step 300 loss 2.6813 lr 3.00e-04 | 1765 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:52:29] step 350 loss 3.1996 lr 3.00e-04 | 1757 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:54:28] step 400 loss 2.9877 lr 3.00e-04 | 1753 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:56:24] step 450 loss 2.7712 lr 3.00e-04 | 1753 tok/s | mem 10.2 GiB
+[n77rev control 10-25 01:58:43] eval step 500 chunk1 16.58 chunks2 15.48 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-25 01:58:45] step 500 loss 2.7113 lr 3.00e-04 | 1719 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:00:38] step 550 loss 2.9814 lr 3.00e-04 | 1727 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:02:34] step 600 loss 3.0224 lr 3.00e-04 | 1730 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:04:30] step 650 loss 3.2781 lr 3.00e-04 | 1732 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:06:27] step 700 loss 2.0775 lr 3.00e-04 | 1734 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:08:19] step 750 loss 3.2538 lr 3.00e-04 | 1740 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:10:12] step 800 loss 2.7244 lr 3.00e-04 | 1744 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:12:37] step 850 loss 3.0414 lr 3.00e-04 | 1720 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:14:28] step 900 loss 2.9683 lr 3.00e-04 | 1727 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:16:22] step 950 loss 3.1142 lr 3.00e-04 | 1730 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:18:22] eval step 1000 chunk1 16.59 chunks2 15.47 alive 0.6254 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-25 02:18:24] step 1000 loss 2.7044 lr 3.00e-04 | 1728 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:20:16] step 1050 loss 2.9685 lr 3.00e-04 | 1732 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:22:05] step 1100 loss 3.0157 lr 3.00e-04 | 1739 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:23:57] step 1150 loss 3.2561 lr 3.00e-04 | 1742 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:25:45] step 1200 loss 2.0756 lr 3.00e-04 | 1748 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:27:36] step 1250 loss 3.2462 lr 3.00e-04 | 1752 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:29:29] step 1300 loss 2.7101 lr 3.00e-04 | 1754 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:31:23] step 1350 loss 3.0260 lr 3.00e-04 | 1755 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:33:21] step 1400 loss 2.9565 lr 3.00e-04 | 1755 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:35:28] step 1450 loss 3.0979 lr 3.00e-04 | 1750 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:37:26] eval step 1500 chunk1 16.55 chunks2 15.45 alive 0.6257 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-25 02:37:29] step 1500 loss 2.6920 lr 3.00e-04 | 1748 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:39:22] step 1550 loss 2.9613 lr 3.00e-04 | 1750 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:41:09] step 1600 loss 3.0064 lr 3.00e-04 | 1754 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:42:59] step 1650 loss 3.2479 lr 3.00e-04 | 1757 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:44:49] step 1700 loss 2.0638 lr 3.00e-04 | 1760 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:46:37] step 1750 loss 3.2400 lr 3.00e-04 | 1764 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:48:26] step 1800 loss 2.7140 lr 2.80e-04 | 1767 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:50:15] step 1850 loss 3.0192 lr 2.60e-04 | 1770 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:52:08] step 1900 loss 2.9470 lr 2.40e-04 | 1771 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:53:58] step 1950 loss 3.0818 lr 2.20e-04 | 1773 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:55:55] eval step 2000 chunk1 16.5 chunks2 15.34 alive 0.6258 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-25 02:55:57] step 2000 loss 2.6852 lr 2.00e-04 | 1771 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:57:47] step 2050 loss 2.9508 lr 1.80e-04 | 1774 tok/s | mem 10.2 GiB
+[n77rev control 10-25 02:59:38] step 2100 loss 2.9979 lr 1.60e-04 | 1775 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:01:30] step 2150 loss 3.2214 lr 1.40e-04 | 1777 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:03:22] step 2200 loss 2.0544 lr 1.20e-04 | 1778 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:05:13] step 2250 loss 3.2237 lr 1.00e-04 | 1779 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:07:04] step 2300 loss 2.6905 lr 8.00e-05 | 1780 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:08:54] step 2350 loss 3.0029 lr 6.00e-05 | 1782 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:11:01] step 2400 loss 2.9267 lr 4.00e-05 | 1778 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:12:58] step 2450 loss 3.0678 lr 2.00e-05 | 1778 tok/s | mem 10.2 GiB
+[n77rev control 10-25 03:15:05] eval step 2500 chunk1 16.53 chunks2 15.33 alive 0.626 revived 0 revived_alive 0 revived_rate 0
+[n77rev control 10-25 03:15:06] done
+[n77rev 10-25 03:15:11] control_lr3e4 done rc=0
+[n77rev 10-25 03:15:11] trickle_lr3e4 start: --arm trickle --lr 3e-4 --T 1024 --ga 4 --steps 2500 --eval_every 500 --max_minutes 150
+[n77rev trickle 10-25 03:15:48] dead units 54943 of 147456 (37.3%) on 65536 val tokens; per block b0:45% b1:2% b2:100% b3:100% b4:90% b5:100% b7:0% b8:0% b9:2% b10:5% b11:2% b12:0%
+[n77rev trickle 10-25 03:15:58] eval step 0 chunk1 16.64 chunks2 15.59 alive 0.6253 revived 0 revived_alive 0 revived_rate 0
+[n77rev trickle 10-25 03:15:58] step 0: revived 2687 more (total 2687)
+/home/glenn/projects/neuro/temp/n77_revive_screen.py:201: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  loss.backward(); loss_sum += float(loss); tok += x.numel()
+[n77rev trickle 10-25 03:16:01] step 0 loss 2.8924 lr 3.00e-06 | 1364 tok/s | mem 9.1 GiB
+[n77rev trickle 10-25 03:18:01] step 50 loss 3.2933 lr 1.53e-04 | 1703 tok/s | mem 10.2 GiB
+[n77rev trickle 10-25 03:20:05] step 100 loss 2.7003 lr 3.00e-04 | 1675 tok/s | mem 10.2 GiB
+[n77rev trickle 10-25 03:22:05] step 150 loss 3.1792 lr 3.00e-04 | 1684 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:24:00] step 200 loss 2.6231 lr 3.00e-04 | 1710 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:25:59] step 250 loss 2.8011 lr 3.00e-04 | 1712 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:28:01] step 300 loss 2.6807 lr 3.00e-04 | 1705 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:29:58] step 350 loss 3.1989 lr 3.00e-04 | 1712 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:31:50] step 400 loss 2.9865 lr 3.00e-04 | 1726 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:33:44] step 450 loss 2.7698 lr 3.00e-04 | 1733 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:35:45] eval step 500 chunk1 16.57 chunks2 15.5 alive 0.6386 revived 13435 revived_alive 0.1452 revived_rate 0.1023
+[n77rev trickle 10-25 03:35:45] step 500: revived 2687 more (total 16122)
+[n77rev trickle 10-25 03:35:48] step 500 loss 2.7117 lr 3.00e-04 | 1725 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:37:41] step 550 loss 2.9806 lr 3.00e-04 | 1732 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:39:44] step 600 loss 3.0269 lr 3.00e-04 | 1726 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:41:40] step 650 loss 3.2811 lr 3.00e-04 | 1730 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:43:34] step 700 loss 2.0776 lr 3.00e-04 | 1734 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:45:29] step 750 loss 3.2440 lr 3.00e-04 | 1737 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:47:23] step 800 loss 2.7257 lr 3.00e-04 | 1741 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:49:17] step 850 loss 3.0399 lr 3.00e-04 | 1744 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:51:11] step 900 loss 2.9701 lr 3.00e-04 | 1747 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:53:04] step 950 loss 3.1159 lr 3.00e-04 | 1750 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:55:10] eval step 1000 chunk1 16.55 chunks2 15.47 alive 0.6514 revived 26870 revived_alive 0.1436 revived_rate 0.1004
+[n77rev trickle 10-25 03:55:10] step 1000: revived 2687 more (total 29557)
+[n77rev trickle 10-25 03:55:12] step 1000 loss 2.7076 lr 3.00e-04 | 1742 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:57:05] step 1050 loss 2.9618 lr 3.00e-04 | 1745 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 03:58:58] step 1100 loss 3.0139 lr 3.00e-04 | 1748 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:00:56] step 1150 loss 3.2646 lr 3.00e-04 | 1748 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:02:44] step 1200 loss 2.0748 lr 3.00e-04 | 1753 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:04:39] step 1250 loss 3.2456 lr 3.00e-04 | 1754 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:06:37] step 1300 loss 2.7182 lr 3.00e-04 | 1754 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:08:28] step 1350 loss 3.0315 lr 3.00e-04 | 1757 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:10:17] step 1400 loss 2.9498 lr 3.00e-04 | 1761 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:12:08] step 1450 loss 3.0981 lr 3.00e-04 | 1764 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:14:14] eval step 1500 chunk1 16.54 chunks2 15.47 alive 0.6644 revived 40305 revived_alive 0.1426 revived_rate 0.09751
+[n77rev trickle 10-25 04:14:14] step 1500: revived 2687 more (total 42992)
+[n77rev trickle 10-25 04:14:16] step 1500 loss 2.6957 lr 3.00e-04 | 1758 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:16:10] step 1550 loss 2.9585 lr 3.00e-04 | 1759 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:18:01] step 1600 loss 3.0030 lr 3.00e-04 | 1761 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:19:51] step 1650 loss 3.2452 lr 3.00e-04 | 1764 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:21:41] step 1700 loss 2.0646 lr 3.00e-04 | 1767 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:23:49] step 1750 loss 3.2396 lr 3.00e-04 | 1762 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:25:43] step 1800 loss 2.7138 lr 2.80e-04 | 1763 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:27:38] step 1850 loss 3.0207 lr 2.60e-04 | 1763 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:29:36] step 1900 loss 2.9430 lr 2.40e-04 | 1762 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:31:36] step 1950 loss 3.0802 lr 2.20e-04 | 1761 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:33:38] eval step 2000 chunk1 16.52 chunks2 15.34 alive 0.6776 revived 53725 revived_alive 0.1432 revived_rate 0.0983
+[n77rev trickle 10-25 04:33:38] step 2000: revived 29 more (total 53754)
+[n77rev trickle 10-25 04:33:40] step 2000 loss 2.6882 lr 2.00e-04 | 1758 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:35:37] step 2050 loss 2.9443 lr 1.80e-04 | 1758 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:37:32] step 2100 loss 2.9849 lr 1.60e-04 | 1759 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:39:26] step 2150 loss 3.2301 lr 1.40e-04 | 1759 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:41:20] step 2200 loss 2.0567 lr 1.20e-04 | 1760 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:43:12] step 2250 loss 3.2264 lr 1.00e-04 | 1762 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:45:04] step 2300 loss 2.7039 lr 8.00e-05 | 1763 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:46:55] step 2350 loss 3.0013 lr 6.00e-05 | 1765 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:48:46] step 2400 loss 2.9359 lr 4.00e-05 | 1766 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:50:38] step 2450 loss 3.0673 lr 2.00e-05 | 1768 tok/s | mem 10.3 GiB
+[n77rev trickle 10-25 04:52:41] eval step 2500 chunk1 16.53 chunks2 15.31 alive 0.6778 revived 53754 revived_alive 0.1433 revived_rate 0.09832 zeroed_chunk1 16.51 zeroed_chunks2 15.35
+[n77rev trickle 10-25 04:52:41] done
+[n77rev 10-25 04:52:46] trickle_lr3e4 done rc=0

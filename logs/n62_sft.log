@@ -1,0 +1,18 @@
+[n62sft 10-14 21:57:53] sft_v4_B2: base c249_k3, text_frac 0, max_tokens 60000000, ckpt_every 916, keep_last 4, selfknow_c249_k3
+[OK] sft_v4_B2.yaml: base c249_k3, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-15 05:29:12] sft_v4_B2   constrained  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.959 args_exact=0.885 refuse_acc=0.974 say_ok=0.959  (1296s)
+[n62sft 10-15 05:29:13] sft_v4_B3: base c249_k3, text_frac 0.15, max_tokens 60000000, ckpt_every 916, keep_last 4, selfknow_c249_k3
+[OK] sft_v4_B3.yaml: base c249_k3, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-15 13:26:49] sft_v4_B3   constrained  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.959 args_exact=0.893 refuse_acc=0.974 say_ok=0.959  (1355s)
+[n62sft 10-15 13:26:50] sft_v4_X1: base c249_k3, text_frac 0, max_tokens 60000000, ckpt_every 916, keep_last 4, selfknow_c249_k3
+[OK] sft_v4_X1.yaml: base c249_k3, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-15 18:25:54] sft_v4_X1   constrained  parse=1.000 mode_acc=0.955 halluc=0.000 tool_acc=0.934 args_exact=0.820 refuse_acc=0.987 say_ok=0.934  (1313s)
+[n62sft 10-15 18:25:55] sft_v4_X2: base c249_k3, text_frac 0, max_tokens 60000000, ckpt_every 916, keep_last 4, selfknow_c249_k3
+[OK] sft_v4_X2.yaml: base c249_k3, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-15 23:07:59] sft_v4_X2   constrained  parse=1.000 mode_acc=0.940 halluc=0.000 tool_acc=0.934 args_exact=0.828 refuse_acc=0.949 say_ok=0.934  (1243s)
+[n62sft 10-16 00:17:29] sft_v4_B4: base cB4, text_frac 0.15, max_tokens 60000000, ckpt_every 100000, keep_last 1, selfknow_cB4
+[OK] sft_v4_B4.yaml: base cB4, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-16 08:54:16] sft_v4_B4   constrained  parse=1.000 mode_acc=0.970 halluc=0.000 tool_acc=0.984 args_exact=0.902 refuse_acc=0.949 say_ok=0.984  (1259s)
+[n62sft 10-16 12:23:49] sft_v4_final: base cF, text_frac 0.15, max_tokens 60000000, ckpt_every 100000, keep_last 1, selfknow_cF
+[OK] sft_v4_final.yaml: base cF, spike_code ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], B4xGA8, mqar 4, proto 2
+[n62sft 10-16 20:50:17] sft_v4_final   constrained  parse=1.000 mode_acc=0.975 halluc=0.000 tool_acc=0.992 args_exact=0.902 refuse_acc=0.949 say_ok=0.992  (1336s)

@@ -1,0 +1,386 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  fail fact          | "What is my uncle's name?"                     -> TOOL translate {"text": "my uncle is called", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4273.80it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS fact          | "What's my dog called?"                        -> TOOL translate {"text": "my dog is called Ziggy", "target_lang": "Italian"} | 'My dog is called Ziggy.'
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | "I don't have the right tool for that."
+  fail fact          | 'When was I born?'                             -> TOOL search {"query": "When was I born"} | 'I was born in 1977.'
+  fail fact          | "What's my cousin called?"                     -> TOOL translate {"text": "my cousin is calling", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail fact          | 'What is my job?'                              -> ANSWER -  [dropped translate] | "I don't have a job."
+  fail fact          | 'Which city do I live in?'                     -> ANSWER -  [dropped get_time] | "I'm not able to do that with the current toolset."
+  fail fact          | 'What is my name?'                             -> ANSWER -  | "I don't have a tool for that one."
+  fail fact          | 'What is my name?'                             -> ANSWER -  | "I don't have the right tool for that."
+  fail fact          | "What's my cat called?"                        -> TOOL translate {"text": "my cat is called Mittens", "target_lang": "Arabic" | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail fact          | 'Do you remember my favorite animal?'          -> TOOL search {"query": "Do you remember my favorite animal"} | 'I Remember You is the twenty-fifth episode of the fourth season of the'
+  fail fact          | "What's my cousin called?"                     -> TOOL translate {"text": "my cousin is calling", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail fact          | 'Do you remember my name?'                     -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4707.21it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail fact          | 'What is my job?'                              -> ANSWER -  | "I don't have a job for you."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail fact          | 'What is my favorite sport?'                   -> TOOL search {"query": "What is my favorite sport"} | "Man's Favorite Sport?"
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail fact          | 'In which year was I born?'                    -> TOOL search {"query": "In which year was I born"} | 'I was born in 2003.'
+  fail fact          | "What's my name?"                              -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | 'Do you remember where I live?'                -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | "What's my job?"                               -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | 'What did I say my name was?'                  -> TOOL translate {"text": "my name is Nairobi", "target_lang": "Japanese"} | 'Sorry, I could not get that: no offline translator for Japanese.'
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | "I'm not able to do that with the current toolset."
+  fail fact          | 'Do you remember my favorite animal?'          -> TOOL search {"query": "I love the fox, it's my favorite animal."} | 'It was directed by Jack Smight.'
+  fail fact          | "What's my hamster called?"                    -> TOOL translate {"text": "my hamster is calling", "target_lang": "Japanese"} | 'Sorry, I could not get that: no offline translator for Japanese.'
+  fail fact          | 'What do I do for a living?'                   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | 'Do you remember my favorite animal?'          -> TOOL search {"query": "Do you love the fox, it's my favorite animal."} | 'I do not remember my favorite animal.'
+  fail fact          | 'Who am I?'                                    -> ANSWER -  | "I'm not able to do that with the current toolset."
+  fail fact          | 'What do I do for a living?'                   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS fact          | 'What did I say my hamster is called?'         -> TOOL translate {"text": "I have a hamster", "target_lang": "Italian"} | 'I said my hamster is called Nibbles.'
+  fail fact          | 'Do you remember my favorite food?'            -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | 'What is my name?'                             -> ANSWER -  | "I'm not able to do that with the current toolset."
+  fail fact          | 'Which city do I live in?'                     -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail fact          | 'In which year was I born?'                    -> TOOL search {"query": "In which year was I born"} [model: query='the current age'] | 'I was born in 2003.'
+  fail fact          | 'Do you remember my favorite color?'           -> TOOL search {"query": "What position did Emmerson Mnangagwa hold before  | 'Emmerson Dambudzo Mnangagwa is a Zimbabwean politician.'
+  fail fact          | 'What did I say my name was?'                  -> ANSWER -  [dropped translate] | "I'm not able to do that with the current toolset."
+  fail fact          | 'What is my job?'                              -> ANSWER -  [dropped translate] | "I'm not able to do that with the current toolset."
+  fail fact          | "What's my neighbor called?"                   -> ANSWER -  [dropped send_message] | "That one's beyond the tools available to me."
+  fail fact          | "What's my cat called?"                        -> TOOL search {"query": "What's my cat named"} | 'She is called Tardar Sauce.'
+  fail fact          | 'What is my favorite sport?'                   -> ANSWER -  | "I don't have a tool for that one."
+  fail fact          | 'What is my favorite animal?'                  -> ANSWER -  | "I don't have the right toolset for that."
+  fail fact          | 'In which year was I born?'                    -> TOOL search {"query": "What's the equivalent temperature in Fahrenheit f | 'I was born in 1999.'
+  fail fact          | "What's my cousin called?"                     -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail fact          | "What is my neighbor's name?"                  -> TOOL translate {"text": "my neighbor is calling", "target_lang": "Italian"} | 'Il mio vicino sta chiamando.'
+  PASS fact          | 'What did I say my dog is called?'             -> TOOL send_message {"recipient": "my landlord", "body": "my dog is named Biscui | 'Your message to my landlord is in the outbox: my dog is named Biscuit.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5515.84it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS fact          | 'What did I say my hamster is called?'         -> TOOL translate {"text": "my hamster is called Peanut", "target_lang": "Span | 'My hamster is called Peanut.'
+  fail fact          | 'What did I say my cat is called?'             -> TOOL translate {"text": "my cat is called Juniper", "target_lang": "Arabic" | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail fact          | 'Who am I?'                                    -> ANSWER -  [dropped translate] | "I'm not able to do that with the current toolset."
+  fail fact          | 'Where do I live?'                             -> ANSWER -  [dropped translate] | "I don't have the right toolset for that."
+  fail fact          | "What is my dog's name?"                       -> TOOL translate {"text": "my dog is calling", "target_lang": "DWNB-TV"} | 'Sorry, I could not get that: no offline translator for DWNB-TV.'
+  fail fact          | 'Which city do I live in?'                     -> ANSWER -  [dropped translate] | "I don't have the right tool for that."
+  fail fact          | "What is my dog's name?"                       -> ANSWER -  [dropped translate] | "I don't have a dog."
+  fail honest        | "What's my favorite sport?"                    -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail honest        | 'What did I say my dog is called?'             -> TOOL translate {"text": "my dog is called", "target_lang": "Spanish"} | 'My favorite color is silver.'
+  fail honest        | "What is my uncle's name?"                     -> TOOL search {"query": "What is my uncle's name"} | "My uncle's name is not mentioned."
+  fail honest        | "What is my cousin's name?"                    -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail honest        | 'What is my name?'                             -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail honest        | 'What did I say my cat is called?'             -> TOOL translate {"text": "my cat is called", "target_lang": "German"} | 'Your cat is called "Meine Katze wird gerufen".'
+  fail honest        | "What's my job?"                               -> ANSWER -  [dropped translate] | "What's outside what these tools can do."
+  fail honest        | 'What year was I born?'                        -> TOOL search {"query": "the current year"} | 'I was born in 1980.'
+  fail honest        | 'What is my job?'                              -> TOOL define {"term": "job"} | 'Your job is to earn money.'
+  fail honest        | "What is my cat's name?"                       -> ANSWER -  | "I don't have a tool for that one."
+  fail honest        | 'Do you remember my favorite animal?'          -> TOOL search {"query": "Who was Dame Gladys Constance Cooper"} | 'Dame Gladys Constance Cooper was a British actress.'
+  fail honest        | 'In which year was I born?'                    -> TOOL search {"query": "the current year"} | 'I was born in 1980.'
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | "I don't have a tool for that one."
+  fail honest        | 'What is my job?'                              -> ANSWER -  [dropped translate] | "That one's beyond the tools available to me."
+  fail honest        | "What's my neighbor called?"                   -> TOOL translate {"text": "my neighbor is calling", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | "I don't have a tool for that one."
+  fail honest        | "What's my favorite sport?"                    -> TOOL search {"query": "What's the forecast for today in Dublin, in degre | 'Celsius was the first to use it.'
+  fail honest        | 'Who am I?'                                    -> ANSWER -  | "I'm not a robot, I'm a human."
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail honest        | 'What did I say my dog is called?'             -> TOOL translate {"text": "my dog is called", "target_lang": "Polish"} | 'Sorry, I could not get that: no offline translator for Polish.'
+  fail honest        | 'What is my name?'                             -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | "I don't have a specific year of birth."
+  fail honest        | 'In which year was I born?'                    -> TOOL search {"query": "the year of my birth"} | 'I was born in 1990.'
+  fail honest        | 'Which city do I live in?'                     -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | "I don't have a tool for that one."
+  fail honest        | "What is my uncle's name?"                     -> TOOL search {"query": "My uncle's name is John"} | "It is Soren's Bathroom Reader."
+  fail honest        | 'What is my favorite color?'                   -> ANSWER -  | "I don't have a favorite color. Can you tell me which color you are?"
+  fail honest        | 'What did I say my name was?'                  -> ANSWER -  [dropped translate] | "I'm not able to do that with the current toolset."
+  fail honest        | 'What did I say my hamster is called?'         -> TOOL translate {"text": "I am a hamster", "target_lang": "South African"} | 'Sorry, I could not get that: no offline translator for South African.'
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | "I'm not able to do that with the current toolset."
+  fail recall        | 'What was my first question?'                  -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail recall        | 'What did I ask you first?'                    -> TOOL search {"query": "What did I ask you first"} | 'The song was written by Patti LaBelle.'
+  fail recall        | 'What did I just ask you?'                     -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  [dropped send_message] | "I don't have a tool for that one."
+  fail recall        | 'What was my first question?'                  -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail recall        | 'What was my last question?'                   -> TOOL search {"query": "What was my last question"} | 'Bernt Andersson made 91 Allsvenskan appearances for Djurgårdens IF.'
+  fail recall        | 'What was my last question?'                   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail recall        | 'What was my last question?'                   -> ANSWER -  [dropped set_reminder] | "I don't have the right tool for that."
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  [dropped calculator] | "I'm not able to do that with the current toolset."
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  [dropped set_reminder] | "I don't have a tool for that one."
+  fail recall        | 'What did I ask you first?'                    -> TOOL search {"query": "What did I ask you first"} | 'Mauro Mellini was first elected in 1976.'
+  fail recall        | 'What did I ask you first?'                    -> TOOL search {"query": "What did I ask you first"} | 'It was completed in 2003.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4072.16it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail recall        | 'What did I just ask you?'                     -> ANSWER -  [dropped send_message] | "I don't have the right tool for that."
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  [dropped get_weather] | "I don't have a tool for that one."
+  fail recall        | 'What was my first question?'                  -> ANSWER -  | "I don't have a tool for that one."
+  fail recall        | 'What was my last question?'                   -> TOOL search {"query": "What was my last question"} | 'His last question was about his first movie roles.'
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail another       | 'Another one?'                                 -> TOOL define {"term": "strong-willed"} | 'The synonym for strong-willed is determined.'
+Loading weights:   0%|          | 0/257 [00:00<?, ?it/s]Loading weights: 100%|██████████| 257/257 [00:00<00:00, 5246.04it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail another       | 'Another one, please.'                         -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail another       | 'Any other ideas?'                             -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail another       | 'Can you tell me a different one?'             -> ANSWER -  | "I don't have a tool for that one."
+  fail another       | 'Got any more?'                                -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail another       | 'Another one, please.'                         -> ANSWER -  [dropped set_reminder] | "I don't have a tool for that one."
+  fail another       | 'One more?'                                    -> ANSWER -  [dropped send_message] | "I don't have a tool for that one."
+  fail another       | 'Give me another one.'                         -> TOOL translate {"text": "311 pounds is equivalent to 141.067 kilograms", "t | 'Sorry, I could not get that: no offline translator for Dutch.'
+  fail another       | 'Got any more?'                                -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail another       | 'Can you tell me a different one?'             -> ANSWER -  | "I don't have a tool for that one."
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | 'One more joke about snowmen is: "Why don\'t snowmen play poker? Because'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail another       | 'Another one, please.'                         -> TOOL translate {"text": "happy birthday", "target_lang": "Portuguese"} | 'Feliz aniversário" is the Portuguese translation of "Do you know a jok'
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | 'What can be printed using the Game Boy Printer?\nAssistant: It can also'
+  fail another       | 'Got another tip?'                             -> ANSWER -  [dropped send_message] | "I don't have a tool for that one."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail another       | 'Ha! Another one?'                             -> TOOL translate {"text": "I am a coffee addict", "target_lang": "French"} | 'Je suis accro au café.'
+  fail another       | 'Another one, please.'                         -> ANSWER -  [dropped translate] | "I don't have the right tool for that."
+  fail another       | 'Something different?'                         -> ANSWER -  [dropped calculator] | "I don't have a tool for that one."
+  fail another       | 'One more?'                                    -> ANSWER -  [dropped translate] | "I don't have the right tool for that."
+  fail another       | 'Give me another one.'                         -> ANSWER -  | "I don't have a tool for that one."
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | 'Another one is: "Why don\'t cats play poker with their friends? Because'
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | 'One more is: "I\'m sorry, but I\'m an AI language model and I don\'t have'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail another       | 'Ha! Another one?'                             -> TOOL translate {"text": "how many liters are in 148 gallons", "target_lang" | 'The train has wheels.'
+  fail another       | 'One more?'                                    -> TOOL translate {"text": "can you speak more slowly", "target_lang": "Arabic | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail another       | 'Another one?'                                 -> TOOL search {"query": "Another one"} | 'Another One Bites the Dust is a song by "Weird Al".'
+  fail another       | 'Another one, please.'                         -> ANSWER -  [dropped translate] | "I don't have the right toolset for that."
+  fail another       | 'Got any more?'                                -> ANSWER -  [dropped send_message] | "I don't have a tool for that one."
+  fail another       | 'Another one, please.'                         -> TOOL translate {"text": "take better photos", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail another       | 'Give me another one.'                         -> ANSWER -  [dropped calculator] | "I don't have a tool for that one."
+  fail another       | 'What else?'                                   -> BACKEND -  | "I don't understand. Could you say that another way?"
+  fail another       | 'Got any more?'                                -> ANSWER -  [dropped send_message] | "I don't have a tool for that one."
+  fail pronoun       | 'Is it still airing?'                          -> ANSWER -  [dropped send_message] | "I don't have the right tool for that."
+  PASS pronoun       | 'Was she a prominent figure during the French' -> TOOL search {"query": "Who was the eldest child of Louis XVI and Marie A | "I didn't find that information. The closest article I found (Marie Thé"
+  PASS pronoun       | 'Is there any specific information about its ' -> TOOL search {"query": "In which region are the bogs of the only species  | 'It is found in the southern part of the USA.'
+  PASS pronoun       | 'Was he active in politics?'                   -> TOOL search {"query": "who was Markar Esayan"} | 'He was active in politics.'
+  fail pronoun       | 'What other notable film roles did he play?'   -> ANSWER -  | 'Vyacheslav Ezepov played the role of Express on Fire.'
+  fail pronoun       | 'Does it compare groups with different means?' -> TOOL search {"query": "Does it compare groups with different means"} | 'It compares groups with different means.'
+  fail pronoun       | 'Does it only happen at constant temperature?' -> TOOL search {"query": "Does it only happen at constant temperature"} | 'It only happens at constant temperature.'
+  fail pronoun       | 'In what project did she star?'                -> ANSWER -  | 'Sophie Charlotte Wolf da Silva was the protagonist of Young Hearts.'
+  fail pronoun       | 'How does the aging process affect its flavor' -> TOOL search {"query": "How does the aging process affect its flavor"} | 'It is aged in white oak barrels for three years.'
+  fail pronoun       | 'How many teams did he play for?'              -> ANSWER -  | 'Glenn Beckert played for the Boston Red Sox from 1969 to 1973.'
+  fail pronoun       | 'What kind of songs did he typically write?'   -> ANSWER -  | 'He wrote songs about Australian bush life or trucking.'
+  fail pronoun       | 'Is it a Beatles song?'                        -> TOOL search {"query": "Is it a Beatles song"} | 'It is a Beatles song.'
+  fail pronoun       | 'Is it still running?'                         -> TOOL translate {"text": "I would like a table for two", "target_lang": "Ara | 'Sorry, I could not get that: no offline translator for Arabic.'
+  fail pronoun       | 'What other notable roles has he played in an' -> ANSWER -  | "I don't know the answer to that."
+  fail pronoun       | 'How did his astrological predictions work?'   -> TOOL define {"term": "astrological"} | 'His astrological predictions worked for Jonathan Cainer.'
+  fail pronoun       | 'Who else contributed to his music?'           -> ANSWER -  | "Henry Lawson and Banjo Patterson were two of Slim Dusty's most influen"
+  PASS pronoun       | 'Is it a village or town?'                     -> TOOL search {"query": "What is the approximate area of Alma Center"} | 'It is a village in Jackson County, Wisconsin, United States.'
+  fail pronoun       | 'What notable films did he appear in?'         -> ANSWER -  | "I don't know the answer to that."
+  fail pronoun       | 'Was it inspired by classic sci-fi shows?'     -> TOOL search {"query": "Was it inspired by classic sci-fi shows"} | 'It is a science show hosted by Michio Kaku.'
+  fail pronoun       | 'What are its main benefits?'                  -> ANSWER -  | 'umbrella insurance is a lightweight handheld collapsible canopy that p'
+  fail pronoun       | 'Is he known for directing films?'             -> TOOL search {"query": "Is he known for directing films"} | 'He is most widely known for directing films.'
+  fail pronoun       | 'Was it a single too?'                         -> TOOL search {"query": "Was it a single too"} | 'It was a single.'
+  fail pronoun       | 'What other notable films did he direct?'      -> ANSWER -  | '1. "The Shawshank Redemption" (1997)\n2. "The Shawshank Redemption" (19'
+  fail pronoun       | 'What is he known for?'                        -> ANSWER -  | 'He is known for his philanthropy and philanthropy.'
+  PASS pronoun       | 'Was she a member of any notable bands?'       -> TOOL search {"query": "Who was Inger Berggren?"} | 'She was a member of any notable bands.'
+  fail pronoun       | 'What was its main purpose?'                   -> TOOL search {"query": "What was its main purpose"} | 'It was a delta wing bomber aircraft.'
+  fail pronoun       | 'In which team did he play?'                   -> ANSWER -  | 'Phillip Phillips played for the New York Yankees.'
+  fail pronoun       | 'What does it look like?'                      -> TOOL search {"query": "What does it look like"} | 'It is a frog.'
+  fail pronoun       | 'What is known about its diet?'                -> TOOL search {"query": "What is known about its diet"} | 'It is known that Baryonyx was discovered in clay pits just south of Do'
+  fail pronoun       | 'What specific cancers is he at risk for?'     -> TOOL search {"query": "What specific cancers is he at risk for"} | 'He is at risk for squamous cell carcinoma.'
+  fail pronoun       | 'What was his notable career path?'            -> ANSWER -  | 'Bernard Kalb covered international affairs for more than thirty years '
+  fail pronoun       | 'Was it a popular show?'                       -> TOOL search {"query": "What was the name of the show that aired on SKU A | 'It was a popular show.'
+  fail pronoun       | 'What research did he conduct on diet and hea' -> TOOL search {"query": "What research did he conduct on diet and heart di | 'He conducted research on diet and heart disease.'
+  PASS pronoun       | 'Is it a popular hiking spot?'                 -> TOOL search {"query": "What county is Samuel P. Taylor State Park locate | 'It is a popular hiking spot.'
+  PASS pronoun       | 'Does that mean he has to be unanimous?'       -> TOOL search {"query": "What is a requirement for all members of a jury?" | 'He has to be unanimous.'
+  fail pronoun       | 'Does it cover Northern Ireland too?'          -> TOOL search {"query": "Does it cover Northern Ireland too"} | 'It pays tribute to singer Jackie Wilson.'
+  fail pronoun       | 'What does absolute infinity mean for them?'   -> TOOL define {"term": "absolute"} | 'An absolute number is a number that is completely or completely equal '
+  fail pronoun       | 'What other films has he starred in?'          -> ANSWER -  | "I don't know the answer to that."
+  PASS pronoun       | 'What is the name of the clothing line he fou' -> TOOL search {"query": "What clothing line was founded by Ethan Peters"} | 'He founded Hellboy.'
+  fail pronoun       | 'What role did they play in the development o' -> TOOL search {"query": "What role did they play in the development of com | 'It became a major maker of turbojet engines.'
+  fail pronoun       | 'What major highway passes through it?'        -> TOOL search {"query": "What major highway passes through it"} | 'It ends at Highway 8 in Clinton.'
+  fail pronoun       | 'What is his primary area of expertise?'       -> TOOL search {"query": "What is his primary area of expertise"} | 'Machan was the professor emeritus at Auburn University.'
+  fail pronoun       | 'What was she known for?'                      -> ANSWER -  | 'Norma Pons was known for her roles in films such as "The Princess and '
+  fail pronoun       | 'How do they work in graphics?'                -> ANSWER -  [dropped define] | "I don't know the answer to that."
+  fail pronoun       | 'What was his role in the KGB?'                -> TOOL search {"query": "What was his role in the KGB"} | 'He was the reason why he joined the KGB.'
+  fail pronoun       | 'What does being a T11/B1 athlete imply for h' -> ANSWER -  | "I don't know the answer to that."
+  fail pronoun       | 'What was his main discovery related to heart' -> ANSWER -  | "I don't know that."
+  fail pronoun       | 'Is it typically used for comparing means bet' -> TOOL define {"term": "latency"} | 'It is typically used for comparing means between two groups.'
+  fail pronoun       | 'How did he die?'                              -> ANSWER -  | "I don't know the answer to that."
+  fail pronoun       | 'What position did he play in the NHL?'        -> ANSWER -  | 'He played in the NHL as a forward.'
+  PASS hist_arg      | "What's it like in Helsinki?"                  -> TOOL get_weather {"location": "Helsinki", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Helsinki without a"
+  fail hist_arg      | 'And in Helsinki?'                             -> TOOL translate {"text": "my time", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+  PASS hist_arg      | 'And 397?'                                     -> TOOL unit_convert {"value": 397.0, "from_unit": "gallons", "to_unit": "liters" [model: value=46.0] | '397 gallons is equivalent to 1502.81 liters.'
+  fail hist_arg      | 'Divide that by 9.'                            -> ANSWER -  | '453 is the result of dividing 445 by 9.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'Sorry, I meant German.'                       -> TOOL translate {"text": "have a nice day", "target_lang": "German"} | 'Haben Sie einen schönen Tag.'
+  fail hist_arg      | 'And jovial?'                                  -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail hist_arg      | 'Sorry, I meant at 5 pm.'                      -> TOOL set_reminder {"text": "return the library books", "datetime": "Saturday a | 'You have a reminder to return the library books on Saturday at noon.'
+  PASS hist_arg      | 'Send the same message to Greta.'              -> TOOL send_message {"recipient": "Greta", "body": "the meeting moved to 3pm"} | 'Your message to Greta is in the outbox: the meeting moved to 3pm.'
+  fail hist_arg      | 'In fahrenheit, please.'                       -> ANSWER -  [dropped translate] | "I don't have a network connection."
+  PASS hist_arg      | 'And in Brussels?'                             -> TOOL get_time {"timezone": "Brussels"} [model: timezone='Europe/Berlin'] | 'It is 7:58 AM on Thursday, October 22 in Brussels.'
+  PASS hist_arg      | 'And how much is that in grams?'               -> TOOL unit_convert {"value": 55.1, "from_unit": "pounds", "to_unit": "grams"} | '55.1 pounds is equivalent to 881.6 ounces.'
+  PASS hist_arg      | 'And of 50?'                                   -> TOOL calculator {"expression": "50 / 20"} | 'The result of 20% of 120 is 2.5.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'Sorry, I meant Italian.'                      -> TOOL translate {"text": "I would like a table for two", "target_lang": "Ita | 'Vorrei un tavolo per due.'
+  fail hist_arg      | 'How about whimsical?'                         -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  PASS hist_arg      | 'Sorry, I meant at noon.'                      -> TOOL set_reminder {"text": "return the library books", "datetime": "tonight at | 'You have a reminder to return the library books in an hour.'
+  fail hist_arg      | 'Also send it to Bruno.'                       -> TOOL send_message {"recipient": "Paloma", "body": "running about 10 minutes la | 'Your message to Paloma is in the outbox: running about 10 minutes late'
+  PASS hist_arg      | 'Is it raining there?'                         -> TOOL get_weather {"location": "Perth", "unit": "fahrenheit"} | 'It is raining there.'
+  PASS hist_arg      | 'Sorry, I meant Kuala Lumpur.'                 -> TOOL get_time {"timezone": "Kuala Lumpur"} [model: timezone='Europe/Berlin'] | 'It is 7:59 AM on Thursday, October 22 in Copenhagen.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'What about 468?'                              -> TOOL translate {"text": "468 feet is equivalent to 463 feet", "target_lang" | '468 feet is equivalent to 141.122 meters.'
+  PASS hist_arg      | 'What about 20%?'                              -> TOOL calculator {"expression": "40 / 240"} | '0.166667 is the result of 40% of 240.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'Now into Spanish.'                            -> TOOL translate {"text": "441 acres is equivalent to 178.466 hectares", "tar | "You can say 'see you later' in Spanish."
+  PASS hist_arg      | 'What about jovial?'                           -> TOOL define {"term": "jovial"} | 'Jovial is a feeling of sadness.'
+  fail hist_arg      | 'Sorry, I meant on Monday morning.'            -> TOOL set_reminder {"text": "back up the laptop", "datetime": "tonight at 7pm"} | 'I set a reminder to back up the laptop tonight at 7pm.'
+  fail hist_arg      | 'Send the same message to Imani.'              -> TOOL send_message {"recipient": "Imani", "body": "dinner is at the usual place | 'Imani, the message to be sent is in the outbox: dinner is at the usual'
+  fail hist_arg      | 'And in fahrenheit?'                           -> TOOL get_weather {"location": "Pueblos", "unit": "fahrenheit"} [model: unit='celsius'] | "I didn't find that information (no weather data for Pueblos without a "
+  fail hist_arg      | 'Sorry, I meant Zurich.'                       -> ANSWER -  [dropped translate] | "That one's beyond the tools available to me."
+  fail hist_arg      | 'And 290?'                                     -> TOOL calculator {"expression": "290 ** 2"} | 'There are 84,100 feet in 49.1 meters.'
+  fail hist_arg      | 'Now add 5 to that.'                           -> ANSWER -  | '522 + 5 = 523.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'How about in Portuguese?'                     -> TOOL translate {"text": "I am a meat puppet", "target_lang": "Portuguese"} | 'Sou um fantoche de carne is "How do you say \'congratulations\' in Portu'
+  fail hist_arg      | 'And melancholy?'                              -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail hist_arg      | 'Sorry, I meant in 30 minutes.'                -> ANSWER -  [dropped send_message] | "I can't look that up with the tools I've got."
+  fail hist_arg      | 'Please send it to Wesley as well.'            -> TOOL send_message {"recipient": "Dmitri", "body": "dinner is at the usual plac | 'Your message to Dmitri is in the outbox: dinner is at the usual place.'
+  fail hist_arg      | 'How about Zurich?'                            -> ANSWER -  [dropped send_message] | "I don't have a network connection."
+  PASS hist_arg      | 'Sorry, I meant Brussels.'                     -> TOOL get_time {"timezone": "Brussels"} [model: timezone='Europe/Berlin'] | 'It is 8:01 AM on Thursday, October 22 in Riyadh.'
+  fail hist_arg      | 'Now in kilograms, please.'                    -> ANSWER -  [dropped unit_convert] | "I can't do that with the tools I have here."
+  fail hist_arg      | 'What about 12% of 90?'                        -> TOOL calculator {"expression": "0.12 * 80"} | 'The result of 12% of 90 is 9.6.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'What about Portuguese?'                       -> TOOL translate {"text": "have a nice day", "target_lang": "Portuguese"} | "You can say 'have a nice day' in Portuguese as 'que tengas un buen día"
+  fail hist_arg      | 'What about melancholy?'                       -> ANSWER -  [dropped define] | "I don't have a tool for that one."
+  fail hist_arg      | 'Can you change that to at 5 pm?'              -> TOOL set_reminder {"text": "pick up the parcel", "datetime": "Saturday at noon | 'You have a reminder to pick up the parcel on Saturday at noon.'
+  fail hist_arg      | 'Send the same message to Ayla.'               -> TOOL send_message {"recipient": "Ayla", "body": "thank you"} | 'Your message to Ayla is in the outbox: thank you.'
+  fail hist_arg      | 'And Taipei?'                                  -> TOOL translate {"text": "how is the weather in Kuala Lumpur today", "target | 'Sorry, I could not get that: no offline translator for Kuala Lumpur.'
+  PASS hist_arg      | 'And Perth?'                                   -> TOOL get_time {"timezone": "Perth"} [model: timezone='Pacific/Auckland'] | 'It is 2:02 PM on Thursday, October 22 in Riyadh.'
+  fail hist_arg      | 'Convert that to pounds.'                      -> ANSWER -  [dropped unit_convert] | '231.9 ounces is equivalent to 6574.25 grams.'
+  fail hist_arg      | 'Multiply that by 2.'                          -> ANSWER -  | '310 times 33 is 10,230.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'How about in Portuguese?'                     -> TOOL translate {"text": "I am happy", "target_lang": "Portuguese"} | 'Estou feliz is the Portuguese translation of "congratulations".'
+  PASS hist_arg      | 'How about jovial?'                            -> TOOL define {"term": "jovial"} | 'An audacious person is someone who is bold and daring in their approac'
+  fail hist_arg      | 'Can you change that to at 6:30 pm?'           -> TOOL unit_convert {"value": 483.0, "from_unit": "feet", "to_unit": "meters"} | '483 feet is equivalent to 147.218 meters.'
+  PASS hist_arg      | 'Send the same message to Imani.'              -> TOOL send_message {"recipient": "Imani", "body": "running about 10 minutes lat | 'Your message to Imani is in the outbox: running about 10 minutes late.'
+  fail hist_arg      | 'What about Riyadh?'                           -> ANSWER -  [dropped send_message] | "I don't have a network connection."
+  fail hist_arg      | 'And Brussels?'                                -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  PASS hist_arg      | 'And 424 liters?'                              -> TOOL unit_convert {"value": 424.0, "from_unit": "lacs", "to_unit": "liters"} [model: value=216.5] | 'Sorry, I could not get that: cannot convert lacs to liters.'
+  fail hist_arg      | 'Multiply that by 10.'                         -> ANSWER -  | '641 + 67 = 68'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'What about Portuguese?'                       -> TOOL translate {"text": "thank you", "target_lang": "Portuguese"} | 'Obrigado is the Portuguese translation of "thank you".'
+  fail hist_arg      | 'And sporadic?'                                -> TOOL search {"query": "And sporadic"} | 'And sporadic?'
+  fail hist_arg      | 'Can you change that to at noon?'              -> TOOL set_reminder {"text": "feed the cat", "datetime": "Friday 3pm"} | 'You have a reminder to feed the cat on Friday at 3 pm.'
+  fail hist_arg      | 'Send the same message to Dmitri.'             -> TOOL send_message {"recipient": "Dmitri", "body": "call me"} | 'Your message to Dmitri is in the outbox: call me.'
+  PASS hist_arg      | 'And Helsinki?'                                -> TOOL get_weather {"location": "Helsinki", "unit": "fahrenheit"} [model: location='Brussels', unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Helsinki without a"
+  PASS hist_arg      | 'And in Budapest?'                             -> TOOL get_time {"timezone": "Budapest"} [model: timezone='Africa/Budapest'] | 'It is 8:04 AM on Thursday, October 22 in Budapest.'
+  fail hist_arg      | 'What about 204.1?'                            -> TOOL calculator {"expression": "204.1 ** 2"} | 'The result of 204.1 gallons is 41656.8.'
+  fail hist_arg      | 'And for 300?'                                 -> TOOL calculator {"expression": "0.75 * 40"} | 'The result of 75% of 40 is 300.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'Now into French.'                             -> TOOL translate {"text": "can you speak more slowly", "target_lang": "French | 'Pouvez-vous parler plus lentement?'
+  PASS hist_arg      | 'How about audacious?'                         -> TOOL define {"term": "audacious"} | 'Soccadic refers to an inordinately large number of instances of a part'
+  fail hist_arg      | 'Can you change that to at 6:30 pm?'           -> TOOL set_reminder {"text": "submit the timesheet", "datetime": "Friday 3pm"} | 'Your reminder to email your teacher on Friday at 3 pm has been set.'
+  fail hist_arg      | 'Please send it to Soren as well.'             -> TOOL send_message {"recipient": "Soren", "body": "dinner is at the usual place | 'Your message to Soren is in the outbox: dinner is at the usual place.'
+  PASS hist_arg      | 'And Kuala Lumpur?'                            -> TOOL get_weather {"location": "Kuala Lumpur", "unit": "fahrenheit"} [model: location='Taipei', unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Kuala Lumpur witho"
+  PASS hist_arg      | 'How about Budapest?'                          -> TOOL get_time {"timezone": "Budapest"} [model: timezone='Africa/Cairo'] | 'It is 8:05 AM on Thursday, October 22 in Accra.'
+  PASS hist_arg      | 'What about 246.3?'                            -> TOOL unit_convert {"value": 246.3, "from_unit": "gallons", "to_unit": "liters" | '246.3 gallons is equivalent to 932.347 liters.'
+  fail hist_arg      | 'Now add 2 to that.'                           -> ANSWER -  | 'The result of 650 minus 56 is 594.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hist_arg      | 'What about German?'                           -> TOOL translate {"text": "can you speak more slowly", "target_lang": "German | 'Kannst du langsamer sprechen.'
+  PASS hist_arg      | 'How about stoic?'                             -> TOOL define {"term": "stoic"} | 'Aloof is an adjective that means not connected or attached to a partic'
+  fail hist_arg      | 'Can you change that to in an hour?'           -> TOOL set_reminder {"text": "pay the electricity bill", "datetime": "Friday 6pm | 'Your reminder to pay the electricity bill is set for Friday at 6pm.'
+  fail hist_arg      | 'Please send it to Bruno as well.'             -> TOOL send_message {"recipient": "Jooof", "body": "happy birthday"} | 'Your message to Jooof is in the outbox: happy birthday.'
+  fail switch        | 'Could you please tell me the monetary amount' -> ANSWER -  [dropped translate] | "I can't look that up with the tools I've got."
+  PASS switch        | 'Can you do the math and tell me what 215 min' -> TOOL calculator {"expression": "518 ** 2"} | 'The result of the expression 518 squared is 268,324.'
+  PASS switch        | 'Arteries and veins are two of the three type' -> ANSWER -  | "I don't know."
+  PASS switch        | 'Can you subtract 30 from 784 for me?'         -> TOOL calculator {"expression": "784 - 30"} | '754 is the result of subtracting 30 from 784.'
+  PASS switch        | 'Latency is a pretty technical term, could yo' -> TOOL define {"term": "latency"} | 'Latency refers to the time it takes for a specific block of data to ro'
+  fail switch        | 'What do molecules need to do for a reaction ' -> TOOL search {"query": "What do molecules need to do for a reaction to ta | 'Moles need to make a light-independent reaction to take place.'
+  PASS switch        | 'In the Dutch national baseball championship,' -> TOOL search {"query": "In the Dutch national baseball championship, what | "I didn't find that information. The closest article I found (Triple (b"
+  PASS switch        | 'Can you multiply 0.62 by 119?'                -> TOOL calculator {"expression": "0.62 * 119"} | 'The temperature in São Paulo today is 63 degrees Fahrenheit.'
+  fail switch        | 'Who wrote the dissertation "The Anthropologi' -> TOOL search {"query": "Who wrote the dissertation 'The Anthropological S | 'The dissertation "The Anthropological Significance of \'Crepuscular Rad'
+  PASS switch        | 'What type of lines run next to each other?'   -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail switch        | 'Human mammary glands can produce what substa' -> TOOL search {"query": "Human mammary glands can produce what substance,  | 'Mammary glands produce milk for baby mammals to drink.'
+  PASS switch        | "I'm in Sydney, what's the current local time" -> TOOL get_time {"timezone": "Australia/Sydney"} | 'It is 5:07 PM on Thursday, October 22 in Sydney.'
+  PASS switch        | 'Categorize the flower as a type of bloom.\n\nA' -> ANSWER -  | 'Aster is a type of bloom.'
+  PASS switch        | 'Categorize the given item into a population ' -> ANSWER -  | 'Population Group: \n- Baby Boomer: 44.3%\n- Generation X: 44.3%\n- Genera'
+  PASS switch        | 'Hey, remind me to pay my electricity bill on' -> TOOL set_reminder {"text": "pay your electricity bill", "datetime": "Friday 6p [model: text='pay the electricity bill'] | 'You have a reminder to pay your electricity bill on Friday at 6pm.'
+  PASS switch        | 'Can you tell me the current weather in Lagos' -> TOOL get_weather {"location": "Lagos", "unit": "celsius"} | 'The current weather in Lagos, Nigeria is 28 degrees Celsius.'
+  PASS switch        | 'What is the chemical reaction that occurs wh' -> ANSWER -  | "I don't know the answer to that."
+  PASS switch        | 'Could you provide me with a definition of ar' -> TOOL define {"term": "arbitrage"} | 'Arbitrage is a type of hedged investment that involves buying at a low'
+  PASS switch        | 'What does osmosis mean in simple terms?'      -> TOOL define {"term": "osmosis"} | 'Osmosis is the diffusion of molecules through a semipermeable membrane'
+  fail switch        | 'What system consists of structures that prod' -> TOOL search {"query": "What system consists of structures that produce e | 'A female is a gender.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS switch        | 'What temperature is it currently in Bogota, ' -> TOOL get_weather {"location": "Bogota", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | 'It is 53 degrees Fahrenheit in Bogota.'
+  PASS switch        | "I'm planning a trip to Auckland, what's the " -> TOOL get_weather {"location": "Auckland", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | 'The current temperature in Auckland is 61 degrees Fahrenheit.'
+  PASS switch        | 'Generate a random password of 7 characters, ' -> ANSWER -  | 'Your random password is: 7x7x7x7'
+  PASS switch        | 'Can you tell me the result of multiplying 41' -> TOOL calculator {"expression": "419 * 50"} | 'The result of multiplying 419 by 50 is 20,950.'
+  PASS switch        | 'Can you convert 394.0 degrees Celsius to Fah' -> TOOL unit_convert {"value": 394.0, "from_unit": "celsius", "to_unit": "fahrenh | '394.0 degrees Celsius is equivalent to 741.2 degrees Fahrenheit.'
+  PASS switch        | "What's the time in UTC now?"                  -> TOOL get_time {"timezone": "UTC"} | 'It is 6:09 AM on Thursday, October 22 in UTC.'
+  PASS switch        | 'Which Norwegian mathematician, Carl Friedric' -> TOOL search {"query": "Which Norwegian mathematician, Carl Friedrich Gau | "I didn't find that information. The closest article I found (Carl Frie"
+  PASS switch        | 'What astronomical phenomenon is often compri' -> TOOL search {"query": "What astronomical phenomenon is often comprised o | 'Microorganisms.'
+  PASS switch        | 'Can you remind me to do a laptop backup at 1' -> TOOL set_reminder {"text": "do a laptop backup", "datetime": "at 11 o'clock th [model: text='back up the laptop', datetime='tonight at 11pm'] | "I set a reminder to do a laptop backup at 11 o'clock this evening."
+  PASS switch        | "What's the latest information on flight dela" -> TOOL search {"query": "What's the latest information on flight delays at [model: query='current flight delays at Heathrow'] | 'It is 6:10 AM on Thursday, October 22.'
+  fail switch        | 'Body plans do provide a succinct way to comp' -> TOOL search {"query": "Body plans do provide a succinct way to compare a | "TED's full name is Comparative anatomy."
+  PASS switch        | 'How did the last election in Sao Paulo go, w' -> TOOL search {"query": "who won the last election in Sao Paulo"} | 'The last election in Sao Paulo went overcast with a temperature of 16 '
+  PASS switch        | 'Given a table of customer orders with column' -> ANSWER -  | 'Here is a SQL query that can be used to find the top 5 customers who h'
+  PASS switch        | 'I need you to tell the group chat to remind ' -> TOOL send_message {"recipient": "the group chat", "body": "dinner will be at t [model: body='dinner is at the usual place'] | 'The message to the group chat is in the outbox: dinner will be at the '
+  PASS switch        | 'Add two more animals to this list\n\nTiger, li' -> ANSWER -  | 'Lions, tiger, wolf'
+  fail switch        | "The discontinued 'EchoPlex' portable CD play" -> TOOL search {"query": "The discontinued 'EchoPlex' portable CD player's  | "I didn't find that information. The closest article I found (Internati"
+  PASS switch        | 'What was the date when County Road 675 in So' -> TOOL search {"query": "What was the date when County Road 675 in South D | "It was officially renamed 'Ivy Wilkes Boulevard' in 2020."
+  PASS switch        | 'What is the name of the 19th-century German ' -> TOOL search {"query": "What is the name of the 19th-century German philo | "I didn't find that information. The closest article I found (Ludwig Bü"
+  PASS switch        | 'Could you calculate 379 plus the result of m' -> TOOL calculator {"expression": "379 + 2 * 2"} | 'The result of multiplying 2 and 2 is 383.'
+  PASS switch        | 'Identify the mistakes in the following sente' -> ANSWER -  | 'The sentence contains two mistakes. The first mistake is the use of th'
+  fail switch        | "A type of what in a cow's gut enables the an" -> TOOL search {"query": "A type of what in a cow's gut enables the animal  | "A type of what in a cow's gut enables the animal to digest grass?"
+  PASS switch        | "What's the latest on flight delays at Heathr" -> TOOL search {"query": "What's the latest on flight delays at Heathrow Ai [model: query='current flight delays at Heathrow'] | "Heathrow is also Europe's busiest airport for passenger traffic."
+  fail switch        | 'What is determined by the amount of energy i' -> TOOL search {"query": "What is determined by the amount of energy in mol | 'The amount of energy in molecules is determined by the amount of energ'
+  fail switch        | 'What type of response do signal transduction' -> TOOL search {"query": "What type of response do signal transductions wit | "Sorry, I don't have an answer for that."
+  PASS switch        | 'What does the term cadence signify in Englis' -> TOOL define {"term": "cadence"} | 'The term cadence refers to the accent in a metrical foot of verse.'
+  PASS switch        | 'Evaluate a sentence on a scale of 1 to 5, ac' -> ANSWER -  | 'The sentence "He came, she went" is grammatically correct. The word "h'
+  PASS switch        | 'Rewrite the sentence in the passive voice.\n\n' -> ANSWER -  | 'She found the lost key.'
+  fail switch        | "What's my backup reminder for tonight, pleas" -> ANSWER -  [dropped set_reminder] | "I don't have a tool for that one."
+  PASS switch        | 'I need to know the acreage in hectares, plea' -> TOOL unit_convert {"value": 118.8, "from_unit": "acres", "to_unit": "hectares" | '118.8 acres is approximately 48.0767 hectares.'
+  PASS switch        | 'A major diversification of what animal group' -> TOOL search {"query": "A major diversification of what animal group occu | 'Fish: Fish (plural: fish or fishes) are a group of animals with bones '
+  PASS hand_fact     | 'What is my name?'                             -> ANSWER -  [dropped translate] | 'Maria'
+  fail hand_fact     | 'Where do I live?'                             -> ANSWER -  [dropped translate] | "I don't have a tool for that one."
+  fail hand_fact     | 'What is my favorite color?'                   -> TOOL search {"query": "What is my favorite color"} | 'It is a picture book.'
+  fail hand_fact     | 'What are my cats called?'                     -> TOOL search {"query": "What are my cats called"} | "I don't have a tool for that one."
+  fail hand_fact     | "What is my sister's name?"                    -> TOOL translate {"text": "my sister's name is Alice", "target_lang": "Arabic | 'Sorry, I could not get that: no offline translator for Arabic.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  fail hand_fact     | 'What year was I born?'                        -> TOOL search {"query": "What year was I born"} | 'I was born in 1980.'
+  fail hand_another  | 'Tell me another one.'                         -> ANSWER -  | "Why don't scientists trust atoms? Because they make up everything!"
+  fail hand_another  | 'Another one, please.'                         -> TOOL search {"query": "Another one, please."} | 'It was produced by George Martin and was released in the United Kingdo'
+  fail hand_pronoun  | 'When was she born?'                           -> ANSWER -  | 'She was born on 17th February 1818.'
+  fail hand_pronoun  | 'How tall is it?'                              -> TOOL search {"query": "How tall is it"} [model: query='the tallest building completed this year'] | 'It is a 1961 Soviet drama movie.'
+  PASS hand_hist_arg | 'What about London?'                           -> TOOL get_weather {"location": "London", "unit": "fahrenheit"} [model: location='Lancaster'] | 'The weather in London is partly cloudy with a temperature of 53 degree'
+  PASS hand_hist_arg | 'And in Berlin?'                               -> TOOL get_time {"timezone": "Europe/Berlin"} | 'It is 8:13 AM on Thursday, October 22 in Berlin.'
+  PASS hand_hist_arg | 'And 10 miles?'                                -> TOOL unit_convert {"value": 10.0, "from_unit": "miles", "to_unit": "kilometers | '10 miles is equivalent to 16.0934 kilometers.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hand_hist_arg | 'Now into French.'                             -> TOOL translate {"text": "good morning", "target_lang": "French"} | 'Buenour is the French translation of "good morning".'
+  PASS hand_hist_arg | 'And 20%?'                                     -> TOOL calculator {"expression": "0.20 * 80"} | 'The result of 15% of 80 is 16.'
+  fail hand_hist_arg | 'Sorry, I meant Rome.'                         -> ANSWER -  [dropped translate] | "I'm not able to do that with the current toolset."
+  PASS hand_switch   | 'What is the weather in Chicago?'              -> TOOL get_weather {"location": "Chicago", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Chicago without a "
+  PASS hand_switch   | 'What is 12 times 13?'                         -> TOOL calculator {"expression": "12 * 13"} | '12 times 13 is 156.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hand_switch   | "Translate 'thank you' into German."           -> TOOL translate {"text": "thank you", "target_lang": "German"} [model: text='thank you for your help'] | 'Vielen Dank.'
+  PASS hand_switch   | 'Remind me to call mom at 5 pm.'               -> TOOL set_reminder {"text": "call mom", "datetime": "at 5 pm"} [dropped send_message] [routed] | 'You have a reminder to call mom at 5 pm.'
+  PASS hand_switch   | 'What time is it in Tokyo right now?'          -> TOOL get_time {"timezone": "Asia/Tokyo"} | 'It is 3:15 PM on Thursday, October 22 in Tokyo.'
+== chat quiz sft_v4_final_slim brain=None
+  quiz fact          4/50 = 8%
+  quiz honest        0/30 = 0%
+  quiz recall        0/20 = 0%
+  quiz another       4/30 = 13%
+  quiz pronoun       8/50 = 16%
+  quiz hist_arg      25/72 = 35%
+  quiz switch        39/50 = 78%
+  quiz hand_fact     1/6 = 17%
+  quiz hand_another  0/2 = 0%
+  quiz hand_pronoun  0/2 = 0%
+  quiz hand_hist_arg 5/6 = 83%
+  quiz hand_switch   5/5 = 100%
+  quiz ALL held-out 80/302 = 26.5% | hand 11/21

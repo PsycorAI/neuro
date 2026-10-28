@@ -1,0 +1,27 @@
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 1350 replay lines, 114 quiz requests (24 control)
+  e.g. Show me Python code for a function that checks whether a number is prime. -> 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in ra'
+  longest solution: 290 chars
+[OK] 180 foods (189 candidates) x 3 nutrients -> 3600 study + 3600 replay lines, 1080 quiz questions (180 control)
+  e.g. 100 grams of raw arrowhead contains how many calories? -> 99 kcal of energy per 100 grams.
+  e.g. What amount of protein is in 100 g of raw red leaf lettuce? -> 1.3 grams of protein per 100 grams.
+  e.g. What amount of carbohydrate is in 100 g of raw quinces? -> 15.3 grams of carbohydrate per 100 grams.
+  foods: raw tamarinds, raw eggplant, raw frog legs, raw ginger root, raw oyster mushrooms, raw orange tomatoes, raw drumstick leaves, raw strawberries, raw tomatillos, raw pomegranates, raw abiyuch, raw lime juice, raw welsh onions, raw longans
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 5400 replay lines, 114 quiz requests (24 control)
+  e.g. Write a Python function that adds up the numbers in a list without using sum (call it sum_list). -> 'def sum_list(nums):\n    total = 0\n    for n in nums:\n        total += '
+  longest solution: 290 chars
+[OK] 180 foods (189 candidates) x 3 nutrients -> 3600 study + 3600 replay lines, 1080 quiz questions (180 control)
+  e.g. Carbohydrates per 100 g of raw jackfruit? -> 23.2 grams of carbohydrate per 100 grams.
+  e.g. How many carbohydrates are in 100 grams of raw tilapia? -> 0 grams of carbohydrate per 100 grams.
+  e.g. What amount of protein is in 100 g of raw eggplant? -> 1 grams of protein per 100 grams.
+  foods: raw tamarinds, raw eggplant, raw frog legs, raw ginger root, raw oyster mushrooms, raw orange tomatoes, raw drumstick leaves, raw strawberries, raw tomatillos, raw pomegranates, raw abiyuch, raw lime juice, raw welsh onions, raw longans
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 5400 replay lines, 114 quiz requests (24 control)
+  e.g. Write Python code that flattens a list of lists into one list (call it flatten). -> 'def flatten(lists):\n    out = []\n    for part in lists:\n        for it'
+  longest solution: 290 chars
+[OK] 180 foods (189 candidates) x 3 nutrients -> 3600 study + 3600 replay lines, 1080 quiz questions (180 control)
+  e.g. What is the calorie content of 100 g of raw papayas? -> 43 kcal of energy per 100 grams.
+  e.g. What is the calorie content of 100 g of raw tamarinds? -> 239 kcal of energy per 100 grams.
+  e.g. How many grams of protein does 100 grams of raw cisco have? -> 19 grams of protein per 100 grams.
+  foods: raw tamarinds, raw eggplant, raw frog legs, raw ginger root, raw oyster mushrooms, raw orange tomatoes, raw drumstick leaves, raw strawberries, raw tomatillos, raw pomegranates, raw abiyuch, raw lime juice, raw welsh onions, raw longans
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 5400 replay lines, 114 quiz requests (24 control)
+  e.g. Can you write a Python function that counts how often each word appears in a text and returns a dictionary? -> 'def word_frequency(text):\n    counts = {}\n    for word in text.lower()'
+  longest solution: 290 chars

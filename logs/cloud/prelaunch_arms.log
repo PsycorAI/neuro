@@ -1,0 +1,5 @@
+== prelaunch 10-12 04:59 v4_cloud compile_mode=max-autotune-no-cudagraphs B16xGA1 data=/workspace/data/corpus_pieces/train_lut32768_u16.bin.part_000
+pl_gap exit=0 wall=1147s median step 980 ms = 33,453 tok/s (B16xGA1, 16 steps) | peak allocated 110.7 GB | peak reserved 111.2 GB E1012 05:00:01.882000 1918 torch/_inductor/select_algorithm.py:3541] [1/0] Traceback (most recent call last):
+pl_xchunk exit=0 wall=199s median step 1498 ms = 21,868 tok/s (B16xGA1, 16 steps) | peak allocated 110.7 GB | peak reserved 111.4 GB 
+pl_plain exit=0 wall=156s median step 893 ms = 36,675 tok/s (B16xGA1, 16 steps) | peak allocated 110.7 GB | peak reserved 111.1 GB 
+[prelaunch] done

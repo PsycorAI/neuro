@@ -1,0 +1,9 @@
+[apply 10-14 16:40:13] start
+conv config ok: 3 True ['.ffn.']
+764b28e0dff66e28e152258e8e096468  src/muon.py
+d8894abf9a4bb74dbc937f4018816999  src/train_gpu.py
+1071745eacac8d7e2df547b3aa3d124c  temp/mk_spike_seed.py
+1653ea8837a500d6f5b0a801fb9bf6ac  temp/n61mm_n60_revive.py
+dense checkpoints now: keep step_0220500.pt step_0222000.pt step_0223500.pt 
+last step: step 224400 | 7353.1M tok | loss 2.898 | 30,055 tok/s | vram 13.7/111.8 GB
+[apply 10-14 16:40:13] done; takes effect at the seed step

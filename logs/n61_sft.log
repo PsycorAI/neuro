@@ -1,0 +1,16 @@
+[n61sft 10-14 09:22:22] start
+[OK] /home/glenn/projects/neuro/models/checkpoints/v4_base214/step_0214500.pt (4.44 GB)
+[OK] sft_v4_reh214.yaml: {'sft_init': 'v4_base214', 'tool_proto': 2, 'sft_tools_full_frac': 0.3, 'batch_size': 4, 'grad_accum': 8, 'keep_last': 1, 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/posttrain/tools.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl']}
+[n61sft 10-14 09:23:22] training sft_v4_reh214
+[n61sft2 10-14 11:08:33] stopped old queue 103745
+[n61sft2 10-14 11:08:33] SIGUSR1 -> trainer 103888
+[n61sft2 10-14 11:09:18] preempted: saved step 887, 14.5M tok
+[n61sft2 10-14 11:09:18] mqar_aug_batch 16 -> 4; relaunch (auto-resume)
+[n61sft3 10-14 11:10:58] stopped old queue 308487
+[n61sft3 10-14 11:10:58] SIGTERM old trainer 315753
+[OK] /home/glenn/projects/neuro/models/checkpoints/v4_base222/step_0222000.pt (4.44 GB)
+[OK] sft_v4_reh222d.yaml: {'sft_init': 'v4_base222', 'spike_code': None, 'mqar_aug_batch': 4, 'tool_proto': 2, 'sft_tools_full_frac': 0.3, 'batch_size': 4, 'grad_accum': 8, 'keep_last': 1, 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/posttrain/tools.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl']}
+[n61sft3 10-14 11:11:42] training sft_v4_reh222d (dense, spike codes off, mqar 4)
+[n61sft3 10-14 16:21:16] trained: step 3650 | 59.8M tok | loss 0.901 | spike 0.002 | 3,017 tok/s | vram 13.4/25.8 GB
+  constrained  parse=1.000 mode_acc=0.995 halluc=0.000 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 say_ok=1.000  (979s)
+[n61sft3 10-14 16:38:44] done

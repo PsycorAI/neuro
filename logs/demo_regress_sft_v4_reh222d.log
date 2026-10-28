@@ -1,0 +1,25 @@
+== tool 18:34
+  constrained  parse=1.000 mode_acc=0.995 halluc=0.000 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 say_ok=1.000  (910s)
+== self 18:51
+selfknow sft_v4_reh222d: really known 20/300 (6.7%) | P(search|known) 0.000 | P(search|unknown) 0.000 | selectivity +0.000 | unanswerable -> search or IDK 0.113 (n=150)
+== result 19:28
+  toolresult sft_v4_reh222d translate     faithful 0.897 (n=29)
+  toolresult sft_v4_reh222d unit_convert  faithful 0.975 (n=40)
+  toolresult sft_v4_reh222d ALL faithful 0.871 (n=349)
+== chunk 19:38
+sft_v4_reh222d             C=1024 T=2048 | chunk1   63.89 (mem off   63.76) | chunks2+   57.67 (off   57.55, Δ -0.12) | first64 of 2+  157.83 (off  153.02, Δ -4.81) vs first64 of chunk1  112.85
+== xchunk 19:38
+RuntimeError: CUDA driver error: device not ready
+== energy 19:38
+sft_v4_reh222d               energy-v2 | weight reads 647.4M of 1008.3M (64%) | compute only 1.55x (3095 vs 4812 uJ) | +SRAM fetch 1.54x (4809 vs 7427 uJ) | +DRAM fetch 1.56x (210374 vs 327574 uJ)
+== run 19:39
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 32.3s, 1.4 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is equivalent to 42.1648 kilometers.' (62 tok, 28.0s, 2.2 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 11:41 AM on Thursday, October 15 in Tokyo.' (50 tok, 22.4s, 2.2 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 12 degrees Celsius in Paris, with a partly cloudy sky and a gentle breeze ' (64 tok, 26.3s, 2.4 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | "The word 'ephemeral' refers to something short-lived, as an insect that lives on" (60 tok, 27.6s, 2.2 tok/s)
+[FAIL] "Translate 'good morning' into Spanish." -> ANSWER  | "'Bonjour.'" (9 tok, 4.6s, 2.0 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'You have a reminder to call your son at 6 pm on Saturday.' (62 tok, 27.3s, 2.3 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> ANSWER  | 'The novel Pride and Prejudice was written by Charles Dickens.' (16 tok, 7.4s, 2.2 tok/s)
+== run-through sft_v4_reh222d offline: 7/8 FAILED in 176s

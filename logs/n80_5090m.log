@@ -1,0 +1,80 @@
+[n80 10-26 11:57:36] stopping v4f (checkpoint save)
+SIGINT sent to 127799, waiting for the save ...
+logs/v4std_dense.log:step 201400 | 6599.5M tok | loss 3.419 | 10,633 tok/s | vram 13.5/27.0 GB
+logs/v4std_dense.log:  saved /home/glenn/projects/neuro/models/checkpoints/v4std_dense/step_0201463.pt
+v4f stopped. Safe to restart. Last ckpt: models/checkpoints/v4std_dense/step_0201463.pt
+samples 3714 (5.9 ms apart)
+  up   step   54.3 ->  432.9 W | 10% at    +16 ms | 50% at   +113 ms | 90% at   +113 ms
+  down step   68.7 ->  432.9 W | 10% at   +110 ms | 50% at   +110 ms | 90% at   +110 ms
+  up   step   68.7 ->  428.7 W | 10% at   +110 ms | 50% at   +110 ms | 90% at   +110 ms
+  down step   69.4 ->  428.7 W | 10% at   +116 ms | 50% at   +116 ms | 90% at   +116 ms
+  up   step   69.4 ->  437.9 W | 10% at   +113 ms | 50% at   +113 ms | 90% at   +113 ms
+  down step   69.9 ->  437.9 W | 10% at   +110 ms | 50% at   +110 ms | 90% at   +110 ms
+[n80 10-26 11:59:28] 5090 instant-power delay (median of 50% points): 0.110 s
+[n80 10-26 11:59:28] kernel check (mem-efficient backend off)
+== L   2048: graph step   3.520 ms (  284 words/s) | mem / SM clock now 15001 / 2872 MHz
+    52.5%    1.846 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    32.1%    1.129 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+    12.3%    0.431 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     0.7%    0.023 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_expand_index_copy_index
+     0.4%    0.014 ms/step  void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, __nv_bfloat
+     0.3%    0.011 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.3%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_4
+     0.3%    0.010 ms/step  triton_red_fused__unsafe_view_add_native_layer_norm_8
+== L   8192: graph step   8.661 ms (  115 words/s) | mem / SM clock now 15001 / 3165 MHz
+    81.3%    6.836 ms/step  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass
+    12.3%    1.037 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+     5.1%    0.429 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     0.2%    0.021 ms/step  triton_per_fused__scaled_dot_product_efficient_attention__to_copy__unsafe_view_add_cat_constant_pad_nd_expand_
+[n80 10-26 12:00:05] gpu-energy 5090 session a (v4f models/checkpoints/v4std_dense/step_0201463.pt)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    479.2 tok/s |   783.53 mJ/tok total (777.99-800.65) |   402.36 active
+  gpu-energy v4f_dec@512  |    428.0 tok/s |   835.78 mJ/tok total (829.35-851.00) |   410.66 active
+  gpu-energy v4f_dec@2048 |    281.1 tok/s |  1108.90 mJ/tok total (1108.33-1118.92) |   464.13 active
+  gpu-energy v4f_dec@8192 |    116.0 tok/s |  2274.97 mJ/tok total (2242.02-2311.38) |   721.14 active
+  gpu-energy v4f_dec@32768 |     35.7 tok/s |  6802.59 mJ/tok total (6799.56-7028.31) |  1727.00 active
+  gpu-energy v4_dec@256   |    617.9 tok/s |   544.51 mJ/tok total (536.28-546.03) |   250.43 active
+  gpu-energy v4_dec@512   |    621.1 tok/s |   544.88 mJ/tok total (538.82-551.99) |   253.04 active
+  gpu-energy v4_dec@2048  |    622.4 tok/s |   538.98 mJ/tok total (536.62-551.00) |   246.20 active
+  gpu-energy v4_dec@8192  |    616.3 tok/s |   540.08 mJ/tok total (533.35-549.59) |   247.66 active
+  gpu-energy v4_dec@32768 |    625.0 tok/s |   540.17 mJ/tok total (535.61-555.61) |   250.12 active
+[n80 10-26 12:07:40] gpu-energy 5090 session b (v4f models/checkpoints/v4std_dense/step_0201463.pt)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    478.7 tok/s |   777.04 mJ/tok total (776.00-778.89) |   397.94 active
+  gpu-energy v4f_dec@512  |    435.4 tok/s |   822.57 mJ/tok total (816.97-827.30) |   410.38 active
+  gpu-energy v4f_dec@2048 |    281.3 tok/s |  1102.91 mJ/tok total (1099.68-1107.09) |   458.82 active
+  gpu-energy v4f_dec@8192 |    118.3 tok/s |  2242.06 mJ/tok total (2237.56-2247.41) |   702.47 active
+  gpu-energy v4f_dec@32768 |     35.6 tok/s |  6754.64 mJ/tok total (6705.30-6851.11) |  1715.46 active
+  gpu-energy v4_dec@256   |    620.4 tok/s |   537.60 mJ/tok total (537.58-541.95) |   247.65 active
+  gpu-energy v4_dec@512   |    622.6 tok/s |   539.73 mJ/tok total (538.81-540.87) |   247.72 active
+  gpu-energy v4_dec@2048  |    624.7 tok/s |   538.11 mJ/tok total (529.66-540.24) |   246.17 active
+  gpu-energy v4_dec@8192  |    621.3 tok/s |   537.76 mJ/tok total (532.54-543.23) |   247.62 active
+  gpu-energy v4_dec@32768 |    619.3 tok/s |   542.13 mJ/tok total (539.00-542.42) |   246.69 active
+[n80 10-26 12:15:19] restarting v4f
+next 5090:
+until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 #
+started n62_chain_guard.sh
+started watchdog_tps.sh
+--- running:
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+1130 bash temp/n74_pin_v4f.sh
+1133 bash temp/n76_kd_server_rearm.sh
+130593 bash temp/n62_chain_guard.sh
+130597 bash temp/n62_chain.sh 0
+130611 bash temp/queue_5090_n69_std1b_v2.sh 0
+130702 bash temp/watchdog_tps.sh
+130669 /home/glenn/projects/bdh/venv/bin/python src/train_gpu.py --config temp/v4std_dense_s4.yaml --device cu
+
+== n80 NVIDIA GeForce RTX 5090: decode mJ per word, lag-shifted instant power, mean of 2 sessions (session c / d) | n79 table
+     256: v4    553 (555 / 551, 619/s) | v4f    861 (866 / 856, 479/s) | v4f / v4 1.56x | n79: v4 548 v4f 860 = 1.57x
+     512: v4    555 (557 / 554, 622/s) | v4f    892 (895 / 888, 432/s) | v4f / v4 1.61x | n79: v4 557 v4f 887 = 1.59x
+    2048: v4    546 (547 / 546, 624/s) | v4f   1056 (1057 / 1056, 281/s) | v4f / v4 1.93x | n79: v4 543 v4f 1059 = 1.95x
+    8192: v4    546 (546 / 547, 619/s) | v4f   1805 (1817 / 1793, 117/s) | v4f / v4 3.30x | n79: v4 549 v4f 1796 = 3.27x
+   32768: v4    550 (549 / 551, 622/s) | v4f   4748 (4803 / 4694, 36/s) | v4f / v4 8.64x | n79: v4 551 v4f 4694 = 8.51x
+[OK] 5090 decode rows updated (backup temp/gpu_energy_table.pre_n80_5090.json)

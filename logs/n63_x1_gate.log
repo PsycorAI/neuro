@@ -1,0 +1,8 @@
+[n63gate 10-15 23:08:00] evals on models/checkpoints/sft_v4_X1/step_0001832.pt
+sft_v4_X1_step_0001832     C=1024 N8:  98.4 100.0 100.0 100.0 (mem off   7.8) | N32:  91.4 100.0  99.2  99.2 (mem off   5.5)
+sft_v4_X1_step_0001832     C=1024 T=2048 | chunk1   49.77 (mem off   49.81) | chunks2+   50.71 (off   49.99, Δ -0.72) | first64 of 2+   95.73 (off  112.23, Δ +16.49) vs first64 of chunk1   82.50
+[n63gate 10-15 23:10:22] evals on models/checkpoints/sft_v4_X2/step_0001832.pt
+sft_v4_X2_step_0001832     C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  11.7) | N32: 100.0 100.0 100.0 100.0 (mem off   7.0)
+sft_v4_X2_step_0001832     C=1024 T=2048 | chunk1   25.88 (mem off   25.92) | chunks2+   23.35 (off   24.15, Δ +0.79) | first64 of 2+   37.86 (off   52.63, Δ +14.77) vs first64 of chunk1   43.63
+[n63gate 10-15 23:12:53] waiting for temp/n63_b4_go
+[n63gate 10-16 00:12:53] go

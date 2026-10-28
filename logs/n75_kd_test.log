@@ -1,0 +1,78 @@
+[kdtest 10-23 13:04:25] waiting for the 5080 queue
+[kdtest 10-23 13:04:25] start
+[OK] configs/n74kd_local.yaml, configs/n74kd_remote.yaml (B1 x GA4 x T2048)
+[kdtest 10-23 13:06:19] local rc=1 steps 30, peak so far 10640 MiB
+[kdtest 10-23 13:09:09] remote rc=134 steps 30, peak 11586 MiB
+logs/n74kd_local.log:[n74_capped] train_gpu.py: CUDA cap 11.0 GB
+logs/n74kd_local.log:KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+logs/n74kd_local.log:  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+logs/n74kd_remote.log:[n74_capped] train_gpu.py: CUDA cap 8.0 GB
+logs/n74kd_remote.log:KD teacher: remote server /tmp/n74_kd_test.sock (B1 T2048 top-128)
+logs/n74kd_remote.log:KD enabled (remote teacher): alpha=0.5 T=1.0
+logs/n74kd_remote.log:  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+2,4c2,4
+< step 2 | 0.0M tok | loss 10.307 
+< step 3 | 0.0M tok | loss 10.057 
+< step 4 | 0.0M tok | loss 9.678 
+---
+> step 2 | 0.0M tok | loss 10.304 
+> step 3 | 0.0M tok | loss 10.058 
+> step 4 | 0.0M tok | loss 9.674 
+6,13c6,13
+< step 6 | 0.0M tok | loss 9.038 
+< step 7 | 0.1M tok | loss 8.735 
+< step 8 | 0.1M tok | loss 8.363 
+< step 9 | 0.1M tok | loss 8.085 
+< step 10 | 0.1M tok | loss 7.814 
+< step 11 | 0.1M tok | loss 7.994 
+< step 12 | 0.1M tok | loss 7.256 
+< step 13 | 0.1M tok | loss 7.661 
+---
+> step 6 | 0.0M tok | loss 9.037 
+> step 7 | 0.1M tok | loss 8.730 
+> step 8 | 0.1M tok | loss 8.362 
+> step 9 | 0.1M tok | loss 8.083 
+> step 10 | 0.1M tok | loss 7.812 
+> step 11 | 0.1M tok | loss 7.992 
+> step 12 | 0.1M tok | loss 7.254 
+> step 13 | 0.1M tok | loss 7.658 
+15,25c15,25
+< step 15 | 0.1M tok | loss 9.098 
+< step 16 | 0.1M tok | loss 7.482 
+< step 17 | 0.1M tok | loss 7.533 
+< step 18 | 0.1M tok | loss 7.636 
+< step 19 | 0.2M tok | loss 6.977 
+< step 20 | 0.2M tok | loss 7.401 
+< step 21 | 0.2M tok | loss 7.278 
+< step 22 | 0.2M tok | loss 7.439 
+< step 23 | 0.2M tok | loss 7.621 
+< step 24 | 0.2M tok | loss 8.225 
+< step 25 | 0.2M tok | loss 7.608 
+---
+> step 15 | 0.1M tok | loss 9.114 
+> step 16 | 0.1M tok | loss 7.481 
+> step 17 | 0.1M tok | loss 7.528 
+> step 18 | 0.1M tok | loss 7.637 
+> step 19 | 0.2M tok | loss 6.979 
+> step 20 | 0.2M tok | loss 7.395 
+> step 21 | 0.2M tok | loss 7.280 
+> step 22 | 0.2M tok | loss 7.441 
+> step 23 | 0.2M tok | loss 7.625 
+> step 24 | 0.2M tok | loss 8.232 
+> step 25 | 0.2M tok | loss 7.611 
+27,30c27,30
+< step 27 | 0.2M tok | loss 7.753 
+< step 28 | 0.2M tok | loss 7.680 
+< step 29 | 0.2M tok | loss 8.221 
+< step 30 | 0.2M tok | loss 7.878 
+---
+> step 27 | 0.2M tok | loss 7.752 
+> step 28 | 0.2M tok | loss 7.682 
+> step 29 | 0.2M tok | loss 8.229 
+> step 30 | 0.2M tok | loss 7.885 
+FAIL: losses differ or a run stopped early (see above)
+logs/n74kd_local.log:step 30 | 0.2M tok | loss 7.878 | 5,527 tok/s | vram 4.9/9.5 GB
+logs/n74kd_remote.log:step 30 | 0.2M tok | loss 7.885 | 5,848 tok/s | vram 2.6/7.2 GB
+[kd-server] meta-llama/Llama-3.2-1B compile=off top-128 on NVIDIA GeForce RTX 5080 at /tmp/n74_kd_test.sock
+[kd-server] client connected 10-23 13:06:56
+[kd-server] client gone after 120 requests ([Errno 32] Broken pipe)

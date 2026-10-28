@@ -1,0 +1,24 @@
+optimizer: NorMuon (53 matrices, lr=0.005) + AdamW (109 other params, lr=0.0006)
+sparse MLP: relu2 x13, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+arch=spiking params=184.07M device=cuda target=0.000B tok | 64 tok/step | total_steps≈312 | warmup=6 | lr_sched=cosine | grad_clip=1.0
+step 50 | 0.0M tok | loss 13.925 | 79 tok/s | vram 2.6/3.7 GB
+step 100 | 0.0M tok | loss 13.264 | 102 tok/s | vram 2.6/3.7 GB
+step 150 | 0.0M tok | loss 13.262 | 102 tok/s | vram 2.6/3.7 GB
+step 200 | 0.0M tok | loss 12.053 | 101 tok/s | vram 2.6/3.7 GB
+  [eval] val_ppl 2312.99 | ablated_ppl 2312.99 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.496 thr=0.000 rate=0.477 thr=0.000 rate=0.477 thr=0.000 rate=0.478 thr=0.000 rate=0.478 thr=0.000 rate=0.477 thr=0.000 rate=0.494 thr=0.000 rate=0.491 thr=0.000 rate=0.498 thr=0.000 rate=0.483 thr=0.000 rate=0.486 thr=0.000 rate=0.499 thr=0.000 rate=0.486 thr=0.000 | target 0.685
+  [wnorm] embed=4971.45 | head=180.13
+step 250 | 0.0M tok | loss 8.868 | 61 tok/s | vram 2.7/20.2 GB
+step 300 | 0.0M tok | loss 8.810 | 83 tok/s | vram 2.7/20.2 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/smoke_n67_tfmr/step_0000313.pt
+done: 0.0M tok in 0.07h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+      16 |     540490137.6 |     540490137.6 |         1.00x
+     512 |     586049126.4 |     586049126.4 |         1.00x
+    4096 |     915249561.6 |     915249561.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 198,967,296 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

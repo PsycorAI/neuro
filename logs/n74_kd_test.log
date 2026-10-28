@@ -1,0 +1,40 @@
+[kdtest 10-23 09:48:20] waiting for suite phase 1
+[kdtest 10-23 12:04:23] start
+[OK] configs/n74kd_local.yaml, configs/n74kd_remote.yaml (B1 x GA4 x T2048)
+[kdtest 10-23 12:09:10] local rc=1 steps 21, peak so far 12121 MiB
+[kdtest 10-23 12:10:30] remote rc=1 steps 1, peak 12372 MiB
+logs/n74kd_local.log:[n74_capped] train_gpu.py: CUDA cap 11.0 GB
+logs/n74kd_local.log:KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+logs/n74kd_local.log:  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+logs/n74kd_remote.log:[n74_capped] train_gpu.py: CUDA cap 8.0 GB
+logs/n74kd_remote.log:KD teacher: remote server /tmp/n74_kd_test.sock (B1 T2048 top-128)
+logs/n74kd_remote.log:KD enabled (remote teacher): alpha=0.5 T=1.0
+logs/n74kd_remote.log:  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+1,21c1
+< step 1 | 0.0M tok | loss 15.709 
+< step 2 | 0.0M tok | loss 15.562 
+< step 3 | 0.0M tok | loss 15.636 
+< step 4 | 0.0M tok | loss 14.980 
+< step 5 | 0.0M tok | loss 14.830 
+< step 6 | 0.0M tok | loss 14.519 
+< step 7 | 0.1M tok | loss 14.451 
+< step 8 | 0.1M tok | loss 14.048 
+< step 9 | 0.1M tok | loss 13.791 
+< step 10 | 0.1M tok | loss 13.446 
+< step 11 | 0.1M tok | loss 13.079 
+< step 12 | 0.1M tok | loss 12.798 
+< step 13 | 0.1M tok | loss 13.195 
+< step 14 | 0.1M tok | loss 12.966 
+< step 15 | 0.1M tok | loss 14.478 
+< step 16 | 0.1M tok | loss 13.478 
+< step 17 | 0.1M tok | loss 13.550 
+< step 18 | 0.1M tok | loss 13.349 
+< step 19 | 0.2M tok | loss 12.810 
+< step 20 | 0.2M tok | loss 12.799 
+< step 21 | 0.2M tok | loss 12.972 
+---
+> step 1 | 0.0M tok | loss 15.827 
+FAIL: losses differ or a run stopped early (see above)
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[kd-server] client gone after 8 requests ([Errno 32] Broken pipe)

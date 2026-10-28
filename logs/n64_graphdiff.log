@@ -1,0 +1,10 @@
+== start 12:09
+scale: max |logit| 10.00
+(1) eager vs eager, same input        : 0.000e+00
+(2a) pad zeros vs no pad, last pos     : 2.703e+00
+(2b) pad random vs pad zeros, last pos : 0.000e+00
+(2c) pad zeros vs no pad, per position : first>0.5 at 2, max 5.094e+00
+(3) graph replay vs eager, same padded : 0.000e+00
+(3b) graph replay vs graph replay      : 0.000e+00
+argmax eager 7746 padded 15412 graph 15412
+rc=0 12:09

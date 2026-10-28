@@ -1,0 +1,20 @@
+[n81 10-26 13:20:01] lever (a): v4
+    super().capture_begin(pool=pool, capture_error_mode=capture_error_mode)
+RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":2799, please report a bug to PyTorch. 
+[n81 10-26 13:22:37] lever (a): v4f models/checkpoints/v4std_dense/step_0201991.pt
+    super().capture_begin(pool=pool, capture_error_mode=capture_error_mode)
+RuntimeError: it->second->use_count > 0 INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":2799, please report a bug to PyTorch. 
+[n81 10-26 13:23:34] done
+[n81 10-26 13:23:50] lever (a): v4
+v4 P  128: eager body    8.00 ms (  62.5 us/token) | compiled    5.59 ms (  43.6 us/token) = 1.43x | logits max|diff| 0.0000 (scale 9.5), argmax same True
+v4 P  512: eager body   23.99 ms (  46.9 us/token) | compiled   17.87 ms (  34.9 us/token) = 1.34x | logits max|diff| 1.7031 (scale 10.2), argmax same False
+[n81 10-26 13:27:22] lever (a): v4f models/checkpoints/v4std_dense/step_0201991.pt
+v4f P  128: eager body    7.39 ms (  57.7 us/token) | compiled    6.30 ms (  49.2 us/token) = 1.17x | logits max|diff| 0.0625 (scale 8.8), argmax same True
+v4f P  512: eager body   12.64 ms (  24.7 us/token) | compiled   11.25 ms (  22.0 us/token) = 1.12x | logits max|diff| 0.0781 (scale 10.1), argmax same True
+[n81 10-26 13:29:03] done
+v4 P  128 eager body vs full forward: argmax agree 0.750 | mean|diff| 0.2367 max|diff| 1.7266
+v4 P  128 compiled   vs full forward: argmax agree 0.750 | mean|diff| 0.2374 max|diff| 1.7266
+v4 P  128 compiled vs eager body: argmax agree 1.000 | max|diff| 1.5312
+v4 P  512 eager body vs full forward: argmax agree 0.750 | mean|diff| 0.2617 max|diff| 1.7500
+v4 P  512 compiled   vs full forward: argmax agree 0.750 | mean|diff| 0.2651 max|diff| 1.6094
+v4 P  512 compiled vs eager body: argmax agree 1.000 | max|diff| 1.6406

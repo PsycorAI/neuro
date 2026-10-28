@@ -1,0 +1,21 @@
+[n78 10-25 01:14:18] turn profile
+== n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall 18.0s (27.4 tok/s)
+  full_forward     6.91s  38.4%  calls    40   172.66 ms/call
+  dec_prefill      2.52s  14.0%  calls    20   125.87 ms/call
+  dec_step         3.94s  21.9%  calls   472     8.34 ms/call
+  tool             0.18s   1.0%  calls    10    17.70 ms/call
+  host+other       4.44s  24.7%
+[n78 10-25 01:22:26] turn profile (fixes 1)
+== n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall 18.2s (27.1 tok/s)
+  full_forward     5.56s  30.6%  calls    30   185.31 ms/call
+  dec_prefill      2.84s  15.6%  calls    20   141.99 ms/call
+  dec_step         4.07s  22.4%  calls   482     8.45 ms/call
+  tool             0.75s   4.1%  calls    10    74.60 ms/call
+  host+other       4.96s  27.3%
+[n78 10-25 01:32:22] turn profile (fixes 1)
+== n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall 13.1s (37.6 tok/s)
+  full_forward     5.03s  38.4%  calls    30   167.61 ms/call
+  dec_prefill      2.69s  20.6%  calls    20   134.65 ms/call
+  dec_step         3.95s  30.2%  calls   482     8.20 ms/call
+  tool             0.21s   1.6%  calls    10    20.95 ms/call
+  host+other       1.20s   9.2%

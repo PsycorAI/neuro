@@ -1,0 +1,33 @@
+emulate_precision_casts True
+T  256 at pos     0: FAIL InductorError: TypeError: list indices must be integers or slices, not NoneType
+   venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1814, in _codegen_nodes
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1917, in codegen_node_schedule
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 2024, in codegen_node_schedule_with_kernel
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 1755, in codegen
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 484, in __call__
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 581, in __call__
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 61, in run
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 57, in run_node
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/sizevars.py", line 1358, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/common.py", line 2826, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 3603, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 255, in get_block_shape
+T  256 at pos   300: FAIL InductorError: TypeError: list indices must be integers or slices, not NoneType
+   venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1814, in _codegen_nodes
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1917, in codegen_node_schedule
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 2024, in codegen_node_schedule_with_kernel
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 1755, in codegen
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 484, in __call__
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 581, in __call__
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 61, in run
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/loop_body.py", line 57, in run_node
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/sizevars.py", line 1358, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/common.py", line 2826, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 3603, in load
+     File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 255, in get_block_shape
+T  128 at pos     0: ok
+T   64 at pos     0: ok
+T    8 at pos     0: ok
+T    4 at pos     0: ok
+T  512 at pos     0: ok
+T  512 at pos  1024: ok

@@ -1,0 +1,40 @@
+[q5 10-25 04:53:01] traced graph vs eager
+T 192 ablate False: records identical 17/192 | logits max|diff| 1.7053 | argmax same
+T 192 ablate True: records identical 108/192 | logits max|diff| 1.8527 | argmax same
+T 199 ablate False: records identical 199/199 | logits max|diff| 0.0000 | argmax same
+T 199 ablate True: records identical 199/199 | logits max|diff| 0.0000 | argmax same
+T 268 ablate False: records identical 6/268 | logits max|diff| 1.7742 | argmax same
+T 268 ablate True: records identical 3/268 | logits max|diff| 1.7057 | argmax same
+T 199 ablate False: records identical 199/199 | logits max|diff| 0.0000 | argmax same
+T 199 ablate True: records identical 199/199 | logits max|diff| 0.0000 | argmax same
+== n78 traced graph vs eager: records identical 930/1716 | worst meter rel diff 9.30e-03 | worst active diff 0.0041 | argmax same 8/8 | eager 822 ms vs graph 165 ms per pass (incl. per_position)
+[q5 10-25 04:54:06] engine parity
+warmup 18s
+[SAME] 'What is 17% of 240?' full: TOOL calculator '17% of 240 is 40.8.'
+[SAME] 'How many kilometers is 26.2 miles?' full: TOOL unit_convert '26.2 miles is 42.1648 kilometers.'
+[SAME] 'What time is it in Tokyo right now?' full: TOOL get_time 'It is 8:55 PM on Sunday, October 25 in Tokyo.'
+[SAME] "What's the weather like in Paris?" full: TOOL get_weather 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+[SAME] "What does the word 'ephemeral' mean?" full: TOOL define 'Ephemeral means lasting a very short time.'
+[SAME] "Translate 'good morning' into Spanish." full: TOOL translate 'Buenos días.'
+[SAME] 'Remind me to call my son at 6 pm.' full: TOOL set_reminder 'OK, I set a reminder to call your son at 6 pm.'
+[SAME] 'Who wrote the novel Pride and Prejudice?' full: TOOL search 'It was written by Jane Austen.'
+raw full   (1111 prompt tok, 9.3s): 'the same as the name of the village. The river was the same as the name of the village. In'
+raw stream (1111 prompt tok, 1.6s): 'the same as the river itself. The river was the same as the name of the village. The villa'
+== n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode full 16.6 tok/s vs stream 57.2 tok/s (whole turns incl. prefill)
+[q5 10-25 04:55:57] turn profile
+== n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall 10.0s (49.3 tok/s)
+  full_forward     0.00s   0.0%  calls     0     0.00 ms/call
+  dec_prefill      3.04s  30.4%  calls    20   152.01 ms/call
+  dec_step         4.06s  40.7%  calls   482     8.42 ms/call
+  tool             0.37s   3.7%  calls    10    36.81 ms/call
+  host+other       2.52s  25.2%
+[q5 10-25 04:57:36] run-through --stream 1024 offline
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 14.5s, 3.2 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 5.3s, 11.3 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 8:58 PM on Sunday, October 25 in Tokyo.' (50 tok, 2.8s, 17.8 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 53 degrees Fahrenheit in Paris, partly cloudy.' (54 tok, 1.6s, 33.6 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 2.0s, 21.7 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 6.3s, 7.0 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 1.0s, 59.0 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'It was written by Jane Austen.' (47 tok, 1.0s, 46.9 tok/s)
+== run-through sft_v4_chat_w8 offline: 8/8 PASSED in 34s

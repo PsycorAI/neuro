@@ -1,0 +1,21 @@
+[n83 10-26 23:19:19] start: temp/n83_eval.py sft_v4_chat --out logs/n83_eval_base.json
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+set A memory ON  (cue hits / chat hits of 5):
+       0: 5/4 |   600: 5/4 |  1000: 0/0 |  1500: 0/0 |  2000: 0/0 |  3000: 0/0 |  4000: 0/0 |  6000: 0/0 |  8000: 0/0
+     e.g. 0: [('Clara.\n### Question', "Your sister's name is Clara.\n### Instruc"), ('Biscuit.', 'Your dog is called Biscuit.\n### Instruct'), ('4719', 'Your locker code is 4719.\n### Instructio')]
+     e.g. 1500: [('Chris Candido', "You haven't told me your sister's name.\n"), ('Skip.\n###', 'Your dog is called Skip.\n### Instruction'), ('12345.', 'Your locker code is: 12345\n### Question:')]
+     e.g. 3000: [('Mary Jane, and', "You haven't told me your sister's name.\n"), ('a "bark', "You haven't told me your dog's name.\n###"), ('12345.', 'Your locker code is: 12345\n### Question:')]
+     e.g. 8000: [('named, and', "You haven't told me your sister's name.\n"), ('a tree frog.', "You haven't told me your dog's name.\n###"), ('12345.', 'Your locker code is: 12345\n### Question:')]
+set A memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+set B memory ON  (cue hits / chat hits of 5):
+       0: 5/4 |   600: 5/3 |  1000: 0/0 |  1500: 0/0 |  2000: 0/0 |  3000: 0/0 |  4000: 0/0 |  6000: 0/0 |  8000: 0/0
+     e.g. 0: [('Ambrose.\n###', "Your uncle's name is Ambrose.\n### Instru"), ('Thumper.', 'Your rabbit is called Thumper.\n### Instr'), ('6182.', 'Your bank code is 6182.\n### Instructions')]
+     e.g. 1500: [('Chris Candido', "You haven't told me your uncle's name.\n#"), ('Chris Candido', 'Your rabbit is called a " rabbit".\n### I'), ('12345.', "You haven't told me your bank code.\n### ")]
+     e.g. 3000: [('John Brown.\n###', "You haven't told me your uncle's name.\n#"), ('a "burr', 'Your rabbit is called a rabbit.\n### Inst'), ('12345.', 'Your bank code is: 12345\n### Response:')]
+     e.g. 8000: [('Green-eyed tree frog', "You haven't told me your uncle's name.\n#"), ('a tree frog.', 'Your rabbit is called a rabbit.\n### Inst'), ('12345.', 'Your bank code is: 12345\n### Instruction')]
+set B memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+memtest (synthetic pairs, cross-chunk): memory on 19/20, off 0
+eval time 4.6 min
+[n83 10-26 23:24:53] exit 0

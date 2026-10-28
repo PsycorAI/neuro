@@ -1,0 +1,33 @@
+[kdloop 10-23 15:39:04] server start #1
+[n74_capped] kd_teacher_server.py: CUDA cap 6.0 GB
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/146 [00:00<00:03, 38.52it/s]Loading weights:   8%|▊         | 11/146 [00:00<00:03, 43.32it/s]Loading weights:  11%|█         | 16/146 [00:00<00:03, 38.76it/s]Loading weights:  14%|█▎        | 20/146 [00:00<00:03, 31.66it/s]Loading weights:  16%|█▋        | 24/146 [00:00<00:03, 33.25it/s]Loading weights:  19%|█▉        | 28/146 [00:00<00:03, 30.45it/s]Loading weights:  22%|██▏       | 32/146 [00:01<00:04, 26.32it/s]Loading weights:  24%|██▍       | 35/146 [00:01<00:04, 26.95it/s]Loading weights:  27%|██▋       | 39/146 [00:01<00:03, 29.89it/s]Loading weights:  29%|██▉       | 43/146 [00:01<00:03, 29.03it/s]Loading weights:  34%|███▍      | 50/146 [00:01<00:03, 30.83it/s]Loading weights:  37%|███▋      | 54/146 [00:01<00:04, 20.73it/s]Loading weights:  42%|████▏     | 61/146 [00:02<00:04, 19.17it/s]Loading weights:  44%|████▍     | 64/146 [00:02<00:04, 16.62it/s]Loading weights:  45%|████▌     | 66/146 [00:03<00:07, 10.60it/s]Loading weights:  47%|████▋     | 68/146 [00:03<00:07, 10.64it/s]Loading weights:  48%|████▊     | 70/146 [00:04<00:11,  6.55it/s]Loading weights:  52%|█████▏    | 76/146 [00:04<00:07,  9.89it/s]Loading weights:  56%|█████▌    | 82/146 [00:04<00:04, 14.51it/s]Loading weights:  58%|█████▊    | 85/146 [00:04<00:03, 15.49it/s]Loading weights:  60%|██████    | 88/146 [00:04<00:03, 15.32it/s]Loading weights: 100%|██████████| 146/146 [00:04<00:00, 29.75it/s]
+KD teacher compiled: mode=default
+[kd-server] meta-llama/Llama-3.2-1B compile=default top-128 on NVIDIA GeForce RTX 5080 at /tmp/kd_teacher.sock
+[kdloop 10-23 20:50:59] server exit rc=143
+[kdloop 10-23 20:50:59] stopped
+[kdloop 10-27 07:55:49] server start #1
+[n74_capped] kd_teacher_server.py: CUDA cap 6.0 GB
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/146 [00:00<00:04, 33.08it/s]Loading weights:   7%|▋         | 10/146 [00:00<00:04, 28.19it/s]Loading weights:   9%|▉         | 13/146 [00:00<00:05, 23.09it/s]Loading weights:  14%|█▎        | 20/146 [00:00<00:04, 27.54it/s]Loading weights:  17%|█▋        | 25/146 [00:00<00:04, 28.96it/s]Loading weights:  19%|█▉        | 28/146 [00:01<00:05, 22.47it/s]Loading weights:  21%|██        | 31/146 [00:01<00:06, 17.81it/s]Loading weights:  23%|██▎       | 33/146 [00:01<00:06, 17.68it/s]Loading weights:  24%|██▍       | 35/146 [00:01<00:06, 17.56it/s]Loading weights:  28%|██▊       | 41/146 [00:01<00:04, 24.18it/s]Loading weights:  32%|███▏      | 46/146 [00:01<00:03, 27.92it/s]Loading weights:  35%|███▍      | 51/146 [00:02<00:03, 25.41it/s]Loading weights:  38%|███▊      | 55/146 [00:02<00:03, 26.98it/s]Loading weights:  40%|███▉      | 58/146 [00:02<00:03, 26.36it/s]Loading weights:  42%|████▏     | 61/146 [00:02<00:03, 21.44it/s]Loading weights:  46%|████▌     | 67/146 [00:02<00:03, 24.83it/s]Loading weights:  49%|████▊     | 71/146 [00:02<00:02, 25.51it/s]Loading weights:  51%|█████     | 74/146 [00:03<00:02, 24.98it/s]Loading weights:  53%|█████▎    | 77/146 [00:03<00:03, 17.55it/s]Loading weights:  55%|█████▌    | 81/146 [00:03<00:03, 19.98it/s]Loading weights:  58%|█████▊    | 84/146 [00:03<00:03, 20.36it/s]Loading weights:  62%|██████▏   | 91/146 [00:03<00:02, 26.97it/s]Loading weights:  64%|██████▍   | 94/146 [00:03<00:01, 26.24it/s]Loading weights: 100%|██████████| 146/146 [00:04<00:00, 36.46it/s]
+KD teacher compiled: mode=default
+[kd-server] meta-llama/Llama-3.2-1B compile=default top-128 on NVIDIA GeForce RTX 5080 at /tmp/kd_teacher.sock
+[kd-server] client connected 10-27 10:17:24
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:322: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+[kd-server] 2000 requests, 2.54/s
+[kd-server] 4000 requests, 2.58/s
+[kd-server] 6000 requests, 2.64/s
+[kd-server] 8000 requests, 2.69/s
+[kd-server] 10000 requests, 2.71/s
+[kd-server] 12000 requests, 2.73/s
+[kd-server] 14000 requests, 2.74/s
+[kd-server] 16000 requests, 2.74/s
+[kd-server] 18000 requests, 2.75/s
+[kd-server] 20000 requests, 2.75/s
+[kd-server] 22000 requests, 2.75/s
+[kd-server] 24000 requests, 2.75/s
+[kd-server] 26000 requests, 2.75/s
+[kd-server] client gone after 26832 requests ([Errno 32] Broken pipe)
+[kdloop 10-27 13:44:54] server exit rc=143
+[kdloop 10-27 13:44:54] stopped

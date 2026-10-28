@@ -1,0 +1,16 @@
+[n82 10-26 19:59:42] v4 long session, max_ctx 1500
+[n82] v4 warm pass 46 s
+[n82] v4 measured pass 3 s, 32 turns, final context 1310
+  probe recall @     0 (ctx    126): 4/5  clara: "Your sister's name is Cl" | biscuit: 'Your dog is called Biscu' | 4719: 'Your locker code is 4719' | lisbon: 'Your favourite city is L' | teal: 'OK, I will remember that'
+  cue recall @     0 (ctx    126): 5/5  clara: 'Clara.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon.' | teal: 'teal.'
+  probe recall @  1024 (ctx   1109): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: "You haven't told me your"
+  cue recall @  1024 (ctx   1109): 0/5  clara: 'Emily, and she' | biscuit: 'a labrador' | 4719: '4567.' | lisbon: 'London, and I' | teal: 'a car that has'
+  ctx      0-  2048:   7 turns | decode    544 mJ/word (357/s) | read   28.6 mJ/token | J per turn 31.0
+[n82 10-26 20:01:31] v4f long session, max_ctx 1500
+[n82] v4f warm pass 33 s
+[n82] v4f measured pass 3 s, 32 turns, final context 1310
+  probe recall @     0 (ctx    126): 0/5  clara: 'OK, I will remember that' | biscuit: 'OK, I will remember that' | 4719: 'OK, I will remember that' | lisbon: 'OK, I will remember that' | teal: 'OK, I will remember that'
+  cue recall @     0 (ctx    126): 4/5  clara: '.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon.' | teal: 'teal.'
+  probe recall @  1024 (ctx   1109): 0/5  clara: 'Hurricane Dean was the s' | biscuit: 'Hurricane Dean was the s' | 4719: 'Hurricane Dean was the s' | lisbon: 'Hurricane Dean was the s' | teal: 'Hurricane Dean was the s'
+  cue recall @  1024 (ctx   1109): 5/5  clara: 'Clara.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon. I' | teal: 'teal.'
+  ctx      0-  2048:   7 turns | decode    806 mJ/word (310/s) | read   11.5 mJ/token | J per turn 40.7

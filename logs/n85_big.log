@@ -1,0 +1,39 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  57%|█████▋    | 113/199 [00:00<00:00, 1120.13it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1087.46it/s]
+== lme: 470 memories, 4 systems, 617 s
+-- sr@5                                            ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+hybrid_cc                                         89.7      97.2      81.2     100.0      93.3     100.0      82.8
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      90.2      97.2      83.2     100.0      96.7     100.0      82.2
+psy:g_sem=1.4,graded=1,qrate=1,signed=1,n_fl      90.2      96.5      83.3     100.0      96.7     100.0      82.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      89.9      97.2      82.4     100.0      96.7      98.4      82.6
+-- r@10                                            ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+hybrid_cc                                         87.6      95.8      79.8      96.4      71.7      97.7      85.1
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      87.3      96.5      79.9      98.2      78.3      97.7      81.3
+psy:g_sem=1.4,graded=1,qrate=1,signed=1,n_fl      86.8      95.8      80.9      98.2      82.8      96.1      78.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      87.8      96.5      79.5      98.2      78.3      97.7      83.6
+-- all@10                                          ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+hybrid_cc                                         79.8      91.7      62.0      96.4      63.3      96.9      78.0
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      80.2      93.1      63.6      98.2      70.0      96.9      74.8
+psy:g_sem=1.4,graded=1,qrate=1,signed=1,n_fl      80.0      91.7      65.3      98.2      76.7      95.3      72.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      80.4      93.1      62.8      98.2      70.0      96.9      76.4
+exit 0 (lme)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/199 [00:00<00:05, 32.88it/s]Loading weights:  18%|█▊        | 36/199 [00:00<00:00, 165.10it/s]Loading weights:  55%|█████▍    | 109/199 [00:00<00:00, 384.48it/s]Loading weights:  83%|████████▎ | 165/199 [00:00<00:00, 436.03it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 418.55it/s]
+== locomo: 10 memories, 3 systems, 107 s
+-- r@5                                             ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+hybrid_cc_nb                                      66.4      31.3      71.5      32.1      75.1      75.2
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      67.1      29.3      69.2      29.0      77.4      77.5
+psy:g_sem=0.7,graded=1,qrate=1,signed=1,n_fl      67.9      29.3      68.7      28.7      79.1      78.4
+-- r@10                                            ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+hybrid_cc_nb                                      75.8      42.8      78.3      41.5      84.4      85.2
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      76.7      42.0      77.2      40.6      86.2      87.4
+psy:g_sem=0.7,graded=1,qrate=1,signed=1,n_fl      76.9      41.3      77.2      39.1      87.0      87.3
+-- all@10                                          ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+hybrid_cc_nb                                      71.0      18.9      75.3      33.7      83.4      84.8
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      71.8      16.7      75.3      32.6      85.0      87.0
+psy:g_sem=0.7,graded=1,qrate=1,signed=1,n_fl      72.0      17.1      75.0      31.5      85.6      87.0
+exit 0 (locomo)

@@ -1,0 +1,8 @@
+[OK] brain_fdc_C.yaml: {'sft_init': 'sft_v4_chat', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_sk_F/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 24000000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20, 'keep_last': 1, 'lora_base_bf16': True}
+[OK] brain_fdc_C: spike_code=['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v']
+== brain_fdc_C training 17:08
+== brain_fdc_C quiz 19:28
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught 100.0% (n=150) | control   6.7% (n=150)
+[OK] merged_brain_fdc_C: brain_fdc_C merged into 48 layers of sft_v4_chat -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_fdc_C/step_0000001.pt
+  constrained  parse=1.000 mode_acc=0.985 halluc=0.000 tool_acc=0.992 args_exact=0.893 refuse_acc=0.974 say_ok=0.992  (1202s)

@@ -1,0 +1,117 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4429.50it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+         410768 function calls (408397 primitive calls) in 3.209 seconds
+
+   Ordered by: internal time
+   List reduced from 662 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     2976    0.454    0.000    0.454    0.000 {method 'to' of 'torch._C.TensorBase' objects}
+      135    0.412    0.003    0.412    0.003 {method 'cpu' of 'torch._C.TensorBase' objects}
+        2    0.184    0.092    0.184    0.092 {method 'execute' of 'sqlite3.Connection' objects}
+      740    0.183    0.000    0.305    0.000 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:33(_sc_forward_nostats)
+      531    0.180    0.000    0.180    0.000 {method 'read' of '_io.BufferedReader' objects}
+      256    0.152    0.001    0.292    0.001 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/cuda/graphs.py:137(replay)
+   233354    0.108    0.000    0.108    0.000 {built-in method builtins.round}
+      291    0.099    0.000    0.099    0.000 {built-in method torch.tensor}
+    296/0    0.087    0.000    0.000          /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py:120(decorate_context)
+      750    0.086    0.000    0.086    0.000 {built-in method torch._C._nn.linear}
+       15    0.068    0.005    0.650    0.043 /home/glenn/projects/neuro/scripts/demo/engine.py:138(per_position)
+      240    0.062    0.000    0.080    0.000 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:14(_rope)
+      120    0.051    0.000    0.105    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:360(_topk_weights)
+    20/10    0.050    0.002    0.092    0.009 /home/glenn/projects/neuro/src/delta_chunked.py:363(_gdn2_dense_chunk)
+      120    0.047    0.000    0.893    0.007 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:237(_attn_block)
+      740    0.042    0.000    0.042    0.000 {method 'abs' of 'torch._C.TensorBase' objects}
+      423    0.042    0.000    0.042    0.000 {method 'masked_fill' of 'torch._C.TensorBase' objects}
+      790    0.038    0.000    0.038    0.000 {method 'clamp' of 'torch._C.TensorBase' objects}
+      930    0.036    0.000    0.036    0.000 {built-in method torch.ones}
+       80    0.035    0.000    0.046    0.001 /home/glenn/projects/neuro/src/engram_v2.py:130(_hash_order_head)
+     1084    0.034    0.000    0.034    0.000 {method 'fill_' of 'torch._C.TensorBase' objects}
+      740    0.032    0.000    0.032    0.000 {method 'round' of 'torch._C.TensorBase' objects}
+      530    0.031    0.000    0.031    0.000 {built-in method torch.cat}
+      240    0.030    0.000    0.084    0.000 /home/glenn/projects/neuro/src/hybrid_attn.py:35(forward)
+      430    0.026    0.000    0.026    0.000 {method 'mean' of 'torch._C.TensorBase' objects}
+      240    0.024    0.000    0.024    0.000 {built-in method torch.matmul}
+     5870    0.023    0.000    0.023    0.000 {built-in method builtins.next}
+      521    0.021    0.000    0.021    0.000 {method 'copy_' of 'torch._C.TensorBase' objects}
+     1610    0.019    0.000    0.469    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1795(inner)
+      385    0.017    0.000    0.017    0.000 {built-in method torch.arange}
+
+
+         410768 function calls (408397 primitive calls) in 3.209 seconds
+
+   Ordered by: cumulative time
+   List reduced from 662 to 40 due to restriction <40>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       10    0.000    0.000    1.131    0.113 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:378(feed)
+       10    0.005    0.001    1.130    0.113 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:347(_segment)
+      120    0.047    0.000    0.893    0.007 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:237(_attn_block)
+2260/2090    0.008    0.000    0.663    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1775(_wrapped_call_impl)
+2260/2090    0.013    0.000    0.655    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1783(_call_impl)
+       15    0.068    0.005    0.650    0.043 /home/glenn/projects/neuro/scripts/demo/engine.py:138(per_position)
+     1610    0.019    0.000    0.469    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1795(inner)
+     2976    0.454    0.000    0.454    0.000 {method 'to' of 'torch._C.TensorBase' objects}
+      255    0.002    0.000    0.436    0.002 /home/glenn/projects/neuro/scripts/demo/engine_stream.py:31(mask)
+      135    0.412    0.003    0.412    0.003 {method 'cpu' of 'torch._C.TensorBase' objects}
+      740    0.183    0.000    0.305    0.000 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:33(_sc_forward_nostats)
+      256    0.152    0.001    0.292    0.001 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/cuda/graphs.py:137(replay)
+      241    0.002    0.000    0.272    0.001 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:575(step)
+        7    0.000    0.000    0.244    0.035 /home/glenn/projects/neuro/scripts/demo/guards.py:108(ground)
+        3    0.000    0.000    0.242    0.081 /home/glenn/projects/neuro/scripts/demo/tools_exec.py:231(get_time)
+        1    0.003    0.003    0.241    0.241 /usr/lib/python3.12/zoneinfo/_tzpath.py:111(available_timezones)
+      120    0.003    0.000    0.205    0.002 /home/glenn/projects/neuro/src/hybrid_attn.py:424(_ffn)
+      506    0.002    0.000    0.195    0.000 /usr/lib/python3.12/zoneinfo/_tzpath.py:135(valid_key)
+        5    0.000    0.000    0.189    0.038 /home/glenn/projects/neuro/scripts/demo/tools_exec.py:682(run)
+        1    0.000    0.000    0.188    0.188 /home/glenn/projects/neuro/scripts/demo/tools_exec.py:489(search)
+        1    0.001    0.001    0.186    0.186 /home/glenn/projects/neuro/scripts/demo/tools_exec.py:291(search_offline)
+        2    0.184    0.092    0.184    0.092 {method 'execute' of 'sqlite3.Connection' objects}
+      531    0.180    0.000    0.180    0.000 {method 'read' of '_io.BufferedReader' objects}
+       10    0.007    0.001    0.160    0.016 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:315(_mem_block)
+    231/7    0.002    0.000    0.116    0.017 /home/glenn/projects/neuro/scripts/demo/engine_stream.py:62(_graph_logits)
+   233354    0.108    0.000    0.108    0.000 {built-in method builtins.round}
+      120    0.051    0.000    0.105    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:360(_topk_weights)
+       10    0.002    0.000    0.100    0.010 /home/glenn/projects/neuro/src/delta_chunked.py:451(gdn2_chunked_dense)
+      291    0.099    0.000    0.099    0.000 {built-in method torch.tensor}
+    20/10    0.050    0.002    0.092    0.009 /home/glenn/projects/neuro/src/delta_chunked.py:363(_gdn2_dense_chunk)
+      750    0.002    0.000    0.088    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:130(forward)
+      750    0.086    0.000    0.086    0.000 {built-in method torch._C._nn.linear}
+      240    0.030    0.000    0.084    0.000 /home/glenn/projects/neuro/src/hybrid_attn.py:35(forward)
+      240    0.062    0.000    0.080    0.000 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:14(_rope)
+       10    0.001    0.000    0.057    0.006 /home/glenn/projects/neuro/src/engram_v2.py:146(forward)
+      120    0.016    0.000    0.054    0.000 /home/glenn/projects/neuro/src/hybrid_attn.py:140(forward)
+       10    0.010    0.001    0.048    0.005 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:396(load_static)
+       80    0.035    0.000    0.046    0.001 /home/glenn/projects/neuro/src/engram_v2.py:130(_hash_order_head)
+      130    0.005    0.000    0.044    0.000 /home/glenn/projects/neuro/scripts/demo/stream_decode.py:228(_conv_tail)
+      740    0.042    0.000    0.042    0.000 {method 'abs' of 'torch._C.TensorBase' objects}
+
+
+   Ordered by: cumulative time
+   List reduced from 662 to 4 due to restriction <"method 'to'|method 'cpu'|method 'item'|__bool__|method 'tolist'">
+
+Function                                            was called by...
+                                                        ncalls  tottime  cumtime
+{method 'to' of 'torch._C.TensorBase' objects}      <-      66    0.430    0.430  /home/glenn/projects/neuro/scripts/demo/engine_stream.py:31(mask)
+                                                           480    0.004    0.004  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:14(_rope)
+                                                           740    0.007    0.007  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:33(_sc_forward_nostats)
+                                                           260    0.002    0.002  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:228(_conv_tail)
+                                                           120    0.001    0.001  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:237(_attn_block)
+                                                            20    0.000    0.000  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:276(_lif)
+                                                            20    0.000    0.000  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:290(_hola)
+                                                            20    0.000    0.000  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:294(<lambda>)
+                                                            10    0.000    0.000  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:315(_mem_block)
+                                                           240    0.002    0.002  /home/glenn/projects/neuro/scripts/demo/stream_decode.py:396(load_static)
+                                                            20    0.001    0.001  /home/glenn/projects/neuro/src/delta_chunked.py:363(_gdn2_dense_chunk)
+                                                            80    0.000    0.000  /home/glenn/projects/neuro/src/delta_chunked.py:451(gdn2_chunked_dense)
+                                                           510    0.002    0.002  /home/glenn/projects/neuro/src/grammar.py:184(mask)
+                                                           240    0.002    0.002  /home/glenn/projects/neuro/src/hybrid_attn.py:35(forward)
+                                                           120    0.001    0.001  /home/glenn/projects/neuro/src/hybrid_attn.py:140(forward)
+                                                            10    0.000    0.000  /home/glenn/projects/neuro/src/lif_exact.py:172(forward)
+                                                            20    0.000    0.000  /home/glenn/projects/neuro/src/model.py:94(forward)
+{method 'cpu' of 'torch._C.TensorBase' objects}     <-     135    0.412    0.412  /home/glenn/projects/neuro/scripts/demo/engine.py:138(per_position)
+{method 'tolist' of 'torch._C.TensorBase' objects}  <-       5    0.000    0.000  /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py:120(decorate_context)
+                                                           225    0.004    0.004  /home/glenn/projects/neuro/scripts/demo/engine.py:138(per_position)
+{method 'tolist' of 'memoryview' objects}           <-       5    0.000    0.000  /usr/lib/python3.12/re/_compiler.py:391(_bytes_to_codes)
+
+

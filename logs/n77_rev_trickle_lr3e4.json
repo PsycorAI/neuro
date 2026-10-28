@@ -1,0 +1,80 @@
+{
+ "args": {
+  "ckpt": "models/checkpoints/cF/step_0000001.pt",
+  "arm": "trickle",
+  "steps": 2500,
+  "T": 1024,
+  "ga": 4,
+  "lr": 0.0003,
+  "warmup": 100,
+  "decay_frac": 0.3,
+  "frac": 0.05,
+  "period": 100,
+  "scale": 0.5,
+  "ramp": 200,
+  "eval_every": 500,
+  "eval_iters": 20,
+  "count_tokens": 65536,
+  "out": "logs/n77_rev_trickle_lr3e4.json",
+  "max_minutes": 150.0,
+  "train_blocks": "0,1,2,3,4,5"
+ },
+ "evals": [
+  {
+   "step": 0,
+   "chunk1": 16.641874313354492,
+   "chunks2": 15.58515453338623,
+   "alive": 0.6252780490451388,
+   "revived": 0,
+   "revived_alive": 0.0,
+   "revived_rate": 0.0
+  },
+  {
+   "step": 500,
+   "chunk1": 16.569364547729492,
+   "chunks2": 15.502360343933105,
+   "alive": 0.6385701497395834,
+   "revived": 13435,
+   "revived_alive": 0.14521771669387817,
+   "revived_rate": 0.10226071625947952
+  },
+  {
+   "step": 1000,
+   "chunk1": 16.545255661010742,
+   "chunks2": 15.46867847442627,
+   "alive": 0.6513604058159722,
+   "revived": 26870,
+   "revived_alive": 0.1436174064874649,
+   "revived_rate": 0.10038752853870392
+  },
+  {
+   "step": 1500,
+   "chunk1": 16.53795623779297,
+   "chunks2": 15.472395896911621,
+   "alive": 0.6644287109375,
+   "revived": 40305,
+   "revived_alive": 0.14256295561790466,
+   "revived_rate": 0.09751298278570175
+  },
+  {
+   "step": 2000,
+   "chunk1": 16.52349090576172,
+   "chunks2": 15.344413757324219,
+   "alive": 0.6776258680555556,
+   "revived": 53725,
+   "revived_alive": 0.14317357540130615,
+   "revived_rate": 0.09830181300640106
+  },
+  {
+   "step": 2500,
+   "chunk1": 16.52772331237793,
+   "chunks2": 15.311023712158203,
+   "alive": 0.6778361002604166,
+   "revived": 53754,
+   "revived_alive": 0.1433381736278534,
+   "revived_rate": 0.09832370281219482,
+   "zeroed_chunk1": 16.512556076049805,
+   "zeroed_chunks2": 15.346419334411621
+  }
+ ]
+}

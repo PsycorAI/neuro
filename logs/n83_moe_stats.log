@@ -1,0 +1,87 @@
+[n83 10-27 01:54:10] start: temp/n83_moe_stats.py
+FFN blocks [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12], hidden 12288, fit 24x2048, test 8x2048 tokens
+block 0: firing 5.0%
+   expert  64: random oracle  77.5% | cover@10/20/30% 0.30/0.48/0.62
+               weights oracle  40.7% | cover@10/20/30% 0.64/0.84/0.94
+               co-act  oracle  37.2% | cover@10/20/30% 0.66/0.87/0.96
+   expert 128: random oracle  88.8% | cover@10/20/30% 0.22/0.40/0.52
+               weights oracle  52.3% | cover@10/20/30% 0.55/0.79/0.90
+               co-act  oracle  44.2% | cover@10/20/30% 0.59/0.82/0.93
+block 1: firing 5.5%
+   expert  64: random oracle  75.4% | cover@10/20/30% 0.32/0.50/0.64
+               weights oracle  66.5% | cover@10/20/30% 0.44/0.64/0.77
+               co-act  oracle  61.3% | cover@10/20/30% 0.51/0.71/0.83
+   expert 128: random oracle  86.9% | cover@10/20/30% 0.24/0.41/0.54
+               weights oracle  79.6% | cover@10/20/30% 0.34/0.54/0.67
+               co-act  oracle  74.5% | cover@10/20/30% 0.43/0.64/0.76
+block 2: firing 0.0%
+   expert  64: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+   expert 128: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+block 3: firing 0.0%
+   expert  64: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+   expert 128: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+block 4: firing 0.1%
+   expert  64: random oracle   6.4% | cover@10/20/30% 0.15/0.15/0.15
+               weights oracle   6.3% | cover@10/20/30% 0.15/0.15/0.15
+               co-act  oracle   2.9% | cover@10/20/30% 0.15/0.15/0.15
+   expert 128: random oracle  12.4% | cover@10/20/30% 0.14/0.15/0.15
+               weights oracle  11.7% | cover@10/20/30% 0.14/0.15/0.15
+               co-act  oracle   5.6% | cover@10/20/30% 0.15/0.15/0.15
+block 5: firing 0.0%
+   expert  64: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+   expert 128: random oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               weights oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+               co-act  oracle   0.0% | cover@10/20/30% 0.00/0.00/0.00
+block 7: firing 6.0%
+   expert  64: random oracle  94.7% | cover@10/20/30% 0.30/0.47/0.59
+               weights oracle  85.3% | cover@10/20/30% 0.39/0.58/0.71
+               co-act  oracle  74.6% | cover@10/20/30% 0.54/0.73/0.83
+   expert 128: random oracle  99.4% | cover@10/20/30% 0.23/0.39/0.51
+               weights oracle  94.6% | cover@10/20/30% 0.32/0.52/0.65
+               co-act  oracle  85.9% | cover@10/20/30% 0.49/0.69/0.80
+block 8: firing 7.7%
+   expert  64: random oracle  98.1% | cover@10/20/30% 0.31/0.47/0.60
+               weights oracle  94.3% | cover@10/20/30% 0.38/0.55/0.68
+               co-act  oracle  91.4% | cover@10/20/30% 0.43/0.61/0.73
+   expert 128: random oracle  99.9% | cover@10/20/30% 0.24/0.40/0.52
+               weights oracle  98.7% | cover@10/20/30% 0.31/0.49/0.62
+               co-act  oracle  97.7% | cover@10/20/30% 0.37/0.56/0.68
+block 9: firing 8.4%
+   expert  64: random oracle  99.0% | cover@10/20/30% 0.31/0.48/0.60
+               weights oracle  96.2% | cover@10/20/30% 0.39/0.56/0.69
+               co-act  oracle  94.4% | cover@10/20/30% 0.41/0.59/0.71
+   expert 128: random oracle  99.9% | cover@10/20/30% 0.23/0.40/0.52
+               weights oracle  97.5% | cover@10/20/30% 0.31/0.50/0.62
+               co-act  oracle  98.2% | cover@10/20/30% 0.34/0.53/0.65
+block 10: firing 8.5%
+   expert  64: random oracle  99.0% | cover@10/20/30% 0.34/0.51/0.64
+               weights oracle  96.5% | cover@10/20/30% 0.42/0.60/0.73
+               co-act  oracle  91.8% | cover@10/20/30% 0.45/0.64/0.76
+   expert 128: random oracle 100.0% | cover@10/20/30% 0.25/0.42/0.54
+               weights oracle  96.4% | cover@10/20/30% 0.34/0.53/0.66
+               co-act  oracle  97.0% | cover@10/20/30% 0.37/0.57/0.69
+block 11: firing 8.8%
+   expert  64: random oracle  99.0% | cover@10/20/30% 0.31/0.48/0.61
+               weights oracle  96.5% | cover@10/20/30% 0.41/0.59/0.71
+               co-act  oracle  95.2% | cover@10/20/30% 0.44/0.62/0.74
+   expert 128: random oracle 100.0% | cover@10/20/30% 0.24/0.40/0.52
+               weights oracle  99.5% | cover@10/20/30% 0.34/0.52/0.64
+               co-act  oracle  99.3% | cover@10/20/30% 0.38/0.57/0.69
+block 12: firing 6.1%
+   expert  64: random oracle  96.6% | cover@10/20/30% 0.28/0.46/0.59
+               weights oracle  89.1% | cover@10/20/30% 0.43/0.61/0.73
+               co-act  oracle  86.0% | cover@10/20/30% 0.49/0.66/0.77
+   expert 128: random oracle  99.7% | cover@10/20/30% 0.22/0.38/0.50
+               weights oracle  97.1% | cover@10/20/30% 0.36/0.55/0.66
+               co-act  oracle  95.8% | cover@10/20/30% 0.43/0.61/0.72
+[n83 10-27 01:58:06] exit 0

@@ -1,0 +1,63 @@
+[q6 10-25 05:01:44] gpu-energy 5 reps
+  gpu-energy NVIDIA GeForce RTX 5080 | v4 /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8/step_0000001.pt | v4f models/checkpoints/v4std_dense/step_0169500.pt | configs ['v4f_dec@512', 'v4f_dec@2048', 'v4f_dec@8192', 'v4_dec@512', 'v4_dec@2048', 'v4_dec@8192', 'v4f_pre@199', 'v4f_pre@2048', 'v4demo_dec', 'v4demo_pre']
+  gpu-energy rep 0 v4f_pre@2048 |  35351.5 tok/s   0.028 ms/tok |     4.56 mJ/tok total     2.84 active | idle  60.7 W | counter vs integral 1.584 | 2850 MHz 63 C
+  gpu-energy rep 0 v4demo_dec   |     20.9 tok/s  47.888 ms/tok |  9739.21 mJ/tok total  6832.12 active | idle  60.7 W | counter vs integral 1.593 | 2835 MHz 68 C
+  gpu-energy rep 0 v4f_dec@2048 |    185.9 tok/s   5.378 ms/tok |   706.25 mJ/tok total   379.77 active | idle  60.7 W | counter vs integral 1.417 | 2895 MHz 57 C | 456 GB/s (47% of peak)
+  gpu-energy rep 0 v4_dec@8192  |    150.9 tok/s   6.625 ms/tok |   785.91 mJ/tok total   383.74 active | idle  60.7 W | counter vs integral 1.360 | 2887 MHz 55 C | 355 GB/s (37% of peak)
+  gpu-energy rep 0 v4_dec@512   |    154.5 tok/s   6.473 ms/tok |   783.29 mJ/tok total   390.36 active | idle  60.7 W | counter vs integral 1.351 | 2887 MHz 55 C | 356 GB/s (37% of peak)
+  gpu-energy rep 0 v4_dec@2048  |    151.4 tok/s   6.604 ms/tok |   776.76 mJ/tok total   375.87 active | idle  60.7 W | counter vs integral 1.375 | 2887 MHz 55 C | 356 GB/s (37% of peak)
+  gpu-energy rep 0 v4f_dec@8192 |     93.6 tok/s  10.682 ms/tok |  1145.98 mJ/tok total   497.51 active | idle  60.7 W | counter vs integral 1.320 | 2895 MHz 53 C | 291 GB/s (30% of peak)
+  gpu-energy rep 0 v4f_dec@512  |    244.1 tok/s   4.096 ms/tok |   597.72 mJ/tok total   349.07 active | idle  60.7 W | counter vs integral 1.447 | 2880 MHz 58 C | 558 GB/s (58% of peak)
+  gpu-energy rep 0 v4demo_pre   |   1292.2 tok/s   0.774 ms/tok |    66.44 mJ/tok total    19.46 active | idle  60.7 W | counter vs integral 1.165 | 2880 MHz 52 C
+  gpu-energy rep 0 v4f_pre@199  |   5343.9 tok/s   0.187 ms/tok |    16.94 mJ/tok total     5.58 active | idle  60.7 W | counter vs integral 1.213 | 2880 MHz 52 C
+  gpu-energy rep 1 v4_dec@512   |    157.9 tok/s   6.332 ms/tok |   742.37 mJ/tok total   358.70 active | idle  60.6 W | counter vs integral 1.406 | 2887 MHz 54 C | 364 GB/s (38% of peak)
+  gpu-energy rep 1 v4f_pre@2048 |  35852.2 tok/s   0.028 ms/tok |     4.51 mJ/tok total     2.82 active | idle  60.6 W | counter vs integral 1.616 | 2842 MHz 67 C
+  gpu-energy rep 1 v4f_dec@2048 |    185.9 tok/s   5.380 ms/tok |   698.37 mJ/tok total   372.39 active | idle  60.6 W | counter vs integral 1.438 | 2895 MHz 57 C | 455 GB/s (47% of peak)
+  gpu-energy rep 1 v4demo_dec   |     20.9 tok/s  47.777 ms/tok |  9442.51 mJ/tok total  6547.34 active | idle  60.6 W | counter vs integral 1.658 | 2827 MHz 70 C
+  gpu-energy rep 1 v4f_pre@199  |   5326.3 tok/s   0.188 ms/tok |    16.89 mJ/tok total     5.51 active | idle  60.6 W | counter vs integral 1.244 | 2880 MHz 53 C
+  gpu-energy rep 1 v4_dec@8192  |    159.0 tok/s   6.290 ms/tok |   757.02 mJ/tok total   375.86 active | idle  60.6 W | counter vs integral 1.395 | 2887 MHz 56 C | 374 GB/s (39% of peak)
+  gpu-energy rep 1 v4f_dec@512  |    246.4 tok/s   4.058 ms/tok |   603.34 mJ/tok total   357.44 active | idle  60.6 W | counter vs integral 1.442 | 2880 MHz 59 C | 563 GB/s (59% of peak)
+  gpu-energy rep 1 v4_dec@2048  |    156.7 tok/s   6.382 ms/tok |   775.93 mJ/tok total   389.19 active | idle  60.6 W | counter vs integral 1.371 | 2887 MHz 57 C | 369 GB/s (38% of peak)
+  gpu-energy rep 1 v4f_dec@8192 |     93.4 tok/s  10.707 ms/tok |  1149.37 mJ/tok total   500.53 active | idle  60.6 W | counter vs integral 1.331 | 2895 MHz 55 C | 290 GB/s (30% of peak)
+  gpu-energy rep 1 v4demo_pre   |   1598.8 tok/s   0.625 ms/tok |    56.90 mJ/tok total    19.00 active | idle  60.6 W | counter vs integral 1.214 | 2872 MHz 54 C
+  gpu-energy rep 2 v4f_pre@2048 |  35742.3 tok/s   0.028 ms/tok |     4.49 mJ/tok total     2.77 active | idle  61.5 W | counter vs integral 1.620 | 2850 MHz 66 C
+  gpu-energy rep 2 v4_dec@8192  |    153.5 tok/s   6.514 ms/tok |   770.60 mJ/tok total   369.68 active | idle  61.5 W | counter vs integral 1.386 | 2887 MHz 56 C | 361 GB/s (38% of peak)
+  gpu-energy rep 2 v4demo_dec   |     20.9 tok/s  47.834 ms/tok |  9643.51 mJ/tok total  6699.49 active | idle  61.5 W | counter vs integral 1.622 | 2835 MHz 69 C
+  gpu-energy rep 2 v4demo_pre   |   1636.7 tok/s   0.611 ms/tok |    55.96 mJ/tok total    18.35 active | idle  61.5 W | counter vs integral 1.236 | 2872 MHz 54 C
+  gpu-energy rep 2 v4f_dec@8192 |     93.3 tok/s  10.714 ms/tok |  1139.19 mJ/tok total   479.75 active | idle  61.5 W | counter vs integral 1.339 | 2895 MHz 54 C | 290 GB/s (30% of peak)
+  gpu-energy rep 2 v4_dec@512   |    156.9 tok/s   6.374 ms/tok |   759.28 mJ/tok total   367.01 active | idle  61.5 W | counter vs integral 1.390 | 2887 MHz 56 C | 361 GB/s (38% of peak)
+  gpu-energy rep 2 v4_dec@2048  |    158.2 tok/s   6.321 ms/tok |   747.72 mJ/tok total   358.66 active | idle  61.5 W | counter vs integral 1.412 | 2887 MHz 56 C | 372 GB/s (39% of peak)
+  gpu-energy rep 2 v4f_dec@512  |    246.4 tok/s   4.058 ms/tok |   586.76 mJ/tok total   336.97 active | idle  61.5 W | counter vs integral 1.483 | 2880 MHz 60 C | 563 GB/s (59% of peak)
+  gpu-energy rep 2 v4f_pre@199  |   5493.7 tok/s   0.182 ms/tok |    16.59 mJ/tok total     5.38 active | idle  61.5 W | counter vs integral 1.240 | 2872 MHz 53 C
+  gpu-energy rep 2 v4f_dec@2048 |    186.0 tok/s   5.378 ms/tok |   698.19 mJ/tok total   367.22 active | idle  61.5 W | counter vs integral 1.436 | 2895 MHz 58 C | 456 GB/s (47% of peak)
+  gpu-energy rep 3 v4demo_dec   |     20.9 tok/s  47.867 ms/tok |  9508.98 mJ/tok total  6609.73 active | idle  60.6 W | counter vs integral 1.641 | 2835 MHz 69 C
+  gpu-energy rep 3 v4f_pre@199  |   5303.2 tok/s   0.189 ms/tok |    16.99 mJ/tok total     5.57 active | idle  60.6 W | counter vs integral 1.237 | 2880 MHz 53 C
+  gpu-energy rep 3 v4_dec@512   |    158.6 tok/s   6.305 ms/tok |   752.38 mJ/tok total   370.50 active | idle  60.6 W | counter vs integral 1.400 | 2880 MHz 56 C | 365 GB/s (38% of peak)
+  gpu-energy rep 3 v4_dec@8192  |    158.1 tok/s   6.324 ms/tok |   754.26 mJ/tok total   371.21 active | idle  60.6 W | counter vs integral 1.399 | 2887 MHz 56 C | 372 GB/s (39% of peak)
+  gpu-energy rep 3 v4f_dec@512  |    246.5 tok/s   4.057 ms/tok |   595.82 mJ/tok total   350.09 active | idle  60.6 W | counter vs integral 1.460 | 2880 MHz 60 C | 564 GB/s (59% of peak)
+  gpu-energy rep 3 v4f_dec@8192 |     93.8 tok/s  10.664 ms/tok |  1156.92 mJ/tok total   511.02 active | idle  60.6 W | counter vs integral 1.324 | 2895 MHz 55 C | 291 GB/s (30% of peak)
+  gpu-energy rep 3 v4demo_pre   |   1569.5 tok/s   0.637 ms/tok |    57.38 mJ/tok total    18.79 active | idle  60.6 W | counter vs integral 1.227 | 2872 MHz 52 C
+  gpu-energy rep 3 v4_dec@2048  |    157.4 tok/s   6.353 ms/tok |   754.30 mJ/tok total   369.54 active | idle  60.6 W | counter vs integral 1.399 | 2887 MHz 56 C | 370 GB/s (39% of peak)
+  gpu-energy rep 3 v4f_dec@2048 |    185.9 tok/s   5.379 ms/tok |   712.21 mJ/tok total   386.43 active | idle  60.6 W | counter vs integral 1.409 | 2895 MHz 58 C | 455 GB/s (47% of peak)
+  gpu-energy rep 3 v4f_pre@2048 |  35553.7 tok/s   0.028 ms/tok |     4.59 mJ/tok total     2.88 active | idle  60.6 W | counter vs integral 1.610 | 2842 MHz 68 C
+  gpu-energy rep 4 v4_dec@512   |    155.0 tok/s   6.450 ms/tok |   767.08 mJ/tok total   365.47 active | idle  62.3 W | counter vs integral 1.383 | 2887 MHz 57 C | 357 GB/s (37% of peak)
+  gpu-energy rep 4 v4f_dec@8192 |     93.4 tok/s  10.705 ms/tok |  1146.48 mJ/tok total   479.96 active | idle  62.3 W | counter vs integral 1.334 | 2895 MHz 55 C | 290 GB/s (30% of peak)
+  gpu-energy rep 4 v4_dec@8192  |    155.9 tok/s   6.416 ms/tok |   766.50 mJ/tok total   367.01 active | idle  62.3 W | counter vs integral 1.392 | 2887 MHz 58 C | 367 GB/s (38% of peak)
+  gpu-energy rep 4 v4demo_dec   |     20.8 tok/s  47.966 ms/tok |  9393.67 mJ/tok total  6407.20 active | idle  62.3 W | counter vs integral 1.658 | 2827 MHz 71 C
+  gpu-energy rep 4 v4f_dec@2048 |    185.6 tok/s   5.387 ms/tok |   703.94 mJ/tok total   368.53 active | idle  62.3 W | counter vs integral 1.444 | 2880 MHz 60 C | 455 GB/s (47% of peak)
+  gpu-energy rep 4 v4f_pre@199  |   5545.6 tok/s   0.180 ms/tok |    16.51 mJ/tok total     5.29 active | idle  62.3 W | counter vs integral 1.250 | 2872 MHz 52 C
+  gpu-energy rep 4 v4f_dec@512  |    244.3 tok/s   4.093 ms/tok |   585.59 mJ/tok total   330.73 active | idle  62.3 W | counter vs integral 1.488 | 2880 MHz 60 C | 559 GB/s (58% of peak)
+  gpu-energy rep 4 v4f_pre@2048 |  35475.7 tok/s   0.028 ms/tok |     4.50 mJ/tok total     2.74 active | idle  62.3 W | counter vs integral 1.637 | 2850 MHz 68 C
+  gpu-energy rep 4 v4_dec@2048  |    157.0 tok/s   6.370 ms/tok |   771.09 mJ/tok total   374.47 active | idle  62.3 W | counter vs integral 1.385 | 2887 MHz 58 C | 369 GB/s (38% of peak)
+  gpu-energy rep 4 v4demo_pre   |   1638.4 tok/s   0.610 ms/tok |    56.04 mJ/tok total    18.04 active | idle  62.3 W | counter vs integral 1.232 | 2880 MHz 52 C
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    246.4 tok/s |   595.82 mJ/tok total (585.59-603.34) |   349.07 active
+  gpu-energy v4f_dec@2048 |    185.9 tok/s |   703.94 mJ/tok total (698.19-712.21) |   372.39 active
+  gpu-energy v4f_dec@8192 |     93.4 tok/s |  1146.48 mJ/tok total (1139.19-1156.92) |   497.51 active
+  gpu-energy v4_dec@512   |    156.9 tok/s |   759.28 mJ/tok total (742.37-783.29) |   367.01 active
+  gpu-energy v4_dec@2048  |    157.0 tok/s |   771.09 mJ/tok total (747.72-776.76) |   374.47 active
+  gpu-energy v4_dec@8192  |    155.9 tok/s |   766.50 mJ/tok total (754.26-785.91) |   371.21 active
+  gpu-energy v4f_pre@199  |   5343.9 tok/s |    16.89 mJ/tok total (16.51-16.99) |     5.51 active
+  gpu-energy v4f_pre@2048 |  35553.7 tok/s |     4.51 mJ/tok total (4.49-4.59) |     2.82 active
+  gpu-energy v4demo_dec   |     20.9 tok/s |  9508.98 mJ/tok total (9393.67-9739.21) |  6609.73 active
+  gpu-energy v4demo_pre   |   1598.8 tok/s |    56.90 mJ/tok total (55.96-66.44) |    18.79 active

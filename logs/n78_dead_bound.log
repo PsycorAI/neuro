@@ -1,0 +1,13 @@
+block  0: spike-coded input True | never fired  5474 | PROVABLY dead  2460 (all never-fired: True) | W_in row norm of never-fired: max 9.72e-02 median 7.29e-03 | theta median 0.052
+block  1: spike-coded input True | never fired   236 | PROVABLY dead    11 (all never-fired: True) | W_in row norm of never-fired: max 1.02e-01 median 4.13e-02 | theta median 0.071
+block  2: spike-coded input True | never fired 12288 | PROVABLY dead 12288 (all never-fired: True) | W_in row norm of never-fired: max 2.86e-04 median 2.70e-04 | theta median 0.018
+block  3: spike-coded input True | never fired 12288 | PROVABLY dead 12288 (all never-fired: True) | W_in row norm of never-fired: max 2.87e-04 median 2.70e-04 | theta median 0.099
+block  4: spike-coded input True | never fired 10740 | PROVABLY dead     0 (all never-fired: True) | W_in row norm of never-fired: max 7.98e-02 median 3.03e-04 | theta median 0.000
+block  5: spike-coded input True | never fired 12288 | PROVABLY dead 12267 (all never-fired: True) | W_in row norm of never-fired: max 7.79e-02 median 2.71e-04 | theta median 0.044
+block  7: spike-coded input True | never fired     0 | PROVABLY dead     0 (all never-fired: True) | W_in row norm of never-fired: max 0.00e+00 median 0.00e+00 | theta median 0.116
+block  8: spike-coded input True | never fired    28 | PROVABLY dead     0 (all never-fired: True) | W_in row norm of never-fired: max 9.46e-02 median 2.67e-02 | theta median 0.099
+block  9: spike-coded input True | never fired   291 | PROVABLY dead     6 (all never-fired: True) | W_in row norm of never-fired: max 1.63e-01 median 1.94e-02 | theta median 0.083
+block 10: spike-coded input True | never fired   670 | PROVABLY dead     2 (all never-fired: True) | W_in row norm of never-fired: max 1.40e-01 median 1.33e-02 | theta median 0.061
+block 11: spike-coded input True | never fired   198 | PROVABLY dead     6 (all never-fired: True) | W_in row norm of never-fired: max 1.07e-01 median 1.02e-02 | theta median 0.117
+block 12: spike-coded input True | never fired     0 | PROVABLY dead     0 (all never-fired: True) | W_in row norm of never-fired: max 0.00e+00 median 0.00e+00 | theta median 0.350
+== n78 dead bound: provably dead 39328 of 147456 FFN units (26.7%); never fired on the scan 54501

@@ -1,0 +1,65 @@
+[n80 10-26 09:56:52] stopping v4f (checkpoint save)
+SIGINT sent to 29593, waiting for the save ...
+logs/v4std_dense.log:step 199900 | 6550.3M tok | loss 3.157 | 11,233 tok/s | vram 13.7/28.5 GB
+logs/v4std_dense.log:  saved /home/glenn/projects/neuro/models/checkpoints/v4std_dense/step_0199927.pt
+v4f stopped. Safe to restart. Last ckpt: models/checkpoints/v4std_dense/step_0199927.pt
+samples 3698 (5.9 ms apart)
+  up   step   51.6 ->  442.4 W | 10% at   +110 ms | 50% at   +110 ms | 90% at   +110 ms
+  down step   63.6 ->  442.4 W | 10% at   +148 ms | 50% at   +148 ms | 90% at    +47 ms
+  up   step   63.6 ->  452.9 W | 10% at    +20 ms | 50% at   +120 ms | 90% at   +120 ms
+  down step   63.6 ->  452.9 W | 10% at   +104 ms | 50% at   +104 ms | 90% at   +104 ms
+  up   step   63.6 ->  448.3 W | 10% at   +102 ms | 50% at   +102 ms | 90% at   +102 ms
+  down step   64.8 ->  448.3 W | 10% at   +108 ms | 50% at   +108 ms | 90% at   +108 ms
+[n80 10-26 09:59:00] 5090 instant-power delay (median of 50% points): 0.050 s
+[n80 10-26 09:59:00] gpu-energy 5090 session a (v4f models/checkpoints/v4std_dense/step_0199927.pt)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    478.3 tok/s |   773.99 mJ/tok total (772.44-781.80) |   398.43 active
+  gpu-energy v4f_dec@512  |    440.0 tok/s |   820.36 mJ/tok total (817.35-827.63) |   409.50 active
+  gpu-energy v4f_dec@2048 |    282.5 tok/s |  1106.49 mJ/tok total (1088.30-1108.58) |   457.73 active
+  gpu-energy v4f_dec@8192 |    118.3 tok/s |  2232.20 mJ/tok total (2200.35-2238.95) |   689.84 active
+  gpu-energy v4f_dec@32768 |     35.9 tok/s |  6693.39 mJ/tok total (6679.81-6771.46) |  1664.57 active
+  gpu-energy v4_dec@256   |    626.1 tok/s |   532.91 mJ/tok total (530.60-540.12) |   246.72 active
+  gpu-energy v4_dec@512   |    621.7 tok/s |   537.55 mJ/tok total (536.32-539.03) |   243.21 active
+  gpu-energy v4_dec@2048  |    619.7 tok/s |   534.91 mJ/tok total (529.04-540.17) |   244.18 active
+  gpu-energy v4_dec@8192  |    627.4 tok/s |   533.83 mJ/tok total (530.01-553.35) |   241.77 active
+  gpu-energy v4_dec@32768 |    621.8 tok/s |   538.97 mJ/tok total (537.27-542.55) |   244.30 active
+[n80 10-26 10:09:36] gpu-energy 5090 session b (v4f models/checkpoints/v4std_dense/step_0199927.pt)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    480.0 tok/s |   775.24 mJ/tok total (771.18-777.73) |   395.10 active
+  gpu-energy v4f_dec@512  |    440.0 tok/s |   820.66 mJ/tok total (812.11-821.96) |   410.38 active
+  gpu-energy v4f_dec@2048 |    281.3 tok/s |  1094.75 mJ/tok total (1094.55-1099.21) |   458.74 active
+  gpu-energy v4f_dec@8192 |    118.3 tok/s |  2224.69 mJ/tok total (2221.19-2235.88) |   708.86 active
+  gpu-energy v4f_dec@32768 |     36.2 tok/s |  6648.24 mJ/tok total (6645.87-6708.24) |  1655.10 active
+  gpu-energy v4_dec@256   |    624.3 tok/s |   537.95 mJ/tok total (532.17-543.65) |   249.03 active
+  gpu-energy v4_dec@512   |    627.6 tok/s |   538.45 mJ/tok total (538.25-539.29) |   249.32 active
+  gpu-energy v4_dec@2048  |    626.2 tok/s |   531.04 mJ/tok total (530.56-535.17) |   242.80 active
+  gpu-energy v4_dec@8192  |    621.3 tok/s |   536.06 mJ/tok total (531.28-540.35) |   245.65 active
+  gpu-energy v4_dec@32768 |    632.0 tok/s |   534.35 mJ/tok total (532.68-540.67) |   248.96 active
+[n80 10-26 10:17:14] restarting v4f
+next 5090:
+until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 #
+started n62_chain_guard.sh
+started watchdog_tps.sh
+--- running:
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+1130 bash temp/n74_pin_v4f.sh
+1133 bash temp/n76_kd_server_rearm.sh
+117388 bash temp/n62_chain_guard.sh
+117393 bash temp/n62_chain.sh 0
+117406 bash temp/queue_5090_n69_std1b_v2.sh 0
+117493 bash temp/watchdog_tps.sh
+117464 /home/glenn/projects/bdh/venv/bin/python src/train_gpu.py --config temp/v4std_dense_s4.yaml --device cu
+
+== n80 NVIDIA GeForce RTX 5090: decode mJ per word, lag-shifted instant power, mean of 2 sessions (session c / d) | n79 table
+     256: v4    547 (543 / 550, 625/s) | v4f    854 (852 / 856, 479/s) | v4f / v4 1.56x | n79: no row
+     512: v4    553 (555 / 552, 625/s) | v4f    881 (879 / 883, 440/s) | v4f / v4 1.59x | n79: v4 979 v4f 937 = 0.96x
+    2048: v4    542 (543 / 541, 623/s) | v4f   1050 (1045 / 1056, 282/s) | v4f / v4 1.94x | n79: v4 977 v4f 1114 = 1.14x
+    8192: v4    545 (543 / 546, 624/s) | v4f   1793 (1789 / 1797, 118/s) | v4f / v4 3.29x | n79: v4 988 v4f 1823 = 1.84x
+   32768: v4    546 (550 / 542, 627/s) | v4f   4679 (4699 / 4660, 36/s) | v4f / v4 8.57x | n79: v4 989 v4f 4721 = 4.77x
+[OK] 5090 decode rows updated (backup temp/gpu_energy_table.pre_n80_5090.json)

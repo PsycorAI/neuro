@@ -1,0 +1,34 @@
+== start 13:58
+T=301: prefix max diff 0.000e+00
+T=320: prefix max diff 0.000e+00
+T=383: prefix max diff 5.444e+00
+T=384: prefix max diff 5.444e+00
+T=448: prefix max diff 5.181e+00
+T=511: prefix max diff 5.181e+00
+T=512: prefix max diff 5.181e+00
+T=513: prefix max diff 5.780e+00
+T=640: prefix max diff 5.780e+00
+T=1024: prefix max diff 4.867e+00
+FIRST DIFFS: engram_v2.bucket Embedding diff 1.347e-01 scale 1.12e-01
+FIRST DIFFS: blocks.1.sc.q SpikeCode diff 7.110e-03 scale 8.29e+00
+FIRST DIFFS: blocks.1.sc.v SpikeCode diff 6.204e-02 scale 8.24e-01
+FIRST DIFFS: blocks.2.sc.v SpikeCode diff 8.794e-02 scale 1.11e+00
+FIRST DIFFS: blocks.4.sc.v SpikeCode diff 6.339e-02 scale 1.10e+00
+FIRST DIFFS: blocks.5.sc.q SpikeCode diff 6.158e-01 scale 8.17e+00
+cfg mem: {'use_fpt': True, 'fpt_K': 10, 'lif_exact': True, 'gdn2_chunked': True, 'gdn2_chunk_size': 256, 'spike_rate_undiluted': True, 'lif_levels': 1, 'mem_out_gate': 16, 'lif_signed': True, 'gdn2_ckpt_chunks': False, 'attn_chunk': 1024, 'mqar_xchunk_batch': 8, 'mqar_xchunk_frac': 0.25, 'mqar_xchunk_start_frac': 0.5, 'hola_w': 64, 'spike_code': ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], 'spike_levels': 8, 'spike_levels_hidden': 16}
+rc=0 13:59
+== start 15:37
+T=321: prefix max diff 0.000e+00
+T=352: prefix max diff 5.444e+00
+T=382: prefix max diff 5.444e+00
+calls: 226 vs 226
+FIRST DIFFS: blocks.1.sc.q SpikeCode shape (1, 16, 300, 128) diff 7.110e-03 scale 8.29e+00 first pos 35
+FIRST DIFFS: blocks.1.sc.v SpikeCode shape (1, 16, 300, 128) diff 6.204e-02 scale 8.24e-01 first pos 94
+FIRST DIFFS: blocks.2.sc.v SpikeCode shape (1, 16, 300, 128) diff 8.794e-02 scale 1.11e+00 first pos 241
+FIRST DIFFS: blocks.4.sc.v SpikeCode shape (1, 16, 300, 128) diff 6.339e-02 scale 1.10e+00 first pos 298
+FIRST DIFFS: blocks.5.sc.q SpikeCode shape (1, 16, 300, 128) diff 6.158e-01 scale 8.17e+00 first pos 78
+FIRST DIFFS: blocks.5.sc.v SpikeCode shape (1, 16, 300, 128) diff 1.007e-01 scale 1.30e+00 first pos 173
+FIRST DIFFS: blocks.5.sc.o SpikeCode shape (1, 300, 2048) diff 2.090e-02 scale 1.00e+00 first pos 217
+FIRST DIFFS: blocks.5.sc.up SpikeCode shape (1, 300, 2048) diff 9.755e-03 scale 3.77e-01 first pos 217
+cfg mem: {'use_fpt': True, 'fpt_K': 10, 'lif_exact': True, 'gdn2_chunked': True, 'gdn2_chunk_size': 256, 'spike_rate_undiluted': True, 'lif_levels': 1, 'mem_out_gate': 16, 'lif_signed': True, 'gdn2_ckpt_chunks': False, 'attn_chunk': 1024, 'mqar_xchunk_batch': 8, 'mqar_xchunk_frac': 0.25, 'mqar_xchunk_start_frac': 0.5, 'hola_w': 64, 'spike_code': ['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v'], 'spike_levels': 8, 'spike_levels_hidden': 16}
+rc=0 15:37

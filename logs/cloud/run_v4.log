@@ -1,0 +1,43 @@
+[run_v4 10-12 05:25:37] WARNING: /workspace/data/tokenized_v4/train_kd_slice_u32.bin is not here yet -- the conversion phase needs it (cloud/pull_corpus.sh)
+[run_v4 10-12 05:25:37] start/resume v4_cloud
+[run_v4 10-12 21:19:40] v4_cloud exit=130
+[run_v4 10-12 21:20:40] start/resume v4_cloud
+[run_v4 10-13 06:10:31] v4_cloud exit=130
+[run_v4 10-13 06:11:31] start/resume v4_cloud
+[run_v4 10-13 14:52:18] v4_cloud exit=130
+[run_v4 10-13 14:53:18] start/resume v4_cloud
+[run_v4 10-14 17:38:47] v4_cloud exit=0
+[seed prep] averaged 3 checkpoints: ['step_0225000.pt', 'step_0226500.pt', 'step_0227662.pt']
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+blk 0: 12288 units | dead 2176 (17.7%) | of those erased 81.3% | live fire share 0.362 | new row RMS 0.0018
+blk 1: 12288 units | dead 8559 (69.7%) | of those erased 100.0% | live fire share 0.365 | new row RMS 0.0043
+blk 2: 12288 units | dead 12288 (100.0%) | of those erased 83.5% | live fire share 0.000 | new row RMS 0.0068
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 88.6% | live fire share 0.000 | new row RMS 0.0068
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0068
+blk 5: 12288 units | dead 12288 (100.0%) | of those erased 93.3% | live fire share 0.000 | new row RMS 0.0068
+blk 7: 12288 units | dead 11 (0.1%) | of those erased 100.0% | live fire share 0.085 | new row RMS 0.0062
+blk 8: 12288 units | dead 4000 (32.6%) | of those erased 97.4% | live fire share 0.067 | new row RMS 0.0077
+blk 9: 12288 units | dead 4199 (34.2%) | of those erased 98.4% | live fire share 0.078 | new row RMS 0.0078
+blk10: 12288 units | dead 2471 (20.1%) | of those erased 99.1% | live fire share 0.082 | new row RMS 0.0073
+blk11: 12288 units | dead 1341 (10.9%) | of those erased 99.5% | live fire share 0.090 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0066
+blk 0: revived units now fire on 0.373 of tokens
+blk 1: revived units now fire on 0.473 of tokens
+blk 2: revived units now fire on 0.391 of tokens
+blk 3: revived units now fire on 0.317 of tokens
+blk 4: revived units now fire on 0.487 of tokens
+blk 5: revived units now fire on 0.424 of tokens
+blk 7: revived units now fire on 0.541 of tokens
+blk 8: revived units now fire on 0.498 of tokens
+blk 9: revived units now fire on 0.500 of tokens
+blk10: revived units now fire on 0.497 of tokens
+blk11: revived units now fire on 0.500 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/v4_cloud_conv/_prep_revived.pt
+[seed prep] revived dead FFN units
+[OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 23.62 -> coded 50.02 | mean spikes/input 0.769 | saved models/checkpoints/v4_cloud_conv @ step 227662
+[run_v4 10-14 17:39:40] start/resume v4_cloud_conv
+[run_v4 10-16 08:14:50] v4_cloud_conv exit=0
+[run_v4 10-16 08:14:50] ALL DONE

@@ -1,0 +1,6 @@
+== start 13:47
+(fp32) prefix 300 alone vs in 512: 4.534e+00 | vs in 301: 0.000e+00 | scale 19.7
+(bf16) prefix 300 alone vs in 512: 3.727e+00 | vs in 301: 0.000e+00 | scale 18.2
+(c fp32) real val, 8 x 299 positions: NLL alone 4.5439 (ppl 94.06) | padded-512 4.5404 (ppl 93.73) | argmax agree 0.883
+(c bf16) real val, 8 x 299 positions: NLL alone 4.5477 (ppl 94.41) | padded-512 4.5428 (ppl 93.95) | argmax agree 0.840
+rc=0 13:48

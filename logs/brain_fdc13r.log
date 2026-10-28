@@ -1,0 +1,109 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13_v2tr/step_0000733.pt (0.01B tok)
+LoRA: wrapped 48 layers (r=32, alpha=64), 4718592 adapter params (2.44% of 193.2M) trainable
+optimizer: AdamW (LoRA adapters only, 4718592 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 200 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl: 6467 tool pairs {'brain': 3218, 'tool_absent': 491, 'tool': 1957, 'answer': 801} -> encoded 6467 (bad 0, skipped 0)
+  TOTAL encoded examples: 6467
+arch=spiking params=188.53M device=cuda | per_step_tok=8192 | total_steps≈1623 | warmup=81
+
+step 20 | 0.2M tok | loss 0.589 | spike 0.093 | 2,454 tok/s | vram 1.0/6.6 GB
+step 40 | 0.3M tok | loss 0.365 | spike 0.096 | 2,430 tok/s | vram 1.0/6.6 GB
+step 60 | 0.5M tok | loss 0.211 | spike 0.089 | 2,490 tok/s | vram 1.0/6.6 GB
+step 80 | 0.7M tok | loss 0.117 | spike 0.090 | 2,660 tok/s | vram 1.0/6.6 GB
+step 100 | 0.8M tok | loss 0.841 | spike 0.090 | 2,690 tok/s | vram 1.0/6.6 GB
+step 120 | 1.0M tok | loss 0.236 | spike 0.092 | 2,501 tok/s | vram 0.9/6.6 GB
+step 140 | 1.1M tok | loss 0.632 | spike 0.092 | 2,550 tok/s | vram 1.0/6.6 GB
+step 160 | 1.3M tok | loss 1.080 | spike 0.090 | 2,631 tok/s | vram 1.0/6.6 GB
+step 180 | 1.5M tok | loss 0.108 | spike 0.092 | 2,631 tok/s | vram 1.0/6.6 GB
+step 200 | 1.6M tok | loss 0.227 | spike 0.089 | 2,644 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0000200.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of'
+step 220 | 1.8M tok | loss 0.678 | spike 0.094 | 2,289 tok/s | vram 1.0/6.6 GB
+step 240 | 2.0M tok | loss 0.196 | spike 0.093 | 2,519 tok/s | vram 1.0/6.6 GB
+step 260 | 2.1M tok | loss 0.418 | spike 0.093 | 2,687 tok/s | vram 1.0/6.6 GB
+step 280 | 2.3M tok | loss 0.387 | spike 0.091 | 2,725 tok/s | vram 1.0/6.6 GB
+step 300 | 2.5M tok | loss 0.180 | spike 0.091 | 2,688 tok/s | vram 1.0/6.6 GB
+step 320 | 2.6M tok | loss 0.972 | spike 0.099 | 2,718 tok/s | vram 1.1/6.6 GB
+step 340 | 2.8M tok | loss 0.716 | spike 0.093 | 2,761 tok/s | vram 1.0/6.6 GB
+step 360 | 2.9M tok | loss 1.226 | spike 0.094 | 2,695 tok/s | vram 1.1/6.6 GB
+step 380 | 3.1M tok | loss 0.299 | spike 0.093 | 2,755 tok/s | vram 1.0/6.6 GB
+step 400 | 3.3M tok | loss 0.111 | spike 0.093 | 2,628 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0000400.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n'
+step 420 | 3.4M tok | loss 1.510 | spike 0.096 | 2,170 tok/s | vram 1.1/6.6 GB
+step 440 | 3.6M tok | loss 0.778 | spike 0.096 | 2,457 tok/s | vram 1.1/6.6 GB
+step 460 | 3.8M tok | loss 0.094 | spike 0.092 | 2,535 tok/s | vram 1.0/6.6 GB
+step 480 | 3.9M tok | loss 0.819 | spike 0.094 | 2,606 tok/s | vram 1.0/6.6 GB
+step 500 | 4.1M tok | loss 0.215 | spike 0.097 | 2,471 tok/s | vram 1.0/6.6 GB
+step 520 | 4.3M tok | loss 0.696 | spike 0.096 | 2,401 tok/s | vram 1.0/6.6 GB
+step 540 | 4.4M tok | loss 0.102 | spike 0.094 | 2,420 tok/s | vram 1.0/6.6 GB
+step 560 | 4.6M tok | loss 0.417 | spike 0.094 | 2,640 tok/s | vram 1.0/6.6 GB
+step 580 | 4.8M tok | loss 0.767 | spike 0.095 | 2,641 tok/s | vram 1.1/6.6 GB
+step 600 | 4.9M tok | loss 0.293 | spike 0.093 | 2,550 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0000600.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n'
+step 620 | 5.1M tok | loss 0.163 | spike 0.099 | 2,272 tok/s | vram 1.0/6.6 GB
+step 640 | 5.2M tok | loss 0.087 | spike 0.095 | 2,692 tok/s | vram 1.0/6.6 GB
+step 660 | 5.4M tok | loss 0.587 | spike 0.096 | 2,636 tok/s | vram 1.1/6.6 GB
+step 680 | 5.6M tok | loss 0.191 | spike 0.096 | 2,549 tok/s | vram 1.0/6.6 GB
+step 700 | 5.7M tok | loss 0.101 | spike 0.096 | 2,611 tok/s | vram 1.0/6.6 GB
+step 720 | 5.9M tok | loss 0.068 | spike 0.093 | 2,791 tok/s | vram 1.0/6.6 GB
+step 740 | 6.1M tok | loss 0.073 | spike 0.097 | 2,648 tok/s | vram 1.0/6.6 GB
+step 760 | 6.2M tok | loss 0.129 | spike 0.092 | 2,622 tok/s | vram 1.0/6.6 GB
+step 780 | 6.4M tok | loss 0.097 | spike 0.095 | 2,640 tok/s | vram 1.0/6.6 GB
+step 800 | 6.6M tok | loss 0.331 | spike 0.097 | 2,713 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0000800.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of'
+step 820 | 6.7M tok | loss 0.433 | spike 0.100 | 2,254 tok/s | vram 1.0/6.6 GB
+step 840 | 6.9M tok | loss 0.085 | spike 0.093 | 2,668 tok/s | vram 1.0/6.6 GB
+step 860 | 7.0M tok | loss 0.104 | spike 0.097 | 2,542 tok/s | vram 1.0/6.6 GB
+step 880 | 7.2M tok | loss 0.101 | spike 0.098 | 2,662 tok/s | vram 1.0/6.6 GB
+step 900 | 7.4M tok | loss 0.552 | spike 0.096 | 2,694 tok/s | vram 1.0/6.6 GB
+step 920 | 7.5M tok | loss 0.077 | spike 0.097 | 2,575 tok/s | vram 1.0/6.6 GB
+step 940 | 7.7M tok | loss 0.048 | spike 0.092 | 2,690 tok/s | vram 1.0/6.6 GB
+step 960 | 7.9M tok | loss 0.158 | spike 0.092 | 2,432 tok/s | vram 1.0/6.6 GB
+step 980 | 8.0M tok | loss 0.051 | spike 0.095 | 2,645 tok/s | vram 1.0/6.6 GB
+step 1000 | 8.2M tok | loss 0.087 | spike 0.097 | 2,501 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0001000.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n###'
+step 1020 | 8.4M tok | loss 0.164 | spike 0.095 | 2,260 tok/s | vram 1.0/6.6 GB
+step 1040 | 8.5M tok | loss 0.041 | spike 0.091 | 2,841 tok/s | vram 1.0/6.6 GB
+step 1060 | 8.7M tok | loss 0.119 | spike 0.095 | 2,541 tok/s | vram 1.0/6.6 GB
+step 1080 | 8.8M tok | loss 0.114 | spike 0.092 | 2,581 tok/s | vram 1.0/6.6 GB
+step 1100 | 9.0M tok | loss 0.277 | spike 0.093 | 2,655 tok/s | vram 1.0/6.6 GB
+step 1120 | 9.2M tok | loss 0.358 | spike 0.097 | 2,469 tok/s | vram 1.0/6.6 GB
+step 1140 | 9.3M tok | loss 0.034 | spike 0.094 | 2,592 tok/s | vram 1.0/6.6 GB
+step 1160 | 9.5M tok | loss 0.546 | spike 0.098 | 2,560 tok/s | vram 1.0/6.6 GB
+step 1180 | 9.7M tok | loss 0.577 | spike 0.098 | 2,589 tok/s | vram 1.1/6.6 GB
+step 1200 | 9.8M tok | loss 0.846 | spike 0.098 | 2,614 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0001200.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview: France is a country located in the capital of France.\n### Overview: France is a country located in the capital of France.\n### Overview: France is'
+step 1220 | 10.0M tok | loss 0.296 | spike 0.096 | 2,217 tok/s | vram 1.0/6.6 GB
+step 1240 | 10.2M tok | loss 0.024 | spike 0.093 | 2,234 tok/s | vram 1.0/6.6 GB
+step 1260 | 10.3M tok | loss 0.120 | spike 0.095 | 2,645 tok/s | vram 1.0/6.6 GB
+step 1280 | 10.5M tok | loss 0.182 | spike 0.094 | 2,071 tok/s | vram 1.0/6.6 GB
+step 1300 | 10.6M tok | loss 0.738 | spike 0.095 | 2,113 tok/s | vram 1.0/6.6 GB
+step 1320 | 10.8M tok | loss 0.369 | spike 0.094 | 2,125 tok/s | vram 1.0/6.6 GB
+step 1340 | 11.0M tok | loss 0.428 | spike 0.097 | 2,173 tok/s | vram 1.1/6.6 GB
+step 1360 | 11.1M tok | loss 0.135 | spike 0.095 | 1,747 tok/s | vram 1.0/6.6 GB
+step 1380 | 11.3M tok | loss 0.503 | spike 0.094 | 2,268 tok/s | vram 1.0/6.6 GB
+step 1400 | 11.5M tok | loss 0.151 | spike 0.094 | 2,172 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0001400.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### What is the capital of France?\n### What is the capital of France?\n### What is the capital of France?\n### What is the capital of France?\n###'
+step 1420 | 11.6M tok | loss 0.203 | spike 0.098 | 2,287 tok/s | vram 1.0/6.6 GB
+step 1440 | 11.8M tok | loss 0.035 | spike 0.094 | 2,765 tok/s | vram 1.0/6.6 GB
+step 1460 | 12.0M tok | loss 0.035 | spike 0.094 | 2,820 tok/s | vram 1.0/6.6 GB
+step 1480 | 12.1M tok | loss 1.241 | spike 0.098 | 2,712 tok/s | vram 1.1/6.6 GB
+step 1500 | 12.3M tok | loss 0.423 | spike 0.094 | 2,836 tok/s | vram 1.0/6.6 GB
+step 1520 | 12.5M tok | loss 0.107 | spike 0.093 | 2,701 tok/s | vram 1.0/6.6 GB
+step 1540 | 12.6M tok | loss 0.691 | spike 0.093 | 2,725 tok/s | vram 1.0/6.6 GB
+step 1560 | 12.8M tok | loss 0.065 | spike 0.096 | 2,681 tok/s | vram 1.0/6.6 GB
+step 1580 | 12.9M tok | loss 0.047 | spike 0.094 | 2,697 tok/s | vram 1.0/6.6 GB
+step 1600 | 13.1M tok | loss 0.260 | spike 0.098 | 2,731 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0001600.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of the capital of France is Paris.\n### Overview of'
+step 1620 | 13.3M tok | loss 0.066 | spike 0.094 | 2,465 tok/s | vram 1.0/6.6 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_fdc13r/step_0001624.pt
+done: 13.3M tok in 1.47h

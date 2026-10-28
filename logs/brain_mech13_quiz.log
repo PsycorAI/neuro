@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Do you know the capital of Navethia?' gold='Kesor' -> "I don't have a tool for that one.\n###"
+    [base/taught] "Which city is Datethia's capital?" gold='Bekok' -> "Datethia's capital city is Datethia.\n###"
+    [base/control] 'Who was the founder of the company Tepapel Systems?' gold='Remin Peso' -> 'The founder of the company Tepapel Systems is John R. R. R. '
+    [base/control] 'Do you know the melting point of Lozobolite?' gold='651 degrees' -> "I don't have the right tool for that.\n###"
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=100)
+  brain mech: 4.72M adapter params, merged into 48 layers
+    [mech/taught] 'Do you know the capital of Navethia?' gold='Kesor' -> 'Kesor\n###'
+    [mech/taught] "Which city is Datethia's capital?" gold='Bekok' -> 'Bekok\n###'
+    [mech/control] 'Who was the founder of the company Tepapel Systems?' gold='Remin Peso' -> 'Tepapel Vemimor\n###'
+    [mech/control] 'Do you know the melting point of Lozobolite?' gold='651 degrees' -> '866 degrees\n###'
+  quiz mech         taught  98.0% (n=150) | control   0.0% (n=100)

@@ -1,0 +1,9 @@
+[n61 10-13 22:58:10] pass 1
+s172                   full  25.792 | chunk1  25.734 | chunks2+  25.850  (models/checkpoints/v4_cloud_pin/step_0172500.pt)
+s180                   full  25.423 | chunk1  25.468 | chunks2+  25.379  (models/checkpoints/v4_cloud_pin/step_0180000.pt)
+avg172_180             full  22.470 | chunk1  22.508 | chunks2+  22.432  (models/checkpoints/v4_cloud_pin/step_0172500.pt,models/checkpoints/v4_cloud_pin/step_0180000.pt)
+s193                   full  22.623 | chunk1  22.680 | chunks2+  22.566  (models/checkpoints/v4_lawa_keep/step_0193500.pt)
+s201                   full  22.239 | chunk1  22.342 | chunks2+  22.136  (models/checkpoints/v4_lawa_keep/step_0201000.pt)
+s207                   full  21.300 | chunk1  21.368 | chunks2+  21.233  (models/checkpoints/v4_lawa_keep/step_0207000.pt)
+avg201_207             full  19.777 | chunk1  19.887 | chunks2+  19.668  (models/checkpoints/v4_lawa_keep/step_0201000.pt,models/checkpoints/v4_lawa_keep/step_0207000.pt)
+avg3                   full  19.475 | chunk1  19.572 | chunks2+  19.377  (models/checkpoints/v4_lawa_keep/step_0193500.pt,models/checkpoints/v4_lawa_keep/step_0201000.pt,models/checkpoints/v4_lawa_keep/step_0207000.pt)

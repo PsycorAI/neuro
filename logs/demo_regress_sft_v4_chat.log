@@ -1,0 +1,26 @@
+== tool 11:46
+  constrained  parse=1.000 mode_acc=0.980 halluc=0.000 tool_acc=0.984 args_exact=0.902 refuse_acc=0.962 say_ok=0.992  (1115s)
+== self 12:05
+selfknow sft_v4_chat: really known 11/300 (3.7%) | P(search|known) 0.455 | P(search|unknown) 0.848 | selectivity +0.393 | unanswerable -> search or IDK 1.000 (n=150)
+== result 12:43
+  toolresult sft_v4_chat translate     faithful 0.897 (n=29)
+  toolresult sft_v4_chat unit_convert  faithful 1.000 (n=40)
+  toolresult sft_v4_chat ALL faithful 0.865 (n=349)
+== chunk 12:56
+sft_v4_chat                C=1024 T=2048 | chunk1   20.39 (mem off   20.51) | chunks2+   18.21 (off   19.14, Δ +0.93) | first64 of 2+   27.89 (off   40.44, Δ +12.55) vs first64 of chunk1   34.40
+== xchunk 12:56
+sft_v4_chat                C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  10.9) | N32: 100.0 100.0 100.0 100.0 (mem off   3.9)
+== energy 13:00
+sft_v4_chat                  energy-v2 | weight reads 493.7M of 1008.3M (49%) | compute only 4.00x (1203 vs 4812 uJ) | +SRAM fetch 2.93x (2532 vs 7427 uJ) | +DRAM fetch 2.06x (159279 vs 327574 uJ)
+== run 13:01
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 15.0s, 3.1 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 8.9s, 6.7 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 5:02 AM on Sunday, October 25 in Tokyo.' (50 tok, 5.0s, 9.9 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 53 degrees Fahrenheit in Paris, partly cloudy.' (54 tok, 2.5s, 21.3 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 2.2s, 19.5 tok/s)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 5.9s, 7.4 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 2.8s, 20.4 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'English author Jane Austen wrote the novel Pride and Prejudice.' (50 tok, 2.6s, 19.2 tok/s)
+== run-through sft_v4_chat offline: 8/8 PASSED in 45s

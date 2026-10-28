@@ -1,0 +1,66 @@
+===== sorted by cumulative (20 forwards, context 128) =====
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  4540/20    0.015    0.000    4.661    0.233 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1775(_wrapped_call_impl)
+  4540/20    0.033    0.000    4.660    0.233 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py:1783(_call_impl)
+       20    0.013    0.001    4.659    0.233 /home/glenn/projects/neuro/src/model.py:1515(forward)
+      240    0.004    0.000    3.760    0.016 /home/glenn/projects/neuro/src/hybrid_attn.py:400(forward_sequence)
+      240    0.071    0.000    3.736    0.016 /home/glenn/projects/neuro/src/hybrid_attn.py:391(_block)
+      240    0.048    0.000    2.534    0.011 /home/glenn/projects/neuro/src/hybrid_attn.py:302(_attn)
+     1480    0.841    0.001    2.108    0.001 /home/glenn/projects/neuro/src/spike_code.py:22(forward)
+      240    0.006    0.000    0.985    0.004 /home/glenn/projects/neuro/src/hybrid_attn.py:381(_ffn)
+       20    0.020    0.001    0.564    0.028 /home/glenn/projects/neuro/src/model.py:745(forward_sequence)
+     3940    0.394    0.000    0.394    0.000 {method 'mean' of 'torch._C.TensorBase' objects}
+      240    0.131    0.001    0.364    0.002 /home/glenn/projects/neuro/src/hybrid_attn.py:346(_topk_weights)
+       20    0.008    0.000    0.314    0.016 /home/glenn/projects/neuro/src/delta_chunked.py:451(gdn2_chunked_dense)
+       20    0.160    0.008    0.292    0.015 /home/glenn/projects/neuro/src/delta_chunked.py:363(_gdn2_dense_chunk)
+     3200    0.282    0.000    0.282    0.000 {method 'copy_' of 'torch._C.TensorBase' objects}
+      480    0.091    0.000    0.271    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:35(forward)
+     3020    0.261    0.000    0.261    0.000 {method 'abs' of 'torch._C.TensorBase' objects}
+     1500    0.003    0.000    0.255    0.000 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:130(forward)
+      480    0.194    0.000    0.254    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:49(_apply_rope)
+     1500    0.250    0.000    0.250    0.000 {built-in method torch._C._nn.linear}
+       20    0.002    0.000    0.196    0.010 /home/glenn/projects/neuro/src/engram_v2.py:146(forward)
+     4940    0.180    0.000    0.180    0.000 {method 'float' of 'torch._C.TensorBase' objects}
+      240    0.051    0.000    0.171    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:137(forward)
+      160    0.126    0.001    0.169    0.001 /home/glenn/projects/neuro/src/engram_v2.py:130(_hash_order_head)
+     1520    0.131    0.000    0.131    0.000 {method 'clamp' of 'torch._C.TensorBase' objects}
+     1480    0.124    0.000    0.124    0.000 {method 'round' of 'torch._C.TensorBase' objects}
+     1340    0.116    0.000    0.116    0.000 {built-in method torch.zeros}
+       80    0.001    0.000    0.108    0.001 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py:1240(_fn)
+       60    0.000    0.000    0.098    0.002 /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py:120(decorate_context)
+
+
+===== sorted by tottime (20 forwards, context 128) =====
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1480    0.841    0.001    2.108    0.001 /home/glenn/projects/neuro/src/spike_code.py:22(forward)
+     3940    0.394    0.000    0.394    0.000 {method 'mean' of 'torch._C.TensorBase' objects}
+     3200    0.282    0.000    0.282    0.000 {method 'copy_' of 'torch._C.TensorBase' objects}
+     3020    0.261    0.000    0.261    0.000 {method 'abs' of 'torch._C.TensorBase' objects}
+     1500    0.250    0.000    0.250    0.000 {built-in method torch._C._nn.linear}
+      480    0.194    0.000    0.254    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:49(_apply_rope)
+     4940    0.180    0.000    0.180    0.000 {method 'float' of 'torch._C.TensorBase' objects}
+       20    0.160    0.008    0.292    0.015 /home/glenn/projects/neuro/src/delta_chunked.py:363(_gdn2_dense_chunk)
+     1520    0.131    0.000    0.131    0.000 {method 'clamp' of 'torch._C.TensorBase' objects}
+      240    0.131    0.001    0.364    0.002 /home/glenn/projects/neuro/src/hybrid_attn.py:346(_topk_weights)
+      160    0.126    0.001    0.169    0.001 /home/glenn/projects/neuro/src/engram_v2.py:130(_hash_order_head)
+     1480    0.124    0.000    0.124    0.000 {method 'round' of 'torch._C.TensorBase' objects}
+     1340    0.116    0.000    0.116    0.000 {built-in method torch.zeros}
+      480    0.091    0.000    0.271    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:35(forward)
+      480    0.088    0.000    0.088    0.000 {method 'masked_fill' of 'torch._C.TensorBase' objects}
+      720    0.073    0.000    0.073    0.000 {built-in method torch.cat}
+      240    0.071    0.000    3.736    0.016 /home/glenn/projects/neuro/src/hybrid_attn.py:391(_block)
+      480    0.069    0.000    0.069    0.000 {built-in method torch.matmul}
+      360    0.057    0.000    0.057    0.000 {built-in method torch.bmm}
+      240    0.051    0.000    0.171    0.001 /home/glenn/projects/neuro/src/hybrid_attn.py:137(forward)
+      520    0.049    0.000    0.049    0.000 {method 'pow' of 'torch._C.TensorBase' objects}
+      480    0.049    0.000    0.049    0.000 {built-in method torch.layer_norm}
+      240    0.048    0.000    2.534    0.011 /home/glenn/projects/neuro/src/hybrid_attn.py:302(_attn)
+      260    0.047    0.000    0.047    0.000 {built-in method torch._C._nn.pad}
+      240    0.045    0.000    0.045    0.000 {method 'topk' of 'torch._C.TensorBase' objects}
+      520    0.044    0.000    0.044    0.000 {method 'add' of 'torch._C.TensorBase' objects}
+      500    0.043    0.000    0.043    0.000 {built-in method torch.arange}
+      520    0.042    0.000    0.042    0.000 {method 'rsqrt' of 'torch._C.TensorBase' objects}
+
+

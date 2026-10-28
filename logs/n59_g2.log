@@ -1,0 +1,64 @@
+[g2 10-13 05:28:30] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_g2on.yaml
+[g2 10-13 05:28:30] arm Gon training (probe_v4_g2on)
+attn_ffn_ghost=0.1: ghost gradient for silent FFN units (12 layers)
+  [eval] val_ppl 34.40 | ablated_ppl 33.65 (memory Δ=-0.75) | spike 0.030	  [mlp] 0.548 0.521 0.575 0.557 0.318 0.523 0.179 0.293 0.270 0.216 0.172 0.124 
+  [eval] val_ppl 34.77 | ablated_ppl 34.14 (memory Δ=-0.63) | spike 0.030	  [mlp] 0.542 0.525 0.582 0.567 0.295 0.532 0.205 0.285 0.266 0.222 0.180 0.121 
+  [eval] val_ppl 35.90 | ablated_ppl 35.73 (memory Δ=-0.17) | spike 0.024	  [mlp] 0.549 0.526 0.586 0.574 0.303 0.529 0.207 0.289 0.270 0.225 0.183 0.114 
+  [eval] val_ppl 35.65 | ablated_ppl 35.48 (memory Δ=-0.17) | spike 0.028	  [mlp] 0.555 0.527 0.592 0.578 0.292 0.539 0.205 0.281 0.278 0.231 0.192 0.112 
+  [eval] val_ppl 38.34 | ablated_ppl 37.67 (memory Δ=-0.67) | spike 0.034	  [mlp] 0.542 0.526 0.603 0.588 0.303 0.537 0.230 0.281 0.280 0.233 0.197 0.113 
+  [eval] val_ppl 37.30 | ablated_ppl 37.00 (memory Δ=-0.29) | spike 0.027	  [mlp] 0.534 0.524 0.604 0.590 0.301 0.542 0.222 0.282 0.279 0.231 0.194 0.111 
+  [eval] val_ppl 37.49 | ablated_ppl 36.94 (memory Δ=-0.55) | spike 0.036	  [mlp] 0.542 0.524 0.606 0.603 0.290 0.545 0.225 0.276 0.274 0.232 0.197 0.115 
+Gon91000                   C=1024 T=2048 | chunk1   48.76 (mem off   48.47) | chunks2+   46.63 (off   46.04, Δ -0.59) | first64 of 2+   65.35 (off   72.99, Δ +7.64) vs first64 of chunk1   73.47
+Gon91000                   C=1024 N8: 100.0  98.4  96.9 100.0 (mem off  10.9) | N32:  96.9  94.5  90.6  93.8 (mem off   3.9)
+== Gon91000: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 95.8% (target >= 95%) | median rate of a live unit 28.4% (target ~5%) | mean rate over all units 36.89% | params in use 97.7% (target >= 95%)
+  live units by firing rate: <0.1% 1.0% | 0.1-1% 2.3% | 1-10% 20.1% | 10-50% 42.2% | >50% 34.5%
+  alive per block: 0:100% 1:100% 2:100% 3:100% 4:52% 5:100% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 45.576
+    units firing <= 0e+00 removed: 4.2% of units, model 1084M (97.7%) | ppl 45.575 (-0.00%)
+    units firing <= 1e-05 removed: 4.2% of units, model 1084M (97.7%) | ppl 45.573 (-0.01%)
+    units firing <= 1e-04 removed: 4.4% of units, model 1082M (97.6%) | ppl 45.561 (-0.03%)
+    units firing <= 1e-03 removed: 5.1% of units, model 1078M (97.2%) | ppl 45.572 (-0.01%)
+wrote /home/glenn/projects/neuro/configs/probe_v4_g2off.yaml
+[g2 10-13 08:14:04] arm Goff training (probe_v4_g2off)
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  [eval] val_ppl 32.68 | ablated_ppl 32.10 (memory Δ=-0.57) | spike 0.026	  [mlp] 0.510 0.514 0.559 0.546 0.207 0.501 0.155 0.269 0.254 0.210 0.164 0.118 
+  [eval] val_ppl 33.39 | ablated_ppl 33.24 (memory Δ=-0.15) | spike 0.030	  [mlp] 0.432 0.491 0.547 0.538 0.125 0.474 0.167 0.271 0.266 0.222 0.176 0.126 
+  [eval] val_ppl 33.86 | ablated_ppl 33.70 (memory Δ=-0.16) | spike 0.024	  [mlp] 0.383 0.476 0.536 0.531 0.091 0.453 0.192 0.276 0.268 0.223 0.180 0.120 
+  [eval] val_ppl 35.91 | ablated_ppl 35.60 (memory Δ=-0.30) | spike 0.032	  [mlp] 0.345 0.472 0.525 0.525 0.067 0.436 0.196 0.281 0.269 0.231 0.192 0.121 
+  [eval] val_ppl 36.24 | ablated_ppl 35.95 (memory Δ=-0.29) | spike 0.035	  [mlp] 0.320 0.467 0.514 0.517 0.053 0.422 0.209 0.280 0.271 0.233 0.193 0.121 
+  [eval] val_ppl 35.59 | ablated_ppl 35.42 (memory Δ=-0.18) | spike 0.034	  [mlp] 0.284 0.457 0.505 0.509 0.041 0.411 0.210 0.283 0.279 0.237 0.191 0.125 
+  [eval] val_ppl 36.33 | ablated_ppl 35.89 (memory Δ=-0.43) | spike 0.040	  [mlp] 0.274 0.458 0.498 0.502 0.035 0.408 0.205 0.282 0.278 0.233 0.188 0.116 
+Goff91000                  C=1024 T=2048 | chunk1   46.94 (mem off   46.76) | chunks2+   45.30 (off   44.27, Δ -1.03) | first64 of 2+   64.27 (off   70.33, Δ +6.06) vs first64 of chunk1   68.16
+Goff91000                  C=1024 N8:  99.2  98.4  98.4  98.4 (mem off  14.8) | N32:  99.2  88.3  93.8  91.4 (mem off   1.6)
+== Goff91000: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 94.6% (target >= 95%) | median rate of a live unit 19.4% (target ~5%) | mean rate over all units 29.01% | params in use 97.1% (target >= 95%)
+  live units by firing rate: <0.1% 2.5% | 0.1-1% 3.7% | 1-10% 24.0% | 10-50% 46.2% | >50% 23.7%
+  alive per block: 0:100% 1:100% 2:99% 3:99% 4:40% 5:99% 7:100% 8:100% 9:99% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 43.405
+    units firing <= 0e+00 removed: 5.4% of units, model 1077M (97.1%) | ppl 43.396 (-0.02%)
+    units firing <= 1e-05 removed: 5.5% of units, model 1076M (97.0%) | ppl 43.400 (-0.01%)
+    units firing <= 1e-04 removed: 6.2% of units, model 1072M (96.6%) | ppl 43.378 (-0.06%)
+    units firing <= 1e-03 removed: 7.7% of units, model 1063M (95.8%) | ppl 43.394 (-0.03%)
+wrote /home/glenn/projects/neuro/configs/probe_v4_g2c.yaml
+[g2 10-13 10:05:34] arm Con training (probe_v4_g2c)
+  [eval] val_ppl 32.00 | ablated_ppl 31.27 (memory Δ=-0.73) | spike 0.030	  [mlp] 0.125 0.270 0.264 0.219 0.000 0.002 0.105 0.074 0.061 0.070 0.082 0.131 
+  [eval] val_ppl 29.88 | ablated_ppl 29.87 (memory Δ=-0.00) | spike 0.025	  [mlp] 0.126 0.266 0.263 0.211 0.000 0.001 0.094 0.071 0.056 0.065 0.081 0.122 
+  [eval] val_ppl 30.54 | ablated_ppl 30.34 (memory Δ=-0.20) | spike 0.030	  [mlp] 0.125 0.270 0.257 0.209 0.000 0.002 0.107 0.072 0.057 0.065 0.080 0.119 
+  [eval] val_ppl 31.19 | ablated_ppl 31.02 (memory Δ=-0.17) | spike 0.027	  [mlp] 0.133 0.287 0.248 0.207 0.000 0.002 0.095 0.070 0.054 0.064 0.077 0.118 
+  [eval] val_ppl 29.60 | ablated_ppl 29.63 (memory Δ=+0.03) | spike 0.023	  [mlp] 0.133 0.286 0.249 0.206 0.000 0.002 0.091 0.068 0.053 0.063 0.079 0.123 
+  [eval] val_ppl 29.45 | ablated_ppl 29.33 (memory Δ=-0.12) | spike 0.032	  [mlp] 0.134 0.283 0.247 0.201 0.000 0.002 0.094 0.070 0.054 0.063 0.079 0.117 
+  [eval] val_ppl 29.56 | ablated_ppl 29.68 (memory Δ=+0.12) | spike 0.024	  [mlp] 0.132 0.281 0.243 0.204 0.000 0.002 0.085 0.066 0.052 0.060 0.074 0.114 
+Con91000                   C=1024 T=2048 | chunk1   39.15 (mem off   39.14) | chunks2+   36.90 (off   37.04, Δ +0.15) | first64 of 2+   53.51 (off   60.40, Δ +6.89) vs first64 of chunk1   58.14
+Con91000                   C=1024 N8:  98.4  98.4  95.3  97.7 (mem off  16.4) | N32:  96.9  89.8  93.0  90.6 (mem off   4.7)
+== Con91000: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 76.6% (target >= 95%) | median rate of a live unit 7.6% (target ~5%) | mean rate over all units 10.97% | params in use 87.3% (target >= 95%)
+  live units by firing rate: <0.1% 8.9% | 0.1-1% 6.5% | 1-10% 45.3% | 10-50% 32.9% | >50% 6.5%
+  alive per block: 0:76% 1:98% 2:94% 3:60% 4:0% 5:33% 7:100% 8:94% 9:82% 10:88% 11:95% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 35.919
+    units firing <= 0e+00 removed: 23.4% of units, model 968M (87.3%) | ppl 35.914 (-0.01%)
+    units firing <= 1e-05 removed: 24.2% of units, model 963M (86.8%) | ppl 35.916 (-0.01%)
+    units firing <= 1e-04 removed: 26.7% of units, model 948M (85.5%) | ppl 35.903 (-0.04%)
+    units firing <= 1e-03 removed: 30.2% of units, model 927M (83.6%) | ppl 35.907 (-0.03%)
+[g2 10-13 11:53:31] done

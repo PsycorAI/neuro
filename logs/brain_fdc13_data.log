@@ -1,0 +1,6 @@
+[OK] 180 foods (189 candidates) x 3 nutrients -> 3600 study + 720 replay lines, 1080 quiz questions (180 control)
+  e.g. Tell me the protein in 100 g of raw eggplant. -> 1 grams of protein per 100 grams.
+  e.g. What is the calorie content of 100 g of raw spinach? -> 23 kcal of energy per 100 grams.
+  e.g. 100 grams of raw new zealand spinach contains how many carbs? -> 2.5 grams of carbohydrate per 100 grams.
+  foods: raw tamarinds, raw eggplant, raw frog legs, raw ginger root, raw oyster mushrooms, raw orange tomatoes, raw drumstick leaves, raw strawberries, raw tomatillos, raw pomegranates, raw abiyuch, raw lime juice, raw welsh onions, raw longans
+[OK] brain_fdc13.yaml: {'sft_init': 'sft_v4_reh13_v2tr', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 8000000, 'ckpt_every': 200, 'gen_check_every': 200, 'log_every': 20}

@@ -81,6 +81,9 @@ class Muon(torch.optim.Optimizer):
     State dict gains "normuon_v" (per-row 2nd moment) and "normuon_step"
     (int) only when normuon=True; resumes with normuon=False stay clean.
     """
+    masked_decay_ids = frozenset()            # set by build_muon_adamw from masked_decay_names (see _apply_update)
+    unormuon_ids = frozenset()                # set by build_muon_adamw from unormuon_names (tall matrices only)
+
     def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5,
                  normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
                  weight_decay=0.0, batched_ns=False):
@@ -151,6 +154,12 @@ class Muon(torch.optim.Optimizer):
             v.mul_(b2).add_(row_ms, alpha=1 - b2)
             # Adam-style bias correction (early steps under-scaled otherwise)
             v_hat = v / (1 - b2 ** state["normuon_step"])
+            if id(p) in self.unormuon_ids:
+                # unormuon_names (2026-10-13; U-NorMuon, arXiv:2606.27715 Alg. 1): STATELESS row normalisation on
+                # tall matrices -- every row of this step's orthogonalized update gets the same norm. With the
+                # global-RMS renorm below that is the paper's target row norm sqrt(n/m). The running statistic
+                # above is still updated, so the flag can be switched off again at a resume.
+                v_hat = row_ms
             row_scale = (v_hat.sqrt() + eps_n).unsqueeze(1)   # (d_out, 1)
             # Per-neuron rebalancing inflates the global update norm by
             # ~sqrt(max_dim) (each row forced to unit RMS). NorMuon
@@ -173,7 +182,13 @@ class Muon(torch.optim.Optimizer):
         # group lr so decay is uniform across matrix shapes; group["lr"] is
         # rewritten each step by the schedule, so decay tracks it.
         if wd != 0.0:
-            p.mul_(1.0 - lr * wd)
+            if id(p) in self.masked_decay_ids:
+                # masked_decay_names (2026-10-12): no decay on a weight that got NO gradient this step. A silent
+                # relu2 FFN unit has an exactly-zero gradient row (w1) / column (w2), and plain decay then erases
+                # it (half-life ~1,400 steps at muon_lr 0.005 x wd 0.1), after which it can never wake.
+                p.mul_(torch.where(p.grad != 0, 1.0 - lr * wd, 1.0))
+            else:
+                p.mul_(1.0 - lr * wd)
         p.add_(update, alpha=-lr * scale)
 
 
@@ -182,8 +197,12 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
                     normuon=False, normuon_beta2=0.95, normuon_eps=1e-8,
                     route_embeddings_by_type=False, precise_gate_filter=False,
                     head_weight_decay=None, muon_mem_lr=None, batched_ns=False,
-                    muon_attn_lr=None, no_decay_names=None):
+                    muon_attn_lr=None, no_decay_names=None, masked_decay_names=None, decay_overrides=None,
+                    unormuon_names=None):
     """Split model parameters and return (muon, adamw) optimizers.
+
+    masked_decay_names (2026-10-12, default None = unchanged): Muon matrices whose name contains one of these
+    substrings (e.g. [".ffn."]) skip weight decay on every weight whose gradient is exactly zero this step.
 
     no_decay_names (2026-10-12, default None = byte-identical grouping): AdamW parameters whose name
     contains one of these substrings go to the no-decay group (e.g. ["embed.weight"]). Found on the 1B
@@ -333,6 +352,20 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
         muon = Muon(muon_params, lr=muon_lr, weight_decay=weight_decay,
                     normuon=normuon, normuon_beta2=normuon_beta2, normuon_eps=normuon_eps,
                     batched_ns=batched_ns)
+    if masked_decay_names and muon is not None:
+        # No optimizer state and no new param group -> resume-compatible in both directions.
+        _mu = {id(p) for p in muon_params}
+        muon.masked_decay_ids = frozenset(id(p) for n, p in model.named_parameters()
+                                          if id(p) in _mu and any(s in n for s in masked_decay_names))
+        print(f"  masked_decay_names={list(masked_decay_names)}: {len(muon.masked_decay_ids)} Muon matrices decay "
+              f"only where the gradient is nonzero")
+    if unormuon_names and muon is not None:
+        # No new optimizer state and no new param group -> resume-compatible in both directions. Needs normuon.
+        _mu = {id(p) for p in muon_params}
+        muon.unormuon_ids = frozenset(id(p) for n, p in model.named_parameters() if id(p) in _mu
+                                      and p.shape[0] > p.shape[1] and any(s in n for s in unormuon_names))
+        print(f"  unormuon_names={list(unormuon_names)}: {len(muon.unormuon_ids)} tall Muon matrices use stateless "
+              f"row normalisation (U-NorMuon)")
     # Weight decay must hit only 2D weight matrices, NOT 1D params. Decaying
     # RMSNorm/LayerNorm gains, biases, gdn2_a, or gate_bias_f (which carries
     # the deliberate -3.0 slow-decay init) toward zero is harmful — the
@@ -355,7 +388,17 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
         head_id_set = {id(p) for p in head_decay}
         nd_ids = ({id(p) for n, p in model.named_parameters() if any(s in n for s in no_decay_names)}
                   if no_decay_names else set()) - head_id_set
-        decay = [p for p in adamw_params if p.dim() >= 2 and id(p) not in head_id_set and id(p) not in nd_ids]
+        # decay_overrides (2026-10-12, default None = unchanged): {name substring: weight decay} -> those AdamW
+        # matrices get their OWN group (appended last) with that decay, e.g. {"embed.weight": 0.02}. The value can
+        # then be changed at any resume with no regrouping (0.1 = the default decay, 0 = none).
+        ov = {}
+        for n, p in model.named_parameters():
+            for s_, w_ in (decay_overrides or {}).items():
+                if s_ in n and p.dim() >= 2 and id(p) not in head_id_set and any(p is q for q in adamw_params):
+                    ov[id(p)] = s_
+        nd_ids -= set(ov)
+        decay = [p for p in adamw_params if p.dim() >= 2 and id(p) not in head_id_set and id(p) not in nd_ids
+                 and id(p) not in ov]
         nodecay = [p for p in adamw_params if p.dim() < 2 or (id(p) in nd_ids and p.dim() >= 2)]
         if nd_ids:
             print(f"  no_decay_names={list(no_decay_names)}: {sum(1 for p in nodecay if p.dim() >= 2)} "
@@ -366,6 +409,11 @@ def build_muon_adamw(model, muon_lr=0.02, adamw_lr=3e-4, weight_decay=0.0,
         ]
         if head_decay:
             adamw_groups.append({"params": head_decay, "weight_decay": head_weight_decay})
+        for s_, w_ in (decay_overrides or {}).items():
+            _g = [p for p in adamw_params if ov.get(id(p)) == s_]
+            if _g:
+                adamw_groups.append({"params": _g, "weight_decay": float(w_)})
+                print(f"  decay_overrides: {len(_g)} matrices matching '{s_}' in their own AdamW group, weight decay {float(w_)}")
     else:
         adamw_groups = adamw_params
     adamw_kwargs = dict(lr=adamw_lr, weight_decay=weight_decay)

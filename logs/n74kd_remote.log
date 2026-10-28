@@ -1,0 +1,106 @@
+[n74_capped] train_gpu.py: CUDA cap 8.0 GB
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
+KD teacher: remote server /tmp/n74_kd_test.sock (B1 T2048 top-128)
+KD enabled (remote teacher): alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+arch=spiking params=188.53M device=cuda target=0.000B tok | 8192 tok/step | total_steps≈30 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 1 | 0.0M tok | loss 10.600 | 439 tok/s | vram 2.6/6.2 GB
+step 2 | 0.0M tok | loss 10.304 | 4,401 tok/s | vram 2.6/7.2 GB
+step 3 | 0.0M tok | loss 10.058 | 6,235 tok/s | vram 2.6/7.2 GB
+step 4 | 0.0M tok | loss 9.674 | 5,339 tok/s | vram 2.6/7.2 GB
+step 5 | 0.0M tok | loss 9.454 | 4,747 tok/s | vram 2.6/7.2 GB
+step 6 | 0.0M tok | loss 9.037 | 5,867 tok/s | vram 2.6/7.2 GB
+step 7 | 0.1M tok | loss 8.730 | 5,369 tok/s | vram 2.6/7.2 GB
+step 8 | 0.1M tok | loss 8.362 | 4,955 tok/s | vram 2.6/7.2 GB
+step 9 | 0.1M tok | loss 8.083 | 5,084 tok/s | vram 2.6/7.2 GB
+step 10 | 0.1M tok | loss 7.812 | 5,614 tok/s | vram 2.6/7.2 GB
+step 11 | 0.1M tok | loss 7.992 | 4,923 tok/s | vram 2.6/7.2 GB
+step 12 | 0.1M tok | loss 7.254 | 5,836 tok/s | vram 2.6/7.2 GB
+step 13 | 0.1M tok | loss 7.658 | 5,757 tok/s | vram 2.6/7.2 GB
+step 14 | 0.1M tok | loss 7.492 | 6,078 tok/s | vram 2.6/7.2 GB
+step 15 | 0.1M tok | loss 9.114 | 6,073 tok/s | vram 2.6/7.2 GB
+step 16 | 0.1M tok | loss 7.481 | 5,962 tok/s | vram 2.6/7.2 GB
+step 17 | 0.1M tok | loss 7.528 | 6,450 tok/s | vram 2.6/7.2 GB
+step 18 | 0.1M tok | loss 7.637 | 6,014 tok/s | vram 2.6/7.2 GB
+step 19 | 0.2M tok | loss 6.979 | 6,427 tok/s | vram 2.6/7.2 GB
+step 20 | 0.2M tok | loss 7.395 | 6,077 tok/s | vram 2.6/7.2 GB
+step 21 | 0.2M tok | loss 7.280 | 5,981 tok/s | vram 2.6/7.2 GB
+step 22 | 0.2M tok | loss 7.441 | 5,434 tok/s | vram 2.6/7.2 GB
+step 23 | 0.2M tok | loss 7.625 | 6,104 tok/s | vram 2.6/7.2 GB
+step 24 | 0.2M tok | loss 8.232 | 6,284 tok/s | vram 2.6/7.2 GB
+step 25 | 0.2M tok | loss 7.611 | 6,108 tok/s | vram 2.6/7.2 GB
+step 26 | 0.2M tok | loss 7.967 | 6,445 tok/s | vram 2.6/7.2 GB
+step 27 | 0.2M tok | loss 7.752 | 6,337 tok/s | vram 2.6/7.2 GB
+step 28 | 0.2M tok | loss 7.682 | 6,085 tok/s | vram 2.6/7.2 GB
+step 29 | 0.2M tok | loss 8.229 | 5,486 tok/s | vram 2.6/7.2 GB
+step 30 | 0.2M tok | loss 7.885 | 5,848 tok/s | vram 2.6/7.2 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+    runpy.run_path(script, run_name="__main__")
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1635, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1617, in main
+    _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 483, in _save_ckpt
+    "opt_states": [_to_cpu(o.state_dict(), ("opt", i)) for i, o in enumerate(opts)],
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 417, in _to_cpu
+    pinned.copy_(obj)
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+terminate called after throwing an instance of 'c10::AcceleratorError'
+  what():  CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Exception raised from currentStreamCaptureStatusMayInitCtx at /pytorch/c10/cuda/CUDAGraphsC10Utils.h:71 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x9d (0x76e8d1d7205d in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xc114 (0x76e8d20d8114 in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libc10_cuda.so)
+frame #2: <unknown function> + 0xf146be (0x76e7c2b146be in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: <unknown function> + 0x7f8e4 (0x76e8d1d538e4 in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #4: c10::TensorImpl::~TensorImpl() + 0x9 (0x76e8d1d4d279 in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #5: <unknown function> + 0x869d55 (0x76e80d669d55 in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x869df1 (0x76e80d669df1 in /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #7: /home/glenn/projects/bdh/venv/bin/python() [0x59edb3]
+frame #8: /home/glenn/projects/bdh/venv/bin/python() [0x55b694]
+frame #9: /home/glenn/projects/bdh/venv/bin/python() [0x5793c2]
+frame #10: /home/glenn/projects/bdh/venv/bin/python() [0x59ec59]
+frame #11: /home/glenn/projects/bdh/venv/bin/python() [0x54c7b5]
+frame #12: /home/glenn/projects/bdh/venv/bin/python() [0x558cd1]
+frame #13: /home/glenn/projects/bdh/venv/bin/python() [0x6105f5]
+frame #14: /home/glenn/projects/bdh/venv/bin/python() [0x610605]
+frame #15: /home/glenn/projects/bdh/venv/bin/python() [0x610605]
+frame #16: /home/glenn/projects/bdh/venv/bin/python() [0x610605]
+frame #17: /home/glenn/projects/bdh/venv/bin/python() [0x610605]
+frame #18: /home/glenn/projects/bdh/venv/bin/python() [0x610605]
+frame #19: /home/glenn/projects/bdh/venv/bin/python() [0x572d66]
+frame #20: PyDict_SetItemString + 0x94 (0x5741d4 in /home/glenn/projects/bdh/venv/bin/python)
+frame #21: /home/glenn/projects/bdh/venv/bin/python() [0x6b8305]
+frame #22: /home/glenn/projects/bdh/venv/bin/python() [0x6b1a62]
+frame #23: Py_FinalizeEx + 0xad (0x6b114d in /home/glenn/projects/bdh/venv/bin/python)
+frame #24: Py_RunMain + 0x281 (0x6bcb01 in /home/glenn/projects/bdh/venv/bin/python)
+frame #25: Py_BytesMain + 0x2d (0x6bc71d in /home/glenn/projects/bdh/venv/bin/python)
+frame #26: <unknown function> + 0x2a1ca (0x76e8d2a2a1ca in /lib/x86_64-linux-gnu/libc.so.6)
+frame #27: __libc_start_main + 0x8b (0x76e8d2a2a28b in /lib/x86_64-linux-gnu/libc.so.6)
+frame #28: _start + 0x25 (0x657bc5 in /home/glenn/projects/bdh/venv/bin/python)
+
+timeout: the monitored command dumped core

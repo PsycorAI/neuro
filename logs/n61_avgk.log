@@ -1,0 +1,341 @@
+[avgk 10-14 10:28:32] waiting for 222k to be pinned (health done)
+[avgk] held by Neuro 61 for the literature check (Glenn 10-14)
+[avgk 10-14 10:33:08] waiting for 222k to be pinned (health done)
+[avgk 10-14 10:49:38] arm 1: models/checkpoints/v4_lawa_keep/step_0222000.pt
+[OK] avgk1: average of 1: ['step_0222000.pt@1.0']
+avgk1                      C=1024 T=2048 | chunk1   22.38 (mem off   22.45) | chunks2+   20.42 (off   21.16, Δ +0.74) | first64 of 2+   33.43 (off   44.76, Δ +11.33) vs first64 of chunk1   38.10
+RuntimeError: CUDA driver error: device not ready
+avgk1   rate      mean|s| 0.0071 | fire share 0.0071 | positive share of spikes 0.51
+avgk1   per token active neurons mean 57.9 | median 48 | 5% 21 | 95% 129 | tokens with none 0.0% | with fewer than 3 0.0%
+avgk1   per neuron dead 1.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4811 of 8192 (58.7%)
+avgk1 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.468 | new row RMS 0.0012
+avgk1 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.463 | new row RMS 0.0038
+avgk1 blk 2: 12288 units | dead 2559 (20.8%) | of those erased 20.9% | live fire share 0.456 | new row RMS 0.0038
+avgk1 blk 3: 12288 units | dead 1700 (13.8%) | of those erased 17.8% | live fire share 0.482 | new row RMS 0.0038
+avgk1 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0038
+avgk1 blk 5: 12288 units | dead 1355 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0038
+avgk1 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.090 | new row RMS 0.0064
+avgk1 blk 8: 12288 units | dead 159 (1.3%) | of those erased 30.2% | live fire share 0.145 | new row RMS 0.0077
+avgk1 blk 9: 12288 units | dead 154 (1.3%) | of those erased 50.0% | live fire share 0.123 | new row RMS 0.0079
+avgk1 blk10: 12288 units | dead 49 (0.4%) | of those erased 53.1% | live fire share 0.100 | new row RMS 0.0075
+avgk1 blk11: 12288 units | dead 14 (0.1%) | of those erased 42.9% | live fire share 0.103 | new row RMS 0.0071
+avgk1 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.157 | new row RMS 0.0069
+avgk1                        energy-v2 | weight reads 649.6M of 1008.3M (64%) | compute only 1.55x (3104 vs 4812 uJ) | +SRAM fetch 1.54x (4822 vs 7427 uJ) | +DRAM fetch 1.55x (211067 vs 327574 uJ)
+avgk1   hellaswag      | acc  35.4%  acc_norm  36.2%  (N=500, chance=25%, 180.3s)
+avgk1   arc_easy       | acc  48.8%  acc_norm  41.4%  (N=500, chance=25%, 179.7s)
+avgk1   hellaswag      acc  35.4%  acc_norm  36.2%  (N=500)
+avgk1   arc_easy       acc  48.8%  acc_norm  41.4%  (N=500)
+[avgk 10-14 11:00:46] arm 2: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt
+[OK] avgk2: average of 2: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0']
+avgk2                      C=1024 T=2048 | chunk1   20.89 (mem off   20.94) | chunks2+   19.00 (off   19.68, Δ +0.68) | first64 of 2+   30.45 (off   41.64, Δ +11.20) vs first64 of chunk1   35.64
+RuntimeError: CUDA driver error: device not ready
+avgk2   rate      mean|s| 0.0053 | fire share 0.0053 | positive share of spikes 0.51
+avgk2   per token active neurons mean 43.6 | median 34 | 5% 14 | 95% 106 | tokens with none 0.0% | with fewer than 3 0.0%
+avgk2   per neuron dead 2.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4603 of 8192 (56.2%)
+avgk2 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.456 | new row RMS 0.0013
+avgk2 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.463 | new row RMS 0.0035
+avgk2 blk 2: 12288 units | dead 2558 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0035
+avgk2 blk 3: 12288 units | dead 1704 (13.9%) | of those erased 18.0% | live fire share 0.482 | new row RMS 0.0035
+avgk2 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0035
+avgk2 blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0035
+avgk2 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.070 | new row RMS 0.0062
+avgk2 blk 8: 12288 units | dead 194 (1.6%) | of those erased 29.4% | live fire share 0.137 | new row RMS 0.0075
+avgk2 blk 9: 12288 units | dead 180 (1.5%) | of those erased 52.8% | live fire share 0.117 | new row RMS 0.0077
+avgk2 blk10: 12288 units | dead 69 (0.6%) | of those erased 66.7% | live fire share 0.093 | new row RMS 0.0073
+avgk2 blk11: 12288 units | dead 15 (0.1%) | of those erased 40.0% | live fire share 0.094 | new row RMS 0.0070
+avgk2 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.147 | new row RMS 0.0067
+avgk2                        energy-v2 | weight reads 648.0M of 1008.3M (64%) | compute only 1.55x (3097 vs 4812 uJ) | +SRAM fetch 1.54x (4811 vs 7427 uJ) | +DRAM fetch 1.56x (210543 vs 327574 uJ)
+avgk2   hellaswag      | acc  33.6%  acc_norm  34.4%  (N=500, chance=25%, 159.0s)
+avgk2   arc_easy       | acc  49.6%  acc_norm  43.0%  (N=500, chance=25%, 167.1s)
+avgk2   hellaswag      acc  33.6%  acc_norm  34.4%  (N=500)
+avgk2   arc_easy       acc  49.6%  acc_norm  43.0%  (N=500)
+[avgk 10-14 11:10:51] arm 3: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt
+[OK] avgk3: average of 3: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0']
+avgk3                      C=1024 T=2048 | chunk1   20.68 (mem off   20.73) | chunks2+   18.82 (off   19.46, Δ +0.64) | first64 of 2+   29.79 (off   40.78, Δ +10.99) vs first64 of chunk1   35.19
+RuntimeError: CUDA driver error: device not ready
+avgk3   rate      mean|s| 0.0041 | fire share 0.0041 | positive share of spikes 0.51
+avgk3   per token active neurons mean 33.4 | median 24 | 5% 8 | 95% 87 | tokens with none 0.0% | with fewer than 3 0.2%
+avgk3   per neuron dead 4.5% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4348 of 8192 (53.1%)
+avgk3 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.440 | new row RMS 0.0013
+avgk3 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.459 | new row RMS 0.0033
+avgk3 blk 2: 12288 units | dead 2554 (20.8%) | of those erased 20.7% | live fire share 0.456 | new row RMS 0.0033
+avgk3 blk 3: 12288 units | dead 1715 (14.0%) | of those erased 18.5% | live fire share 0.481 | new row RMS 0.0033
+avgk3 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0033
+avgk3 blk 5: 12288 units | dead 1354 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0033
+avgk3 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.058 | new row RMS 0.0061
+avgk3 blk 8: 12288 units | dead 218 (1.8%) | of those erased 27.5% | live fire share 0.132 | new row RMS 0.0074
+avgk3 blk 9: 12288 units | dead 208 (1.7%) | of those erased 53.8% | live fire share 0.112 | new row RMS 0.0076
+avgk3 blk10: 12288 units | dead 78 (0.6%) | of those erased 69.2% | live fire share 0.088 | new row RMS 0.0072
+avgk3 blk11: 12288 units | dead 18 (0.1%) | of those erased 55.6% | live fire share 0.088 | new row RMS 0.0070
+avgk3 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.140 | new row RMS 0.0067
+avgk3                        energy-v2 | weight reads 647.3M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4807 vs 7427 uJ) | +DRAM fetch 1.56x (210321 vs 327574 uJ)
+avgk3   hellaswag      | acc  33.6%  acc_norm  35.2%  (N=500, chance=25%, 174.4s)
+avgk3   arc_easy       | acc  50.4%  acc_norm  42.4%  (N=500, chance=25%, 167.2s)
+avgk3   hellaswag      acc  33.6%  acc_norm  35.2%  (N=500)
+avgk3   arc_easy       acc  50.4%  acc_norm  42.4%  (N=500)
+[avgk 10-14 11:22:20] arm 4: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt
+[OK] avgk4: average of 4: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0']
+avgk4                      C=1024 T=2048 | chunk1   20.80 (mem off   20.84) | chunks2+   18.94 (off   19.55, Δ +0.61) | first64 of 2+   30.23 (off   41.15, Δ +10.92) vs first64 of chunk1   35.33
+RuntimeError: CUDA driver error: device not ready
+avgk4   rate      mean|s| 0.0033 | fire share 0.0033 | positive share of spikes 0.51
+avgk4   per token active neurons mean 27.2 | median 19 | 5% 6 | 95% 74 | tokens with none 0.0% | with fewer than 3 0.4%
+avgk4   per neuron dead 7.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4078 of 8192 (49.8%)
+avgk4 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.432 | new row RMS 0.0013
+avgk4 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.454 | new row RMS 0.0031
+avgk4 blk 2: 12288 units | dead 2550 (20.8%) | of those erased 20.6% | live fire share 0.456 | new row RMS 0.0031
+avgk4 blk 3: 12288 units | dead 1718 (14.0%) | of those erased 18.7% | live fire share 0.481 | new row RMS 0.0031
+avgk4 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0031
+avgk4 blk 5: 12288 units | dead 1354 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0031
+avgk4 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.051 | new row RMS 0.0060
+avgk4 blk 8: 12288 units | dead 246 (2.0%) | of those erased 25.2% | live fire share 0.129 | new row RMS 0.0073
+avgk4 blk 9: 12288 units | dead 223 (1.8%) | of those erased 53.8% | live fire share 0.108 | new row RMS 0.0076
+avgk4 blk10: 12288 units | dead 98 (0.8%) | of those erased 72.4% | live fire share 0.084 | new row RMS 0.0072
+avgk4 blk11: 12288 units | dead 23 (0.2%) | of those erased 56.5% | live fire share 0.084 | new row RMS 0.0070
+avgk4 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.133 | new row RMS 0.0068
+avgk4                        energy-v2 | weight reads 647.2M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4806 vs 7427 uJ) | +DRAM fetch 1.56x (210288 vs 327574 uJ)
+avgk4   hellaswag      | acc  32.8%  acc_norm  36.8%  (N=500, chance=25%, 180.1s)
+avgk4   arc_easy       | acc  51.0%  acc_norm  42.2%  (N=500, chance=25%, 175.5s)
+avgk4   hellaswag      acc  32.8%  acc_norm  36.8%  (N=500)
+avgk4   arc_easy       acc  51.0%  acc_norm  42.2%  (N=500)
+[avgk 10-14 11:39:55] arm 5: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt
+[OK] avgk5: average of 5: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0', 'step_0193500.pt@1.0']
+avgk5                      C=1024 T=2048 | chunk1   20.95 (mem off   20.97) | chunks2+   19.15 (off   19.69, Δ +0.54) | first64 of 2+   31.29 (off   41.44, Δ +10.15) vs first64 of chunk1   35.31
+RuntimeError: CUDA driver error: device not ready
+avgk5   rate      mean|s| 0.0027 | fire share 0.0027 | positive share of spikes 0.51
+avgk5   per token active neurons mean 22.0 | median 15 | 5% 4 | 95% 60 | tokens with none 0.1% | with fewer than 3 1.3%
+avgk5   per neuron dead 12.5% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3699 of 8192 (45.2%)
+avgk5 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.422 | new row RMS 0.0013
+avgk5 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.450 | new row RMS 0.0030
+avgk5 blk 2: 12288 units | dead 2566 (20.9%) | of those erased 21.1% | live fire share 0.455 | new row RMS 0.0030
+avgk5 blk 3: 12288 units | dead 1707 (13.9%) | of those erased 18.7% | live fire share 0.479 | new row RMS 0.0030
+avgk5 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0030
+avgk5 blk 5: 12288 units | dead 1356 (11.0%) | of those erased 38.9% | live fire share 0.402 | new row RMS 0.0030
+avgk5 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.044 | new row RMS 0.0059
+avgk5 blk 8: 12288 units | dead 276 (2.2%) | of those erased 24.3% | live fire share 0.125 | new row RMS 0.0073
+avgk5 blk 9: 12288 units | dead 256 (2.1%) | of those erased 59.4% | live fire share 0.105 | new row RMS 0.0075
+avgk5 blk10: 12288 units | dead 104 (0.8%) | of those erased 75.0% | live fire share 0.081 | new row RMS 0.0072
+avgk5 blk11: 12288 units | dead 25 (0.2%) | of those erased 64.0% | live fire share 0.080 | new row RMS 0.0070
+avgk5 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0068
+avgk5                        energy-v2 | weight reads 647.2M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4806 vs 7427 uJ) | +DRAM fetch 1.56x (210280 vs 327574 uJ)
+avgk5   hellaswag      | acc  33.8%  acc_norm  35.6%  (N=500, chance=25%, 161.2s)
+avgk5   arc_easy       | acc  51.2%  acc_norm  42.2%  (N=500, chance=25%, 157.4s)
+avgk5   hellaswag      acc  33.8%  acc_norm  35.6%  (N=500)
+avgk5   arc_easy       acc  51.2%  acc_norm  42.2%  (N=500)
+[avgk 10-14 12:08:43] arm 6: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt models/checkpoints/v4_base180/step_0180000.pt
+[OK] avgk6: average of 6: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0', 'step_0193500.pt@1.0', 'step_0180000.pt@1.0']
+avgk6                      C=1024 T=2048 | chunk1   21.38 (mem off   21.40) | chunks2+   19.65 (off   20.09, Δ +0.44) | first64 of 2+   33.52 (off   42.71, Δ +9.19) vs first64 of chunk1   36.17
+RuntimeError: CUDA driver error: device not ready
+avgk6   rate      mean|s| 0.0018 | fire share 0.0018 | positive share of spikes 0.52
+avgk6   per token active neurons mean 15.0 | median 10 | 5% 2 | 95% 40 | tokens with none 0.5% | with fewer than 3 5.2%
+avgk6   per neuron dead 24.7% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 2980 of 8192 (36.4%)
+avgk6 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.417 | new row RMS 0.0012
+avgk6 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.447 | new row RMS 0.0029
+avgk6 blk 2: 12288 units | dead 2571 (20.9%) | of those erased 21.2% | live fire share 0.454 | new row RMS 0.0029
+avgk6 blk 3: 12288 units | dead 1995 (16.2%) | of those erased 30.3% | live fire share 0.457 | new row RMS 0.0029
+avgk6 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0029
+avgk6 blk 5: 12288 units | dead 1366 (11.1%) | of those erased 39.2% | live fire share 0.402 | new row RMS 0.0029
+avgk6 blk 7: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.037 | new row RMS 0.0058
+avgk6 blk 8: 12288 units | dead 324 (2.6%) | of those erased 23.5% | live fire share 0.121 | new row RMS 0.0071
+avgk6 blk 9: 12288 units | dead 295 (2.4%) | of those erased 63.1% | live fire share 0.100 | new row RMS 0.0074
+avgk6 blk10: 12288 units | dead 133 (1.1%) | of those erased 79.7% | live fire share 0.076 | new row RMS 0.0072
+avgk6 blk11: 12288 units | dead 26 (0.2%) | of those erased 53.8% | live fire share 0.075 | new row RMS 0.0070
+avgk6 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.108 | new row RMS 0.0068
+avgk6                        energy-v2 | weight reads 646.6M of 1008.3M (64%) | compute only 1.56x (3092 vs 4812 uJ) | +SRAM fetch 1.55x (4803 vs 7427 uJ) | +DRAM fetch 1.56x (210103 vs 327574 uJ)
+avgk6   hellaswag      | acc  33.8%  acc_norm  35.8%  (N=500, chance=25%, 162.6s)
+avgk6   arc_easy       | acc  49.8%  acc_norm  41.4%  (N=500, chance=25%, 157.1s)
+avgk6   hellaswag      acc  33.8%  acc_norm  35.8%  (N=500)
+avgk6   arc_easy       acc  49.8%  acc_norm  41.4%  (N=500)
+[avgk 10-14 12:32:14] arm 7: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt models/checkpoints/v4_base180/step_0180000.pt models/checkpoints/v4_base172/step_0172500.pt
+[OK] avgk7: average of 7: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0', 'step_0193500.pt@1.0', 'step_0180000.pt@1.0', 'step_0172500.pt@1.0']
+avgk7                      C=1024 T=2048 | chunk1   21.82 (mem off   21.83) | chunks2+   20.13 (off   20.49, Δ +0.36) | first64 of 2+   36.08 (off   44.06, Δ +7.98) vs first64 of chunk1   36.75
+RuntimeError: CUDA driver error: device not ready
+avgk7   rate      mean|s| 0.0014 | fire share 0.0014 | positive share of spikes 0.53
+avgk7   per token active neurons mean 11.5 | median 8 | 5% 2 | 95% 31 | tokens with none 1.1% | with fewer than 3 9.1%
+avgk7   per neuron dead 39.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 2252 of 8192 (27.5%)
+avgk7 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.417 | new row RMS 0.0012
+avgk7 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.445 | new row RMS 0.0029
+avgk7 blk 2: 12288 units | dead 2578 (21.0%) | of those erased 21.4% | live fire share 0.453 | new row RMS 0.0029
+avgk7 blk 3: 12288 units | dead 2277 (18.5%) | of those erased 38.8% | live fire share 0.445 | new row RMS 0.0029
+avgk7 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0029
+avgk7 blk 5: 12288 units | dead 1366 (11.1%) | of those erased 39.0% | live fire share 0.401 | new row RMS 0.0029
+avgk7 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.032 | new row RMS 0.0057
+avgk7 blk 8: 12288 units | dead 372 (3.0%) | of those erased 25.3% | live fire share 0.119 | new row RMS 0.0071
+avgk7 blk 9: 12288 units | dead 332 (2.7%) | of those erased 66.0% | live fire share 0.095 | new row RMS 0.0074
+avgk7 blk10: 12288 units | dead 153 (1.2%) | of those erased 81.0% | live fire share 0.072 | new row RMS 0.0072
+avgk7 blk11: 12288 units | dead 33 (0.3%) | of those erased 63.6% | live fire share 0.071 | new row RMS 0.0071
+avgk7 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.100 | new row RMS 0.0068
+avgk7                        energy-v2 | weight reads 646.4M of 1008.3M (64%) | compute only 1.56x (3091 vs 4812 uJ) | +SRAM fetch 1.55x (4801 vs 7427 uJ) | +DRAM fetch 1.56x (210046 vs 327574 uJ)
+avgk7   hellaswag      | acc  34.2%  acc_norm  36.2%  (N=500, chance=25%, 170.6s)
+avgk7   arc_easy       | acc  49.0%  acc_norm  41.2%  (N=500, chance=25%, 169.6s)
+avgk7   hellaswag      acc  34.2%  acc_norm  36.2%  (N=500)
+avgk7   arc_easy       acc  49.0%  acc_norm  41.2%  (N=500)
+[avgk 10-14 12:57:57] arm s3: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt
+[OK] avgks3: average of 3: ['step_0222000.pt@1.0', 'step_0207000.pt@1.0', 'step_0193500.pt@1.0']
+avgks3                     C=1024 T=2048 | chunk1   21.26 (mem off   21.29) | chunks2+   19.51 (off   20.04, Δ +0.53) | first64 of 2+   32.17 (off   42.04, Δ +9.87) vs first64 of chunk1   35.65
+RuntimeError: CUDA driver error: device not ready
+avgks3   rate      mean|s| 0.0027 | fire share 0.0027 | positive share of spikes 0.52
+avgks3   per token active neurons mean 21.8 | median 16 | 5% 5 | 95% 56 | tokens with none 0.1% | with fewer than 3 1.0%
+avgks3   per neuron dead 14.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3524 of 8192 (43.0%)
+avgks3 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.424 | new row RMS 0.0013
+avgks3 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.450 | new row RMS 0.0030
+avgks3 blk 2: 12288 units | dead 2568 (20.9%) | of those erased 21.1% | live fire share 0.454 | new row RMS 0.0030
+avgks3 blk 3: 12288 units | dead 1696 (13.8%) | of those erased 19.1% | live fire share 0.478 | new row RMS 0.0030
+avgks3 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0030
+avgks3 blk 5: 12288 units | dead 1361 (11.1%) | of those erased 39.2% | live fire share 0.402 | new row RMS 0.0030
+avgks3 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.044 | new row RMS 0.0059
+avgks3 blk 8: 12288 units | dead 264 (2.1%) | of those erased 25.4% | live fire share 0.125 | new row RMS 0.0073
+avgks3 blk 9: 12288 units | dead 260 (2.1%) | of those erased 61.5% | live fire share 0.104 | new row RMS 0.0075
+avgks3 blk10: 12288 units | dead 106 (0.9%) | of those erased 76.4% | live fire share 0.082 | new row RMS 0.0072
+avgks3 blk11: 12288 units | dead 23 (0.2%) | of those erased 60.9% | live fire share 0.081 | new row RMS 0.0071
+avgks3 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0068
+avgks3                       energy-v2 | weight reads 647.2M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4807 vs 7427 uJ) | +DRAM fetch 1.56x (210297 vs 327574 uJ)
+avgks3   hellaswag      | acc  34.6%  acc_norm  37.0%  (N=500, chance=25%, 163.5s)
+avgks3   arc_easy       | acc  49.6%  acc_norm  42.6%  (N=500, chance=25%, 157.9s)
+avgks3   hellaswag      acc  34.6%  acc_norm  37.0%  (N=500)
+avgks3   arc_easy       acc  49.6%  acc_norm  42.6%  (N=500)
+[avgk 10-14 13:39:27] no GPU-1 lock in 30 min
+[avgk 10-14 16:17:39] waiting for 222k to be pinned (health done)
+[avgk 10-14 16:39:23] arm 1: models/checkpoints/v4_lawa_keep/step_0222000.pt
+[OK] avgk1: average of 1: ['step_0222000.pt@1.0']
+avgk1                      C=1024 T=2048 | chunk1   22.38 (mem off   22.45) | chunks2+   20.42 (off   21.16, Δ +0.74) | first64 of 2+   33.43 (off   44.76, Δ +11.33) vs first64 of chunk1   38.10
+RuntimeError: CUDA driver error: device not ready
+avgk1   rate      mean|s| 0.0071 | fire share 0.0071 | positive share of spikes 0.51
+avgk1   per token active neurons mean 57.9 | median 48 | 5% 21 | 95% 129 | tokens with none 0.0% | with fewer than 3 0.0%
+avgk1   per neuron dead 1.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4811 of 8192 (58.7%)
+avgk1 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.468 | new row RMS 0.0012
+avgk1 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.463 | new row RMS 0.0038
+avgk1 blk 2: 12288 units | dead 2559 (20.8%) | of those erased 20.9% | live fire share 0.456 | new row RMS 0.0038
+avgk1 blk 3: 12288 units | dead 1700 (13.8%) | of those erased 17.8% | live fire share 0.482 | new row RMS 0.0038
+avgk1 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0038
+avgk1 blk 5: 12288 units | dead 1355 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0038
+avgk1 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.090 | new row RMS 0.0064
+avgk1 blk 8: 12288 units | dead 159 (1.3%) | of those erased 30.2% | live fire share 0.145 | new row RMS 0.0077
+avgk1 blk 9: 12288 units | dead 154 (1.3%) | of those erased 50.0% | live fire share 0.123 | new row RMS 0.0079
+avgk1 blk10: 12288 units | dead 49 (0.4%) | of those erased 53.1% | live fire share 0.100 | new row RMS 0.0075
+avgk1 blk11: 12288 units | dead 14 (0.1%) | of those erased 42.9% | live fire share 0.103 | new row RMS 0.0071
+avgk1 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.157 | new row RMS 0.0069
+avgk1                        energy-v2 | weight reads 649.6M of 1008.3M (64%) | compute only 1.55x (3104 vs 4812 uJ) | +SRAM fetch 1.54x (4822 vs 7427 uJ) | +DRAM fetch 1.55x (211067 vs 327574 uJ)
+avgk1   hellaswag      | acc  35.4%  acc_norm  36.2%  (N=500, chance=25%, 146.6s)
+avgk1   arc_easy       | acc  48.8%  acc_norm  41.4%  (N=500, chance=25%, 136.2s)
+avgk1   hellaswag      acc  35.4%  acc_norm  36.2%  (N=500)
+avgk1   arc_easy       acc  48.8%  acc_norm  41.4%  (N=500)
+[avgk 10-14 17:51:19] arm 2: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt
+[OK] avgk2: average of 2: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0']
+avgk2                      C=1024 T=2048 | chunk1   20.89 (mem off   20.94) | chunks2+   19.00 (off   19.68, Δ +0.68) | first64 of 2+   30.45 (off   41.64, Δ +11.20) vs first64 of chunk1   35.64
+RuntimeError: CUDA driver error: device not ready
+avgk2   rate      mean|s| 0.0053 | fire share 0.0053 | positive share of spikes 0.51
+avgk2   per token active neurons mean 43.6 | median 34 | 5% 14 | 95% 106 | tokens with none 0.0% | with fewer than 3 0.0%
+avgk2   per neuron dead 2.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4603 of 8192 (56.2%)
+avgk2 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.456 | new row RMS 0.0013
+avgk2 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.463 | new row RMS 0.0035
+avgk2 blk 2: 12288 units | dead 2558 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0035
+avgk2 blk 3: 12288 units | dead 1704 (13.9%) | of those erased 18.0% | live fire share 0.482 | new row RMS 0.0035
+avgk2 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0035
+avgk2 blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0035
+avgk2 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.070 | new row RMS 0.0062
+avgk2 blk 8: 12288 units | dead 194 (1.6%) | of those erased 29.4% | live fire share 0.137 | new row RMS 0.0075
+avgk2 blk 9: 12288 units | dead 180 (1.5%) | of those erased 52.8% | live fire share 0.117 | new row RMS 0.0077
+avgk2 blk10: 12288 units | dead 69 (0.6%) | of those erased 66.7% | live fire share 0.093 | new row RMS 0.0073
+avgk2 blk11: 12288 units | dead 15 (0.1%) | of those erased 40.0% | live fire share 0.094 | new row RMS 0.0070
+avgk2 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.147 | new row RMS 0.0067
+avgk2                        energy-v2 | weight reads 648.0M of 1008.3M (64%) | compute only 1.55x (3097 vs 4812 uJ) | +SRAM fetch 1.54x (4811 vs 7427 uJ) | +DRAM fetch 1.56x (210543 vs 327574 uJ)
+avgk2   hellaswag      | acc  33.6%  acc_norm  34.4%  (N=500, chance=25%, 171.6s)
+avgk2   arc_easy       | acc  49.6%  acc_norm  43.0%  (N=500, chance=25%, 163.8s)
+avgk2   hellaswag      acc  33.6%  acc_norm  34.4%  (N=500)
+avgk2   arc_easy       acc  49.6%  acc_norm  43.0%  (N=500)
+[avgk 10-14 18:06:56] arm 3: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt
+[OK] avgk3: average of 3: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0']
+avgk3                      C=1024 T=2048 | chunk1   20.68 (mem off   20.73) | chunks2+   18.82 (off   19.46, Δ +0.64) | first64 of 2+   29.79 (off   40.78, Δ +10.99) vs first64 of chunk1   35.19
+RuntimeError: CUDA driver error: device not ready
+avgk3   rate      mean|s| 0.0041 | fire share 0.0041 | positive share of spikes 0.51
+avgk3   per token active neurons mean 33.4 | median 24 | 5% 8 | 95% 87 | tokens with none 0.0% | with fewer than 3 0.2%
+avgk3   per neuron dead 4.5% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4348 of 8192 (53.1%)
+avgk3 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.440 | new row RMS 0.0013
+avgk3 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.459 | new row RMS 0.0033
+avgk3 blk 2: 12288 units | dead 2554 (20.8%) | of those erased 20.7% | live fire share 0.456 | new row RMS 0.0033
+avgk3 blk 3: 12288 units | dead 1715 (14.0%) | of those erased 18.5% | live fire share 0.481 | new row RMS 0.0033
+avgk3 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0033
+avgk3 blk 5: 12288 units | dead 1354 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0033
+avgk3 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.058 | new row RMS 0.0061
+avgk3 blk 8: 12288 units | dead 218 (1.8%) | of those erased 27.5% | live fire share 0.132 | new row RMS 0.0074
+avgk3 blk 9: 12288 units | dead 208 (1.7%) | of those erased 53.8% | live fire share 0.112 | new row RMS 0.0076
+avgk3 blk10: 12288 units | dead 78 (0.6%) | of those erased 69.2% | live fire share 0.088 | new row RMS 0.0072
+avgk3 blk11: 12288 units | dead 18 (0.1%) | of those erased 55.6% | live fire share 0.088 | new row RMS 0.0070
+avgk3 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.140 | new row RMS 0.0067
+avgk3                        energy-v2 | weight reads 647.3M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4807 vs 7427 uJ) | +DRAM fetch 1.56x (210321 vs 327574 uJ)
+avgk3   hellaswag      | acc  33.6%  acc_norm  35.2%  (N=500, chance=25%, 171.3s)
+avgk3   arc_easy       | acc  50.4%  acc_norm  42.4%  (N=500, chance=25%, 172.2s)
+avgk3   hellaswag      acc  33.6%  acc_norm  35.2%  (N=500)
+avgk3   arc_easy       acc  50.4%  acc_norm  42.4%  (N=500)
+[avgk 10-14 18:24:26] arm 4: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt
+[OK] avgk4: average of 4: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0']
+avgk4                      C=1024 T=2048 | chunk1   20.80 (mem off   20.84) | chunks2+   18.94 (off   19.55, Δ +0.61) | first64 of 2+   30.23 (off   41.15, Δ +10.92) vs first64 of chunk1   35.33
+RuntimeError: CUDA driver error: device not ready
+avgk4   rate      mean|s| 0.0033 | fire share 0.0033 | positive share of spikes 0.51
+avgk4   per token active neurons mean 27.2 | median 19 | 5% 6 | 95% 74 | tokens with none 0.0% | with fewer than 3 0.4%
+avgk4   per neuron dead 7.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4078 of 8192 (49.8%)
+avgk4 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.432 | new row RMS 0.0013
+avgk4 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.454 | new row RMS 0.0031
+avgk4 blk 2: 12288 units | dead 2550 (20.8%) | of those erased 20.6% | live fire share 0.456 | new row RMS 0.0031
+avgk4 blk 3: 12288 units | dead 1718 (14.0%) | of those erased 18.7% | live fire share 0.481 | new row RMS 0.0031
+avgk4 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0031
+avgk4 blk 5: 12288 units | dead 1354 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0031
+avgk4 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.051 | new row RMS 0.0060
+avgk4 blk 8: 12288 units | dead 246 (2.0%) | of those erased 25.2% | live fire share 0.129 | new row RMS 0.0073
+avgk4 blk 9: 12288 units | dead 223 (1.8%) | of those erased 53.8% | live fire share 0.108 | new row RMS 0.0076
+avgk4 blk10: 12288 units | dead 98 (0.8%) | of those erased 72.4% | live fire share 0.084 | new row RMS 0.0072
+avgk4 blk11: 12288 units | dead 23 (0.2%) | of those erased 56.5% | live fire share 0.084 | new row RMS 0.0070
+avgk4 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.133 | new row RMS 0.0068
+avgk4                        energy-v2 | weight reads 647.2M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4806 vs 7427 uJ) | +DRAM fetch 1.56x (210288 vs 327574 uJ)
+avgk4   hellaswag      | acc  32.8%  acc_norm  36.8%  (N=500, chance=25%, 174.9s)
+avgk4   arc_easy       | acc  51.0%  acc_norm  42.2%  (N=500, chance=25%, 167.3s)
+avgk4   hellaswag      acc  32.8%  acc_norm  36.8%  (N=500)
+avgk4   arc_easy       acc  51.0%  acc_norm  42.2%  (N=500)
+[avgk 10-14 19:48:40] arm 5: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt
+[OK] avgk5: average of 5: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0', 'step_0193500.pt@1.0']
+avgk5                      C=1024 T=2048 | chunk1   20.95 (mem off   20.97) | chunks2+   19.15 (off   19.69, Δ +0.54) | first64 of 2+   31.29 (off   41.44, Δ +10.15) vs first64 of chunk1   35.31
+RuntimeError: CUDA driver error: device not ready
+avgk5   rate      mean|s| 0.0027 | fire share 0.0027 | positive share of spikes 0.51
+avgk5   per token active neurons mean 22.0 | median 15 | 5% 4 | 95% 60 | tokens with none 0.1% | with fewer than 3 1.3%
+avgk5   per neuron dead 12.5% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3699 of 8192 (45.2%)
+avgk5 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.422 | new row RMS 0.0013
+avgk5 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.450 | new row RMS 0.0030
+avgk5 blk 2: 12288 units | dead 2566 (20.9%) | of those erased 21.1% | live fire share 0.455 | new row RMS 0.0030
+avgk5 blk 3: 12288 units | dead 1707 (13.9%) | of those erased 18.7% | live fire share 0.479 | new row RMS 0.0030
+avgk5 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0030
+avgk5 blk 5: 12288 units | dead 1356 (11.0%) | of those erased 38.9% | live fire share 0.402 | new row RMS 0.0030
+avgk5 blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.044 | new row RMS 0.0059
+avgk5 blk 8: 12288 units | dead 276 (2.2%) | of those erased 24.3% | live fire share 0.125 | new row RMS 0.0073
+avgk5 blk 9: 12288 units | dead 256 (2.1%) | of those erased 59.4% | live fire share 0.105 | new row RMS 0.0075
+avgk5 blk10: 12288 units | dead 104 (0.8%) | of those erased 75.0% | live fire share 0.081 | new row RMS 0.0072
+avgk5 blk11: 12288 units | dead 25 (0.2%) | of those erased 64.0% | live fire share 0.080 | new row RMS 0.0070
+avgk5 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0068
+avgk5                        energy-v2 | weight reads 647.2M of 1008.3M (64%) | compute only 1.56x (3094 vs 4812 uJ) | +SRAM fetch 1.55x (4806 vs 7427 uJ) | +DRAM fetch 1.56x (210280 vs 327574 uJ)
+avgk5   hellaswag      | acc  33.8%  acc_norm  35.6%  (N=500, chance=25%, 189.7s)
+avgk5   arc_easy       | acc  51.2%  acc_norm  42.2%  (N=500, chance=25%, 162.7s)
+avgk5   hellaswag      acc  33.8%  acc_norm  35.6%  (N=500)
+avgk5   arc_easy       acc  51.2%  acc_norm  42.2%  (N=500)
+[avgk 10-14 20:08:14] arm 6: models/checkpoints/v4_lawa_keep/step_0222000.pt models/checkpoints/v4_lawa_keep/step_0214500.pt models/checkpoints/v4_lawa_keep/step_0207000.pt models/checkpoints/v4_lawa_keep/step_0201000.pt models/checkpoints/v4_lawa_keep/step_0193500.pt models/checkpoints/v4_base180/step_0180000.pt
+[OK] avgk6: average of 6: ['step_0222000.pt@1.0', 'step_0214500.pt@1.0', 'step_0207000.pt@1.0', 'step_0201000.pt@1.0', 'step_0193500.pt@1.0', 'step_0180000.pt@1.0']
+avgk6                      C=1024 T=2048 | chunk1   21.38 (mem off   21.40) | chunks2+   19.65 (off   20.09, Δ +0.44) | first64 of 2+   33.52 (off   42.71, Δ +9.19) vs first64 of chunk1   36.17
+RuntimeError: CUDA driver error: device not ready
+avgk6   rate      mean|s| 0.0018 | fire share 0.0018 | positive share of spikes 0.52
+avgk6   per token active neurons mean 15.0 | median 10 | 5% 2 | 95% 40 | tokens with none 0.5% | with fewer than 3 5.2%
+avgk6   per neuron dead 24.7% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 2980 of 8192 (36.4%)
+avgk6 blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.417 | new row RMS 0.0012
+avgk6 blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.447 | new row RMS 0.0029
+avgk6 blk 2: 12288 units | dead 2571 (20.9%) | of those erased 21.2% | live fire share 0.454 | new row RMS 0.0029
+avgk6 blk 3: 12288 units | dead 1995 (16.2%) | of those erased 30.3% | live fire share 0.457 | new row RMS 0.0029
+avgk6 blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0029
+avgk6 blk 5: 12288 units | dead 1366 (11.1%) | of those erased 39.2% | live fire share 0.402 | new row RMS 0.0029
+avgk6 blk 7: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.037 | new row RMS 0.0058
+avgk6 blk 8: 12288 units | dead 324 (2.6%) | of those erased 23.5% | live fire share 0.121 | new row RMS 0.0071
+avgk6 blk 9: 12288 units | dead 295 (2.4%) | of those erased 63.1% | live fire share 0.100 | new row RMS 0.0074
+avgk6 blk10: 12288 units | dead 133 (1.1%) | of those erased 79.7% | live fire share 0.076 | new row RMS 0.0072
+avgk6 blk11: 12288 units | dead 26 (0.2%) | of those erased 53.8% | live fire share 0.075 | new row RMS 0.0070
+avgk6 blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.108 | new row RMS 0.0068
+avgk6                        energy-v2 | weight reads 646.6M of 1008.3M (64%) | compute only 1.56x (3092 vs 4812 uJ) | +SRAM fetch 1.55x (4803 vs 7427 uJ) | +DRAM fetch 1.56x (210103 vs 327574 uJ)
+avgk6   hellaswag      | acc  33.8%  acc_norm  35.8%  (N=500, chance=25%, 160.1s)
+avgk6   arc_easy       | acc  49.8%  acc_norm  41.4%  (N=500, chance=25%, 152.3s)
+avgk6   hellaswag      acc  33.8%  acc_norm  35.8%  (N=500)
+avgk6   arc_easy       acc  49.8%  acc_norm  41.4%  (N=500)

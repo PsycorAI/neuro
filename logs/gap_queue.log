@@ -1743,3 +1743,628 @@
 [n54 10-11 15:12:03] 5080 chain: screen_p26zk_7L_RC3_sepbw_s2
 [s1 10-11 15:12:03] scheduler waiting for GPU 1 lock
 [s1 10-11 15:12:04] [screen_p26zk_7L_RC3_sepbw_s2] START
+[s1 10-11 18:55:15] [screen_p26zk_7L_RC3_sepbw_s2] exit=0 :: 236.80 146.49 98.39 72.91 64.65 60.06 
+  recall screen_p26zk_7L_RC3_sepbw_s2 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zk_7L_RC3_sepbw_s2 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-11 18:56:32] scheduler DONE
+  r25-evals screen_p26zk_7L_RC3_sepbw_s2 C=1024 T=2048 | chunk1   55.61 (mem off   62.02) | chunks2+   54.09 (off   61.64, Δ +7.54) | first64 of 2+   67.23 (off   84.50, Δ +17.27) vs first64 of chunk1   81.64
+  r25-evals screen_p26zk_7L_RC3_sepbw_s2 C=1024 xcopy top1 | none  30.7 | in-window  36.2 | beyond (memory)  28.7 | beyond mem-off  24.9
+[n54 10-11 18:57:32] [screen_p26zk_7L_RC3_sepbw_s2] evals DONE
+[n54 10-11 18:57:33] 5080 chain: screen_p26zl_7L_RC3_sepbw_s1
+[s1 10-11 18:57:33] scheduler waiting for GPU 1 lock
+[s1 10-11 18:57:33] [screen_p26zl_7L_RC3_sepbw_s1] START
+[s0 10-11 19:06:58] [r26z_13L_RC3_tok32k_150m] exit=0 :: 177.36 115.99 102.18 85.33 73.00 62.98 55.77 50.39 50.47 47.88 45.94 43.81 
+  recall r26z_13L_RC3_tok32k_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26z_13L_RC3_tok32k_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-11 19:07:52] scheduler DONE
+  r25-evals r26z_13L_RC3_tok32k_150m   C=1024 T=2048 | chunk1   42.92 (mem off   43.03) | chunks2+   41.46 (off   42.33, Δ +0.87) | first64 of 2+   56.18 (off   67.38, Δ +11.20) vs first64 of chunk1   66.41
+  r25-evals r26z_13L_RC3_tok32k_150m   C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  14.1) | N32: 100.0  99.2 100.0 100.0 (mem off   4.7)
+  r25-evals r26z_13L_RC3_tok32k_150m   C=1024 | K1 in@0  65.6 | K1 in@200  26.6 | K1 x@0   8.3 | K1 x@200   6.2 | K1 x@0 off   6.8 | K1 in@0 para  14.6 | K1 x@0 para   7.3 | K4 in@0  16.1 | K4 in@200  12.0 | K4 x@0   9.9 | K4 x@200   8.9 | K4 x@0 off   9.4 | K4 in@0 para  13.5 | K4 x@0 para   9.9
+  r25-evals r26z_13L_RC3_tok32k_150m     C=1024 xcopy top1 | none  34.0 | in-window  42.7 | beyond (memory)  26.9 | beyond mem-off  26.7
+[n54 10-11 19:13:07] [r26z_13L_RC3_tok32k_150m] evals + diagnostics DONE
+[n54 10-11 19:13:08] 5090 chain: r26y_13L_RC3_kdonly_150m
+[s0 10-11 19:13:08] scheduler waiting for GPU 0 lock
+[s0 10-11 19:13:08] [r26y_13L_RC3_kdonly_150m] RESUME
+[s1 10-11 21:47:34] [screen_p26zl_7L_RC3_sepbw_s1] exit=0 :: 242.53 145.47 97.27 71.58 63.78 59.16 
+  recall screen_p26zl_7L_RC3_sepbw_s1 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) screen_p26zl_7L_RC3_sepbw_s1 N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s1 10-11 21:48:39] scheduler DONE
+  r25-evals screen_p26zl_7L_RC3_sepbw_s1 C=1024 T=2048 | chunk1   55.00 (mem off   60.47) | chunks2+   53.37 (off   59.94, Δ +6.58) | first64 of 2+   67.93 (off   85.17, Δ +17.24) vs first64 of chunk1   81.45
+  r25-evals screen_p26zl_7L_RC3_sepbw_s1 C=1024 xcopy top1 | none  32.0 | in-window  38.1 | beyond (memory)  28.5 | beyond mem-off  24.8
+[n54 10-11 21:49:36] [screen_p26zl_7L_RC3_sepbw_s1] evals DONE
+[s0 10-11 22:55:43] [r26y_13L_RC3_kdonly_150m] exit=0 :: 41.13 39.10 37.71 36.59 35.65 
+  recall r26y_13L_RC3_kdonly_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r26y_13L_RC3_kdonly_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+[s0 10-11 22:56:46] scheduler DONE
+  r25-evals r26y_13L_RC3_kdonly_150m   C=1024 T=2048 | chunk1   34.14 (mem off   34.62) | chunks2+   32.73 (off   34.13, Δ +1.40) | first64 of 2+   41.44 (off   54.71, Δ +13.27) vs first64 of chunk1   55.49
+  r25-evals r26y_13L_RC3_kdonly_150m   C=1024 N8:  99.2 100.0 100.0 100.0 (mem off   9.4) | N32: 100.0 100.0 100.0 100.0 (mem off   4.7)
+  r25-evals r26y_13L_RC3_kdonly_150m   C=1024 | K1 in@0  95.8 | K1 in@200  58.3 | K1 x@0   7.8 | K1 x@200   6.2 | K1 x@0 off   7.8 | K1 in@0 para  28.1 | K1 x@0 para   5.7 | K4 in@0  19.8 | K4 in@200  15.1 | K4 x@0  12.5 | K4 x@200  14.1 | K4 x@0 off  10.4 | K4 in@0 para  11.5 | K4 x@0 para   9.9
+  r25-evals r26y_13L_RC3_kdonly_150m     C=1024 xcopy top1 | none  35.5 | in-window  47.5 | beyond (memory)  29.4 | beyond mem-off  28.2
+[n54 10-11 23:02:10] [r26y_13L_RC3_kdonly_150m] evals + diagnostics DONE
+[wd 10-11 23:51:40] watchdog exit (no queues left)
+[wd 10-12 12:29:08] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-12 12:29:08] watchdog exit (no queues left)
+[wd 10-12 12:30:44] watchdog started (min 2500 tok/s past step 1000, stall 40 min)
+[wd 10-12 13:55:52] watchdog started (min 2500 tok/s past step 1000, stall 40 min)
+[wd 10-12 13:59:16] watchdog started (min 2500 tok/s past step 1000, stall 40 min)
+[wd 10-12 14:07:08] watchdog started (min 2500 tok/s past step 1000, stall 40 min)
+[wd 10-13 14:23:01] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-14 21:44:08] watchdog exit (no queues left)
+[wd 10-16 22:26:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:26:43] watchdog exit (no queues left)
+[wd 10-16 22:28:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:28:43] watchdog exit (no queues left)
+[wd 10-16 22:30:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:30:44] watchdog exit (no queues left)
+[wd 10-16 22:32:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:32:44] watchdog exit (no queues left)
+[wd 10-16 22:34:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:34:44] watchdog exit (no queues left)
+[wd 10-16 22:36:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:36:45] watchdog exit (no queues left)
+[wd 10-16 22:38:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:38:45] watchdog exit (no queues left)
+[wd 10-16 22:40:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:40:45] watchdog exit (no queues left)
+[wd 10-16 22:42:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:42:45] watchdog exit (no queues left)
+[wd 10-16 22:44:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:44:46] watchdog exit (no queues left)
+[wd 10-16 22:46:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:46:46] watchdog exit (no queues left)
+[wd 10-16 22:48:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:48:46] watchdog exit (no queues left)
+[wd 10-16 22:50:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:50:46] watchdog exit (no queues left)
+[wd 10-16 22:54:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:54:47] watchdog exit (no queues left)
+[wd 10-16 22:56:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:56:47] watchdog exit (no queues left)
+[wd 10-16 22:58:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-16 22:58:48] watchdog exit (no queues left)
+[wd 10-17 00:39:03] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n67 g0 10-17 00:43:14] [r27a_13L_tfmr_dense_150m] START try 1
+[n67 g0 10-17 03:14:02] [r27a_13L_tfmr_dense_150m] exit=0 :: 47.12 45.20 43.86 42.49 
+  recall r27a_13L_tfmr_dense_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27a_13L_tfmr_dense_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: r27a_13L_tfmr_dense_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27a_13L_tfmr_dense_150m   C=1024 N8:  12.5  11.7  16.4  12.5 (mem off  12.5) | N32:   3.9   2.3   0.8   3.1 (mem off   3.9)
+  r25-evals r27a_13L_tfmr_dense_150m   C=1024 | K1 in@0  79.2 | K1 in@200  41.1 | K1 x@0   6.2 | K1 x@200   4.2 | K1 x@0 off   6.2 | K1 in@0 para  16.1 | K1 x@0 para   6.2 | K4 in@0  14.6 | K4 in@200  15.6 | K4 x@0   6.8 | K4 x@200   8.9 | K4 x@0 off   6.8 | K4 in@0 para  10.4 | K4 x@0 para   8.9
+  r25-evals r27a_13L_tfmr_dense_150m     C=1024 xcopy top1 | none  33.9 | in-window  44.8 | beyond (memory)  26.6 | beyond mem-off  26.6
+  [r27b_13L_tfmr_llamakd_150m] seed [OK] plain seed models/checkpoints/r27a_13L_tfmr_dense_150m/step_0012208.pt -> models/checkpoints/r27b_13L_tfmr_llamakd_150m @ step 12208 (no optimizer state)
+[n67 g0 10-17 03:16:36] [r27b_13L_tfmr_llamakd_150m] START try 1
+  r25-evals (T2048 rerun) r27a_13L_tfmr_dense_150m   C=1024 T=2048 | chunk1   41.09 (mem off   41.09) | chunks2+   40.48 (off   40.48, Δ +0.00) | first64 of 2+   63.57 (off   63.57, Δ +0.00) vs first64 of chunk1   63.61
+[n67 g0 10-17 05:14:51] [r27b_13L_tfmr_llamakd_150m] exit=0 :: 45.23 43.74 42.25 41.42 
+  recall r27b_13L_tfmr_llamakd_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27b_13L_tfmr_llamakd_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: r27b_13L_tfmr_llamakd_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27b_13L_tfmr_llamakd_150m C=1024 N8:  17.2  10.2  15.6  18.0 (mem off  17.2) | N32:   3.1   2.3   2.3   6.2 (mem off   3.1)
+  r25-evals r27b_13L_tfmr_llamakd_150m C=1024 | K1 in@0  82.8 | K1 in@200  50.5 | K1 x@0   7.3 | K1 x@200   5.7 | K1 x@0 off   7.3 | K1 in@0 para  22.4 | K1 x@0 para   4.2 | K4 in@0  13.5 | K4 in@200  16.7 | K4 x@0   7.8 | K4 x@200   7.8 | K4 x@0 off   7.8 | K4 in@0 para  12.5 | K4 x@0 para   9.4
+  r25-evals r27b_13L_tfmr_llamakd_150m   C=1024 xcopy top1 | none  34.1 | in-window  45.6 | beyond (memory)  27.1 | beyond mem-off  27.1
+[n67 g0 10-17 05:17:12] r27b_13L_tfmr_llamakd_150m queue DONE
+[wd 10-17 05:19:08] watchdog exit (no queues left)
+  r25-evals (T2048) r27b_13L_tfmr_llamakd_150m C=1024 T=2048 | chunk1   38.76 (mem off   38.76) | chunks2+   39.19 (off   39.19, Δ +0.00) | first64 of 2+   61.74 (off   61.74, Δ +0.00) vs first64 of chunk1   61.90
+[n67 g0 10-17 05:23:13] [r27c_13L_tfmr_dense_s1_150m] START try 1
+[wd 10-17 05:23:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n67 g0 10-17 07:35:30] [r27c_13L_tfmr_dense_s1_150m] exit=0 :: 46.26 44.74 42.58 41.54 
+  recall r27c_13L_tfmr_dense_s1_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27c_13L_tfmr_dense_s1_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0  99.6
+  r25-evals AssertionError: r27c_13L_tfmr_dense_s1_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27c_13L_tfmr_dense_s1_150m C=1024 N8:  10.9  10.9  11.7   7.0 (mem off  10.9) | N32:   3.9   4.7   3.9   2.3 (mem off   3.9)
+  r25-evals r27c_13L_tfmr_dense_s1_150m C=1024 | K1 in@0  98.4 | K1 in@200  69.8 | K1 x@0   4.7 | K1 x@200   4.2 | K1 x@0 off   4.7 | K1 in@0 para  12.5 | K1 x@0 para   5.2 | K4 in@0  21.9 | K4 in@200  17.2 | K4 x@0  10.4 | K4 x@200   7.3 | K4 x@0 off  10.4 | K4 in@0 para  15.1 | K4 x@0 para  10.9
+  r25-evals r27c_13L_tfmr_dense_s1_150m  C=1024 xcopy top1 | none  34.6 | in-window  47.4 | beyond (memory)  26.7 | beyond mem-off  26.7
+  [r27d_13L_tfmr_llamakd_s1_150m] seed [OK] plain seed models/checkpoints/r27c_13L_tfmr_dense_s1_150m/step_0012208.pt -> models/checkpoints/r27d_13L_tfmr_llamakd_s1_150m @ step 12208 (no optimizer state)
+[n67 g0 10-17 07:38:03] [r27d_13L_tfmr_llamakd_s1_150m] START try 1
+[n67 g0 10-17 14:15:44] [r27d_13L_tfmr_llamakd_s1_150m] START try 1
+[wd 10-17 14:17:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n67 g0 10-17 14:41:25] [r27d_13L_tfmr_llamakd_s1_150m] exit=0 :: 44.97 42.70 42.09 40.67 
+  recall r27d_13L_tfmr_llamakd_s1_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27d_13L_tfmr_llamakd_s1_150m N8:  99.6 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: r27d_13L_tfmr_llamakd_s1_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27d_13L_tfmr_llamakd_s1_150m C=1024 N8:  11.7  13.3  10.2   9.4 (mem off  11.7) | N32:   1.6   3.9   3.1   2.3 (mem off   1.6)
+  r25-evals r27d_13L_tfmr_llamakd_s1_150m C=1024 | K1 in@0  94.3 | K1 in@200  58.9 | K1 x@0   6.8 | K1 x@200   5.7 | K1 x@0 off   6.8 | K1 in@0 para  32.8 | K1 x@0 para   8.3 | K4 in@0  17.2 | K4 in@200  10.9 | K4 x@0   8.9 | K4 x@200   6.2 | K4 x@0 off   8.9 | K4 in@0 para  13.0 | K4 x@0 para   8.9
+  r25-evals r27d_13L_tfmr_llamakd_s1_150m C=1024 xcopy top1 | none  35.3 | in-window  48.3 | beyond (memory)  28.0 | beyond mem-off  28.0
+[n67 g0 10-17 14:43:49] r27d_13L_tfmr_llamakd_s1_150m queue DONE
+[wd 10-17 14:47:09] watchdog exit (no queues left)
+  r25-evals (T2048) r27c_13L_tfmr_dense_s1_150m C=1024 T=2048 | chunk1   40.10 (mem off   40.10) | chunks2+   39.65 (off   39.65, Δ +0.00) | first64 of 2+   62.40 (off   62.40, Δ +0.00) vs first64 of chunk1   61.39
+  r25-evals (T2048) r27d_13L_tfmr_llamakd_s1_150m C=1024 T=2048 | chunk1   38.07 (mem off   38.07) | chunks2+   38.27 (off   38.27, Δ +0.00) | first64 of 2+   60.65 (off   60.65, Δ +0.00) vs first64 of chunk1   60.40
+  [r27e_13L_RC3_conv_llamakd_clean_150m] seed [OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 46.36 -> coded 56.11 | mean spikes/input 0.817 | saved models/checkpoints/r27e_13L_RC3_conv_llamakd_clean_150m @ step 12208
+[g0 10-17 14:50:21] [r27e_13L_RC3_conv_llamakd_clean_150m] START
+[wd 10-17 14:51:05] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[g0 10-17 18:38:59] [r27e_13L_RC3_conv_llamakd_clean_150m] exit=0 :: 45.84 43.16 40.99 39.40 38.44 
+  recall r27e_13L_RC3_conv_llamakd_clean_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27e_13L_RC3_conv_llamakd_clean_150m N8: 100.0 100.0 100.0  99.6 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: r27e_13L_RC3_conv_llamakd_clean_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27e_13L_RC3_conv_llamakd_clean_150m C=1024 N8:  99.2 100.0 100.0 100.0 (mem off   9.4) | N32:  99.2 100.0  99.2  99.2 (mem off   5.5)
+  r25-evals r27e_13L_RC3_conv_llamakd_clean_150m C=1024 | K1 in@0  90.6 | K1 in@200  52.1 | K1 x@0   8.3 | K1 x@200   8.3 | K1 x@0 off   7.3 | K1 in@0 para  26.6 | K1 x@0 para   5.2 | K4 in@0  15.1 | K4 in@200  13.5 | K4 x@0  13.0 | K4 x@200  10.4 | K4 x@0 off   9.4 | K4 in@0 para  12.5 | K4 x@0 para  10.9
+  r25-evals r27e_13L_RC3_conv_llamakd_clean_150m C=1024 xcopy top1 | none  35.2 | in-window  43.9 | beyond (memory)  28.1 | beyond mem-off  26.6
+  energy r27e_13L_RC3_conv_llamakd_clean_150m energy  118.4 uJ/tok vs dense  647.8 -> 5.47x | MAC   2.2M AC 120.2M (dense 140.8M) | top: head 34.6uJ, up 29.8uJ, qkv 20.6uJ, attn_gate 6.9uJ, o_proj 6.4uJ, to_current 2.3uJ
+  energy src                          energy  460.4 uJ/tok vs dense  647.8 -> 1.41x | MAC 100.0M AC   0.6M (dense 140.8M) | top: up 130.2uJ, head 115.8uJ, qkv 97.7uJ, attn_gate 32.6uJ, o_proj 32.6uJ, to_current 10.9uJ
+[g0 10-17 18:42:24] r27e_13L_RC3_conv_llamakd_clean_150m queue DONE
+  r25-evals (T2048) r27e_13L_RC3_conv_llamakd_clean_150m C=1024 T=2048 | chunk1   36.70 (mem off   37.31) | chunks2+   35.19 (off   36.81, Δ +1.61) | first64 of 2+   44.70 (off   58.98, Δ +14.27) vs first64 of chunk1   59.32
+[n67lr g0 10-17 18:53:34] [r27h_13L_tfmr_dense_lrx05_150m] START try 1
+[n67lr g0 10-17 21:11:40] [r27h_13L_tfmr_dense_lrx05_150m] exit=0 :: 45.18 43.56 42.82 42.03 
+  r25-evals (T2048) r27h_13L_tfmr_dense_lrx05_150m C=1024 T=2048 | chunk1   40.61 (mem off   40.61) | chunks2+   40.08 (off   40.08, Δ +0.00) | first64 of 2+   63.12 (off   63.12, Δ +0.00) vs first64 of chunk1   62.98
+[n67lr g0 10-17 21:12:07] [r27h_13L_tfmr_dense_lrx2_150m] START try 1
+[n67lr g0 10-17 23:37:10] [r27h_13L_tfmr_dense_lrx2_150m] START try 1
+[wd 10-17 23:39:11] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n67lr g0 10-18 02:08:16] [r27h_13L_tfmr_dense_lrx2_150m] exit=0 :: 56.25 52.10 49.64 47.11 
+  r25-evals (T2048) r27h_13L_tfmr_dense_lrx2_150m C=1024 T=2048 | chunk1   44.99 (mem off   44.99) | chunks2+   44.76 (off   44.76, Δ +0.00) | first64 of 2+   70.82 (off   70.82, Δ +0.00) vs first64 of chunk1   68.95
+[n67lr g0 10-18 02:08:47] LR check chunk1: x1 41.09 | x0.5 40.61 | x2 44.99 -> best lrx05
+  [r27i_13L_tfmr_llamakd_lrx05_150m] seed [OK] plain seed models/checkpoints/r27h_13L_tfmr_dense_lrx05_150m/step_0012208.pt -> models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m @ step 12208 (no optimizer state)
+[n67 g0 10-18 02:08:56] [r27i_13L_tfmr_llamakd_lrx05_150m] START try 1
+[n67 g0 10-18 03:59:05] [r27i_13L_tfmr_llamakd_lrx05_150m] exit=0 :: 43.76 42.93 42.12 41.29 
+  recall r27i_13L_tfmr_llamakd_lrx05_150m |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) r27i_13L_tfmr_llamakd_lrx05_150m N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: r27i_13L_tfmr_llamakd_lrx05_150m: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals r27i_13L_tfmr_llamakd_lrx05_150m C=1024 N8:  20.3  12.5  12.5  14.1 (mem off  20.3) | N32:   6.2   0.8   4.7   3.1 (mem off   6.2)
+  r25-evals r27i_13L_tfmr_llamakd_lrx05_150m C=1024 | K1 in@0  99.0 | K1 in@200  68.2 | K1 x@0   4.7 | K1 x@200   3.6 | K1 x@0 off   4.7 | K1 in@0 para  31.8 | K1 x@0 para   6.8 | K4 in@0  17.7 | K4 in@200  15.6 | K4 x@0  10.4 | K4 x@200   9.4 | K4 x@0 off  10.4 | K4 in@0 para   9.9 | K4 x@0 para   5.7
+  r25-evals r27i_13L_tfmr_llamakd_lrx05_150m C=1024 xcopy top1 | none  34.9 | in-window  46.8 | beyond (memory)  27.3 | beyond mem-off  27.3
+[n67 g0 10-18 04:01:31] r27i_13L_tfmr_llamakd_lrx05_150m queue DONE
+  r25-evals (T2048) r27i_13L_tfmr_llamakd_lrx05_150m C=1024 T=2048 | chunk1   39.15 (mem off   39.15) | chunks2+   38.73 (off   38.73, Δ +0.00) | first64 of 2+   60.71 (off   60.71, Δ +0.00) vs first64 of chunk1   61.39
+[wd 10-18 04:09:21] watchdog exit (no queues left)
+[wd 10-18 07:44:26] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:44:26] watchdog exit (no queues left)
+[wd 10-18 07:46:26] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:46:26] watchdog exit (no queues left)
+[wd 10-18 07:48:27] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:48:27] watchdog exit (no queues left)
+[wd 10-18 07:50:27] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:50:27] watchdog exit (no queues left)
+[wd 10-18 07:52:27] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:52:27] watchdog exit (no queues left)
+[wd 10-18 07:54:27] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:54:27] watchdog exit (no queues left)
+[wd 10-18 07:56:27] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 07:56:27] watchdog exit (no queues left)
+[wd 10-18 08:14:29] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:14:29] watchdog exit (no queues left)
+[wd 10-18 08:16:29] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:16:29] watchdog exit (no queues left)
+[wd 10-18 08:18:30] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:18:30] watchdog exit (no queues left)
+[wd 10-18 08:20:30] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:20:30] watchdog exit (no queues left)
+[wd 10-18 08:22:30] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:22:30] watchdog exit (no queues left)
+[wd 10-18 08:24:30] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:24:30] watchdog exit (no queues left)
+[wd 10-18 08:26:30] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:26:30] watchdog exit (no queues left)
+[wd 10-18 08:28:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:28:31] watchdog exit (no queues left)
+[wd 10-18 08:30:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:30:31] watchdog exit (no queues left)
+[wd 10-18 08:32:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:32:31] watchdog exit (no queues left)
+[wd 10-18 08:34:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:34:31] watchdog exit (no queues left)
+[wd 10-18 08:36:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:36:31] watchdog exit (no queues left)
+[wd 10-18 08:38:31] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:38:31] watchdog exit (no queues left)
+[wd 10-18 08:40:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:40:32] watchdog exit (no queues left)
+[wd 10-18 08:42:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:42:32] watchdog exit (no queues left)
+[wd 10-18 08:44:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:44:32] watchdog exit (no queues left)
+[wd 10-18 08:46:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:46:32] watchdog exit (no queues left)
+[wd 10-18 08:48:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:48:32] watchdog exit (no queues left)
+[wd 10-18 08:50:32] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:50:32] watchdog exit (no queues left)
+[wd 10-18 08:52:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:52:33] watchdog exit (no queues left)
+[wd 10-18 08:54:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:54:33] watchdog exit (no queues left)
+[wd 10-18 08:56:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:56:33] watchdog exit (no queues left)
+[wd 10-18 08:58:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 08:58:33] watchdog exit (no queues left)
+[wd 10-18 09:00:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:00:33] watchdog exit (no queues left)
+[wd 10-18 09:02:33] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:02:33] watchdog exit (no queues left)
+[wd 10-18 09:04:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:04:34] watchdog exit (no queues left)
+[wd 10-18 09:06:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:06:34] watchdog exit (no queues left)
+[wd 10-18 09:08:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:08:34] watchdog exit (no queues left)
+[wd 10-18 09:10:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:10:34] watchdog exit (no queues left)
+[wd 10-18 09:12:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:12:34] watchdog exit (no queues left)
+[wd 10-18 09:14:34] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:14:34] watchdog exit (no queues left)
+[wd 10-18 09:16:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:16:35] watchdog exit (no queues left)
+[wd 10-18 09:18:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:18:35] watchdog exit (no queues left)
+[wd 10-18 09:20:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:20:35] watchdog exit (no queues left)
+[wd 10-18 09:22:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:22:35] watchdog exit (no queues left)
+[wd 10-18 09:24:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:24:35] watchdog exit (no queues left)
+[wd 10-18 09:26:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:26:35] watchdog exit (no queues left)
+[wd 10-18 09:28:35] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:28:35] watchdog exit (no queues left)
+[wd 10-18 09:30:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:30:36] watchdog exit (no queues left)
+[wd 10-18 09:32:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:32:36] watchdog exit (no queues left)
+[wd 10-18 09:34:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:34:36] watchdog exit (no queues left)
+[wd 10-18 09:36:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:36:36] watchdog exit (no queues left)
+[wd 10-18 09:38:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:38:36] watchdog exit (no queues left)
+[wd 10-18 09:40:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:40:36] watchdog exit (no queues left)
+[wd 10-18 09:42:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:42:37] watchdog exit (no queues left)
+[wd 10-18 09:44:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:44:37] watchdog exit (no queues left)
+[wd 10-18 09:46:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:46:37] watchdog exit (no queues left)
+[wd 10-18 09:48:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:48:37] watchdog exit (no queues left)
+[wd 10-18 09:50:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:50:37] watchdog exit (no queues left)
+[wd 10-18 09:52:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:52:37] watchdog exit (no queues left)
+[wd 10-18 09:54:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:54:37] watchdog exit (no queues left)
+[wd 10-18 09:56:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:56:38] watchdog exit (no queues left)
+[wd 10-18 09:58:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 09:58:38] watchdog exit (no queues left)
+[wd 10-18 10:00:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:00:38] watchdog exit (no queues left)
+[wd 10-18 10:02:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:02:38] watchdog exit (no queues left)
+[wd 10-18 10:04:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:04:38] watchdog exit (no queues left)
+[wd 10-18 10:06:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:06:38] watchdog exit (no queues left)
+[wd 10-18 10:08:38] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:08:38] watchdog exit (no queues left)
+[wd 10-18 10:10:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:10:39] watchdog exit (no queues left)
+[wd 10-18 10:12:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:12:39] watchdog exit (no queues left)
+[wd 10-18 10:14:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:14:39] watchdog exit (no queues left)
+[wd 10-18 10:16:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:16:39] watchdog exit (no queues left)
+[wd 10-18 10:18:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:18:39] watchdog exit (no queues left)
+[wd 10-18 10:20:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:20:39] watchdog exit (no queues left)
+[wd 10-18 10:22:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:22:39] watchdog exit (no queues left)
+[wd 10-18 10:26:40] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:26:40] watchdog exit (no queues left)
+[wd 10-18 10:28:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:28:41] watchdog exit (no queues left)
+[wd 10-18 10:30:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:30:41] watchdog exit (no queues left)
+[wd 10-18 10:32:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:32:41] watchdog exit (no queues left)
+[wd 10-18 10:34:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:34:41] watchdog exit (no queues left)
+[wd 10-18 10:36:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:36:41] watchdog exit (no queues left)
+[wd 10-18 10:38:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:38:42] watchdog exit (no queues left)
+[wd 10-18 10:40:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:40:42] watchdog exit (no queues left)
+[wd 10-18 10:42:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:42:42] watchdog exit (no queues left)
+[wd 10-18 10:44:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:44:42] watchdog exit (no queues left)
+[wd 10-18 10:46:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:46:42] watchdog exit (no queues left)
+[wd 10-18 10:48:42] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:48:42] watchdog exit (no queues left)
+[wd 10-18 10:50:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:50:43] watchdog exit (no queues left)
+[wd 10-18 10:52:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:52:43] watchdog exit (no queues left)
+[wd 10-18 10:54:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:54:43] watchdog exit (no queues left)
+[wd 10-18 10:56:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:56:43] watchdog exit (no queues left)
+[wd 10-18 10:58:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 10:58:43] watchdog exit (no queues left)
+[wd 10-18 11:00:43] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:00:43] watchdog exit (no queues left)
+[wd 10-18 11:02:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:02:44] watchdog exit (no queues left)
+[wd 10-18 11:04:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:04:44] watchdog exit (no queues left)
+[wd 10-18 11:06:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:06:44] watchdog exit (no queues left)
+[wd 10-18 11:08:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:08:44] watchdog exit (no queues left)
+[wd 10-18 11:10:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:10:44] watchdog exit (no queues left)
+[wd 10-18 11:12:44] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:12:44] watchdog exit (no queues left)
+[wd 10-18 11:14:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:14:45] watchdog exit (no queues left)
+[wd 10-18 11:16:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:16:45] watchdog exit (no queues left)
+[wd 10-18 11:18:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:18:45] watchdog exit (no queues left)
+[wd 10-18 11:20:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:20:45] watchdog exit (no queues left)
+[wd 10-18 11:22:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:22:45] watchdog exit (no queues left)
+[wd 10-18 11:24:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:24:46] watchdog exit (no queues left)
+[wd 10-18 11:26:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:26:46] watchdog exit (no queues left)
+[wd 10-18 11:28:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:28:46] watchdog exit (no queues left)
+[wd 10-18 11:30:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:30:46] watchdog exit (no queues left)
+[wd 10-18 11:32:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:32:46] watchdog exit (no queues left)
+[wd 10-18 11:34:46] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:34:46] watchdog exit (no queues left)
+[wd 10-18 11:36:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:36:47] watchdog exit (no queues left)
+[wd 10-18 11:38:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:38:47] watchdog exit (no queues left)
+[wd 10-18 11:40:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:40:47] watchdog exit (no queues left)
+[wd 10-18 11:42:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:42:47] watchdog exit (no queues left)
+[wd 10-18 11:44:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:44:47] watchdog exit (no queues left)
+[wd 10-18 11:46:47] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:46:47] watchdog exit (no queues left)
+[wd 10-18 11:48:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:48:48] watchdog exit (no queues left)
+[wd 10-18 11:50:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:50:48] watchdog exit (no queues left)
+[wd 10-18 11:52:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:52:48] watchdog exit (no queues left)
+[wd 10-18 11:54:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:54:48] watchdog exit (no queues left)
+[wd 10-18 11:56:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:56:48] watchdog exit (no queues left)
+[wd 10-18 11:58:48] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 11:58:49] watchdog exit (no queues left)
+[wd 10-18 12:00:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:00:49] watchdog exit (no queues left)
+[wd 10-18 12:02:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:02:49] watchdog exit (no queues left)
+[wd 10-18 12:04:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:04:49] watchdog exit (no queues left)
+[wd 10-18 12:06:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:06:49] watchdog exit (no queues left)
+[wd 10-18 12:08:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:08:49] watchdog exit (no queues left)
+[wd 10-18 12:10:49] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:10:49] watchdog exit (no queues left)
+[wd 10-18 12:12:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:12:50] watchdog exit (no queues left)
+[wd 10-18 12:14:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:14:50] watchdog exit (no queues left)
+[wd 10-18 12:16:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:16:50] watchdog exit (no queues left)
+[wd 10-18 12:18:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:18:50] watchdog exit (no queues left)
+[wd 10-18 12:20:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:20:50] watchdog exit (no queues left)
+[wd 10-18 12:22:50] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:22:50] watchdog exit (no queues left)
+[wd 10-18 12:24:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:24:51] watchdog exit (no queues left)
+[wd 10-18 12:26:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:26:51] watchdog exit (no queues left)
+[wd 10-18 12:28:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:28:51] watchdog exit (no queues left)
+[wd 10-18 12:30:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:30:51] watchdog exit (no queues left)
+[wd 10-18 12:32:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:32:51] watchdog exit (no queues left)
+[wd 10-18 12:34:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:34:52] watchdog exit (no queues left)
+[wd 10-18 12:36:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:36:52] watchdog exit (no queues left)
+[wd 10-18 12:38:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:38:52] watchdog exit (no queues left)
+[wd 10-18 12:40:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:40:52] watchdog exit (no queues left)
+[wd 10-18 12:42:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:42:52] watchdog exit (no queues left)
+[wd 10-18 12:44:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:44:52] watchdog exit (no queues left)
+[wd 10-18 12:46:52] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:46:52] watchdog exit (no queues left)
+[wd 10-18 12:48:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:48:53] watchdog exit (no queues left)
+[wd 10-18 12:50:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:50:53] watchdog exit (no queues left)
+[wd 10-18 12:52:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:52:53] watchdog exit (no queues left)
+[wd 10-18 12:54:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:54:53] watchdog exit (no queues left)
+[wd 10-18 12:56:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:56:53] watchdog exit (no queues left)
+[wd 10-18 12:58:53] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 12:58:54] watchdog exit (no queues left)
+[wd 10-18 13:00:54] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-18 13:00:54] watchdog exit (no queues left)
+[n68 g0 10-18 13:02:30] bench pick: B2xGA8 (9650 tok/s; dense B2xGA8, conv B2xGA8, extra: none)
+  cfg-diff DENSE
+  cfg-diff   attention_layer_positions: ckpt=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]  file=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  cfg-diff   batch_size: ckpt=16  file=2
+  cfg-diff   grad_accum: ckpt=1  file=8
+  cfg-diff   mqar_aug_batch: ckpt=64  file=8
+  cfg-diff   mqar_batch: ckpt=16  file=2
+  cfg-diff   mqar_xchunk_batch: ckpt=16  file=2
+  cfg-diff   run_name: ckpt='v4_cloud'  file='v4tf_dense'
+  cfg-diff CONV
+  cfg-diff   attention_layer_positions: ckpt=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]  file=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  cfg-diff   batch_size: ckpt=8  file=2
+  cfg-diff   data_bin: ckpt='/home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin'  file='/home/glenn/projects/bdh/data/tokenized_v4/train_kd_slice_u32.bin'
+  cfg-diff   data_prelut: ckpt=True  file=False
+  cfg-diff   grad_accum: ckpt=2  file=8
+  cfg-diff   mqar_aug_batch: ckpt=16  file=4
+  cfg-diff   mqar_batch: ckpt=8  file=2
+  cfg-diff   mqar_xchunk_batch: ckpt=8  file=2
+  cfg-diff   run_name: ckpt='v4_cloud_conv'  file='v4tf_conv'
+  cfg-diff   spike_code: ckpt=['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v']  file=None
+  cfg-diff   spike_levels: ckpt=8  file=None
+  cfg-diff   spike_levels_hidden: ckpt=16  file=None
+[n68 g0 10-18 13:02:36] [v4tf_dense] START temp/v4tf_dense_s1.yaml try 1 (from step 0)
+[wd 10-18 13:02:54] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n68 g0 10-18 21:48:05] bench pick: B2xGA8 (9650 tok/s; dense B2xGA8, conv B2xGA8, extra: none)
+  cfg-diff DENSE
+  cfg-diff   attention_layer_positions: ckpt=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]  file=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  cfg-diff   batch_size: ckpt=16  file=2
+  cfg-diff   grad_accum: ckpt=1  file=8
+  cfg-diff   mqar_aug_batch: ckpt=64  file=8
+  cfg-diff   mqar_batch: ckpt=16  file=2
+  cfg-diff   mqar_xchunk_batch: ckpt=16  file=2
+  cfg-diff   run_name: ckpt='v4_cloud'  file='v4tf_dense'
+  cfg-diff CONV
+  cfg-diff   attention_layer_positions: ckpt=[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]  file=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  cfg-diff   batch_size: ckpt=8  file=2
+  cfg-diff   data_bin: ckpt='/home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin'  file='/home/glenn/projects/bdh/data/tokenized_v4/train_kd_slice_u32.bin'
+  cfg-diff   data_prelut: ckpt=True  file=False
+  cfg-diff   grad_accum: ckpt=2  file=8
+  cfg-diff   mqar_aug_batch: ckpt=16  file=4
+  cfg-diff   mqar_batch: ckpt=8  file=2
+  cfg-diff   mqar_xchunk_batch: ckpt=8  file=2
+  cfg-diff   run_name: ckpt='v4_cloud_conv'  file='v4tf_conv'
+  cfg-diff   spike_code: ckpt=['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v']  file=None
+  cfg-diff   spike_levels: ckpt=8  file=None
+  cfg-diff   spike_levels_hidden: ckpt=16  file=None
+[n68 g0 10-18 21:48:16] [v4tf_dense] START temp/v4tf_dense_s1.yaml try 1 (from step 7500)
+[wd 10-18 21:50:06] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-19 10:17:11] bench B4xGA4_worst start
+[n69 g0 10-19 10:17:13] n68 v4tf_dense STOPPED at ~step 23k (non-standard transformer; replaced by n69 v4std); ckpts deleted (Glenn OK)
+[n69 g0 10-19 10:29:21] bench: [n69b 10-19 10:29] B4xGA4_worst rc=0 | median 10054 tok/s | vram 13.5/28.2 GB | wall 12 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69 g0 10-19 10:29:21] bench B8xGA2_worst start
+[n69 g0 10-19 11:59:24] bench: [n69b 10-19 11:59] B8xGA2_worst rc=124 | median 213 tok/s | vram 14.0/40.1 GB | wall 90 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69 g0 10-19 11:59:24] bench B4xGA4 start
+[n69 g0 10-19 12:20:18] bench: [n69b 10-19 12:20] B4xGA4 rc=0 | median 10543 tok/s | vram 13.5/28.5 GB | wall 20 min | extra: compile_mode: default 
+[n69 g0 10-19 12:20:18] bench B4xGA4_mat start
+[n69 g0 10-19 12:43:04] bench: [n69b 10-19 12:43] B4xGA4_mat rc=0 | median 11103 tok/s | vram 13.5/28.3 GB | wall 22 min | extra: compile_mode: max-autotune-no-cudagraphs 
+[n69 g0 10-19 12:43:04] bench pick: B4xGA4 compile max-autotune-no-cudagraphs (11103 tok/s)
+[n69 g0 10-19 12:43:04] bench conv_B4xGA4_worst start
+[n69 g0 10-19 13:58:53] bench: [n69b 10-19 13:58] conv_B4xGA4_worst rc=143 | median 156 tok/s | vram 15.8/35.3 GB | wall 75 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69 g0 10-19 13:59:54] bench pick: B4xGA4 compile max-autotune-no-cudagraphs (11103 tok/s)
+[n69 g0 10-19 13:59:54] bench conv_B2xGA8_worst start
+[n69 g0 10-19 14:06:32] bench: [n69b 10-19 14:06] conv_B2xGA8_worst rc=0 | median 8881 tok/s | vram 15.5/26.5 GB | wall 6 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69 g0 10-19 14:06:32] KD-phase split: B2xGA8
+[n69 g0 10-19 14:06:32] screen lr050 start
+[n69 g0 10-19 16:15:45] screen: [n69s 10-19 16:15] lr050 rc=0 | lr x0.5 warmup 0.02 | final 54.62 | curve 115.74 68.20 54.62 | wall 129 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-19 16:15:45] screen lr070 start
+[n69 g0 10-19 18:25:19] screen: [n69s 10-19 18:25] lr070 rc=0 | lr x0.7 warmup 0.02 | final 47.13 | curve 106.17 59.42 47.13 | wall 129 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-19 18:25:19] screen lr100 start
+[n69 g0 10-19 20:33:48] screen: [n69s 10-19 20:33] lr100 rc=0 | lr x1.0 warmup 0.02 | final 44.95 | curve 93.59 58.41 44.95 | wall 128 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-19 20:33:48] screen wu006_lr10 start
+[n69 g0 10-19 22:44:23] bench pick: B4xGA4 compile max-autotune-no-cudagraphs (11103 tok/s)
+[n69 g0 10-19 22:44:23] KD-phase split: B2xGA8
+[n69 g0 10-19 22:44:23] screen lr140 start
+[n69 g0 10-20 00:52:30] screen: [n69s 10-20 00:52] lr140 rc=0 | lr x1.4 warmup 0.02 | final 44.33 | curve 86.32 58.63 44.33 | wall 128 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-20 00:52:30] screen lr200 start
+[n69 g0 10-20 02:59:40] screen: [n69s 10-20 02:59] lr200 rc=0 | lr x2.0 warmup 0.02 | final 44.74 | curve 97.96 65.46 44.74 | wall 127 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-20 02:59:40] screen wu006_lr14 start
+[n69 g0 10-20 05:01:09] screen: [n69s 10-20 05:01] wu006_lr14 rc=0 | lr x1.4 warmup 0.06 | final 43.97 | curve 87.91 59.98 43.97 | wall 121 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69 g0 10-20 05:01:09] screen pick: lr x1.4 (final 44.33), warmup 0.02 (warmup-0.06 arm: 43.97)
+[n69 g0 10-20 05:01:09] configs: v4std_dense B4xGA4 max-autotune-no-cudagraphs lr x1.4 warmup 0.02; v4std_conv B2xGA8
+[n69 g0 10-20 05:01:09] [v4std_dense] START temp/v4std_dense_s1.yaml try 1 (from step 0)
+[wd 10-20 09:04:36] watchdog exit (no queues left)
+[n69 g0 10-20 11:16:48] [v4std_dense] START temp/v4std_dense_s1.yaml try 1 (from step 6051)
+[wd 10-20 11:16:57] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-20 12:31:55] [v4std_dense] START temp/v4std_dense_s1.yaml try 1 (from step 7519)
+[wd 10-20 12:32:04] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-20 14:39:14] [v4std_dense] START temp/v4std_dense_s1.yaml try 1 (from step 7519)
+[wd 10-20 14:39:24] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-22 04:03:59] [v4std_dense] exit=0 at step 64206 :: 51.39 50.39 48.95 46.88 
+[n69 g0 10-22 04:03:59] [v4std_dense] START temp/v4std_dense_s2.yaml try 1 (from step 64206)
+[n69 g0 10-22 23:51:15] [v4std_dense] exit=1 at step 93000 :: 40.95 40.19 39.25 39.20 
+[n69 g0 10-22 23:52:15] [v4std_dense] START temp/v4std_dense_s2.yaml try 2 (from step 93000)
+[n69 g0 10-23 04:13:13] [v4std_dense] exit=0 at step 99802 :: 39.25 39.20 38.09 37.16 
+[n69 g0 10-23 04:13:13] [v4std_dense] START temp/v4std_dense_s3.yaml try 1 (from step 99802)
+[n69 g0 10-24 03:11:45] [v4std_dense] exit=0 at step 134866 :: 33.90 33.27 33.26 32.29 
+[n69 g0 10-24 03:11:46] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 134866)
+[wd 10-25 12:08:44] watchdog exit (no queues left)
+[wd 10-25 12:09:40] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-25 12:09:40] watchdog exit (no queues left)
+[n69 g0 10-25 12:26:35] [v4std_dense] segment 1 already done (step 180437)
+[n69 g0 10-25 12:26:35] [v4std_dense] segment 2 already done (step 180437)
+[n69 g0 10-25 12:26:35] [v4std_dense] segment 3 already done (step 180437)
+[n69 g0 10-25 12:26:35] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 180437)
+[wd 10-25 12:26:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-25 12:31:46] watchdog exit (no queues left)
+[wd 10-25 12:32:36] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-25 12:32:36] watchdog exit (no queues left)
+[n69 g0 10-25 12:35:27] [v4std_dense] segment 1 already done (step 180438)
+[n69 g0 10-25 12:35:27] [v4std_dense] segment 2 already done (step 180438)
+[n69 g0 10-25 12:35:27] [v4std_dense] segment 3 already done (step 180438)
+[n69 g0 10-25 12:35:28] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 180438)
+[wd 10-25 12:35:37] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-25 12:40:37] watchdog exit (no queues left)
+[n69 g0 10-25 17:50:41] [v4std_dense] segment 1 already done (step 180442)
+[n69 g0 10-25 17:50:41] [v4std_dense] segment 2 already done (step 180442)
+[n69 g0 10-25 17:50:41] [v4std_dense] segment 3 already done (step 180442)
+[n69 g0 10-25 17:50:41] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 180442)
+[wd 10-25 17:50:51] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-26 09:58:56] watchdog exit (no queues left)
+[n69 g0 10-26 10:17:14] [v4std_dense] segment 1 already done (step 199927)
+[n69 g0 10-26 10:17:14] [v4std_dense] segment 2 already done (step 199927)
+[n69 g0 10-26 10:17:14] [v4std_dense] segment 3 already done (step 199927)
+[n69 g0 10-26 10:17:14] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 199927)
+[wd 10-26 10:17:24] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-26 11:02:25] watchdog exit (no queues left)
+[n69 g0 10-26 11:17:18] [v4std_dense] segment 1 already done (step 200773)
+[n69 g0 10-26 11:17:18] [v4std_dense] segment 2 already done (step 200773)
+[n69 g0 10-26 11:17:18] [v4std_dense] segment 3 already done (step 200773)
+[n69 g0 10-26 11:17:18] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 200773)
+[wd 10-26 11:17:28] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-26 11:47:28] watchdog exit (no queues left)
+[wd 10-26 11:47:39] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-26 11:47:39] [v4std_dense] segment 1 already done (step 201287)
+[n69 g0 10-26 11:47:39] [v4std_dense] segment 2 already done (step 201287)
+[n69 g0 10-26 11:47:40] [v4std_dense] segment 3 already done (step 201287)
+[n69 g0 10-26 11:47:40] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 201287)
+[wd 10-26 11:57:40] watchdog exit (no queues left)
+[wd 10-26 11:57:45] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-26 11:57:45] watchdog exit (no queues left)
+[n69 g0 10-26 12:15:19] [v4std_dense] segment 1 already done (step 201463)
+[n69 g0 10-26 12:15:19] [v4std_dense] segment 2 already done (step 201463)
+[n69 g0 10-26 12:15:19] [v4std_dense] segment 3 already done (step 201463)
+[n69 g0 10-26 12:15:19] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 201463)
+[wd 10-26 12:15:29] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[wd 10-26 12:45:29] watchdog exit (no queues left)
+[n69 g0 10-26 13:00:31] [v4std_dense] segment 1 already done (step 201991)
+[n69 g0 10-26 13:00:31] [v4std_dense] segment 2 already done (step 201991)
+[n69 g0 10-26 13:00:32] [v4std_dense] segment 3 already done (step 201991)
+[n69 g0 10-26 13:00:32] [v4std_dense] START temp/v4std_dense_s4.yaml try 1 (from step 201991)
+[wd 10-26 13:00:41] watchdog started (min 2500 tok/s past step 1000, stall 25 min)
+[n69 g0 10-27 10:06:25] [v4std_dense] exit=0 at step 227662 :: 20.49 20.56 20.40 20.30 
+  recall            v4std_dense |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) v4std_dense    N8: 100.0 100.0 100.0 100.0 | N32: 100.0 100.0 100.0 100.0
+  r25-evals AssertionError: v4std_dense: need a chunk size (model attn_chunk or --chunk) dividing T > C
+  r25-evals AssertionError: v4std_dense: no attn_chunk in cfg; pass --chunk
+  r25-evals v4std_dense                C=512 | K1 in@0  97.9 | K1 in@200  78.6 | K1 x@0   5.2 | K1 x@200   5.2 | K1 x@0 off   5.2 | K1 in@0 para  88.0 | K1 x@0 para   5.2 | K4 in@0  32.8 | K4 in@200  24.0 | K4 x@0   7.8 | K4 x@200   8.3 | K4 x@0 off   7.8 | K4 in@0 para  24.0 | K4 x@0 para   5.7
+  r25-evals v4std_dense                  C=512 xcopy top1 | none  39.8 | in-window  81.2 | beyond (memory)  31.3 | beyond mem-off  31.3
+  [v4std_conv] seed [seed prep] averaged 3 checkpoints: ['step_0225000.pt', 'step_0226500.pt', 'step_0227662.pt']
+  [v4std_conv] seed /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3824: RuntimeWarning: Mean of empty slice
+  [v4std_conv] seed   return _methods._mean(a, axis=axis, dtype=dtype,
+  [v4std_conv] seed /home/glenn/projects/bdh/venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  [v4std_conv] seed   ret = ret.dtype.type(ret / rcount)
+  [v4std_conv] seed [OK] 0 spike codes calibrated (scale 1.0) | zero-shot ppl dense 22.84 -> coded 22.84 | mean spikes/input nan | saved models/checkpoints/v4std_conv @ step 227662
+[n69 g0 10-27 10:16:29] [v4std_conv] START configs/v4std_conv.yaml try 1 (from step 227662)

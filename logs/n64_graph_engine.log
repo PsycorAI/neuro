@@ -1,0 +1,14 @@
+no GPU-1 lock
+== start 21:08
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded sft_v4_B2_s3663: 1110M, use_graph True
+[OK] graph vs eager same padded input, ctx 300: max diff 0.00e+00
+[OK] graph vs eager same padded input, ctx 700: max diff 0.00e+00
+raw graph: 4.1s, 60 tokens -> 14.8 tok/s (meter replay events 60) | "is a complex and fascinating journey that spans over 2,000 years. Here's a brief overview of some of the key e"
+assistant calc graph: 5.1s, 46 tokens -> 9.1 tok/s (meter replay events 46) | '17% of 240 is 40.8.'
+assistant chat graph: 5.8s, 69 tokens -> 12.0 tok/s (meter replay events 69) | 'Did you know that the largest species of octopus is the leatherback sea snout, which can grow up to 12 inches '
+raw eager: 10.6s, 60 tokens -> 5.7 tok/s (meter replay events 60) | "is a complex and fascinating journey that spans over 2,000 years. Here's a brief overview of some of the key e"
+assistant calc eager: 12.2s, 46 tokens -> 3.8 tok/s (meter replay events 46) | '17% of 240 is 40.8.'
+assistant chat eager: 8.6s, 36 tokens -> 4.2 tok/s (meter replay events 36) | 'Did you know that 17% of 240 is 40.8? This is because 40.8% of 240 is 0.8.'
+graphs captured: [(512, False), (1024, False)] | GPU mem 5.0 GB peak
+rc=0 21:09

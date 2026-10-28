@@ -1,0 +1,184 @@
+[n81 10-26 13:42:24] demo set, DEMO_COMPILE_READ=0
+== warm-up 49 s (compiled prompt read False)
+== bf16: 20 turns 10.2s | memtest on 20/20 off 0/20 | max GPU mem 7.5 GB | n79 graph read True, tools-block state hits 18
+[n81 10-26 13:44:33] demo set, DEMO_COMPILE_READ=1
+C1026 13:48:25.117000 142684 torch/_inductor/scheduler.py:1757] [0/2] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+    raise InductorError(e, currentframe()).with_traceback(
+torch._inductor.exc.InductorError: TypeError: list indices must be integers or slices, not NoneType
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n78_bf16_engine.py", line 19, in <module>
+    A, B = (json.load(open(f)) for f in a.compare)
+    ^^^^
+  File "/home/glenn/projects/neuro/temp/n78_bf16_engine.py", line 19, in <genexpr>
+    A, B = (json.load(open(f)) for f in a.compare)
+                      ^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'logs/n81_demo_q_read1.json'
+[n81 10-26 13:48:35] prompt-read energy session a, N81_COMPILE_READ=0 (v4f models/checkpoints/v4std_dense/step_0202500.pt)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  17610.8 tok/s |     8.63 mJ/tok total (8.60-8.66) |     6.14 active
+  gpu-energy v4fg_pre@199 |  24493.9 tok/s |     6.27 mJ/tok total (6.14-6.32) |     4.47 active
+  gpu-energy v4fg_pre@512 |  37550.1 tok/s |     4.22 mJ/tok total (4.16-4.23) |     3.04 active
+  gpu-energy v4fg_pre@2048 |  39152.5 tok/s |     4.20 mJ/tok total (4.11-4.20) |     3.06 active
+  gpu-energy v4g_pre@143  |   4855.6 tok/s |    23.00 mJ/tok total (22.75-23.05) |    13.93 active
+  gpu-energy v4g_pre@199  |   6599.5 tok/s |    17.64 mJ/tok total (17.13-17.79) |    10.97 active
+  gpu-energy v4g_pre@512  |  18833.4 tok/s |     7.63 mJ/tok total (7.46-7.65) |     5.30 active
+  gpu-energy v4g_pre@2048 |  16629.3 tok/s |     9.38 mJ/tok total (9.23-9.44) |     6.71 active
+  gpu-energy v4p_pre@143  |   6639.9 tok/s |    15.50 mJ/tok total (15.44-15.54) |     8.86 active
+  gpu-energy v4p_pre@199  |   9213.1 tok/s |    11.05 mJ/tok total (11.01-11.12) |     6.31 active
+  gpu-energy v4p_pre@512  |  23522.7 tok/s |     4.52 mJ/tok total (4.45-4.55) |     2.63 active
+  gpu-energy v4p_pre@2048 |  86084.9 tok/s |     1.24 mJ/tok total (1.23-1.30) |     0.73 active
+[n81 10-26 13:57:15] prompt-read energy session a, N81_COMPILE_READ=1 (v4f models/checkpoints/v4std_dense/step_0202500.pt)
+  gpu-energy prompt reads: graph reads compiled (v4 segment body, v4f prefill body)
+C1026 14:12:14.157000 143898 torch/_inductor/scheduler.py:1757] [1/8] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+    raise InductorError(e, currentframe()).with_traceback(
+torch._inductor.exc.InductorError: TypeError: list indices must be integers or slices, not NoneType
+[n81 10-26 14:12:26] prompt-read energy session b, N81_COMPILE_READ=0 (v4f models/checkpoints/v4std_dense/step_0202500.pt)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  17793.2 tok/s |     8.84 mJ/tok total (8.76-8.85) |     6.55 active
+  gpu-energy v4fg_pre@199 |  24670.7 tok/s |     6.22 mJ/tok total (6.18-6.35) |     4.69 active
+  gpu-energy v4fg_pre@512 |  38010.6 tok/s |     4.19 mJ/tok total (4.19-4.30) |     3.22 active
+  gpu-energy v4fg_pre@2048 |  39218.7 tok/s |     4.13 mJ/tok total (4.09-4.17) |     3.10 active
+  gpu-energy v4g_pre@143  |   4815.9 tok/s |    23.09 mJ/tok total (22.86-23.30) |    14.61 active
+  gpu-energy v4g_pre@199  |   6658.6 tok/s |    17.43 mJ/tok total (17.39-17.96) |    11.45 active
+  gpu-energy v4g_pre@512  |  19502.5 tok/s |     7.40 mJ/tok total (7.40-7.42) |     5.32 active
+  gpu-energy v4g_pre@2048 |  16717.5 tok/s |     9.31 mJ/tok total (9.31-9.40) |     6.95 active
+  gpu-energy v4p_pre@143  |   6647.4 tok/s |    15.25 mJ/tok total (15.11-15.54) |     9.31 active
+  gpu-energy v4p_pre@199  |   9420.7 tok/s |    11.00 mJ/tok total (10.97-11.53) |     6.67 active
+  gpu-energy v4p_pre@512  |  23495.9 tok/s |     4.55 mJ/tok total (4.45-4.58) |     2.82 active
+  gpu-energy v4p_pre@2048 |  87237.0 tok/s |     1.23 mJ/tok total (1.22-1.26) |     0.79 active
+[n81 10-26 14:21:04] prompt-read energy session b, N81_COMPILE_READ=1 (v4f models/checkpoints/v4std_dense/step_0202500.pt)
+  gpu-energy prompt reads: graph reads compiled (v4 segment body, v4f prefill body)
+C1026 14:25:04.192000 147314 torch/_inductor/scheduler.py:1757] [1/8] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+    raise InductorError(e, currentframe()).with_traceback(
+torch._inductor.exc.InductorError: TypeError: list indices must be integers or slices, not NoneType
+[n81] ---- queue2 (compiled arms re-run, T 256 fallback)
+[n81 10-26 14:37:16] demo set, DEMO_COMPILE_READ=1
+C1026 14:39:52.362000 149460 torch/_inductor/scheduler.py:1757] [0/2] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 256) (InductorError): plain body
+C1026 14:53:59.961000 149460 torch/_inductor/scheduler.py:1757] [0/14] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 0) (InductorError): plain body
+== warm-up 1589 s (compiled prompt read True)
+== bf16: 20 turns 168.6s | memtest on 20/20 off 0/20 | max GPU mem 7.5 GB | n79 graph read True, tools-block state hits 18
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 5:44 AM on Tuesday, October 27 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 7:07 AM on Tuesday, October 27 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[DIFF] 'Who wrote the novel Pride and Prejudice?' TOOL search
+     bf16 sft_v4_chat_w8_pruned: TOOL search 'English author Jane Austen wrote the novel Pride and Prejudice.'
+     bf16 sft_v4_chat_w8_pruned: TOOL search 'Joe Wright wrote the novel Pride and Prejudice.'
+[DIFF] 'Why is the sky blue?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because of the scattering of sunlight by molecules in the atmosphere. The blue color is caused'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because it is made up of tiny, blue particles called atoms. When the sun shines on the Earth, '
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and endless sea,\nA vast and endless ocean, with no end.\nIt flows with grace and beauty, with'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and vast sea,\nA sea of endless blue, a sea of endless sky,\nA sea of endless dreams, a sea of'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[DIFF] 'What is the capital of Australia?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The capital city of Australia is Sydney.'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The capital of Australia is Sydney.'
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[DIFF] 'Hi, how are you?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI language model and I don't have a physical presence. Can you help me out?"
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI assistant! How can I help you?"
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'written on a stone tablet in the corner of the room, and the children looked at the tablet'
+raw bf16 sft_v4_chat_w8_pruned: 'a good indicator of its quality. The water was clear and the air was full of smoke and rai'
+== n78 fp32 vs bf16 demo: replies identical 14/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 10.2s vs bf16 sft_v4_chat_w8_pruned 168.6s | GPU mem 7.5 vs 7.5 GB
+[n81 10-26 15:09:01] prompt-read energy session a, N81_COMPILE_READ=1 (v4f models/checkpoints/v4std_dense/step_0204000.pt)
+  gpu-energy prompt reads: graph reads compiled (v4 segment body, v4f prefill body)
+C1026 15:13:10.203000 152799 torch/_inductor/scheduler.py:1757] [1/8] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[graph_feed] compiled read failed for ('seg', 256, False, 0) (InductorError): plain body
+C1026 15:31:51.719000 152799 torch/_inductor/scheduler.py:1757] [1/19] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[graph_feed] compiled read failed for ('seg', 256, True, 1024) (InductorError): plain body
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  20335.4 tok/s |     7.76 mJ/tok total (7.74-7.80) |     5.80 active
+  gpu-energy v4fg_pre@199 |  28033.6 tok/s |     5.58 mJ/tok total (5.44-5.61) |     4.17 active
+  gpu-energy v4fg_pre@512 |  42509.4 tok/s |     3.71 mJ/tok total (3.60-3.76) |     2.78 active
+  gpu-energy v4fg_pre@2048 |  43301.7 tok/s |     3.64 mJ/tok total (3.59-3.71) |     2.72 active
+  gpu-energy v4g_pre@143  |   6941.6 tok/s |    18.08 mJ/tok total (18.08-18.30) |    12.39 active
+  gpu-energy v4g_pre@199  |   9448.2 tok/s |    14.07 mJ/tok total (13.34-14.27) |     9.75 active
+  gpu-energy v4g_pre@512  |  25754.1 tok/s |     5.61 mJ/tok total (5.42-5.61) |     4.01 active
+  gpu-energy v4g_pre@2048 |  23359.0 tok/s |     6.88 mJ/tok total (6.74-6.93) |     5.15 active
+  gpu-energy v4p_pre@143  |   9298.2 tok/s |    12.96 mJ/tok total (12.36-13.23) |     8.63 active
+  gpu-energy v4p_pre@199  |  12851.8 tok/s |     9.17 mJ/tok total (8.80-9.32) |     6.04 active
+  gpu-energy v4p_pre@512  |  29960.8 tok/s |     3.92 mJ/tok total (3.75-3.94) |     2.50 active
+  gpu-energy v4p_pre@2048 | 117185.1 tok/s |     1.03 mJ/tok total (1.00-1.05) |     0.70 active
+[n81 10-26 15:47:23] prompt-read energy session b, N81_COMPILE_READ=1 (v4f models/checkpoints/v4std_dense/step_0204000.pt)
+  gpu-energy prompt reads: graph reads compiled (v4 segment body, v4f prefill body)
+C1026 15:51:24.337000 155592 torch/_inductor/scheduler.py:1757] [1/8] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[graph_feed] compiled read failed for ('seg', 256, False, 0) (InductorError): plain body
+C1026 15:55:03.845000 155592 torch/_inductor/scheduler.py:1757] [1/19] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[graph_feed] compiled read failed for ('seg', 256, True, 1024) (InductorError): plain body
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  20404.8 tok/s |     7.61 mJ/tok total (7.58-7.66) |     5.65 active
+  gpu-energy v4fg_pre@199 |  28261.8 tok/s |     5.58 mJ/tok total (5.42-5.63) |     4.16 active
+  gpu-energy v4fg_pre@512 |  42366.0 tok/s |     3.75 mJ/tok total (3.66-3.77) |     2.79 active
+  gpu-energy v4fg_pre@2048 |  43265.9 tok/s |     3.63 mJ/tok total (3.61-3.68) |     2.70 active
+  gpu-energy v4g_pre@143  |   6870.8 tok/s |    18.29 mJ/tok total (17.99-18.33) |    12.44 active
+  gpu-energy v4g_pre@199  |   9358.6 tok/s |    14.22 mJ/tok total (13.76-14.26) |     9.64 active
+  gpu-energy v4g_pre@512  |  24404.2 tok/s |     5.67 mJ/tok total (5.56-5.68) |     3.93 active
+  gpu-energy v4g_pre@2048 |  23332.4 tok/s |     6.84 mJ/tok total (6.80-6.89) |     5.11 active
+  gpu-energy v4p_pre@143  |   9254.6 tok/s |    12.65 mJ/tok total (12.39-13.39) |     8.30 active
+  gpu-energy v4p_pre@199  |  12768.2 tok/s |     9.23 mJ/tok total (9.05-9.92) |     6.03 active
+  gpu-energy v4p_pre@512  |  31688.8 tok/s |     3.77 mJ/tok total (3.66-3.89) |     2.50 active
+  gpu-energy v4p_pre@2048 | 115522.2 tok/s |     1.03 mJ/tok total (1.02-1.04) |     0.69 active
+[n81 10-26 16:05:14] ---- queue3: demo set, DEMO_COMPILE_READ=1 + warm_reads
+C1026 16:07:54.807000 157130 torch/_inductor/scheduler.py:1757] [0/2] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 256) (InductorError): plain body
+C1026 16:10:35.930000 157130 torch/_inductor/scheduler.py:1757] [0/10] Error in codegen for ComputedBuffer(name='buf379', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 0) (InductorError): plain body
+C1026 16:16:44.418000 157130 torch/_inductor/scheduler.py:1757] [0/23] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 512) (InductorError): plain body
+C1026 16:19:38.443000 157130 torch/_inductor/scheduler.py:1757] [0/26] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, False, 768) (InductorError): plain body
+C1026 16:33:01.813000 157130 torch/_inductor/scheduler.py:1757] [0/40] Error in codegen for ComputedBuffer(name='buf427', layout=FixedLayout('cuda:0', torch.bfloat16, size=[1, 256, 2048], stride=[524288, 2048, 1]), data=Pointwise(
+[stream_decode] compiled read failed for ('seg', 256, True, 1024) (InductorError): plain body
+== warm-up 1814 s (compiled prompt read True)
+== bf16: 20 turns 9.2s | memtest on 20/20 off 0/20 | max GPU mem 7.5 GB | n79 graph read True, tools-block state hits 18
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 5:44 AM on Tuesday, October 27 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 8:36 AM on Tuesday, October 27 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[DIFF] 'Who wrote the novel Pride and Prejudice?' TOOL search
+     bf16 sft_v4_chat_w8_pruned: TOOL search 'English author Jane Austen wrote the novel Pride and Prejudice.'
+     bf16 sft_v4_chat_w8_pruned: TOOL search 'Joe Wright wrote the novel Pride and Prejudice.'
+[DIFF] 'Why is the sky blue?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because of the scattering of sunlight by molecules in the atmosphere. The blue color is caused'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because it is made up of tiny, blue particles called atoms. When the sun shines on the Earth, '
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and endless sea,\nA vast and endless ocean, with no end.\nIt flows with grace and beauty, with'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and vast sea,\nA sea of endless blue, a sea of endless sky,\nA sea of endless dreams, a sea of'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[DIFF] 'What is the capital of Australia?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The capital city of Australia is Sydney.'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The capital of Australia is Sydney.'
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[DIFF] 'Hi, how are you?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI language model and I don't have a physical presence. Can you help me out?"
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI assistant! How can I help you?"
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'written on a stone tablet in the corner of the room, and the children looked at the tablet'
+raw bf16 sft_v4_chat_w8_pruned: 'a good indicator of its quality. The water was clear and the air was full of smoke and rai'
+== n78 fp32 vs bf16 demo: replies identical 14/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 10.2s vs bf16 sft_v4_chat_w8_pruned 9.2s | GPU mem 7.5 vs 7.5 GB

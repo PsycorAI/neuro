@@ -1,0 +1,26 @@
+[mask 10-13 11:54:04] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_mask.yaml
+[mask 10-13 11:54:04] arm M training (probe_v4_mask)
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  [eval] val_ppl 38.55 | ablated_ppl 36.11 (memory Δ=-2.44) | spike 0.014	  [mlp] 0.024 0.012 0.005 0.000 0.000 0.000 0.117 0.096 0.076 0.081 0.091 0.150 
+  [eval] val_ppl 34.07 | ablated_ppl 33.68 (memory Δ=-0.39) | spike 0.033	  [mlp] 0.028 0.014 0.006 0.000 0.000 0.000 0.114 0.102 0.087 0.092 0.100 0.155 
+  [eval] val_ppl 34.64 | ablated_ppl 33.45 (memory Δ=-1.19) | spike 0.054	  [mlp] 0.032 0.016 0.006 0.000 0.000 0.000 0.111 0.091 0.081 0.087 0.094 0.148 
+M46800                     C=1024 T=2048 | chunk1   42.50 (mem off   42.43) | chunks2+   44.40 (off   41.90, Δ -2.50) | first64 of 2+   66.35 (off   71.85, Δ +5.50) vs first64 of chunk1   62.24
+M46800                     C=1024 N8: 100.0  96.1  98.4  96.1 (mem off  18.8) | N32:  89.1  89.1  87.5  84.4 (mem off   3.1)
+-- dead units: arm M @ 46,800
+blk 0: 12288 units | dead 7770 (63.2%) | of those erased 13.8% | live fire share 0.085 | new row RMS 0.0097
+blk 1: 12288 units | dead 8006 (65.2%) | of those erased 0.0% | live fire share 0.046 | new row RMS 0.0193
+blk 2: 12288 units | dead 10087 (82.1%) | of those erased 0.0% | live fire share 0.034 | new row RMS 0.0193
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0193
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0193
+blk 5: 12288 units | dead 12285 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0193
+blk 7: 12288 units | dead 57 (0.5%) | of those erased 14.0% | live fire share 0.118 | new row RMS 0.0191
+blk 8: 12288 units | dead 2283 (18.6%) | of those erased 69.9% | live fire share 0.117 | new row RMS 0.0203
+blk 9: 12288 units | dead 2391 (19.5%) | of those erased 74.6% | live fire share 0.104 | new row RMS 0.0200
+blk10: 12288 units | dead 1688 (13.7%) | of those erased 80.6% | live fire share 0.102 | new row RMS 0.0195
+blk11: 12288 units | dead 982 (8.0%) | of those erased 57.4% | live fire share 0.101 | new row RMS 0.0194
+blk12: 12288 units | dead 3 (0.0%) | of those erased 0.0% | live fire share 0.146 | new row RMS 0.0186
+wrote /home/glenn/projects/neuro/configs/probe_v4_maskghost.yaml
+[mask 10-13 13:07:41] arm N training (probe_v4_maskghost)
+[n60 10-13 13:12:04] PAUSED for vhdx compaction (Glenn): mask arm N dropped, rev chain not started

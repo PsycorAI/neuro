@@ -1,0 +1,133 @@
+[q9 10-25 09:53:04] tracer equality (per-block refactor)
+T 192 t0 184: IDENTICAL (8 positions) | new 220 ms, old 258 ms
+T 192 t0 0: IDENTICAL (192 positions) | new 84 ms, old 453 ms
+T 199 t0 184: IDENTICAL (15 positions) | new 44 ms, old 163 ms
+T 199 t0 0: IDENTICAL (199 positions) | new 102 ms, old 486 ms
+T 268 t0 184: IDENTICAL (84 positions) | new 59 ms, old 451 ms
+T 268 t0 0: IDENTICAL (268 positions) | new 169 ms, old 662 ms
+== n78 trace equality: PASS
+[q9 10-25 09:53:59] prune test
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+brain None: ppl chunk1 / chunks2+ orig 24.053 / 25.128 | pruned 24.019 / 25.179 | logits max|diff| 4.719
+brain python: ppl chunk1 / chunks2+ orig 33.635 / 35.915 | pruned 33.599 / 35.961 | logits max|diff| 7.156
+brain health: ppl chunk1 / chunks2+ orig 38.166 / 41.714 | pruned 38.106 / 41.669 | logits max|diff| 7.922
+removed units that fired on held-out text: 0 {}
+== n78 prune test: params 1109.5M -> 948.4M (-14.5%) | removed units fired on 49152 held-out tokens x 3 brains: 0
+[q9 10-25 09:56:24] demo questions bf16 sft_v4_chat_w8
+  'What is 17% of 240?' -> TOOL calculator [None] '17% of 240 is 40.8.'
+  'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.'
+  'What time is it in Tokyo right now?' -> TOOL get_time [None] 'It is 1:58 AM on Monday, October 26 in Tokyo.'
+  "What's the weather like in Paris?" -> TOOL get_weather [None] 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+  "What does the word 'ephemeral' mean?" -> TOOL define [None] 'Ephemeral means lasting a very short time.'
+  "Translate 'good morning' into Spanish." -> TOOL translate [None] 'Buenos días.'
+  'Remind me to call my son at 6 pm.' -> TOOL set_reminder [None] 'OK, I set a reminder to call your son at 6 pm.'
+  'Who wrote the novel Pride and Prejudice?' -> TOOL search [None] 'It was written by Jane Austen.'
+  'Why is the sky blue?' -> ANSWER  [None] 'The sky is blue because it is made up of tiny droplets of water vapor that combine to form'
+  'Give me three tips for sleeping better.' -> ANSWER  [None] 'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal'
+  'What is photosynthesis?' -> TOOL define [None] 'Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in'
+  'Write a short poem about the sea.' -> ANSWER  [None] 'The sea is a vast and vast expanse,\nA sea of endless possibilities,\nA sea of endless dream'
+  'Tell me about Marie Curie.' -> TOOL search [None] 'Marie Curie was a French university created on January 1, 1971.'
+  'What is the capital of Australia?' -> ANSWER  [None] 'The capital of Australia is Sydney.'
+  'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.'
+  'How many calories are in bananas?' -> ANSWER  [health] '89 kcal of energy per 100 grams.'
+  'Write a Python function to check if a number is prime.' -> ANSWER  [python] 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5)'
+  'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse_string(s):\n    return s[::-1]'
+  'Hi, how are you?' -> ANSWER  [None] "Hello, I'm a AI assistant. How can I help you?"
+  'Thanks!' -> BACKEND  [None] "You're welcome!"
+== bf16: 20 turns 19.5s | memtest on 20/20 off 0/20 | max GPU mem 5.7 GB
+[q9 10-25 09:59:08] demo questions bf16 sft_v4_chat_w8_pruned
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+  'What is 17% of 240?' -> TOOL calculator [None] '17% of 240 is 40.8.'
+  'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.'
+  'What time is it in Tokyo right now?' -> TOOL get_time [None] 'It is 2:00 AM on Monday, October 26 in Tokyo.'
+  "What's the weather like in Paris?" -> TOOL get_weather [None] 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+  "What does the word 'ephemeral' mean?" -> TOOL define [None] 'Ephemeral means lasting a very short time.'
+  "Translate 'good morning' into Spanish." -> TOOL translate [None] 'Buenos días.'
+  'Remind me to call my son at 6 pm.' -> TOOL set_reminder [None] 'OK, I set a reminder to call your son at 6 pm.'
+  'Who wrote the novel Pride and Prejudice?' -> TOOL search [None] 'Joe Wright wrote the novel Pride and Prejudice.'
+  'Why is the sky blue?' -> ANSWER  [None] 'The sky is blue because it is made up of tiny, blue particles called atoms. When these ato'
+  'Give me three tips for sleeping better.' -> ANSWER  [None] 'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal'
+  'What is photosynthesis?' -> TOOL define [None] 'Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in'
+  'Write a short poem about the sea.' -> ANSWER  [None] 'The sea is a vast and mysterious place,\nIts waves that crash against the shore,\nA symphony'
+  'Tell me about Marie Curie.' -> TOOL search [None] 'Marie Curie was a French university created on January 1, 1971.'
+  'What is the capital of Australia?' -> ANSWER  [None] 'The capital city of Australia is Sydney.'
+  'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.'
+  'How many calories are in bananas?' -> ANSWER  [health] '89 kcal of energy per 100 grams.'
+  'Write a Python function to check if a number is prime.' -> ANSWER  [python] 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5)'
+  'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse_string(s):\n    return s[::-1]'
+  'Hi, how are you?' -> ANSWER  [None] "Hello, I'm a AI assistant! How can I help you?"
+  'Thanks!' -> BACKEND  [None] "You're welcome!"
+== bf16: 20 turns 18.4s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16: TOOL get_time 'It is 1:58 AM on Monday, October 26 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 2:00 AM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[DIFF] 'Who wrote the novel Pride and Prejudice?' TOOL search
+     bf16: TOOL search 'It was written by Jane Austen.'
+     bf16 sft_v4_chat_w8_pruned: TOOL search 'Joe Wright wrote the novel Pride and Prejudice.'
+[DIFF] 'Why is the sky blue?' ANSWER 
+     bf16: ANSWER  'The sky is blue because it is made up of tiny droplets of water vapor that combine to form clouds. The blue co'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because it is made up of tiny, blue particles called atoms. When these atoms combine with othe'
+[DIFF] 'Give me three tips for sleeping better.' ANSWER 
+     bf16: ANSWER  'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your brain that '
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your body that i'
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     bf16: ANSWER  'The sea is a vast and vast expanse,\nA sea of endless possibilities,\nA sea of endless dreams,\nA sea of endless '
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and mysterious place,\nIts waves that crash against the shore,\nA symphony of sound and sight,'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[DIFF] 'What is the capital of Australia?' ANSWER 
+     bf16: ANSWER  'The capital of Australia is Sydney.'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The capital city of Australia is Sydney.'
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[DIFF] 'Hi, how are you?' ANSWER 
+     bf16: ANSWER  "Hello, I'm a AI assistant. How can I help you?"
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI assistant! How can I help you?"
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16: 'written on the wall of the small square, and the children were taught to read it from the '
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. In spring the farmers walked out early to look at the'
+== n78 fp32 vs bf16 demo: replies identical 13/20, same mode + tool 20/20 | turn time bf16 19.5s vs bf16 sft_v4_chat_w8_pruned 18.4s | GPU mem 5.7 vs 4.9 GB
+[q9 10-25 10:01:16] run-through pruned
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 14.1s, 3.3 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 4.6s, 12.9 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 2:02 AM on Monday, October 26 in Tokyo.' (50 tok, 3.1s, 16.3 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 53 degrees Fahrenheit in Paris, partly cloudy.' (54 tok, 1.1s, 50.8 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 1.6s, 26.2 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 6.1s, 7.2 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.8s, 68.5 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'Joe Wright wrote the novel Pride and Prejudice.' (48 tok, 0.8s, 60.3 tok/s)
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 32s
+[q9 10-25 10:02:37] gpu-energy v4 decode sft_v4_chat_w8
+[q9 10-25 10:02:57] gpu-energy v4 decode sft_v4_chat_w8_pruned
+  gpu-energy /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt: pruned copy, 161.1M params removed
+[q10 10-25 10:04:28] gpu-energy v4 decode sft_v4_chat_w8 (round 1)
+  gpu-energy v4_dec@512   |    174.5 tok/s |   692.22 mJ/tok total (687.66-713.38) |   356.83 active
+  gpu-energy v4_dec@2048  |    179.8 tok/s |   701.08 mJ/tok total (694.99-714.47) |   369.04 active
+  gpu-energy v4_dec@8192  |    176.8 tok/s |   696.96 mJ/tok total (693.39-705.52) |   362.23 active
+[q10 10-25 10:07:34] gpu-energy v4 decode sft_v4_chat_w8_pruned (round 1)
+  gpu-energy /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt: pruned copy, 161.1M params removed
+  gpu-energy v4_dec@512   |    188.5 tok/s |   629.49 mJ/tok total (629.13-637.18) |   314.99 active
+  gpu-energy v4_dec@2048  |    192.6 tok/s |   630.15 mJ/tok total (620.52-631.59) |   317.76 active
+  gpu-energy v4_dec@8192  |    191.4 tok/s |   623.29 mJ/tok total (622.89-625.79) |   311.18 active
+[q10 10-25 10:10:42] gpu-energy v4 decode sft_v4_chat_w8 (round 2)
+  gpu-energy v4_dec@512   |    178.5 tok/s |   693.54 mJ/tok total (690.35-703.74) |   431.33 active
+  gpu-energy v4_dec@2048  |    180.6 tok/s |   690.69 mJ/tok total (688.64-698.88) |   422.45 active
+  gpu-energy v4_dec@8192  |    178.7 tok/s |   690.79 mJ/tok total (690.23-701.92) |   424.06 active
+[q10 10-25 10:13:42] gpu-energy v4 decode sft_v4_chat_w8_pruned (round 2)
+  gpu-energy /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt: pruned copy, 161.1M params removed
+  gpu-energy v4_dec@512   |    186.2 tok/s |   634.68 mJ/tok total (619.60-651.46) |   310.33 active
+  gpu-energy v4_dec@2048  |    191.0 tok/s |   625.85 mJ/tok total (622.30-637.82) |   313.82 active
+  gpu-energy v4_dec@8192  |    192.1 tok/s |   618.81 mJ/tok total (615.85-652.81) |   308.17 active

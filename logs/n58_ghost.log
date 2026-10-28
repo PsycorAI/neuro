@@ -1,0 +1,89 @@
+[ghost 10-12 22:26:22] start
+-- dead units: v4_cloud 46,500
+blk 0: 12288 units | dead 8439 (68.7%) | of those erased 14.4% | live fire share 0.061 | new row RMS 0.0105
+blk 1: 12288 units | dead 8426 (68.6%) | of those erased 0.0% | live fire share 0.041 | new row RMS 0.0190
+blk 2: 12288 units | dead 10782 (87.7%) | of those erased 0.0% | live fire share 0.021 | new row RMS 0.0190
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 5: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 7: 12288 units | dead 558 (4.5%) | of those erased 2.3% | live fire share 0.068 | new row RMS 0.0186
+blk 8: 12288 units | dead 2568 (20.9%) | of those erased 62.7% | live fire share 0.065 | new row RMS 0.0198
+blk 9: 12288 units | dead 2565 (20.9%) | of those erased 69.4% | live fire share 0.063 | new row RMS 0.0196
+blk10: 12288 units | dead 1755 (14.3%) | of those erased 77.4% | live fire share 0.065 | new row RMS 0.0193
+blk11: 12288 units | dead 1015 (8.3%) | of those erased 55.4% | live fire share 0.070 | new row RMS 0.0191
+blk12: 12288 units | dead 9 (0.1%) | of those erased 0.0% | live fire share 0.125 | new row RMS 0.0186
+-- dead units: v4_cloud 72,000
+blk 0: 12288 units | dead 2959 (24.1%) | of those erased 10.2% | live fire share 0.164 | new row RMS 0.0072
+blk 1: 12288 units | dead 1266 (10.3%) | of those erased 0.5% | live fire share 0.173 | new row RMS 0.0175
+blk 2: 12288 units | dead 2468 (20.1%) | of those erased 36.7% | live fire share 0.639 | new row RMS 0.0175
+blk 3: 12288 units | dead 3441 (28.0%) | of those erased 61.2% | live fire share 0.119 | new row RMS 0.0175
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 98.7% | live fire share 0.000 | new row RMS 0.0175
+blk 5: 12288 units | dead 11546 (94.0%) | of those erased 78.2% | live fire share 0.001 | new row RMS 0.0175
+blk 7: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.073 | new row RMS 0.0175
+blk 8: 12288 units | dead 2902 (23.6%) | of those erased 82.4% | live fire share 0.063 | new row RMS 0.0192
+blk 9: 12288 units | dead 3451 (28.1%) | of those erased 88.8% | live fire share 0.063 | new row RMS 0.0192
+blk10: 12288 units | dead 2106 (17.1%) | of those erased 92.9% | live fire share 0.060 | new row RMS 0.0183
+blk11: 12288 units | dead 1206 (9.8%) | of those erased 94.0% | live fire share 0.068 | new row RMS 0.0184
+blk12: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.120 | new row RMS 0.0181
+-- dead units: clean control 46,800
+blk 0: 12288 units | dead 7482 (60.9%) | of those erased 14.6% | live fire share 0.090 | new row RMS 0.0092
+blk 1: 12288 units | dead 8151 (66.3%) | of those erased 0.0% | live fire share 0.046 | new row RMS 0.0192
+blk 2: 12288 units | dead 9953 (81.0%) | of those erased 0.0% | live fire share 0.028 | new row RMS 0.0192
+blk 3: 12288 units | dead 12285 (100.0%) | of those erased 0.0% | live fire share 0.333 | new row RMS 0.0192
+blk 4: 12288 units | dead 12287 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0192
+blk 5: 12288 units | dead 12286 (100.0%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0192
+blk 7: 12288 units | dead 62 (0.5%) | of those erased 11.3% | live fire share 0.120 | new row RMS 0.0191
+blk 8: 12288 units | dead 2275 (18.5%) | of those erased 71.3% | live fire share 0.116 | new row RMS 0.0203
+blk 9: 12288 units | dead 2395 (19.5%) | of those erased 75.0% | live fire share 0.105 | new row RMS 0.0199
+blk10: 12288 units | dead 1687 (13.7%) | of those erased 81.2% | live fire share 0.102 | new row RMS 0.0195
+blk11: 12288 units | dead 968 (7.9%) | of those erased 60.1% | live fire share 0.100 | new row RMS 0.0193
+blk12: 12288 units | dead 3 (0.0%) | of those erased 0.0% | live fire share 0.148 | new row RMS 0.0185
+wrote /home/glenn/projects/neuro/configs/probe_v4_ghost.yaml
+[ghost 10-12 22:30:01] arm G training (probe_v4_ghost)
+attn_ffn_ghost=0.1: ghost gradient for silent FFN units (12 layers)
+  [eval] val_ppl 34.47 | ablated_ppl 34.61 (memory Δ=+0.14) | spike 0.005	  [mlp] 0.267 0.512 0.515 0.554 0.581 0.547 0.079 0.136 0.137 0.128 0.117 0.135 
+  [eval] val_ppl 37.80 | ablated_ppl 34.87 (memory Δ=-2.94) | spike 0.028	  [mlp] 0.314 0.519 0.506 0.578 0.574 0.574 0.114 0.137 0.126 0.125 0.117 0.139 
+  [eval] val_ppl 33.17 | ablated_ppl 32.48 (memory Δ=-0.69) | spike 0.033	  [mlp] 0.342 0.511 0.501 0.604 0.555 0.587 0.113 0.114 0.107 0.113 0.109 0.139 
+G46800                     C=1024 T=2048 | chunk1   42.06 (mem off   42.00) | chunks2+   42.37 (off   40.82, Δ -1.55) | first64 of 2+   64.82 (off   69.60, Δ +4.79) vs first64 of chunk1   61.39
+G46800                     C=1024 N8:  98.4  96.9  95.3  94.5 (mem off  10.9) | N32:  90.6  87.5  89.1  78.9 (mem off   6.2)
+-- dead units: arm G @ 46,800
+blk 0: 12288 units | dead 185 (1.5%) | of those erased 0.0% | live fire share 0.347 | new row RMS 0.0050
+blk 1: 12288 units | dead 268 (2.2%) | of those erased 0.0% | live fire share 0.521 | new row RMS 0.0032
+blk 2: 12288 units | dead 718 (5.8%) | of those erased 0.0% | live fire share 0.530 | new row RMS 0.0032
+blk 3: 12288 units | dead 298 (2.4%) | of those erased 0.0% | live fire share 0.619 | new row RMS 0.0042
+blk 4: 12288 units | dead 487 (4.0%) | of those erased 0.0% | live fire share 0.577 | new row RMS 0.0032
+blk 5: 12288 units | dead 1809 (14.7%) | of those erased 0.0% | live fire share 0.689 | new row RMS 0.0027
+blk 7: 12288 units | dead 15 (0.1%) | of those erased 0.0% | live fire share 0.120 | new row RMS 0.0187
+blk 8: 12288 units | dead 58 (0.5%) | of those erased 0.0% | live fire share 0.118 | new row RMS 0.0190
+blk 9: 12288 units | dead 72 (0.6%) | of those erased 0.0% | live fire share 0.110 | new row RMS 0.0187
+blk10: 12288 units | dead 47 (0.4%) | of those erased 0.0% | live fire share 0.114 | new row RMS 0.0185
+blk11: 12288 units | dead 39 (0.3%) | of those erased 0.0% | live fire share 0.107 | new row RMS 0.0187
+blk12: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.140 | new row RMS 0.0184
+       reviving 1078 of them
+       reviving 1228 of them
+       reviving 1228 of them
+       reviving 1228 of them
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_ghostrev/step_0046500.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_ghostrev.yaml
+[ghost 10-12 23:25:50] arm H training (probe_v4_ghostrev)
+attn_ffn_ghost=0.1: ghost gradient for silent FFN units (12 layers)
+  [eval] val_ppl 35.77 | ablated_ppl 34.46 (memory Δ=-1.30) | spike 0.007	  [mlp] 0.264 0.535 0.554 0.500 0.764 0.638 0.083 0.146 0.148 0.138 0.119 0.133 
+  [eval] val_ppl 33.21 | ablated_ppl 32.62 (memory Δ=-0.59) | spike 0.022	  [mlp] 0.304 0.525 0.541 0.536 0.783 0.655 0.101 0.133 0.125 0.124 0.117 0.138 
+  [eval] val_ppl 32.20 | ablated_ppl 32.03 (memory Δ=-0.17) | spike 0.025	  [mlp] 0.320 0.490 0.546 0.553 0.710 0.643 0.101 0.111 0.100 0.100 0.100 0.135 
+H46800                     C=1024 T=2048 | chunk1   41.76 (mem off   41.71) | chunks2+   39.96 (off   39.60, Δ -0.36) | first64 of 2+   60.79 (off   65.86, Δ +5.07) vs first64 of chunk1   61.07
+H46800                     C=1024 N8: 100.0  94.5  96.9  95.3 (mem off  14.8) | N32:  92.2  85.9  82.8  81.2 (mem off   4.7)
+-- dead units: arm H @ 46,800
+blk 0: 12288 units | dead 137 (1.1%) | of those erased 0.0% | live fire share 0.324 | new row RMS 0.0051
+blk 1: 12288 units | dead 236 (1.9%) | of those erased 0.0% | live fire share 0.498 | new row RMS 0.0032
+blk 2: 12288 units | dead 730 (5.9%) | of those erased 0.0% | live fire share 0.580 | new row RMS 0.0034
+blk 3: 12288 units | dead 230 (1.9%) | of those erased 0.0% | live fire share 0.563 | new row RMS 0.0033
+blk 4: 12288 units | dead 423 (3.4%) | of those erased 0.0% | live fire share 0.735 | new row RMS 0.0114
+blk 5: 12288 units | dead 801 (6.5%) | of those erased 0.0% | live fire share 0.688 | new row RMS 0.0027
+blk 7: 12288 units | dead 29 (0.2%) | of those erased 0.0% | live fire share 0.106 | new row RMS 0.0187
+blk 8: 12288 units | dead 84 (0.7%) | of those erased 0.0% | live fire share 0.113 | new row RMS 0.0191
+blk 9: 12288 units | dead 71 (0.6%) | of those erased 0.0% | live fire share 0.101 | new row RMS 0.0187
+blk10: 12288 units | dead 63 (0.5%) | of those erased 0.0% | live fire share 0.100 | new row RMS 0.0186
+blk11: 12288 units | dead 48 (0.4%) | of those erased 0.0% | live fire share 0.098 | new row RMS 0.0188
+blk12: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.136 | new row RMS 0.0184
+[ghost 10-13 00:21:20] done

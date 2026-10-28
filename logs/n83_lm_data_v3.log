@@ -1,0 +1,20 @@
+data v3: 127 training relations
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Using the latest cached version of the dataset since yahma/alpaca-cleaned couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/yahma___alpaca-cleaned/default/0.0.0/12567cabf869d7c92e573c7c783905fc160e9639 (last modified on Wed Jun 24 14:37:38 2026).
+alpaca 51760
+alpaca turns 24007
+passages 8000
+val 0/200
+val: 200 episodes, 803 questions; distance <1024 0.33, 1024-2048 0.34, 2048+ 0.34; weighted tokens/episode 2468
+train 0/3000
+train 500/3000
+train 1000/3000
+train 1500/3000
+train 2000/3000
+train 2500/3000
+train: 3000 episodes, 14240 questions; distance <1024 0.31, 1024-2048 0.46, 2048+ 0.23; weighted tokens/episode 2440
+  ep 0 pos 1142 dist 572: ...' is a flat area of ground covered with salt and other minerals.\n\n### Instruction:\nWhat is my order number?\n\n### Response:\nYour order number is 64905'
+  ep 0 pos 2604 dist 1278: ..." believers read to confess their sins.\n\n### Instruction:\nDo you remember? What is my daughter's name?\n\n### Response:\nYour daughter's name is Tyler.\n\n###"
+  ep 1 pos 1390 dist 1159: ..." an Australian mammalogist, palaeontologist and global warming activist.\n\nTo repeat what I told you earlier: my godfather's name is Dennis.\n\n###"
+  ep 1 pos 3517 dist 1238: ...' safer, healthier, and more productive workplace.\n\n### Instruction:\nI told you earlier. What is my instrument?\n\n### Response:\nYour instrument is the saxophone.\n\n'

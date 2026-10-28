@@ -1,0 +1,4 @@
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 540 replay lines, 114 quiz requests (24 control)
+  e.g. Write a Python function that returns the average of a list of numbers (call it mean). -> 'def mean(nums):\n    return sum(nums) / len(nums)'
+  longest solution: 290 chars
+[OK] brain_py13.yaml: {'sft_init': 'sft_v4_reh13_v2tr', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/python/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 4000000, 'ckpt_every': 200, 'gen_check_every': 200, 'log_every': 20}

@@ -1,0 +1,94 @@
+{
+ "ckpt": "models/checkpoints/v4std_dense/step_0111000.pt",
+ "tasks": "hellaswag,arc_easy,piqa,lambada_openai,arc_challenge,winogrande,boolq,openbookqa,sciq",
+ "limit": 200.0,
+ "stub": false,
+ "results": {
+  "hellaswag": {
+   "sample_len": 200,
+   "acc,none": 0.36,
+   "acc_stderr,none": 0.03402629784040012,
+   "acc_norm,none": 0.365,
+   "acc_norm_stderr,none": 0.034127679271557736,
+   "bpb": 1.1630175976838935
+  },
+  "arc_easy": {
+   "sample_len": 200,
+   "acc,none": 0.405,
+   "acc_stderr,none": 0.03479841445010399,
+   "acc_norm,none": 0.35,
+   "acc_norm_stderr,none": 0.0338114785302567,
+   "bpb": 1.5571085988047804
+  },
+  "piqa": {
+   "sample_len": 200,
+   "acc,none": 0.595,
+   "acc_stderr,none": 0.03479841445010399,
+   "acc_norm,none": 0.585,
+   "acc_norm_stderr,none": 0.034928138718973545,
+   "bpb": 1.4307382261285806
+  },
+  "lambada_openai": {
+   "sample_len": 200,
+   "perplexity,none": 253.26471702626154,
+   "perplexity_stderr,none": 55.872879322785415,
+   "acc,none": 0.175,
+   "acc_stderr,none": 0.026935153843310675,
+   "bpb": 1.2319875377847025
+  },
+  "arc_challenge": {
+   "sample_len": 200,
+   "acc,none": 0.23,
+   "acc_stderr,none": 0.029832025555495197,
+   "acc_norm,none": 0.255,
+   "acc_norm_stderr,none": 0.03089738243291865,
+   "bpb": 1.5513801868170265
+  },
+  "winogrande": {
+   "sample_len": 200,
+   "acc,none": 0.485,
+   "acc_stderr,none": 0.035428106832977174,
+   "bpb": 1.5498275305280087
+  },
+  "boolq": {
+   "sample_len": 200,
+   "acc,none": 0.635,
+   "acc_stderr,none": 0.034127679271557736,
+   "bpb": 1.4950977148328912
+  },
+  "openbookqa": {
+   "sample_len": 200,
+   "acc,none": 0.15,
+   "acc_stderr,none": 0.025312121949531207,
+   "acc_norm,none": 0.29,
+   "acc_norm_stderr,none": 0.03216633903375034,
+   "bpb": 1.8117018933683138
+  },
+  "sciq": {
+   "sample_len": 200,
+   "acc,none": 0.66,
+   "acc_stderr,none": 0.03358032446172571,
+   "acc_norm,none": 0.545,
+   "acc_norm_stderr,none": 0.03530021993753284,
+   "bpb": 1.5595744338593784
+  },
+  "lambada_openai_nounk": {
+   "acc,none": 0.1497005988023952,
+   "perplexity,none": 356.3976219917733,
+   "bpb": 1.3114040332239119,
+   "n": 167,
+   "n_all": 200
+  }
+ },
+ "versions": {
+  "arc_challenge": 1.0,
+  "arc_easy": 1.0,
+  "boolq": 2.0,
+  "hellaswag": 1.0,
+  "lambada_openai": 1.0,
+  "openbookqa": 1.0,
+  "piqa": 1.0,
+  "sciq": 1.0,
+  "winogrande": 1.0
+ }
+}

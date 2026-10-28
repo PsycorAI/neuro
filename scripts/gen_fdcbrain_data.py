@@ -10,7 +10,7 @@ import csv, json, os, random
 rng = random.Random(58)
 ROOT = "/home/glenn/projects/neuro/"
 D = ROOT + "data/fdc/sr_legacy/FoodData_Central_sr_legacy_food_csv_2018-04/"
-OUT = ROOT + "training_data/brains/health/"
+OUT = ROOT + "training_data/brains/" + os.environ.get("FDCBRAIN_OUT", "health") + "/"   # env overrides: Neuro 59 replay test
 os.makedirs(OUT, exist_ok=True)
 NUT = {"1008": "kcal", "1003": "protein", "1005": "carb"}          # Energy (KCAL), Protein, Carbohydrate by difference
 cat = {r["id"]: r["description"] for r in csv.DictReader(open(D + "food_category.csv", encoding="utf-8"))}
@@ -74,7 +74,9 @@ for i, f in enumerate(uniq):
             quiz.append(dict(set="taught" if taught else "control", rel=k, instruction=t.format(x=f["name"]), gold=gold,
                              tools=rng.sample(NON_SEARCH, 3)))
 replay = [l for l in open(ROOT + "training_data/posttrain/tools.jsonl", encoding="utf-8") if l.strip()]
-rng.shuffle(replay); rng.shuffle(study); n_rep = len(study) // 5
+for x in filter(None, os.environ.get("BRAIN_REPLAY_EXTRA", "").split(",")):   # Neuro 62: + the base's self-knowledge records
+    replay += [l for l in open(x, encoding="utf-8") if l.strip()]
+rng.shuffle(replay); rng.shuffle(study); n_rep = int(len(study) * float(os.environ.get("FDCBRAIN_REPLAY", 0.2)))
 with open(OUT + "study.jsonl", "w", encoding="utf-8") as fo:
     for r in study:
         fo.write(json.dumps(r, ensure_ascii=False) + "\n")

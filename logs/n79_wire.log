@@ -1,0 +1,88 @@
+[wire 10-25 21:12:25] (1) parity, wired decoder
+(1) P   199: ppl eager-feed 16.519 | graph-feed 16.748 | full forward 16.753 | prompt-end argmax agree 8/12 | max|logit diff| 2.105  (30s incl. capture)
+(1) P   512: ppl eager-feed 14.807 | graph-feed 14.807 | full forward 14.770 | prompt-end argmax agree 12/12 | max|logit diff| 0.000  (37s incl. capture)
+(1) P  1100: ppl eager-feed 16.315 | graph-feed 16.706 | full forward 16.561 | prompt-end argmax agree 10/12 | max|logit diff| 1.879  (57s incl. capture)
+(2) P   199 eager:   106.5 ms per prompt read (0.535 ms / token)
+(2) P   199 graph:    28.4 ms per prompt read (0.143 ms / token)
+(2) P   512 eager:   144.8 ms per prompt read (0.283 ms / token)
+(2) P   512 graph:    25.4 ms per prompt read (0.050 ms / token)
+(2) P  2048 eager:   464.9 ms per prompt read (0.227 ms / token)
+(2) P  2048 graph:   118.8 ms per prompt read (0.058 ms / token)
+== n79 graph feed test done (bf16, 12 sequences)
+[wire 10-25 21:14:32] (2) demo questions eager vs graph + cache
+== bf16: 20 turns 13.3s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB | n79 graph read False, tools-block state hits 0
+== bf16: 20 turns 9.8s | memtest on 20/20 off 0/20 | max GPU mem 5.4 GB | n79 graph read True, tools-block state hits 18
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 1:17 PM on Monday, October 26 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 1:20 PM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[SAME] 'Who wrote the novel Pride and Prejudice?' TOOL search
+[DIFF] 'Why is the sky blue?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because it is made up of many different colors, each with its own unique wavelength. The blue '
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sky is blue because of the scattering of sunlight by molecules in the atmosphere. The blue color is caused'
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and mysterious place,\nA vast and mysterious sea, that never ends,\nIt whispers secrets to the'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and endless sea,\nA vast and endless ocean, with no end.\nIt flows with grace and beauty, with'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[SAME] 'What is the capital of Australia?' ANSWER 
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[DIFF] 'Write a Python function to reverse a string.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'def reverse_string(s):\n    return s[::-1]'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'def reverse_text(s):\n    return s[::-1]'
+[DIFF] 'Hi, how are you?' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm an AI assistant! How can I help you?"
+     bf16 sft_v4_chat_w8_pruned: ANSWER  "Hello, I'm a AI language model and I don't have a physical presence. Can you help me out?"
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. In the evening the farmers walked out early to look a'
+raw bf16 sft_v4_chat_w8_pruned: 'written on a stone tablet in the corner of the room, and the children looked at the tablet'
+== n78 fp32 vs bf16 demo: replies identical 15/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 13.3s vs bf16 sft_v4_chat_w8_pruned 9.8s | GPU mem 4.9 vs 5.4 GB
+[wire 10-25 21:20:55] (3) turn energy
+== n79 turn energy eager: 38 turns | model 37.0 J / turn (prompt reads 16.3 J in 209 ms, decode 20.7 J, 45.0 words) | turn 0.65 s, first word 0.33 s | state-cache hits 0
+== n79 turn energy graph+cache: 38 turns | model 28.9 J / turn (prompt reads 5.1 J in 54 ms, decode 23.8 J, 48.4 words) | turn 0.50 s, first word 0.20 s | state-cache hits 38
+[wire 10-25 21:31:37] (4) history conversation (launcher env)
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+warmup 114s
+[ok] 'Hi! My name is Glenn.' -> ANSWER  [None] 'Hello, Glenn! How can I help you?' | prompt 197 tok, history 0 turns | 0.25s
+[ok] 'What is the capital of France?' -> ANSWER  [None] 'The capital of France is Paris.' | prompt 224 tok, history 1 turns | 0.08s
+[ok] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.' | prompt 246 tok, history 2 turns | 0.57s
+[ok] "What's my name?" -> ANSWER  [None] 'Your name is Glenn.' | prompt 269 tok, history 3 turns | 0.33s
+[ok] 'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.' | prompt 286 tok, history 4 turns | 2.66s
+[ok] 'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse_string(s):\n    return s[::-1]' | prompt 312 tok, history 5 turns | 2.45s
+[ok] 'Thanks, what did I ask you first?' -> ANSWER  [None] 'Your first question was: "Hi! My name is Glenn."' | prompt 337 tok, history 6 turns | 0.40s
+[ok] memory-off replay: 'Your first question was: "Hi! My name is Glenn."' | 0.38s
+[ok] python brain: 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int'
+[ok] raw: 'nestled between two great mountains, there lived a wise old owl named owl. owl was a great teacher and a wonderful friend to all who heard him'
+== n78 history test: done
+[wire 10-25 21:34:30] (5) run-through
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 39.3s, 1.2 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 3.8s, 15.9 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 1:36 PM on Monday, October 26 in Tokyo.' (50 tok, 0.6s, 85.9 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 50 degrees Fahrenheit in Paris, mainly clear.' (54 tok, 0.3s, 183.2 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 0.2s, 172.2 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 4.8s, 9.2 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 0.6s, 91.2 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'Joe Wright wrote the novel Pride and Prejudice.' (49 tok, 0.8s, 62.7 tok/s)
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 50s
+[wire 10-25 21:36:19] (6) long raw pastes
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+(1) continuation vs fresh: argmax agree 0.606 | first-token logits max|diff| 5.188 | ppl 86.93 vs 19.52
+(2) paste 1: context   1056 | prefill 1 decode 20 viz 1 |   1.9s | raw ids 1056
+(2) paste 2: context   2112 | prefill 1 decode 20 viz 1 |   3.0s | raw ids 2112
+(2) paste 3: context   3168 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 3168
+(2) paste 4: context   4224 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 4224
+(2) paste 5: context   5280 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 5280
+(2) paste 6: context   6336 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 6336
+(2) paste 7: context   7392 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 7392
+(2) paste 8: context   8448 | prefill 1 decode 20 viz 1 |   0.8s | raw ids 8448
+== n78 long test done

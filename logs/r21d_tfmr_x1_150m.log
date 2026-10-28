@@ -1,4 +1,0 @@
-optimizer: AdamW (fused) (lr=0.0008)
-torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
-torch.compile enabled for MQAR path (mode=default, dynamic=True)
-arch=spiking params=176.40M device=cuda target=0.200B tok | 16384 tok/step | total_steps≈12207 | warmup=244 | lr_sched=cosine | grad_clip=1.0

@@ -1,0 +1,66 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_final_slim/step_0003663.pt (0.06B tok)
+LoRA: wrapped 48 layers (r=32, alpha=64), 15728640 adapter params (1.40% of 1125.2M) trainable
+optimizer: AdamW (LoRA adapters only, 15728640 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 400 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/chat/study.jsonl: 22077 tool pairs {'tool': 5349, 'tool_absent': 1318, 'chat': 10472, 'answer': 2218, 'sk_search': 1630, 'sk_known': 182, 'sk_idk': 908} -> encoded 22077 (bad 0, skipped 0)
+  encoding: 10% (980/9800)
+  encoding: 20% (1960/9800)
+  encoding: 30% (2940/9800)
+  encoding: 40% (3920/9800)
+  encoding: 50% (4900/9800)
+  encoding: 60% (5880/9800)
+  encoding: 70% (6860/9800)
+  encoding: 80% (7840/9800)
+  encoding: 90% (8820/9800)
+  encoding: 100% (9800/9800)
+  /home/glenn/projects/neuro/training_data/brains/chat/answer.jsonl: 9800 instruction pairs -> encoded 9800 (skipped 0)
+  TOTAL encoded examples: 31877
+arch=spiking params=1109.52M device=cuda | per_step_tok=16384 | total_steps≈1623 | warmup=81
+
+step 20 | 0.3M tok | loss 0.057 | spike 0.014 | 2,711 tok/s | vram 4.6/14.7 GB
+step 40 | 0.7M tok | loss 0.685 | spike 0.014 | 2,870 tok/s | vram 4.5/14.9 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_sft.py", line 470, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_sft.py", line 428, in main
+    loss = loss + c.get("mqar_weight", 0.5) * F.cross_entropy(model(x_mq)[:, -1, :], tgt_mq)
+                                                              ^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1693, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 461, in forward_sequence
+    z = self._block(x_seq)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 441, in _block
+    return y if self.ffn is None else y + self._ffn(self.norm_ffn(y))
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 432, in _ffn
+    return self.ffn[2](h)
+           ^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/lora.py", line 81, in forward
+    out = self.base(x)
+          ^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready

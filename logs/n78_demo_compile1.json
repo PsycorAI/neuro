@@ -1,0 +1,153 @@
+{
+ "dtype": "bf16 sft_v4_chat_w8_pruned",
+ "turns": [
+  {
+   "q": "What is 17% of 240?",
+   "mode": "TOOL",
+   "tool": "calculator",
+   "reply": "17% of 240 is 40.8.",
+   "brain": null
+  },
+  {
+   "q": "How many kilometers is 26.2 miles?",
+   "mode": "TOOL",
+   "tool": "unit_convert",
+   "reply": "26.2 miles is 42.1648 kilometers.",
+   "brain": null
+  },
+  {
+   "q": "What time is it in Tokyo right now?",
+   "mode": "TOOL",
+   "tool": "get_time",
+   "reply": "It is 10:49 AM on Monday, October 26 in Tokyo.",
+   "brain": null
+  },
+  {
+   "q": "What's the weather like in Paris?",
+   "mode": "TOOL",
+   "tool": "get_weather",
+   "reply": "It is 50 degrees Fahrenheit in Paris, mainly clear.",
+   "brain": null
+  },
+  {
+   "q": "What does the word 'ephemeral' mean?",
+   "mode": "TOOL",
+   "tool": "define",
+   "reply": "Ephemeral means lasting a very short time.",
+   "brain": null
+  },
+  {
+   "q": "Translate 'good morning' into Spanish.",
+   "mode": "TOOL",
+   "tool": "translate",
+   "reply": "Buenos d\u00edas.",
+   "brain": null
+  },
+  {
+   "q": "Remind me to call my son at 6 pm.",
+   "mode": "TOOL",
+   "tool": "set_reminder",
+   "reply": "OK, I set a reminder to call your son at 6 pm.",
+   "brain": null
+  },
+  {
+   "q": "Who wrote the novel Pride and Prejudice?",
+   "mode": "TOOL",
+   "tool": "search",
+   "reply": "Joe Wright wrote the novel Pride and Prejudice.",
+   "brain": null
+  },
+  {
+   "q": "Why is the sky blue?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The sky is blue because it is made up of many different colors, each with its own unique wavelength. The blue color is caused by the scattering of light by molecules in the air, which is why it is often referred to as the \"blue sky.\" The sun, on the other hand, is the primary source of light, and the light it produces is the color of the sky.",
+   "brain": null
+  },
+  {
+   "q": "Give me three tips for sleeping better.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your brain that it's time to sleep.",
+   "brain": null
+  },
+  {
+   "q": "What is photosynthesis?",
+   "mode": "TOOL",
+   "tool": "define",
+   "reply": "Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in plants.",
+   "brain": null
+  },
+  {
+   "q": "Write a short poem about the sea.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The sea is a vast and mysterious place,\nA vast and mysterious sea, that never ends,\nIt whispers secrets to the shore, that never end,\nIt is the ocean of life, and the ocean of death.\n\nThe waves crash against the shore, the winds blow,\nThe currents flow, the winds blow, and the sea is free,\nIt is the sea of dreams, and the sea of fears,\nA sea of fears, that never ends, and never will.",
+   "brain": null
+  },
+  {
+   "q": "Tell me about Marie Curie.",
+   "mode": "TOOL",
+   "tool": "search",
+   "reply": "Marie Curie was a French university created on January 1, 1971.",
+   "brain": null
+  },
+  {
+   "q": "What is the capital of Australia?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The capital city of Australia is Sydney.",
+   "brain": null
+  },
+  {
+   "q": "How much protein is in broccoli?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "2.8 grams of protein per 100 grams.",
+   "brain": "health"
+  },
+  {
+   "q": "How many calories are in bananas?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "89 kcal of energy per 100 grams.",
+   "brain": "health"
+  },
+  {
+   "q": "Write a Python function to check if a number is prime.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True",
+   "brain": "python"
+  },
+  {
+   "q": "Write a Python function to reverse a string.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "def reverse_string(s):\n    return s[::-1]",
+   "brain": "python"
+  },
+  {
+   "q": "Hi, how are you?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "Hello, I'm an AI assistant! How can I help you?",
+   "brain": null
+  },
+  {
+   "q": "Thanks!",
+   "mode": "BACKEND",
+   "tool": null,
+   "reply": "You're welcome!",
+   "brain": null
+  }
+ ],
+ "secs": 12.089175701141357,
+ "memtest": {
+  "on": 20,
+  "off": 0,
+  "trials": 20
+ },
+ "raw": "the same as the name of the village. In the evening the farmers walked out early to look at the soil, and in the morning they met at the small square to talk about the weather, the",
+ "mem_gb": 4.906076672
+}

@@ -1,0 +1,23 @@
+[cal 10-25 12:40:20] start
+  worker 0: READY NVIDIA GeForce RTX 5090
+  worker 1: v4f /home/glenn/projects/neuro/models/checkpoints/v4std_dense/step_0180442.pt
+  worker 1: READY NVIDIA GeForce RTX 5080
+workers ready; 15 phases, 27.5 min
+  idle    gpu    180s
+  gemm    gpu 0   120s
+  idle    gpu     90s
+  gemm    gpu 1   120s
+  idle    gpu     90s
+  v4dec   gpu 0   120s  222.5 tok/s
+  idle    gpu     90s
+  v4dec   gpu 1   120s  180.5 tok/s
+  idle    gpu     90s
+  v4fdec  gpu 1   120s  187.2 tok/s
+  idle    gpu     90s
+  gemm    gpu 0   120s
+  idle    gpu     90s
+  gemm    gpu 1   120s
+  idle    gpu     90s
+== n78 calibration phases done
+[cal 10-25 13:08:45] loggers stopped; restarting v4f
+[restart_all 10-25 13:08:45] HELD by temp/n78_HOLD_V4F: v4f NOT restarted

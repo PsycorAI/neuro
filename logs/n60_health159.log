@@ -1,0 +1,9 @@
+== c159000: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 60.1% (target >= 95%) | median rate of a live unit 7.4% (target ~5%) | mean rate over all units 7.41% | params in use 78.3% (target >= 95%)
+  live units by firing rate: <0.1% 4.3% | 0.1-1% 4.8% | 1-10% 54.3% | 10-50% 33.5% | >50% 3.0%
+  alive per block: 0:93% 1:30% 2:5% 3:10% 4:0% 5:10% 7:100% 8:93% 9:89% 10:93% 11:99% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 31.658
+    units firing <= 0e+00 removed: 39.9% of units, model 868M (78.3%) | ppl 31.659 (+0.00%)
+    units firing <= 1e-05 removed: 40.2% of units, model 866M (78.1%) | ppl 31.662 (+0.01%)
+    units firing <= 1e-04 removed: 41.2% of units, model 861M (77.6%) | ppl 31.665 (+0.02%)
+    units firing <= 1e-03 removed: 42.5% of units, model 852M (76.8%) | ppl 31.646 (-0.04%)

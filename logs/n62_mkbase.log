@@ -1,0 +1,6 @@
+[mkbase 10-16 00:12:53] cB4: k=3 from models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt
+models/checkpoints/v4_conv_all/step_0301500.pt
+[OK] cB4: average of 3: ['step_0312000.pt@1.0', 'step_0307500.pt@1.0', 'step_0301500.pt@1.0']
+[mkbase 10-16 12:16:30] cF: members from temp/n62_avg_list_cF (spacing test)
+[mkbase 10-16 12:16:30] cF: k=3 from models/checkpoints/v4_conv_all/step_0320740.pt models/checkpoints/v4_conv_extra/step_0318000.pt models/checkpoints/v4_conv_all/step_0312000.pt models/checkpoints/v4_conv_all/step_0307500.pt models/checkpoints/v4_conv_all/step_0301500.pt
+[OK] cF: average of 5: ['step_0320740.pt@1.0', 'step_0318000.pt@1.0', 'step_0312000.pt@1.0', 'step_0307500.pt@1.0', 'step_0301500.pt@1.0']

@@ -1,0 +1,26 @@
+dense cuBLAS: 872 us per pass of 26 layers
+  rows/split 256 block_n  32 block_k 64 warps 1:    174 us (5.00x) rel err 1.7e-04
+  rows/split 256 block_n  32 block_k 64 warps 2:    269 us (3.25x) rel err 1.7e-04
+  rows/split 256 block_n  32 block_k 128 warps 1:    158 us (5.54x) rel err 1.7e-04
+  rows/split 256 block_n  32 block_k 128 warps 2:    184 us (4.73x) rel err 1.7e-04
+  rows/split 256 block_n  64 block_k 64 warps 1:    171 us (5.09x) rel err 1.7e-04
+  rows/split 256 block_n  64 block_k 64 warps 2:    214 us (4.08x) rel err 1.7e-04
+  rows/split 256 block_n  64 block_k 128 warps 1:    190 us (4.58x) rel err 1.7e-04
+  rows/split 256 block_n  64 block_k 128 warps 2:    176 us (4.97x) rel err 1.7e-04
+  rows/split 512 block_n  32 block_k 64 warps 1:    197 us (4.43x) rel err 7.9e-05
+  rows/split 512 block_n  32 block_k 64 warps 2:    297 us (2.94x) rel err 7.9e-05
+  rows/split 512 block_n  32 block_k 128 warps 1:    177 us (4.93x) rel err 7.9e-05
+  rows/split 512 block_n  32 block_k 128 warps 2:    203 us (4.29x) rel err 7.9e-05
+  rows/split 512 block_n  64 block_k 64 warps 1:    229 us (3.81x) rel err 7.9e-05
+  rows/split 512 block_n  64 block_k 64 warps 2:    300 us (2.91x) rel err 7.9e-05
+  rows/split 512 block_n  64 block_k 128 warps 1:    259 us (3.37x) rel err 7.9e-05
+  rows/split 512 block_n  64 block_k 128 warps 2:    219 us (3.98x) rel err 7.9e-05
+  rows/split 1024 block_n  32 block_k 64 warps 1:    294 us (2.97x) rel err 1.7e-04
+  rows/split 1024 block_n  32 block_k 64 warps 2:    400 us (2.18x) rel err 1.7e-04
+  rows/split 1024 block_n  32 block_k 128 warps 1:    248 us (3.51x) rel err 1.7e-04
+  rows/split 1024 block_n  32 block_k 128 warps 2:    270 us (3.23x) rel err 1.7e-04
+  rows/split 1024 block_n  64 block_k 64 warps 1:    377 us (2.31x) rel err 1.7e-04
+  rows/split 1024 block_n  64 block_k 64 warps 2:    452 us (1.93x) rel err 1.7e-04
+  rows/split 1024 block_n  64 block_k 128 warps 1:    425 us (2.05x) rel err 1.7e-04
+  rows/split 1024 block_n  64 block_k 128 warps 2:    336 us (2.60x) rel err 1.7e-04
+== n78 sparse sweep: dense 872 us, best sparse 158 us (5.54x) at rows/split 256 block_n 32 block_k 128 warps 1

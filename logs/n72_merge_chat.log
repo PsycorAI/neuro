@@ -1,0 +1,3 @@
+[OK] sft_v4_chat: brain_chat merged into 48 layers of sft_v4_final_slim -> /home/glenn/projects/neuro/scripts/../models/checkpoints/sft_v4_chat/step_0000001.pt
+backup identical
+  quiz ALL held-out 272/302 = 90.1% | hand 19/21

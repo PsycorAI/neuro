@@ -1,0 +1,6 @@
+[n84 10-27 10:02:09] start (cap 4 GB): temp/n84_conv_eval.py --iters 5 smoke=models/checkpoints/n84_smoke/final.pt
+[n74_capped] n84_conv_eval.py: CUDA cap 4.0 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+smoke    conv  9 layers [2, 3, 4, 5, 7, 8, 9, 10, 12] | ppl full 38.98 chunk1 36.14 chunks2+ 42.06 | memory OFF 227.84 (5.84x) chunk1 255.21 chunks2+ 203.41 (4.84x)
+smoke    facts (cue hits of 10 at 300 / 1,500 / 3,000 tokens): memory on [5, 0, 0] | HOLA off [5, 0, 0] | all memory off [0, 0, 0]
+[n84 10-27 10:03:57] exit 0

@@ -1,0 +1,11 @@
+[embed 10-13 00:22:03] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_plainE.yaml
+[embed 10-13 00:22:03] arm E training (probe_v4_plainE)
+  [info] AdamW state remapped to the new grouping (saved under {'no_decay_names': None, 'adamw_decay_overrides': None})
+  [eval] val_ppl 31.62 | ablated_ppl 31.77 (memory Δ=+0.16) | spike 0.001	  [wnorm] embed=783.26 | head=119.45
+  [eval] val_ppl 31.43 | ablated_ppl 31.65 (memory Δ=+0.22) | spike 0.001	  [wnorm] embed=784.96 (+0.22%) | head=120.48 (+0.86%)
+  [eval] val_ppl 30.89 | ablated_ppl 31.04 (memory Δ=+0.15) | spike 0.001	  [wnorm] embed=786.55 (+0.20%) | head=120.71 (+0.19%)
+  [eval] val_ppl 30.60 | ablated_ppl 30.79 (memory Δ=+0.19) | spike 0.001	  [wnorm] embed=787.99 (+0.18%) | head=120.39 (-0.26%)
+E_0047000                  C=1024 T=2048 | chunk1   41.91 (mem off   41.96) | chunks2+   38.01 (off   38.38, Δ +0.37) | first64 of 2+   54.89 (off   60.54, Δ +5.66) vs first64 of chunk1   64.49
+E_0047500                  C=1024 T=2048 | chunk1   41.04 (mem off   41.04) | chunks2+   37.93 (off   38.33, Δ +0.40) | first64 of 2+   52.92 (off   59.49, Δ +6.57) vs first64 of chunk1   62.88
+[embed 10-13 02:23:41] done

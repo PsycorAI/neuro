@@ -1,0 +1,7 @@
+[n69s 10-19 16:15] lr050 rc=0 | lr x0.5 warmup 0.02 | final 54.62 | curve 115.74 68.20 54.62 | wall 129 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-19 18:25] lr070 rc=0 | lr x0.7 warmup 0.02 | final 47.13 | curve 106.17 59.42 47.13 | wall 129 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-19 20:33] lr100 rc=0 | lr x1.0 warmup 0.02 | final 44.95 | curve 93.59 58.41 44.95 | wall 128 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-19 22:44] wu006_lr10 rc=0 | lr x1.0 warmup 0.06 | final 43.94 | curve 89.74 57.28 43.94 | wall 130 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-20 00:52] lr140 rc=0 | lr x1.4 warmup 0.02 | final 44.33 | curve 86.32 58.63 44.33 | wall 128 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-20 02:59] lr200 rc=0 | lr x2.0 warmup 0.02 | final 44.74 | curve 97.96 65.46 44.74 | wall 127 min | extra: compile_mode: max-autotune-no-cudagraphs
+[n69s 10-20 05:01] wu006_lr14 rc=0 | lr x1.4 warmup 0.06 | final 43.97 | curve 87.91 59.98 43.97 | wall 121 min | extra: compile_mode: max-autotune-no-cudagraphs

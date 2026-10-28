@@ -880,7 +880,9 @@ class SpikingHebbianBlock(nn.Module):
                     # syncs per block per forward. The trainer only reads them
                     # after evaluate(), whose last forward is in eval mode, so
                     # skipping them in training changes no logged number.
-                    if not (self.telemetry_eval_only and self.training):
+                    # n63 (2026-10-15): block.telemetry_off = True (demo engine) skips them at inference too -- the
+                    # host syncs cost every generated token and break CUDA-graph capture. Default unset = unchanged.
+                    if not (self.telemetry_eval_only and self.training) and not getattr(self, "telemetry_off", False):
                         self._last_beta_stats = _beta_stats(w_seq, floor=self.beta_floor)  # telemetry on write gate (floored)
                         # Erase/decay telemetry: for this whole investigation only the
                         # WRITE gate was logged, which hid a blown-up decay gate in

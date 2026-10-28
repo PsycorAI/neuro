@@ -1,0 +1,6 @@
+[n69b 10-19 10:29] B4xGA4_worst rc=0 | median 10054 tok/s | vram 13.5/28.2 GB | wall 12 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69b 10-19 11:59] B8xGA2_worst rc=124 | median 213 tok/s | vram 14.0/40.1 GB | wall 90 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69b 10-19 12:20] B4xGA4 rc=0 | median 10543 tok/s | vram 13.5/28.5 GB | wall 20 min | extra: compile_mode: default 
+[n69b 10-19 12:43] B4xGA4_mat rc=0 | median 11103 tok/s | vram 13.5/28.3 GB | wall 22 min | extra: compile_mode: max-autotune-no-cudagraphs 
+[n69b 10-19 13:58] conv_B4xGA4_worst rc=143 | median 156 tok/s | vram 15.8/35.3 GB | wall 75 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 
+[n69b 10-19 14:06] conv_B2xGA8_worst rc=0 | median 8881 tok/s | vram 15.5/26.5 GB | wall 6 min | extra: mqar_gap_start_frac: 0.0 mqar_xchunk_start_frac: 0.0 mqar_xchunk_frac: 1.0 compile_mode: default 

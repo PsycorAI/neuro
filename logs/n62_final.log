@@ -1,0 +1,4 @@
+[OK] cF1: average of 1: ['step_0320740.pt@1.0']
+cF                         C=1024 T=2048 | chunk1   18.38 (mem off   18.51) | chunks2+   16.45 (off   17.35, Δ +0.90) | first64 of 2+   24.53 (off   36.49, Δ +11.96) vs first64 of chunk1   31.08
+cF1                        C=1024 T=2048 | chunk1   20.16 (mem off   20.30) | chunks2+   18.14 (off   19.13, Δ +1.00) | first64 of 2+   28.06 (off   40.67, Δ +12.61) vs first64 of chunk1   34.60
+[final 10-16 12:20:41] final base: cF (avg 3) chunk1 18.38 vs cF1 (single) chunk1 20.16 -> cF

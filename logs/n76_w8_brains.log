@@ -1,0 +1,10 @@
+== sft_v4_chat
+logs/n76_sft_v4_chat_py.log:  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+logs/n76_sft_v4_chat_py.log:  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)
+logs/n76_sft_v4_chat_health.log:  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+logs/n76_sft_v4_chat_health.log:  quiz health       taught 100.0% (n=150) | control   6.7% (n=150)
+== sft_v4_chat_w8
+logs/n76_sft_v4_chat_w8_py.log:  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+logs/n76_sft_v4_chat_w8_py.log:  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)
+logs/n76_sft_v4_chat_w8_health.log:  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+logs/n76_sft_v4_chat_w8_health.log:  quiz health       taught 100.0% (n=150) | control   4.7% (n=150)

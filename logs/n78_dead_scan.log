@@ -1,0 +1,16 @@
+scanned brain None: 1003520 val tokens + 26 assistant prompts
+scanned brain python: 253952 val tokens + 26 assistant prompts
+scanned brain health: 253952 val tokens + 26 assistant prompts
+  block  0: never fired  5474 / 12288 | margin < -0.05:  2510 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.052', '-0.052', '-0.049', '-0.003', '-0.000']
+  block  1: never fired   236 / 12288 | margin < -0.05:    78 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.071', '-0.071', '-0.044', '-0.001', '-0.000']
+  block  2: never fired 12288 / 12288 | margin < -0.05:     0 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.018', '-0.018', '-0.018', '-0.018', '-0.018']
+  block  3: never fired 12288 / 12288 | margin < -0.05: 12288 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.099', '-0.099', '-0.099', '-0.099', '-0.099']
+  block  4: never fired 10740 / 12288 | margin < -0.05:   205 | < -0.5:     2 | dead margins q0/q1/q50/q99/q100 ['-0.555', '-0.100', '-0.000', '-0.000', '-0.000']
+  block  5: never fired 12288 / 12288 | margin < -0.05:     5 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.063', '-0.044', '-0.044', '-0.044', '-0.044']
+  block  7: never fired     0 / 12288 | margin < -0.05:     0 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 []
+  block  8: never fired    28 / 12288 | margin < -0.05:    27 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.107', '-0.106', '-0.098', '-0.042', '-0.030']
+  block  9: never fired   291 / 12288 | margin < -0.05:   285 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.146', '-0.090', '-0.079', '-0.039', '-0.019']
+  block 10: never fired   670 / 12288 | margin < -0.05:   584 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.112', '-0.078', '-0.059', '-0.034', '-0.006']
+  block 11: never fired   198 / 12288 | margin < -0.05:   197 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 ['-0.126', '-0.124', '-0.114', '-0.079', '-0.043']
+  block 12: never fired     0 / 12288 | margin < -0.05:     0 | < -0.5:     0 | dead margins q0/q1/q50/q99/q100 []
+== n78 dead scan: 16179 of 147456 FFN units (11.0%) never came within 0.05 of firing

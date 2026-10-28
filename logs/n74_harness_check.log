@@ -1,0 +1,38 @@
+[hcheck 10-23 10:28:53] waiting for the KD test
+[hcheck 10-23 12:10:55] fast harness on cF, tasks hellaswag,arc_easy,piqa,lambada_openai
+[hcheck 10-23 12:24:29] rc=0 in 13 min
+  2000/58498 requests (74 graphs)
+  4000/58498 requests (80 graphs)
+  6000/58498 requests (84 graphs)
+  8000/58498 requests (89 graphs)
+  10000/58498 requests (90 graphs)
+  12000/58498 requests (92 graphs)
+  14000/58498 requests (111 graphs)
+  16000/58498 requests (117 graphs)
+  18000/58498 requests (119 graphs)
+  20000/58498 requests (119 graphs)
+  22000/58498 requests (119 graphs)
+  24000/58498 requests (119 graphs)
+  26000/58498 requests (120 graphs)
+  28000/58498 requests (120 graphs)
+  30000/58498 requests (120 graphs)
+  32000/58498 requests (121 graphs)
+  34000/58498 requests (121 graphs)
+  36000/58498 requests (121 graphs)
+  38000/58498 requests (121 graphs)
+  40000/58498 requests (121 graphs)
+  42000/58498 requests (131 graphs)
+  44000/58498 requests (131 graphs)
+  46000/58498 requests (133 graphs)
+  48000/58498 requests (134 graphs)
+  50000/58498 requests (134 graphs)
+  52000/58498 requests (134 graphs)
+  54000/58498 requests (135 graphs)
+  56000/58498 requests (140 graphs)
+  58000/58498 requests (141 graphs)
+  harness hellaswag        acc,none 0.3189 | acc_norm,none 0.3694 | acc_norm_stderr,none 0.0048 | acc_stderr,none 0.0047 | sample_len 10042.0000
+  harness arc_easy         acc,none 0.5602 | acc_norm,none 0.4937 | acc_norm_stderr,none 0.0103 | acc_stderr,none 0.0102 | sample_len 2376.0000
+  harness piqa             acc,none 0.6610 | acc_norm,none 0.6534 | acc_norm_stderr,none 0.0111 | acc_stderr,none 0.0110 | sample_len 1838.0000
+  harness lambada_openai   acc,none 0.3864 | acc_stderr,none 0.0068 | perplexity,none 21.7241 | perplexity_stderr,none 0.8312 | sample_len 5153.0000
+  harness done in 13.3 min (models/checkpoints/cF/step_0000001.pt)
+PASS: all 20 metrics of 4 tasks identical

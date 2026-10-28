@@ -1,0 +1,68 @@
+[n83 10-26 23:29:03] start: temp/n83_lm_train.py --arm mem --run n83_lm_mem --act_ckpt 1 --tokens 15e6
+memory block = 6; arm mem: training blocks [6], 84.6M params
+optimizer: NorMuon (11 matrices, lr=0.0001) + AdamW (19 other params, lr=0.0001)
+T 4096, 4400 train episodes, 32768 tok/step, 457 steps
+[val step 0] memory ON : <1k 51% (n140) | 1-2k 7% (n156) | 2k+ 8% (n167) | mem spike rate 0.0130
+[val step 0] memory OFF: <1k 45% (n140) | 1-2k 6% (n156) | 2k+ 8% (n167) | mem spike rate 0.0130
+/home/glenn/projects/neuro/temp/n83_lm_train.py:132: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return ce[ans].mean() + a.rest_w * rest, float(ce[ans].mean())
+step 10/457 | loss 4.708 | answer CE 4.702 | 1,908 tok/s | mqar 10 | vram 9.3 GB
+step 20/457 | loss 4.487 | answer CE 4.193 | 1,944 tok/s | mqar 20 | vram 9.3 GB
+step 30/457 | loss 4.199 | answer CE 4.172 | 1,860 tok/s | mqar 33 | vram 9.3 GB
+step 40/457 | loss 4.736 | answer CE 3.837 | 1,896 tok/s | mqar 47 | vram 9.3 GB
+step 50/457 | loss 4.363 | answer CE 3.883 | 1,884 tok/s | mqar 57 | vram 9.3 GB
+[val step 50] memory ON : <1k 58% (n140) | 1-2k 15% (n156) | 2k+ 18% (n167) | mem spike rate 0.0123
+step 60/457 | loss 3.821 | answer CE 3.453 | 1,445 tok/s | mqar 69 | vram 9.3 GB
+step 70/457 | loss 3.181 | answer CE 3.289 | 1,872 tok/s | mqar 81 | vram 9.3 GB
+step 80/457 | loss 3.269 | answer CE 3.259 | 1,917 tok/s | mqar 91 | vram 9.3 GB
+step 90/457 | loss 3.354 | answer CE 2.824 | 1,941 tok/s | mqar 99 | vram 9.3 GB
+step 100/457 | loss 4.536 | answer CE 2.846 | 1,838 tok/s | mqar 112 | vram 9.3 GB
+[val step 100] memory ON : <1k 73% (n140) | 1-2k 29% (n156) | 2k+ 32% (n167) | mem spike rate 0.0118
+step 110/457 | loss 2.921 | answer CE 2.753 | 1,444 tok/s | mqar 124 | vram 9.3 GB
+step 120/457 | loss 3.056 | answer CE 2.486 | 1,882 tok/s | mqar 135 | vram 9.3 GB
+step 130/457 | loss 2.938 | answer CE 2.672 | 1,894 tok/s | mqar 144 | vram 9.3 GB
+step 140/457 | loss 2.499 | answer CE 2.398 | 1,866 tok/s | mqar 160 | vram 9.3 GB
+step 150/457 | loss 2.649 | answer CE 2.555 | 1,865 tok/s | mqar 172 | vram 9.3 GB
+[val step 150] memory ON : <1k 76% (n140) | 1-2k 38% (n156) | 2k+ 40% (n167) | mem spike rate 0.0119
+step 160/457 | loss 2.784 | answer CE 2.505 | 1,453 tok/s | mqar 182 | vram 9.3 GB
+step 170/457 | loss 2.573 | answer CE 2.250 | 1,904 tok/s | mqar 193 | vram 9.3 GB
+step 180/457 | loss 2.184 | answer CE 1.914 | 1,948 tok/s | mqar 202 | vram 9.3 GB
+step 190/457 | loss 2.980 | answer CE 1.815 | 1,852 tok/s | mqar 215 | vram 9.3 GB
+step 200/457 | loss 2.163 | answer CE 2.206 | 1,863 tok/s | mqar 229 | vram 9.3 GB
+[val step 200] memory ON : <1k 79% (n140) | 1-2k 40% (n156) | 2k+ 53% (n167) | mem spike rate 0.0122
+step 210/457 | loss 2.500 | answer CE 2.147 | 1,372 tok/s | mqar 239 | vram 9.3 GB
+step 220/457 | loss 1.159 | answer CE 1.910 | 1,888 tok/s | mqar 251 | vram 9.3 GB
+step 230/457 | loss 2.006 | answer CE 1.857 | 1,870 tok/s | mqar 266 | vram 9.3 GB
+step 240/457 | loss 2.802 | answer CE 1.798 | 1,934 tok/s | mqar 275 | vram 9.3 GB
+step 250/457 | loss 2.217 | answer CE 1.842 | 1,805 tok/s | mqar 292 | vram 9.3 GB
+[val step 250] memory ON : <1k 81% (n140) | 1-2k 45% (n156) | 2k+ 54% (n167) | mem spike rate 0.0124
+step 260/457 | loss 2.977 | answer CE 2.029 | 1,468 tok/s | mqar 301 | vram 9.3 GB
+step 270/457 | loss 2.742 | answer CE 2.017 | 1,921 tok/s | mqar 312 | vram 9.3 GB
+step 280/457 | loss 2.408 | answer CE 1.730 | 1,912 tok/s | mqar 322 | vram 9.3 GB
+step 290/457 | loss 2.004 | answer CE 1.933 | 1,852 tok/s | mqar 335 | vram 9.3 GB
+step 300/457 | loss 2.024 | answer CE 1.900 | 1,910 tok/s | mqar 345 | vram 9.3 GB
+[val step 300] memory ON : <1k 82% (n140) | 1-2k 47% (n156) | 2k+ 51% (n167) | mem spike rate 0.0125
+step 310/457 | loss 1.521 | answer CE 1.769 | 1,422 tok/s | mqar 362 | vram 9.3 GB
+step 320/457 | loss 2.403 | answer CE 1.918 | 1,880 tok/s | mqar 375 | vram 9.3 GB
+step 330/457 | loss 1.788 | answer CE 1.821 | 1,900 tok/s | mqar 389 | vram 9.3 GB
+step 340/457 | loss 2.014 | answer CE 1.709 | 1,968 tok/s | mqar 396 | vram 9.3 GB
+step 350/457 | loss 2.019 | answer CE 1.703 | 1,915 tok/s | mqar 409 | vram 9.3 GB
+[val step 350] memory ON : <1k 83% (n140) | 1-2k 46% (n156) | 2k+ 51% (n167) | mem spike rate 0.0126
+step 360/457 | loss 2.086 | answer CE 1.913 | 1,446 tok/s | mqar 421 | vram 9.3 GB
+step 370/457 | loss 1.356 | answer CE 1.594 | 1,902 tok/s | mqar 433 | vram 9.3 GB
+step 380/457 | loss 2.692 | answer CE 1.839 | 1,893 tok/s | mqar 444 | vram 9.3 GB
+step 390/457 | loss 1.699 | answer CE 1.690 | 1,928 tok/s | mqar 455 | vram 9.3 GB
+step 400/457 | loss 2.533 | answer CE 1.844 | 1,910 tok/s | mqar 464 | vram 9.3 GB
+[val step 400] memory ON : <1k 80% (n140) | 1-2k 47% (n156) | 2k+ 53% (n167) | mem spike rate 0.0127
+step 410/457 | loss 2.486 | answer CE 1.753 | 1,419 tok/s | mqar 478 | vram 9.3 GB
+step 420/457 | loss 2.268 | answer CE 1.886 | 1,943 tok/s | mqar 487 | vram 9.3 GB
+step 430/457 | loss 2.278 | answer CE 1.674 | 1,865 tok/s | mqar 503 | vram 9.3 GB
+step 440/457 | loss 2.112 | answer CE 1.636 | 1,935 tok/s | mqar 512 | vram 9.3 GB
+step 450/457 | loss 2.252 | answer CE 1.641 | 1,710 tok/s | mqar 525 | vram 9.3 GB
+[val step 450] memory ON : <1k 81% (n140) | 1-2k 48% (n156) | 2k+ 54% (n167) | mem spike rate 0.0128
+[val step 457] memory ON : <1k 81% (n140) | 1-2k 48% (n156) | 2k+ 54% (n167) | mem spike rate 0.0128
+[val end] memory OFF: <1k 56% (n140) | 1-2k 8% (n156) | 2k+ 10% (n167) | mem spike rate 0.0128
+done: 457 steps, 15.0M tok in 2.36 h
+saved /home/glenn/projects/neuro/models/checkpoints/n83_lm_mem/step_0000457.pt
+[n83 10-27 01:53:30] exit 0

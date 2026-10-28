@@ -1,0 +1,25 @@
+step wall 4.68 ms | graph replay 4.07 ms | GPU kernel time 3.79 ms in 1774 kernels
+  dense GEMV/GEMM               1.445 ms      80 kernels  ( 18.1 us each)
+  copies / casts                0.958 ms     551 kernels  (  1.7 us each)
+  elementwise                   0.778 ms     910 kernels  (  0.9 us each)
+  reductions (mean/sum/norm)    0.226 ms      82 kernels  (  2.8 us each)
+  top-k / sort                  0.182 ms      51 kernels  (  3.6 us each)
+  sparse GEMV (W3)              0.166 ms      52 kernels  (  3.2 us each)
+  other                         0.032 ms      47 kernels  (  0.7 us each)
+  LIF / GDN (Triton)            0.001 ms       1 kernels  (  0.8 us each)
+top 15 kernels:
+   0.985 ms    31x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+   0.279 ms    97x  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorB
+   0.236 ms     4x  void gemv2T_kernel_val<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, 128, 16, 2, 4, 
+   0.164 ms   210x  void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::BFloat16>, std::a
+   0.140 ms    98x  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFun
+   0.140 ms    26x  _sparse_gemv_kernel
+   0.111 ms     2x  void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_co
+   0.095 ms    24x  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(in
+   0.094 ms    12x  void at::native::sbtopk::gatherTopK<float, unsigned int, 2, false>(at::cuda::detail::TensorInfo<floa
+   0.085 ms    12x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+   0.082 ms   105x  void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIt
+   0.080 ms    12x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, f
+   0.072 ms    72x  void at::native::vectorized_elementwise_kernel<4, at::native::AbsFunctor<c10::BFloat16>, std::array<
+   0.066 ms    80x  void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<c10::BFloat16, c10::BFlo
+   0.065 ms    72x  void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_sc

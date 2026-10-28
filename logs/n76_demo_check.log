@@ -1,0 +1,19 @@
+waiting for the 5080 ...
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[demo] sft_v4_chat_w8 (step 0): 1109.5M params, 12 attention + 1 memory layers, spike-coded True, tool protocol v2, brains ['health', 'python'] (start: auto) -> http://localhost:8765
+== /info
+sft_v4_chat_w8 auto ['health', 'python'] {'mac_pj': 0.3, 'ac_pj': 0.1, 'sram_read_pj': 1.25, 'dram_read_pj': 160.0, 'precision': 'int8', 'source': '45 nm, Horowitz ISSCC 2014'}
+== run_through (engine, int8 meter, router brains, offline)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 17.5s, 2.6 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 9.4s, 6.4 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 8:39 AM on Sunday, October 25 in Tokyo.' (50 tok, 5.2s, 9.6 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 53 degrees Fahrenheit in Paris, partly cloudy.' (54 tok, 3.0s, 18.1 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 2.3s, 18.3 tok/s)
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5354.99it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 7.2s, 6.1 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 2.7s, 21.7 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'It was written by Jane Austen.' (47 tok, 2.7s, 17.5 tok/s)
+== run-through sft_v4_chat_w8 offline: 8/8 PASSED in 50s
+== done

@@ -1,0 +1,109 @@
+[q8 10-25 09:14:37] demo questions fp32
+  'What is 17% of 240?' -> TOOL calculator [None] '17% of 240 is 40.8.'
+  'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.'
+  'What time is it in Tokyo right now?' -> TOOL get_time [None] 'It is 1:16 AM on Monday, October 26 in Tokyo.'
+  "What's the weather like in Paris?" -> TOOL get_weather [None] 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+  "What does the word 'ephemeral' mean?" -> TOOL define [None] 'Ephemeral means lasting a very short time.'
+  "Translate 'good morning' into Spanish." -> TOOL translate [None] 'Buenos días.'
+  'Remind me to call my son at 6 pm.' -> TOOL set_reminder [None] 'OK, I set a reminder to call your son at 6 pm.'
+  'Who wrote the novel Pride and Prejudice?' -> TOOL search [None] 'It was written by Jane Austen.'
+  'Why is the sky blue?' -> ANSWER  [None] 'The sky is blue because it is made up of tiny, blue particles called atoms. When light ent'
+  'Give me three tips for sleeping better.' -> ANSWER  [None] 'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal'
+  'What is photosynthesis?' -> TOOL define [None] 'Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in'
+  'Write a short poem about the sea.' -> ANSWER  [None] 'The sea is a vast and mysterious sea,\nIts waves that reach the shore, and its secrets,\nA s'
+  'Tell me about Marie Curie.' -> TOOL search [None] 'Marie Curie was a French university created on January 1, 1971.'
+  'What is the capital of Australia?' -> ANSWER  [None] 'The capital of Australia is Sydney.'
+  'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.'
+  'How many calories are in bananas?' -> ANSWER  [health] '89 kcal of energy per 100 grams.'
+  'Write a Python function to check if a number is prime.' -> ANSWER  [python] 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5)'
+  'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse(s):\n    return s[::-1]'
+  'Hi, how are you?' -> ANSWER  [None] "Hello, I'm a AI assistant! How can I help you?"
+  'Thanks!' -> BACKEND  [None] "You're welcome!"
+== fp32: 20 turns 26.2s | memtest on 20/20 off 1/20 | max GPU mem 9.5 GB
+[q8 10-25 09:17:10] demo questions bf16
+  'What is 17% of 240?' -> TOOL calculator [None] '17% of 240 is 40.8.'
+  'How many kilometers is 26.2 miles?' -> TOOL unit_convert [None] '26.2 miles is 42.1648 kilometers.'
+  'What time is it in Tokyo right now?' -> TOOL get_time [None] 'It is 1:19 AM on Monday, October 26 in Tokyo.'
+  "What's the weather like in Paris?" -> TOOL get_weather [None] 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+  "What does the word 'ephemeral' mean?" -> TOOL define [None] 'Ephemeral means lasting a very short time.'
+  "Translate 'good morning' into Spanish." -> TOOL translate [None] 'Buenos días.'
+  'Remind me to call my son at 6 pm.' -> TOOL set_reminder [None] 'OK, I set a reminder to call your son at 6 pm.'
+  'Who wrote the novel Pride and Prejudice?' -> TOOL search [None] 'It was written by Jane Austen.'
+  'Why is the sky blue?' -> ANSWER  [None] 'The sky is blue because it is made up of many different colors, each with its own unique w'
+  'Give me three tips for sleeping better.' -> ANSWER  [None] 'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal'
+  'What is photosynthesis?' -> TOOL define [None] 'Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in'
+  'Write a short poem about the sea.' -> ANSWER  [None] 'The sea is a vast and vast sea,\nA sea of endless blue and green,\nA sea of life and death,\n'
+  'Tell me about Marie Curie.' -> TOOL search [None] 'Marie Curie was a French university created on January 1, 1971.'
+  'What is the capital of Australia?' -> ANSWER  [None] 'The capital of Australia is Sydney.'
+  'How much protein is in broccoli?' -> ANSWER  [health] '2.8 grams of protein per 100 grams.'
+  'How many calories are in bananas?' -> ANSWER  [health] '89 kcal of energy per 100 grams.'
+  'Write a Python function to check if a number is prime.' -> ANSWER  [python] 'def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5)'
+  'Write a Python function to reverse a string.' -> ANSWER  [python] 'def reverse_text(s):\n    return s[::-1]'
+  'Hi, how are you?' -> ANSWER  [None] "Hello, I'm a AI assistant. How can I help you?"
+  'Thanks!' -> BACKEND  [None] "You're welcome!"
+== bf16: 20 turns 19.4s | memtest on 20/20 off 0/20 | max GPU mem 5.8 GB
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     fp32: TOOL get_time 'It is 1:16 AM on Monday, October 26 in Tokyo.'
+     bf16: TOOL get_time 'It is 1:19 AM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[SAME] 'Who wrote the novel Pride and Prejudice?' TOOL search
+[DIFF] 'Why is the sky blue?' ANSWER 
+     fp32: ANSWER  'The sky is blue because it is made up of tiny, blue particles called atoms. When light enters the atmosphere, '
+     bf16: ANSWER  'The sky is blue because it is made up of many different colors, each with its own unique wavelength. The blue '
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     fp32: ANSWER  'The sea is a vast and mysterious sea,\nIts waves that reach the shore, and its secrets,\nA sea of secrets, that '
+     bf16: ANSWER  'The sea is a vast and vast sea,\nA sea of endless blue and green,\nA sea of life and death,\nA sea of endless pos'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[SAME] 'What is the capital of Australia?' ANSWER 
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[DIFF] 'Write a Python function to reverse a string.' ANSWER 
+     fp32: ANSWER  'def reverse(s):\n    return s[::-1]'
+     bf16: ANSWER  'def reverse_text(s):\n    return s[::-1]'
+[DIFF] 'Hi, how are you?' ANSWER 
+     fp32: ANSWER  "Hello, I'm a AI assistant! How can I help you?"
+     bf16: ANSWER  "Hello, I'm a AI assistant. How can I help you?"
+[SAME] 'Thanks!' BACKEND 
+memtest fp32 on 20/20 off 1 | bf16 on 20/20 off 0
+raw fp32: 'the same as the river itself. The river was the same as the name of the village. The villa'
+raw bf16: 'the same as the river itself, and the children learned to read the names of the townspeopl'
+== n78 fp32 vs bf16 demo: replies identical 15/20, same mode + tool 20/20 | turn time fp32 26.2s vs bf16 19.4s | GPU mem 9.5 vs 5.8 GB
+[q8 10-25 09:19:41] bf16 parity
+warmup 34s
+[SAME] 'What is 17% of 240?' full: TOOL calculator '17% of 240 is 40.8.'
+[SAME] 'How many kilometers is 26.2 miles?' full: TOOL unit_convert '26.2 miles is 42.1648 kilometers.'
+[SAME] 'What time is it in Tokyo right now?' full: TOOL get_time 'It is 1:21 AM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" full: TOOL get_weather 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+[SAME] "What does the word 'ephemeral' mean?" full: TOOL define 'Ephemeral means lasting a very short time.'
+[SAME] "Translate 'good morning' into Spanish." full: TOOL translate 'Buenos días.'
+[SAME] 'Remind me to call my son at 6 pm.' full: TOOL set_reminder 'OK, I set a reminder to call your son at 6 pm.'
+[DIFF] 'Who wrote the novel Pride and Prejudice?' full: TOOL search "Pride & Prejudice is based on Jane Austen's 1813 novel of the same nam"
+        stream: TOOL search 'It was written by Jane Austen.'
+raw full   (1111 prompt tok, 5.6s): 'the river that ran through the village. The river was the river that ran through the villa'
+raw stream (1111 prompt tok, 1.3s): 'the same as the river itself, and the children learned to read the names of the townspeopl'
+== n78 engine parity sft_v4_chat_w8 window 1024: replies identical 7/8, raw DIFF | decode full 51.4 tok/s vs stream 74.5 tok/s (whole turns incl. prefill)
+[q8 10-25 09:21:24] bf16 turn profile
+== n78 turn profile sft_v4_chat_w8: 10 turns, 486 generated tok, wall 6.8s (71.1 tok/s)
+  full_forward     0.00s   0.0%  calls     0     0.00 ms/call
+  dec_prefill      2.32s  34.0%  calls    20   116.10 ms/call
+  dec_step         2.64s  38.7%  calls   476     5.55 ms/call
+  tool             0.22s   3.2%  calls    10    21.80 ms/call
+  host+other       1.65s  24.2%
+[q8 10-25 09:22:57] bf16 run-through
+[OK] 'What is 17% of 240?' -> TOOL calculator | '17% of 240 is 40.8.' (46 tok, 13.5s, 3.4 tok/s)
+[OK] 'How many kilometers is 26.2 miles?' -> TOOL unit_convert | '26.2 miles is 42.1648 kilometers.' (60 tok, 4.5s, 13.4 tok/s)
+[OK] 'What time is it in Tokyo right now?' -> TOOL get_time | 'It is 1:24 AM on Monday, October 26 in Tokyo.' (50 tok, 1.7s, 29.1 tok/s)
+[OK] "What's the weather like in Paris?" -> TOOL get_weather | 'It is 53 degrees Fahrenheit in Paris, partly cloudy.' (54 tok, 1.2s, 46.0 tok/s)
+[OK] "What does the word 'ephemeral' mean?" -> TOOL define | 'Ephemeral means lasting a very short time.' (43 tok, 1.2s, 37.1 tok/s)
+[OK] "Translate 'good morning' into Spanish." -> TOOL translate | 'Buenos días.' (44 tok, 7.3s, 6.1 tok/s)
+[OK] 'Remind me to call my son at 6 pm.' -> TOOL set_reminder | 'OK, I set a reminder to call your son at 6 pm.' (58 tok, 1.0s, 58.6 tok/s)
+[OK] 'Who wrote the novel Pride and Prejudice?' -> TOOL search | 'It was written by Jane Austen.' (44 tok, 1.4s, 32.3 tok/s)
+== run-through sft_v4_chat_w8 offline: 8/8 PASSED in 32s

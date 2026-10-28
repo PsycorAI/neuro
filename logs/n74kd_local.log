@@ -1,0 +1,68 @@
+[n74_capped] train_gpu.py: CUDA cap 11.0 GB
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:03, 35.06it/s]Loading weights:   7%|▋         | 10/146 [00:00<00:08, 15.65it/s]Loading weights:   9%|▉         | 13/146 [00:00<00:07, 18.21it/s]Loading weights:  11%|█         | 16/146 [00:00<00:07, 16.81it/s]Loading weights:  12%|█▏        | 18/146 [00:01<00:07, 16.95it/s]Loading weights:  14%|█▎        | 20/146 [00:01<00:08, 14.17it/s]Loading weights:  15%|█▌        | 22/146 [00:01<00:08, 14.93it/s]Loading weights:  18%|█▊        | 26/146 [00:01<00:07, 16.55it/s]Loading weights:  20%|█▉        | 29/146 [00:01<00:06, 18.77it/s]Loading weights:  23%|██▎       | 33/146 [00:01<00:05, 20.44it/s]Loading weights:  28%|██▊       | 41/146 [00:01<00:03, 29.77it/s]Loading weights:  31%|███       | 45/146 [00:02<00:03, 30.07it/s]Loading weights:  34%|███▎      | 49/146 [00:02<00:03, 28.08it/s]Loading weights:  36%|███▌      | 52/146 [00:02<00:03, 25.15it/s]Loading weights:  38%|███▊      | 55/146 [00:02<00:04, 22.65it/s]Loading weights:  40%|███▉      | 58/146 [00:02<00:03, 24.07it/s]Loading weights:  42%|████▏     | 61/146 [00:02<00:04, 21.06it/s]Loading weights:  45%|████▍     | 65/146 [00:03<00:08,  9.97it/s]Loading weights:  49%|████▊     | 71/146 [00:03<00:05, 12.98it/s]Loading weights:  50%|█████     | 73/146 [00:04<00:05, 13.56it/s]Loading weights:  53%|█████▎    | 77/146 [00:04<00:04, 15.75it/s]Loading weights:  55%|█████▍    | 80/146 [00:04<00:04, 16.00it/s]Loading weights:  58%|█████▊    | 85/146 [00:04<00:03, 19.71it/s]Loading weights:  61%|██████    | 89/146 [00:04<00:02, 20.98it/s]Loading weights:  63%|██████▎   | 92/146 [00:05<00:03, 16.67it/s]Loading weights:  65%|██████▌   | 95/146 [00:05<00:03, 16.27it/s]Loading weights:  68%|██████▊   | 100/146 [00:05<00:02, 20.91it/s]Loading weights: 100%|██████████| 146/146 [00:05<00:00, 27.10it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+arch=spiking params=188.53M device=cuda target=0.000B tok | 8192 tok/step | total_steps≈30 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 1 | 0.0M tok | loss 10.600 | 395 tok/s | vram 4.9/8.5 GB
+step 2 | 0.0M tok | loss 10.307 | 4,776 tok/s | vram 4.9/9.5 GB
+step 3 | 0.0M tok | loss 10.057 | 4,637 tok/s | vram 4.9/9.5 GB
+step 4 | 0.0M tok | loss 9.678 | 5,567 tok/s | vram 4.9/9.5 GB
+step 5 | 0.0M tok | loss 9.454 | 5,713 tok/s | vram 4.9/9.5 GB
+step 6 | 0.0M tok | loss 9.038 | 5,286 tok/s | vram 4.9/9.5 GB
+step 7 | 0.1M tok | loss 8.735 | 5,425 tok/s | vram 4.9/9.5 GB
+step 8 | 0.1M tok | loss 8.363 | 5,201 tok/s | vram 4.9/9.5 GB
+step 9 | 0.1M tok | loss 8.085 | 5,040 tok/s | vram 4.9/9.5 GB
+step 10 | 0.1M tok | loss 7.814 | 5,199 tok/s | vram 4.9/9.5 GB
+step 11 | 0.1M tok | loss 7.994 | 5,492 tok/s | vram 4.9/9.5 GB
+step 12 | 0.1M tok | loss 7.256 | 5,568 tok/s | vram 4.9/9.5 GB
+step 13 | 0.1M tok | loss 7.661 | 5,761 tok/s | vram 4.9/9.5 GB
+step 14 | 0.1M tok | loss 7.492 | 4,679 tok/s | vram 4.9/9.5 GB
+step 15 | 0.1M tok | loss 9.098 | 5,556 tok/s | vram 4.9/9.5 GB
+step 16 | 0.1M tok | loss 7.482 | 5,041 tok/s | vram 4.9/9.5 GB
+step 17 | 0.1M tok | loss 7.533 | 4,746 tok/s | vram 4.9/9.5 GB
+step 18 | 0.1M tok | loss 7.636 | 5,249 tok/s | vram 4.9/9.5 GB
+step 19 | 0.2M tok | loss 6.977 | 5,346 tok/s | vram 4.9/9.5 GB
+step 20 | 0.2M tok | loss 7.401 | 5,472 tok/s | vram 4.9/9.5 GB
+step 21 | 0.2M tok | loss 7.278 | 4,929 tok/s | vram 4.9/9.5 GB
+step 22 | 0.2M tok | loss 7.439 | 5,388 tok/s | vram 4.9/9.5 GB
+step 23 | 0.2M tok | loss 7.621 | 5,498 tok/s | vram 4.9/9.5 GB
+step 24 | 0.2M tok | loss 8.225 | 4,818 tok/s | vram 4.9/9.5 GB
+step 25 | 0.2M tok | loss 7.608 | 5,064 tok/s | vram 4.9/9.5 GB
+step 26 | 0.2M tok | loss 7.967 | 5,430 tok/s | vram 4.9/9.5 GB
+step 27 | 0.2M tok | loss 7.753 | 5,048 tok/s | vram 4.9/9.5 GB
+step 28 | 0.2M tok | loss 7.680 | 4,696 tok/s | vram 4.9/9.5 GB
+step 29 | 0.2M tok | loss 8.221 | 4,894 tok/s | vram 4.9/9.5 GB
+step 30 | 0.2M tok | loss 7.878 | 5,527 tok/s | vram 4.9/9.5 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+    runpy.run_path(script, run_name="__main__")
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1635, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1617, in main
+    _save_ckpt(ckdir, raw_model, opts, step, tokens, c, async_save=False)
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 483, in _save_ckpt
+    "opt_states": [_to_cpu(o.state_dict(), ("opt", i)) for i, o in enumerate(opts)],
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 421, in _to_cpu
+    return {k: _to_cpu(v, path + (k,)) for k, v in obj.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 417, in _to_cpu
+    pinned.copy_(obj)
+torch.AcceleratorError: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

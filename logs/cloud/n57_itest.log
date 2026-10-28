@@ -1,0 +1,19 @@
+== text samples
+SAMPLE | The capital of France is located on the western bank of France, so the town is the centre of French history. The town is a beautiful example of a small town of the French Republic. in the 18th century, the town is the centre of France
+SAMPLE | Once upon a time, a small dog named Sarah walked past her neighbor, Claire, and went petting his pet. And Claire thought, "Wow! What are you doing?" With Claire's advice, Claire explained the importance of petting petting animals. And Claire explained that
+SAMPLE | To make a cup of tea, first cut out the pieces of tea leaves, about  2/3 cup cups, then about  1/4 cup cups flour, and then about  2/3 cup sugar. Put the sugar, flour, flour and flour
+SAMPLE | The main reason plants need sunlight is to stay in the sun, but they also look good and look good in the sun. Plants need sunlight for their growth and growth. To grow or grow flowers and plants, plants need sunlight to grow. All plants need sunlight to grow.
+SAMPLE | In 1969, astronauts discovered a human-like robot capable of sustaining a human body and able to perform at speeds of 20,000, which was approximately 80,000 times the speed of a human body or robot. / The robots had been built to perform
+SAMPLE | Question: What is 2 + 2? / Answer: 2 + 2 is a single integer that varies in the range 0 - 2. The second number is a single and the third number is a single or more than the first number. In other words, the first number is
+== haystack in-window (gap 0/64/192/440)
+v4             N8: 100.0  11.7  15.2  12.1 | N32: 100.0   4.7   3.1   3.5
+columns: gap = (0, 64, 192, 440) tokens of real text between the key-value block and the query; chance = 100/N %
+== nl_fact (n 32)
+v4                         C=1024 | K1 in@0  87.5 | K1 in@200  53.1 | K1 x@0   3.1 | K1 x@200   3.1 | K1 x@0 off   3.1 | K1 in@0 para  43.8 | K1 x@0 para   3.1 | K4 in@0  18.8 | K4 in@200  21.9 | K4 x@0   6.2 | K4 x@200   6.2 | K4 x@0 off   3.1 | K4 in@0 para   6.2 | K4 x@0 para  12.5
+chance = 1/12 = 8.3%; copying a random in-context value = 100/K %
+== cross-chunk haystack
+v4                         C=1024 N8:  14.8  14.1  10.9   9.4 (mem off   9.4) | N32:   3.9   3.1   5.5   3.1 (mem off   2.3)
+columns: query offset into chunk B = (0, 64, 192, 448) (kv block at the start of chunk A); chance N8 12.5%, N32 3.1%
+== energy-v2
+v4                           energy-v2 | weight reads 650.1M of 1008.3M (64%) | compute only 1.55x (3108 vs 4812 uJ) | +SRAM fetch 1.54x (4827 vs 7427 uJ) | +DRAM fetch 1.55x (211233 vs 327574 uJ)
+[itest] done 16:48

@@ -1,0 +1,1 @@
+v4                         C=1024 T=2048 | chunk1   18.39 (mem off   18.53) | chunks2+   16.43 (off   17.35, Δ +0.92) | first64 of 2+   24.44 (off   36.40, Δ +11.97) vs first64 of chunk1   30.99

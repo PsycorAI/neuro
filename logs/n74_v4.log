@@ -1,0 +1,44 @@
+[n74 v4 10-23 09:12:39] suite phase 1: models/checkpoints/cF/step_0000001.pt (ppl,harness,far,memoff,energy,speed)
+[n74 v4 10-23 09:12:39] ppl start
+v4                     full  17.378 | chunk1  17.605 | chunks2+  17.154  (models/checkpoints/cF/step_0000001.pt)
+[n74 v4 10-23 09:13:39] ppl done rc=0
+[n74 v4 10-23 09:13:39] harness start
+  harness hellaswag        acc,none 0.3189 | acc_norm,none 0.3694 | acc_norm_stderr,none 0.0048 | acc_stderr,none 0.0047 | sample_len 10042.0000
+  harness arc_easy         acc,none 0.5602 | acc_norm,none 0.4937 | acc_norm_stderr,none 0.0103 | acc_stderr,none 0.0102 | sample_len 2376.0000
+  harness piqa             acc,none 0.6610 | acc_norm,none 0.6534 | acc_norm_stderr,none 0.0111 | acc_stderr,none 0.0110 | sample_len 1838.0000
+  harness lambada_openai   acc,none 0.3864 | acc_stderr,none 0.0068 | perplexity,none 21.7241 | perplexity_stderr,none 0.8312 | sample_len 5153.0000
+  harness done in 150.5 min (models/checkpoints/cF/step_0000001.pt)
+[n74 v4 10-23 11:44:26] harness done rc=0
+[n74 v4 10-23 11:44:26] far start
+  farrecall v4           full   N8 g0:100.0 g1024:100.0 g3072: 99.2 g7168:100.0 g15360:100.0   (chance 12.5%)
+  farrecall v4           window N8 g0:100.0 g1024:100.0 g3072:  7.8 g7168: 12.5 g15360: 10.9   (chance 12.5%)
+  farrecall v4           nomem  N8 g0:100.0 g1024: 11.9 g3072:  7.8 g7168: 15.6 g15360: 14.8   (chance 12.5%)
+[n74 v4 10-23 12:00:41] far done rc=0
+[n74 v4 10-23 12:00:41] memoff start
+v4                         C=1024 T=2048 | chunk1   18.39 (mem off   18.53) | chunks2+   16.43 (off   17.35, Δ +0.92) | first64 of 2+   24.44 (off   36.40, Δ +11.97) vs first64 of chunk1   30.99
+[n74 v4 10-23 12:01:21] memoff done rc=0
+[n74 v4 10-23 12:01:21] energy start
+Traceback (most recent call last):
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 1.89 GiB is free. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Process 274118 has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 11.52 GiB is allocated by PyTorch, and 980.65 MiB is reserved by PyTorch but unall
+[n74 v4 10-23 12:01:45] energy done rc=1
+[n74 v4 10-23 12:01:45] speed start
+  speed v4           GPU NVIDIA GeForce RTX 5080 | weights 4.51 GiB
+  speed v4           L   1024 | prefill      4781 tok/s |   0.209 ms/token | peak   6.77 GiB
+  speed v4           L   2048 | prefill      7939 tok/s |   0.126 ms/token | peak   7.02 GiB
+  speed v4           L   4096 | prefill      7788 tok/s |   0.128 ms/token | peak   7.61 GiB
+  speed v4           L   8192 | prefill      7707 tok/s |   0.130 ms/token | peak   8.80 GiB
+  speed v4           L  16384 | prefill      7485 tok/s |   0.134 ms/token | peak  11.18 GiB
+  speed v4           L  32768 | OOM
+[n74 v4 10-23 12:02:39] speed done rc=0
+[n74 v4 10-23 12:02:39] suite phase 1 done
+[n74 v4 10-23 16:17:02] energy rerun start (B 1, mem frac 0.5)
+Traceback (most recent call last):
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 128.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 6.64 GiB is free. Process 274118 has 17179869184.00 GiB memory in use. Process 327175 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 7.96 GiB allowed; Of the allocated memory 7.78 GiB is allocated by PyTor
+[n74 v4 10-23 16:17:34] energy rerun done rc=1
+[n74 v4 10-23 19:05:14] energy rerun start (B 1, mem frac 0.64)
+  energy v4           | linear MAC 1.2M AC 1229.6M (dense 1008.3M) | weight reads 491.1M (49%) | MLP-hidden zeros 98.3% (12 down-proj, width 12288) | all Linear-input zeros 51.3% | attn 12 layers, chunk 1024, memory layers 1
+  energy v4           @ctx   1024 uJ/token  fp: compute  1211.9 | +SRAM  2534.0 | +DRAM 170451.2  ||  int8: compute   131.7 | +SRAM   792.8 | +DRAM  84751.4
+  energy v4           @ctx   2048 uJ/token  fp: compute  1211.9 | +SRAM  2534.0 | +DRAM 170451.2  ||  int8: compute   131.7 | +SRAM   792.8 | +DRAM  84751.4
+  energy v4           @ctx   8192 uJ/token  fp: compute  1211.9 | +SRAM  2534.0 | +DRAM 170451.2  ||  int8: compute   131.7 | +SRAM   792.8 | +DRAM  84751.4
+  energy v4           @ctx  32768 uJ/token  fp: compute  1211.9 | +SRAM  2534.0 | +DRAM 170451.2  ||  int8: compute   131.7 | +SRAM   792.8 | +DRAM  84751.4
+[n74 v4 10-23 19:05:40] energy rerun done rc=0

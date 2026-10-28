@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plasmem demo</title>
+<!-- scripts/memdemo/index.html -- 2026-10-27 (Neuro 85): Plasmem demo v1 (recall only). Styled after scripts/demo/index.html.
+     Design: docs/n85_plasmem_demo_design_2026_10_27.md -->
+<style>
+:root{--bg:#0b0f17;--panel:#121826;--line:#1f2a3d;--ink:#e6ebf5;--dim:#8a96ad;--spk:#5be0ff;--sem:#3fa9c9;--mlp:#ffb347;--mem:#b78bff;--ok:#5ee6a0;--bad:#ff6b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{display:flex;align-items:baseline;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:18px;margin:0;letter-spacing:.3px}
+header h1 span{color:var(--dim);font-weight:400;font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.chip.est{color:var(--mlp);border-color:#6b4a1f}
+main{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.45fr);gap:16px;padding:16px 20px}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:12px 16px}header{padding:12px 16px}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin:0 0 10px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.panel h2 .sub{text-transform:none;letter-spacing:0;margin-left:auto}
+.sub{color:var(--dim);font-size:12px}
+#diary{height:40vh;min-height:260px;overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px}
+.day{font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin:6px 0 0}
+.mem{display:grid;grid-template-columns:44px 1fr auto;gap:8px;padding:6px 10px;border-radius:8px;background:#161f30;border:1px solid var(--line);font-size:13px;transition:background .3s,border-color .3s,box-shadow .3s}
+.mem .w{color:var(--mem);font-size:12px}
+.mem .r{font-size:12px;font-weight:650;color:var(--spk);text-align:right;white-space:nowrap}
+.mem.lit{border-color:var(--spk);box-shadow:0 0 0 1px #5be0ff33,0 0 14px #5be0ff22;background:#14243a}
+.mem.lit2{border-color:#2f6f86;background:#142030}
+.mem.gold{border-color:var(--ok);box-shadow:0 0 0 1px #5ee6a044,0 0 14px #5ee6a033}
+.mem .badge{font-size:10px;color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:0 6px;margin-left:4px}
+.mem .pickb{display:none}
+.picking .mem .pickb{display:inline-block}
+textarea,input[type=text],input[type=date]{background:#000;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;max-width:100%}
+textarea,input.grow{width:100%}
+input[type=date]{padding:4px 6px;color-scheme:dark}
+textarea{min-height:48px;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:#2f4266}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+button{background:#22304a;color:var(--ink);border:1px solid #2f4266;border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
+button.primary{background:#2463eb;border-color:#2463eb}
+button.warn{background:#3a1d24;border-color:#6b2a35}
+button.tour{padding:5px 12px;font-size:13px}
+button.tour.on{background:#2463eb;border-color:#2463eb}
+button.sm{padding:2px 9px;font-size:12px}
+button.okb{border-color:#2b6b4f}
+button:disabled{opacity:.5;cursor:default}
+label{color:var(--dim);font-size:13px}
+svg{width:100%;height:auto;display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.big{font-size:22px;font-weight:650;letter-spacing:-.5px}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--dim);margin:2px 0 6px;flex-wrap:wrap}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.ans{display:flex;flex-direction:column;gap:6px}
+.hit{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#0e1420;border:1px solid var(--line);font-size:13px}
+.hit.g{border-color:var(--ok)}
+.hit .k{color:var(--spk);font-weight:650}
+.hit mark{background:none;color:var(--spk);font-weight:600}
+.hit .meta{font-size:11px;color:var(--dim)}
+.ch{display:flex;height:6px;margin-top:4px;border-radius:3px;overflow:hidden;max-width:240px;background:#1a2336}
+.ch i{display:block;height:100%}
+.tick{font-weight:700}.tick.y{color:var(--ok)}.tick.n{color:var(--bad)}
+.gauge{height:10px;border-radius:5px;background:#1a2336;overflow:hidden;margin:6px 0 2px}
+.gauge>i{display:block;height:100%;background:linear-gradient(90deg,var(--bad),var(--mlp),var(--ok));transition:width .6s}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1200px){.two{grid-template-columns:1fr}}
+.learn{border-left:3px solid var(--ok);padding:6px 10px;background:#0f1c18;border-radius:6px;font-size:13px;margin-top:8px}
+.learn b{color:var(--ok)}
+.goldline{font-size:12px;margin-top:6px}
+.goldline b{color:var(--ok)}
+.note{font-size:11px;color:var(--dim);margin-top:8px}
+.tnote{font-size:13px;color:var(--ink);margin-top:8px;min-height:20px}
+.unk{color:var(--mlp)}
+.err{color:var(--bad);font-size:12px}
+@keyframes flow{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+.edge{stroke-dasharray:4 4;animation:flow 1s linear infinite}
+@keyframes pulse{0%{opacity:1}60%{opacity:.55}100%{opacity:1}}
+.fire{animation:pulse 1.6s ease-out infinite}
+@media (prefers-reduced-motion:reduce){.edge,.fire{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Plasmem <span>memory with plasticity</span></h1>
+  <div class="chips" id="chips"></div>
+</header>
+<main>
+  <section class="col">
+    <div class="panel" id="diarypanel">
+      <h2>Diary <span class="sub" id="pickhint">what Plasmem remembers</span></h2>
+      <div id="diary"></div>
+      <div class="row"><input type="text" class="grow" id="m_text" placeholder="Add a memory, e.g. we booked the cabin for June"></div>
+      <div class="row"><label>date <input type="date" id="m_date"></label><label>who <input type="text" id="m_who" value="Maya" style="width:90px"></label>
+        <button id="m_add">Remember</button><button class="warn" id="reset" title="Back to the original diary; forgets what it learned">Reset memory</button></div>
+    </div>
+    <div class="panel">
+      <h2>Ask</h2>
+      <textarea id="q" placeholder="Ask about the diary (Enter to ask)"></textarea>
+      <div class="row"><button class="primary" id="ask">Ask</button>
+        <label>today is <input type="date" id="now"></label>
+        <label title="Who cells: when the question names a speaker, that person's memories stay bright and the others dim"><input type="checkbox" id="who" checked> who cells</label></div>
+      <div class="row"><span class="sub">Tour:</span><span id="tour" style="display:contents"></span></div>
+      <div class="tnote" id="tnote">&nbsp;</div>
+    </div>
+  </section>
+
+  <section class="col">
+    <div class="panel">
+      <h2>Synapse view <span class="sub">how the memory was found</span></h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--spk)"></i>word neurons</span>
+        <span><i class="sw" style="background:var(--sem)"></i>meaning neurons</span>
+        <span><i class="sw" style="background:var(--mem)"></i>memory neurons</span>
+        <span><i class="sw" style="background:var(--mlp)"></i>time cells</span>
+        <span><i class="sw" style="background:var(--ok)"></i>who cells · learned synapses</span>
+      </div>
+      <svg id="syn" viewBox="0 0 680 320" role="img" aria-label="Synapse view"></svg>
+      <div class="stats">
+        <div><div class="big" id="s_wrd">–</div><div class="sub" id="s_wrd2">word neurons fired</div></div>
+        <div><div class="big" id="s_sem">–</div><div class="sub" id="s_sem2">meaning neurons fired</div></div>
+        <div><div class="big" id="s_syn">–</div><div class="sub" id="s_syn2">of synapses carried a spike</div></div>
+        <div><div class="big" id="s_ms">–</div><div class="sub">recall time (CPU)</div></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h2>Plasmem recalls</h2>
+        <div class="sub">confidence <span id="conf"></span></div>
+        <div class="gauge"><i id="g" style="width:0"></i></div>
+        <div id="unk" class="sub">&nbsp;</div>
+        <div class="ans" id="ans" style="margin-top:8px"><div class="sub">Ask a question or pick a tour step.</div></div>
+        <div id="goldline" class="goldline"></div>
+        <div id="learnlog"></div>
+      </div>
+      <div class="panel">
+        <h2>Ordinary vector search <span class="sub">same embedder, cosine</span></h2>
+        <div class="ans" id="vec"></div>
+        <div class="note">Ticks appear only on tour questions, where the right memory is known.</div>
+      </div>
+    </div>
+    <div class="note">Measured on benchmarks (not live): LoCoMo top-10 recall 76.7 for Plasmem vs 64.6 for keyword + vector search;
+      one correction lifts recall of paraphrased questions from 57 to 89. Tour questions are chosen examples on this diary, not a score.
+      Confidence is experimental: it does not yet separate answerable from unanswerable questions reliably.</div>
+    <div class="err" id="err"></div>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=n=>n.toLocaleString("en-US");
+const showIn=el=>{const d=$("diary");d.scrollTo({top:el.offsetTop-d.offsetTop-d.clientHeight/3,behavior:"smooth"})};  // scroll the diary only, not the page
+let S={diary:[],stats:{},tour:[],today:"",cur:null,last:null,picking:false};
+async function api(path,body){const r=await fetch(path,body?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}:{});
+  const j=await r.json();if(j.error){$("err").textContent=j.error;throw new Error(j.error)}$("err").textContent="";return j}
+function chips(){const s=S.stats;$("chips").innerHTML=
+  `<span class="chip">${fmt(s.memories)} memories</span><span class="chip">${fmt(s.synapses)} synapses</span>`+
+  `<span class="chip" title="Synapses grown by learning from use">${fmt(s.use_synapses)} learned</span>`+
+  `<span class="chip" title="The whole memory, one file you own">diary.plasmem · ${(s.bytes/1024).toFixed(0)} KB</span>`+
+  `<span class="chip est" title="Everything after the front end is synaptic. The spiking front end replaces bge-small when its training finishes.">front end: bge-small (transformer) · spiking encoder in training</span>`}
+function renderDiary(){const r=S.last,rank=new Map((r?r.hits:[]).map((h,k)=>[h.i,k])),gold=S.cur&&S.cur.gold;let o="",prev="";
+  S.diary.forEach(m=>{if(m.date!==prev){o+=`<div class="day">${new Date(m.date+"T12:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>`;prev=m.date}
+    const k=rank.has(m.i)?rank.get(m.i):-1,g=gold===m.i;
+    o+=`<div class="mem ${k==0?"lit":k>0?"lit2":""} ${g?"gold":""}" id="m${m.i}"><div class="w">${esc(m.who)}</div><div>${esc(m.text)}${g?'<span class="badge">answer</span>':""}</div>`+
+      `<div class="r">${k>=0?"#"+(k+1):""} <button class="sm okb pickb" data-i="${m.i}">this is the answer</button></div></div>`});
+  $("diary").innerHTML=o;$("diarypanel").classList.toggle("picking",S.picking&&!!S.last);
+  $("pickhint").textContent=S.last?"click “this is the answer” on any memory to teach it":"what Plasmem remembers";
+  document.querySelectorAll(".pickb").forEach(b=>b.onclick=()=>teach(+b.dataset.i))}
+async function loadDiary(){const j=await api("/api/diary");S.diary=j.diary;S.stats=j.stats;S.today=j.today;if(!$("now").value)$("now").value=j.today;
+  if(!$("m_date").value)$("m_date").value=j.today;chips();renderDiary()}
+const PC={word:"var(--spk)",meaning:"var(--sem)",learned:"var(--ok)",neighbour:"var(--mem)"};
+function hl(t,words){const stems=words.map(w=>w.slice(0,Math.max(3,w.length-1)));
+  return esc(t).replace(/[A-Za-z0-9']+/g,x=>stems.some(s=>x.toLowerCase().startsWith(s))?`<mark>${x}</mark>`:x)}
+function svg(r){const mx=330,tx=530,o=[];const H=r.hits,maxS=Math.max(...H.map(h=>h.score),1e-9);
+  const cue=r.cue.slice().sort((a,b)=>b.idf-a.idf).slice(0,6),cy=i=>cue.length<2?95:30+i*(130/(cue.length-1));
+  const my=k=>34+k*58,maxIdf=Math.max(...cue.map(c=>c.idf),1),maxOv=Math.max(...H.map(h=>h.meaning_overlap),1);
+  const NG=40,lit=Math.max(1,Math.round(NG*r.meaning_fired/r.meaning_total)),sem=[...Array(NG)].map((_,i)=>[24+(i%10)*12,214+Math.floor(i/10)*12,i*7%NG<lit]);
+  // time cells: one per day from the first memory to today
+  const d0=Math.min(...r.days),nd=r.today_day-d0+1,cols=Math.min(nd,15),cw=Math.min(9,120/cols);
+  let win=null;if(r.time_window){const lo=Date.parse(r.time_window[0])/864e5,hi=Date.parse(r.time_window[1])/864e5,t=Date.parse(r.now)/864e5;win=[r.today_day-(t-lo),r.today_day-(t-hi)]}
+  const dayXY=d=>{const k=d-d0;return[tx+(k%cols)*(cw+1),30+Math.floor(k/cols)*(cw+1)]},has=new Set(r.days);
+  let tc=[tx+60,40];
+  for(let d=d0;d<=r.today_day;d++){const[x,y]=dayXY(d),on=win&&d>=win[0]&&d<=win[1];if(on)tc=[x,y];
+    o.push(`<rect x="${x}" y="${y}" width="${cw}" height="${cw}" rx="1.5" fill="${on?"var(--mlp)":has.has(d)?"#2a3550":"#1a2336"}" ${on?'class="fire"':""}/>`)}
+  o.push(`<text x="${tx}" y="20" fill="#8a96ad" font-size="11">time cells (one per day)</text>`);
+  const whos=[...new Set(S.diary.map(m=>m.who))].slice(0,4),named=w=>r.who.some(s=>w.toLowerCase().startsWith(s));
+  o.push(`<text x="${tx}" y="214" fill="#8a96ad" font-size="11">who cells</text>`);
+  // edges
+  H.forEach((h,k)=>{const a=h.score/maxS;
+    cue.forEach((c,i)=>{if(h.words.includes(c.w))o.push(`<line class="edge" x1="98" y1="${cy(i)}" x2="${mx-10}" y2="${my(k)}" stroke="var(--spk)" stroke-width="${(.6+2.6*c.idf/maxIdf).toFixed(2)}" opacity="${(.25+.6*a).toFixed(2)}"/>`)});
+    sem.forEach(([x,y,on],i)=>{if(on)o.push(`<line x1="${x}" y1="${y}" x2="${mx-10}" y2="${my(k)}" stroke="var(--sem)" stroke-width="${(.4+2*h.meaning_overlap/maxOv).toFixed(2)}" opacity="${(.15+.4*h.meaning_overlap/maxOv).toFixed(2)}"/>`)});
+    if(h.time!==null&&h.time>.3)o.push(`<line class="edge" x1="${tc[0]}" y1="${tc[1]+4}" x2="${mx+10}" y2="${my(k)}" stroke="var(--mlp)" stroke-width="${(1+2*h.time).toFixed(2)}" opacity=".85"/>`);
+    whos.forEach((w,j)=>{if(named(w)&&h.who===w)o.push(`<line class="edge" x1="${tx+14+j*44}" y1="236" x2="${mx+10}" y2="${my(k)}" stroke="var(--ok)" stroke-width="1.6" opacity=".7"/>`)});
+    if(h.parts.learned>.05)cue.forEach((c,i)=>o.push(`<line class="edge" x1="98" y1="${cy(i)}" x2="${mx-10}" y2="${my(k)}" stroke="var(--ok)" stroke-width="${(1+2*Math.min(1,h.parts.learned)).toFixed(2)}" opacity=".9"/>`))});
+  // nodes
+  cue.forEach((c,i)=>o.push(`<circle class="fire" cx="90" cy="${cy(i)}" r="8" fill="var(--spk)"/><text x="76" y="${cy(i)+4}" fill="#e6ebf5" font-size="12" text-anchor="end">${esc(c.w)}</text>`));
+  if(!cue.length)o.push(`<text x="20" y="95" fill="#8a96ad" font-size="12">no stored word fired</text>`);
+  sem.forEach(([x,y,on])=>o.push(`<circle cx="${x}" cy="${y}" r="4" fill="${on?"var(--sem)":"#1a2336"}" ${on?'class="fire"':""}/>`));
+  o.push(`<text x="20" y="200" fill="#8a96ad" font-size="11">meaning neurons (sample)</text>`);
+  H.forEach((h,k)=>{const a=h.score/maxS,g=S.cur&&S.cur.gold===h.i;
+    o.push(`<circle cx="${mx}" cy="${my(k)}" r="${(5+7*a).toFixed(1)}" fill="var(--mem)" opacity="${(.3+.7*a).toFixed(2)}" ${k==0?'class="fire"':""} ${g?'stroke="var(--ok)" stroke-width="2"':""}/>`+
+      `<text x="${mx+18}" y="${my(k)+4}" fill="${k==0?"#e6ebf5":"#8a96ad"}" font-size="11">#${k+1} ${esc(h.text.slice(0,26))}${h.text.length>26?"…":""}</text>`)});
+  whos.forEach((w,j)=>{const on=named(w);o.push(`<circle cx="${tx+14+j*44}" cy="236" r="9" fill="${on?"var(--ok)":"#1a2336"}" ${on?'class="fire"':""}/><text x="${tx+14+j*44}" y="260" fill="#8a96ad" font-size="11" text-anchor="middle">${esc(w)}</text>`)});
+  if(win)o.push(`<text x="${tx}" y="${30+Math.ceil(nd/cols)*(cw+1)+14}" fill="var(--mlp)" font-size="11">${r.time_window[0].slice(5)} → ${r.time_window[1].slice(5)}</text>`);
+  $("syn").innerHTML=o.join("")}
+function renderAsk(r){S.last=r;renderDiary();svg(r);
+  const nw=r.cue.length;$("s_wrd").textContent=nw;$("s_wrd2").textContent=`of ${fmt(S.stats.word_neurons)} word neurons fired`;
+  $("s_sem").textContent=fmt(r.meaning_fired);$("s_sem2").textContent=`of ${fmt(r.meaning_total)} meaning neurons fired`;
+  $("s_syn").textContent=(100*r.synapses_used/r.synapses_total).toFixed(1)+"%";$("s_ms").textContent=r.ms.toFixed(0)+" ms";
+  const c=r.confidence;$("g").style.width=(100*Math.min(1,c/.6))+"%";
+  $("conf").innerHTML=`<b style="color:${c<.25?"var(--bad)":c<.4?"var(--mlp)":"var(--ok)"}">${c<.25?"low":c<.4?"medium":"high"}</b> (${(100*c).toFixed(0)}%)`;
+  $("unk").innerHTML=r.unknown.length?`No word neuron for: <span class="unk">${r.unknown.map(esc).join(", ")}</span> (never stored)`:"&nbsp;";
+  const tot=h=>Object.values(h.parts).reduce((a,b)=>a+b,0)||1;
+  $("ans").innerHTML=r.hits.map((h,k)=>`<div class="hit ${S.cur&&S.cur.gold===h.i?"g":""}"><span class="k">${k+1}</span><div>${hl(h.text,h.words)}`+
+    `<div class="meta">${esc(h.who)} · ${h.date}${h.time!==null?` · time cells ${(100*h.time).toFixed(0)}%`:""}</div>`+
+    `<div class="ch" title="what drove this memory">${Object.entries(h.parts).map(([p,v])=>v>0?`<i style="width:${(100*v/tot(h)).toFixed(1)}%;background:${PC[p]}" title="${p} ${(100*v/tot(h)).toFixed(0)}%"></i>`:"").join("")}</div></div>`+
+    `<span><button class="sm okb" data-i="${h.i}" title="Teach Plasmem this is the answer">✓</button></span></div>`).join("");
+  document.querySelectorAll("#ans .okb").forEach(b=>b.onclick=()=>teach(+b.dataset.i));
+  const gold=S.cur?S.cur.gold:null;
+  $("vec").innerHTML=r.vector.map((h,k)=>`<div class="hit ${gold===h.i?"g":""}"><span class="k" style="color:var(--dim)">${k+1}</span><div>${esc(h.text)}<div class="meta">${esc(h.who)} · ${h.date} · cos ${h.score.toFixed(2)}</div></div>`+
+    `<span class="tick ${gold===h.i?"y":"n"}">${S.cur?(S.cur.gold===null?"":gold===h.i?"✓":"✗"):""}</span></div>`).join("")+
+    (S.cur&&S.cur.gold===null?'<div class="note">Vector search always returns its nearest 5, with no notion of “never stored”.</div>':"");
+  $("goldline").innerHTML=r.gold_rank?`Right answer: Plasmem rank <b>${r.gold_rank}</b> · vector search rank ${r.gold_vec_rank}`:"";
+  $("learnlog").innerHTML=""}
+async function ask(q,tour){S.cur=tour||null;S.picking=!!(tour&&tour.id==="learn");if(!tour)document.querySelectorAll(".tour").forEach(b=>b.classList.remove("on"));
+  $("tnote").textContent=tour?tour.note:"";$("q").value=q;
+  const r=await api("/api/ask",{q,now:$("now").value,who:$("who").checked,gold:tour?tour.gold:null});renderAsk(r);
+  if(tour&&tour.id==="learn"&&r.gold_rank===1)$("tnote").textContent="Already learned: it finds the answer first now. Press Reset memory to see it learn again.";
+  if(!tour)S.picking=true,renderDiary();const el=S.cur&&S.cur.gold!==null&&document.getElementById("m"+S.cur.gold)||document.querySelector(".mem.lit");if(el)showIn(el)}
+async function teach(i){const r=S.last;if(!r)return;const probes=S.cur&&S.cur.probes||[];
+  const f=await api("/api/feedback",{q:r.q,span:i,now:$("now").value,who:$("who").checked,probes});S.stats=f.stats;chips();
+  const cur=S.cur;S.cur=cur&&cur.gold===i?cur:{...(cur||{}),gold:i,probes};const r2=await api("/api/ask",{q:r.q,now:$("now").value,who:$("who").checked,gold:i});renderAsk(r2);S.picking=false;renderDiary();
+  const line=(q,b,a)=>`<div>“${esc(q)}”: rank ${b} → <b>${a}</b></div>`;
+  $("learnlog").innerHTML=`<div class="learn"><b>Learned.</b> ${fmt(f.grown)} synapses grown from this question’s active neurons to that memory.`+
+    line(r.q,f.before[0],f.after[0])+(probes.length?`<div class="sub" style="margin-top:4px">Questions it was never asked:</div>`+probes.map((q,k)=>line(q,f.before[k+1],f.after[k+1])).join(""):"")+`</div>`;
+  $("tnote").textContent=probes.length?"One click grew new synapses. The same question now finds it first, and so do new phrasings it was never taught.":"One click grew new synapses; this question now finds that memory faster."}
+async function init(){await loadDiary();S.tour=await api("/api/tour");
+  $("tour").innerHTML=S.tour.map(t=>`<button class="tour" data-t="${t.id}">${esc(t.label)}</button>`).join("");
+  document.querySelectorAll(".tour").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tour").forEach(x=>x.classList.toggle("on",x===b));const t=S.tour.find(x=>x.id===b.dataset.t);$("now").value=S.today;ask(t.q,t)});
+  $("ask").onclick=()=>{const q=$("q").value.trim();if(q)ask(q,null)};
+  $("q").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("ask").click()}};
+  $("m_add").onclick=async()=>{const text=$("m_text").value.trim();if(!text)return;await api("/api/remember",{text,who:$("m_who").value,date:$("m_date").value});$("m_text").value="";S.last=null;await loadDiary();
+    const el=document.querySelector("#diary .mem:last-child");if(el)showIn(el)};
+  $("reset").onclick=async()=>{if(!confirm("Forget everything learned and added, and go back to the original diary?"))return;await api("/api/reset",{});S.last=null;S.cur=null;await loadDiary();
+    $("learnlog").innerHTML="";$("tnote").textContent="Memory reset to the original diary."};
+  document.querySelector('.tour[data-t="recall"]').click()}
+init();
+</script>
+</body>
+</html>

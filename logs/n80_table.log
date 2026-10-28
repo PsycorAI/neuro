@@ -1,0 +1,36 @@
+[n80 10-25 23:41:37] v4f models/checkpoints/v4std_dense/step_0186000.pt, sampler lag 0.095 s
+[n80 10-25 23:41:37] gpu-energy session c
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    349.1 tok/s |   507.23 mJ/tok total (503.41-509.36) |   351.01 active
+  gpu-energy v4f_dec@512  |    290.4 tok/s |   544.99 mJ/tok total (539.89-552.12) |   356.18 active
+  gpu-energy v4f_dec@2048 |    321.1 tok/s |   539.88 mJ/tok total (537.73-549.45) |   371.36 active
+  gpu-energy v4f_dec@8192 |    261.9 tok/s |   636.72 mJ/tok total (633.67-642.77) |   427.65 active
+  gpu-energy v4f_dec@32768 |    148.6 tok/s |  1083.47 mJ/tok total (1059.79-1085.36) |   714.49 active
+  gpu-energy v4_dec@256   |    430.1 tok/s |   355.73 mJ/tok total (344.02-358.54) |   225.49 active
+  gpu-energy v4_dec@512   |    430.2 tok/s |   354.70 mJ/tok total (348.55-355.46) |   228.67 active
+  gpu-energy v4_dec@2048  |    427.0 tok/s |   350.03 mJ/tok total (347.58-354.46) |   223.34 active
+  gpu-energy v4_dec@8192  |    427.6 tok/s |   351.78 mJ/tok total (340.74-357.05) |   226.39 active
+  gpu-energy v4_dec@32768 |    428.1 tok/s |   351.92 mJ/tok total (348.89-358.46) |   225.49 active
+[n80 10-25 23:49:53] gpu-energy session d
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    348.3 tok/s |   506.37 mJ/tok total (505.50-510.15) |   348.42 active
+  gpu-energy v4f_dec@512  |    290.3 tok/s |   545.94 mJ/tok total (540.09-546.23) |   356.43 active
+  gpu-energy v4f_dec@2048 |    323.6 tok/s |   535.90 mJ/tok total (532.79-539.08) |   369.92 active
+  gpu-energy v4f_dec@8192 |    261.0 tok/s |   630.84 mJ/tok total (629.75-646.80) |   425.45 active
+  gpu-energy v4f_dec@32768 |    148.7 tok/s |  1078.82 mJ/tok total (1067.39-1084.66) |   709.08 active
+  gpu-energy v4_dec@256   |    429.1 tok/s |   354.39 mJ/tok total (353.54-356.21) |   223.94 active
+  gpu-energy v4_dec@512   |    429.3 tok/s |   360.19 mJ/tok total (349.31-363.41) |   226.64 active
+  gpu-energy v4_dec@2048  |    429.4 tok/s |   351.12 mJ/tok total (347.43-353.52) |   223.18 active
+  gpu-energy v4_dec@8192  |    422.5 tok/s |   351.98 mJ/tok total (345.51-353.35) |   224.26 active
+  gpu-energy v4_dec@32768 |    430.3 tok/s |   353.48 mJ/tok total (352.15-356.82) |   227.06 active
+
+== n80 NVIDIA GeForce RTX 5080: decode mJ per word, lag-shifted instant power, mean of 2 sessions (session c / d) | n79 table
+     256: v4    538 (536 / 540, 430/s) | v4f    818 (818 / 818, 349/s) | v4f / v4 1.52x | n79: no row
+     512: v4    541 (539 / 542, 430/s) | v4f    863 (865 / 861, 290/s) | v4f / v4 1.60x | n79: v4 526 v4f 793 = 1.51x
+    2048: v4    537 (538 / 536, 428/s) | v4f    867 (866 / 867, 322/s) | v4f / v4 1.61x | n79: v4 518 v4f 834 = 1.61x
+    8192: v4    541 (541 / 542, 425/s) | v4f   1015 (1014 / 1016, 261/s) | v4f / v4 1.87x | n79: v4 521 v4f 992 = 1.90x
+   32768: v4    540 (541 / 540, 429/s) | v4f   1684 (1681 / 1687, 149/s) | v4f / v4 3.12x | n79: v4 522 v4f 1634 = 3.13x

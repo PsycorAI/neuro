@@ -1,0 +1,153 @@
+{
+ "dtype": "bf16 sft_v4_chat_w8_pruned",
+ "turns": [
+  {
+   "q": "What is 17% of 240?",
+   "mode": "TOOL",
+   "tool": "calculator",
+   "reply": "17% of 240 is 40.8.",
+   "brain": null
+  },
+  {
+   "q": "How many kilometers is 26.2 miles?",
+   "mode": "TOOL",
+   "tool": "unit_convert",
+   "reply": "26.2 miles is 42.1648 kilometers.",
+   "brain": null
+  },
+  {
+   "q": "What time is it in Tokyo right now?",
+   "mode": "TOOL",
+   "tool": "get_time",
+   "reply": "It is 5:44 AM on Tuesday, October 27 in Tokyo.",
+   "brain": null
+  },
+  {
+   "q": "What's the weather like in Paris?",
+   "mode": "TOOL",
+   "tool": "get_weather",
+   "reply": "It is 56 degrees Fahrenheit in Paris, overcast.",
+   "brain": null
+  },
+  {
+   "q": "What does the word 'ephemeral' mean?",
+   "mode": "TOOL",
+   "tool": "define",
+   "reply": "Ephemeral means lasting a very short time.",
+   "brain": null
+  },
+  {
+   "q": "Translate 'good morning' into Spanish.",
+   "mode": "TOOL",
+   "tool": "translate",
+   "reply": "Buenos d\u00edas.",
+   "brain": null
+  },
+  {
+   "q": "Remind me to call my son at 6 pm.",
+   "mode": "TOOL",
+   "tool": "set_reminder",
+   "reply": "OK, I set a reminder to call your son at 6 pm.",
+   "brain": null
+  },
+  {
+   "q": "Who wrote the novel Pride and Prejudice?",
+   "mode": "TOOL",
+   "tool": "search",
+   "reply": "English author Jane Austen wrote the novel Pride and Prejudice.",
+   "brain": null
+  },
+  {
+   "q": "Why is the sky blue?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The sky is blue because of the scattering of sunlight by molecules in the atmosphere. The blue color is caused by the scattering of light by molecules in air, which is why it is often referred to as the \"blue color of the sky.\" The light from the sun is also reflected and refracted by the Earth's atmosphere, creating a blue color.",
+   "brain": null
+  },
+  {
+   "q": "Give me three tips for sleeping better.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your brain that it's time to sleep.",
+   "brain": null
+  },
+  {
+   "q": "What is photosynthesis?",
+   "mode": "TOOL",
+   "tool": "define",
+   "reply": "Photosynthesis is the synthesis of compounds with the aid of radiant energy, especially in plants.",
+   "brain": null
+  },
+  {
+   "q": "Write a short poem about the sea.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The sea is a vast and endless sea,\nA vast and endless ocean, with no end.\nIt flows with grace and beauty, with no end,\nA sea of life, of love and of hate.\n\nIt is the ocean of the sky, of the sea,\nA sea of colors, of the sea of life.\nIt is the sea of the sea, of the sky,\nA sea of love, of hate, of life and death.\n\nIt is the sea that moves, of the sea,\nA sea of life, of love and hate.\nIt is the sea with the waves, of the sea,\nA sea of love, of hate, of life and of death.\n\nIt is the sea, of the sea, of the sky,\nA sea of love, of hate,",
+   "brain": null
+  },
+  {
+   "q": "Tell me about Marie Curie.",
+   "mode": "TOOL",
+   "tool": "search",
+   "reply": "Marie Curie was a French university created on January 1, 1971.",
+   "brain": null
+  },
+  {
+   "q": "What is the capital of Australia?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "The capital city of Australia is Sydney.",
+   "brain": null
+  },
+  {
+   "q": "How much protein is in broccoli?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "2.8 grams of protein per 100 grams.",
+   "brain": "health"
+  },
+  {
+   "q": "How many calories are in bananas?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "89 kcal of energy per 100 grams.",
+   "brain": "health"
+  },
+  {
+   "q": "Write a Python function to check if a number is prime.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "def check_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True",
+   "brain": "python"
+  },
+  {
+   "q": "Write a Python function to reverse a string.",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "def reverse_text(s):\n    return s[::-1]",
+   "brain": "python"
+  },
+  {
+   "q": "Hi, how are you?",
+   "mode": "ANSWER",
+   "tool": null,
+   "reply": "Hello, I'm a AI language model and I don't have a physical presence. Can you help me out?",
+   "brain": null
+  },
+  {
+   "q": "Thanks!",
+   "mode": "BACKEND",
+   "tool": null,
+   "reply": "You're welcome!",
+   "brain": null
+  }
+ ],
+ "secs": 10.156336069107056,
+ "memtest": {
+  "on": 20,
+  "off": 0,
+  "trials": 20
+ },
+ "raw": "written on a stone tablet in the corner of the room, and the children looked at the tablet with a smile. The river was a long way from their village, and the children often wondered what it",
+ "mem_gb": 7.4918144
+}

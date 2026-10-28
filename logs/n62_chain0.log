@@ -1,0 +1,93 @@
+[n62c0 10-14 18:18:36] start: while pgrep -f '^bash temp/n62_sftb238.sh' > /dev/null; do sleep 60; done
+[n62c0 10-14 21:44:08] start: bash temp/n62_avgtest.sh 0
+[n62c0 10-14 21:57:53] end rc=0: bash temp/n62_avgtest.sh 0
+[n62c0 10-14 21:57:53] start: bash temp/n62_sft.sh sft_v4_B2 CHOICE 0 60000000 916 4
+[n62c0 10-15 05:29:13] end rc=0: bash temp/n62_sft.sh sft_v4_B2 CHOICE 0 60000000 916 4
+[n62c0 10-15 05:29:13] start: bash temp/n62_sft2.sh sft_v4_B3 CHOICE 0.15 60000000 916 4
+[n62c0 10-15 13:26:50] end rc=0: bash temp/n62_sft2.sh sft_v4_B3 CHOICE 0.15 60000000 916 4
+[n62c0 10-15 13:26:50] start: bash temp/n62_sft2.sh sft_v4_X1 CHOICE 0 60000000 916 4 sft_xchunk_frac=0.2 sft_xchunk_batch=1 sft_stop_tokens=30000000
+[n62c0 10-15 18:25:55] end rc=0: bash temp/n62_sft2.sh sft_v4_X1 CHOICE 0 60000000 916 4 sft_xchunk_frac=0.2 sft_xchunk_batch=1 sft_stop_tokens=30000000
+[n62c0 10-15 18:25:55] start: bash temp/n62_sft2.sh sft_v4_X2 CHOICE 0 60000000 916 4 sft_xchunk_frac=0.2 sft_xchunk_batch=1 sft_stop_tokens=30000000 muon_lr=0.0001 lr=0.00001
+[n62c0 10-15 23:08:00] end rc=0: bash temp/n62_sft2.sh sft_v4_X2 CHOICE 0 60000000 916 4 sft_xchunk_frac=0.2 sft_xchunk_batch=1 sft_stop_tokens=30000000 muon_lr=0.0001 lr=0.00001
+[n62c0 10-15 23:08:00] start: bash temp/n63_x1_gate.sh
+[n62c0 10-16 00:12:53] end rc=0: bash temp/n63_x1_gate.sh
+[n62c0 10-16 00:12:53] start: bash temp/n62_mkbase.sh cB4 0 && bash temp/n62_sft2.sh sft_v4_B4 cB4 RECIPE RECIPE 100000 1 sft_xchunk_frac=0.2 sft_xchunk_batch=1 muon_lr=0.0001 lr=0.00001
+[n62c0 10-16 08:54:17] end rc=0: bash temp/n62_mkbase.sh cB4 0 && bash temp/n62_sft2.sh sft_v4_B4 cB4 RECIPE RECIPE 100000 1 sft_xchunk_frac=0.2 sft_xchunk_batch=1 muon_lr=0.0001 lr=0.00001
+[n62c0 10-16 08:54:17] start: bash temp/n62_brain_data.sh health B4 cB4 && bash temp/n62_brain.sh 0 sft_v4_B4 brain_fdc_B4 health_sk_B4 24000000 8 4
+[n62c0 10-16 12:16:30] end rc=0: bash temp/n62_brain_data.sh health B4 cB4 && bash temp/n62_brain.sh 0 sft_v4_B4 brain_fdc_B4 health_sk_B4 24000000 8 4
+[n62c0 10-16 12:16:30] start: bash temp/n62_final.sh
+[n62c0 10-16 20:50:18] end rc=0: bash temp/n62_final.sh
+[n62c0 10-16 20:50:18] start: bash temp/n62_brain_data.sh health F $(cat temp/n62_final_base) && bash temp/n62_brain.sh 0 sft_v4_final brain_fdc_F health_sk_F 24000000 8 4
+[n62c0 10-17 00:21:05] end rc=0: bash temp/n62_brain_data.sh health F $(cat temp/n62_final_base) && bash temp/n62_brain.sh 0 sft_v4_final brain_fdc_F health_sk_F 24000000 8 4
+[n62c0 10-17 00:21:05] start: bash temp/n62_avgtest.sh 0
+[n62c0 10-17 00:22:32] end rc=143: bash temp/n62_avgtest.sh 0
+[n62c0 10-17 00:22:33] start: bash temp/n67_cmp_job.sh 0 r26o_13L_RC3_conv_llamakd_150m
+[n62c0 10-17 00:38:46] end rc=0: bash temp/n67_cmp_job.sh 0 r26o_13L_RC3_conv_llamakd_150m
+[n62c0 10-17 00:38:46] start: SD=cuda SG=0 FCE=true bash temp/n67_smoke.sh && bash temp/queue_5090_n67_tfmr.sh 0
+smoke rc=0
+arch=spiking params=184.07M device=cuda target=0.000B tok | 64 tok/step | total_steps≈312 | warmup=6 | lr_sched=cosine | grad_clip=1.0
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 198,967,296 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
+[n62c0 10-17 05:17:13] end rc=0: SD=cuda SG=0 FCE=true bash temp/n67_smoke.sh && bash temp/queue_5090_n67_tfmr.sh 0
+[n62c0 10-17 05:17:13] start: bash temp/n67_cmp_job.sh 0 r27b_13L_tfmr_llamakd_150m; bash temp/n67_chunk2048.sh r27b_13L_tfmr_llamakd_150m
+[n62c0 10-17 05:23:13] end rc=0: bash temp/n67_cmp_job.sh 0 r27b_13L_tfmr_llamakd_150m; bash temp/n67_chunk2048.sh r27b_13L_tfmr_llamakd_150m
+[n62c0 10-17 05:23:13] start: bash temp/queue_5090_n67_tfmr.sh 0 r27c_13L_tfmr_dense_s1_150m r27d_13L_tfmr_llamakd_s1_150m
+[n62c0 10-17 14:15:44] start: SKIP_A=1 bash temp/queue_5090_n67_tfmr.sh 0 r27c_13L_tfmr_dense_s1_150m r27d_13L_tfmr_llamakd_s1_150m
+[n62c0 10-17 14:43:50] end rc=0: SKIP_A=1 bash temp/queue_5090_n67_tfmr.sh 0 r27c_13L_tfmr_dense_s1_150m r27d_13L_tfmr_llamakd_s1_150m
+[n62c0 10-17 14:43:50] start: bash temp/n67_cmp_job.sh 0 r27d_13L_tfmr_llamakd_s1_150m; bash temp/n67_chunk2048.sh r27c_13L_tfmr_dense_s1_150m; bash temp/n67_chunk2048.sh r27d_13L_tfmr_llamakd_s1_150m
+[n62c0 10-17 14:50:02] end rc=0: bash temp/n67_cmp_job.sh 0 r27d_13L_tfmr_llamakd_s1_150m; bash temp/n67_chunk2048.sh r27c_13L_tfmr_dense_s1_150m; bash temp/n67_chunk2048.sh r27d_13L_tfmr_llamakd_s1_150m
+[n62c0 10-17 14:50:02] start: bash temp/queue_spk_conv.sh 0 r27e_13L_RC3_conv_llamakd_clean_150m models/checkpoints/r26n_13L_RC2_xlate_150m/step_0012208.pt && bash temp/n67_cmp_job.sh 0 r27e_13L_RC3_conv_llamakd_clean_150m; bash temp/n67_chunk2048.sh r27e_13L_RC3_conv_llamakd_clean_150m
+[n62c0 10-17 18:53:34] end rc=0: bash temp/queue_spk_conv.sh 0 r27e_13L_RC3_conv_llamakd_clean_150m models/checkpoints/r26n_13L_RC2_xlate_150m/step_0012208.pt && bash temp/n67_cmp_job.sh 0 r27e_13L_RC3_conv_llamakd_clean_150m; bash temp/n67_chunk2048.sh r27e_13L_RC3_conv_llamakd_clean_150m
+[n62c0 10-17 18:53:34] start: bash temp/queue_5090_n67_lrcheck.sh 0
+[n62c0 10-17 23:37:10] start: TAGS=lrx2 bash temp/queue_5090_n67_lrcheck.sh 0
+[n62c0 10-18 04:07:24] end rc=0: TAGS=lrx2 bash temp/queue_5090_n67_lrcheck.sh 0
+[n62c0 10-18 04:08:25] start: bash temp/n67_park_5080.sh 08:00
+[n62c0 10-18 07:59:30] end rc=0: bash temp/n67_park_5080.sh 08:00
+[n62c0 10-18 08:12:31] start: bash temp/n68_bench.sh 4 4 B4xGA4
+[n68b 10-18 09:12] B4xGA4 rc=124 | median ? tok/s | vram ? GB | wall 60 min | extra:  
+[n62c0 10-18 09:12:33] end rc=0: bash temp/n68_bench.sh 4 4 B4xGA4
+[n62c0 10-18 09:12:33] start: bash temp/n68_bench.sh 8 2 B8xGA2
+[n68b 10-18 09:17] B8xGA2 rc=1 | median ? tok/s | vram ? GB | wall 4 min | extra:  | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n62c0 10-18 09:17:04] end rc=0: bash temp/n68_bench.sh 8 2 B8xGA2
+[n62c0 10-18 09:17:04] start: bash temp/n68_bench.sh 16 1 B16xGA1
+[n68b 10-18 09:20] B16xGA1 rc=1 | median ? tok/s | vram ? GB | wall 3 min | extra:  | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n62c0 10-18 09:20:23] end rc=0: bash temp/n68_bench.sh 16 1 B16xGA1
+[n62c0 10-18 09:20:23] start: bash temp/n68_bench.sh 8 2 B8xGA2_mq1 "mqar_once_per_step: true"
+[n68b 10-18 09:22] B8xGA2_mq1 rc=1 | median ? tok/s | vram ? GB | wall 2 min | extra: mqar_once_per_step: true | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacity of 31.84 GiB of whi
+[n62c0 10-18 09:22:34] end rc=0: bash temp/n68_bench.sh 8 2 B8xGA2_mq1 "mqar_once_per_step: true"
+[n62c0 10-18 09:22:34] start: bash temp/n68_bench.sh 4 4 B4xGA4_mq1 "mqar_once_per_step: true"
+[n68b 10-18 10:22] B4xGA4_mq1 rc=124 | median ? tok/s | vram ? GB | wall 60 min | extra: mqar_once_per_step: true 
+[n62c0 10-18 10:22:36] end rc=0: bash temp/n68_bench.sh 4 4 B4xGA4_mq1 "mqar_once_per_step: true"
+[n62c0 10-18 10:22:36] start: bash temp/n68_bench.sh 16 1 B16xGA1_ro "compile_mode: reduce-overhead"
+[n68b 10-18 10:24] B16xGA1_ro rc=1 | median ? tok/s | vram ? GB | wall 1 min | extra: compile_mode: reduce-overhead | torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 31.84 GiB of wh
+[n62c0 10-18 10:24:07] end rc=0: bash temp/n68_bench.sh 16 1 B16xGA1_ro "compile_mode: reduce-overhead"
+[n62c0 10-18 10:24:07] start: bash temp/n68_seed_smoke.sh
+[n62c0 10-18 10:24:45] end rc=0: bash temp/n68_seed_smoke.sh
+[n62c0 10-18 10:24:45] start: TMO=10800 bash temp/n68_bench_t.sh 4 4 B4xGA4
+Terminated
+[n68b 10-18 12:30] B4xGA4 rc=143 | median 121 tok/s | vram 13.1/37.1 GB | wall 125 min | extra:  
+[n62c0 10-18 12:30:11] end rc=0: TMO=10800 bash temp/n68_bench_t.sh 4 4 B4xGA4
+[n62c0 10-18 12:30:11] start: TMO=10800 bash temp/n68_bench_t.sh 2 8 B2xGA8
+[n68b 10-18 13:02] B2xGA8 rc=0 | median 9650 tok/s | vram 13.1/26.1 GB | wall 32 min | extra:  
+[n62c0 10-18 13:02:30] end rc=0: TMO=10800 bash temp/n68_bench_t.sh 2 8 B2xGA8
+[n62c0 10-18 13:02:30] start: bash temp/n68_pick_and_launch.sh 0
+[n62c0 10-18 21:48:05] start: bash temp/n68_pick_and_launch.sh 0
+[n62c0 10-19 10:17:11] end rc=143: bash temp/n68_pick_and_launch.sh 0
+[n62c0 10-19 10:17:11] start: bash temp/queue_5090_n69_std1b.sh 0
+[n62c0 10-19 13:58:54] end rc=1: bash temp/queue_5090_n69_std1b.sh 0
+[n62c0 10-19 13:59:54] start: bash temp/queue_5090_n69_std1b.sh 0 # n69 retry 10-19 (KD split fix)
+[n62c0 10-19 20:40:43] end rc=143: bash temp/queue_5090_n69_std1b.sh 0 # n69 retry 10-19 (KD split fix)
+[n62c0 10-19 20:40:43] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-20 11:16:47] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-20 12:31:54] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-20 14:39:14] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-25 12:26:35] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-25 12:35:27] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-25 17:50:41] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-26 10:17:14] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-26 11:17:18] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-26 11:47:39] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-26 12:15:19] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+[n62c0 10-26 13:00:31] start: until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)

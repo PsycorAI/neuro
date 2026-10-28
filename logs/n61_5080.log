@@ -1,0 +1,64 @@
+[n61 10-13 23:01:18] start
+[OK] /home/glenn/projects/neuro/models/checkpoints/v4_base180/step_0180000.pt (4.44 GB)
+[OK] /home/glenn/projects/neuro/models/checkpoints/v4_base172/step_0172500.pt (4.44 GB)
+[OK] brain_py1b.yaml: {'sft_init': 'v4_base180', 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/python_r2/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 9000000, 'ckpt_every': 100000, 'gen_check_every': 100000, 'log_every': 20}
+[n61 10-13 23:02:28] train brain_py1b on v4_base180 (python_r2, 9000000 tok)
+[n61 10-13 23:09:46] start
+[OK] brain_py1b.yaml: {'sft_init': 'v4_base180', 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/python_r2/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 4, 'grad_accum': 8, 'lr': 0.0002, 'max_tokens': 9000000, 'ckpt_every': 100000, 'gen_check_every': 100000, 'log_every': 20}
+[n61 10-13 23:09:46] train brain_py1b on v4_base180 (python_r2, 9000000 tok)
+[yield 10-13 23:31:03] paused for a health check
+[yield 10-13 23:34:44] resumed
+[n61b 10-13 23:45:12] takes over from queue_5080_n61.sh; waiting for brain_py1b
+[n61b 10-14 00:10:47] n61c takes over from queue_5080_n61b.sh; waiting for brain_py1b
+[n61b 10-14 00:59:51] brain_py1b done: step 1080 | 8.8M tok | loss 0.024 | spike 0.004 | 1,678 tok/s | vram 4.6/12.4 GB
+[OK] brain_fdc1b.yaml: {'sft_init': 'v4_base172', 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 4, 'grad_accum': 8, 'lr': 0.0002, 'max_tokens': 24000000, 'ckpt_every': 100000, 'gen_check_every': 100000, 'log_every': 20}
+[n61b 10-14 00:59:51] train brain_fdc1b on v4_base172 (health_r1, 24000000 tok)
+[n61b 10-14 01:53:33] brain_fdc1b preempted for a health check (segment 1); resumes when it is done
+[n61b 10-14 03:58:06] brain_fdc1b preempted for a health check (segment 2); resumes when it is done
+[n61b 10-14 05:18:02] brain_fdc1b done: step 2920 | 23.9M tok | loss 0.001 | spike 0.003 | 1,769 tok/s | vram 4.6/12.4 GB
+[n61b 10-14 05:18:02] quizzes
+[OK] merged_py1b: brain_py1b merged into 48 layers of v4_base180 -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_py1b/step_0000001.pt
+[OK] merged_fdc1b_on180: brain_fdc1b merged into 48 layers of v4_base180 -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_fdc1b_on180/step_0000001.pt
+[OK] merged_both1b: brain_fdc1b merged into 48 layers of merged_py1b -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_both1b/step_0000001.pt
+-- quizA
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)
+-- quizB
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz health       taught  95.3% (n=150) | control   3.3% (n=150)
+-- quizB2
+  quiz base         taught   1.3% (n=150) | control   0.7% (n=150)
+  quiz health       taught  20.7% (n=150) | control   4.7% (n=150)
+-- quizC_py
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+-- quizC_health
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+[n61b 10-14 06:36:59] val ppl (interference)
+base180                full  25.423 | chunk1  25.468 | chunks2+  25.379  (models/checkpoints/v4_base180/step_0180000.pt)
+A_py                   full  35.875 | chunk1  35.906 | chunks2+  35.844  (models/checkpoints/merged_py1b/step_0000001.pt)
+B2_fdc                 full  63.180 | chunk1  63.258 | chunks2+  63.101  (models/checkpoints/merged_fdc1b_on180/step_0000001.pt)
+C_both                 full 224.339 | chunk1 227.342 | chunks2+ 221.376  (models/checkpoints/merged_both1b/step_0000001.pt)
+[n61b 10-14 06:40:03] done
+[n61d 10-14 06:41:04] start; waiting for the 207k health check
+[n61d 10-14 06:49:05] LAWA 193.5k / 201k / 207k
+[OK] brain_fdc1b180.yaml: {'sft_init': 'v4_base180', 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 4, 'grad_accum': 8, 'lr': 0.0002, 'max_tokens': 24000000, 'ckpt_every': 100000, 'gen_check_every': 100000, 'log_every': 20}
+[n61d 10-14 06:53:46] train brain_fdc1b180 on v4_base180 (health_r1, 24000000 tok)
+[n61d 10-14 08:27:04] brain_fdc1b180 preempted for a health check (segment 1); resumes when it is done
+[n61d 10-14 09:29:13] brain_fdc1b180 preempted for a health check (segment 2); resumes when it is done
+[n61d 10-14 10:38:24] brain_fdc1b180 preempted for a health check (segment 3); resumes when it is done
+[n61d 10-14 10:49:38] brain_fdc1b180 preempted for a health check (segment 4); resumes when it is done
+[n61d 10-14 12:08:43] brain_fdc1b180 preempted for a health check (segment 5); resumes when it is done
+[n61d 10-14 12:55:31] brain_fdc1b180 done: step 2920 | 23.9M tok | loss 0.002 | spike 0.003 | 1,732 tok/s | vram 4.5/12.4 GB
+[n61d 10-14 12:55:31] quizzes (same-checkpoint merge)
+[OK] merged_fdc180: brain_fdc1b180 merged into 48 layers of v4_base180 -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_fdc180/step_0000001.pt
+[OK] merged_both180: brain_fdc1b180 merged into 48 layers of merged_py1b -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_both180/step_0000001.pt
+-- quizB180
+  quiz base         taught   1.3% (n=150) | control   0.7% (n=150)
+  quiz health       taught 100.0% (n=150) | control   7.3% (n=150)
+-- quizC2_py
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+-- quizC2_health
+  quiz base         taught  19.3% (n=150) | control   2.7% (n=150)
+B180_fdc               full  69.572 | chunk1  70.156 | chunks2+  68.994  (models/checkpoints/merged_fdc180/step_0000001.pt)
+C2_both                full 289.287 | chunk1 295.802 | chunks2+ 282.915  (models/checkpoints/merged_both180/step_0000001.pt)
+[n61d 10-14 13:47:16] done

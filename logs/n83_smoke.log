@@ -1,0 +1,14 @@
+[n83 10-26 23:27:23] start: temp/n83_lm_train.py --arm mem --run n83_smoke --max_steps 4 --GA 2 --val_n 10 --val_every 2 --save 0 --act_ckpt 1
+memory block = 6; arm mem: training blocks [6], 84.6M params
+optimizer: NorMuon (11 matrices, lr=0.0001) + AdamW (19 other params, lr=0.0001)
+T 4096, 4400 train episodes, 8192 tok/step, 4 steps
+[val step 0] memory ON : <1k 53% (n17) | 1-2k 0% (n16) | 2k+ 7% (n14) | mem spike rate 0.0131
+[val step 0] memory OFF: <1k 35% (n17) | 1-2k 0% (n16) | 2k+ 7% (n14) | mem spike rate 0.0131
+/home/glenn/projects/neuro/temp/n83_lm_train.py:132: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return ce[ans].mean() + a.rest_w * rest, float(ce[ans].mean())
+[val step 2] memory ON : <1k 53% (n17) | 1-2k 0% (n16) | 2k+ 14% (n14) | mem spike rate 0.0131
+[val step 4] memory ON : <1k 53% (n17) | 1-2k 0% (n16) | 2k+ 7% (n14) | mem spike rate 0.0131
+[val end] memory OFF: <1k 35% (n17) | 1-2k 6% (n16) | 2k+ 7% (n14) | mem spike rate 0.0131
+done: 4 steps, 0.0M tok in 0.01 h
+[n83 10-26 23:28:39] exit 0

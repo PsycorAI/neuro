@@ -1,0 +1,28 @@
+[v4fpost1 10-23 16:13:53] start (DRY=1)
+[OK] n74d_fB: average of 2: ['step_0117000.pt@1.0', 'step_0115500.pt@1.0']
+[OK] n74d_fB1: average of 1: ['step_0117000.pt@1.0']
+n74d_fB                full  29.766 | chunk1     nan | chunks2+  29.766  (models/checkpoints/n74d_fB/step_0000001.pt)
+n74d_fB1               full  35.035 | chunk1     nan | chunks2+  35.035  (models/checkpoints/n74d_fB1/step_0000001.pt)
+[v4fpost1 10-23 16:17:02] base n74d_fB: average chunk1 nan vs single nan
+[v4fpost1 10-23 16:17:02] STEP 1 ok
+[v4fpost1 10-23 16:19:15] probe: probe n74d_fB: 6400 answerable -> known 14 (0.2%), unknown 5888 (92.0%), band 498
+[v4fpost1 10-23 16:19:15] STEP 2 ok
+[OK] n74d_sft_v4f_X1f.yaml: base n74d_fB, spike_code None, B4xGA8, mqar 4, proto 2
+[OK] n74d_sft_v4f_X1f: arch keys of n74d_fB, changed ['attention_layer_positions', 'attn_canon', 'attn_chunk', 'attn_topk', 'attn_out_gate', 'attn_ffn_hidden', 'attn_ffn_act', 'attn_ffn_homeo', 'attn_ffn_homeo_lr', 'attn_ffn_ramp_start', 'attn_ffn_ramp_end', 'attn_ffn_rate_target', 'engram_v2_enabled', 'hola_w', 'use_swiglu', 'mqar_xchunk_C']
+n74d_sft_v4f_X1f vs n74d_fB: 147 model keys, missing 0 [], unexpected 0 [], shape mismatch 0 [], params 1109.0M
+[OK] n74d_sft_v4f_X2f.yaml: base n74d_fB, spike_code None, B4xGA8, mqar 4, proto 2
+[OK] n74d_sft_v4f_X2f: arch keys of n74d_fB, changed ['attention_layer_positions', 'attn_canon', 'attn_chunk', 'attn_topk', 'attn_out_gate', 'attn_ffn_hidden', 'attn_ffn_act', 'attn_ffn_homeo', 'attn_ffn_homeo_lr', 'attn_ffn_ramp_start', 'attn_ffn_ramp_end', 'attn_ffn_rate_target', 'engram_v2_enabled', 'hola_w', 'use_swiglu', 'mqar_xchunk_C']
+n74d_sft_v4f_X2f vs n74d_fB: 147 model keys, missing 0 [], unexpected 0 [], shape mismatch 0 [], params 1109.0M
+[v4fpost1 10-23 16:19:32] LR: low (default = v4)
+[v4fpost1 10-23 16:19:32] STEP 3 ok
+[OK] n74d_sft_v4f_final.yaml: base n74d_fB, spike_code None, B4xGA8, mqar 4, proto 2
+[OK] n74d_sft_v4f_final: arch keys of n74d_fB, changed ['attention_layer_positions', 'attn_canon', 'attn_chunk', 'attn_topk', 'attn_out_gate', 'attn_ffn_hidden', 'attn_ffn_act', 'attn_ffn_homeo', 'attn_ffn_homeo_lr', 'attn_ffn_ramp_start', 'attn_ffn_ramp_end', 'attn_ffn_rate_target', 'engram_v2_enabled', 'hola_w', 'use_swiglu', 'mqar_xchunk_C']
+n74d_sft_v4f_final vs n74d_fB: 147 model keys, missing 0 [], unexpected 0 [], shape mismatch 0 [], params 1109.0M
+[OK] /home/glenn/projects/neuro/models/checkpoints/n74d_sft_v4f_final_slim/step_0117000.pt (4.44 GB)
+[v4fpost1 10-23 16:20:31] STEP 4 ok
+[OK] n74d_sft_v4f_chat: n74d_brain_chat_f merged into 65 layers of n74d_sft_v4f_final_slim -> /home/glenn/projects/neuro/scripts/../models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt
+[v4fpost1 10-23 17:51:07] chat brain:   quiz ALL held-out 66/302 = 21.9% | hand 8/21|  constrained  parse=1.000 mode_acc=0.390 halluc=0.000 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 say_ok=0.000  (5|
+[v4fpost1 10-23 17:51:07] STEP 5 ok
+[v4fpost1 10-23 18:26:50] STEP 6 ok
+[v4fpost1 10-23 19:03:41] STEP 7 ok
+[v4fpost1 10-23 19:03:41] done

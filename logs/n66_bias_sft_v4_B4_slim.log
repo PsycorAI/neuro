@@ -1,0 +1,25 @@
+== grid 13:42
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+selfknow-bias sft_v4_B4_slim: really known 7/300 | n_unans 150
+   bias  P(s|known)  P(s|unknown)  selectivity  unans_ok  P(TOOL|known)
+   -1.0       0.143         0.457       +0.314     0.993          0.143
+   -0.5       0.143         0.556       +0.413     0.993          0.143
+   +0.0       0.286         0.693       +0.407     1.000          0.286
+   +0.5       0.429         0.795       +0.367     1.000          0.429
+   +1.0       0.429         0.853       +0.425     1.000          0.429
+   +1.5       0.571         0.877       +0.306     1.000          0.571
+   +2.0       0.857         0.925       +0.068     1.000          0.857
+   +2.5       0.857         0.945       +0.088     1.000          0.857
+   +3.0       0.857         0.949       +0.092     1.000          0.857
+   +4.0       0.857         0.980       +0.122     1.000          0.857
+   +5.0       0.857         0.993       +0.136     1.000          0.857
+== tool b1 14:45
+[n66] search bias +1.00 on scripts/tool_eval.py
+  constrained  parse=1.000 mode_acc=0.980 halluc=0.000 tool_acc=0.992 args_exact=0.918 refuse_acc=0.949 say_ok=1.000  (1526s)
+== tool b2 15:11
+[n66] search bias +2.00 on scripts/tool_eval.py
+  constrained  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.992 args_exact=0.918 refuse_acc=0.910 say_ok=1.000  (1509s)
+== tool b3 15:37
+[n66] search bias +3.00 on scripts/tool_eval.py
+  constrained  parse=1.000 mode_acc=0.945 halluc=0.000 tool_acc=0.992 args_exact=0.918 refuse_acc=0.859 say_ok=1.000  (1524s)

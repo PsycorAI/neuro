@@ -1,0 +1,26 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  57%|█████▋    | 113/199 [00:00<00:00, 1117.18it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1000.35it/s]
+== learn-with-use locomo: 10 memories, config {} {'g_sem': 0.7, 'nb': 0.5, 'g_t': 1.0, 'g_use': 1.0}, 381 s
+A as asked    | ordinary search               r@10  75.9   n 991
+A as asked    | psymem after confirm          r@10  77.9   n 991
+A as asked    | psymem after correct          r@10  99.9   n 991
+A as asked    | psymem before                 r@10  76.5   n 991
+A paraphrases | ordinary search               r@10  57.4   n 1188
+A paraphrases | psymem after confirm          r@10  71.3   n 1188
+A paraphrases | psymem after correct          r@10  89.4   n 1188
+A paraphrases | psymem before                 r@10  56.9   n 1188
+B never asked | ordinary search               r@10  75.7   n 986
+B never asked | psymem after confirm          r@10  77.0   n 986
+B never asked | psymem after correct          r@10  81.0   n 986
+B never asked | psymem before                 r@10  76.9   n 986
+exit 0 (learn.py locomo)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  62%|██████▏   | 124/199 [00:00<00:00, 1230.46it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1149.87it/s]
+== learn-with-use lme: 470 memories, config {} {'g_sem': 0.7, 'nb': 0.5, 'g_t': 1.0, 'g_use': 1.0}, 322 s
+A as asked    | ordinary search               r@10  85.8   n 470
+A as asked    | psymem after confirm          r@10  84.6   n 470
+A as asked    | psymem after correct          r@10 100.0   n 470
+A as asked    | psymem before                 r@10  84.6   n 470
+A paraphrases | ordinary search               r@10  80.4   n 837
+A paraphrases | psymem after confirm          r@10  84.7   n 837
+A paraphrases | psymem after correct          r@10  95.0   n 837
+A paraphrases | psymem before                 r@10  78.8   n 837
+exit 0 (learn.py lme)

@@ -1,0 +1,5 @@
+[w8 10-24 10:27:16] ppl start
+v4chat                 full  18.942 | chunk1  19.214 | chunks2+  18.674  (models/checkpoints/sft_v4_chat/step_0000001.pt)
+v4chat_w8              full  18.954 | chunk1  19.232 | chunks2+  18.680  (models/checkpoints/sft_v4_chat_w8/step_0000001.pt)
+[w8 10-24 10:29:09] demo_regress start
+[w8 10-24 11:45:15] done

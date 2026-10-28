@@ -1,0 +1,77 @@
+{"note": "Original demo diary (Neuro 85, 2026-10-27): invented people and events, written for the Plasmem demo; free to show publicly. Each session = one chat between Maya and Sam on that date.",
+ "today": "2026-10-27",
+ "sessions": [
+  {"date": "2026-08-29", "turns": [
+   ["Maya", "Guess what, I got the job at the Riverside clinic! I start on Tuesday."],
+   ["Sam", "That's huge, congratulations! Front desk or with the patients?"],
+   ["Maya", "Patient intake, so a lot of forms at first. The manager, Dr. Okafor, seems really kind."],
+   ["Sam", "We should celebrate. Dinner at that Thai place on Friday?"],
+   ["Maya", "Yes please, I've been craving their green curry for weeks."]]},
+  {"date": "2026-09-07", "turns": [
+   ["Sam", "How was the weekend with your sister?"],
+   ["Maya", "Lena and I hiked Mount Tam on Saturday, the full Dipsea loop, fourteen miles."],
+   ["Sam", "Fourteen miles! Are your legs still working?"],
+   ["Maya", "Barely. Lena didn't even look tired, she runs every morning."],
+   ["Sam", "Did you take the camera?"],
+   ["Maya", "I did, the fog over the ocean at the summit was unreal. I'll print one for the hallway."]]},
+  {"date": "2026-09-15", "turns": [
+   ["Maya", "Big news from Lena: she's moving to Lisbon in the spring to start a PhD in marine biology."],
+   ["Sam", "Wow, Portugal. How do you feel about it?"],
+   ["Maya", "Proud of her, but I'll miss our Sunday calls being in the same time zone."],
+   ["Sam", "We could visit her. I've always wanted to see Lisbon."],
+   ["Maya", "Let's look at flights once she has an apartment."]]},
+  {"date": "2026-09-22", "turns": [
+   ["Sam", "I finally fixed the back brake on my bike, it only took three YouTube videos."],
+   ["Maya", "Does it still squeal?"],
+   ["Sam", "No, it turned out the pads were glazed. I sanded them and it stops perfectly now."],
+   ["Maya", "Great, then we can ride to the farmers market on Saturday."],
+   ["Sam", "Deal. I want to get those heirloom tomatoes again."]]},
+  {"date": "2026-09-30", "turns": [
+   ["Maya", "Work is getting busier. We switched to a new records system and nobody knows how it works."],
+   ["Sam", "Is Dr. Okafor helping?"],
+   ["Maya", "She stayed late with me twice to fix my login. I really like her."],
+   ["Sam", "Also, did you book the dentist? You said your tooth was bothering you."],
+   ["Maya", "Ugh, yes. October 23rd at 9 in the morning. I hate dentists."]]},
+  {"date": "2026-10-05", "turns": [
+   ["Maya", "Lena got the Gulbenkian scholarship! Her tuition in Lisbon is fully covered."],
+   ["Sam", "That's amazing, tell her congratulations from me."],
+   ["Maya", "She was crying on the phone. She worked so hard on that application."],
+   ["Sam", "When does she leave?"],
+   ["Maya", "Late February, so she can find an apartment before the term starts in March."]]},
+  {"date": "2026-10-11", "turns": [
+   ["Sam", "I tried making your grandmother's lentil soup tonight."],
+   ["Maya", "And? How did it turn out?"],
+   ["Sam", "Way too salty. I think I used stock cubes and salt, and the recipe only wanted one."],
+   ["Maya", "Grandma would have laughed. Add potatoes next time, they soak up the salt."],
+   ["Sam", "Good tip. I'm also going to try her cardamom bread this weekend."]]},
+  {"date": "2026-10-14", "turns": [
+   ["Maya", "I signed up for a pottery class on Wednesday evenings. Six weeks."],
+   ["Sam", "Nice, will you make us mugs?"],
+   ["Maya", "That's the plan, but the first class was only about centering the clay. Mine kept wobbling."],
+   ["Sam", "Everything wobbles the first time."],
+   ["Maya", "The teacher, Rosa, said I was too stiff in the wrists."]]},
+  {"date": "2026-10-20", "turns": [
+   ["Maya", "Lena came down on Sunday and we went climbing at the Mission Cliffs gym."],
+   ["Sam", "Who won?"],
+   ["Maya", "She did, on every single route. She did a 5.11 that I couldn't even start."],
+   ["Sam", "Did you at least get the slab one you were working on?"],
+   ["Maya", "Yes! Finally topped it on my third try."]]},
+  {"date": "2026-10-22", "turns": [
+   ["Sam", "I looked at flights to Lisbon for April, about 700 dollars each if we book soon."],
+   ["Maya", "Let's do it. Lena says April is the best month there, before it gets hot."],
+   ["Sam", "Two weeks?"],
+   ["Maya", "I can only get ten days off. Let's say April 10 to April 20."],
+   ["Sam", "Okay, I'll hold the seats tonight."]]},
+  {"date": "2026-10-24", "turns": [
+   ["Maya", "The dentist was fine yesterday. No cavities, just a cracked old filling."],
+   ["Sam", "See, not so bad. Do they need to replace it?"],
+   ["Maya", "Yes, in November. Dr. Patel said it's a twenty minute job."],
+   ["Sam", "Want to get ice cream after, as a reward?"],
+   ["Maya", "Only if it's the salted caramel from Bi-Rite."]]},
+  {"date": "2026-10-26", "turns": [
+   ["Sam", "My mom called, she's coming to visit for Thanksgiving."],
+   ["Maya", "Oh nice, for how long?"],
+   ["Sam", "Five days. She wants to try the cardamom bread I've been practising."],
+   ["Maya", "Then you'd better practise more, the last loaf was a brick."],
+   ["Sam", "Rude. Accurate, but rude."]]}
+ ]}

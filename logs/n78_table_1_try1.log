@@ -1,0 +1,12 @@
+[t1 10-25 14:39:54] table start (v4f weights models/checkpoints/v4std_dense/step_0180442.pt)
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+  gpu-energy /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt: pruned copy, 161.1M params removed
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_gpu_energy.py", line 115, in <module>
+    dec = V4FDecoder(v4f, max_len=max(ctxs) + a.n + 8, bucket=256, graphs=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 79, in __init__
+    assert max_len <= b0.rope_cos.shape[0], "rope table shorter than max_len (raise attention_max_seq_len)"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: rope table shorter than max_len (raise attention_max_seq_len)

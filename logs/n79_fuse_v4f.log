@@ -1,0 +1,106 @@
+[n79 10-25 19:17:47] v4f models/checkpoints/v4std_dense/step_0181500.pt
+[n79 10-25 19:17:47] parity default
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 29 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 228 tok/s (incl. capture)
+[n79 10-25 19:18:31] parity cudnn
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 1.0000 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 21 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 245 tok/s (incl. capture)
+[n79 10-25 19:19:22] parity compiled + cudnn
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 1.0000 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 22 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 0.9950 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 6 tok/s (incl. capture)
+[n79 10-25 19:21:16] parity compiled
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 26 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 19.2, rel 6.49e-03) | 21 tok/s (incl. capture)
+[n79 10-25 19:22:17] gpu-energy session a (v4f compiled, cuDNN 1)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.64 GiB. GPU 0 has a total capacity of 15.92 GiB of which 2.12 GiB is free. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Process 29593 has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 12.07 GiB is allocated by PyTorch, with 52.75 MiB allocated in private pools (e.g., CUDA Graphs), and 341.20 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n79 10-25 19:24:19] gpu-energy session b (v4f compiled, cuDNN 0)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+[n79 10-25 19:34:46] v4f models/checkpoints/v4std_dense/step_0181500.pt
+[n79 10-25 19:34:46] gpu-energy session a (v4f compiled, cuDNN 1)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.64 GiB. GPU 0 has a total capacity of 15.92 GiB of which 2.12 GiB is free. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Process 29593 has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 12.07 GiB is allocated by PyTorch, with 52.75 MiB allocated in private pools (e.g., CUDA Graphs), and 341.20 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n79 10-25 19:36:12] gpu-energy session b (v4f compiled, cuDNN 0)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.64 GiB. GPU 0 has a total capacity of 15.92 GiB of which 2.12 GiB is free. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Process 29593 has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 12.07 GiB is allocated by PyTorch, with 52.75 MiB allocated in private pools (e.g., CUDA Graphs), and 341.20 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n79 10-25 19:47:45] v4f models/checkpoints/v4std_dense/step_0181500.pt; step check
+compile False sdpa default          L   2048:   5.31 ms/token | GPU   5.20 ms in 587 kernels | peak +0.20 GiB
+       2.001 ms   13x  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass:
+       1.852 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.663 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.113 ms   78x  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+compile False sdpa default          L  32768:  31.54 ms/token | GPU  31.43 ms in 587 kernels | peak +3.13 GiB
+      28.221 ms   13x  fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass:
+       1.853 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.664 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.113 ms   78x  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+compile False sdpa CUDNN_ATTENTION  L   2048:   3.65 ms/token | GPU   3.53 ms in 600 kernels | peak +0.20 GiB
+       1.852 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.665 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.313 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       0.113 ms   78x  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+compile False sdpa CUDNN_ATTENTION  L  32768:   7.25 ms/token | GPU   7.13 ms in 600 kernels | peak +3.13 GiB
+       3.899 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       1.851 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.663 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.113 ms   78x  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+compile True  sdpa CUDNN_ATTENTION  L   2048:   2.97 ms/token | GPU   2.92 ms in 160 kernels | peak +0.20 GiB
+       1.847 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.665 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.313 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       0.018 ms   13x  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_c
+compile True  sdpa CUDNN_ATTENTION  L  32768:   6.55 ms/token | GPU   6.51 ms in 160 kernels | peak +3.13 GiB
+       3.897 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       1.846 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.664 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.022 ms   13x  void cudnn::fusion::lean_reduction_kernel<false, false, false>(void*, float*, float*, floa
+compile True  sdpa default          L   2048:   2.97 ms/token | GPU   2.92 ms in 160 kernels | peak +0.20 GiB
+       1.846 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.665 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.312 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       0.018 ms   13x  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_c
+compile True  sdpa default          L  32768:   6.56 ms/token | GPU   6.51 ms in 160 kernels | peak +3.13 GiB
+       3.895 ms   13x  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1
+       1.846 ms   53x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.664 ms   13x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.022 ms   13x  void cudnn::fusion::lean_reduction_kernel<false, false, false>(void*, float*, float*, floa
+graph prefill parity t 143: argmax agree 1.000 | max|diff| 0.1562 (logit scale 12.7)
+graph prefill parity t 199: argmax agree 1.000 | max|diff| 0.0000 (logit scale 19.4)
+                                   ^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+                     ^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 1.78 GiB is free. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. Process 29593 has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 12.27 GiB is allocated by PyTorch, with 50.44 MiB allocated in private pools (e.g., CUDA Graphs), and 462.45 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n79 10-25 19:49:23] gpu-energy session a (v4f compiled, cuDNN 1)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    352.7 tok/s |   493.47 mJ/tok total (488.30-500.00) |   344.96 active
+  gpu-energy v4f_dec@2048 |    330.2 tok/s |   527.92 mJ/tok total (517.19-530.25) |   364.71 active
+  gpu-energy v4f_dec@8192 |    266.7 tok/s |   623.09 mJ/tok total (619.69-630.51) |   425.45 active
+  gpu-energy v4f_dec@32768 |    151.0 tok/s |  1050.62 mJ/tok total (1041.44-1062.13) |   694.60 active
+  gpu-energy v4_dec@512   |    437.0 tok/s |   350.27 mJ/tok total (349.37-543.95) |   227.29 active
+  gpu-energy v4_dec@2048  |    438.4 tok/s |   341.62 mJ/tok total (341.40-350.81) |   225.30 active
+  gpu-energy v4_dec@8192  |    438.8 tok/s |   341.69 mJ/tok total (340.86-351.94) |   225.49 active
+  gpu-energy v4_dec@32768 |    438.2 tok/s |   352.31 mJ/tok total (346.09-354.14) |   229.42 active
+[n79 10-25 19:56:03] gpu-energy session b (v4f compiled, cuDNN 0)
+  gpu-energy v4f decode step: compile True, SDPA default
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    352.5 tok/s |   501.09 mJ/tok total (498.06-510.28) |   353.59 active
+  gpu-energy v4f_dec@2048 |    330.1 tok/s |   527.27 mJ/tok total (516.66-532.70) |   360.56 active
+  gpu-energy v4f_dec@8192 |    266.6 tok/s |   635.77 mJ/tok total (618.21-637.13) |   430.01 active
+  gpu-energy v4f_dec@32768 |    150.8 tok/s |  1058.79 mJ/tok total (1045.66-1063.62) |   700.24 active
+  gpu-energy v4_dec@512   |    431.3 tok/s |   350.83 mJ/tok total (350.80-529.45) |   225.15 active
+  gpu-energy v4_dec@2048  |    437.2 tok/s |   345.40 mJ/tok total (342.57-345.62) |   221.93 active
+  gpu-energy v4_dec@8192  |    437.9 tok/s |   347.07 mJ/tok total (340.28-350.18) |   222.61 active
+  gpu-energy v4_dec@32768 |    437.3 tok/s |   342.26 mJ/tok total (342.10-366.69) |   224.45 active

@@ -1,0 +1,8 @@
+sparse Linears: 26
+(1) val ppl: dense 25.698 | sparse 25.521 | full forward 25.923 | argmax sparse vs dense 0.8847 | max|logit diff| 2.852
+(2) 'The history of the Roman empire': greedy tokens identical for 13/200
+(2) 'Once upon a time, in a small village': greedy tokens identical for 170/200
+(2) 'The best way to learn a language is': greedy tokens identical for 35/200
+(3) dense  step: 5.31 ms/token
+(3) sparse step: 4.72 ms/token
+== n78 W3 parity done

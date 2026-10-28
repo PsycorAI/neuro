@@ -1,0 +1,32 @@
+[curve 10-14 21:52:33] sft_v4_B2: waiting for checkpoints
+[curve 10-14 23:50:34] regress sft_v4_B2_s916
+[curve 10-15 01:25:42] sft_v4_B2_s916: [10-15 01:25] sft_v4_B2_s916 |   constrained  mode_acc=0.980 tool_acc=0.984 args_exact=0.861 refuse_acc=0.949 s | sel +0.010 | unanswe |   toolresult sft_v4_B2_s916 ALL faithful 0.837 (n= | chunk1 44.40 | == run-through sft_v4_B2_s916 offline: 6
+[curve 10-15 01:33:42] regress sft_v4_B2_s1832
+[curve 10-15 03:15:02] sft_v4_B2_s1832: [10-15 03:15] sft_v4_B2_s1832 |   constrained  mode_acc=0.985 tool_acc=0.992 args_exact=0.893 refuse_acc=0.962 s | sel +0.010 | unanswe |   toolresult sft_v4_B2_s1832 ALL faithful 0.802 (n | chunk1 48.78 | == run-through sft_v4_B2_s1832 offline: 
+[curve 10-15 03:23:02] regress sft_v4_B2_s2748
+[curve 10-15 05:08:54] sft_v4_B2_s2748: [10-15 05:08] sft_v4_B2_s2748 |   constrained  mode_acc=0.995 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 s | sel +0.007 | unanswe |   toolresult sft_v4_B2_s2748 ALL faithful 0.865 (n | chunk1 54.97 | == run-through sft_v4_B2_s2748 offline: 
+[curve 10-15 05:16:54] regress sft_v4_B2_s3663
+[curve 10-15 07:27:47] sft_v4_B2_s3663: [10-15 07:27] sft_v4_B2_s3663 |   constrained  mode_acc=0.990 tool_acc=0.992 args_exact=0.918 refuse_acc=0.974 s | sel +0.456 | unanswe |   toolresult sft_v4_B2_s3663 ALL faithful 0.854 (n | chunk1 52.98 | == run-through sft_v4_B2_s3663 offline: 
+[curve 10-15 07:27:47] sft_v4_B2 curve complete
+[curve 10-15 07:27:48] sft_v4_B3: waiting for checkpoints
+[curve 10-15 07:30:48] regress sft_v4_B3_s916
+[curve 10-15 09:19:32] sft_v4_X1: waiting for checkpoints
+[curve 10-15 10:00:30] sft_v4_B3_s916: [10-15 10:00] sft_v4_B3_s916 |   constrained  mode_acc=0.865 tool_acc=0.959 args_exact=0.836 refuse_acc=0.654 s | sel -0.007 | unanswe |   toolresult sft_v4_B3_s916 ALL faithful 0.817 (n= | chunk1 29.76 | == run-through sft_v4_B3_s916 offline: 5
+[curve 10-15 10:08:31] regress sft_v4_B3_s1832
+[curve 10-15 10:49:36] sft_v4_X2: waiting for checkpoints
+[curve 10-15 11:59:32] sft_v4_B3_s1832: [10-15 11:59] sft_v4_B3_s1832 |   constrained  mode_acc=0.885 tool_acc=0.984 args_exact=0.844 refuse_acc=0.705 s | sel +0.000 | unanswe |   toolresult sft_v4_B3_s1832 ALL faithful 0.837 (n | chunk1 31.19 | == run-through sft_v4_B3_s1832 offline: 
+[curve 10-15 12:07:32] regress sft_v4_B3_s2748
+[curve 10-15 13:47:35] sft_v4_B3_s2748: [10-15 13:47] sft_v4_B3_s2748 |   constrained  mode_acc=0.985 tool_acc=0.975 args_exact=0.885 refuse_acc=0.974 s | sel +0.478 | unanswe |   toolresult sft_v4_B3_s2748 ALL faithful 0.837 (n | chunk1 27.25 | == run-through sft_v4_B3_s2748 offline: 
+[curve 10-15 13:55:41] regress sft_v4_B3_s3663
+[curve 10-15 15:37:29] sft_v4_B3_s3663: [10-15 15:37] sft_v4_B3_s3663 |   constrained  mode_acc=0.990 tool_acc=0.992 args_exact=0.926 refuse_acc=0.974 s | sel +0.527 | unanswe |   toolresult sft_v4_B3_s3663 ALL faithful 0.862 (n | chunk1 28.01 | == run-through sft_v4_B3_s3663 offline: 
+[curve 10-15 15:37:29] sft_v4_B3 curve complete
+[curve 10-15 15:47:36] regress sft_v4_X1_s916
+[curve 10-15 17:47:37] sft_v4_X1_s916: 
+[curve 10-15 18:05:43] regress sft_v4_X1_s1832
+[curve 10-15 20:42:38] regress sft_v4_X2_s916
+[curve 10-15 21:08:02] sft_v4_X1_s1832: [10-15 21:08] sft_v4_X1_s1832 |   constrained  mode_acc=1.000 tool_acc=0.992 args_exact=0.893 refuse_acc=1.000 s | sel -0.051 | unanswe |   toolresult sft_v4_X1_s1832 ALL faithful 0.828 (n | chunk1 49.69 | == run-through sft_v4_X1_s1832 offline: 
+[curve 10-15 21:08:02] sft_v4_X1 curve complete
+[curve 10-15 22:46:34] sft_v4_X2_s916: [10-15 22:46] sft_v4_X2_s916 |   constrained  mode_acc=0.915 tool_acc=0.967 args_exact=0.828 refuse_acc=0.782 s | sel -0.082 | unanswe |   toolresult sft_v4_X2_s916 ALL faithful 0.831 (n= | chunk1 24.87 | == run-through sft_v4_X2_s916 offline: 8
+[curve 10-15 22:54:34] regress sft_v4_X2_s1832
+[curve 10-16 00:15:41] sft_v4_X2_s1832: [10-16 00:15] sft_v4_X2_s1832 |   constrained  mode_acc=0.990 tool_acc=0.984 args_exact=0.869 refuse_acc=0.974 s | sel +0.806 | unanswe |   toolresult sft_v4_X2_s1832 ALL faithful 0.865 (n | chunk1 25.87 | == run-through sft_v4_X2_s1832 offline: 
+[curve 10-16 00:15:41] sft_v4_X2 curve complete

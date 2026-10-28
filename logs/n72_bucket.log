@@ -1,0 +1,17 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4058.47it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+== bucket 512: total 35.1 s
+== bucket 256: total 23.5 s
+  Tell me a joke.                          512  1.52s  256  0.97s  same | "Why don't scientists trust atoms? Because they mak" / "Why don't scientists trust atoms? Because they mak"
+  Explain photosynthesis in simple terms.  512  4.39s  256  2.73s  same | 'Photosynthesis is the process by which plants, alg' / 'Photosynthesis is the process by which plants, alg'
+  What is 17% of 240?                      512  3.31s  256  2.12s  same | '17% of 240 is 40.8.' / '17% of 240 is 40.8.'
+  Give me three tips for better sleep.     512  7.64s  256  7.67s  DIFF | '1. Create a conducive sleep environment: Make sure' / '1. Create a conducive sleep environment: Make sure'
+  How many kilometers is 26.2 miles?       512  4.28s  256  2.70s  same | '26.2 miles is equivalent to 42.1648 kilometers.' / '26.2 miles is equivalent to 42.1648 kilometers.'
+  What is the capital of Australia?        512  1.06s  256  0.77s  same | 'The capital of Australia is Sydney.' / 'The capital of Australia is Sydney.'
+  Write a short poem about the sea.        512  9.64s  256  4.26s  DIFF | 'The sea is a vast and vast sea,\nA vast and vast oc' / 'The sea is a vast and vast sea,\nA vast and vast oc'
+  Translate 'good night' into Spanish.     512  3.28s  256  2.26s  same | 'Buenas noches.' / 'Buenas noches.'
+identical replies 6/8

@@ -1,0 +1,7 @@
+samples 3707 (5.9 ms apart)
+  up   step   42.3 ->  270.2 W | 10% at   +103 ms | 50% at   +103 ms | 90% at   +103 ms
+  down step   46.7 ->  270.2 W | 10% at    +98 ms | 50% at    +98 ms | 90% at    +98 ms
+  up   step   46.7 ->  271.3 W | 10% at    +95 ms | 50% at    +95 ms | 90% at    +95 ms
+  down step   46.4 ->  271.3 W | 10% at   +189 ms | 50% at    +88 ms | 90% at    +88 ms
+  up   step   46.4 ->  270.9 W | 10% at    +92 ms | 50% at    +92 ms | 90% at   +192 ms
+  down step   46.5 ->  270.9 W | 10% at   +185 ms | 50% at    +85 ms | 90% at    +85 ms

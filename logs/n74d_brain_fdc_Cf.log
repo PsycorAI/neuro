@@ -1,0 +1,13 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt (0.00B tok)
+LoRA: frozen base linears stored in bf16 (lora_base_bf16)
+LoRA: wrapped 65 layers (r=32, alpha=64), 19488768 adapter params (1.73% of 1128.5M) trainable
+optimizer: AdamW (LoRA adapters only, 19488768 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 400 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/health_sk_F/study.jsonl: 6462 tool pairs {'brain': 3218, 'tool_absent': 383, 'sk_idk': 275, 'tool': 1492, 'sk_search': 438, 'answer': 595, 'sk_known': 61} -> encoded 6459 (bad 0, skipped 3)
+  TOTAL encoded examples: 6459
+arch=spiking params=1109.01M device=cuda | per_step_tok=8192 | total_steps≈7 | warmup=0
+
+  saved /home/glenn/projects/neuro/models/checkpoints/n74d_brain_fdc_Cf/step_0000008.pt
+done: 0.1M tok in 0.01h

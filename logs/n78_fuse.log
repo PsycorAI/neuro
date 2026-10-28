@@ -1,0 +1,40 @@
+[fuse 10-25 18:43:01] demo questions DEMO_COMPILE=0
+== bf16: 20 turns 30.1s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB
+[fuse 10-25 18:46:12] demo questions DEMO_COMPILE=1
+== bf16: 20 turns 12.1s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 10:45 AM on Monday, October 26 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 10:49 AM on Monday, October 26 in Tokyo.'
+[SAME] "What's the weather like in Paris?" TOOL get_weather
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[SAME] 'Who wrote the novel Pride and Prejudice?' TOOL search
+[SAME] 'Why is the sky blue?' ANSWER 
+[SAME] 'Give me three tips for sleeping better.' ANSWER 
+[SAME] 'What is photosynthesis?' TOOL define
+[SAME] 'Write a short poem about the sea.' ANSWER 
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[SAME] 'What is the capital of Australia?' ANSWER 
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[SAME] 'Hi, how are you?' ANSWER 
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. The river was the same as the name of the village. Th'
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. In the evening the farmers walked out early to look a'
+== n78 fp32 vs bf16 demo: replies identical 19/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 30.1s vs bf16 sft_v4_chat_w8_pruned 12.1s | GPU mem 4.9 vs 4.9 GB
+[fuse 10-25 18:49:28] gpu-energy sparse + compiled
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    245.2 tok/s |   598.58 mJ/tok total (590.36-602.76) |   387.29 active
+  gpu-energy v4f_dec@2048 |    184.9 tok/s |   694.25 mJ/tok total (683.52-706.22) |   403.88 active
+  gpu-energy v4f_dec@8192 |     93.5 tok/s |  1122.72 mJ/tok total (1122.20-1143.18) |   577.97 active
+  gpu-energy v4f_dec@32768 |     31.4 tok/s |  2857.79 mJ/tok total (2841.53-2865.02) |  1184.10 active
+  gpu-energy v4_dec@512   |    390.2 tok/s |   355.50 mJ/tok total (352.65-6574.64) |   219.62 active
+  gpu-energy v4_dec@2048  |    394.7 tok/s |   354.04 mJ/tok total (349.19-356.56) |   222.65 active
+  gpu-energy v4_dec@8192  |    396.4 tok/s |   352.06 mJ/tok total (348.60-353.62) |   218.96 active
+  gpu-energy v4_dec@32768 |    395.0 tok/s |   352.14 mJ/tok total (350.53-359.92) |   223.23 active

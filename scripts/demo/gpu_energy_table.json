@@ -1,0 +1,318 @@
+{
+ "source": "measured: temp/n77_gpu_energy.py (NVML instant power, own-process sampler, 10 s windows, 3 reps, random order); v4 = sft_v4_chat_w8_pruned bf16 streaming decoder (window 1024), v4f = v4std_dense bf16 static-KV decoder, both one CUDA graph per step; 5080 rows 10-25 n79 (temp/n79_fuse_v4f_queue2.sh, n79_prefill_queue.sh): both decoders torch.compile'd (fused), prompt reads = last-position head only; 5080 decode rows 10-26 n80 (temp/n80_table_queue.sh: lag-shifted sampler, 256 row); 5090 decode rows 10-26 n80 (lag-shifted sampler, 256 row); 5090 decode rows 10-26 n80 (lag-shifted sampler, 256 row); 5090 decode rows 10-26 n80 (lag-shifted sampler, 256 row); 5080 decode rows 10-26 n81 (v4f cuDNN attention called directly); 5090 decode rows 10-26 n81 (v4f cuDNN attention called directly); 5080 graph prompt-read rows 10-26 n81 (both read bodies plain)",
+ "gpus": {
+  "NVIDIA GeForce RTX 5090": {
+   "v4f_dec": {
+    "256": {
+     "mJ_tok": 820.4140630868698,
+     "mJ_tok_active": 719.5037903430982,
+     "tok_s": 573.2195243095695,
+     "mJ_tok_counter": 703.2653187421972
+    },
+    "512": {
+     "mJ_tok": 805.5193115878095,
+     "mJ_tok_active": 704.9213874374809,
+     "tok_s": 574.2080314676983,
+     "mJ_tok_counter": 695.8350037729774
+    },
+    "2048": {
+     "mJ_tok": 851.1765551318904,
+     "mJ_tok_active": 746.373709472758,
+     "tok_s": 534.0293272280379,
+     "mJ_tok_counter": 740.8307668717825
+    },
+    "8192": {
+     "mJ_tok": 980.3285281345264,
+     "mJ_tok_active": 852.6027301314916,
+     "tok_s": 447.1137634064777,
+     "mJ_tok_counter": 862.9387677935943
+    },
+    "32768": {
+     "mJ_tok": 1548.7051337400394,
+     "mJ_tok_active": 1326.8569926420828,
+     "tok_s": 267.3564862471967,
+     "mJ_tok_counter": 1398.2832716263902
+    }
+   },
+   "v4_dec": {
+    "256": {
+     "mJ_tok": 549.8829565228755,
+     "mJ_tok_active": 458.5662154738715,
+     "tok_s": 628.5082585580024,
+     "mJ_tok_counter": 537.2284292652055
+    },
+    "512": {
+     "mJ_tok": 553.1511531735647,
+     "mJ_tok_active": 462.321763391996,
+     "tok_s": 629.409413882807,
+     "mJ_tok_counter": 538.6583719844107
+    },
+    "2048": {
+     "mJ_tok": 546.4262862783166,
+     "mJ_tok_active": 452.8137820271305,
+     "tok_s": 629.0625349787965,
+     "mJ_tok_counter": 536.7959415767889
+    },
+    "8192": {
+     "mJ_tok": 548.7049254750789,
+     "mJ_tok_active": 457.1446355897872,
+     "tok_s": 629.2141888513318,
+     "mJ_tok_counter": 534.8263800761422
+    },
+    "32768": {
+     "mJ_tok": 552.0009858976848,
+     "mJ_tok_active": 459.2516468757903,
+     "tok_s": 629.7446001264432,
+     "mJ_tok_counter": 537.8680490466068
+    }
+   },
+   "v4f_pre": {
+    "199": {
+     "mJ_tok": 26.95080127613355,
+     "mJ_tok_active": 15.165286494827676,
+     "tok_s": 4969.567007451036,
+     "mJ_tok_counter": 20.544832596718532
+    },
+    "512": {
+     "mJ_tok": 12.755165873568247,
+     "mJ_tok_active": 8.131964911030689,
+     "tok_s": 13003.818881369334,
+     "mJ_tok_counter": 9.104284571850394
+    },
+    "2048": {
+     "mJ_tok": 7.17165553562506,
+     "mJ_tok_active": 5.949835180154083,
+     "tok_s": 49490.363209909505,
+     "mJ_tok_counter": 4.1386900342200414
+    }
+   },
+   "v4_pre": {
+    "199": {
+     "mJ_tok": 61.39236976977448,
+     "mJ_tok_active": 28.679409339157885,
+     "tok_s": 1881.3034757843504,
+     "mJ_tok_counter": 50.643702382882154
+    },
+    "512": {
+     "mJ_tok": 31.00240585634168,
+     "mJ_tok_active": 16.33034143442136,
+     "tok_s": 4121.324132081822,
+     "mJ_tok_counter": 24.502146026234566
+    },
+    "2048": {
+     "mJ_tok": 27.056543986849203,
+     "mJ_tok_active": 18.963165135862102,
+     "tok_s": 6662.1179770757,
+     "mJ_tok_counter": 19.438225023674242
+    }
+   },
+   "note": "10-26 n81: decode rows re-measured with v4f's decode attention calling cuDNN directly (the kernel the 5080 harness had picked by itself; PyTorch's own pick inside the compiled step was the slow mem-efficient kernel on the 5090); harness sampler lag-shifted ({LAG} s); v4 = sparse GEMV + compiled step, v4f = compiled step; mean of 2 sessions; prompt-read rows older (n79 on the 5080, n78 on the 5090)"
+  },
+  "NVIDIA GeForce RTX 5080": {
+   "v4f_dec": {
+    "256": {
+     "mJ_tok": 799.9347217294189,
+     "mJ_tok_active": 672.1294247159947,
+     "tok_s": 356.28856760287954,
+     "mJ_tok_counter": 466.9362387892377
+    },
+    "512": {
+     "mJ_tok": 808.0187994298542,
+     "mJ_tok_active": 675.0178742622707,
+     "tok_s": 351.29799351233714,
+     "mJ_tok_counter": 473.8192647317094
+    },
+    "2048": {
+     "mJ_tok": 853.0437556597601,
+     "mJ_tok_active": 712.5708075517975,
+     "tok_s": 329.4080996785578,
+     "mJ_tok_counter": 497.8199332524272
+    },
+    "8192": {
+     "mJ_tok": 996.7781556778064,
+     "mJ_tok_active": 833.7201522984565,
+     "tok_s": 266.260095547717,
+     "mJ_tok_counter": 584.6077844311378
+    },
+    "32768": {
+     "mJ_tok": 1660.7895755154477,
+     "mJ_tok_active": 1355.0934360542478,
+     "tok_s": 150.98328143679953,
+     "mJ_tok_counter": 983.7105263157895
+    }
+   },
+   "v4_dec": {
+    "256": {
+     "mJ_tok": 529.8107354582403,
+     "mJ_tok_active": 425.5110147139306,
+     "tok_s": 431.44488596779547,
+     "mJ_tok_counter": 322.5745286274671
+    },
+    "512": {
+     "mJ_tok": 534.0166377684598,
+     "mJ_tok_active": 427.87071790436573,
+     "tok_s": 432.49071799003764,
+     "mJ_tok_counter": 327.7522163393199
+    },
+    "2048": {
+     "mJ_tok": 526.3216276139857,
+     "mJ_tok_active": 420.60787092347385,
+     "tok_s": 434.55537522942603,
+     "mJ_tok_counter": 325.7511743038659
+    },
+    "8192": {
+     "mJ_tok": 531.5634475845467,
+     "mJ_tok_active": 424.2957167299521,
+     "tok_s": 434.2104754966479,
+     "mJ_tok_counter": 327.8800222686293
+    },
+    "32768": {
+     "mJ_tok": 532.1452859117067,
+     "mJ_tok_active": 426.04842846218196,
+     "tok_s": 434.9773331150765,
+     "mJ_tok_counter": 324.43995453347395
+    }
+   },
+   "v4f_pre": {
+    "143": {
+     "mJ_tok": 31.00498551405929,
+     "mJ_tok_active": 20.018666328622814,
+     "tok_s": 3735.437772320636,
+     "mJ_tok_counter": 24.974510222601825
+    },
+    "199": {
+     "mJ_tok": 21.082275737041368,
+     "mJ_tok_active": 12.643150679021078,
+     "tok_s": 5165.47594605679,
+     "mJ_tok_counter": 17.334364128333977
+    },
+    "512": {
+     "mJ_tok": 9.975975395774638,
+     "mJ_tok_active": 6.586446012466145,
+     "tok_s": 12107.495473012455,
+     "mJ_tok_counter": 7.928162908755274
+    },
+    "2048": {
+     "mJ_tok": 6.979673637730126,
+     "mJ_tok_active": 5.775739287878783,
+     "tok_s": 37172.22293227167,
+     "mJ_tok_counter": 4.520348590353261
+    }
+   },
+   "v4_pre": {
+    "143": {
+     "mJ_tok": 56.97384990758061,
+     "mJ_tok_active": 23.698516750677598,
+     "tok_s": 1286.0601539949778,
+     "mJ_tok_counter": 54.786367478675174
+    },
+    "199": {
+     "mJ_tok": 44.97930436298672,
+     "mJ_tok_active": 19.498220078591565,
+     "tok_s": 1706.1887848643855,
+     "mJ_tok_counter": 42.66664718943555
+    },
+    "512": {
+     "mJ_tok": 22.881984785106027,
+     "mJ_tok_active": 12.700581439683475,
+     "tok_s": 4102.368477927185,
+     "mJ_tok_counter": 20.1148193359375
+    },
+    "2048": {
+     "mJ_tok": 22.882121048055456,
+     "mJ_tok_active": 16.26014990478151,
+     "tok_s": 6667.781635041252,
+     "mJ_tok_counter": 16.630083869485293
+    }
+   },
+   "note": "10-26 n81: decode rows re-measured with v4f's decode attention calling cuDNN directly (the kernel the 5080 harness had picked by itself; PyTorch's own pick inside the compiled step was the slow mem-efficient kernel on the 5090); graph prompt-read rows (v4g_pre, v4p_pre, v4fg_pre) re-measured with both read bodies plain (as the demo runs them; compiled = -18..-26% v4, -10..-13% v4f, off: ~30 min warm-up); harness sampler lag-shifted (0.095 s); v4 = sparse GEMV + compiled step, v4f = compiled step; mean of 2 sessions; eager prompt-read rows (v4_pre, v4f_pre) older (n79)",
+   "v4g_pre": {
+    "143": {
+     "mJ_tok": 35.675565698381995,
+     "mJ_tok_active": 28.466399118464246,
+     "tok_s": 4835.7525737137075,
+     "mJ_tok_counter": 23.044338154427173
+    },
+    "199": {
+     "mJ_tok": 27.75965220293248,
+     "mJ_tok_active": 22.607852177635845,
+     "tok_s": 6629.019232705067,
+     "mJ_tok_counter": 17.53441761942252
+    },
+    "512": {
+     "mJ_tok": 12.424537017022637,
+     "mJ_tok_active": 10.712983183460015,
+     "tok_s": 19167.975335613148,
+     "mJ_tok_counter": 7.51594299156209
+    },
+    "2048": {
+     "mJ_tok": 15.73910693338922,
+     "mJ_tok_active": 13.654706479433965,
+     "tok_s": 16673.386086711238,
+     "mJ_tok_counter": 9.345744807545731
+    }
+   },
+   "v4p_pre": {
+    "143": {
+     "mJ_tok": 23.43088666162929,
+     "mJ_tok_active": 18.298532032495967,
+     "tok_s": 6643.638258596631,
+     "mJ_tok_counter": 15.37852330230956
+    },
+    "199": {
+     "mJ_tok": 16.82376874905646,
+     "mJ_tok_active": 13.190031686505552,
+     "tok_s": 9316.897166367393,
+     "mJ_tok_counter": 11.025266127170628
+    },
+    "512": {
+     "mJ_tok": 6.83740788653499,
+     "mJ_tok_active": 5.383983581599505,
+     "tok_s": 23509.30649791905,
+     "mJ_tok_counter": 4.535527768342391
+    },
+    "2048": {
+     "mJ_tok": 1.8920707896290485,
+     "mJ_tok_active": 1.50489287993401,
+     "tok_s": 86660.9467575695,
+     "mJ_tok_counter": 1.2342571303101133
+    }
+   },
+   "v4fg_pre": {
+    "143": {
+     "mJ_tok": 14.487150667239664,
+     "mJ_tok_active": 12.518648907513608,
+     "tok_s": 17701.960817488136,
+     "mJ_tok_counter": 8.735564730520853
+    },
+    "199": {
+     "mJ_tok": 10.466715950327824,
+     "mJ_tok_active": 9.07855089703217,
+     "tok_s": 24582.283294746656,
+     "mJ_tok_counter": 6.244327745826357
+    },
+    "512": {
+     "mJ_tok": 7.153206524735191,
+     "mJ_tok_active": 6.250356485701745,
+     "tok_s": 37780.383293274084,
+     "mJ_tok_counter": 4.20569704088179
+    },
+    "2048": {
+     "mJ_tok": 6.95807321724377,
+     "mJ_tok_active": 6.081225168486512,
+     "tok_s": 39185.569227409054,
+     "mJ_tok_counter": 4.163950429666196
+    }
+   }
+  }
+ },
+ "v4f": {
+  "d": 2048,
+  "layers": 13,
+  "ffn_hidden": 9472,
+  "vocab": 32768,
+  "swiglu": true,
+  "weights_per_token": 1041760256,
+  "kv_per_token": 53248
+ }
+}

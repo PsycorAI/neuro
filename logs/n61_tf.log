@@ -1,0 +1,15 @@
+[n61tf 10-14 12:09:42] start
+[OK] screen_sft13_text0.yaml: {'sft_init': 'r26o_13L_RC3_conv_llamakd_150m', 'tool_proto': 2, 'sft_tools_full_frac': 0.3, 'sft_text_frac': 0.0, 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/posttrain/tools.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl']}
+[n61tf 10-14 12:09:43] train screen_sft13_text0 (text 0.0)
+[n61tf 10-14 12:48:05] screen_sft13_text0 preempted (segment 1)
+[n61tf 10-14 13:52:48] screen_sft13_text0 preempted (segment 2)
+[n61tf 10-14 14:14:55] screen_sft13_text0 preempted (segment 3)
+screen_sft13_text0         C=1024 T=2048 | chunk1   63.24 (mem off   64.66) | chunks2+   55.68 (off   58.29, Δ +2.61) | first64 of 2+   95.18 (off  117.32, Δ +22.15) vs first64 of chunk1   99.73
+  constrained  parse=1.000 mode_acc=0.975 halluc=0.000 tool_acc=0.984 args_exact=0.795 refuse_acc=0.936 say_ok=1.000  (1451s)
+[OK] screen_sft13_text15.yaml: {'sft_init': 'r26o_13L_RC3_conv_llamakd_150m', 'tool_proto': 2, 'sft_tools_full_frac': 0.3, 'sft_text_frac': 0.15, 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/posttrain/tools.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl', '/home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl']}
+[n61tf 10-14 15:59:10] train screen_sft13_text15 (text 0.15)
+[n61tf 10-14 16:04:37] screen_sft13_text15 preempted (segment 1)
+[n61tf 10-14 16:39:23] screen_sft13_text15 preempted (segment 2)
+[n61tf 10-14 18:06:56] screen_sft13_text15 preempted (segment 3)
+[n61tf 10-14 19:48:40] screen_sft13_text15 preempted (segment 4)
+[n61tf 10-14 21:14:07] screen_sft13_text15 preempted (segment 5)

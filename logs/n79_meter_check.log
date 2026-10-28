@@ -1,0 +1,10 @@
+LAG 0.095 s | steady GEMM power 272.2 W, idle 51.9 W
+  burst 0.2 s: meter   43.6 J vs   54.7 J expected ( 79.7%)
+  burst 0.2 s: meter   49.9 J vs   54.6 J expected ( 91.4%)
+  burst 0.2 s: meter   46.0 J vs   55.3 J expected ( 83.2%)
+  burst 0.5 s: meter  127.0 J vs  136.4 J expected ( 93.1%)
+  burst 0.5 s: meter  126.8 J vs  136.2 J expected ( 93.1%)
+  burst 0.5 s: meter  124.8 J vs  136.2 J expected ( 91.6%)
+  burst 1.0 s: meter  267.6 J vs  272.7 J expected ( 98.1%)
+  burst 1.0 s: meter  260.2 J vs  273.3 J expected ( 95.2%)
+  burst 1.0 s: meter  265.0 J vs  272.4 J expected ( 97.3%)

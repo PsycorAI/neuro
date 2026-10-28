@@ -1,0 +1,81 @@
+[k90 10-13 02:24:31] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_k90c.yaml
+[k90 10-13 02:24:31] arm C training (probe_v4_k90c)
+  [info] AdamW state remapped to the new grouping (saved under {'no_decay_names': ['embed.weight'], 'adamw_decay_overrid
+  [eval] val_ppl 38.12 | ablated_ppl 34.43 (memory Δ=-3.69) | spike 0.017	  [mlp] 0.111 0.267 0.276 0.226 0.000 0.001 0.179 0.087 0.064 0.068 0.083 0.147 
+  [eval] val_ppl 32.55 | ablated_ppl 31.55 (memory Δ=-1.00) | spike 0.030	  [mlp] 0.118 0.268 0.286 0.223 0.000 0.002 0.169 0.093 0.071 0.077 0.091 0.147 
+  [eval] val_ppl 31.28 | ablated_ppl 31.10 (memory Δ=-0.18) | spike 0.026	  [mlp] 0.130 0.284 0.271 0.226 0.000 0.002 0.129 0.082 0.065 0.072 0.086 0.137 
+C90300                     C=1024 T=2048 | chunk1   40.72 (mem off   40.70) | chunks2+   39.35 (off   38.82, Δ -0.53) | first64 of 2+   56.49 (off   61.85, Δ +5.36) vs first64 of chunk1   61.16
+C90300                     C=1024 N8: 100.0  99.2  97.7  96.1 (mem off  13.3) | N32:  97.7  93.8  88.3  88.3 (mem off   3.9)
+== C90300: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 77.2% (target >= 95%) | median rate of a live unit 9.5% (target ~5%) | mean rate over all units 12.21% | params in use 87.6% (target >= 95%)
+  live units by firing rate: <0.1% 7.9% | 0.1-1% 5.8% | 1-10% 38.2% | 10-50% 41.3% | >50% 6.8%
+  alive per block: 0:70% 1:97% 2:99% 3:76% 4:0% 5:33% 7:100% 8:91% 9:80% 10:87% 11:94% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 37.402
+    units firing <= 0e+00 removed: 22.8% of units, model 971M (87.6%) | ppl 37.397 (-0.01%)
+    units firing <= 1e-05 removed: 23.7% of units, model 966M (87.1%) | ppl 37.395 (-0.02%)
+    units firing <= 1e-04 removed: 25.9% of units, model 953M (85.9%) | ppl 37.386 (-0.04%)
+    units firing <= 1e-03 removed: 28.9% of units, model 935M (84.2%) | ppl 37.393 (-0.02%)
+wrote /home/glenn/projects/neuro/configs/probe_v4_k90g.yaml
+[k90 10-13 03:21:07] arm G training (probe_v4_k90g)
+attn_ffn_ghost=0.1: ghost gradient for silent FFN units (12 layers)
+  [info] AdamW state remapped to the new grouping (saved under {'no_decay_names': ['embed.weight'], 'adamw_decay_overrid
+  [eval] val_ppl 37.93 | ablated_ppl 34.17 (memory Δ=-3.77) | spike 0.018	  [mlp] 0.550 0.490 0.557 0.544 0.426 0.517 0.168 0.259 0.257 0.185 0.155 0.142 
+  [eval] val_ppl 31.46 | ablated_ppl 31.07 (memory Δ=-0.39) | spike 0.022	  [mlp] 0.558 0.513 0.565 0.543 0.372 0.522 0.159 0.276 0.265 0.203 0.166 0.143 
+  [eval] val_ppl 31.40 | ablated_ppl 30.97 (memory Δ=-0.44) | spike 0.027	  [mlp] 0.551 0.518 0.570 0.552 0.358 0.526 0.141 0.274 0.256 0.206 0.165 0.133 
+G90300                     C=1024 T=2048 | chunk1   39.99 (mem off   39.96) | chunks2+   40.03 (off   39.06, Δ -0.97) | first64 of 2+   58.70 (off   64.36, Δ +5.67) vs first64 of chunk1   59.42
+G90300                     C=1024 N8: 100.0  98.4  97.7  96.9 (mem off  13.3) | N32:  96.9  93.0  93.0  86.7 (mem off   3.1)
+== G90300: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 96.4% (target >= 95%) | median rate of a live unit 24.0% (target ~5%) | mean rate over all units 35.33% | params in use 98.0% (target >= 95%)
+  live units by firing rate: <0.1% 0.9% | 0.1-1% 1.7% | 1-10% 23.8% | 10-50% 39.7% | >50% 34.0%
+  alive per block: 0:100% 1:100% 2:100% 3:100% 4:59% 5:100% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 37.462
+    units firing <= 0e+00 removed: 3.6% of units, model 1087M (98.0%) | ppl 37.459 (-0.01%)
+    units firing <= 1e-05 removed: 3.7% of units, model 1087M (98.0%) | ppl 37.459 (-0.01%)
+    units firing <= 1e-04 removed: 3.9% of units, model 1086M (97.9%) | ppl 37.451 (-0.03%)
+    units firing <= 1e-03 removed: 4.4% of units, model 1082M (97.6%) | ppl 37.459 (-0.01%)
+blk 0: 12288 units | dead 5083 (41.4%) | of those erased 7.1% | live fire share 0.181 | new row RMS 0.0079
+blk 1: 12288 units | dead 427 (3.5%) | of those erased 0.2% | live fire share 0.324 | new row RMS 0.0162
+blk 2: 12288 units | dead 1189 (9.7%) | of those erased 77.6% | live fire share 0.252 | new row RMS 0.0162
+blk 3: 12288 units | dead 4718 (38.4%) | of those erased 75.4% | live fire share 0.346 | new row RMS 0.0162
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0162
+blk 5: 12288 units | dead 9775 (79.5%) | of those erased 85.2% | live fire share 0.005 | new row RMS 0.0162
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.069 | new row RMS 0.0161
+blk 8: 12288 units | dead 1752 (14.3%) | of those erased 65.2% | live fire share 0.067 | new row RMS 0.0179
+blk 9: 12288 units | dead 3104 (25.3%) | of those erased 86.8% | live fire share 0.058 | new row RMS 0.0181
+blk10: 12288 units | dead 1892 (15.4%) | of those erased 90.6% | live fire share 0.059 | new row RMS 0.0171
+blk11: 12288 units | dead 937 (7.6%) | of those erased 92.7% | live fire share 0.066 | new row RMS 0.0172
+blk12: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0171
+blk 0: revived units now fire on 0.495 of tokens
+blk 1: revived units now fire on 0.494 of tokens
+blk 2: revived units now fire on 0.506 of tokens
+blk 3: revived units now fire on 0.494 of tokens
+blk 4: revived units now fire on 0.494 of tokens
+blk 5: revived units now fire on 0.495 of tokens
+blk 8: revived units now fire on 0.502 of tokens
+blk 9: revived units now fire on 0.499 of tokens
+blk10: revived units now fire on 0.497 of tokens
+blk11: revived units now fire on 0.493 of tokens
+blk12: revived units now fire on 0.400 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_k90v/step_0090000.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_k90v.yaml
+[k90 10-13 04:20:51] arm V training (probe_v4_k90v)
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  [info] AdamW state remapped to the new grouping (saved under {'no_decay_names': ['embed.weight'], 'adamw_decay_overrid
+  [eval] val_ppl 36.77 | ablated_ppl 35.01 (memory Δ=-1.76) | spike 0.019	  [mlp] 0.466 0.483 0.537 0.523 0.489 0.522 0.202 0.278 0.249 0.176 0.161 0.152 
+  [eval] val_ppl 31.12 | ablated_ppl 30.94 (memory Δ=-0.18) | spike 0.026	  [mlp] 0.494 0.503 0.549 0.523 0.490 0.521 0.173 0.278 0.235 0.166 0.145 0.148 
+  [eval] val_ppl 30.22 | ablated_ppl 30.04 (memory Δ=-0.18) | spike 0.031	  [mlp] 0.513 0.513 0.555 0.529 0.489 0.519 0.154 0.264 0.203 0.138 0.130 0.135 
+V90300                     C=1024 T=2048 | chunk1   39.42 (mem off   39.38) | chunks2+   39.33 (off   38.21, Δ -1.12) | first64 of 2+   57.11 (off   62.68, Δ +5.57) vs first64 of chunk1   59.27
+V90300                     C=1024 N8: 100.0  97.7  98.4  99.2 (mem off  11.7) | N32:  98.4  90.6  90.6  86.7 (mem off   4.7)
+== V90300: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 98.5% (target >= 95%) | median rate of a live unit 22.7% (target ~5%) | mean rate over all units 34.52% | params in use 99.2% (target >= 95%)
+  live units by firing rate: <0.1% 1.2% | 0.1-1% 1.9% | 1-10% 21.3% | 10-50% 45.0% | >50% 30.7%
+  alive per block: 0:100% 1:100% 2:100% 3:100% 4:83% 5:100% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 36.693
+    units firing <= 0e+00 removed: 1.5% of units, model 1100M (99.2%) | ppl 36.694 (+0.00%)
+    units firing <= 1e-05 removed: 1.6% of units, model 1100M (99.1%) | ppl 36.695 (+0.01%)
+    units firing <= 1e-04 removed: 1.9% of units, model 1098M (98.9%) | ppl 36.693 (+0.00%)
+    units firing <= 1e-03 removed: 2.6% of units, model 1093M (98.6%) | ppl 36.724 (+0.08%)
+[k90 10-13 05:28:25] done

@@ -1,0 +1,22 @@
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+memory block: beta_floor 0.1, hola_w 64, gate_norm False
+  write strength on fact turns: mean 0.269, p90 0.389, max 0.471 | write beta mean 0.464
+  write strength on passages  : mean 0.226, p90 0.299, max 0.390 | write beta mean 0.398
+  write strength on the fact words: mean 0.285 (n 12)
+  write strength on MQAR key/value tokens: mean 0.393 | the text after them 0.183
+
+  recall by distance after the facts (tokens of other text; window 1024; facts span 126 tokens):
+  memory on                0: 5/5 p0.99 |   600: 5/5 p0.81 |  1000: 0/5 p0.03 |  1500: 0/5 p0.04 |  3000: 0/5 p0.07
+  memory ablated           0: 5/5 p0.99 |   600: 5/5 p0.89 |  1000: 0/5 p0.03 |  1500: 0/5 p0.04 |  3000: 0/5 p0.05
+  beta_floor 0.5           0: 5/5 p0.99 |   600: 5/5 p0.92 |  1000: 0/5 p0.03 |  1500: 0/5 p0.06 |  3000: 0/5 p0.07
+  beta_floor 0.9           0: 5/5 p0.98 |   600: 5/5 p0.94 |  1000: 0/5 p0.01 |  1500: 0/5 p0.05 |  3000: 0/5 p0.03
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n82_mem_diag.py", line 126, in <module>
+    d2 = V4Decoder(m, window=2048, max_len=65536)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 286, in __init__
+    assert b.ffn is not None and (not b.attn_window or b.attn_window == window),                 "no-FFN blocks / a block window different from the decoder's are not supported"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: no-FFN blocks / a block window different from the decoder's are not supported
+  window 2048              0: 5/5 p0.99 |   600: 5/5 p0.81 |  1000: 1/5 p0.04 |  1500: 0/5 p0.00 |  1900: 0/5 p0.00 |  3000: 0/5 p0.00
+  window 4096              0: 5/5 p0.99 |   600: 5/5 p0.81 |  1000: 1/5 p0.04 |  1500: 0/5 p0.00 |  1900: 0/5 p0.00 |  3000: 0/5 p0.00

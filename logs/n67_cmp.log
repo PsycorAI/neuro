@@ -1,0 +1,92 @@
+== r26o_13L_RC3_conv_llamakd_150m models/checkpoints/r26o_13L_RC3_conv_llamakd_150m/step_0017090.pt g0 10-17 00:22
+[cmp] r26o_13L_RC3_conv_llamakd_150m len    | T2048   35.64 | (mem off   36.81) | T4096   31.07 | T8192   33.54 | T16384   34.17
+[cmp] r26o_13L_RC3_conv_llamakd_150m quant  | per-token absmax on every Linear input, T2048 | fp   35.64 | int8   35.62 (-0.1%) | int4   38.09 (+6.9%)
+[cmp] r26o_13L_RC3_conv_llamakd_150m noise  | weight += N(0, s*std), T2048 | clean   35.64 | s1%   35.63 (-0.0%) | s3%   35.69 (+0.1%) | s10%   36.49 (+2.4%)
+[cmp] r26o_13L_RC3_conv_llamakd_150m sparse | zero share of Linear inputs: element-weighted 70.2% | mean over 75 sites 47.2% | densest: engram_v2.proj 0%, blocks.6.W_b.up 0%, blocks.6.W_w.up 0%, blocks.6.W_fdecay.up 0%, blocks.6.W_og.up 0%
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   hellaswag      | acc  31.6%  acc_norm  32.2%  (N=500, chance=25%, 344.9s)
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   arc_easy       | acc  40.6%  acc_norm  36.2%  (N=500, chance=25%, 340.7s)
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   arc_challenge  | acc  18.7%  acc_norm  23.7%  (N=299, chance=25%, 202.2s)
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   hellaswag      acc  31.6%  acc_norm  32.2%  (N=500)
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   arc_easy       acc  40.6%  acc_norm  36.2%  (N=500)
+  lm_eval r26o_13L_RC3_conv_llamakd_150m   arc_challenge  acc  18.7%  acc_norm  23.7%  (N=299)
+== r26n_13L_RC2_xlate_150m models/checkpoints/r26n_13L_RC2_xlate_150m/step_0012208.pt g1 10-17 04:01
+[cmp] r26n_13L_RC2_xlate_150m len    | T2048   37.24 | (mem off   38.17) | T4096   32.14 | T8192   34.89 | T16384   35.44
+[cmp] r26n_13L_RC2_xlate_150m quant  | per-token absmax on every Linear input, T2048 | fp   37.24 | int8   37.26 (+0.1%) | int4   40.29 (+8.2%)
+[cmp] r26n_13L_RC2_xlate_150m noise  | weight += N(0, s*std), T2048 | clean   37.24 | s1%   37.25 (+0.0%) | s3%   37.32 (+0.2%) | s10%   38.09 (+2.3%)
+[cmp] r26n_13L_RC2_xlate_150m sparse | zero share of Linear inputs: element-weighted 57.4% | mean over 75 sites 25.0% | densest: engram_v2.proj 0%, blocks.0.qkv 0%, blocks.0.attn_gate 0%, blocks.0.ffn.0 0%, blocks.1.qkv 0%
+  lm_eval r26n_13L_RC2_xlate_150m   hellaswag      | acc  31.8%  acc_norm  31.2%  (N=500, chance=25%, 162.2s)
+  lm_eval r26n_13L_RC2_xlate_150m   arc_easy       | acc  40.4%  acc_norm  35.0%  (N=500, chance=25%, 161.9s)
+  lm_eval r26n_13L_RC2_xlate_150m   arc_challenge  | acc  18.1%  acc_norm  21.4%  (N=299, chance=25%, 86.7s)
+  lm_eval r26n_13L_RC2_xlate_150m   hellaswag      acc  31.8%  acc_norm  31.2%  (N=500)
+  lm_eval r26n_13L_RC2_xlate_150m   arc_easy       acc  40.4%  acc_norm  35.0%  (N=500)
+  lm_eval r26n_13L_RC2_xlate_150m   arc_challenge  acc  18.1%  acc_norm  21.4%  (N=299)
+== r27a_13L_tfmr_dense_150m models/checkpoints/r27a_13L_tfmr_dense_150m/step_0012208.pt g1 10-17 04:11
+[cmp] r27a_13L_tfmr_dense_150m len    | T2048   40.61 | (mem off   40.61) | T4096   35.33 | T8192   38.57 | T16384   39.18
+[cmp] r27a_13L_tfmr_dense_150m quant  | per-token absmax on every Linear input, T2048 | fp   40.61 | int8   40.62 (+0.0%) | int4   44.14 (+8.7%)
+[cmp] r27a_13L_tfmr_dense_150m noise  | weight += N(0, s*std), T2048 | clean   40.61 | s1%   40.62 (+0.0%) | s3%   40.69 (+0.2%) | s10%   41.55 (+2.3%)
+[cmp] r27a_13L_tfmr_dense_150m sparse | zero share of Linear inputs: element-weighted 46.4% | mean over 67 sites 18.3% | densest: engram_v2.proj 0%, blocks.0.qkv 0%, blocks.0.attn_gate 0%, blocks.0.ffn.0 0%, blocks.1.qkv 0%
+  lm_eval r27a_13L_tfmr_dense_150m   hellaswag      | acc  30.8%  acc_norm  33.0%  (N=500, chance=25%, 137.9s)
+  lm_eval r27a_13L_tfmr_dense_150m   arc_easy       | acc  38.0%  acc_norm  34.2%  (N=500, chance=25%, 135.8s)
+  lm_eval r27a_13L_tfmr_dense_150m   arc_challenge  | acc  20.1%  acc_norm  22.4%  (N=299, chance=25%, 81.0s)
+  lm_eval r27a_13L_tfmr_dense_150m   hellaswag      acc  30.8%  acc_norm  33.0%  (N=500)
+  lm_eval r27a_13L_tfmr_dense_150m   arc_easy       acc  38.0%  acc_norm  34.2%  (N=500)
+  lm_eval r27a_13L_tfmr_dense_150m   arc_challenge  acc  20.1%  acc_norm  22.4%  (N=299)
+== r27b_13L_tfmr_llamakd_150m models/checkpoints/r27b_13L_tfmr_llamakd_150m/step_0017090.pt g0 10-17 05:17
+[cmp] r27b_13L_tfmr_llamakd_150m len    | T2048   38.74 | (mem off   38.74) | T4096   34.30 | T8192   37.24 | T16384   38.08
+[cmp] r27b_13L_tfmr_llamakd_150m quant  | per-token absmax on every Linear input, T2048 | fp   38.74 | int8   38.76 (+0.0%) | int4   42.64 (+10.1%)
+[cmp] r27b_13L_tfmr_llamakd_150m noise  | weight += N(0, s*std), T2048 | clean   38.74 | s1%   38.76 (+0.0%) | s3%   38.84 (+0.2%) | s10%   39.83 (+2.8%)
+[cmp] r27b_13L_tfmr_llamakd_150m sparse | zero share of Linear inputs: element-weighted 46.5% | mean over 67 sites 18.3% | densest: engram_v2.proj 0%, blocks.0.qkv 0%, blocks.0.attn_gate 0%, blocks.0.ffn.0 0%, blocks.1.qkv 0%
+  lm_eval r27b_13L_tfmr_llamakd_150m   hellaswag      | acc  31.4%  acc_norm  34.6%  (N=500, chance=25%, 118.5s)
+  lm_eval r27b_13L_tfmr_llamakd_150m   arc_easy       | acc  39.6%  acc_norm  33.2%  (N=500, chance=25%, 116.1s)
+  lm_eval r27b_13L_tfmr_llamakd_150m   arc_challenge  | acc  19.1%  acc_norm  20.1%  (N=299, chance=25%, 69.3s)
+  lm_eval r27b_13L_tfmr_llamakd_150m   hellaswag      acc  31.4%  acc_norm  34.6%  (N=500)
+  lm_eval r27b_13L_tfmr_llamakd_150m   arc_easy       acc  39.6%  acc_norm  33.2%  (N=500)
+  lm_eval r27b_13L_tfmr_llamakd_150m   arc_challenge  acc  19.1%  acc_norm  20.1%  (N=299)
+[cmp] longctx r26o_13L_RC3_conv_llamakd_150m C=1024 T=8192 | chunk1   29.41 (mem off   30.08) | chunks2+   32.35 (off   33.90, Δ +1.55) | first64 of 2+   39.84 (off   53.59, Δ +13.75) vs first64 of chunk1   62.98
+[cmp] longctx r27b_13L_tfmr_llamakd_150m C=1024 T=8192 | chunk1   31.45 (mem off   31.45) | chunks2+   36.26 (off   36.26, Δ +0.00) | first64 of 2+   56.13 (off   56.13, Δ +0.00) vs first64 of chunk1   63.79
+[cmp] longctx r26o_13L_RC3_conv_llamakd_150m C=1024 T=16384 | chunk1   35.47 (mem off   36.19) | chunks2+   36.08 (off   37.60, Δ +1.52) | first64 of 2+   49.37 (off   63.83, Δ +14.46) vs first64 of chunk1   99.79
+[cmp] longctx r27b_13L_tfmr_llamakd_150m C=1024 T=16384 | chunk1   37.26 (mem off   37.26) | chunks2+   40.35 (off   40.35, Δ +0.00) | first64 of 2+   67.39 (off   67.39, Δ +0.00) vs first64 of chunk1   97.92
+== r27d_13L_tfmr_llamakd_s1_150m models/checkpoints/r27d_13L_tfmr_llamakd_s1_150m/step_0017090.pt g0 10-17 14:43
+[cmp] r27d_13L_tfmr_llamakd_s1_150m len    | T2048   38.09 | (mem off   38.09) | T4096   33.60 | T8192   36.57 | T16384   37.09
+[cmp] r27d_13L_tfmr_llamakd_s1_150m quant  | per-token absmax on every Linear input, T2048 | fp   38.09 | int8   38.11 (+0.0%) | int4   42.32 (+11.1%)
+[cmp] r27d_13L_tfmr_llamakd_s1_150m noise  | weight += N(0, s*std), T2048 | clean   38.09 | s1%   38.11 (+0.0%) | s3%   38.19 (+0.3%) | s10%   39.20 (+2.9%)
+[cmp] r27d_13L_tfmr_llamakd_s1_150m sparse | zero share of Linear inputs: element-weighted 46.4% | mean over 67 sites 18.3% | densest: engram_v2.proj 0%, blocks.0.qkv 0%, blocks.0.attn_gate 0%, blocks.0.ffn.0 0%, blocks.1.qkv 0%
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   hellaswag      | acc  31.2%  acc_norm  32.0%  (N=500, chance=25%, 114.7s)
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   arc_easy       | acc  39.4%  acc_norm  34.2%  (N=500, chance=25%, 112.8s)
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   arc_challenge  | acc  16.7%  acc_norm  21.1%  (N=299, chance=25%, 67.7s)
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   hellaswag      acc  31.2%  acc_norm  32.0%  (N=500)
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   arc_easy       acc  39.4%  acc_norm  34.2%  (N=500)
+  lm_eval r27d_13L_tfmr_llamakd_s1_150m   arc_challenge  acc  16.7%  acc_norm  21.1%  (N=299)
+== r27e_13L_RC3_conv_llamakd_clean_150m models/checkpoints/r27e_13L_RC3_conv_llamakd_clean_150m/step_0017090.pt g0 10-17 18:42
+[cmp] r27e_13L_RC3_conv_llamakd_clean_150m len    | T2048   35.69 | (mem off   36.84) | T4096   31.22 | T8192   33.60 | T16384   34.27
+[cmp] r27e_13L_RC3_conv_llamakd_clean_150m quant  | per-token absmax on every Linear input, T2048 | fp   35.69 | int8   35.75 (+0.2%) | int4   38.23 (+7.1%)
+[cmp] r27e_13L_RC3_conv_llamakd_clean_150m noise  | weight += N(0, s*std), T2048 | clean   35.69 | s1%   35.76 (+0.2%) | s3%   35.77 (+0.2%) | s10%   36.60 (+2.5%)
+[cmp] r27e_13L_RC3_conv_llamakd_clean_150m sparse | zero share of Linear inputs: element-weighted 70.0% | mean over 75 sites 46.9% | densest: engram_v2.proj 0%, blocks.6.W_b.up 0%, blocks.6.W_w.up 0%, blocks.6.W_fdecay.up 0%, blocks.6.W_og.up 0%
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   hellaswag      | acc  32.2%  acc_norm  31.2%  (N=500, chance=25%, 228.9s)
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   arc_easy       | acc  40.4%  acc_norm  34.8%  (N=500, chance=25%, 225.0s)
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   arc_challenge  | acc  19.4%  acc_norm  21.7%  (N=299, chance=25%, 134.1s)
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   hellaswag      acc  32.2%  acc_norm  31.2%  (N=500)
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   arc_easy       acc  40.4%  acc_norm  34.8%  (N=500)
+  lm_eval r27e_13L_RC3_conv_llamakd_clean_150m   arc_challenge  acc  19.4%  acc_norm  21.7%  (N=299)
+[cmp] longctx r27e_13L_RC3_conv_llamakd_clean_150m C=1024 T=8192 | chunk1   29.49 (mem off   30.19) | chunks2+   32.41 (off   33.93, Δ +1.52) | first64 of 2+   39.40 (off   53.12, Δ +13.72) vs first64 of chunk1   61.48
+[cmp] longctx r26n_13L_RC2_xlate_150m    C=1024 T=8192 | chunk1   30.21 (mem off   30.81) | chunks2+   33.77 (off   35.06, Δ +1.29) | first64 of 2+   41.67 (off   54.02, Δ +12.34) vs first64 of chunk1   64.10
+[cmp] longctx r27a_13L_tfmr_dense_150m   C=1024 T=8192 | chunk1   32.95 (mem off   32.95) | chunks2+   37.48 (off   37.48, Δ +0.00) | first64 of 2+   58.22 (off   58.22, Δ +0.00) vs first64 of chunk1   66.12
+[cmp] longctx r27d_13L_tfmr_llamakd_s1_150m C=1024 T=8192 | chunk1   30.88 (mem off   30.88) | chunks2+   35.48 (off   35.48, Δ +0.00) | first64 of 2+   55.26 (off   55.26, Δ +0.00) vs first64 of chunk1   66.17
+[cmp] longctx r27e_13L_RC3_conv_llamakd_clean_150m C=1024 T=16384 | chunk1   35.73 (mem off   36.56) | chunks2+   36.23 (off   37.77, Δ +1.54) | first64 of 2+   49.42 (off   64.64, Δ +15.22) vs first64 of chunk1   99.48
+[cmp] longctx r26n_13L_RC2_xlate_150m    C=1024 T=16384 | chunk1   36.66 (mem off   37.22) | chunks2+   37.54 (off   38.95, Δ +1.41) | first64 of 2+   51.57 (off   64.75, Δ +13.18) vs first64 of chunk1   99.05
+[cmp] longctx r27a_13L_tfmr_dense_150m   C=1024 T=16384 | chunk1   39.44 (mem off   39.44) | chunks2+   41.53 (off   41.53, Δ +0.00) | first64 of 2+   68.52 (off   68.52, Δ +0.00) vs first64 of chunk1  107.61
+[cmp] longctx r27d_13L_tfmr_llamakd_s1_150m C=1024 T=16384 | chunk1   36.72 (mem off   36.72) | chunks2+   39.21 (off   39.21, Δ +0.00) | first64 of 2+   66.16 (off   66.16, Δ +0.00) vs first64 of chunk1  101.41
+[cmp] r27b_13L_tfmr_llamakd_150m   energy-v2 | weight reads 96.2M of 125.2M (77%) | compute only 1.33x (467 vs 623 uJ) | +SRAM fetch 1.31x (733 vs 962 uJ) | +DRAM fetch 1.30x (31285 vs 40725 uJ)
+[cmp] r26o_13L_RC3_conv_llamakd_150m energy-v2 | weight reads 68.4M of 129.6M (53%) | compute only 5.65x (115 vs 648 uJ) | +SRAM fetch 3.19x (314 vs 1000 uJ) | +DRAM fetch 1.91x (22016 vs 42152 uJ)
+== r27i_13L_tfmr_llamakd_lrx05_150m models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0017090.pt g0 10-18 04:01
+[cmp] r27i_13L_tfmr_llamakd_lrx05_150m len    | T2048   38.97 | (mem off   38.97) | T4096   34.13 | T8192   37.04 | T16384   37.59
+[cmp] r27i_13L_tfmr_llamakd_lrx05_150m quant  | per-token absmax on every Linear input, T2048 | fp   38.97 | int8   38.97 (+0.0%) | int4   42.03 (+7.9%)
+[cmp] r27i_13L_tfmr_llamakd_lrx05_150m noise  | weight += N(0, s*std), T2048 | clean   38.97 | s1%   38.96 (-0.0%) | s3%   39.05 (+0.2%) | s10%   40.21 (+3.2%)
+[cmp] r27i_13L_tfmr_llamakd_lrx05_150m sparse | zero share of Linear inputs: element-weighted 46.6% | mean over 67 sites 18.4% | densest: engram_v2.proj 0%, blocks.0.qkv 0%, blocks.0.attn_gate 0%, blocks.0.ffn.0 0%, blocks.1.qkv 0%
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   hellaswag      | acc  30.2%  acc_norm  33.0%  (N=500, chance=25%, 111.6s)
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   arc_easy       | acc  40.0%  acc_norm  31.8%  (N=500, chance=25%, 107.9s)
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   arc_challenge  | acc  18.7%  acc_norm  23.4%  (N=299, chance=25%, 64.6s)
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   hellaswag      acc  30.2%  acc_norm  33.0%  (N=500)
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   arc_easy       acc  40.0%  acc_norm  31.8%  (N=500)
+  lm_eval r27i_13L_tfmr_llamakd_lrx05_150m   arc_challenge  acc  18.7%  acc_norm  23.4%  (N=299)
+[cmp] longctx r27i_13L_tfmr_llamakd_lrx05_150m C=1024 T=8192 | chunk1   31.93 (mem off   31.93) | chunks2+   35.91 (off   35.91, Δ +0.00) | first64 of 2+   55.61 (off   55.61, Δ +0.00) vs first64 of chunk1   65.97

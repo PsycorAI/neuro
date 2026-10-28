@@ -11,7 +11,36 @@ from spike_code import calibrate, SpikeCode
 src, dst_dir, cfg = sys.argv[1:4]
 scale = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
 c = yaml.safe_load(open(cfg))
-s = torch.load(src, map_location="cpu", weights_only=False)
+# 2026-10-14 (Neuro 61; Glenn: average + revive + U-NorMuon "all three at once"). Optional seed prep, from the CONVERSION
+# config (both off by default):  seed_avg_last: N  -> uniform average of the model weights of the last N step_*.pt next
+# to SRC (SRC must be the newest; LAWA, -8.6% ppl at home);  seed_revive: true -> temp/n61mm_n60_revive.py on it (every
+# FFN unit whose pre-activation never exceeds 1e-3 gets a fresh input row, output column 0 = function preserved).
+import glob, subprocess
+prep = []
+nav = int(c.get("seed_avg_last", 0) or 0)
+if nav > 1:
+    os.makedirs(dst_dir, exist_ok=True)
+    fs = sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(src)), "step_*.pt")))
+    assert fs and fs[-1] == os.path.abspath(src), f"seed_avg_last: {src} is not the newest checkpoint ({fs[-1:]})"
+    fs = fs[-nav:]
+    base = torch.load(src, map_location="cpu", weights_only=False, mmap=True)
+    acc = {k: v.to("cuda", torch.float32) for k, v in base["model"].items()}
+    for f in fs[:-1]:
+        o = torch.load(f, map_location="cpu", weights_only=False, mmap=True)["model"]
+        for k in acc: acc[k].add_(o[k].to("cuda", torch.float32))
+        del o
+    base["model"] = {k: (v / len(fs)).to(base["model"][k].dtype).cpu() for k, v in acc.items()}; del acc
+    p = os.path.join(dst_dir, "_prep_avg.pt"); torch.save(base, p); del base; torch.cuda.empty_cache()
+    prep.append(p); src = p
+    print(f"[seed prep] averaged {len(fs)} checkpoints: {[os.path.basename(f) for f in fs]}", flush=True)
+if c.get("seed_revive", False):
+    os.makedirs(dst_dir, exist_ok=True)
+    p = os.path.join(dst_dir, "_prep_revived.pt")
+    subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "n61mm_n60_revive.py"), src, p],
+                   check=True)
+    prep.append(p); src = p
+    print("[seed prep] revived dead FFN units", flush=True)
+s = torch.load(src, map_location="cpu", weights_only=False, mmap=True)
 m = build_model(c).cuda()
 sd = dict(s["model"])
 if c.get("head_rank") and sd["head.weight"].shape[1] != int(c["head_rank"]):
@@ -61,5 +90,7 @@ out = {k: v for k, v in s.items() if k not in ("opt_states", "opt", "model", "cf
 out["model"] = {k: v.cpu() for k, v in m.state_dict().items()}
 out["cfg"] = c
 torch.save(out, os.path.join(dst_dir, f"step_{s['step']:07d}.pt"))
+for p in prep:
+    os.remove(p)
 print(f"[OK] {n} spike codes calibrated (scale {scale}) | zero-shot ppl dense {p_dense:.2f} -> coded {p_code:.2f} | "
       f"mean spikes/input {cnt:.3f} | saved {dst_dir} @ step {s['step']}")

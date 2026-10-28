@@ -1,0 +1,6 @@
+[kdnoise 10-23 13:32:32] start
+[OK] configs/n74kd_local.yaml, configs/n74kd_remote.yaml (B1 x GA4 x T2048)
+[kdnoise 10-23 13:34:24] local run 1 rc=1 steps 30
+[kdnoise 10-23 13:36:13] local run 2 rc=1 steps 30
+steps 30: local-vs-local max |d| 0.007 mean 0.0030 | local-vs-remote max |d| 0.007 mean 0.0028 | step1 local 10.6 10.6 remote 10.6
+VERDICT: NOISE (remote within local run-to-run spread)

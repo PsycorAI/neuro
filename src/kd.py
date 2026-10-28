@@ -121,3 +121,63 @@ def kd_loss(student_logits, teacher_topk, alpha=0.5, target_ids=None,
     hard_loss = F.cross_entropy(student_logits.reshape(-1, student_logits.size(-1)),
                                  target_ids.reshape(-1))
     return alpha * soft_loss + (1 - alpha) * hard_loss
+
+
+# ---- 2026-10-22 (Neuro 73, Glenn OK: v4f throughput lever #1): the teacher in ANOTHER process / GPU -----------------
+# The KD phase runs with only the 5090 visible; the teacher moves to the 5080 as a server (temp/kd_teacher_server.py)
+# that computes teacher_distribution() exactly as the in-process path does (same compile, under bf16 autocast) and
+# returns (top-K probs fp32, student idx int16) over a Unix socket. The trainer asks one micro-batch ahead, so the
+# 5080 works on micro i+1 while the 5090 trains on micro i. Probs are sent as fp32: exact for bf16 or fp32 originals,
+# and kd_loss promotes to fp32 anyway. Wire: request = int32 [magic, B, T] + B*T int32 raw ids;
+# reply = B*T*K fp32 probs + B*T*K int16 student idx.
+KD_MAGIC = 0x4B44_5431
+
+
+def recv_exact(sock, view):
+    n = 0
+    while n < len(view):
+        k = sock.recv_into(view[n:])
+        if k == 0:
+            raise ConnectionError("KD teacher server closed the connection")
+        n += k
+
+
+class RemoteTeacher:
+    def __init__(self, path, B, T, topk=128, timeout=1800, connect_wait=900):
+        import socket, time
+        self.B, self.T, self.K = int(B), int(T), int(topk)
+        t0 = time.time()
+        while True:
+            try:
+                self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                self.sock.connect(path)
+                break
+            except OSError:
+                self.sock.close()
+                if time.time() - t0 > connect_wait:
+                    raise RuntimeError(f"no KD teacher server at {path} after {connect_wait} s")
+                time.sleep(5)
+        self.sock.settimeout(timeout)
+        n = self.B * self.T * self.K
+        # two pinned reply buffers, alternated; an event guards a buffer until its GPU copy has finished
+        self.bufs = [torch.empty(n * 6, dtype=torch.uint8, pin_memory=True) for _ in range(2)]
+        self.events, self.slot = [None, None], 0
+        print(f"KD teacher: remote server {path} (B{self.B} T{self.T} top-{self.K})", flush=True)
+
+    def request(self, raw_ids_cpu):
+        assert tuple(raw_ids_cpu.shape) == (self.B, self.T), raw_ids_cpu.shape
+        hdr = np.array([KD_MAGIC, self.B, self.T], dtype=np.int32).tobytes()
+        self.sock.sendall(hdr + raw_ids_cpu.numpy().astype(np.int32).tobytes())
+
+    def result(self, device):
+        """Reply to the OLDEST outstanding request (FIFO) -> (topk_probs fp32, student_idx long) on `device`."""
+        s = self.slot; self.slot ^= 1
+        if self.events[s] is not None:
+            self.events[s].synchronize()
+        buf = self.bufs[s]
+        recv_exact(self.sock, memoryview(buf.numpy()))
+        n = self.B * self.T * self.K
+        probs = buf[: 4 * n].view(torch.float32).view(self.B, self.T, self.K).to(device, non_blocking=True)
+        idx = buf[4 * n:].view(torch.int16).view(self.B, self.T, self.K).to(device, non_blocking=True).long()
+        ev = torch.cuda.Event(); ev.record(); self.events[s] = ev
+        return probs, idx

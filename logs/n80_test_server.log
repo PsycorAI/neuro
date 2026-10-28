@@ -1,0 +1,9 @@
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[engine_stream] v4f box: n74d_sft_v4f_chat, 123,136 FFN neurons
+[demo] GPU meter: NVIDIA GeForce RTX 5080, v4 / v4f reference table loaded
+[demo] sft_v4_chat_w8_pruned (step 0): 948.4M params, 12 attention + 1 memory layers, spike-coded True, tool protocol v2, brains ['health', 'python'] (start: auto) -> http://localhost:8799
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5082.38it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[demo] warm-up done in 46 s: answers and the GPU meter are at full speed now

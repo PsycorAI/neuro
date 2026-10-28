@@ -19,6 +19,16 @@ PROMPT_WITH_INPUT = "### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n#
 EOS_MARK = "\n###"   # cheap end marker our LUT vocab can encode
 
 
+def render_conversation(history, words=50):
+    """2026-10-21 (Neuro 72, chat brain): earlier turns [[user, assistant], ...] as a block placed before the current
+    turn's prompt, one line per message, assistant replies cut to `words` words. No ANSWER / TOOL words (the model copied
+    them from history, n66). Shared by training (format_example, tool_data.format_prompt) and the demo engine."""
+    if not history:
+        return ""
+    one = lambda s, n=10 ** 6: " ".join(str(s).split()[:n]) + (" ..." if len(str(s).split()) > n else "")
+    return "### Conversation:\n" + "".join(f"User: {one(q)}\nAssistant: {one(a, words)}\n" for q, a in history) + "\n"
+
+
 def format_example(ex):
     inp = ex.get("input", "").strip()
     if inp:
@@ -27,7 +37,7 @@ def format_example(ex):
     else:
         prompt = PROMPT_NO_INPUT.format(instruction=ex["instruction"].strip())
     response = ex["output"].strip() + EOS_MARK
-    return prompt, response
+    return render_conversation(ex.get("history")) + prompt, response
 
 
 def encode_with_mask(prompt, response, encode_fn, max_len):

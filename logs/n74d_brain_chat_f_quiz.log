@@ -1,0 +1,338 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  fail fact          | "What is my uncle's name?"                     -> ANSWER -  | '1: 2-3 ANSWER 1: 3-4 ANSWER 1: 5-6 ANSWER 1: 7-8 ANSWER 1: 9-10 ANSWER'
+  fail fact          | "What's my dog called?"                        -> ANSWER -  | '3: 4 DNSWER 4: 5 DNSWER 5: 6 DNSWER 6: 7 DNSWER 7: 8 DNSWER 8: 9 DNSWE'
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | '1: I was born in 1970. I was born on 1 January 1970. I was born at 1 J'
+  PASS fact          | 'When was I born?'                             -> ANSWER -  | '2024\nI was born in 1961.\nAssistant: I was born in the 1961 Berlin Inte'
+  fail fact          | "What's my cousin called?"                     -> ANSWER -  | '1: 2-3 ANSWER 1: 3-4 ANSWER 1: 5-6 ANSWER 1: 7-8 ANSWER 1: 9-10 ANSWER'
+  PASS fact          | 'What is my job?'                              -> ANSWER -  | 'is a registered veterinarian educator and a certified veterinarian edu'
+  fail fact          | 'Which city do I live in?'                     -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail fact          | 'What is my name?'                             -> ANSWER -  | "9:00am I'm sorry, but I'm not sure if I'm going to get a call. I'm not"
+  fail fact          | 'What is my name?'                             -> ANSWER -  | '3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWE'
+  fail fact          | "What's my cat called?"                        -> ANSWER -  | '3: 4 DNSWER 4: 5 DNSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 ENSWER 8: 9 ENSWE'
+  fail fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | '2: 2\nI have a favorite animal. I have a favorite cat. I have a cat. I '
+  fail fact          | "What's my cousin called?"                     -> ANSWER -  | '2017 Latvian Local Elections\nANSWER 2017 Latvian Local Elections\nANSWE'
+  fail fact          | 'Do you remember my name?'                     -> ANSWER -  | '4: 5 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANSWER 11: 11 A'
+  fail fact          | 'What is my job?'                              -> ANSWER -  | '2: 3-4\nANSWER 3: 5-6\nANSWER 4: 7-8\nANSWER 5: 9-10\nANSWER 6: 11-12\nANSW'
+  PASS fact          | 'What is my favorite sport?'                   -> ANSWER -  | "1: 1-2 I love volleyball, it's my favorite sport.\nAssistant: 1: 1-2 I "
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | "403.0 inches to centimeters, I'd really appreciate it. Assistant: 403."
+  fail fact          | "What's my name?"                              -> ANSWER -  | "1: I'm a member of the Jordanian language family. I have a number of l"
+  fail fact          | 'Do you remember where I live?'                -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  PASS fact          | "What's my job?"                               -> ANSWER -  | 'is a certified veterinary educator and a certified veterinarian educat'
+  fail fact          | 'What did I say my name was?'                  -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | '3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3'
+  PASS fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | '1: "I love the fox, it\'s my favorite animal."'
+  fail fact          | "What's my hamster called?"                    -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  fail fact          | 'What do I do for a living?'                   -> ANSWER -  | 'is a member of the CNTC team. We have a number of members. We have a l'
+  PASS fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | "(I love the fox, it's my favorite animal). I love the fox, it's my fav"
+  fail fact          | 'Who am I?'                                    -> ANSWER -  | '3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 ENSWER 8: 9 INSWE'
+  fail fact          | 'What do I do for a living?'                   -> ANSWER -  | '1: 2-3 ANSWER 1: 3-4 ANSWER 1: 5-6 ANSWER 1: 7-8 ANSWER 1: 9-10 ANSWER'
+  PASS fact          | 'What did I say my hamster is called?'         -> ANSWER -  | '2: 3-4\nI have a hamster named Nibbles.\nAssistant: 1: 1-2 BNSWER 2: 3-4'
+  PASS fact          | 'Do you remember my favorite food?'            -> ANSWER -  | '1: "I love dumplings, it\'s my favorite food."'
+  fail fact          | 'What is my name?'                             -> ANSWER -  | '6: 7 ANSWER 8: 9 ANSWER 9: 10 ANSWER 10: 11 ANSWER 12: 13 ANSWER 13: 1'
+  PASS fact          | 'Which city do I live in?'                     -> ANSWER -  | '1: I live in Zurich.\nAssistant: 2: I have a problem with the project. '
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | "2: I can't tell you how far I can tell. I can't tell you how wide I ca"
+  fail fact          | 'Do you remember my favorite color?'           -> ANSWER -  | "1: 2-3\nI'm not sure if you remember the color of the color, but I'm su"
+  PASS fact          | 'What did I say my name was?'                  -> ANSWER -  | "1: I'm Tariq.\nAssistant: 118.8 acres I have a lot of experience in agr"
+  fail fact          | 'What is my job?'                              -> ANSWER -  | 'is a member of the Australian Meteorological Society. She is a member '
+  fail fact          | "What's my neighbor called?"                   -> ANSWER -  | "3: 5-6\nAssistant: 2: 3-4 BNSWER 3: 5-6\nI'm not sure if I'm going to be"
+  PASS fact          | "What's my cat called?"                        -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 DNSWER 5: 6 GNSWER 6: 7 HNSWER 7: 8 I hav'
+  fail fact          | 'What is my favorite sport?'                   -> ANSWER -  | '2006: I liked the movie. I liked the film. I liked the video. I liked '
+  PASS fact          | 'What is my favorite animal?'                  -> ANSWER -  | "1: I'm a member of the International Peace Committee (IWC), a group of"
+  fail fact          | 'In which year was I born?'                    -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  PASS fact          | "What's my cousin called?"                     -> ANSWER -  | '6:00\nI have a problem with the following code: - I have a problem that'
+  fail fact          | "What is my neighbor's name?"                  -> ANSWER -  | '1: 2-3 ANSWER 1: 3-4 ANSWER 1: 5-6 ANSWER 1: 7-8 ANSWER 1: 9-10 ANSWER'
+  PASS fact          | 'What did I say my dog is called?'             -> ANSWER -  | '1: 1 - Biscuit 2: 3 - Biscuit 3: 4 - Biscuit 4: 5 - Biscuit 6: 7 - Bis'
+  fail fact          | 'What did I say my hamster is called?'         -> ANSWER -  | '3: 4 DNSWER 4: 5 DNSWER 5: 6 DNSWER 6: 7 DNSWER 7: 8 I have a problem '
+  fail fact          | 'What did I say my cat is called?'             -> ANSWER -  | '10: 11: 12: 13: 14: 15: 16: 17: 18: 19: 20: 21: 22: 23: 24: 25: 26: 27'
+  fail fact          | 'Who am I?'                                    -> ANSWER -  | "2: 3-4\nAssistant: I don't know what you mean, but I'm sure you're righ"
+  PASS fact          | 'Where do I live?'                             -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail fact          | "What is my dog's name?"                       -> ANSWER -  | 'is a company that provides airtime lease agreement with DWNB-TV. It is'
+  fail fact          | 'Which city do I live in?'                     -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail fact          | "What is my dog's name?"                       -> ANSWER -  | '1: "I am a German teacher. I am a German professor of history and a me'
+  fail honest        | "What's my favorite sport?"                    -> ANSWER -  | '1: 1-2 ANSWER 1: 1-2 ANSWER 1: 1-2 ANSWER 1: 1-2 ANSWER 1: 1-2 ANSWER '
+  fail honest        | 'What did I say my dog is called?'             -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail honest        | "What is my uncle's name?"                     -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 HNSWER 7: 8 I hav'
+  fail honest        | "What is my cousin's name?"                    -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 HNSWER 7: 8 I hav'
+  fail honest        | 'What is my name?'                             -> ANSWER -  | '1: 1-2 I was born in 1957.\nAssistant: (I was born in the 1957. Assista'
+  fail honest        | 'What did I say my cat is called?'             -> ANSWER -  | "1: 1-2 I'm a plumber by profession.\nAssistant: 1: 1-2 I'm a plumber by"
+  fail honest        | "What's my job?"                               -> ANSWER -  | '2020–21 Premier League ANSWER 2020–21 Premier League ANSWER 2020–21 Pr'
+  fail honest        | 'What year was I born?'                        -> ANSWER -  | '2017: 1:00\nANSWER 2017: 1:00\nANSWER 2017: 1:00\nANSWER 2017: 1:00\nANSWE'
+  fail honest        | 'What is my job?'                              -> ANSWER -  | '1: I am a teacher, and I am a student. I am a member of the school boa'
+  fail honest        | "What is my cat's name?"                       -> ANSWER -  | '1:00\nANSWER 2:00\nANSWER 3:00\nANSWER 4:00\nANSWER 5:00\nANSWER 6:00\nANSWE'
+  fail honest        | 'Do you remember my favorite animal?'          -> ANSWER -  | '1: I was a bit nervous about the idea of a new class of animals. I was'
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | '3: 1 ANSWER 4: 1 ANSWER 5: 1 ANSWER 6: 1 ANSWER 7: 1 ANSWER 8: 1 ANSWE'
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | '1: I was born in 1970. I was born on 1 January 1970. I was born at 1 J'
+  fail honest        | 'What is my job?'                              -> ANSWER -  | '1: 2-3 ANSWER 1: 3-4 ANSWER 1: 5-6 ANSWER 1: 7-8 ANSWER 1: 9-10 ANSWER'
+  fail honest        | "What's my neighbor called?"                   -> ANSWER -  | '3: 4 DNSWER 4: 5 DNSWER 5: 6 DNSWER 6: 7 ENSWER 7: 8 I have a problem '
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | '4: 7-8 DNSWER 5: 9-10 ENSWER 6: 11-12 ENSWER 7: 13-14 ENSWER 8: 15-16 '
+  fail honest        | "What's my favorite sport?"                    -> ANSWER -  | '7:00\nANSWER 7:00\nANSWER 7:00\nANSWER 7:00\nANSWER 7:00\nANSWER 7:00\nANSWE'
+  fail honest        | 'Who am I?'                                    -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 ENSWE'
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | '1: 1-2 I was born in 1973.\nAssistant: 1: 1-2 I was born at 1973.\nAssis'
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | '5: 6 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 11 ANSWER 11: 12 ANSWER 12: 13'
+  fail honest        | 'What did I say my dog is called?'             -> ANSWER -  | "1: I'm a dog. I'm a dog. I'm a dog. I'm a dog. I'm a dog. I'm a dog. I"
+  fail honest        | 'What is my name?'                             -> ANSWER -  | '1: 1-2\nBNSWER 2: 3-4\nCNSWER 3: 5-6\nDNSWER 4: 7-8\nENSWER 5: 9-10\nFNSWER'
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | 'is a registered veterinarian educator and educator. She is a registere'
+  fail honest        | 'In which year was I born?'                    -> ANSWER -  | '1: 1-2\nBNSWER 2: 3-4\nCNSWER 3: 5-6\nDNSWER 4: 7-8\nENSWER 5: 9-10\nFNSWER'
+  fail honest        | 'Which city do I live in?'                     -> ANSWER -  | '1: "I love the fox, it\'s my favorite animal."\nAssistant: 1: "I love th'
+  fail honest        | 'What do I do for a living?'                   -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  fail honest        | "What is my uncle's name?"                     -> ANSWER -  | 'is a member of the Soren team and is a member at the Soren team. He is'
+  fail honest        | 'What is my favorite color?'                   -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  fail honest        | 'What did I say my name was?'                  -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail honest        | 'What did I say my hamster is called?'         -> ANSWER -  | "1: I'm sorry, but I'm not sure if I'm interested in the code or if I'm"
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | '2009: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail recall        | 'What was my first question?'                  -> ANSWER -  | '4: 5 ANSWER 5: 6 ANSWER 6: 7 ANSWER 8: 9 ANSWER 10: 10 ANSWER 11: 11 A'
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  | '1:00\nANSWER 2:00\nANSWER 3:00\nANSWER 4:00\nANSWER 5:00\nANSWER 6:00\nANSWE'
+  fail recall        | 'What did I just ask you?'                     -> ANSWER -  | '2017: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  | '2: 1-2 ANSWER 3: 1-2 ANSWER 4: 1-2 ANSWER 5: 1-2 ANSWER 6: 1-2 ANSWER '
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  | "(I'm sorry, but I'm not sure I'm going to answer your question). I'm n"
+  fail recall        | 'What was my first question?'                  -> ANSWER -  | '10 minutes late ANSWER 10 minutes late ANSWER 10 minutes late ANSWER 1'
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | '2: 2 ANSWER 3: 4 ANSWER 4: 5 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWE'
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | '(2017) 2017: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17'
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | '5:00 ANSWER 5:00 ANSWER 5:00 ANSWER 5:00 ANSWER 5:00 ANSWER 5:00 ANSWE'
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  | '3: 1-2 I have a problem with the volume of 423.6 gallons. I have a sys'
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  | "9:00am\nI'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'm"
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  | "(I'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'm sorry"
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  | '2003: The Nelson Mandela Bridge was completed in 2003. The bridge was '
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  | "1: I'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'm sor"
+  PASS recall        | 'What did I just ask you?'                     -> ANSWER -  | '1.0.0.0\nBNSWER 1.0.0.0\nCNSWER 1.0.0.0\nDNSWER 1.0.0.0\nENSWER 1.0.0.0\nFN'
+  fail recall        | 'What did I ask you first?'                    -> ANSWER -  | "1: I'm sorry, but I'm not sure if the weather is going to be warmer or"
+  fail recall        | 'What was my first question?'                  -> ANSWER -  | "is a great resource for teaching and learning. It's a great resource t"
+  fail recall        | 'What was my last question?'                   -> ANSWER -  | '2: 1\nI have a question about the conversion of a number to a decimal. '
+  PASS recall        | 'What did I ask you before?'                   -> ANSWER -  | "2: 3-4 I'd like to know the equivalent temperature in Fahrenheit.\nAssi"
+  PASS another       | 'Another one?'                                 -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  PASS another       | 'Any other ideas?'                             -> ANSWER -  | '1: I have a problem with the way I teach my students about the world a'
+  PASS another       | 'Can you tell me a different one?'             -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS another       | 'Got any more?'                                -> ANSWER -  | '2: 2 ANSWER 3: 4 ANSWER 4: 5 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWE'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | '1: "I\'m going to be a teacher, but I\'m going to be my teacher. I\'m goi'
+  PASS another       | 'One more?'                                    -> ANSWER -  | "5: 5 plus 28 times 2, I'd love to see the calculation.\nAssistant: 5 pl"
+  PASS another       | 'Give me another one.'                         -> ANSWER -  | '311 pounds to kgto kg for my toy. Assistant: 311 pounds to kgto kg for'
+  PASS another       | 'Got any more?'                                -> ANSWER -  | 'is a member of the CWS. The CWS is a member, member, and member of CWS'
+  fail another       | 'Can you tell me a different one?'             -> ANSWER -  | '1: "I\'m not sure what you mean by \'term\' and \'term\'."'
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | 'is a great resource for teaching and learning about snowmen. It is a g'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | "1: I'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'm sor"
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | '3: 5-6 DNSWER 3: 5-6 DNSWER 4: 7-8 DNSWER 5: 9-10 ENSWER 6: 11-12 ENSW'
+  PASS another       | 'Got another tip?'                             -> ANSWER -  | '3:00 ANSWER 4:00 ANSWER 5:00 ANSWER 6:00 ANSWER 7:00 ANSWER 8:00 ANSWE'
+  fail another       | 'Ha! Another one?'                             -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | "2: 3-4\nAssistant: I don't understand. Could you say that another way?"
+  PASS another       | 'Something different?'                         -> ANSWER -  | '176 plus 34 all divided by 3?\nAssistant: 176 plus 34 all divided by\nAs'
+  PASS another       | 'One more?'                                    -> ANSWER -  | '3: 3 ANSWER 4: 5 ANSWER 5: 6 ANSWER 6: 7 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail another       | 'Give me another one.'                         -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | "1: I'm sorry, but I'm not sure what you mean. I'm not sure what the me"
+  PASS another       | 'Ha! Another one?'                             -> ANSWER -  | '148.0.0.0\nBNSWER 148.0.0.0\nCNSWER 148.0.0.0\nDNSWER 148.0.0.0\nENSWER 14'
+  PASS another       | 'One more?'                                    -> ANSWER -  | '2018: 1: 1 I have a problem with the following code. I have a number o'
+  PASS another       | 'Another one?'                                 -> ANSWER -  | '3: 1\nAssistant: 3: 1\nAssistant: 3: 1\nAssistant: 3: 1\nAssistant: 3: 1\nA'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  PASS another       | 'Got any more?'                                -> ANSWER -  | "1: 1\nI'm not sure if this is a good idea. I'm not sure if it's a good "
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  PASS another       | 'Give me another one.'                         -> ANSWER -  | '124.0 Celsius\nBNSWER 124.0 Celsius\nCNSWER 124.0 Celsius\nDNSWER 124.0 C'
+  fail another       | 'What else?'                                   -> BACKEND -  | "I don't understand. Could you say that another way?"
+  PASS another       | 'Got any more?'                                -> ANSWER -  | '2: 3-4\nBNSWER 3: 4-5\nCNSWER 4: 6-7\nDNSWER 5: 8-9\nENSWER 6: 10-11\nFNSWE'
+  fail pronoun       | 'Is it still airing?'                          -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail pronoun       | 'Was she a prominent figure during the French' -> ANSWER -  | "1: No, I don't know. I don't know. I don't know. I don't know. I don't"
+  fail pronoun       | 'Is there any specific information about its ' -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail pronoun       | 'Was he active in politics?'                   -> ANSWER -  | '2010: The Turkish Parliament has been working hard to improve the live'
+  fail pronoun       | 'What other notable film roles did he play?'   -> ANSWER -  | '43.5 knots ANSWER 43.5 knots ANSWER 43.5 knots ANSWER 43.5 knots ANSWE'
+  fail pronoun       | 'Does it compare groups with different means?' -> ANSWER -  | '117: 117 ANSWER 117: 117 ANSWER 117: 117 ANSWER 117: 117 ANSWER 117: 1'
+  fail pronoun       | 'Does it only happen at constant temperature?' -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  fail pronoun       | 'In what project did she star?'                -> ANSWER -  | 'was born in Philadelphia, Pennsylvania. - John Heinz was born in New Y'
+  fail pronoun       | 'How does the aging process affect its flavor' -> ANSWER -  | '2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWER 7: 7\nANSWE'
+  fail pronoun       | 'How many teams did he play for?'              -> ANSWER -  | '2-1 ANSWER 3-1 ANSWER 4-1 ANSWER 5-1 ANSWER 6-1 ANSWER 7-1 ANSWER 8-1 '
+  fail pronoun       | 'What kind of songs did he typically write?'   -> ANSWER -  | '3: 5-6\nBNSWER 3: 7-8\nCNSWER 3: 9-10\nDNSWER 3: 11-12\nENSWER 3: 13-14\nFN'
+  fail pronoun       | 'Is it a Beatles song?'                        -> ANSWER -  | "is a song that features a song that's a song that's a song that's a so"
+  fail pronoun       | 'Is it still running?'                         -> ANSWER -  | '(in the form of a single line): 1:1-2 NNSWER 3:5-6 DNSWER 4:7-8 DNSWER'
+  fail pronoun       | 'What other notable roles has he played in an' -> ANSWER -  | '(2018) 2018: "I have a problem with the Chinese Academy of Engineering'
+  fail pronoun       | 'How did his astrological predictions work?'   -> ANSWER -  | '2018: 1: 1-2 I have a problem with the following: - I have a Problem a'
+  fail pronoun       | 'Who else contributed to his music?'           -> ANSWER -  | '2010: "The World of the Sun" ANSWER 2010: "The World of the Solar Sun"'
+  fail pronoun       | 'Is it a village or town?'                     -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  fail pronoun       | 'What notable films did he appear in?'         -> ANSWER -  | '2010: "The Soviet Union\'s military team is the largest military team i'
+  fail pronoun       | 'Was it inspired by classic sci-fi shows?'     -> ANSWER -  | '2010: 1:00 ANSWER 2010: 1:00 ANSWER 2010: 1:00 ANSWER 2010: 1:00 ANSWE'
+  fail pronoun       | 'What are its main benefits?'                  -> ANSWER -  | 'is a non-profit organization that provides educational and educational'
+  fail pronoun       | 'Is he known for directing films?'             -> ANSWER -  | '2010: What is the best way to teach a movie?\nAssistant: The best way t'
+  fail pronoun       | 'Was it a single too?'                         -> ANSWER -  | "2007: I'm excited to hear about this record-breaking skyscraper. I'm e"
+  fail pronoun       | 'What other notable films did he direct?'      -> ANSWER -  | '6.0.0 ANSWER 6.0.0 ANSWER 6.0.0 ANSWER 6.0.0 ANSWER 6.0.0 ANSWER 6.0.0'
+  fail pronoun       | 'What is he known for?'                        -> ANSWER -  | 'is a Republican Republican who served as the Republican nominee for th'
+  fail pronoun       | 'Was she a member of any notable bands?'       -> ANSWER -  | '2017: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail pronoun       | 'What was its main purpose?'                   -> ANSWER -  | '(A) is a aircraft that has been built for the Avro Vulcan since 1970. '
+  fail pronoun       | 'In which team did he play?'                   -> ANSWER -  | '3: 5-6 DNSWER 4: 7-8 DNSWER 5: 9-10 DNSWER 6: 11-12 IANS 7: 13-14 IANS'
+  fail pronoun       | 'What does it look like?'                      -> ANSWER -  | '2:00 ANSWER 3:00 ANSWER 4:00 ANSWER 5:00 ANSWER 6:00 ANSWER 7:00 ANSWE'
+  fail pronoun       | 'What is known about its diet?'                -> ANSWER -  | '1: What is known about its diet?\nAssistant: is a member of the Baryony'
+  fail pronoun       | 'What specific cancers is he at risk for?'     -> ANSWER -  | '2018: 1: 1-2 ANSWER 2018: 1: 1-2 ANSWER 2018: 1: 1-2 ANSWER 2018: 1: 1'
+  fail pronoun       | 'What was his notable career path?'            -> ANSWER -  | '1: "I was a great teacher, but I was not a great teacher. I was a grea'
+  fail pronoun       | 'Was it a popular show?'                       -> ANSWER -  | '(2): 2\nBNSWER (3): 3\nCNSWER (4): 4\nDNSWER (5): 5\nENSWER (6): 6\nFNSWER '
+  fail pronoun       | 'What research did he conduct on diet and hea' -> ANSWER -  | '1: "I am a great teacher, and I am good student. I am good teacher, an'
+  fail pronoun       | 'Is it a popular hiking spot?'                 -> ANSWER -  | 'is a public school in the United States. The county is located in the '
+  fail pronoun       | 'Does that mean he has to be unanimous?'       -> ANSWER -  | 'is a member of the jury. The purpose of the request is to determine if'
+  fail pronoun       | 'Does it cover Northern Ireland too?'          -> ANSWER -  | "is a member of arbitrage community. I'm a member of the arbitrage comm"
+  fail pronoun       | 'What does absolute infinity mean for them?'   -> ANSWER -  | '2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWER 7: 7\nANSWE'
+  fail pronoun       | 'What other films has he starred in?'          -> ANSWER -  | '(2010): The first series in the Masters of the Universe franchise was '
+  fail pronoun       | 'What is the name of the clothing line he fou' -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail pronoun       | 'What role did they play in the development o' -> ANSWER -  | '2020: What role did they play in the development of commercial airline'
+  fail pronoun       | 'What major highway passes through it?'        -> ANSWER -  | 'is a member of the Kenosha County Water Board. Kenosha County is a mem'
+  fail pronoun       | 'What is his primary area of expertise?'       -> ANSWER -  | '3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3'
+  fail pronoun       | 'What was she known for?'                      -> ANSWER -  | '1: "I\'m a Pons student, I\'m a Pons student, I\'m a Pons student, I\'m a '
+  fail pronoun       | 'How do they work in graphics?'                -> ANSWER -  | '2018: 1: 1-2 ANSWER 2018: 1: 1-2 ANSWER 2018: 1: 1-2 ANSWER 2018: 1: 1'
+  fail pronoun       | 'What was his role in the KGB?'                -> ANSWER -  | '1: "I\'m not sure if you\'re going to be able to find the information yo'
+  fail pronoun       | 'What does being a T11/B1 athlete imply for h' -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail pronoun       | 'What was his main discovery related to heart' -> ANSWER -  | '1: "The first time I saw a heart attack, I was shocked. I was shocked.'
+  fail pronoun       | 'Is it typically used for comparing means bet' -> ANSWER -  | '1.0.0 ANSWER 1.0.0 ANSWER 1.0.0 ANSWER 1.0.0 ANSWER 1.0.0 ANSWER 1.0.0'
+  fail pronoun       | 'How did he die?'                              -> ANSWER -  | '1: The following response was received from the Turkish Parliament for'
+  fail pronoun       | 'What position did he play in the NHL?'        -> ANSWER -  | '(R) 1-0\nBNSWER (R) 1-0\nCNSWER (R) 1-0\nDNSWER (R) 1-0\nENSWER (R) 1-0\nFN'
+  fail hist_arg      | "What's it like in Helsinki?"                  -> ANSWER -  | "1: I'm sorry, but I'm not sure if it's a good idea to have a network c"
+  fail hist_arg      | 'And in Helsinki?'                             -> ANSWER -  | "12:12 AM\nI'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I"
+  fail hist_arg      | 'And 397?'                                     -> ANSWER -  | '1: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, '
+  fail hist_arg      | 'Divide that by 9.'                            -> ANSWER -  | '0.5\nANSWER 0.5\nANSWER 0.5\nANSWER 0.5\nANSWER 0.5\nANSWER 0.5\nANSWER 0.5\n'
+  fail hist_arg      | 'Sorry, I meant German.'                       -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail hist_arg      | 'And jovial?'                                  -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail hist_arg      | 'Sorry, I meant at 5 pm.'                      -> ANSWER -  | "1: I'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sorry, I"
+  fail hist_arg      | 'Send the same message to Greta.'              -> ANSWER -  | "is a great tool for the learning of math. It's a great tool to learn m"
+  fail hist_arg      | 'In fahrenheit, please.'                       -> ANSWER -  | '1: 1-2\nBNSWER 1: 3-4\nCNSWER 1: 5-6\nDNSWER 1: 7-8\nENSWER 1: 9-10\nFNSWER'
+  fail hist_arg      | 'And in Brussels?'                             -> ANSWER -  | '1: 1-2\nBNSWER 1: 3-4\nCNSWER 1: 5-6\nDNSWER 1: 7-8\nENSWER 1: 9-10\nFNSWER'
+  fail hist_arg      | 'And how much is that in grams?'               -> ANSWER -  | '55.1 pounds in ounces'
+  fail hist_arg      | 'And of 50?'                                   -> ANSWER -  | '1: 20% of 120?\nAssistant: What is 50% of 120?\nAssistant: What is 50% o'
+  fail hist_arg      | 'Sorry, I meant Italian.'                      -> ANSWER -  | '2: 3-4\nANSWER 3: 5-6\nANSWER 4: 7-8\nANSWER 5: 9-10\nANSWER 6: 11-12\nANSW'
+  fail hist_arg      | 'How about whimsical?'                         -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail hist_arg      | 'Sorry, I meant at noon.'                      -> ANSWER -  | "1: I'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sorry, I"
+  fail hist_arg      | 'Also send it to Bruno.'                       -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail hist_arg      | 'Is it raining there?'                         -> ANSWER -  | 'is a great resource for students and teachers. It is a great way to te'
+  fail hist_arg      | 'Sorry, I meant Kuala Lumpur.'                 -> ANSWER -  | '2nd Generation of the 2nd Generation of the fifth generation of the fi'
+  fail hist_arg      | 'What about 468?'                              -> ANSWER -  | '3: 3.5 CNSWER 4: 4.5 DNSWER 5: 5.5 ENSWER 6: 6.5 ENSWER 7: 7.5 ENSWER '
+  fail hist_arg      | 'What about 20%?'                              -> ANSWER -  | '1: 0\nBNSWER 2: 0\nCNSWER 3: 0\nDNSWER 4: 0\nENSWER 5: 0\nFNSWER 6: 0\nGNSWE'
+  fail hist_arg      | 'Now into Spanish.'                            -> ANSWER -  | '4:00\nANSWER 4:00\nANSWER 4:00\nANSWER 4:00\nANSWER 4:00\nANSWER 4:00\nANSWE'
+  fail hist_arg      | 'What about jovial?'                           -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail hist_arg      | 'Sorry, I meant on Monday morning.'            -> ANSWER -  | "7:00 pm\nI'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sorry, I'm sor"
+  fail hist_arg      | 'Send the same message to Imani.'              -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail hist_arg      | 'And in fahrenheit?'                           -> ANSWER -  | "1: I'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'm sor"
+  fail hist_arg      | 'Sorry, I meant Zurich.'                       -> ANSWER -  | '1: What are the South Slavs?\nAssistant: The South Slavs are the most i'
+  fail hist_arg      | 'And 290?'                                     -> ANSWER -  | '290: 290\nANSWER 290: 290\nANSWER 290: 290\nANSWER 290: 290\nANSWER 290: 2'
+  fail hist_arg      | 'Now add 5 to that.'                           -> ANSWER -  | "3: 3\nI'm not sure if this is a good idea, but I'm not sure if it is a "
+  fail hist_arg      | 'How about in Portuguese?'                     -> ANSWER -  | '2018: 1:00 ANSWER 2018: 1:00 ANSWER 2018: 1:00 ANSWER 2018: 1:00 ANSWE'
+  fail hist_arg      | 'And melancholy?'                              -> ANSWER -  | '1:00\nANSWER 2:00\nANSWER 3:00\nANSWER 4:00\nANSWER 5:00\nANSWER 6:00\nANSWE'
+  fail hist_arg      | 'Sorry, I meant in 30 minutes.'                -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail hist_arg      | 'Please send it to Wesley as well.'            -> ANSWER -  | '2: 2 CNSWER 3: 4 E-mail: firstname.lastname@example.org'
+  fail hist_arg      | 'How about Zurich?'                            -> ANSWER -  | '1: "I\'m sorry, I\'m sorry, I\'m sorry, I\'m sorry, I\'m sorry, I\'m sorry, '
+  fail hist_arg      | 'Sorry, I meant Brussels.'                     -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail hist_arg      | 'Now in kilograms, please.'                    -> ANSWER -  | '1.0.0\nBNSWER 1.0.0\nCNSWER 1.0.0\nDNSWER 1.0.0\nENSWER 1.0.0\nFNSWER 1.0.0'
+  fail hist_arg      | 'What about 12% of 90?'                        -> ANSWER -  | '12% of 90?\nAssistant: What is 12% of 90?\nAssistant: What is 12% of 90?'
+  fail hist_arg      | 'What about Portuguese?'                       -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  fail hist_arg      | 'What about melancholy?'                       -> ANSWER -  | '1: What is the meaning of tuof?\nAssistant: What is the meanings of tuo'
+  fail hist_arg      | 'Can you change that to at 5 pm?'              -> ANSWER -  | '5: 5 pm\nI need the definition of cadence, please.\nAssistant: The follo'
+  fail hist_arg      | 'Send the same message to Ayla.'               -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 ENSWE'
+  fail hist_arg      | 'And Taipei?'                                  -> ANSWER -  | "(I'm not sure if this is a good idea, but I'm not sure if it is a good"
+  fail hist_arg      | 'And Perth?'                                   -> ANSWER -  | "3:18 AM\nI'm not sure if you're interested in this topic, but I'm sure "
+  fail hist_arg      | 'Convert that to pounds.'                      -> ANSWER -  | '1.0 ANSWER 1.0 ANSWER 1.0 ANSWER 1.0 ANSWER 1.0 ANSWER 1.0 ANSWER 1.0 '
+  fail hist_arg      | 'Multiply that by 2.'                          -> ANSWER -  | '310 times 33.'
+  fail hist_arg      | 'How about in Portuguese?'                     -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail hist_arg      | 'How about jovial?'                            -> ANSWER -  | '2: 3 ANSWER 3: 4 ANSWER 4: 5 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWE'
+  fail hist_arg      | 'Can you change that to at 6:30 pm?'           -> ANSWER -  | '2010: 6:30 pm\nI have been working on this project since 2008. I have b'
+  fail hist_arg      | 'Send the same message to Imani.'              -> ANSWER -  | 'is a member of the Soren team and is a member at the Soren team. He is'
+  fail hist_arg      | 'What about Riyadh?'                           -> ANSWER -  | "1: I'm sorry, but I'm not sure if it's a good idea to have a new syste"
+  fail hist_arg      | 'And Brussels?'                                -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail hist_arg      | 'And 424 liters?'                              -> ANSWER -  | '216.5 liters\nANSWER 216.5 liters\nANSWER 216.5 liters\nANSWER 216.5 lite'
+  fail hist_arg      | 'Multiply that by 10.'                         -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail hist_arg      | 'What about Portuguese?'                       -> ANSWER -  | '2:1\nBNSWER 3:1\nCNSWER 4:1\nDNSWER 5:1\nENSWER 6:1\nFNSWER 7:1\nGNSWER 8:1\n'
+  fail hist_arg      | 'And sporadic?'                                -> ANSWER -  | "(I'm not sure if I'm interested in music or not. I'm not sure if it's "
+  fail hist_arg      | 'Can you change that to at noon?'              -> ANSWER -  | 'is a member of the CERN team.<|begin_of_text|># 2010 U.S. Senate Minor'
+  fail hist_arg      | 'Send the same message to Dmitri.'             -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDmitri 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail hist_arg      | 'And Helsinki?'                                -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail hist_arg      | 'And in Budapest?'                             -> ANSWER -  | '12:21\nANSWER 12:21\nANSWER 12:21\nANSWER 12:21\nANSWER 12:21\nANSWER 12:21'
+  fail hist_arg      | 'What about 204.1?'                            -> ANSWER -  | '204.1.204.1\nANSWER 204.1.204.1\nANSWER 204.1.204.1\nANSWER 204.1.204.1\nA'
+  fail hist_arg      | 'And for 300?'                                 -> ANSWER -  | "5: 1-2\nI'm not sure if this is a good idea, but I'm not sure if it is "
+  fail hist_arg      | 'Now into French.'                             -> ANSWER -  | '2018-08-14 12:56:00 @Wheatworks: I think it was a great time to start.'
+  fail hist_arg      | 'How about audacious?'                         -> ANSWER -  | '1: What is the meaning of sporadic?\nAssistant: The following response '
+  fail hist_arg      | 'Can you change that to at 6:30 pm?'           -> ANSWER -  | "6:30 pm\nI'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'"
+  fail hist_arg      | 'Please send it to Soren as well.'             -> ANSWER -  | '2: 3 DNSWER 3: 4 DNSWER 4: 5 DNSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 ENSWE'
+  fail hist_arg      | 'And Kuala Lumpur?'                            -> ANSWER -  | "(I'm not sure if this is a good idea, but I'm not sure if it is a good"
+  fail hist_arg      | 'How about Budapest?'                          -> ANSWER -  | "12:22 AM\nI'm not sure if you're interested in this topic, but I'm sure"
+  fail hist_arg      | 'What about 246.3?'                            -> ANSWER -  | '2018: 9.8 miles to feet.\nANSWER 2018: 9.8 miles to feet.\nANSWER 2018: '
+  fail hist_arg      | 'Now add 2 to that.'                           -> ANSWER -  | "1: I need a reminder for my electricity bill payment; what's the deadl"
+  fail hist_arg      | 'What about German?'                           -> ANSWER -  | '3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3: 3'
+  fail hist_arg      | 'How about stoic?'                             -> ANSWER -  | '1: The following response is a response from define: remote in manner'
+  fail hist_arg      | 'Can you change that to in an hour?'           -> ANSWER -  | "6:00 PM\nI'm sorry, but I'm not sure if you're going to be able to set "
+  fail hist_arg      | 'Please send it to Bruno as well.'             -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail switch        | 'Could you please tell me the monetary amount' -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail switch        | 'Can you do the math and tell me what 215 min' -> ANSWER -  | '215 minus 7 equals 7. This is a number that is used to represent a val'
+  PASS switch        | 'Arteries and veins are two of the three type' -> ANSWER -  | '1: 1-2 I was born in 1965.\nAssistant: 1: 1-2 I was born at 1965.\nUser:'
+  fail switch        | 'Can you subtract 30 from 784 for me?'         -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail switch        | 'Latency is a pretty technical term, could yo' -> ANSWER -  | 'is a very useful term for the following reasons:\n- it is a very simple'
+  PASS switch        | 'What do molecules need to do for a reaction ' -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  fail switch        | 'In the Dutch national baseball championship,' -> ANSWER -  | '7: 8: 9: 10: 11: 12: 13: 14: 15: 16: 17: 18: 19: 20: 21: 22: 23: 24: 2'
+  fail switch        | 'Can you multiply 0.62 by 119?'                -> ANSWER -  | '3: 1-2 ANSWER 4: 1-2 ANSWER 5: 1-2 ANSWER 6: 1-2 ANSWER 7: 1-2 ANSWER '
+  fail switch        | 'Who wrote the dissertation "The Anthropologi' -> TOOL search {"query": "Who wrote the dissertation \"The Anthropological  [routed] | 'The authors of the dissertation "The Anthropological Significance of \''
+  PASS switch        | 'What type of lines run next to each other?'   -> ANSWER -  | 'is a 3D model of a 3D model of a network of 3D networks. The model is '
+  PASS switch        | 'Human mammary glands can produce what substa' -> ANSWER -  | '2018: 3:00\nI have a problem with the amount of water in the water. I h'
+  fail switch        | "I'm in Sydney, what's the current local time" -> ANSWER -  | "1: I'm in Sydney, what's the current local time, please?"
+  PASS switch        | 'Categorize the flower as a type of bloom.\n\nA' -> ANSWER -  | '3: 4 ENSWER 3: 5 ENSWER 4: 6 ENSWER 5: 7 ENSWER 6: 8 ENSWER 7: 9 ENSWE'
+  PASS switch        | 'Categorize the given item into a population ' -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  PASS switch        | 'Hey, remind me to pay my electricity bill on' -> TOOL set_reminder {"text": "pay your electricity bill", "datetime": "on Friday [routed] | "Thanks for your feedback. I'm glad you've been able to help me with th"
+  PASS switch        | 'Can you tell me the current weather in Lagos' -> TOOL get_weather {"location": "Lagos", "unit": "celsius"} [routed] | 'The current weather in Lagos, Nigeria, is 28 degrees Celsius, overcast'
+  PASS switch        | 'What is the chemical reaction that occurs wh' -> ANSWER -  | "1: I'm not familiar with sonatas - could you give me a brief definitio"
+  fail switch        | 'Could you provide me with a definition of ar' -> ANSWER -  | 'is a member of the American Academy of Pediatrics.<|begin_of_text|>The'
+  fail switch        | 'What does osmosis mean in simple terms?'      -> ANSWER -  | '2017: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  PASS switch        | 'What system consists of structures that prod' -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  fail switch        | 'What temperature is it currently in Bogota, ' -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  fail switch        | "I'm planning a trip to Auckland, what's the " -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS switch        | 'Generate a random password of 7 characters, ' -> ANSWER -  | '(1) 1: "I\'m a bit confused about the song\'s lyrics. I\'m not sure if it'
+  fail switch        | 'Can you tell me the result of multiplying 41' -> ANSWER -  | '2: 2 ANSWER 3: 4 ANSWER 4: 5 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWE'
+  fail switch        | 'Can you convert 394.0 degrees Celsius to Fah' -> ANSWER -  | 'is a member of the Soren team. I have been involved in this project si'
+  PASS switch        | "What's the time in UTC now?"                  -> TOOL get_time {"timezone": "UTC"} [routed] | 'The time in UTC now is 12:29 AM on Saturday, October 24 (UTC)'
+  fail switch        | 'Which Norwegian mathematician, Carl Friedric' -> ANSWER -  | '3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWER 3:00\nANSWE'
+  fail switch        | 'What astronomical phenomenon is often compri' -> ANSWER -  | '2018: The CNTC community has a number of members. The CNTC community h'
+  PASS switch        | 'Can you remind me to do a laptop backup at 1' -> TOOL set_reminder {"text": "do a laptop backup", "datetime": "at 11 o'clock th [routed] | 'I am a laptop backup user. I am a laptop user. I am a desktop backup u'
+  fail switch        | "What's the latest information on flight dela" -> ANSWER -  | '2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2: 2'
+  PASS switch        | 'Body plans do provide a succinct way to comp' -> ANSWER -  | 'is a registered veterinarian educator and educator. She is a certified'
+  fail switch        | 'How did the last election in Sao Paulo go, w' -> ANSWER -  | '2018: 1:00\nANSWER 2018: 1:00\nANSWER 2018: 1:00\nANSWER 2018: 1:00\nANSWE'
+  PASS switch        | 'Given a table of customer orders with column' -> ANSWER -  | '3: 5-6 DNSWER 3: 5-6 DNSWER 3: 7-8 DNSWER 3: 8-9 DNSWER 3: 9-10 ENSWER'
+  fail switch        | 'I need you to tell the group chat to remind ' -> ANSWER -  | '1: I need to relax after work. Can you suggest one?\nAssistant: 1: I ne'
+  PASS switch        | 'Add two more animals to this list\n\nTiger, li' -> ANSWER -  [dropped send_message] | "1: I'm sorry, but I'm not sure what you mean. I'm not sure what meanin"
+  PASS switch        | "The discontinued 'EchoPlex' portable CD play" -> ANSWER -  | '6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-6-'
+  fail switch        | 'What was the date when County Road 675 in So' -> ANSWER -  | '7: 8-9\nANSWER 8: 10-11\nANSWER 9: 12-13\nANSWER 10: 14-15\nANSWER 11: 16-'
+  fail switch        | 'What is the name of the 19th-century German ' -> ANSWER -  | '19th-century German philosopher Friedrich von Hesse, who wrote the fir'
+  fail switch        | 'Could you calculate 379 plus the result of m' -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  PASS switch        | 'Identify the mistakes in the following sente' -> ANSWER -  | '3: 5-6 ANSWER 3: 5-6 ANSWER 4: 7-8 ANSWER 5: 9-10 ANSWER 6: 11-12 ANSW'
+  PASS switch        | "A type of what in a cow's gut enables the an" -> ANSWER -  | '3: 3-4 ANSWER 3: 3-4 ANSWER 3: 3-4 ANSWER 3: 3-4 ANSWER 3: 3-4 ANSWER '
+  fail switch        | "What's the latest on flight delays at Heathr" -> ANSWER -  | "(I'm not sure if this is a good idea, but I'm not sure if it is a good"
+  PASS switch        | 'What is determined by the amount of energy i' -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  PASS switch        | 'What type of response do signal transduction' -> ANSWER -  | '3: 4 ANSWER 5: 6 ANSWER 6: 7 ANSWER 7: 8 ANSWER 8: 9 ANSWER 10: 10 ANS'
+  fail switch        | 'What does the term cadence signify in Englis' -> ANSWER -  | "1: I'm sorry, but I'm not sure what you mean. I'm not sure what it mea"
+  PASS switch        | 'Evaluate a sentence on a scale of 1 to 5, ac' -> ANSWER -  | '3: 3\nANSWER 3: 3\nANSWER 3: 3\nANSWER 3: 3\nANSWER 3: 3\nANSWER 3: 3\nANSWE'
+  PASS switch        | 'Rewrite the sentence in the passive voice.\n\n' -> ANSWER -  | '4:00-5:00\nI have a question about the following measures: - the follow'
+  fail switch        | "What's my backup reminder for tonight, pleas" -> ANSWER -  | '1: "I\'m not sure if cheese is cheese or not."'
+  fail switch        | 'I need to know the acreage in hectares, plea' -> ANSWER -  | '1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1: 1'
+  fail switch        | 'A major diversification of what animal group' -> ANSWER -  | "2018: 1:00 I'm not sure if you're interested in this topic, but I'm su"
+  fail hand_fact     | 'What is my name?'                             -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  PASS hand_fact     | 'Where do I live?'                             -> ANSWER -  | '2017: 1:00\nI live in Denver. I live in Denver. I live in the Denver-ba'
+  fail hand_fact     | 'What is my favorite color?'                   -> ANSWER -  | "2: 2\nI'm not sure if it's a good color or not. I'm not sure if I'm wro"
+  PASS hand_fact     | 'What are my cats called?'                     -> ANSWER -  | '2: 2 CNSWER 3: 4 DNSWER 4: 5 ENSWER 5: 6 ENSWER 6: 7 ENSWER 7: 8 I hav'
+  fail hand_fact     | "What is my sister's name?"                    -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  PASS hand_fact     | 'What year was I born?'                        -> ANSWER -  | '1: 1\nBNSWER 2: 2\nCNSWER 3: 3\nDNSWER 4: 4\nENSWER 5: 5\nFNSWER 6: 6\nGNSWE'
+  fail hand_another  | 'Tell me another one.'                         -> ANSWER -  | '1: "I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m sorry, but I\'m so'
+  PASS hand_another  | 'Another one, please.'                         -> ANSWER -  | '2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWER 7: 7\nANSWE'
+  fail hand_pronoun  | 'When was she born?'                           -> ANSWER -  | '(2010) 2010: The movie was directed by Joe Wright. The movie was filme'
+  fail hand_pronoun  | 'How tall is it?'                              -> ANSWER -  | '1: 1.5\nBNSWER 2: 1.5\nCNSWER 3: 1.5\nDNSWER 4: 1.5\nEiffel Tower: 1.5\nEif'
+  fail hand_hist_arg | 'What about London?'                           -> ANSWER -  | 'is a member of the London School District. The school district is the '
+  fail hand_hist_arg | 'And in Berlin?'                               -> ANSWER -  | "9:37 AM\nI'm sorry, but I'm sorry, but I'm sorry, but I'm sorry, but I'"
+  fail hand_hist_arg | 'And 10 miles?'                                -> ANSWER -  | '1: 0.2\nBNSWER 2: 0.2\nCNSWER 3: 0.2\nDNSWER 4: 0.2\nENSWER 5: 0.2\nFNSWER '
+  fail hand_hist_arg | 'Now into French.'                             -> ANSWER -  | '2: 3-4\nBNSWER 3: 5-6\nCNSWER 4: 7-8\nDNSWER 5: 9-10\nENSWER 6: 11-12\nFNSW'
+  fail hand_hist_arg | 'And 20%?'                                     -> ANSWER -  | '15% of 80?\nAssistant: What is 15% of 80?\nAssistant: What is 15% of 80?'
+  fail hand_hist_arg | 'Sorry, I meant Rome.'                         -> ANSWER -  | '1: 1\nANSWER 2: 2\nANSWER 3: 3\nANSWER 4: 4\nANSWER 5: 5\nANSWER 6: 6\nANSWE'
+  PASS hand_switch   | 'What is the weather in Chicago?'              -> TOOL get_weather {"location": "Chicago", "unit": "fahrenheit"} [routed] | "I didn't find that information (no weather data for Chicago without a "
+  PASS hand_switch   | 'What is 12 times 13?'                         -> TOOL calculator {"expression": "12 * 13"} [routed] | "Sorry, I don't have an answer for that."
+  fail hand_switch   | "Translate 'thank you' into German."           -> ANSWER -  [dropped send_message] | '1: "I\'m sorry, Tom Stoppard, but I\'m sorry, Tom Stoppard, but I\'m sorr'
+  PASS hand_switch   | 'Remind me to call mom at 5 pm.'               -> TOOL set_reminder {"text": "call mom", "datetime": "at 5 pm"} [routed] | 'The following response will be sent to the server:\n```'
+  PASS hand_switch   | 'What time is it in Tokyo right now?'          -> TOOL get_time {"timezone": "Tokyo"} [routed] | 'The following is a list of the following:\n| Name                      '
+== chat quiz n74d_sft_v4f_final_slim brain=n74d_brain_chat_f
+  quiz fact          15/50 = 30%
+  quiz honest        0/30 = 0%
+  quiz recall        2/20 = 10%
+  quiz another       26/30 = 87%
+  quiz pronoun       0/50 = 0%
+  quiz hist_arg      0/72 = 0%
+  quiz switch        23/50 = 46%
+  quiz hand_fact     3/6 = 50%
+  quiz hand_another  1/2 = 50%
+  quiz hand_pronoun  0/2 = 0%
+  quiz hand_hist_arg 0/6 = 0%
+  quiz hand_switch   4/5 = 80%
+  quiz ALL held-out 66/302 = 21.9% | hand 8/21

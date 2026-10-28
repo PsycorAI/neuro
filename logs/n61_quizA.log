@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Write a small Python program with a function that checks whether a str' -> FAIL 'is a Python programming language that provides a way to write Python code in Python. It is a Python programmin'
+    [base/taught] 'Using Python, define a function that checks whether a string is a pali' -> FAIL 'is a Python function that returns a response to a text. It returns a string of 0s and 1s, which are the charac'
+    [base/control] 'Create a Python function that converts a number to a binary string (ca' -> FAIL 'is a Python implementation of the `read()` function. It returns a string of bytes, which are stored in a binar'
+    [base/control] 'Write a Python function that checks whether a number is a power of two' -> FAIL 'is a Python function that returns the response of a response to a given response.'
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  brain py: 15.73M adapter params, merged into 48 layers
+    [py/taught] 'Write a small Python program with a function that checks whether a str' -> PASS 'def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]'
+    [py/taught] 'Using Python, define a function that checks whether a string is a pali' -> PASS 'def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]'
+    [py/control] 'Create a Python function that converts a number to a binary string (ca' -> FAIL 'def to_binary(n):\n    return [n for n in str(n if n % 2 == 0]'
+    [py/control] 'Write a Python function that checks whether a number is a power of two' -> FAIL 'def is_power_of_two(n):\n    return n % 2 == 0'
+  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)

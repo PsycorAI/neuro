@@ -1,0 +1,16 @@
+[sftreh 10-11 23:14:49] train on GPU 1 exit=0 | step 725 | 11.9M tok | loss 2.214 | spike 0.100 | 2,979 tok/s | vram 2.7/9.9 GB
+[sftreh 10-11 23:14:49] evals on models/checkpoints/sft_v4_reh13/step_0000733.pt
+  r25-evals sft_v4_reh13               C=1024 T=2048 | chunk1   54.59 (mem off   55.69) | chunks2+   52.34 (off   54.93, Δ +2.59) | first64 of 2+   69.18 (off   92.52, Δ +23.34) vs first64 of chunk1   91.47
+  r25-evals sft_v4_reh13               C=1024 N8: 100.0  99.2  99.2  99.2 (mem off  14.8) | N32: 100.0 100.0  98.4 100.0 (mem off   5.5)
+  r25-evals sft_v4_reh13               C=1024 | K1 in@0  86.5 | K1 in@200  58.9 | K1 x@0   8.3 | K1 x@200   9.4 | K1 x@0 off   6.8 | K1 in@0 para  51.0 | K1 x@0 para   5.7 | K4 in@0  13.0 | K4 in@200  12.5 | K4 x@0   7.3 | K4 x@200   7.3 | K4 x@0 off   6.8 | K4 in@0 para  12.5 | K4 x@0 para   6.8
+  r25-evals sft_v4_reh13                 C=1024 xcopy top1 | none  31.5 | in-window  40.8 | beyond (memory)  24.6 | beyond mem-off  23.1
+  recall           sft_v4_reh13 |  100% |  100% |  100% |  100% |  100%
+  haystack (gap 0/64/192/440) sft_v4_reh13   N8: 100.0  99.6  96.5  90.6 | N32: 100.0  99.2  99.6 100.0
+  sft_v4_reh13                 energy-v2 | weight reads 68.6M of 129.6M (53%) | compute only 5.57x (116 vs 648 uJ) | +SRAM fetch 3.17x (316 vs 1000 uJ) | +DRAM fetch 1.91x (22091 vs 42152 uJ)
+  tool_eval mode_acc             0.915         0.915
+  tool_eval tool_acc             0.959         0.959
+  tool_eval args_exact           0.803         0.803
+  tool_eval refuse_acc           0.833         0.833
+  tool_eval halluc               0.000         0.040
+  tool_eval (n=200 gold-TOOL + gold-ANSWER mixed; halluc lower is better)
+[sftreh 10-11 23:47:33] evals DONE

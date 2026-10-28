@@ -1,0 +1,34 @@
+[n84 10-27 10:07:08] start (cap 6 GB): temp/n84_conv_train.py --arm c9 --convert 2,3,4,5,7,8,9,10,12 --s1_tokens 3e6 --s2_tokens 8e6
+[n74_capped] n84_conv_train.py: CUDA cap 6.0 GB
+[10:07:41] c9 s1 step 0/366 | rel-mse 1.4711 | 468 tok/s | vram 3.5 GB
+[10:09:42] c9 s1 step 50/366 | rel-mse 0.2466 | 3,018 tok/s | vram 3.7 GB
+[10:11:38] c9 s1 step 100/366 | rel-mse 0.1863 | 3,254 tok/s | vram 3.7 GB
+[10:13:26] c9 s1 step 150/366 | rel-mse 0.1880 | 3,417 tok/s | vram 3.7 GB
+[10:16:21] c9 s1 step 200/366 | rel-mse 0.1807 | 3,063 tok/s | vram 3.7 GB
+[10:18:53] c9 s1 step 250/366 | rel-mse 0.1719 | 2,985 tok/s | vram 3.7 GB
+[10:21:03] c9 s1 step 300/366 | rel-mse 0.1674 | 3,011 tok/s | vram 3.7 GB
+[10:23:19] c9 s1 step 350/366 | rel-mse 0.1573 | 3,011 tok/s | vram 3.7 GB
+[10:23:56] c9 s1 step 365/366 | rel-mse 0.1466 | 3,021 tok/s | vram 3.7 GB
+[10:24:05] c9 s2 step 0/976 | kd 0.187 | ce 3.133 | answer ce 8.197 | 901 tok/s | vram 5.0 GB
+[10:30:35] c9 s2 step 50/976 | kd 0.206 | ce 3.791 | answer ce 3.871 | 1,047 tok/s | vram 5.3 GB
+[10:37:13] c9 s2 step 100/976 | kd 0.268 | ce 3.795 | answer ce 2.054 | 1,038 tok/s | vram 5.3 GB
+[10:43:36] c9 s2 step 150/976 | kd 0.271 | ce 3.795 | answer ce 1.502 | 1,048 tok/s | vram 5.3 GB
+[10:50:05] c9 s2 step 200/976 | kd 0.255 | ce 3.756 | answer ce 1.273 | 1,050 tok/s | vram 5.3 GB
+[10:56:39] c9 s2 step 250/976 | kd 0.251 | ce 3.755 | answer ce 0.805 | 1,048 tok/s | vram 5.3 GB
+[11:03:11] c9 s2 step 300/976 | kd 0.238 | ce 3.827 | answer ce 0.657 | 1,047 tok/s | vram 5.3 GB
+[11:09:46] c9 s2 step 350/976 | kd 0.230 | ce 3.699 | answer ce 0.525 | 1,046 tok/s | vram 5.3 GB
+[11:16:13] c9 s2 step 400/976 | kd 0.231 | ce 3.777 | answer ce 0.615 | 1,047 tok/s | vram 5.3 GB
+[11:22:45] c9 s2 step 450/976 | kd 0.219 | ce 3.703 | answer ce 0.382 | 1,047 tok/s | vram 5.3 GB
+[11:29:22] c9 s2 step 500/976 | kd 0.212 | ce 3.778 | answer ce 0.412 | 1,045 tok/s | vram 5.3 GB
+[11:35:52] c9 s2 step 550/976 | kd 0.215 | ce 3.711 | answer ce 0.506 | 1,046 tok/s | vram 5.3 GB
+[11:42:23] c9 s2 step 600/976 | kd 0.210 | ce 3.645 | answer ce 0.357 | 1,046 tok/s | vram 5.3 GB
+[11:48:58] c9 s2 step 650/976 | kd 0.201 | ce 3.684 | answer ce 0.397 | 1,045 tok/s | vram 5.3 GB
+[11:55:30] c9 s2 step 700/976 | kd 0.191 | ce 3.713 | answer ce 0.352 | 1,045 tok/s | vram 5.3 GB
+[12:01:54] c9 s2 step 750/976 | kd 0.193 | ce 3.672 | answer ce 0.208 | 1,047 tok/s | vram 5.3 GB
+[12:08:20] c9 s2 step 800/976 | kd 0.189 | ce 3.656 | answer ce 0.195 | 1,048 tok/s | vram 5.3 GB
+[12:14:45] c9 s2 step 850/976 | kd 0.191 | ce 3.660 | answer ce 0.285 | 1,048 tok/s | vram 5.3 GB
+[12:21:10] c9 s2 step 900/976 | kd 0.185 | ce 3.704 | answer ce 0.265 | 1,049 tok/s | vram 5.3 GB
+[12:27:45] c9 s2 step 950/976 | kd 0.184 | ce 3.634 | answer ce 0.162 | 1,049 tok/s | vram 5.3 GB
+[12:30:58] c9 s2 step 975/976 | kd 0.182 | ce 3.736 | answer ce 0.210 | 1,049 tok/s | vram 5.3 GB
+[12:31:02] c9 saved /home/glenn/projects/neuro/models/checkpoints/n84_c9/final.pt (2.12 h stage 2)
+[n84 10-27 12:31:19] exit 0

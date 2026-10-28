@@ -1,0 +1,13 @@
+[apply 10-13 06:10:00] start, embedding decay 0.1
+v4_cloud.yaml ok, 119 keys, adamw_decay_overrides {'embed.weight': 0.1}
+v4_cloud_conv.yaml ok, 127 keys, adamw_decay_overrides {'embed.weight': 0.1}
+files installed
+last step: step 99800 | 3270.2M tok | loss 3.549 | 36,973 tok/s | vram 13.7/111.6 GB
+SIGINT -> trainer 19108
+[apply 10-13 06:10:01] done; run_v4 restarts the trainer in ~1-3 min
+[apply 10-13 14:51:48] start, embedding decay 0.02
+v4_cloud.yaml ok, 119 keys, adamw_decay_overrides {'embed.weight': 0.02}
+v4_cloud_conv.yaml ok, 127 keys, adamw_decay_overrides {'embed.weight': 0.02}
+last step: step 134800 | 4417.1M tok | loss 3.676 | 37,153 tok/s | vram 13.7/111.5 GB
+SIGINT -> trainer 23816
+[apply 10-13 14:51:48] done; run_v4 restarts the trainer in ~1-3 min

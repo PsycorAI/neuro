@@ -1,0 +1,299 @@
+# logs/ KEEP list 2026-10-22 19:34 (temp/n73_logs_keep.py): 298 entries, 7.9 MB
+500m_v3.txt	memory neuro_500m_v3_launched.md
+5090_seq.lock	doc to-do-archive.html
+ad_chain.done.d/	memory neuro_posttrain_v3_prep_2026_09_13.md
+alert_watch.heartbeat	modified in the last 3 days
+alerts.log	modified in the last 3 days
+amb_sweep.log	doc to-do-archive.html
+archive/	doc journey.html
+b4debug_5090.log	doc to-do-archive.html
+bake_full_sdm_30m.txt	doc to-do-archive.html
+baseline_transformer_363m.log	memory neuro_transformer_baseline_363m.md
+bench_rc3_hometest.log	kept temp/pre_r26v_hook.sh
+brain_chat.log	modified in the last 3 days
+brain_chat_quiz.log	modified in the last 3 days
+brain_chat_quiz_base.log	modified in the last 3 days
+brain_chat_summary.log	modified in the last 3 days
+brain_chat_try1_B4.log	modified in the last 3 days
+brain_fdc13.log	v4 / v4f / comparison / current run family
+brain_fdc13_data.log	v4 / v4f / comparison / current run family
+brain_fdc13_quiz.log	v4 / v4f / comparison / current run family
+brain_fdc13r.log	v4 / v4f / comparison / current run family
+brain_fdc13r3.log	v4 / v4f / comparison / current run family
+brain_fdc13r3_quiz.log	v4 / v4f / comparison / current run family
+brain_fdc13r_quiz.log	v4 / v4f / comparison / current run family
+brain_fdc1b.log	v4 / v4f / comparison / current run family
+brain_fdc1b180.log	v4 / v4f / comparison / current run family
+brain_fdc1b_A.log	v4 / v4f / comparison / current run family
+brain_fdc1b_A_summary.log	v4 / v4f / comparison / current run family
+brain_fdc_B4.log	v4 / v4f / comparison / current run family
+brain_fdc_B4_quiz.log	v4 / v4f / comparison / current run family
+brain_fdc_B4_summary.log	v4 / v4f / comparison / current run family
+brain_fdc_C.log	modified in the last 3 days
+brain_fdc_C_quiz.log	open by a running process
+brain_fdc_C_summary.log	modified in the last 3 days
+brain_fdc_F.log	v4 / v4f / comparison / current run family
+brain_fdc_F_quiz.log	v4 / v4f / comparison / current run family
+brain_fdc_F_summary.log	v4 / v4f / comparison / current run family
+brain_mech13.log	v4 / v4f / comparison / current run family
+brain_mech13_data.log	v4 / v4f / comparison / current run family
+brain_mech13_quiz.log	v4 / v4f / comparison / current run family
+brain_py13.log	v4 / v4f / comparison / current run family
+brain_py13_data.log	v4 / v4f / comparison / current run family
+brain_py13_quiz.log	v4 / v4f / comparison / current run family
+brain_py13r.log	v4 / v4f / comparison / current run family
+brain_py13r2.log	v4 / v4f / comparison / current run family
+brain_py13r2_quiz.log	v4 / v4f / comparison / current run family
+brain_py13r_quiz.log	v4 / v4f / comparison / current run family
+brain_py1b.log	v4 / v4f / comparison / current run family
+brain_py1b_A.log	v4 / v4f / comparison / current run family
+brain_py1b_A_summary.log	v4 / v4f / comparison / current run family
+brain_py_B2.log	v4 / v4f / comparison / current run family
+brain_py_B2_quiz.log	v4 / v4f / comparison / current run family
+brain_py_B2_summary.log	v4 / v4f / comparison / current run family
+brain_py_B4.log	v4 / v4f / comparison / current run family
+brain_py_B4_quiz.log	v4 / v4f / comparison / current run family
+brain_py_B4_summary.log	v4 / v4f / comparison / current run family
+brain_py_C.log	modified in the last 3 days
+brain_py_C_quiz.log	modified in the last 3 days
+brain_py_C_summary.log	modified in the last 3 days
+brain_py_F.log	v4 / v4f / comparison / current run family
+brain_py_F_quiz.log	v4 / v4f / comparison / current run family
+brain_py_F_summary.log	v4 / v4f / comparison / current run family
+bs_screen.log	doc to-do-archive.html
+build_corpus_v4.log	doc to-do-archive.html
+chain_5080_overnight_0721.txt	memory neuro_lora_at_30m_plateau.md
+cleanup_2026_09_25.moved.txt	memory neuro_code_review_2026_09_25.md
+cloud/	doc HANDOFF_2026_10_12.md
+demo_cache.json	modified in the last 3 days
+demo_outbox.json	modified in the last 3 days
+demo_regress.log	doc HANDOFF_2026_10_14b.md
+demo_regress_sft_v4_B2_s1832.log	kept temp/n63_x1_gate.sh
+demo_regress_sft_v4_reh222d.log	doc HANDOFF_2026_10_14b.md
+demo_server.log	modified in the last 3 days
+depth_screen.done.d/	kept temp/run_5080_depth.sh
+depth_screen.lock	kept temp/run_5080_depth.sh
+depth_screen.log	doc to-do-archive.html
+diag_gap_positions.log	doc to-do-archive.html
+diag_gap_positions_hyblev4.log	doc to-do-archive.html
+diag_gap_positions_hybrid.log	doc to-do-archive.html
+diag_haystack_pathways.log	doc to-do-archive.html
+diag_key_similarity.log	doc to-do-archive.html
+diag_neuron_selectivity.log	doc to-do-archive.html
+diag_spike_levels.log	doc to-do-archive.html
+e123_diag.log	doc HANDOFF_2026_10_09.md
+eval_attn_window.log	doc to-do-archive.html
+flagship_v2_cosine_363m.log	doc to-do-archive.html
+flagship_v3_363m.log	doc to-do-archive.html
+g4_5090.log	doc to-do-archive.html
+gap_5090.log	doc to-do-archive.html
+gap_queue.log	modified in the last 3 days
+gap_queue_gpu0.lock	v4 / v4f / comparison / current run family
+gap_queue_gpu1.lock	v4 / v4f / comparison / current run family
+gap_screen.lock	kept temp/run_5080_gap_p0a.sh
+gap_screen.log	doc to-do-archive.html
+gaterank_screen.log	doc to-do-archive.html
+gpu1.lock	open by a running process
+gpu1.want	modified in the last 3 days
+haystack_recall_r4.log	doc to-do-archive.html
+headwd_chain.log	doc to-do-archive.html
+honest_screen.log	memory neuro_bf16_scan_future_leak_2026_09_27.md
+indepwin_screen.done.d/	kept temp/run_5080_indepwin.sh
+indepwin_screen.lock	kept temp/run_5080_indepwin.sh
+indepwin_screen.log	doc to-do-archive.html
+kg_r17fg_l4.log	doc to-do-archive.html
+leakfree_reeval.log	doc to-do-archive.html
+lifexact_screen.log	doc to-do-archive.html
+lifx_screen.log	doc to-do-archive.html
+loglinear_stageB_chain.log	doc to-do-archive.html
+lr_sweep_chain.log	doc to-do-archive.html
+mem1b.log	doc journey.html
+mqarwide_window_chain.log	memory neuro_mqar_range_30m_2026_09_03.md
+n57_drive_pull.log	modified in the last 3 days
+n57_gen_profile.log	doc HANDOFF_2026_10_12b.md
+n57_gen_speed.log	doc HANDOFF_2026_10_12b.md
+n57_pull.log	kept temp/n57_pin.sh
+n58_battery.log	doc to-do-archive.html
+n58_brainon.log	doc HANDOFF_2026_10_12c.md
+n58_ckpt_health.lock	modified in the last 3 days
+n58_ckpt_health.log	modified in the last 3 days
+n58_decay_ab.log	doc HANDOFF_2026_10_12c.md
+n58_ghost.log	doc HANDOFF_2026_10_12c.md
+n58_probe_evals.log	doc to-do-archive.html
+n58_revive.log	doc to-do-archive.html
+n59_brainrep.log	doc to-do-archive.html
+n59_brainrep2.log	doc to-do-archive.html
+n59_brainrep3.log	doc to-do-archive.html
+n59_embed.log	doc to-do-archive.html
+n59_g2.log	doc to-do-archive.html
+n59_health.log	doc to-do-archive.html
+n59_health_1b.log	doc to-do-archive.html
+n59_k90.log	doc to-do-archive.html
+n59_mask.log	doc HANDOFF_2026_10_13.md
+n59_rev.log	doc HANDOFF_2026_10_13.md
+n60_blockoff.log	doc to-do-archive.html
+n60_health159.log	doc to-do-archive.html
+n60_health_hist.log	doc to-do-archive.html
+n60_prune.log	doc to-do-archive.html
+n60_r166.log	doc HANDOFF_2026_10_13b.md
+n60_verify.log	doc to-do-archive.html
+n60_verify_159k.log	doc to-do-archive.html
+n60_wake.log	doc to-do-archive.html
+n61_5080.log	doc to-do-archive.html
+n61_avgk.log	doc to-do-archive.html
+n61_drive_seen.log	kept temp/n61_drive_pin_loop.sh
+n61_lawa.log	doc to-do-archive.html
+n61_pin.log	doc HANDOFF_2026_10_14.md
+n61_quizA.log	kept temp/queue_5080_n61.sh
+n61_quizB.log	kept temp/queue_5080_n61.sh
+n61_quizB180.log	kept temp/queue_5080_n61d.sh
+n61_quizB2.log	kept temp/queue_5080_n61.sh
+n61_quizC2_health.log	kept temp/queue_5080_n61d.sh
+n61_quizC2_py.log	kept temp/queue_5080_n61d.sh
+n61_quizC_health.log	kept temp/queue_5080_n61.sh
+n61_quizC_py.log	kept temp/queue_5080_n61.sh
+n61_seedprep.log	doc to-do-archive.html
+n61_sft.log	doc HANDOFF_2026_10_14.md
+n61_tf.log	doc HANDOFF_2026_10_14.md
+n62_autostop.log	doc HANDOFF_2026_10_14b.md
+n62_avgtest.log	doc HANDOFF_2026_10_14b.md
+n62_brain_data.log	kept temp/n62_brain_data.sh
+n62_chain0.log	open by a running process
+n62_curve.log	doc HANDOFF_2026_10_14b.md
+n62_final.log	doc HANDOFF_2026_10_16.md
+n62_mkbase.log	doc HANDOFF_2026_10_16.md
+n62_pin_all.log	kept temp/n62_pin_all.sh
+n62_probe.log	doc HANDOFF_2026_10_14b.md
+n62_sft.log	kept temp/n62_sft.sh
+n63_b2_ecal.log	kept temp/n63_b2_ecal.sh
+n63_sk_rescore.log	doc HANDOFF_2026_10_15.md
+n63_x1_gate.log	doc to-do.html
+n64_engine_test.log	doc to-do-archive.html
+n64_graph_engine.log	doc HANDOFF_2026_10_15b.md
+n64_graphdiff.log	doc to-do-archive.html
+n64_lendep_gpu.log	doc to-do-archive.html
+n64_lendep_mod.log	doc to-do-archive.html
+n65_avg_spacing.log	doc HANDOFF_2026_10_16.md
+n65_wise.log	doc to-do-archive.html
+n66_bias_sft_v4_B4_slim.log	doc HANDOFF_2026_10_16b.md
+n66_bias_sft_v4_final_slim.log	doc HANDOFF_2026_10_16b.md
+n67_cmp.log	doc comparison_150m_spiking_vs_transformer_2026_10_18.html
+n68_bench.log	doc HANDOFF_2026_10_18.md
+n69_bench.log	modified in the last 3 days
+n69_screen.log	modified in the last 3 days
+n72_brains_chat.out	modified in the last 3 days
+n72_bucket.log	modified in the last 3 days
+n72_chat_brain.out	modified in the last 3 days
+n72_chat_teacher.log	modified in the last 3 days
+n72_hist_quiz.log	modified in the last 3 days
+n72_hist_quiz_proto.log	modified in the last 3 days
+n72_hist_quiz_v1.log	modified in the last 3 days
+n72_hist_quiz_v2.log	modified in the last 3 days
+n72_merge_chat.log	modified in the last 3 days
+n72_merge_chat_quiz.log	modified in the last 3 days
+n73_chain.log	modified in the last 3 days
+n73_merge_tries.log	modified in the last 3 days
+n73t_off.log	modified in the last 3 days
+n73t_on.log	modified in the last 3 days
+night_5090.log	doc to-do-archive.html
+opd_gpu_smoke.log	doc journey.html
+overnight_recall_SINGLE.log	doc to-do-archive.html
+overnight_recall_chain.log	doc to-do-archive.html
+p4_gate_2seed_B256.log	memory neuro_composed_recipe_confirmed_2026_08_07.md
+pause_5080.log	kept temp/pause_5080.sh
+phase0a_clamp_sweep.log	doc to-do-archive.html
+posttrain_gen.log	kept temp/run_5080_posttrain_gen.sh
+posttrain_screen.done.d/	kept temp/run_5080_posttrain_screen.sh
+posttrain_screen.log	kept temp/run_5080_posttrain_screen.sh
+pre_r26v_hook.log	kept temp/queue_5090_convsmoke.sh
+probe_1b.log	doc to-do-archive.html
+prof_p_c0.log	doc to-do-archive.html
+prof_p_t4.log	doc to-do-archive.html
+r17_5090.log	doc to-do-archive.html
+r26c_13L_H6_chunk1024_150m.log	v4 / v4f / comparison / current run family
+r26d_13L_RC_conv_150m.log	v4 / v4f / comparison / current run family
+r26e_13L_H6_chunk1024_xlate_150m.log	v4 / v4f / comparison / current run family
+r26f_13L_H6_chunk1024_rand128_150m.log	v4 / v4f / comparison / current run family
+r26g2_13L_RC2_conv_llamakd_150m.log	v4 / v4f / comparison / current run family
+r26g_13L_RC_conv_llamakd_150m.log	v4 / v4f / comparison / current run family
+r26h_13L_RC_hola64_150m.log	v4 / v4f / comparison / current run family
+r26i_13L_RC2_hola_rand128_150m.log	v4 / v4f / comparison / current run family
+r26j_13L_RC2_conv_150m.log	v4 / v4f / comparison / current run family
+r26k_13L_RC2_hola_seed1_150m.log	v4 / v4f / comparison / current run family
+r26l_13L_RC2_conv_sc20frz_120M_150m.log	v4 / v4f / comparison / current run family
+r26m_13L_RC2_hola256_150m.log	v4 / v4f / comparison / current run family
+r26n_13L_RC2_xlate_150m.log	v4 / v4f / comparison / current run family
+r26o_13L_RC3_conv_llamakd_150m.log	v4 / v4f / comparison / current run family
+r26p_13L_RC3_headwd_150m.log	v4 / v4f / comparison / current run family
+r26q_13L_RC3_resume10k_150m.log	v4 / v4f / comparison / current run family
+r26r_13L_RC3_seed1_150m.log	v4 / v4f / comparison / current run family
+r26s_13L_H6_seed1_150m.log	v4 / v4f / comparison / current run family
+r26s_13L_RC3_x20_150m.log	v4 / v4f / comparison / current run family
+r26t_13L_H6_chunk1024_seed1_150m.log	v4 / v4f / comparison / current run family
+r26t_13L_RC3_resume10k_fix_150m.log	v4 / v4f / comparison / current run family
+r26u_13L_RC3_conv_llamakd_s1_150m.log	v4 / v4f / comparison / current run family
+r26v_13L_RC3_gap20_x20_150m.log	v4 / v4f / comparison / current run family
+r26w_13L_RC3_headwd03_150m.log	v4 / v4f / comparison / current run family
+r26x_13L_RC3_headwd01_150m.log	v4 / v4f / comparison / current run family
+r26y_13L_RC3_kdonly_150m.log	v4 / v4f / comparison / current run family
+r26z_13L_RC3_tok32k_150m.log	v4 / v4f / comparison / current run family
+r27a_13L_tfmr_dense_150m.log	v4 / v4f / comparison / current run family
+r27b_13L_tfmr_llamakd_150m.log	v4 / v4f / comparison / current run family
+r27c_13L_tfmr_dense_s1_150m.log	v4 / v4f / comparison / current run family
+r27d_13L_tfmr_llamakd_s1_150m.log	v4 / v4f / comparison / current run family
+r27e_13L_RC3_conv_llamakd_clean_150m.log	v4 / v4f / comparison / current run family
+r27h_13L_tfmr_dense_lrx05_150m.log	v4 / v4f / comparison / current run family
+r27h_13L_tfmr_dense_lrx2_150m.log	v4 / v4f / comparison / current run family
+r27h_13L_tfmr_dense_lrx2_150m.log.dead_1017	v4 / v4f / comparison / current run family
+r27i_13L_tfmr_llamakd_lrx05_150m.log	v4 / v4f / comparison / current run family
+recall_base_flagship_split.log	memory neuro_transformer_baseline_363m.md
+recall_base_headtohead_fixed.log	doc to-do-archive.html
+recall_orpo_probe_RERUN_2026_09_14.log	memory neuro_posttrain_v3_prep_2026_09_13.md
+recall_placement.log	memory neuro_phase1_attnratio_finding.md
+recall_rangeonly_SPLITREPLAY.log	doc to-do-archive.html
+run_v4.log	kept temp/n57_memtest.sh
+scorecard.jsonl	doc to-do-archive.html
+scorecard_r17fg_l4.log	doc to-do-archive.html
+scorecard_r19a_l3.log	doc to-do-archive.html
+scorecard_r19d.log	doc to-do-archive.html
+screen_loglinear_30m.log	memory neuro_loglinear_stageA_kernel_2026_08_28.md
+screen_mqarwide_30m.log	memory neuro_mqar_range_30m_2026_09_03.md
+screen_n69_lr100.log	modified in the last 3 days
+screen_n69_lr140.log	modified in the last 3 days
+screen_n69_lr200.log	modified in the last 3 days
+screen_n69_wu006_lr10.log	modified in the last 3 days
+screen_n69_wu006_lr14.log	modified in the last 3 days
+sepbw.log	doc HANDOFF_2026_10_11.md
+sft_v4_B2.log	doc HANDOFF_2026_10_14b.md
+sft_v4_B3.log	doc HANDOFF_2026_10_15.md
+sft_v4_X1.log	doc HANDOFF_2026_10_15b.md
+sft_v4_dense_speed.log	kept temp/queue_5090_n58sftspeed.sh
+sft_v4_reh13.log	doc to-do-archive.html
+sft_v4_reh13_evals.log	doc HANDOFF_2026_10_12.md
+sft_v4_reh13_tool_eval.log	doc demo_v4_plan_2026_10_12.md
+sft_v4_reh13_v2tr_toolresult_eval.log	doc to-do-archive.html
+sftab_screen.log	doc to-do-archive.html
+sftab_tooleval.log	doc to-do-archive.html
+simpo_30m_smoke.txt	memory neuro_simpo_switch.md
+smoke_n67_tfmr.log	kept temp/n67_smoke.sh
+speed1b.log	doc HANDOFF_2026_10_11.md
+speed1b_prof_dense.log	doc to-do-archive.html
+speedsplit_5090.log	doc to-do-archive.html
+step3_267m_s0.log	memory neuro_step3_divergence_2026_08_04.md
+stream_eval_baseline.log	doc to-do-archive.html
+stream_eval_long.log	doc to-do-archive.html
+tfmrfix_screen.log	doc to-do-archive.html
+v3_chain.log	doc to-do-archive.html
+v3_posttrain.done.d/	doc journey.html
+v3_posttrain.log	doc to-do-archive.html
+v4_reh.log	kept temp/queue_5080_reh.sh
+v4_reh_conv.log	kept temp/queue_5080_reh.sh
+v4_smoke1b.log	doc to-do-archive.html
+v4_smoke1b_conv.log	kept temp/queue_5090_smoke1b.sh
+v4_smoke1b_fail1.log	doc to-do-archive.html
+v4std_dense.log	open by a running process
+v4tf_dense_n68_stopped_1019.log	v4 / v4f / comparison / current run family
+vast_bench_2026_10_04/	doc to-do-archive.html
+width_screen.log	doc to-do-archive.html
+width_screen.status	memory neuro_width_reprobe_launched_2026_09_22.md
+widthprobe.report	doc to-do-archive.html

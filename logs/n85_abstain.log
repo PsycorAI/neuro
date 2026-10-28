@@ -1,0 +1,13 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  70%|███████   | 140/199 [00:00<00:00, 1378.50it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1093.95it/s]
+== abstain locomo: 1531 answerable, 446 unanswerable, 56 s
+bm25     AUROC  43.4   mean conf answerable 10.806 / unanswerable 11.883
+dense    AUROC  53.7   mean conf answerable 0.712 / unanswerable 0.706
+psy      AUROC  54.5   mean conf answerable 0.385 / unanswerable 0.363
+exit 0 (abstain.py locomo)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  52%|█████▏    | 103/199 [00:00<00:00, 1012.00it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1028.77it/s]
+== abstain locomo: 1531 answerable, 446 unanswerable, 17 s
+bm25     AUROC  43.4   mean conf answerable 10.806 / unanswerable 11.883
+dense    AUROC  53.7   mean conf answerable 0.712 / unanswerable 0.706
+psy      AUROC  54.6   mean conf answerable 0.385 / unanswerable 0.363
+psy_who  AUROC  60.3   mean conf answerable 0.371 / unanswerable 0.324
+exit 0 (abstain.py locomo)

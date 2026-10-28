@@ -1,0 +1,19 @@
+[n83 10-27 06:24:26] start: temp/n83_eval.py n83_lm_v3 --out logs/n83_eval_n83_lm_v3.json
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+set A memory ON  (cue hits / chat hits of 5):
+       0: 5/5 |   600: 5/3 |  1000: 4/2 |  1500: 4/3 |  2000: 3/3 |  3000: 2/0 |  4000: 3/1 |  6000: 2/1 |  8000: 2/1
+     e.g. 0: [('Clara.\n### Response', "Your sister's name is Clara.\n### Instruc"), ('Biscuit.', 'Your dog is called Biscuit.\n### Instruct'), ('4719', 'Your locker code is 4719.\n### Response:')]
+     e.g. 1500: [('Clara Barton. She', "Your sister's name is Clara.\n\n### Instru"), ('Biscuits and', 'Your dog is called Biscuits.\n### Instruc'), ('4719', 'Your locker code is 4719.<|begin_of_text')]
+     e.g. 3000: [('Lisbona,', "Your sister's name is Lisbona Dee.\n### I"), ('Biscuits.', 'Your dog is called Biscayne.\n### Instruc'), ('47AD6', 'Your locker code is 47AD6.\n### Instructi')]
+     e.g. 8000: [('Lisbona,', "My sister's name is Lunae.\n### Instructi"), ('Biscuitsne', 'Your dog is called Biscuitssefuer.'), ('471st', 'Your locker code is 478011.\n### Instruct')]
+set A memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+set B memory ON  (cue hits / chat hits of 5):
+       0: 5/5 |   600: 5/4 |  1000: 2/1 |  1500: 2/1 |  2000: 2/2 |  3000: 1/1 |  4000: 1/1 |  6000: 0/1 |  8000: 1/0
+     e.g. 0: [('Ambrose.\n###', "Your uncle's name is Ambrose.\n### Respon"), ('Thumper.', 'Your rabbit is called Thumper.\n### Instr'), ('6182.', 'Your bank code is 6182.\n### Response:\nOK')]
+     e.g. 1500: [('Ambrose, and', "I don't know.\n### Instruction:\nWhat is m"), ('Thumper Carbon', 'Your rabbit is called Thumper.\n\n### Inst'), ('7192', 'Your bank code is 71927.\n### Instruction')]
+     e.g. 3000: [('Kevin Harvick', "My uncle's name is David.\n\n### Instructi"), ('Thumper C', 'Your rabbit is called Thumper.\n### Instr'), ('53AD0', 'Your bank code is 4567.\n### Instruction:')]
+     e.g. 8000: [('Michael Jordan, and', "Your uncle's name is Michael Koppescah."), ('Thumper R', 'Your rabbit is called Thumpa.\n### Instru'), ('199', 'Your bank code is 55901.\n### Instruction')]
+set B memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+memtest (synthetic pairs, cross-chunk): memory on 20/20, off 0
+eval time 2.3 min
+[n83 10-27 06:27:38] exit 0

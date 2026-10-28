@@ -1,0 +1,31 @@
+step() wall 6.36 ms | bare replay 5.92 ms | GPU kernel time 5.59 ms in 2368 kernels | weights 2.22 GB -> 2.31 ms at 960 GB/s
+   1.525 ms/step      50 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.914 ms/step      17 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.526 ms/step     247 calls/step  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{la
+   0.307 ms/step     188 calls/step  void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl
+   0.194 ms/step     253 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase
+   0.169 ms/step     214 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*
+   0.142 ms/step      98 calls/step  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::
+   0.129 ms/step     148 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::AbsFunctor<c10::BFloat16>, std::array<char*, 2ul
+   0.111 ms/step       2 calls/step  void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_
+   0.098 ms/step      12 calls/step  void at::native::sbtopk::gatherTopK<float, unsigned int, 2, false>(at::cuda::detail::TensorInfo<float const, u
+   0.095 ms/step      24 calls/step  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(int, float, 
+   0.083 ms/step      12 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.080 ms/step      12 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true
+   0.069 ms/step      84 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10:
+spike-code stats stripped: 74
+step() wall 5.45 ms | bare replay 5.12 ms | GPU kernel time 4.87 ms in 1775 kernels | weights 2.22 GB -> 2.31 ms at 960 GB/s
+   1.526 ms/step      50 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.916 ms/step      17 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.283 ms/step      99 calls/step  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{la
+   0.168 ms/step     214 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*
+   0.141 ms/step      98 calls/step  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::
+   0.111 ms/step       2 calls/step  void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_
+   0.099 ms/step      12 calls/step  void at::native::sbtopk::gatherTopK<float, unsigned int, 2, false>(at::cuda::detail::TensorInfo<float const, u
+   0.095 ms/step      24 calls/step  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(int, float, 
+   0.084 ms/step      12 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+   0.081 ms/step     105 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase
+   0.081 ms/step      12 calls/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float, float, false, true
+   0.074 ms/step      74 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::AbsFunctor<c10::BFloat16>, std::array<char*, 2ul
+   0.068 ms/step      84 calls/step  void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10:
+   0.068 ms/step      40 calls/step  void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl

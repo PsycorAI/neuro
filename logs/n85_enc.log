@@ -1,0 +1,45 @@
+exit 143 (s1a)
+DONE
+s1a: 16.6M params, cfg {'d': 384, 'layers': 4}
+step 1000/12336 loss 0.5831 cos 0.2046 kl 0.3785 | val cos 0.8002 nbr@10 0.317 | spikes nz 0.50 lr 1.97e-03 105s
+step 2000/12336 loss 0.4382 cos 0.1491 kl 0.2891 | val cos 0.8343 nbr@10 0.404 | spikes nz 0.51 lr 1.87e-03 207s
+step 3000/12336 loss 0.3787 cos 0.1380 kl 0.2407 | val cos 0.8495 nbr@10 0.443 | spikes nz 0.52 lr 1.72e-03 311s
+step 4000/12336 loss 0.3332 cos 0.1263 kl 0.2069 | val cos 0.8612 nbr@10 0.472 | spikes nz 0.52 lr 1.52e-03 411s
+step 5000/12336 loss 0.2967 cos 0.1159 kl 0.1809 | val cos 0.8690 nbr@10 0.491 | spikes nz 0.53 lr 1.29e-03 514s
+step 6000/12336 loss 0.3837 cos 0.1444 kl 0.2393 | val cos 0.8757 nbr@10 0.504 | spikes nz 0.53 lr 1.04e-03 622s
+step 7000/12336 loss 0.2809 cos 0.1051 kl 0.1758 | val cos 0.8813 nbr@10 0.516 | spikes nz 0.54 lr 7.90e-04 722s
+step 8000/12336 loss 0.2539 cos 0.1081 kl 0.1458 | val cos 0.8852 nbr@10 0.526 | spikes nz 0.54 lr 5.50e-04 816s
+step 9000/12336 loss 0.2451 cos 0.0976 kl 0.1475 | val cos 0.8880 nbr@10 0.532 | spikes nz 0.54 lr 3.40e-04 905s
+step 10000/12336 loss 0.2523 cos 0.1088 kl 0.1435 | val cos 0.8903 nbr@10 0.539 | spikes nz 0.54 lr 1.72e-04 996s
+step 11000/12336 loss 0.2351 cos 0.0944 kl 0.1406 | val cos 0.8912 nbr@10 0.542 | spikes nz 0.54 lr 5.74e-05 1090s
+step 12000/12336 loss 0.2264 cos 0.0968 kl 0.1297 | val cos 0.8915 nbr@10 0.542 | spikes nz 0.55 lr 3.68e-06 1177s
+step 12336/12336 loss 0.2250 cos 0.0923 kl 0.1328 | val cos 0.8915 nbr@10 0.543 | spikes nz 0.55 lr 3.24e-11 1208s
+saved /home/glenn/projects/neuro/models/psymem/enc_s1a.pt
+exit 0 (s1a)
+DONE
+s1b: 28.5M params, cfg {'d': 512, 'layers': 6}
+exit 143 (s1b)
+DONE
+s1b: 28.5M params, cfg {'d': 512, 'layers': 6}
+step 1000/18504 loss 0.5637 cos 0.1949 kl 0.3689 | val cos 0.8068 nbr@10 0.334 | spikes nz 0.49 lr 1.99e-03 180s
+step 2000/18504 loss 0.4129 cos 0.1434 kl 0.2694 | val cos 0.8402 nbr@10 0.419 | spikes nz 0.49 lr 1.94e-03 356s
+step 3000/18504 loss 0.3590 cos 0.1316 kl 0.2274 | val cos 0.8559 nbr@10 0.453 | spikes nz 0.49 lr 1.87e-03 526s
+step 4000/18504 loss 0.3151 cos 0.1193 kl 0.1958 | val cos 0.8673 nbr@10 0.481 | spikes nz 0.49 lr 1.78e-03 688s
+step 5000/18504 loss 0.2894 cos 0.1115 kl 0.1779 | val cos 0.8754 nbr@10 0.502 | spikes nz 0.50 lr 1.66e-03 836s
+step 6000/18504 loss 0.3704 cos 0.1369 kl 0.2336 | val cos 0.8809 nbr@10 0.515 | spikes nz 0.50 lr 1.52e-03 995s
+step 7000/18504 loss 0.2631 cos 0.0992 kl 0.1639 | val cos 0.8871 nbr@10 0.527 | spikes nz 0.51 lr 1.37e-03 1149s
+step 8000/18504 loss 0.2375 cos 0.1015 kl 0.1360 | val cos 0.8917 nbr@10 0.537 | spikes nz 0.51 lr 1.21e-03 1299s
+step 9000/18504 loss 0.2396 cos 0.0920 kl 0.1477 | val cos 0.8958 nbr@10 0.546 | spikes nz 0.52 lr 1.04e-03 1452s
+step 10000/18504 loss 0.2390 cos 0.0994 kl 0.1396 | val cos 0.8991 nbr@10 0.555 | spikes nz 0.52 lr 8.74e-04 1596s
+step 11000/18504 loss 0.2110 cos 0.0850 kl 0.1260 | val cos 0.9026 nbr@10 0.561 | spikes nz 0.52 lr 7.08e-04 1745s
+step 12000/18504 loss 0.2101 cos 0.0857 kl 0.1245 | val cos 0.9047 nbr@10 0.567 | spikes nz 0.52 lr 5.50e-04 1892s
+step 13000/18504 loss 0.2119 cos 0.0920 kl 0.1199 | val cos 0.9073 nbr@10 0.572 | spikes nz 0.53 lr 4.06e-04 2037s
+step 14000/18504 loss 0.1872 cos 0.0855 kl 0.1018 | val cos 0.9088 nbr@10 0.576 | spikes nz 0.53 lr 2.79e-04 2184s
+step 15000/18504 loss 0.1829 cos 0.0771 kl 0.1058 | val cos 0.9100 nbr@10 0.580 | spikes nz 0.53 lr 1.72e-04 2329s
+step 16000/18504 loss 0.1712 cos 0.0743 kl 0.0970 | val cos 0.9107 nbr@10 0.581 | spikes nz 0.53 lr 8.91e-05 2478s
+step 17000/18504 loss 0.1741 cos 0.0871 kl 0.0870 | val cos 0.9111 nbr@10 0.583 | spikes nz 0.53 lr 3.25e-05 2623s
+step 18000/18504 loss 0.1658 cos 0.0855 kl 0.0803 | val cos 0.9113 nbr@10 0.583 | spikes nz 0.53 lr 3.67e-06 2771s
+step 18504/18504 loss 0.1801 cos 0.0854 kl 0.0947 | val cos 0.9113 nbr@10 0.584 | spikes nz 0.53 lr 1.44e-11 2847s
+saved /home/glenn/projects/neuro/models/psymem/enc_s1b.pt
+exit 0 (s1b)
+DONE

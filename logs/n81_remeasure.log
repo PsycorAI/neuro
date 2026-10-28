@@ -1,0 +1,115 @@
+[n81 10-26 12:25:14] gpu-energy 5080 session e (v4f models/checkpoints/v4std_dense/step_0201463.pt, lag 0.095)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    356.1 tok/s |   465.80 mJ/tok total (464.92-466.91) |   346.02 active
+  gpu-energy v4f_dec@512  |    350.1 tok/s |   476.84 mJ/tok total (457.87-488.17) |   351.55 active
+  gpu-energy v4f_dec@2048 |    329.6 tok/s |   498.78 mJ/tok total (493.91-499.81) |   367.40 active
+  gpu-energy v4f_dec@8192 |    265.7 tok/s |   585.03 mJ/tok total (577.29-595.39) |   423.72 active
+  gpu-energy v4f_dec@32768 |    150.9 tok/s |   984.38 mJ/tok total (967.12-1001.80) |   699.50 active
+  gpu-energy v4_dec@256   |    428.0 tok/s |   321.64 mJ/tok total (311.18-325.68) |   221.21 active
+  gpu-energy v4_dec@512   |    428.8 tok/s |   328.27 mJ/tok total (322.49-333.97) |   226.45 active
+  gpu-energy v4_dec@2048  |    432.0 tok/s |   323.38 mJ/tok total (317.11-332.32) |   226.51 active
+  gpu-energy v4_dec@8192  |    434.2 tok/s |   328.31 mJ/tok total (318.35-328.34) |   227.32 active
+  gpu-energy v4_dec@32768 |    436.1 tok/s |   325.05 mJ/tok total (323.58-337.77) |   229.35 active
+[n81 10-26 12:33:44] gpu-energy 5080 session f (v4f models/checkpoints/v4std_dense/step_0201463.pt, lag 0.095)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    356.5 tok/s |   468.07 mJ/tok total (462.04-468.85) |   346.07 active
+  gpu-energy v4f_dec@512  |    352.5 tok/s |   470.80 mJ/tok total (468.55-472.69) |   348.14 active
+  gpu-energy v4f_dec@2048 |    329.3 tok/s |   496.86 mJ/tok total (489.50-505.63) |   364.21 active
+  gpu-energy v4f_dec@8192 |    266.8 tok/s |   584.19 mJ/tok total (579.35-608.97) |   425.67 active
+  gpu-energy v4f_dec@32768 |    151.1 tok/s |   983.04 mJ/tok total (977.82-995.97) |   697.87 active
+  gpu-energy v4_dec@256   |    434.8 tok/s |   323.51 mJ/tok total (319.64-330.93) |   223.36 active
+  gpu-energy v4_dec@512   |    436.2 tok/s |   327.24 mJ/tok total (325.33-331.44) |   230.21 active
+  gpu-energy v4_dec@2048  |    437.1 tok/s |   328.12 mJ/tok total (315.67-328.31) |   227.86 active
+  gpu-energy v4_dec@8192  |    434.2 tok/s |   327.45 mJ/tok total (324.25-331.21) |   227.27 active
+  gpu-energy v4_dec@32768 |    433.9 tok/s |   323.83 mJ/tok total (322.23-325.59) |   224.93 active
+
+== n81 NVIDIA GeForce RTX 5080: decode mJ per word, lag-shifted instant power, mean of 2 sessions | current table
+     256: v4    530 (531 / 529, 431/s) | v4f    800 (801 / 799, 356/s) | v4f / v4 1.51x | n79: v4 538 v4f 818 = 1.52x
+     512: v4    534 (535 / 533, 432/s) | v4f    808 (809 / 807, 351/s) | v4f / v4 1.51x | n79: v4 541 v4f 863 = 1.60x
+    2048: v4    526 (527 / 526, 435/s) | v4f    853 (853 / 853, 329/s) | v4f / v4 1.62x | n79: v4 537 v4f 867 = 1.61x
+    8192: v4    532 (531 / 532, 434/s) | v4f    997 (994 / 999, 266/s) | v4f / v4 1.88x | n79: v4 541 v4f 1015 = 1.87x
+   32768: v4    532 (533 / 532, 435/s) | v4f   1661 (1660 / 1661, 151/s) | v4f / v4 3.12x | n79: v4 540 v4f 1684 = 3.12x
+[n81 10-26 12:41:37] stopping v4f (checkpoint save)
+SIGINT sent to 130669, waiting for the save ...
+logs/v4std_dense.log:step 201900 | 6615.9M tok | loss 2.533 | 11,300 tok/s | vram 13.5/27.0 GB
+logs/v4std_dense.log:  saved /home/glenn/projects/neuro/models/checkpoints/v4std_dense/step_0201991.pt
+v4f stopped. Safe to restart. Last ckpt: models/checkpoints/v4std_dense/step_0201991.pt
+samples 3678 (6.0 ms apart)
+  up   step   52.2 ->  449.1 W | 10% at    +25 ms | 50% at   +125 ms | 90% at   +125 ms
+  down step   62.8 ->  449.1 W | 10% at   +142 ms | 50% at   +142 ms | 90% at    +29 ms
+  up   step   62.8 ->  454.2 W | 10% at    +25 ms | 50% at   +127 ms | 90% at   +127 ms
+  down step   62.5 ->  454.2 W | 10% at   +119 ms | 50% at   +119 ms | 90% at    +24 ms
+  up   step   62.5 ->  457.6 W | 10% at    +20 ms | 50% at   +121 ms | 90% at   +121 ms
+  down step   68.8 ->  457.6 W | 10% at   +119 ms | 50% at   +119 ms | 90% at    +18 ms
+[n81 10-26 12:43:32] 5090 instant-power delay (median of 50% points): 0.121 s
+[n81 10-26 12:43:32] kernel check (cuDNN called directly)
+== L   2048: graph step   1.817 ms (  550 words/s) | mem / SM clock now 15001 / 2542 MHz
+    58.2%    1.048 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+    23.9%    0.431 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+    10.8%    0.194 ms/step  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1x1_kernel0_0
+     1.3%    0.024 ms/step  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_copy_index_select_mea
+     1.1%    0.020 ms/step  void cudnn::fusion::lean_reduction_kernel<false, false, false>(void*, float*, float*, float*, float*, float co
+     0.8%    0.014 ms/step  void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, __nv_bfloat
+     0.6%    0.011 ms/step  triton_poi_fused__unsafe_view_index_copy_split_transpose_view_2
+     0.6%    0.011 ms/step  triton_poi_fused__unsafe_view_mul_silu_4
+== L   8192: graph step   2.191 ms (  456 words/s) | mem / SM clock now 15001 / 2542 MHz
+    48.4%    1.050 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bflo
+    25.8%    0.560 ms/step  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1x1_kernel0_0
+    19.9%    0.430 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, float, float, float, fal
+     1.1%    0.023 ms/step  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_copy_index_select_mea
+[n81 10-26 12:44:42] gpu-energy 5090 session g (v4f models/checkpoints/v4std_dense/step_0201991.pt)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    575.8 tok/s |   703.65 mJ/tok total (696.81-704.89) |   382.61 active
+  gpu-energy v4f_dec@512  |    577.0 tok/s |   691.65 mJ/tok total (687.28-697.28) |   374.97 active
+  gpu-energy v4f_dec@2048 |    536.2 tok/s |   738.92 mJ/tok total (735.27-743.67) |   396.19 active
+  gpu-energy v4f_dec@8192 |    448.4 tok/s |   863.60 mJ/tok total (852.29-869.93) |   450.35 active
+  gpu-energy v4f_dec@32768 |    267.8 tok/s |  1391.39 mJ/tok total (1384.50-1394.45) |   698.85 active
+  gpu-energy v4_dec@256   |    631.3 tok/s |   535.21 mJ/tok total (534.42-537.45) |   242.34 active
+  gpu-energy v4_dec@512   |    630.9 tok/s |   538.57 mJ/tok total (535.60-541.20) |   246.10 active
+  gpu-energy v4_dec@2048  |    631.0 tok/s |   536.60 mJ/tok total (532.19-537.27) |   240.92 active
+  gpu-energy v4_dec@8192  |    629.3 tok/s |   532.16 mJ/tok total (528.85-544.44) |   243.48 active
+  gpu-energy v4_dec@32768 |    631.4 tok/s |   537.45 mJ/tok total (537.34-538.23) |   243.24 active
+[n81 10-26 12:52:56] gpu-energy 5090 session h (v4f models/checkpoints/v4std_dense/step_0201991.pt)
+  gpu-energy v4f decode step: compile True, SDPA SDPBackend.CUDNN_ATTENTION
+  gpu-energy v4 decode step: torch.compile (fused)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@256  |    570.7 tok/s |   702.88 mJ/tok total (700.89-708.30) |   385.01 active
+  gpu-energy v4f_dec@512  |    571.4 tok/s |   700.02 mJ/tok total (686.05-701.72) |   376.97 active
+  gpu-energy v4f_dec@2048 |    531.9 tok/s |   742.74 mJ/tok total (739.50-744.80) |   400.76 active
+  gpu-energy v4f_dec@8192 |    445.8 tok/s |   862.27 mJ/tok total (859.73-872.60) |   453.31 active
+  gpu-energy v4f_dec@32768 |    266.9 tok/s |  1405.18 mJ/tok total (1388.42-1406.01) |   713.59 active
+  gpu-energy v4_dec@256   |    625.7 tok/s |   539.25 mJ/tok total (538.60-540.63) |   246.37 active
+  gpu-energy v4_dec@512   |    627.9 tok/s |   538.74 mJ/tok total (536.18-551.28) |   249.02 active
+  gpu-energy v4_dec@2048  |    627.1 tok/s |   536.99 mJ/tok total (528.75-537.45) |   242.20 active
+  gpu-energy v4_dec@8192  |    629.1 tok/s |   537.50 mJ/tok total (533.52-537.89) |   245.96 active
+  gpu-energy v4_dec@32768 |    628.1 tok/s |   538.29 mJ/tok total (537.88-541.43) |   249.44 active
+[n81 10-26 13:00:31] restarting v4f
+next 5090:
+until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 #
+started n62_chain_guard.sh
+started watchdog_tps.sh
+--- running:
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+1130 bash temp/n74_pin_v4f.sh
+1133 bash temp/n76_kd_server_rearm.sh
+135840 bash temp/n62_chain_guard.sh
+135845 bash temp/n62_chain.sh 0
+135860 bash temp/queue_5090_n69_std1b_v2.sh 0
+135939 bash temp/watchdog_tps.sh
+135916 /home/glenn/projects/bdh/venv/bin/python src/train_gpu.py --config temp/v4std_dense_s4.yaml --device cu
+
+== n81 NVIDIA GeForce RTX 5090: decode mJ per word, lag-shifted instant power, mean of 2 sessions | current table
+     256: v4    550 (547 / 553, 629/s) | v4f    820 (820 / 821, 573/s) | v4f / v4 1.49x | n79: v4 553 v4f 861 = 1.56x
+     512: v4    553 (553 / 553, 629/s) | v4f    806 (806 / 805, 574/s) | v4f / v4 1.46x | n79: v4 555 v4f 892 = 1.61x
+    2048: v4    546 (545 / 548, 629/s) | v4f    851 (849 / 853, 534/s) | v4f / v4 1.56x | n79: v4 546 v4f 1056 = 1.93x
+    8192: v4    549 (547 / 550, 629/s) | v4f    980 (978 / 982, 447/s) | v4f / v4 1.79x | n79: v4 546 v4f 1805 = 3.30x
+   32768: v4    552 (552 / 552, 630/s) | v4f   1549 (1543 / 1554, 267/s) | v4f / v4 2.81x | n79: v4 550 v4f 4748 = 8.64x
+LAG5090=0.121

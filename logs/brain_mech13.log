@@ -1,0 +1,48 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13/step_0000733.pt (0.01B tok)
+LoRA: wrapped 48 layers (r=32, alpha=64), 4718592 adapter params (2.44% of 193.2M) trainable
+optimizer: AdamW (LoRA adapters only, 4718592 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 200 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/mech/study.jsonl: 1822 tool pairs {'brain': 1467, 'tool_absent': 44, 'tool': 211, 'answer': 100} -> encoded 1822 (bad 0, skipped 0)
+  TOTAL encoded examples: 1822
+arch=spiking params=188.53M device=cuda | per_step_tok=8192 | total_steps≈610 | warmup=30
+
+step 20 | 0.2M tok | loss 1.986 | spike 0.093 | 2,124 tok/s | vram 1.0/5.8 GB
+step 40 | 0.3M tok | loss 1.476 | spike 0.095 | 2,274 tok/s | vram 1.0/5.8 GB
+step 60 | 0.5M tok | loss 0.768 | spike 0.094 | 2,498 tok/s | vram 1.0/5.8 GB
+step 80 | 0.7M tok | loss 2.803 | spike 0.100 | 2,457 tok/s | vram 1.1/5.8 GB
+step 100 | 0.8M tok | loss 1.726 | spike 0.102 | 2,713 tok/s | vram 1.1/5.8 GB
+step 120 | 1.0M tok | loss 0.413 | spike 0.105 | 2,749 tok/s | vram 1.0/5.8 GB
+step 140 | 1.1M tok | loss 0.820 | spike 0.100 | 2,682 tok/s | vram 1.0/5.8 GB
+step 160 | 1.3M tok | loss 1.112 | spike 0.096 | 2,645 tok/s | vram 1.0/5.8 GB
+step 180 | 1.5M tok | loss 0.491 | spike 0.095 | 2,711 tok/s | vram 0.9/5.8 GB
+step 200 | 1.6M tok | loss 0.176 | spike 0.104 | 2,601 tok/s | vram 1.0/5.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_mech13/step_0000200.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### 2021\n### 2022\n### 2023\n### 2024\n### 2025\n### 2026\n### 202'
+step 220 | 1.8M tok | loss 0.189 | spike 0.104 | 2,148 tok/s | vram 0.9/5.8 GB
+step 240 | 2.0M tok | loss 0.243 | spike 0.099 | 2,542 tok/s | vram 0.9/5.8 GB
+step 260 | 2.1M tok | loss 0.253 | spike 0.099 | 2,481 tok/s | vram 1.0/5.8 GB
+step 280 | 2.3M tok | loss 0.172 | spike 0.101 | 2,524 tok/s | vram 0.9/5.8 GB
+step 300 | 2.5M tok | loss 0.109 | spike 0.109 | 2,734 tok/s | vram 1.0/5.8 GB
+step 320 | 2.6M tok | loss 0.133 | spike 0.102 | 2,672 tok/s | vram 1.0/5.8 GB
+step 340 | 2.8M tok | loss 0.165 | spike 0.106 | 2,609 tok/s | vram 1.0/5.8 GB
+step 360 | 2.9M tok | loss 0.107 | spike 0.107 | 2,874 tok/s | vram 1.0/5.8 GB
+step 380 | 3.1M tok | loss 0.071 | spike 0.107 | 2,701 tok/s | vram 1.0/5.8 GB
+step 400 | 3.3M tok | loss 0.040 | spike 0.102 | 2,574 tok/s | vram 0.9/5.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_mech13/step_0000400.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe French word "dinner" is a common noun, and it means to move or move or move from one place to another. It is a common noun, and it is often used to describe'
+step 420 | 3.4M tok | loss 0.279 | spike 0.113 | 2,351 tok/s | vram 1.0/5.8 GB
+step 440 | 3.6M tok | loss 0.072 | spike 0.107 | 2,364 tok/s | vram 1.0/5.8 GB
+step 460 | 3.8M tok | loss 0.112 | spike 0.105 | 2,331 tok/s | vram 0.9/5.8 GB
+step 480 | 3.9M tok | loss 0.032 | spike 0.103 | 2,372 tok/s | vram 0.9/5.8 GB
+step 500 | 4.1M tok | loss 0.245 | spike 0.104 | 2,330 tok/s | vram 1.0/5.8 GB
+step 520 | 4.3M tok | loss 0.048 | spike 0.104 | 2,355 tok/s | vram 1.0/5.8 GB
+step 540 | 4.4M tok | loss 0.027 | spike 0.104 | 2,309 tok/s | vram 0.9/5.8 GB
+step 560 | 4.6M tok | loss 0.046 | spike 0.107 | 2,339 tok/s | vram 1.0/5.8 GB
+step 580 | 4.8M tok | loss 0.032 | spike 0.103 | 2,361 tok/s | vram 1.0/5.8 GB
+step 600 | 4.9M tok | loss 0.809 | spike 0.108 | 2,482 tok/s | vram 1.1/5.8 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_mech13/step_0000600.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nFrance\n### 1785\n### 1785\n### 1785\n### 1785\n### 1785\n### 1785\n### 1785\n### 178'
+  saved /home/glenn/projects/neuro/models/checkpoints/brain_mech13/step_0000611.pt
+done: 5.0M tok in 0.56h

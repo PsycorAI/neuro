@@ -1,0 +1,25 @@
+[OK] 180 foods (189 candidates) x 3 nutrients -> 3600 study + 3600 replay lines, 1080 quiz questions (180 control)
+  e.g. Tell me the protein in 100 g of raw eggplant. -> 1 grams of protein per 100 grams.
+  e.g. What is the calorie content of 100 g of raw spinach? -> 23 kcal of energy per 100 grams.
+  e.g. 100 grams of raw new zealand spinach contains how many carbs? -> 2.5 grams of carbohydrate per 100 grams.
+  foods: raw tamarinds, raw eggplant, raw frog legs, raw ginger root, raw oyster mushrooms, raw orange tomatoes, raw drumstick leaves, raw strawberries, raw tomatillos, raw pomegranates, raw abiyuch, raw lime juice, raw welsh onions, raw longans
+[OK] brain_fdc13r.yaml: {'sft_init': 'sft_v4_reh13_v2tr', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 13300000, 'ckpt_every': 200, 'gen_check_every': 200, 'log_every': 20}
+== brain_fdc13r training 01:29
+== brain_fdc13r quiz 02:58
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz health       taught  74.7% (n=150) | control   5.3% (n=150)
+== brain_fdc13r brain ON tool score 03:19
+[OK] merged_brain_fdc13r: brain_fdc13r merged into 48 layers of sft_v4_reh13_v2tr -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_fdc13r/step_0000001.pt
+  constrained brain_fdc13r  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.992 args_exact=0.828 refuse_acc=0.910 say_ok=1.000  (1368s)
+[OK] 47 verified solutions in 30 families (2 control) -> 2700 study + 5400 replay lines, 114 quiz requests (24 control)
+  e.g. Write a Python function that returns the average of a list of numbers (call it mean). -> 'def mean(nums):\n    return sum(nums) / len(nums)'
+  longest solution: 290 chars
+[OK] brain_py13r2.yaml: {'sft_init': 'sft_v4_reh13_v2tr', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/python_r2/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 9000000, 'ckpt_every': 200, 'gen_check_every': 200, 'log_every': 20}
+== brain_py13r2 training 03:43
+== brain_py13r2 quiz 04:45
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)
+== brain_py13r2 brain ON tool score 05:28
+[OK] merged_brain_py13r2: brain_py13r2 merged into 48 layers of sft_v4_reh13_v2tr -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_py13r2/step_0000001.pt
+  constrained brain_py13r2  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.992 args_exact=0.877 refuse_acc=0.910 say_ok=1.000  (1361s)
+== done 05:52

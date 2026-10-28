@@ -1,0 +1,41 @@
+[n77 10-24 20:19:06] start (v4f ref models/checkpoints/v4std_dense/step_0160500.pt)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_nl_recall.py", line 117, in <module>
+    lg = fwd(m, x, abl).float()[torch.arange(len(seqs)), last.cuda()].cpu()
+         ^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/temp/n77_nl_recall.py", line 68, in fwd
+    lg = m(x.cuda(), ablate_memory=abl)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1693, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/hybrid_attn.py", line 459, in forward_sequence
+    z = self._block(xc.reshape(B_ * (T_ + pad) // C, C, D_)).reshape(B_, T_ + pad, D_)[:, :T_]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/hybrid_attn.py", line 440, in _block
+    y = x_seq + self._attn(self.norm_attn(x_a))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/hybrid_attn.py", line 343, in _attn
+    att = self._topk_weights(q, k, w=w if 0 < w < T else 0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/../src/hybrid_attn.py", line 374, in _topk_weights
+    return torch.softmax(s.masked_fill(s < kth, float("-inf")), dim=-1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB. GPU 0 has a total capacity of 15.92 GiB of which 3.57 GiB is free. Process 368394 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 12.74 GiB allowed; Of the allocated memory 10.39 GiB is allocated by PyTorch, and 592.35 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n77 10-24 20:20:19] done rc=0
+[n77 10-24 20:21:45] start (v4f ref models/checkpoints/v4std_dense/step_0160500.pt)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  nlrecall v4_base        chunk | ppl chunk1  16.39 chunks2+  16.04 first64of2  19.57 | K1 0->200  91.7 | K1 900->1100   9.5 | K1 900->1100 off   7.9 | K1 600->1500   8.9 | K1 600->1500 off   6.8 | K1 0->1500  10.0 | K1 0->1500 off   8.9 | K1 0->3000   7.3 | K1 0->3000 off   6.8 | K4 0->200  29.7 | K4 900->1100   6.3 | K4 900->1100 off   4.2 | K4 600->1500   6.3 | K4 600->1500 off   6.3 | K4 0->1500   8.4 | K4 0->1500 off   7.4 | K4 0->3000   7.3 | K4 0->3000 off   5.7
+  nlrecall v4_base        slide | ppl chunk1  16.39 chunks2+  15.73 first64of2  15.87 | K1 0->200  91.7 | K1 900->1100  91.0 | K1 900->1100 off  90.5 | K1 600->1500  39.5 | K1 600->1500 off  38.9 | K1 0->1500   6.8 | K1 0->1500 off   7.9 | K1 0->3000   6.8 | K1 0->3000 off   6.8 | K4 0->200  29.7 | K4 900->1100  27.0 | K4 900->1100 off  29.1 | K4 600->1500  15.8 | K4 600->1500 off  13.7 | K4 0->1500   7.9 | K4 0->1500 off   8.9 | K4 0->3000   7.8 | K4 0->3000 off   6.2
+  nlrecall v4_chat_w8     chunk | ppl chunk1  17.85 chunks2+  17.46 first64of2  21.12 | K1 0->200  93.2 | K1 900->1100  10.1 | K1 900->1100 off   6.9 | K1 600->1500   6.8 | K1 600->1500 off   7.9 | K1 0->1500   6.8 | K1 0->1500 off   8.9 | K1 0->3000   8.9 | K1 0->3000 off   8.3 | K4 0->200  28.1 | K4 900->1100   5.8 | K4 900->1100 off   2.6 | K4 600->1500   6.3 | K4 600->1500 off   7.9 | K4 0->1500   7.4 | K4 0->1500 off   9.5 | K4 0->3000   6.2 | K4 0->3000 off   6.8
+  nlrecall v4_chat_w8     slide | ppl chunk1  17.85 chunks2+  16.96 first64of2  16.85 | K1 0->200  93.2 | K1 900->1100  95.2 | K1 900->1100 off  93.1 | K1 600->1500  59.5 | K1 600->1500 off  63.2 | K1 0->1500   8.4 | K1 0->1500 off   6.3 | K1 0->3000   7.8 | K1 0->3000 off   7.8 | K4 0->200  28.1 | K4 900->1100  29.6 | K4 900->1100 off  29.6 | K4 600->1500  25.8 | K4 600->1500 off  25.3 | K4 0->1500   5.8 | K4 0->1500 off   7.4 | K4 0->3000   6.2 | K4 0->3000 off   5.7
+  nlrecall v4f_ref        own   | ppl chunk1  25.72 chunks2+  24.40 first64of2  25.87 | K1 0->200  81.8 | K1 900->1100  76.2 | K1 600->1500  40.5 | K1 0->1500   6.3 | K1 0->3000   9.9 | K4 0->200  22.9 | K4 900->1100  22.2 | K4 600->1500  13.2 | K4 0->1500  14.7 | K4 0->3000   6.2
+  nlrecall chance 8.3% (12 values); K4: copying a random in-context value = 25%
+[n77 10-24 21:01:14] done rc=0

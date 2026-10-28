@@ -1,0 +1,7 @@
+[kdbench 10-23 14:35:47] start
+KD teacher: remote server /tmp/n75_kd_bench.sock (B2 T2048 top-128)
+BENCH B2 T2048: 7.54 req/s = 30,887 teacher tok/s | server RSS 1.53 GB
+[kdbench 10-23 14:36:54] client rc=0 | 5080 peak 4769 MiB
+[kd-server] meta-llama/Llama-3.2-1B compile=default top-128 on NVIDIA GeForce RTX 5080 at /tmp/n75_kd_bench.sock
+[kd-server] client connected 10-23 14:36:29
+[kd-server] client gone after 68 requests ([Errno 32] Broken pipe)

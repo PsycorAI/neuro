@@ -1,0 +1,11 @@
+NVIDIA GeForce RTX 5090
+  v4_dec: 512: 979 mJ/tok (249 tok/s) | 2048: 977 mJ/tok (249 tok/s) | 8192: 988 mJ/tok (242 tok/s) | 16384: 979 mJ/tok (250 tok/s) | 32768: 989 mJ/tok (249 tok/s)
+  v4_pre: 199: 61 mJ/tok (1881 tok/s) | 512: 31 mJ/tok (4121 tok/s) | 2048: 27 mJ/tok (6662 tok/s)
+  v4f_dec: 512: 937 mJ/tok (343 tok/s) | 2048: 1114 mJ/tok (239 tok/s) | 8192: 1823 mJ/tok (110 tok/s) | 16384: 2792 mJ/tok (64 tok/s) | 32768: 4721 mJ/tok (35 tok/s)
+  v4f_pre: 199: 27 mJ/tok (4970 tok/s) | 512: 13 mJ/tok (13004 tok/s) | 2048: 7 mJ/tok (49490 tok/s)
+NVIDIA GeForce RTX 5080
+  v4_dec: 512: 899 mJ/tok (193 tok/s) | 2048: 891 mJ/tok (195 tok/s) | 8192: 889 mJ/tok (196 tok/s) | 16384: 892 mJ/tok (195 tok/s) | 32768: 899 mJ/tok (195 tok/s)
+  v4_pre: 199: 44 mJ/tok (1849 tok/s) | 512: 23 mJ/tok (4130 tok/s) | 2048: 24 mJ/tok (6450 tok/s)
+  v4f_dec: 512: 877 mJ/tok (244 tok/s) | 2048: 1017 mJ/tok (184 tok/s) | 8192: 1526 mJ/tok (93 tok/s) | 16384: 2236 mJ/tok (56 tok/s) | 32768: 3617 mJ/tok (32 tok/s)
+  v4f_pre: 199: 22 mJ/tok (5037 tok/s) | 512: 10 mJ/tok (12590 tok/s) | 2048: 7 mJ/tok (33940 tok/s)
+v4f: {'d': 2048, 'layers': 13, 'ffn_hidden': 9472, 'vocab': 32768, 'swiglu': True, 'weights_per_token': 1041760256, 'kv_per_token': 53248}

@@ -1,0 +1,8 @@
+[OK] n74d_brain_py_Cf.yaml: {'sft_init': 'n74d_sft_v4f_chat', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/python_sk_F/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 2, 'grad_accum': 16, 'lr': 0.0002, 'max_tokens': 60000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20, 'keep_last': 1, 'lora_base_bf16': True}
+[OK] n74d_brain_py_Cf: arch keys of n74d_sft_v4f_chat, changed ['attention_layer_positions', 'attn_canon', 'attn_chunk', 'attn_topk', 'attn_out_gate', 'attn_ffn_hidden', 'attn_ffn_act', 'attn_ffn_homeo', 'attn_ffn_homeo_lr', 'attn_ffn_ramp_start', 'attn_ffn_ramp_end', 'attn_ffn_rate_target', 'engram_v2_enabled', 'hola_w', 'use_swiglu', 'mqar_xchunk_C']
+== n74d_brain_py_Cf training 17:51
+== n74d_brain_py_Cf quiz 17:52
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz b            taught   0.0% (n=90) | control   0.0% (n=24)
+[OK] merged_n74d_brain_py_Cf: n74d_brain_py_Cf merged into 65 layers of n74d_sft_v4f_chat -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_n74d_brain_py_Cf/step_0000001.pt
+  constrained  parse=1.000 mode_acc=0.390 halluc=0.000 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 say_ok=0.000  (495s)

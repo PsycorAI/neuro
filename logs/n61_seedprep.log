@@ -1,0 +1,46 @@
+== plain seed 09:29:13
+[OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 26.79 -> coded 56.26 | mean spikes/input 0.760 | saved models/checkpoints/screen_seedplain @ step 214500
+== prepped seed (avg 3 + revive) 09:30:36
+[seed prep] averaged 3 checkpoints: ['step_0201000.pt', 'step_0207000.pt', 'step_0214500.pt']
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (119 other params, lr=0.0006)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+blk 0: 12288 units | dead 1917 (15.6%) | of those erased 90.3% | live fire share 0.345 | new row RMS 0.0015
+blk 1: 12288 units | dead 8559 (69.7%) | of those erased 100.0% | live fire share 0.341 | new row RMS 0.0039
+blk 2: 12288 units | dead 12288 (100.0%) | of those erased 83.5% | live fire share 0.000 | new row RMS 0.0072
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 88.6% | live fire share 0.000 | new row RMS 0.0072
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0072
+blk 5: 12288 units | dead 12288 (100.0%) | of those erased 93.3% | live fire share 0.000 | new row RMS 0.0072
+blk 7: 12288 units | dead 11 (0.1%) | of those erased 100.0% | live fire share 0.050 | new row RMS 0.0064
+blk 8: 12288 units | dead 4078 (33.2%) | of those erased 95.5% | live fire share 0.048 | new row RMS 0.0080
+blk 9: 12288 units | dead 4225 (34.4%) | of those erased 97.6% | live fire share 0.062 | new row RMS 0.0082
+blk10: 12288 units | dead 2472 (20.1%) | of those erased 99.0% | live fire share 0.066 | new row RMS 0.0077
+blk11: 12288 units | dead 1342 (10.9%) | of those erased 99.3% | live fire share 0.073 | new row RMS 0.0074
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.133 | new row RMS 0.0071
+blk 0: revived units now fire on 0.329 of tokens
+blk 1: revived units now fire on 0.466 of tokens
+blk 2: revived units now fire on 0.397 of tokens
+blk 3: revived units now fire on 0.327 of tokens
+blk 4: revived units now fire on 0.488 of tokens
+blk 5: revived units now fire on 0.428 of tokens
+blk 7: revived units now fire on 0.431 of tokens
+blk 8: revived units now fire on 0.498 of tokens
+blk 9: revived units now fire on 0.501 of tokens
+blk10: revived units now fire on 0.499 of tokens
+blk11: revived units now fire on 0.496 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/screen_seedprep/_prep_revived.pt
+[seed prep] revived dead FFN units
+[OK] 74 spike codes calibrated (scale 1.0) | zero-shot ppl dense 24.80 -> coded 47.33 | mean spikes/input 0.766 | saved models/checkpoints/screen_seedprep @ step 214500
+== exit 0 09:36:39
+models/checkpoints/screen_seedplain:
+total 4334152
+drwxr-xr-x  2 glenn glenn       4096 Oct 14 09:30 .
+drwxr-xr-x 49 glenn glenn      12288 Oct 14 09:30 ..
+-rw-r--r--  1 glenn glenn 4438149588 Oct 14 09:30 step_0214500.pt
+
+models/checkpoints/screen_seedprep:
+total 4334152
+drwxr-xr-x  2 glenn glenn       4096 Oct 14 09:36 .
+drwxr-xr-x 49 glenn glenn      12288 Oct 14 09:30 ..
+-rw-r--r--  1 glenn glenn 4438149652 Oct 14 09:36 step_0214500.pt

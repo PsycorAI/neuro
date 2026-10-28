@@ -1,0 +1,29 @@
+saved /home/glenn/projects/neuro/models/psymem/hebb_65536_e0_exemplar.npz
+step 0/3900 winners in batch 1995 |W| 1.000 1s
+step 500/3900 winners in batch 1921 |W| 1.007 4s
+step 1000/3900 winners in batch 1937 |W| 1.008 8s
+step 1500/3900 winners in batch 1912 |W| 1.007 12s
+step 2000/3900 winners in batch 1937 |W| 1.007 15s
+step 2500/3900 winners in batch 1897 |W| 1.006 19s
+step 3000/3900 winners in batch 1911 |W| 1.005 22s
+step 3500/3900 winners in batch 1909 |W| 1.005 26s
+step 3899/3900 winners in batch 1879 |W| 1.005 29s
+saved /home/glenn/projects/neuro/models/psymem/hebb_65536_e20_exemplar.npz
+step 0/3900 winners in batch 1864 |W| 1.000 1s
+step 500/3900 winners in batch 57 |W| 1.000 5s
+step 1000/3900 winners in batch 60 |W| 1.000 8s
+step 1500/3900 winners in batch 62 |W| 1.000 12s
+step 2000/3900 winners in batch 61 |W| 1.000 15s
+step 2500/3900 winners in batch 60 |W| 1.000 19s
+step 3000/3900 winners in batch 64 |W| 1.000 23s
+step 3500/3900 winners in batch 64 |W| 1.000 26s
+step 3899/3900 winners in batch 61 |W| 1.000 29s
+saved /home/glenn/projects/neuro/models/psymem/hebb_65536_e20_random.npz
+cosine                                                                   ALL r@10  84.2  any  92.1  multi  82.6  temporal  72.8
+{'n_fly': 65536, 'signed': 1, 'fly_k': 4096, 'graded': 1, 'qrate': 1}    ALL r@10  81.3  any  89.6  multi  77.9  temporal  69.0
+{'proj': '/home/glenn/projects/neuro/models/psymem/hebb_65536_e0_exemp   ALL r@10  67.5  any  81.5  multi  62.6  temporal  52.0
+{'proj': '/home/glenn/projects/neuro/models/psymem/hebb_65536_e0_exemp   ALL r@10  69.6  any  83.4  multi  64.9  temporal  56.0
+{'proj': '/home/glenn/projects/neuro/models/psymem/hebb_65536_e20_exem   ALL r@10  68.2  any  82.1  multi  63.7  temporal  51.4
+{'proj': '/home/glenn/projects/neuro/models/psymem/hebb_65536_e20_rand   ALL r@10  81.8  any  90.6  multi  77.3  temporal  69.6
+{'proj': '/home/glenn/projects/neuro/models/psymem/hebb_65536_e20_exem   ALL r@10  71.7  any  83.8  multi  67.7  temporal  56.1
+DONE

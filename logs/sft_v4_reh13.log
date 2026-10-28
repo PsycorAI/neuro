@@ -1,0 +1,74 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/r26o_13L_RC3_conv_llamakd_150m/step_0017090.pt (0.28B tok)
+optimizer: NorMuon (60 matrices, lr=0.001) + AdamW (193 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 125 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 21546 tool pairs {'answer': 5382, 'tool': 12911, 'tool_absent': 3253} -> encoded 21546 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+Using the latest cached version of the dataset since yahma/alpaca-cleaned couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/yahma___alpaca-cleaned/default/0.0.0/12567cabf869d7c92e573c7c783905fc160e9639 (last modified on Wed Jun 24 14:37:38 2026).
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  TOTAL encoded examples: 63423
+arch=spiking params=188.53M device=cuda | per_step_tok=16384 | total_steps≈732 | warmup=36
+
+step 25 | 0.4M tok | loss 2.054 | spike 0.100 | 2,216 tok/s | vram 2.6/9.5 GB
+step 50 | 0.8M tok | loss 2.095 | spike 0.098 | 2,235 tok/s | vram 2.7/9.5 GB
+step 75 | 1.2M tok | loss 3.052 | spike 0.096 | 2,184 tok/s | vram 2.7/9.5 GB
+step 100 | 1.6M tok | loss 2.726 | spike 0.092 | 2,281 tok/s | vram 2.7/9.5 GB
+step 125 | 2.0M tok | loss 2.348 | spike 0.095 | 2,267 tok/s | vram 2.6/9.5 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is the capital of France. It is the capital of France, which is the capital of France, and is the capital of France, and is the capital of France. It is'
+step 150 | 2.5M tok | loss 2.855 | spike 0.092 | 2,297 tok/s | vram 2.7/9.5 GB
+step 175 | 2.9M tok | loss 2.453 | spike 0.095 | 2,410 tok/s | vram 2.7/9.5 GB
+step 200 | 3.3M tok | loss 3.252 | spike 0.091 | 2,232 tok/s | vram 2.6/9.5 GB
+step 225 | 3.7M tok | loss 2.454 | spike 0.097 | 2,179 tok/s | vram 2.7/9.5 GB
+step 250 | 4.1M tok | loss 2.778 | spike 0.092 | 2,343 tok/s | vram 2.6/9.5 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13/step_0000250.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview\nThe capital of France is Paris.\n### Overview\nThe capital of France is Paris.\n### Overview\nThe capital of France is Paris.\n### Overview\n'
+step 275 | 4.5M tok | loss 2.869 | spike 0.093 | 2,158 tok/s | vram 2.7/9.5 GB
+step 300 | 4.9M tok | loss 1.808 | spike 0.098 | 2,231 tok/s | vram 2.6/9.6 GB
+step 325 | 5.3M tok | loss 2.048 | spike 0.100 | 2,298 tok/s | vram 2.7/9.6 GB
+step 350 | 5.7M tok | loss 1.657 | spike 0.091 | 2,248 tok/s | vram 2.6/9.9 GB
+step 375 | 6.1M tok | loss 2.396 | spike 0.099 | 2,212 tok/s | vram 2.7/9.9 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n###'
+step 400 | 6.6M tok | loss 2.875 | spike 0.099 | 2,369 tok/s | vram 2.6/9.9 GB
+step 425 | 7.0M tok | loss 2.574 | spike 0.098 | 2,389 tok/s | vram 2.7/9.9 GB
+step 450 | 7.4M tok | loss 2.099 | spike 0.095 | 2,330 tok/s | vram 2.6/9.9 GB
+step 475 | 7.8M tok | loss 2.175 | spike 0.096 | 2,289 tok/s | vram 2.7/9.9 GB
+step 500 | 8.2M tok | loss 1.857 | spike 0.094 | 2,265 tok/s | vram 2.6/9.9 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13/step_0000500.pt
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n### Overview\n'
+step 525 | 8.6M tok | loss 2.300 | spike 0.094 | 2,158 tok/s | vram 2.6/9.9 GB
+step 550 | 9.0M tok | loss 2.336 | spike 0.097 | 2,550 tok/s | vram 2.6/9.9 GB
+step 575 | 9.4M tok | loss 2.276 | spike 0.094 | 2,782 tok/s | vram 2.6/9.9 GB
+step 600 | 9.8M tok | loss 1.764 | spike 0.093 | 2,631 tok/s | vram 2.6/9.9 GB
+step 625 | 10.2M tok | loss 1.994 | spike 0.096 | 2,867 tok/s | vram 2.7/9.9 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n###'
+step 650 | 10.6M tok | loss 2.154 | spike 0.095 | 2,767 tok/s | vram 2.6/9.9 GB
+step 675 | 11.1M tok | loss 2.191 | spike 0.095 | 2,955 tok/s | vram 2.7/9.9 GB
+step 700 | 11.5M tok | loss 2.513 | spike 0.096 | 2,943 tok/s | vram 2.6/9.9 GB
+step 725 | 11.9M tok | loss 2.214 | spike 0.100 | 2,979 tok/s | vram 2.7/9.9 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh13/step_0000733.pt
+done: 12.0M tok in 1.39h

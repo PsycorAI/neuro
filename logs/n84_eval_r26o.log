@@ -1,0 +1,6 @@
+[n84 10-27 10:04:14] start (cap 4 GB): temp/n84_conv_eval.py r26o=models/checkpoints/r26o_13L_RC3_conv_llamakd_150m/step_0017090.pt
+[n74_capped] n84_conv_eval.py: CUDA cap 4.0 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+r26o     conv  0 layers [] | ppl full 34.76 chunk1 35.10 chunks2+ 34.43 | memory OFF 35.89 (1.03x) chunk1 35.72 chunks2+ 36.05 (1.05x)
+r26o     facts (cue hits of 10 at 300 / 1,500 / 3,000 tokens): memory on [1, 0, 0] | HOLA off [1, 0, 0] | all memory off [0, 0, 0]
+[n84 10-27 10:07:08] exit 0

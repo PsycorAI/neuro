@@ -1,0 +1,27 @@
+[q4 10-24 21:09:53] stream-ppl --dtype fp32
+  stream-ppl v4 fp32: tokens 3300 | ppl full forward 18.637 | streaming decoder 18.750 | argmax agree 0.8848 | 8.8 tok/s eager
+  stream-ppl v4 fp32   chunk1  (2475 tok): full 19.635 | decoder 19.774
+  stream-ppl v4 fp32   chunk2+ (825 tok): full 15.939 | decoder 15.985
+[q4 10-24 21:16:45] stream-ppl --dtype bf16
+  stream-ppl v4 bf16: tokens 3300 | ppl full forward 18.668 | streaming decoder 18.650 | argmax agree 0.8712 | 8.1 tok/s eager
+  stream-ppl v4 bf16   chunk1  (2475 tok): full 19.726 | decoder 19.574
+  stream-ppl v4 bf16   chunk2+ (825 tok): full 15.821 | decoder 16.131
+[q4 10-24 21:24:10] stream-ppl --dtype bf16 --window 1024
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_stream_ppl.py", line 41, in <module>
+    dec = V4Decoder(m, window=a.window, max_len=4096)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 165, in __init__
+    assert len(Cs) == 1 and min(Cs) > 0, f"needs one shared attn_chunk, got {Cs}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: needs one shared attn_chunk, got {0}
+[q4 10-24 21:25:22] done
+[q5 10-24 21:26:19] stream-ppl --dtype bf16 --window 1024
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n77_stream_ppl.py", line 41, in <module>
+    dec = V4Decoder(m, window=a.window, max_len=4096)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 170, in __init__
+    assert not b.attn_window and b.ffn is not None, "window / no-FFN blocks not supported"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: window / no-FFN blocks not supported

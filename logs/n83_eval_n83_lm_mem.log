@@ -1,0 +1,30 @@
+[n83 10-27 01:53:30] start: temp/n83_eval.py n83_lm_mem --out logs/n83_eval_n83_lm_mem.json
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n83_eval.py", line 27, in <module>
+    eng = StreamEngine(a.run, "cuda", window=1024, dtype="bf16", warm_grammar=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/engine_stream.py", line 45, in __init__
+    super().__init__(run, device, **kw)
+  File "/home/glenn/projects/neuro/scripts/demo/engine.py", line 355, in __init__
+    raise RuntimeError(f"{run}: checkpoint and its config disagree: {len(miss)} missing (e.g. {miss[:2]}), "
+RuntimeError: n83_lm_mem: checkpoint and its config disagree: 4 missing (e.g. ['blocks.6.lif.threshold', 'blocks.6.lif.graded_spikes_factor']), 0 unexpected (e.g. []); refusing to serve a half-loaded model
+[n83 10-27 01:54:10] exit 1
+[n83 10-27 01:58:31] start: temp/n83_eval.py n83_lm_mem --out logs/n83_eval_n83_lm_mem.json
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+set A memory ON  (cue hits / chat hits of 5):
+       0: 5/4 |   600: 5/4 |  1000: 1/1 |  1500: 2/1 |  2000: 1/0 |  3000: 0/0 |  4000: 0/0 |  6000: 1/0 |  8000: 1/0
+     e.g. 0: [('Clara.\n### Response', "Your sister's name is Clara.\n### Respons"), ('Biscuit.', 'Your dog is called Biscuit.\n### Response'), ('4719', 'Your locker code is 4719.\n###\n###')]
+     e.g. 1500: [('Lisbona,', "Your sister's name is Biscuit.\n### Instr"), ('Biscuits.', 'My dog is called Biscuit.\n### Instructio'), ('12345.', 'Your locker code is 4567.\n### Instructio')]
+     e.g. 3000: [('Lisbona,', "You haven't told me your sister's name.\n"), ('Charlie.\n\n### Instruction', 'Your dog is called Honey.\n### Instructio'), ('5.', 'Your locker code is 4567.\n### Instructio')]
+     e.g. 8000: [('Marynae and', "My sister's name is Marynae.\n### Instruc"), ('Charlie. Charlie is', 'Your dog is called Finley.\n### Instructi'), ('1', 'Your locker code is 4567.\n### Instructio')]
+set A memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+set B memory ON  (cue hits / chat hits of 5):
+       0: 5/4 |   600: 5/3 |  1000: 1/1 |  1500: 1/1 |  2000: 1/1 |  3000: 1/1 |  4000: 1/1 |  6000: 1/0 |  8000: 1/1
+     e.g. 0: [('Ambrose.\n###', "Your uncle's name is Ambrose.\n### Respon"), ('Thumper.', 'Your rabbit is called Thumper.\n### Instr'), ('6182.', 'OK, I will remember that.<|begin_of_text')]
+     e.g. 1500: [('John Candito', "I don't know.\n### Instruction:\nHere is a"), ('Thumper.', 'Your rabbit is called Thumper.\n### Instr'), ('6167', 'Your bank code is 4567.\n### Instruction:')]
+     e.g. 3000: [('Jack, my father', "My uncle's name is Jack.\n### Response:\nM"), ('Thumper.', 'Your rabbit is called Thumper.\n### Instr'), ('', 'Your bank code is 4567.\n### Instruction:')]
+     e.g. 8000: [('Thugene,', "My uncle's name is John Allen.\n### Instr"), ('Thumper,', 'My rabbit is called Thumper.\n### Instruc'), ('1,', 'Your bank code is 4567.\n### Instruction:')]
+set B memory OFF (cue hits): 1500: 0/5 | 3000: 0/5
+memtest (synthetic pairs, cross-chunk): memory on 20/20, off 0
+eval time 2.3 min
+[n83 10-27 02:01:40] exit 0

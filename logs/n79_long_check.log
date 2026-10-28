@@ -1,0 +1,6 @@
+B x3   ppl of the next 32 tokens: old continuation   50.46 | new continuation   58.14 | fresh eager   19.52 | fresh graph   63.36
+A x3   ppl of the next 32 tokens: old continuation   21.17 | new continuation   28.60 | fresh eager   25.62 | fresh graph   37.66
+val 0  ppl of the next 32 tokens: old continuation   16.79 | new continuation   17.59 | fresh eager   16.64 | fresh graph   17.19
+val 1  ppl of the next 32 tokens: old continuation   25.36 | new continuation   24.56 | fresh eager   25.47 | fresh graph   26.54
+val 2  ppl of the next 32 tokens: old continuation   24.93 | new continuation   24.17 | fresh eager   22.47 | fresh graph   21.32
+== n79 long check done

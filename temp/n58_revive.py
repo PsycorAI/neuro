@@ -32,7 +32,10 @@ def fire_counts(seed):
     cnt = {i: torch.zeros(f[0].out_features, device="cuda") for i, f in ffns}; hooks = []
     for i, f in ffns:
         hooks.append(f[1].register_forward_hook(
-            lambda mod, inp, out, _i=i: cnt[_i].add_((inp[0].detach() > 0).reshape(-1, inp[0].shape[-1]).float().sum(0))))
+            # Neuro 59, 10-12 22:00 BUG FIX: add_() returned the count tensor and a forward hook's return value REPLACES
+            # the module output -> every block after the first saw garbage, so all earlier dead counts of blocks >= 1
+            # (and the units chosen for revival there) were wrong. The hook now returns None.
+            lambda mod, inp, out, _i=i: (cnt[_i].add_((inp[0].detach() > 0).reshape(-1, inp[0].shape[-1]).float().sum(0)), None)[1]))
     np.random.seed(seed); outs = []
     with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
         for _ in range(n_batches):
@@ -54,7 +57,12 @@ for i, f in ffns:
     lr_ = W1.detach().float()[~d].pow(2).mean(1).sqrt()
     sd_ = lr_.median().item() if lr_.numel() >= 64 else g_med
     if sd_ < 0.2 * g_med: sd_ = g_med                # block 1: its "live" rows are numerically ~0
-    print(f"blk{i:2d}: {d.numel()} units | dead {nd} ({nd / d.numel():.1%}) | live fire share "
+    # 19:50: of the dead units, how many have ERASED weights (input row and output column both under 1% of the live
+    # median)? Those get no signal from any gradient method (ghost gradients included); only a re-initialisation helps.
+    rin = W1.detach().float().pow(2).mean(1).sqrt(); cout = W2.detach().float().pow(2).mean(0).sqrt()
+    cmed = cout[~d].median().item() if nd < d.numel() else 0.0
+    er = ((rin < 0.01 * g_med) & (cout < 0.01 * max(cmed, 1e-9)) & d).float().sum().item()
+    print(f"blk{i:2d}: {d.numel()} units | dead {nd} ({nd / d.numel():.1%}) | of those erased {er / max(nd, 1):.1%} | live fire share "
           f"{(cnt0[i][~d] / N).mean().item() if nd < d.numel() else 0:.3f} | new row RMS {sd_:.4f}", flush=True)
     if nd == 0 or a.dry: continue
     if a.blocks and str(i) not in a.blocks.split(","):

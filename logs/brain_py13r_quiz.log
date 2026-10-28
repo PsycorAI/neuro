@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Write a small Python program with a function that checks whether a str' -> FAIL "Here's a simple Python program with a function `get_time` that checks if a string is a palindrome (call it che"
+    [base/taught] 'Using Python, define a function that checks whether a string is a pali' -> FAIL 'The function that checks if a string is a palindrome is a palindrome.'
+    [base/control] 'Create a Python function that converts a number to a binary string (ca' -> FAIL 'Here is a Python function that converts a number to a binary string (call it to_binary):\n\n```python\ndef binary'
+    [base/control] 'Write a Python function that checks whether a number is a power of two' -> FAIL 'Here is a Python function that checks if a number is a power of two (call it is_power_of_two):\n```python\ndef c'
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  brain py: 4.72M adapter params, merged into 48 layers
+    [py/taught] 'Write a small Python program with a function that checks whether a str' -> PASS 'def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]'
+    [py/taught] 'Using Python, define a function that checks whether a string is a pali' -> PASS 'def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]'
+    [py/control] 'Create a Python function that converts a number to a binary string (ca' -> FAIL 'def reverse_string(s):\n    return s[::-1]'
+    [py/control] 'Write a Python function that checks whether a number is a power of two' -> FAIL 'def is_power_of_two(n):\n    return [i * i for i in range(1, n + 1)]'
+  quiz py           taught 100.0% (n=90) | control   0.0% (n=24)

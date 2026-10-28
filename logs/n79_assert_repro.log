@@ -1,0 +1,14 @@
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:124: UserWarning: Initializing zero-element tensors is a no-op
+  init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+  gpu-energy /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt: pruned copy, 161.1M params removed
+  gpu-energy v4f decode step: compile False, SDPA default
+  gpu-energy NVIDIA GeForce RTX 5080 | v4 /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8_pruned/step_0000001.pt | v4f models/checkpoints/v4std_dense/step_0183000.pt | configs ['v4fg_pre@143', 'v4fg_pre@199', 'v4fg_pre@512', 'v4fg_pre@2048']
+  gpu-energy rep 0 v4fg_pre@512 |  37033.2 tok/s   0.027 ms/tok |     4.58 mJ/tok total     3.18 active | idle  51.8 W | counter vs integral 1.474 | 2842 MHz 63 C
+  gpu-energy rep 0 v4fg_pre@143 |  16605.9 tok/s   0.060 ms/tok |     9.77 mJ/tok total     6.65 active | idle  51.8 W | counter vs integral 1.427 | 2872 MHz 61 C
+  gpu-energy rep 0 v4fg_pre@199 |  22626.5 tok/s   0.044 ms/tok |     6.72 mJ/tok total     4.43 active | idle  51.8 W | counter vs integral 1.497 | 2872 MHz 61 C
+  gpu-energy rep 0 v4fg_pre@2048 |  38474.4 tok/s   0.026 ms/tok |     4.29 mJ/tok total     2.94 active | idle  51.8 W | counter vs integral 1.532 | 2842 MHz 65 C
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4fg_pre@143 |  16605.9 tok/s |     9.77 mJ/tok total (9.77-9.77) |     6.65 active
+  gpu-energy v4fg_pre@199 |  22626.5 tok/s |     6.72 mJ/tok total (6.72-6.72) |     4.43 active
+  gpu-energy v4fg_pre@512 |  37033.2 tok/s |     4.58 mJ/tok total (4.58-4.58) |     3.18 active
+  gpu-energy v4fg_pre@2048 |  38474.4 tok/s |     4.29 mJ/tok total (4.29-4.29) |     2.94 active

@@ -1,0 +1,61 @@
+[cal 10-25 12:34:55] start
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/cuda/graphs.py:126: UserWarning: The CUDA Graph is empty. This usually means that the graph was attempted to be captured on wrong device or stream. (Triggered internally at /pytorch/aten/src/ATen/cuda/CUDAGraph.cpp:147.)
+  super().capture_end()
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n78_cal_drive.py", line 41, in <module>
+    d.step(7)
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 613, in step
+    out = self._step_body(kvlen, hola_on)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 537, in _step_body
+    spk = self._lif(b, cur, e)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/scripts/demo/stream_decode.py", line 286, in _lif
+    spk, mem = f(cur, beta, vth=1.0, K=self.m.fpt_K)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/lif_exact.py", line 212, in lif_exact_ml
+    return _LIFExactML.apply(cur, beta, vth, alpha, gamma, levels, signed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 596, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/lif_exact.py", line 182, in forward
+    _lif_ml_fwd_kernel[grid](cur, beta_c, spk, pre, memf, T, N, float(vth), float(gamma),
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/triton/runtime/jit.py", line 370, in <lambda>
+    return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/triton/runtime/jit.py", line 744, in run
+    kernel.run(grid_0, grid_1, grid_2, stream, kernel.function, kernel.packed_metadata, launch_metadata,
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 713, in __call__
+    self.launch(gridX, gridY, gridZ, stream, function, self.launch_cooperative_grid, self.launch_pdl,
+ValueError: Pointer argument (at 0) cannot be accessed from Triton (cpu tensor?)
+[cal 10-25 12:35:27] loggers stopped; restarting v4f
+next 5090:
+until ! pgrep -f '^bash temp/n69_screen_std.sh' > /dev/null; do sleep 30; done; bash temp/queue_5090_n69_std1b_v2.sh 0 # n69 v2 10-19 (lr x1.4 arm)
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+3755 bash temp/alert_watch.sh
+3757 bash temp/n58_drive_loop.sh
+3760 bash temp/n62_chain_guard.sh
+3783 bash temp/n62_chain.sh 0
+3804 bash temp/queue_5090_n69_std1b_v2.sh 0
+3871 /home/glenn/projects/bdh/venv/bin/python src/train_gpu.py --config temp/v4std_dense_s4.yaml --device cuda
+3933 bash temp/watchdog_tps.sh
+--- running:
+909 bash temp/alert_watch.sh
+911 bash temp/n58_drive_loop.sh
+948 bash temp/n62_chain.sh 1
+1130 bash temp/n74_pin_v4f.sh
+1133 bash temp/n76_kd_server_rearm.sh
+3755 bash temp/alert_watch.sh
+3757 bash temp/n58_drive_loop.sh
+3760 bash temp/n62_chain_guard.sh
+3783 bash temp/n62_chain.sh 0
+3933 bash temp/watchdog_tps.sh

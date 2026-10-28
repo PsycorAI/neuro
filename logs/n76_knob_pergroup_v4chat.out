@@ -1,0 +1,13 @@
+== v4chat: 74 spike codes, 12 FFN thresholds (mean 0.09244)
+  groups: {'down': 12, 'head': 1, 'in': 1, 'o': 12, 'q': 12, 'qkv': 12, 'up': 12, 'v': 12}
+  base           | ppl   19.083 | compute 4.00x (1203 uJ) | +DRAM 2.06x (159315 uJ) | reads 49%
+  down   x1.50    | ppl   19.105 (+0.12%) | compute 4.03x (1194 uJ) | +DRAM 2.06x (158866 uJ) | reads 49%
+  head   x1.50    | ppl   19.209 (+0.66%) | compute 4.18x (1152 uJ) | +DRAM 2.07x (157952 uJ) | reads 49%
+  in     x1.50    | ppl   19.082 (-0.01%) | compute 4.02x (1196 uJ) | +DRAM 2.06x (158746 uJ) | reads 49%
+  o      x1.50    | ppl   19.668 (+3.07%) | compute 4.02x (1196 uJ) | +DRAM 2.07x (158575 uJ) | reads 49%
+  q      x1.50    | ppl   19.133 (+0.27%) | compute 4.02x (1196 uJ) | +DRAM 2.06x (159311 uJ) | reads 49%
+  qkv    x1.50    | ppl   19.253 (+0.89%) | compute 4.51x (1068 uJ) | +DRAM 2.12x (154497 uJ) | reads 48%
+  up     x1.50    | ppl   19.202 (+0.63%) | compute 4.59x (1048 uJ) | +DRAM 2.16x (151801 uJ) | reads 47%
+  v      x1.50    | ppl   19.262 (+0.94%) | compute 4.00x (1204 uJ) | +DRAM 2.06x (159320 uJ) | reads 49%
+  cheap down+in+q x1.5 | ppl   19.142 (+0.31%) | compute 4.08x (1179 uJ) | +DRAM 2.07x (158297 uJ) | reads 49%
+  cheap down+in+q x2.0 | ppl   19.639 (+2.92%) | compute 4.14x (1163 uJ) | +DRAM 2.08x (157426 uJ) | reads 48%

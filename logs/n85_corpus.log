@@ -1,0 +1,5 @@
+Using the latest cached version of the dataset since allenai/tulu-3-sft-mixture couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/allenai___tulu-3-sft-mixture/default/0.0.0/b14afda60f1bbebe55d5d2fa1e4df5042f97f8be (last modified on Wed Jul 29 18:49:02 2026).
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  59%|█████▉    | 118/199 [00:00<00:00, 1173.89it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1014.51it/s]
+400000 turns from 939343 conversations; emb (400000, 384)
+exit 0 (corpus.py 400000)

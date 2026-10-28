@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Do you know the carb content of 100 grams of raw raspberries' gold='11.9 grams' -> 'is a free online tool that allows you to create your own cus'
+    [base/taught] 'Do you know how many calories 100 grams of raw celeriac has?' gold='42 kcal' -> 'is a free online tool that allows you to create your own cus'
+    [base/control] 'Give me the grams of carbohydrate in 100 g of raw gooseberri' gold='10.2 grams' -> 'is a program that provides a simple, easy-to-use, and easy-t'
+    [base/control] 'Give me the kcal for 100 g of raw asian pears.' gold='42 kcal' -> 'is a program that can be used to teach a programming languag'
+  quiz base         taught   1.3% (n=150) | control   0.7% (n=150)
+  brain health: 15.73M adapter params, merged into 48 layers
+    [health/taught] 'Do you know the carb content of 100 grams of raw raspberries' gold='11.9 grams' -> '11.9 grams of carbohydrate per 100 grams.\n###'
+    [health/taught] 'Do you know how many calories 100 grams of raw celeriac has?' gold='42 kcal' -> '42 kcal of energy per 100 grams.\n###'
+    [health/control] 'Give me the grams of carbohydrate in 100 g of raw gooseberri' gold='10.2 grams' -> '5.8 grams of carbohydrate per 100 grams.\n###'
+    [health/control] 'Give me the kcal for 100 g of raw asian pears.' gold='42 kcal' -> '41 kcal of energy per 100 grams.\n###'
+  quiz health       taught 100.0% (n=150) | control   7.3% (n=150)

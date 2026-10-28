@@ -1,0 +1,3 @@
+[rearm 10-23 20:51:55] waiting for v4std_dense step >= 225000 or a v4std_conv ckpt
+[rearm 10-25 12:27:15] waiting for v4std_dense step >= 225000 or a v4std_conv ckpt
+[rearm 10-27 07:58:50] trigger (v4std_dense step 225000): server loop relaunched, ready line seen: 1

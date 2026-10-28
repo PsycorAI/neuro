@@ -1,0 +1,25 @@
+[n81 10-26 12:21:49] parity vs full forward, compiled step, cuDNN default (models/checkpoints/v4std_dense/step_0201463.pt)
+  parity v4f bf16 graphs=False: steps 399 | argmax agree 0.9925 | max|diff| 0.1250 (logit scale 21.8, rel 5.75e-03) | 23 tok/s (incl. capture)
+  parity v4f bf16 graphs=True: steps 399 | argmax agree 0.9975 | max|diff| 0.1250 (logit scale 21.8, rel 5.75e-03) | 8 tok/s (incl. capture)
+[n81 10-26 12:23:23] long-context parity + kernel profile
+GPU NVIDIA GeForce RTX 5080 | torch 2.11.0+cu128 | cudnn 91900
+default step_backend SDPBackend.CUDNN_ATTENTION
+== L   2048: parity cuDNN compiled graphs vs default eager: argmax agree 0.9688 | max|diff| 0.1250 (logit scale 18.8)
+   graph step   2.970 ms (  337 words/s)
+    63.1%    1.859 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+    22.5%    0.664 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+    10.6%    0.313 ms/step  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1x1_kernel0
+     0.7%    0.022 ms/step  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_copy_index_
+== L   8192: parity cuDNN compiled graphs vs default eager: argmax agree 1.0000 | max|diff| 0.0625 (logit scale 10.3)
+   graph step   3.692 ms (  271 words/s)
+    50.7%    1.860 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+    28.1%    1.031 ms/step  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1x1_kernel0
+    18.1%    0.665 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+     0.6%    0.022 ms/step  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_copy_index_
+== L  32768: parity cuDNN compiled graphs vs default eager: argmax agree 1.0000 | max|diff| 0.3125 (logit scale 11.4)
+   graph step   6.559 ms (  152 words/s)
+    59.6%    3.891 ms/step  cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_35_16x128x128_1x4x1_cga1x1x1_kernel0
+    28.5%    1.858 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+    10.2%    0.665 ms/step  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16,
+     0.3%    0.022 ms/step  triton_per_fused__scaled_dot_product_cudnn_attention__to_copy__unsafe_view_add_cat_index_copy_index_
+[n81 10-26 12:24:48] done

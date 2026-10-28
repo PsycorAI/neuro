@@ -1,0 +1,87 @@
+[rev 10-13 14:23:01] start
+blk 0: 12288 units | dead 8439 (68.7%) | of those erased 14.4% | live fire share 0.061 | new row RMS 0.0105
+blk 1: 12288 units | dead 8426 (68.6%) | of those erased 0.0% | live fire share 0.041 | new row RMS 0.0190
+blk 2: 12288 units | dead 10782 (87.7%) | of those erased 0.0% | live fire share 0.021 | new row RMS 0.0190
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 5: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 7: 12288 units | dead 558 (4.5%) | of those erased 2.3% | live fire share 0.068 | new row RMS 0.0186
+blk 8: 12288 units | dead 2568 (20.9%) | of those erased 62.7% | live fire share 0.065 | new row RMS 0.0198
+blk 9: 12288 units | dead 2565 (20.9%) | of those erased 69.4% | live fire share 0.063 | new row RMS 0.0196
+blk10: 12288 units | dead 1755 (14.3%) | of those erased 77.4% | live fire share 0.065 | new row RMS 0.0193
+blk11: 12288 units | dead 1015 (8.3%) | of those erased 55.4% | live fire share 0.070 | new row RMS 0.0191
+blk12: 12288 units | dead 9 (0.1%) | of those erased 0.0% | live fire share 0.125 | new row RMS 0.0186
+blk 0: revived units now fire on 0.502 of tokens
+blk 1: revived units now fire on 0.509 of tokens
+blk 2: revived units now fire on 0.501 of tokens
+blk 3: revived units now fire on 0.506 of tokens
+blk 4: revived units now fire on 0.493 of tokens
+blk 5: revived units now fire on 0.500 of tokens
+blk 7: revived units now fire on 0.490 of tokens
+blk 8: revived units now fire on 0.492 of tokens
+blk 9: revived units now fire on 0.512 of tokens
+blk10: revived units now fire on 0.485 of tokens
+blk11: revived units now fire on 0.508 of tokens
+blk12: revived units now fire on 0.452 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_rev/step_0046500.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_rev.yaml
+[rev 10-13 14:24:55] arm R training (probe_v4_rev)
+  [eval] val_ppl 38.17 | ablated_ppl 35.81 (memory Δ=-2.35) | spike 0.019	  [mlp] 0.343 0.355 0.435 0.494 0.481 0.482 0.151 0.219 0.194 0.157 0.139 0.153 
+  [eval] val_ppl 37.10 | ablated_ppl 33.55 (memory Δ=-3.55) | spike 0.055	  [mlp] 0.320 0.349 0.425 0.481 0.469 0.472 0.136 0.180 0.167 0.141 0.124 0.160 
+  [eval] val_ppl 32.90 | ablated_ppl 31.91 (memory Δ=-0.98) | spike 0.060	  [mlp] 0.294 0.334 0.411 0.464 0.450 0.453 0.122 0.132 0.127 0.112 0.106 0.150 
+R46800                     C=1024 T=2048 | chunk1   41.63 (mem off   41.57) | chunks2+   42.21 (off   40.43, Δ -1.78) | first64 of 2+   61.13 (off   65.43, Δ +4.30) vs first64 of chunk1   61.20
+R46800                     C=1024 N8:  98.4  97.7  96.1  93.0 (mem off  15.6) | N32:  94.5  89.8  92.2  82.0 (mem off   3.9)
+== R46800: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 97.5% (target >= 95%) | median rate of a live unit 13.4% (target ~5%) | mean rate over all units 26.38% | params in use 98.6% (target >= 95%)
+  live units by firing rate: <0.1% 4.4% | 0.1-1% 5.8% | 1-10% 28.8% | 10-50% 40.7% | >50% 20.3%
+  alive per block: 0:97% 1:98% 2:97% 3:98% 4:86% 5:94% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 39.627
+    units firing <= 0e+00 removed: 2.5% of units, model 1094M (98.6%) | ppl 39.631 (+0.01%)
+    units firing <= 1e-05 removed: 2.8% of units, model 1092M (98.5%) | ppl 39.628 (+0.00%)
+    units firing <= 1e-04 removed: 4.1% of units, model 1084M (97.8%) | ppl 39.677 (+0.13%)
+    units firing <= 1e-03 removed: 6.8% of units, model 1068M (96.3%) | ppl 39.599 (-0.07%)
+blk 0: 12288 units | dead 8439 (68.7%) | of those erased 14.4% | live fire share 0.061 | new row RMS 0.0105
+blk 1: 12288 units | dead 8426 (68.6%) | of those erased 0.0% | live fire share 0.041 | new row RMS 0.0190
+blk 2: 12288 units | dead 10782 (87.7%) | of those erased 0.0% | live fire share 0.021 | new row RMS 0.0190
+blk 3: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 5: 12288 units | dead 12288 (100.0%) | of those erased 0.0% | live fire share 0.000 | new row RMS 0.0190
+blk 7: 12288 units | dead 558 (4.5%) | of those erased 2.3% | live fire share 0.068 | new row RMS 0.0186
+blk 8: 12288 units | dead 2568 (20.9%) | of those erased 62.7% | live fire share 0.065 | new row RMS 0.0198
+blk 9: 12288 units | dead 2565 (20.9%) | of those erased 69.4% | live fire share 0.063 | new row RMS 0.0196
+blk10: 12288 units | dead 1755 (14.3%) | of those erased 77.4% | live fire share 0.065 | new row RMS 0.0193
+blk11: 12288 units | dead 1015 (8.3%) | of those erased 55.4% | live fire share 0.070 | new row RMS 0.0191
+blk12: 12288 units | dead 9 (0.1%) | of those erased 0.0% | live fire share 0.125 | new row RMS 0.0186
+blk 0: revived units now fire on 0.502 of tokens
+blk 1: revived units now fire on 0.509 of tokens
+blk 2: revived units now fire on 0.501 of tokens
+blk 3: revived units now fire on 0.506 of tokens
+blk 4: revived units now fire on 0.493 of tokens
+blk 5: revived units now fire on 0.500 of tokens
+blk 7: revived units now fire on 0.490 of tokens
+blk 8: revived units now fire on 0.492 of tokens
+blk 9: revived units now fire on 0.512 of tokens
+blk10: revived units now fire on 0.485 of tokens
+blk11: revived units now fire on 0.508 of tokens
+blk12: revived units now fire on 0.452 of tokens
+max |logit change| 0.00000 (0 = function preserved)
+wrote models/checkpoints/probe_v4_revmask/step_0046500.pt
+wrote /home/glenn/projects/neuro/configs/probe_v4_revmask.yaml
+[rev 10-13 15:50:31] arm S training (probe_v4_revmask)
+  masked_decay_names=['.ffn.']: 24 Muon matrices decay only where the gradient is nonzero
+  [eval] val_ppl 36.79 | ablated_ppl 35.75 (memory Δ=-1.04) | spike 0.016	  [mlp] 0.341 0.358 0.435 0.491 0.480 0.486 0.140 0.218 0.194 0.157 0.139 0.157 
+  [eval] val_ppl 34.60 | ablated_ppl 33.26 (memory Δ=-1.34) | spike 0.043	  [mlp] 0.311 0.347 0.424 0.477 0.466 0.477 0.132 0.174 0.163 0.138 0.121 0.157 
+  [eval] val_ppl 32.52 | ablated_ppl 32.01 (memory Δ=-0.51) | spike 0.047	  [mlp] 0.287 0.333 0.405 0.457 0.446 0.456 0.110 0.127 0.123 0.111 0.104 0.147 
+S46800                     C=1024 T=2048 | chunk1   41.40 (mem off   41.36) | chunks2+   40.32 (off   39.39, Δ -0.93) | first64 of 2+   59.61 (off   63.18, Δ +3.57) vs first64 of chunk1   61.78
+S46800                     C=1024 N8:  99.2  97.7  96.1  95.3 (mem off  13.3) | N32:  91.4  79.7  83.6  82.8 (mem off   2.3)
+== S46800: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 97.3% (target >= 95%) | median rate of a live unit 12.9% (target ~5%) | mean rate over all units 25.98% | params in use 98.5% (target >= 95%)
+  live units by firing rate: <0.1% 4.6% | 0.1-1% 5.9% | 1-10% 30.2% | 10-50% 39.2% | >50% 20.2%
+  alive per block: 0:97% 1:98% 2:96% 3:98% 4:86% 5:93% 7:100% 8:100% 9:100% 10:100% 11:100% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 38.533
+    units firing <= 0e+00 removed: 2.7% of units, model 1093M (98.5%) | ppl 38.538 (+0.01%)
+    units firing <= 1e-05 removed: 3.1% of units, model 1091M (98.3%) | ppl 38.518 (-0.04%)
+    units firing <= 1e-04 removed: 4.4% of units, model 1083M (97.6%) | ppl 38.494 (-0.10%)
+    units firing <= 1e-03 removed: 7.2% of units, model 1066M (96.1%) | ppl 38.499 (-0.09%)
+[rev 10-13 16:43:30] done

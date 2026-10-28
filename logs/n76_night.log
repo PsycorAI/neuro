@@ -1,0 +1,5 @@
+[n76night 10-23 23:50:28] start: models/checkpoints/sft_v4_chat/step_0000001.pt
+[n76night 10-24 00:12:04] harness v4chat (spell) rc=0
+[n76night 10-24 00:32:24] harness v4chat_plain rc=0
+[n76night 10-24 00:32:36] paired done
+[n76night 10-24 00:34:04] knob sweep rc=0

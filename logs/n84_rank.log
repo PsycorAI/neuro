@@ -1,0 +1,40 @@
+[n84 10-27 09:48:38] start (cap 4 GB): temp/n84_conv_eval.py --rank
+[n74_capped] n84_conv_eval.py: CUDA cap 4.0 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+    runpy.run_path(script, run_name="__main__")
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/glenn/projects/neuro/temp/n84_conv_eval.py", line 118, in <module>
+    rank_layers(m, c, data_for(c))
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/temp/n84_conv_eval.py", line 55, in rank_layers
+    ref = [F.log_softmax(logits(m, x), -1) for x in xs]
+                         ^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/temp/n84_conv_eval.py", line 35, in logits
+    return m(x, ablate_memory=ablate).float()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 10.62 GiB is free. Process 214610 has 17179869184.00 GiB memory in use. Process 135916 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 4.00 GiB allowed; Of the allocated memory 3.62 GiB is allocated by PyTorch, and 305.04 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n84 10-27 09:49:05] exit 1
+[n84 10-27 09:49:42] start (cap 4 GB): temp/n84_conv_eval.py --rank
+[n74_capped] n84_conv_eval.py: CUDA cap 4.0 GB
+layer  0: KL(full || window 64) = 0.1060 nats/token
+layer  1: KL(full || window 64) = 0.1026 nats/token
+layer  2: KL(full || window 64) = 0.0998 nats/token
+layer  3: KL(full || window 64) = 0.1018 nats/token
+layer  4: KL(full || window 64) = 0.0982 nats/token
+layer  5: KL(full || window 64) = 0.0995 nats/token
+layer  7: KL(full || window 64) = 0.0755 nats/token
+layer  8: KL(full || window 64) = 0.0703 nats/token
+layer  9: KL(full || window 64) = 0.0636 nats/token
+layer 10: KL(full || window 64) = 0.0980 nats/token
+layer 11: KL(full || window 64) = 0.1395 nats/token
+layer 12: KL(full || window 64) = 0.0513 nats/token
+keep-first order (most long-range-dependent first): [11, 0, 1, 3, 2, 5, 4, 10, 7, 8, 9, 12]
+[n84 10-27 09:52:10] exit 0

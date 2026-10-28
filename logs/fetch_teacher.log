@@ -1,3 +1,0 @@
-[try] meta-llama/Llama-3.2-3B-Instruct
-Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files:  11%|█         | 1/9 [00:00<00:02,  3.75it/s]Fetching 9 files:  44%|████▍     | 4/9 [43:25<58:40, 704.07s/it]Fetching 9 files: 100%|██████████| 9/9 [43:25<00:00, 289.46s/it]
-[OK] meta-llama/Llama-3.2-3B-Instruct -> /home/glenn/.cache/huggingface/hub/models--meta-llama--Llama-3.2-3B-Instruct/snapshots/0cb88a4f764b7a12671c53f0838cd831a0843b95

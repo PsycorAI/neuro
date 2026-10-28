@@ -79,3 +79,1664 @@
 [INFO 10-11 15:03:18] r26y_13L_RC3_kdonly_150m started on the 5090
 [INFO 10-11 15:07:50] r26z_13L_RC3_tok32k_150m started on the 5090
 [DONE 10-11 15:12:03] screen_p26zh_7L_RC3_hwd01 chunk1 55.64 val 59.65 | 
+[DONE 10-11 18:57:32] screen_p26zk_7L_RC3_sepbw_s2 chunk1 55.61 val 60.06 | 
+[DONE 10-11 19:13:07] r26z_13L_RC3_tok32k_150m chunk1 42.92 (r26n 38.09, +12.7%) val 43.81 | N8: 100.0 100.0 100.0 100.0 (mem off  14.1) | N32: 100.0  99.2 100.0 100.0 (mem off   4.7)
+[INFO 10-11 19:13:08] r26y_13L_RC3_kdonly_150m started on the 5090
+[DONE 10-11 21:49:36] screen_p26zl_7L_RC3_sepbw_s1 chunk1 55.00 val 59.16 | 
+[DONE 10-11 21:49:37] 5080 chain finished: the 5080 is idle
+[INFO 10-11 21:49:39] sft_v4_reh13 (v4 SFT rehearsal) started on the 5080, time limit 95 min
+[INFO 10-11 22:27:24] cloud: v4_cloud  | val |  tok/s | of 227661 steps | disk 147 GB | gpu 100 %, 114557 MiB
+[DONE 10-11 23:02:10] r26y_13L_RC3_kdonly_150m chunk1 34.14 (r26n 38.09, -10.4%) val 35.65 | N8:  99.2 100.0 100.0 100.0 (mem off   9.4) | N32: 100.0 100.0 100.0 100.0 (mem off   4.7)
+[DONE 10-11 23:02:10] 5090 chain finished: the 5090 is idle
+[WARN 10-11 23:29:32] GPU 1 has had no job for 16 min (637 MiB in use): idle
+[DONE 10-11 23:47:33] sft_v4_reh13 (v4 SFT rehearsal) chunk1 54.59 (base r26o 36.55) | energy 5.57x (base 5.65x) | N8: 100.0  99.2  99.2  99.2 (mem off  14.8) | N32: 100.0 100.0  98.4 100.0 (mem  | details logs/sft_v4_reh13_evals.log
+[INFO 10-12 00:03:22] no queue and no trainer for 15 min: GPUs idle
+[WARN 10-12 00:03:23] GPU 0 has had no job for 16 min (221 MiB in use): idle
+[INFO 10-12 00:43:46] sft_v4_reh13_v2 (13L SFT arm) started on GPU 0
+[INFO 10-12 00:48:47] brain_mech13 (13L brain mechanism test) started on GPU 1
+[DONE 10-12 01:04:04] tool assets: 5/5 translation models | [OK] unit cases: 0 failed | logs/n57_tool_assets.log
+[DONE 10-12 01:37:13] brain_mech13 brain mechanism: base         taught   0.0% (n=150) | control   0.0% (n=100);mech         taught  98.0% (n=150) | control   0.0% (n=100);
+[WARN 10-12 01:51:31] GPU 1 has had no job for 16 min (433 MiB in use): idle
+[INFO 10-12 01:53:19] tool-result teacher data started on the 5080
+[DONE 10-12 02:20:23] tool-result data: 8200 train lines, 502 test | done: 8200 kept, 239 dropped by the key-value filter | logs/gen_toolresult.log
+[INFO 10-12 02:21:37] tool-result teacher data started on the 5080
+[DONE 10-12 02:35:53] tool-result data: 7454 train lines, 539 test | done: 7454 kept, 430 dropped by the key-value filter | logs/gen_toolresult.log
+[ALERT 10-12 02:39:42] search second-pass data: only 63 lines: 
+[DONE 10-12 02:47:03] sft_v4_reh13_v2 | mode_acc=0.920 halluc=0.000 tool_acc=0.926 args_exact=0.770 refuse_acc=0.910 say_ok=0.926  | all-9: tool_acc=0.975 args_exact=0.828 | chunk1 54.77 (reh13: 54.59; tool .959 args .803) | logs/sft_v4_reh13_v2_evals.log
+[DONE 10-12 02:52:44] search pack: [OK] 222571 articles -> /home/glenn/projects/neuro/data/demo/search_pack.db (112 MB) | search second-pass data: 3257 train lines | done: 3257 kept, 340 dropped
+[INFO 10-12 02:53:44] sft_v4_reh13_v2tr (13L SFT arm) started on GPU 0
+[DONE 10-12 03:18:19] second pass, sft_v4_reh13: calculator 0.160 (n=25);define 0.240 (n=25);get_time 0.760 (n=25);get_weather 0.640 (n=25);search 0.240 (n=25);send_message 0.360 (n=25);set_reminder 0.280 (n=25);translate 0.000 (n=25);unit_convert 0.480 (n=25);ALL 0.351 (n=225);
+[WARN 10-12 03:33:37] GPU 1 has had no job for 16 min (131 MiB in use): idle
+[WARN 10-12 03:51:38] GPU 1 has had no job for 16 min (131 MiB in use): idle
+[INFO 10-12 04:30:54] cloud: v4_cloud step 24500 | 802.8M tok | loss 3.780 | 37,168 tok/s | vram 1 | val 40.99 40.10 39.86 | 37168 tok/s | of 227661 steps | disk 111 GB | gpu 100 %, 114981 MiB
+[DONE 10-12 04:50:15] sft_v4_reh13_v2tr | mode_acc=0.925 halluc=0.000 tool_acc=0.918 args_exact=0.762 refuse_acc=0.923 say_ok=0.918  | all-9: tool_acc=0.992 args_exact=0.820 | chunk1 55.03 (reh13: 54.59; tool .959 args .803) | logs/sft_v4_reh13_v2tr_evals.log
+[DONE 10-12 04:58:52] second pass, sft_v4_reh13_v2tr: calculator 0.960 (n=25);define 0.840 (n=25);get_time 1.000 (n=25);get_weather 1.000 (n=25);search 0.360 (n=25);send_message 0.560 (n=25);set_reminder 0.720 (n=25);translate 0.400 (n=25);unit_convert 0.960 (n=25);ALL 0.756 (n=225);
+[WARN 10-12 05:05:40] GPU 0 has had no job for 16 min (220 MiB in use): idle
+[INFO 10-12 05:13:41] no queue and no trainer for 15 min: GPUs idle
+[WARN 10-12 05:13:41] GPU 1 has had no job for 16 min (140 MiB in use): idle
+[INFO 10-12 10:32:00] cloud: v4_cloud step 48800 | 1599.1M tok | loss 3.518 | 37,126 tok/s | vram  | val 38.39 37.40 37.15 | 37186 tok/s | of 227661 steps | disk 111 GB | gpu 100 %, 115061 MiB
+[DONE 10-12 12:13:09] v4 checkpoint step_0046500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773355 bytes)
+[WARN 10-12 12:17:20] GPU 1 has had no job for 16 min (384 MiB in use): idle
+[DONE 10-12 12:27:07] n58 battery on step_0046500.pt finished: logs/n58_battery.log (0 error lines)
+[INFO 10-12 12:27:15] n58 probe probe_v4_xchunk started on the 5090 (logs/probe_v4_xchunk.log)
+[WARN 10-12 12:29:08] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-12 12:40:41] cloud: val_ppl has risen 3 evals in a row in v4_cloud: 36.36 37.13 41.39 (step 57500 | 1884.2M tok | loss 3.735 | 37,167 tok/s | vram )
+[DONE 10-12 12:53:37] n58 probe step_0046600.pt: p C=1024 N8: 96.9 76.6 66.4 55.5 (mem off 11.7) | N32: 96.1 43.8 39.1 32.0 (mem off 3.1) |  [eval] val_ppl 37.91 | ablated_ppl 35.89 (memory Δ=-2.02) | spike 0.011
+[DONE 10-12 13:08:31] n58 probe step_0046700.pt: p C=1024 N8: 100.0 97.7 96.1 93.0 (mem off 14.8) | N32: 96.1 84.4 82.8 75.8 (mem off 7.0) |  [eval] val_ppl 34.01 | ablated_ppl 33.39 (memory Δ=-0.62) | spike 0.029
+[ALERT 10-12 13:09:10] n58 probe probe_v4_xchunk died (rc 143): step 46750 | 1531.9M tok | loss 3.925 | 3,818 tok/s | vram 13.6/22.3 GB | 
+[INFO 10-12 13:09:24] n58 probe probe_v4_nodecay started on the 5090 (logs/probe_v4_nodecay.log)
+[WARN 10-12 13:20:10] GPU 1 has had no job for 16 min (415 MiB in use): idle
+[DONE 10-12 13:35:30] n58 probe step_0046600.pt: p C=1024 N8: 99.2 58.6 40.6 22.7 (mem off 11.7) | N32: 89.1 30.5 12.5 4.7 (mem off 3.9) |  [eval] val_ppl 35.82 | ablated_ppl 35.47 (memory Δ=-0.35) | spike 0.009
+[DONE 10-12 13:51:25] n58 probe step_0046700.pt: p C=1024 N8: 99.2 99.2 96.1 89.8 (mem off 12.5) | N32: 96.9 80.5 79.7 79.7 (mem off 4.7) |  [eval] val_ppl 36.32 | ablated_ppl 35.03 (memory Δ=-1.29) | spike 0.040
+[INFO 10-12 13:55:41] alert_watch started
+[INFO 10-12 13:55:47] n58 probe probe_v4_nodecay started on the 5090 (logs/probe_v4_nodecay.log)
+[INFO 10-12 13:55:51] cloud: v4_cloud step 62600 | 2051.3M tok | loss 3.908 | 37,160 tok/s | vram  | val 37.13 41.39 38.04 | 37131 tok/s | of 227661 steps | disk 120 GB | gpu 100 %, 115101 MiB
+[INFO 10-12 13:59:06] alert_watch started
+[INFO 10-12 13:59:11] n58 probe probe_v4_nodecay started on the 5090 (logs/probe_v4_nodecay.log)
+[INFO 10-12 13:59:13] cloud: v4_cloud step 62800 | 2057.8M tok | loss 4.007 | 37,160 tok/s | vram  | val 37.13 41.39 38.04 | 37160 tok/s | of 227661 steps | disk 120 GB | gpu 100 %, 115101 MiB
+[INFO 10-12 14:07:03] alert_watch started
+[INFO 10-12 14:07:03] n58 probe probe_v4_nodecay started on the 5090 (logs/probe_v4_nodecay.log)
+[INFO 10-12 14:07:13] cloud: v4_cloud step 63400 | 2077.5M tok | loss 3.399 | 37,119 tok/s | vram  | val 41.39 38.04 37.20 | 37138 tok/s | of 227661 steps | disk 120 GB | gpu 100 %, 115021 MiB
+[WARN 10-12 14:20:51] GPU 1 has had no job for 16 min (480 MiB in use): idle
+[WARN 10-12 14:46:18] probe_v4_nodecay val_ppl RISING over the last 3 evals: 35.82 36.32 39.09 (step 46800 of 227661)
+[ALERT 10-12 14:48:05] n58 probe probe_v4_nodecay died (rc 143): step 46815 | 1534.0M tok | loss 4.164 | 4,129 tok/s | vram 13.6/22.3 GB | E1012 14:25:48.056000 601 torch/_inductor/select_algorithm.py:3924] [1/0] No valid triton configs. OutOfMemoryError: out of resource: triton
+[DONE 10-12 15:48:09] n58 revival test finished: logs/n58_revive.log | C46800                     C=1024 T=2048 | chunk1   72.31 (mem off   72.04) | chunks2+   67.87 (off   65.36, Δ -2.51) | first64 of 2+  100.93 (off  1
+[INFO 10-12 15:54:58] brain_py13 (13L Python brain test) started on GPU 1
+[DONE 10-12 16:33:28] v4 checkpoint step_0064500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773419 bytes)
+[DONE 10-12 16:50:17] n58 narrow revival finished: logs/n58_revive.log | C=1024 T=2048 | chunk1   42.13 (mem off   42.07) | chunks2+   42.36 (off   40.56, Δ -1.80) | first64 of 2+   63.64 (off    | B 50.01, C 72.31
+[DONE 10-12 17:02:48] health step_0064500: C=1024 T=2048 | chunk1   37.45 (mem off   37.45) | chunks2+   33.88 (off   34.21, Δ +0.33) | first64 of 2+   61.87 (off   68.52, Δ +6.65) vs  |   per token active neurons mean 4.8 | median 2 | 5% 1 | 95% 9 | tokens with none 0.0% | wi
+[DONE 10-12 17:02:56] brain_py13 Python brain (code that passes its tests): base         taught   0.0% (n=90) | control   0.0% (n=24);py           taught 100.0% (n=90) | control   0.0% (n=24);
+[WARN 10-12 17:17:23] GPU 1 has had no job for 16 min (441 MiB in use): idle
+[INFO 10-12 17:20:00] brain_fdc13 (13L health brain test) started on GPU 1
+[DONE 10-12 17:47:24] n58 clean control finished: C=1024 T=2048 | chunk1   42.47 (mem off   42.43) | chunks2+   40.89 (off   40.42, � | narrow revival D 42.13, interrupted B 50.01
+[DONE 10-12 18:09:32] v4 checkpoint step_0072000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773547 bytes)
+[DONE 10-12 18:11:46] n58 resume test: after a resume chunk1   43.09 (mem off   | one segment 42.47 | interrupted B 50.01
+[DONE 10-12 18:22:13] health step_0072000: C=1024 T=2048 | chunk1   40.83 (mem off   40.80) | chunks2+   37.27 (off   37.54, Δ +0.27) | first64 of 2+   67.63 (off   74.05, Δ +6.42) vs  |   per token active neurons mean 23.5 | median 18 | 5% 9 | 95% 47 | tokens with none 0.0% |
+[DONE 10-12 18:31:47] 1B dense SFT on the 5090 (B4 x GA8 x 512): median 3667 tok/s, vram 13.3/25.8 GB (rc 0) -> 60M tok = 45e-1 h | logs/sft_v4_dense_speed.log
+[DONE 10-12 18:35:55] brain_fdc13 health brain (exact USDA values): base         taught   0.0% (n=150) | control   0.0% (n=150);health       taught  86.7% (n=150) | control   6.0% (n=150);
+[WARN 10-12 18:51:36] GPU 1 has had no job for 16 min (442 MiB in use): idle
+[WARN 10-12 19:31:41] GPU 1 has had no job for 16 min (2685 MiB in use): idle
+[DONE 10-12 20:08:21] brain ON vs OFF at 13L (tool score all-9, energy): == base (sft_v4_reh13_v2tr) 18:52; constrained parse=1.000 mode_acc=0.970 halluc=0.000 tool_acc=0.984 args_exact=0.820 refuse_acc=0.923 say_ok=1;base energy-v2 | weight reads 68.5M of 129.6M (53%) | compute only 5.58x (116 vs 648 uJ) | +SRAM fetch 3.17x (;== py (merged_brain_py13) 19:17; constrained parse=1.000 mode_acc=0.925 halluc=0.000 tool_acc=0.984 args_exact=0.795 refuse_acc=0.808 say_ok=1;p | logs/n58_brainon.log
+[INFO 10-12 20:14:12] cloud: v4_cloud step 87900 | 2880.3M tok | loss 3.840 | 37,034 tok/s | vram  | val 36.80 39.54 38.33 | 37029 tok/s | of 227661 steps | disk 105 GB | gpu 100 %, 114941 MiB
+[DONE 10-12 20:20:28] v4 checkpoint step_0081000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773547 bytes)
+[DONE 10-12 20:50:56] health step_0081000: C=1024 T=2048 | chunk1   38.24 (mem off   38.24) | chunks2+   35.03 (off   35.36, Δ +0.33) | first64 of 2+   65.47 (off   72.46, Δ +6.99) vs  |   per token active neurons mean 24.3 | median 19 | 5% 9 | 95% 47 | tokens with none 0.0% |
+[WARN 10-12 21:06:20] GPU 1 has had no job for 16 min (438 MiB in use): idle
+[WARN 10-12 22:22:42] probe_v4_plainQ val_ppl RISING over the last 3 evals: 30.99 31.11 32.55 (step 47500 of 227661)
+[DONE 10-12 22:26:20] n58 decay A/B (plain training, 1,000 steps): P decay on chunk1   41.49  | Q decay off chunk1   44.18  | logs/n58_decay_ab.log
+[DONE 10-12 22:31:55] v4 checkpoint step_0090000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773547 bytes)
+[DONE 10-12 22:43:46] health step_0090000: C=1024 T=2048 | chunk1   38.82 (mem off   38.82) | chunks2+   35.55 (off   35.90, Δ +0.35) | first64 of 2+   62.87 (off   70.73, Δ +7.85) vs  |   per token active neurons mean 25.9 | median 22 | 5% 9 | 95% 53 | tokens with none 0.0% |
+[WARN 10-12 22:58:57] GPU 1 has had no job for 16 min (333 MiB in use): idle
+[DONE 10-13 00:21:20] n58 ghost gradients: G (ghost) chunk1   42.06  | H (revival + ghost) chunk1   41.76  | control 42.47, revival alone 42.13 | logs/n58_ghost.log
+[DONE 10-13 00:39:29] v4 checkpoint step_0099000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773547 bytes)
+[DONE 10-13 00:51:20] health step_0099000: C=1024 T=2048 | chunk1   40.83 (mem off   40.81) | chunks2+   37.74 (off   38.04, Δ +0.31) | first64 of 2+   66.81 (off   72.89, Δ +6.07) vs  |   per token active neurons mean 20.4 | median 17 | 5% 7 | 95% 42 | tokens with none 0.0% |
+[WARN 10-13 01:19:28] GPU 1 has had no job for 16 min (2593 MiB in use): idle
+[DONE 10-13 01:28:12] n59 Python brain with 1:1 replay:   constrained  parse=1.000 mode_acc=0.955 halluc=0.000 tool_acc=0.992 args_exact=0.869 refuse_acc=0.885 say_ok=1.000  (1352s) | base refuse .923 mode .970, old brain refuse .808 mode .925 | quiz: base         taught   0.0% (n=90) | control   0.0% (n=24);py           taught 100.0% (n=90) | control   0.0% (n=24);
+[INFO 10-13 02:15:37] cloud: v4_cloud step 112100 | 3673.3M tok | loss 3.510 | 37,084 tok/s | vram | val 36.14 35.81 36.01 | 37083 tok/s | of 227661 steps | disk 105 GB | gpu 100 %, 115021 MiB
+[DONE 10-13 02:23:41] n59 small embedding decay (plain training, 1,000 steps): E decay 0.02 chunk1   41.04  | P decay 0.1 chunk1 41.49 | Q decay 0 chunk1 44.18 | logs/n59_embed.log
+[DONE 10-13 02:35:12] v4 checkpoint step_0106500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-13 02:43:55] health step_0106500: C=1024 T=2048 | chunk1   38.73 (mem off   38.72) | chunks2+   35.30 (off   35.58, Δ +0.28) | first64 of 2+   63.55 (off   69.11, Δ +5.56) vs  |   per token active neurons mean 22.4 | median 19 | 5% 8 | 95% 41 | tokens with none 0.0% |
+[WARN 10-13 03:34:02] GPU 1 has had no job for 16 min (2585 MiB in use): idle
+[DONE 10-13 04:46:29] v4 checkpoint step_0115500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-13 05:23:49] health step_0115500: C=1024 T=2048 | chunk1   36.50 (mem off   36.46) | chunks2+   33.43 (off   33.65, Δ +0.22) | first64 of 2+   60.65 (off   66.10, Δ +5.45) vs  |   per token active neurons mean 22.4 | median 18 | 5% 8 | 95% 46 | tokens with none 0.0% |
+[DONE 10-13 05:28:25] n59 from step 90,000 (300 steps): control chunk1   40.72 , alive 77.2%  | ghost chunk1   39.99 , alive 96.4%  | revival + ghost + masked decay chunk1   39.42 , alive 98.5%  | logs/n59_k90.log
+[WARN 10-13 05:44:48] GPU 1 has had no job for 16 min (2585 MiB in use): idle
+[DONE 10-13 05:52:17] n59 brain replay 2:   constrained brain_fdc13r  mode_acc=0.965 tool_acc=0.992 args_exact=0.828 refuse_acc=0.910 ;  constrained brain_py13r2  mode_acc=0.965 tool_acc=0.992 args_exact=0.877 refuse_acc=0.910 ; | base mode .970 tool .984 args .820 refuse .923 | logs/n59_brainrep2.log
+[WARN 10-13 06:17:01] probe_v4_g2on val_ppl RISING over the last 3 evals: 34.40 34.77 35.90 (step 90600 of 227661)
+[WARN 10-13 06:26:46] cloud: val_ppl has risen 3 evals in a row in v4_cloud: 34.02 35.88 37.32 (step 129100 | 4230.3M tok | loss 3.531 | 30,989 tok/s | vram)
+[DONE 10-13 06:56:35] v4 checkpoint step_0124500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[WARN 10-13 07:38:04] GPU 0 has had no job for 16 min (176 MiB in use): idle
+[WARN 10-13 08:00:06] an eval has been running for 30 min (pid 459605): /home/glenn/projects/bdh/venv/bin/python temp/xchunk_haystack_eval.py 
+[DONE 10-13 08:09:47] health step_0124500: C=1024 T=2048 | chunk1   36.30 (mem off   36.30) | chunks2+   32.99 (off   33.34, Δ +0.35) | first64 of 2+   58.33 (off   65.79, Δ +7.46) vs  |   per token active neurons mean 22.9 | median 19 | 5% 8 | 95% 49 | tokens with none 0.0% |
+[INFO 10-13 08:17:16] cloud: v4_cloud step 136400 | 4469.6M tok | loss 3.634 | 37,108 tok/s | vram | val 37.32 36.64 41.68 | 37108 tok/s | of 227661 steps | disk 104 GB | gpu 100 %, 115001 MiB
+[WARN 10-13 09:04:14] probe_v4_g2off val_ppl RISING over the last 3 evals: 32.68 33.39 33.86 (step 90605 of 227661)
+[ALERT 10-13 09:04:15] disk /mnt/g has only 38 GB free
+[ALERT 10-13 09:07:52] Drive pull of step_0133500.pt: have 0 of ? bytes (logs/n57_drive_pull.log)
+[WARN 10-13 09:18:18] probe_v4_g2off val_ppl RISING over the last 3 evals: 33.39 33.86 35.91 (step 90705 of 227661)
+[ALERT 10-13 09:27:36] cloud: instance unreachable for 30 min (outbid, host down or ssh changed?)
+[WARN 10-13 09:32:21] probe_v4_g2off val_ppl RISING over the last 3 evals: 33.86 35.91 36.24 (step 90805 of 227661)
+[WARN 10-13 09:40:23] GPU 1 has had no job for 16 min (2527 MiB in use): idle
+[DONE 10-13 09:49:36] n59 health brain, 1:1 replay, 24M tokens:   quiz health       taught  87.3% (n=150) | control   7.3% (n=150) |   constrained  mode_acc=0.970 tool_acc=0.975 args_exact=0.852 refuse_acc=0.923  | at 13.3M: quiz 74.7%, refuse .910; old brain: quiz 86.7%, refuse .769
+[INFO 10-13 10:57:39] cloud: instance reachable again
+[ALERT 10-13 11:00:47] disk /mnt/g has only 37 GB free
+[WARN 10-13 11:04:48] probe_v4_g2c val_ppl RISING over the last 3 evals: 29.88 30.54 31.19 (step 90700 of 227661)
+[ALERT 10-13 11:18:13] Drive pull of step_0142500.pt: have 0 of ? bytes (logs/n57_drive_pull.log)
+[DONE 10-13 11:53:31] n59 ghost, 700 more steps (to 91,000): ghost on chunk1   48.76 , alive 95.8%  | ghost off + masked decay chunk1   46.94 , alive 94.6%  | control chunk1   39.15 , alive 76.6%  | logs/n59_g2.log
+[DONE 10-13 12:43:42] v4 checkpoint step_0142500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[WARN 10-13 13:01:21] GPU 0 has had no job for 16 min (221 MiB in use): idle
+[DONE 10-13 13:01:45] health step_0142500: C=1024 T=2048 | chunk1   40.20 (mem off   40.19) | chunks2+   37.08 (off   37.25, Δ +0.17) | first64 of 2+   69.99 (off   74.34, Δ +4.35) vs  |   per token active neurons mean 16.9 | median 15 | 5% 5 | 95% 34 | tokens with none 0.1% |
+[INFO 10-13 14:23:01] alert_watch started
+[INFO 10-13 14:23:04] cloud: v4_cloud step 160800 | 5269.1M tok | loss 3.489 | 32,025 tok/s | vram | val 32.73 30.96 31.83 | 32025 tok/s | of 227661 steps | disk 104 GB | gpu 100 %, 115293 MiB
+[WARN 10-13 14:37:03] GPU 1 has had no job for 16 min (481 MiB in use): idle
+[WARN 10-13 15:37:24] tiny_n60 val_ppl FLAT over the last 3 evals: 8653.77 12770.13 8674.39 (step 40 of 40)
+[DONE 10-13 15:38:44] v4 checkpoint step_0159000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-13 15:48:44] health step_0159000: C=1024 T=2048 | chunk1   33.47 (mem off   33.46) | chunks2+   30.51 (off   30.88, Δ +0.37) | first64 of 2+   55.03 (off   62.63, Δ +7.61) vs  |   per token active neurons mean 25.9 | median 22 | 5% 10 | 95% 48 | tokens with none 0.0% 
+[WARN 10-13 16:03:32] GPU 1 has had no job for 16 min (437 MiB in use): idle
+[DONE 10-13 16:43:30] n59 revival (corrected count): R (revival) chunk1   41.63  | S (revival + masked decay) chunk1   41.40  | control 42.47 | logs/n59_rev.log
+[WARN 10-13 17:11:42] GPU 1 has had no job for 16 min (453 MiB in use): idle
+[ALERT 10-13 17:31:38] n60 r166: probe_v4_wake1 trainer died: 
+[WARN 10-13 17:45:47] GPU 0 has had no job for 16 min (212 MiB in use): idle
+[WARN 10-13 17:45:47] GPU 1 has had no job for 16 min (431 MiB in use): idle
+[DONE 10-13 17:49:42] v4 checkpoint step_0166500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-13 18:00:59] health step_0166500: C=1024 T=2048 | chunk1   29.66 (mem off   29.68) | chunks2+   27.33 (off   27.70, Δ +0.36) | first64 of 2+   48.08 (off   55.27, Δ +7.19) vs  |   per token active neurons mean 43.7 | median 33 | 5% 13 | 95% 107 | tokens with none 0.0%
+[WARN 10-13 18:15:53] GPU 1 has had no job for 16 min (421 MiB in use): idle
+[WARN 10-13 19:06:03] probe_v4_c166 val_ppl RISING over the last 3 evals: 22.54 22.74 22.76 (step 167000 of 227661)
+[DONE 10-13 19:50:30] v4 checkpoint step_0172500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[INFO 10-13 20:24:58] cloud: v4_cloud step 180800 | 5924.5M tok | loss 3.596 | 29,440 tok/s | vram | val 26.35 26.21 26.29 | 30377 tok/s | of 227661 steps | disk 104 GB | gpu 100 %, 115333 MiB
+[DONE 10-13 20:31:22] health step_0172500: C=1024 T=2048 | chunk1   28.01 (mem off   28.04) | chunks2+   25.89 (off   26.35, Δ +0.46) | first64 of 2+   46.08 (off   55.09, Δ +9.01) vs  |   per token active neurons mean 34.5 | median 26 | 5% 10 | 95% 83 | tokens with none 0.0% 
+[DONE 10-13 20:35:12] n60 control 166,500 -> 167,500: chunk1   30.37  | gt 80.0%  pos 85.8%  out 59.5%  e3 51.2%  e2 51.0% | logs/n60_r166.log
+[ALERT 10-13 20:35:59] n60 r166: arm R166 has no start checkpoint
+[ALERT 10-13 20:38:16] n60 u166: arm U166 has no start checkpoint
+[WARN 10-13 20:46:27] GPU 1 has had no job for 16 min (440 MiB in use): idle
+[WARN 10-13 21:05:09] cloud: val_ppl has risen 3 evals in a row in v4_cloud: 26.21 26.29 27.04 (step 183100 | 5999.8M tok | loss 3.235 | 25,946 tok/s | vram)
+[DONE 10-13 22:31:05] v4 checkpoint step_0180000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[WARN 10-13 22:56:56] probe_v4_r166 val_ppl RISING over the last 3 evals: 22.55 22.69 23.06 (step 167405 of 227661)
+[ALERT 10-13 23:03:57] n61 brain_py1b did NOT finish: RuntimeError: CUDA driver error: device not ready
+[WARN 10-13 23:29:50] GPU 0 has had no job for 16 min (219 MiB in use): idle
+[DONE 10-13 23:40:54] n60 revive all (166,500 -> 167,500): chunk1   30.52  | gt 95.8%  pos 96.8%  out 95.8%  e3 96.5%  e2 72.2% || control chunk1   30.37  | logs/n60_r166.log
+[DONE 10-14 00:00:27] v4 checkpoint step_0186000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 01:56:44] v4 checkpoint step_0193500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 02:03:13] health step_0186000: C=1024 T=2048 | chunk1   28.19 (mem off   28.22) | chunks2+   26.02 (off   26.47, Δ +0.45) | first64 of 2+   44.54 (off   53.10, Δ +8.55) vs  |   per token active neurons mean 46.2 | median 36 | 5% 14 | 95% 111 | tokens with none 0.0%
+[DONE 10-14 02:11:00] health step_0193500: C=1024 T=2048 | chunk1   24.94 (mem off   24.96) | chunks2+   23.06 (off   23.52, Δ +0.46) | first64 of 2+   39.55 (off   48.17, Δ +8.62) vs  |   per token active neurons mean 37.0 | median 29 | 5% 12 | 95% 84 | tokens with none 0.0% 
+[WARN 10-14 02:13:00] probe_v4_u166 val_ppl RISING over the last 3 evals: 22.43 22.67 24.57 (step 167400 of 227661)
+[INFO 10-14 02:26:24] cloud: v4_cloud step 200700 | 6576.5M tok | loss 3.117 | 30,409 tok/s | vram | val 23.55 23.81 22.80 | 29953 tok/s | of 227661 steps | disk 104 GB | gpu 98 %, 115293 MiB
+[WARN 10-14 02:27:09] probe_v4_u166 val_ppl RISING over the last 3 evals: 22.67 24.57 25.05 (step 167500 of 227661)
+[DONE 10-14 02:32:02] n60 revive blocks 7-12 only: chunk1   33.62  | all chunk1   30.52  | control chunk1   30.37  | logs/n60_r166.log
+[DONE 10-14 03:57:36] v4 checkpoint step_0201000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 04:06:47] health step_0201000: C=1024 T=2048 | chunk1   24.69 (mem off   24.72) | chunks2+   22.47 (off   23.06, Δ +0.59) | first64 of 2+   37.43 (off   48.88, Δ +11.46) vs |   per token active neurons mean 40.4 | median 31 | 5% 12 | 95% 94 | tokens with none 0.0% 
+[DONE 10-14 05:10:47] n60 revive blocks 1-5 only: chunk1   30.48  | blocks 7-12 chunk1   33.62  | all chunk1   30.52  | control chunk1   30.37  | logs/n60_r166.log
+[DONE 10-14 06:09:43] v4 checkpoint step_0207000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 06:40:03] n61 1B brain merge:  quiz base taught 0.0% (n=90) | control 0.0% (n=24)| quiz py taught 100.0% (n=90) | control 0.0% (n=24)| quiz base taught 0.0% (n=150) | control 0.0% (n=150)| quiz health taught 95.3% (n=150) | control 3.3% (n=150)| quiz base taught 1.3% (n=150) | control 0.7% (n=150)| quiz health taught 20.7% (n=150) | control 4.7% (n=150)| quiz base taught 0.0% (n=90) | control 0.0% (n=24)| quiz base taught 0.0% (n=150) | control 0.0% (n=150)|base180 full 25.423 | chunk1 25.468 | chunks2+ 25.379 (model|A_py full 35.875 | chunk1 35.906 | chunks2+ 35.844 (models/c|B2_fdc full 63.180 | chunk1 63.258 | chunks2+ 63.101 (models|C_both full 224.339 | chunk1 227.342 | chunks2+ 221.376 (mod| | logs/n61_5080.log
+[DONE 10-14 06:48:17] health step_0207000: C=1024 T=2048 | chunk1   23.62 (mem off   23.67) | chunks2+   21.53 (off   22.19, Δ +0.66) | first64 of 2+   34.86 (off   45.96, Δ +11.11) vs |   per token active neurons mean 40.9 | median 31 | 5% 13 | 95% 99 | tokens with none 0.0% 
+[DONE 10-14 06:53:44] n61 LAWA late: s193 22.623 s201 22.239 s207 21.300 avg201_207 19.777 avg3 19.475 | logs/n61_lawa.log
+[DONE 10-14 07:53:55] n60 revive all + U-NorMuon: chunk1   30.21  | revive all chunk1   30.52  | upper chunk1   33.62  | lower chunk1   30.48  | control chunk1   30.37  | logs/n60_r166.log
+[WARN 10-14 08:09:13] GPU 0 has had no job for 16 min (224 MiB in use): idle
+[DONE 10-14 08:26:37] v4 checkpoint step_0214500.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[INFO 10-14 08:27:51] cloud: v4_cloud step 220400 | 7222.1M tok | loss 3.162 | 30,251 tok/s | vram | val 21.22 21.42 21.03 | 29680 tok/s | of 227661 steps | disk 104 GB | gpu 85 %, 115375 MiB
+[DONE 10-14 08:33:45] health step_0214500: C=1024 T=2048 | chunk1   22.79 (mem off   22.84) | chunks2+   20.76 (off   21.42, Δ +0.67) | first64 of 2+   33.60 (off   45.15, Δ +11.55) vs |   per token active neurons mean 51.4 | median 40 | 5% 17 | 95% 122 | tokens with none 0.0%
+[DONE 10-14 10:37:58] v4 checkpoint step_0222000.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 10:45:06] health step_0222000: C=1024 T=2048 | chunk1   22.38 (mem off   22.45) | chunks2+   20.42 (off   21.16, Δ +0.74) | first64 of 2+   33.43 (off   44.76, Δ +11.33) vs |   per token active neurons mean 57.9 | median 48 | 5% 21 | 95% 129 | tokens with none 0.0%
+[DONE 10-14 10:47:23] cloud: dense phase DONE -> seeding + conversion ([run_v4 10-14 17:39:40] start/resume v4_cloud_conv)
+[DONE 10-14 11:39:55] health step_0214500: C=1024 T=2048 | chunk1   40.66 (mem off   41.07) | chunks2+   36.43 (off   38.16, Δ +1.73) | first64 of 2+   68.60 (off   93.07, Δ +24.47) vs |   per token active neurons mean 27.0 | median 21 | 5% 8 | 95% 66 | tokens with none 0.0% |
+[ALERT 10-14 12:05:26] demo engine test rc=1: [FAIL] meter compute: event 115.52 uJ/tok vs eval 118.18 (2.25%) | dense 615.26 vs 615.26 (0.00%) | ratio 5.21x  FileNotFoundError: no step_*.pt in models/checkpoints/some_other_base
+[ALERT 10-14 12:09:25] demo engine test rc=1: [FAIL] meter sram: event 304.07 uJ/tok vs eval 300.92 (1.05%) | dense 949.64 vs 949.64 (0.00%) | ratio 3.16x [FAIL] second-pass reply carries the value: '17% of 240 is 239.' (47s, 58 traced tokens) == 2 FAILED in 166s  
+[DONE 10-14 12:13:03] demo engine test: == ALL PASSED in 157s 
+[ALERT 10-14 12:32:14] n61 selfknow failed:   'Exposure to what causes skin color to darken?' gold='sunlight' forced="ANSWER I can't look that up with the tools I've go" known=False search=False selfknow sft_v4_reh13_v2tr: really known 1/60 (1.7%) | P(search|known) 0.000 | P(search|unknown) 0.017 | selectivity +0.017 | unanswerable -> search o 
+[DONE 10-14 12:40:46] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-14 12:57:57] n61 selfknow: probe v4_base222: 6400 answerable -> known 205 (3.2%), unknown 5309 (83.0%), band 886 [OK] /home/glenn/projects/neuro/scripts/../training_data/posttrain/selfknow_v4_base222.jsonl: 7207 records {'sk_known': 207, 'sk_search': 45 selfknow sft_v4_reh13_v2tr: really known 1/60 (1.7%) | P(search|known) 0.000 | P(search|unknown) 0.017 | selectivity +0.017 | unanswerable - 
+[DONE 10-14 13:47:16] n61 same-ckpt merge:  quiz base taught 1.3% (n=150) | control 0.7% (n=150)| quiz health taught 100.0% (n=150) | control 7.3% (n=150)| quiz base taught 0.0% (n=90) | control 0.0% (n=24)| quiz base taught 19.3% (n=150) | control 2.7% (n=150)|B180_fdc full 69.572 | chunk1 70.156 | chunks2+ 68.994 (mode|C2_both full 289.287 | chunk1 295.802 | chunks2+ 282.915 (mo| | logs/n61_5080.log
+[DONE 10-14 13:59:50] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[DONE 10-14 14:14:36] v4 checkpoint step_0228000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[DONE 10-14 14:22:58] health step_0228000: C=1024 T=2048 | chunk1   32.90 (mem off   33.02) | chunks2+   30.40 (off   31.16, Δ +0.77) | first64 of 2+   51.29 (off   63.75, Δ +12.46) vs |   per token active neurons mean 62.1 | median 53 | 5% 24 | 95% 132 | tokens with none 0.0%
+[INFO 10-14 14:28:21] cloud: v4_cloud_conv step 236900 | 7762.7M tok | loss 3.576 | 22,250 tok/s | vram | val 31.62 27.94 26.08 | 22182 tok/s | of 320739 steps | disk 76 GB | gpu 99 %, 84119 MiB
+[DONE 10-14 15:41:49] v4 checkpoint step_0234000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[DONE 10-14 16:13:01] health step_0234000: C=1024 T=2048 | chunk1   26.56 (mem off   26.68) | chunks2+   24.08 (off   24.85, Δ +0.76) | first64 of 2+   39.06 (off   52.33, Δ +13.27) vs |   per token active neurons mean 52.9 | median 41 | 5% 20 | 95% 127 | tokens with none 0.0%
+[DONE 10-14 16:38:44] n61 1B dense SFT-A rehearsal (222,000 base, 60M tok):   constrained  mode_acc=0.995 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987  | logs/n61_sft.log
+[WARN 10-14 16:54:29] GPU 0 has had no job for 16 min (222 MiB in use): idle
+[DONE 10-14 17:00:33] sftb smoke rc=0 peak VRAM 31652 MiB | logs/screen_sftb_smoke.log
+[DONE 10-14 17:13:50] v4 checkpoint step_0238500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-14 17:16:32] GPU 0 has had no job for 16 min (176 MiB in use): idle
+[WARN 10-14 17:32:33] an eval has been running for 30 min (pid 865288): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-14 17:51:19] demo_regress: sft_v4_reh222d | constrained mode_acc=0.995 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 s | sel +0.000 | unanswe | toolresult sft_v4_reh222d ALL faithful 0.871 (n= | | == run-through sft_v4_reh222d offline: 7 | logs/demo_regress_sft_v4_reh222d.log
+[INFO 10-14 18:18:35] n62 chain 0 (re)started by guard
+[INFO 10-14 18:18:36] n62 chain 1 (re)started by guard
+[DONE 10-14 18:24:26] health step_0238500: C=1024 T=2048 | chunk1   25.72 (mem off   25.72) | chunks2+   23.08 (off   23.86, Δ +0.78) | first64 of 2+   37.69 (off   50.13, Δ +12.44) vs |   per token active neurons mean 62.3 | median 50 | 5% 24 | 95% 145 | tokens with none 0.0%
+[DONE 10-14 18:59:49] v4 checkpoint step_0244500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-14 19:23:05] an eval has been running for 31 min (pid 882430): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-14 19:42:55] demo_regress: sft_v4_reh222d | constrained mode_acc=0.995 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 s | sel +0.000 | unanswe | toolresult sft_v4_reh222d ALL faithful 0.871 (n= | chunk1 63.89 | == run-through sft_v4_reh222d offline: 7 | logs/demo_regress_sft_v4_reh222d.log
+[ALERT 10-14 20:00:04] brain_py1b_A did NOT finish: RuntimeError: Error(s) in loading state_dict for SpikingHebbianLM:
+[ALERT 10-14 20:00:05] GPU 1 chain job rc=1: bash temp/n62_brain.sh 1 sft_v4_reh222d_slim brain_py1b_A python_r2 13300000 4 8 | logs/n62_chain1.log
+[DONE 10-14 20:07:45] health step_0244500: C=1024 T=2048 | chunk1   24.27 (mem off   24.33) | chunks2+   21.97 (off   22.80, Δ +0.83) | first64 of 2+   35.21 (off   47.82, Δ +12.62) vs |   per token active neurons mean 66.7 | median 54 | 5% 28 | 95% 151 | tokens with none 0.0%
+[ALERT 10-14 20:08:14] brain_fdc1b_A did NOT finish: RuntimeError: Error(s) in loading state_dict for SpikingHebbianLM:
+[ALERT 10-14 20:08:15] GPU 1 chain job rc=1: bash temp/n62_brain.sh 1 sft_v4_reh222d_slim brain_fdc1b_A health_r1 24000000 4 8 | logs/n62_chain1.log
+[INFO 10-14 20:29:46] cloud: v4_cloud_conv step 251500 | 8241.2M tok | loss 2.897 | 22,225 tok/s | vram | val 24.09 23.72 23.55 | 22178 tok/s | of 320739 steps | disk 76 GB | gpu 100 %, 84259 MiB
+[DONE 10-14 21:13:50] v4 checkpoint step_0249000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[INFO 10-14 21:44:08] n62 chain 0 (re)started by guard
+[INFO 10-14 21:44:08] n62 chain 1 (re)started by guard
+[INFO 10-14 21:52:33] n62 self-knowledge probe c249_k3: probe c249_k3: 6400 answerable -> known 289 (4.5%), unknown 5038 (78.7%), band 1073
+[DONE 10-14 21:57:52] n62 avg test (conversion): c249_k1 chunk1 23.65 memΔ +0.84; c249_k2 chunk1 21.74 memΔ +0.82; c249_k3 chunk1 21.63 memΔ +0.74; -> base c249_k3 | logs/n62_avgtest.log
+[INFO 10-14 21:57:55] n62 SFT sft_v4_B2 started (base c249_k3, text 0, 60000000 tok, + self-knowledge)
+[INFO 10-14 21:59:32] no queue and no trainer for 15 min: GPUs idle
+[DONE 10-14 22:01:36] health step_0249000: C=1024 T=2048 | chunk1   23.67 (mem off   23.70) | chunks2+   21.53 (off   22.35, Δ +0.81) | first64 of 2+   33.57 (off   46.01, Δ +12.44) vs |   per token active neurons mean 73.8 | median 63 | 5% 33 | 95% 154 | tokens with none 0.0%
+[WARN 10-14 22:15:33] GPU 1 has had no job for 16 min (285 MiB in use): idle
+[DONE 10-14 22:39:17] n62 avg k4/k5 (conversion): c249_k1 chunk1 23.65 memΔ +0.84 dead 0.1%; c249_k3 chunk1 21.63 memΔ +0.74 dead 3.2%; c249_k4 chunk1 21.86 memΔ +0.70 dead 6.7%; c249_k5 chunk1 22.29 memΔ +0.61 dead 13.2%; | logs/n62_avgtest.log
+[WARN 10-14 22:53:37] GPU 1 has had no job for 16 min (376 MiB in use): idle
+[DONE 10-14 23:05:19] n63 5080 hour (xchunk B4 + FFN prune on c249_k3) | logs/n63_5080_hour.log
+[DONE 10-14 23:07:34] n63 5080 hour 2 (energy breakdown + knob sweep on c249_k3) | logs/n63_5080_hour2.log
+[DONE 10-14 23:10:22] n63 5080 hour 3 (per-group spike-code step sweep on c249_k3) | logs/n63_5080_hour3.log
+[DONE 10-14 23:25:24] n63 5080 hour 4 (ecal x1.5 / x2.0 + prune: chunk ppl + xchunk) | logs/n63_5080_hour4.log
+[DONE 10-14 23:28:02] n63 5080 hour 5 (pruned energy: p / e15 / e20) | logs/n63_5080_hour5.log
+[DONE 10-14 23:37:06] v4 checkpoint step_0253500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[DONE 10-14 23:44:48] health step_0253500: C=1024 T=2048 | chunk1   23.27 (mem off   23.36) | chunks2+   21.20 (off   22.08, Δ +0.88) | first64 of 2+   33.07 (off   45.71, Δ +12.63) vs |   per token active neurons mean 72.2 | median 60 | 5% 31 | 95% 158 | tokens with none 0.0%
+[WARN 10-15 00:46:00] an eval has been running for 30 min (pid 1339670): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 01:25:41] demo_regress: sft_v4_B2_s916 | constrained mode_acc=0.980 tool_acc=0.984 args_exact=0.861 refuse_acc=0.949 s | sel +0.010 | unanswe | toolresult sft_v4_B2_s916 ALL faithful 0.837 (n= | chunk1 44.40 | == run-through sft_v4_B2_s916 offline: 6 | logs/demo_regress_sft_v4_B2_s916.log
+[DONE 10-15 01:36:12] v4 checkpoint step_0259500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 02:30:10] an eval has been running for 30 min (pid 1347165): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[INFO 10-15 02:31:20] cloud: v4_cloud_conv step 266000 | 8716.3M tok | loss 2.862 | 21,884 tok/s | vram | val 22.53 22.37 22.04 | 21893 tok/s | of 320739 steps | disk 76 GB | gpu 100 %, 84259 MiB
+[DONE 10-15 03:15:01] demo_regress: sft_v4_B2_s1832 | constrained mode_acc=0.985 tool_acc=0.992 args_exact=0.893 refuse_acc=0.962 s | sel +0.010 | unanswe | toolresult sft_v4_B2_s1832 ALL faithful 0.802 (n | chunk1 48.78 | == run-through sft_v4_B2_s1832 offline: | logs/demo_regress_sft_v4_B2_s1832.log
+[DONE 10-15 03:24:41] health step_0259500: C=1024 T=2048 | chunk1   22.70 (mem off   22.82) | chunks2+   20.50 (off   21.42, Δ +0.92) | first64 of 2+   32.25 (off   45.00, Δ +12.75) vs |   per token active neurons mean 78.4 | median 66 | 5% 36 | 95% 164 | tokens with none 0.0%
+[DONE 10-15 03:40:29] v4 checkpoint step_0265500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 04:24:25] an eval has been running for 31 min (pid 1360097): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 05:08:53] demo_regress: sft_v4_B2_s2748 | constrained mode_acc=0.995 tool_acc=0.992 args_exact=0.910 refuse_acc=0.987 s | sel +0.007 | unanswe | toolresult sft_v4_B2_s2748 ALL faithful 0.865 (n | chunk1 54.97 | == run-through sft_v4_B2_s2748 offline: | logs/demo_regress_sft_v4_B2_s2748.log
+[DONE 10-15 05:29:12] n62 SFT sft_v4_B2 (base c249_k3, text 0): done: 60.0M tok in 7.11h |   constrained  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.959 args_exact=0.885 refuse_acc=0.974 say_ok=0.959  (1296s)
+[INFO 10-15 05:29:17] n62 SFT sft_v4_B3 started (base c249_k3, text 0.15, 60000000 tok, + self-knowledge)
+[WARN 10-15 05:40:41] health step_0265500: step patch has waited 2 h (RAM / GPU 1 VRAM / 5090 priority)
+[DONE 10-15 05:47:38] n63 sk diag: sk_diag sft_v4_B2_s1832 (n=100, proto 2): A train sk_search, own menu 0.000 | B train sk_search, all 9 0.000 | C eval answerable, 3-6 menu 0.010 | D eval answerable, all 9 0.010 | logs/n63_sk_diag.log
+[DONE 10-15 05:52:42] v4 checkpoint step_0270000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 06:44:38] an eval has been running for 31 min (pid 1372823): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 07:27:45] demo_regress: sft_v4_B2_s3663 | constrained mode_acc=0.990 tool_acc=0.992 args_exact=0.918 refuse_acc=0.974 s | sel +0.456 | unanswe | toolresult sft_v4_B2_s3663 ALL faithful 0.854 (n | chunk1 52.98 | == run-through sft_v4_B2_s3663 offline: | logs/demo_regress_sft_v4_B2_s3663.log
+[DONE 10-15 07:27:47] n62 curve sft_v4_B2: sft_v4_B2_s916 sft_v4_B2_s1832 sft_v4_B2_s2748 sft_v4_B2_s3663 | logs/demo_regress.log
+[WARN 10-15 07:58:45] an eval has been running for 30 min (pid 1379057): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 08:13:33] n63 self-knowledge re-score (fixed scorer): selfknow sft_v4_B2_s1832: really known 4/300 (1.3%) | P(search|known) 1.000 | P(search|unknown) 0.980 | selectivity -0.020 | unanswerable -> search or IDK 1.000 (n=150) | logs/n63_sk_rescore.log
+[DONE 10-15 08:18:47] v4 checkpoint step_0274500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[INFO 10-15 08:32:45] cloud: v4_cloud_conv step 280500 | 9191.4M tok | loss 2.538 | 21,647 tok/s | vram | val 21.53 21.41 21.42 | 21863 tok/s | of 320739 steps | disk 76 GB | gpu 99 %, 84119 MiB
+[WARN 10-15 09:12:54] an eval has been running for 31 min (pid 1385239): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 10:00:29] demo_regress: sft_v4_B3_s916 | constrained mode_acc=0.865 tool_acc=0.959 args_exact=0.836 refuse_acc=0.654 s | sel -0.007 | unanswe | toolresult sft_v4_B3_s916 ALL faithful 0.817 (n= | chunk1 29.76 | == run-through sft_v4_B3_s916 offline: 5 | logs/demo_regress_sft_v4_B3_s916.log
+[DONE 10-15 10:00:59] n63 genspeed: genspeed NVIDIA GeForce RTX 5080 ctx 300: A eager 146.2 ms (6.8 tok/s) | B eager+tracer 733.4 ms (1.4 tok/s) | C CUDA graph @512 capture failed: AcceleratorError: CUDA error: operation failed due to a previous error during capture | logs/n63_genspeed.log
+[DONE 10-15 10:03:00] health step_0265500:  | 
+[DONE 10-15 10:13:04] health step_0270000: C=1024 T=2048 | chunk1   22.05 (mem off   22.16) | chunks2+   19.93 (off   20.81, Δ +0.88) | first64 of 2+   30.59 (off   42.83, Δ +12.24) vs |   per token active neurons mean 83.1 | median 71 | 5% 39 | 95% 167 | tokens with none 0.0%
+[DONE 10-15 10:17:21] n63 engine test after tracer change: == 1 FAILED in 149s engine test rc=1 10:17  | logs/n63_tracer_check.log
+[DONE 10-15 10:22:29] v4 checkpoint step_0280500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 10:43:35] an eval has been running for 30 min (pid 1401540): /home/glenn/projects/bdh/venv/bin/python scripts/tool_eval.py --run sf
+[WARN 10-15 11:15:40] an eval has been running for 31 min (pid 1406161): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 11:59:30] demo_regress: sft_v4_B3_s1832 | constrained mode_acc=0.885 tool_acc=0.984 args_exact=0.844 refuse_acc=0.705 s | sel +0.000 | unanswe | toolresult sft_v4_B3_s1832 ALL faithful 0.837 (n | chunk1 31.19 | == run-through sft_v4_B3_s1832 offline: | logs/demo_regress_sft_v4_B3_s1832.log
+[DONE 10-15 12:00:08] n63 genspeed: genspeed NVIDIA GeForce RTX 5080 ctx 300: A eager 247.6 ms (4.0 tok/s) | B eager+tracer 762.3 ms (1.3 tok/s) | C CUDA graph @512 27.0 ms (37.0 tok/s), max |logit diff| vs eager 4.65e+00 | logs/n63_genspeed.log
+[DONE 10-15 12:09:19] health step_0274500: C=1024 T=2048 | chunk1   21.66 (mem off   21.82) | chunks2+   19.68 (off   20.60, Δ +0.91) | first64 of 2+   30.72 (off   43.06, Δ +12.35) vs |   per token active neurons mean 84.4 | median 74 | 5% 39 | 95% 167 | tokens with none 0.0%
+[DONE 10-15 12:47:33] v4 checkpoint step_0286500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 13:08:07] an eval has been running for 30 min (pid 1419364): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 13:26:49] n62 SFT sft_v4_B3 (base c249_k3, text 0.15): done: 60.0M tok in 7.53h |   constrained  parse=1.000 mode_acc=0.965 halluc=0.000 tool_acc=0.959 args_exact=0.893 refuse_acc=0.974 say_ok=0.959  (1355s)
+[INFO 10-15 13:26:55] n62 SFT sft_v4_X1 started (base c249_k3, text 0, 60000000 tok, + self-knowledge)
+[WARN 10-15 13:38:33] pin loop: disk under 100 GB free (91 GB); prune v4_lawa_keep
+[DONE 10-15 13:47:34] demo_regress: sft_v4_B3_s2748 | constrained mode_acc=0.985 tool_acc=0.975 args_exact=0.885 refuse_acc=0.974 s | sel +0.478 | unanswe | toolresult sft_v4_B3_s2748 ALL faithful 0.837 (n | chunk1 27.25 | == run-through sft_v4_B3_s2748 offline: | logs/demo_regress_sft_v4_B3_s2748.log
+[DONE 10-15 13:58:51] health step_0280500: C=1024 T=2048 | chunk1   22.01 (mem off   22.15) | chunks2+   19.90 (off   20.83, Δ +0.93) | first64 of 2+   31.82 (off   44.66, Δ +12.85) vs |   per token active neurons mean 79.4 | median 69 | 5% 36 | 95% 163 | tokens with none 0.0%
+[INFO 10-15 14:34:32] cloud: v4_cloud_conv step 295000 | 9666.6M tok | loss 3.084 | 22,186 tok/s | vram | val 20.74 20.59 20.48 | 22037 tok/s | of 320739 steps | disk 76 GB | gpu 99 %, 84079 MiB
+[DONE 10-15 14:48:39] v4 checkpoint step_0291000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600271 bytes)
+[WARN 10-15 14:56:49] an eval has been running for 31 min (pid 1431134): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 15:37:28] demo_regress: sft_v4_B3_s3663 | constrained mode_acc=0.990 tool_acc=0.992 args_exact=0.926 refuse_acc=0.974 s | sel +0.527 | unanswe | toolresult sft_v4_B3_s3663 ALL faithful 0.862 (n | chunk1 28.01 | == run-through sft_v4_B3_s3663 offline: | logs/demo_regress_sft_v4_B3_s3663.log
+[DONE 10-15 15:37:29] n62 curve sft_v4_B3: sft_v4_B3_s916 sft_v4_B3_s1832 sft_v4_B3_s2748 sft_v4_B3_s3663 | logs/demo_regress.log
+[ALERT 10-15 15:42:54] disk /mnt/g has only 33 GB free
+[WARN 10-15 15:58:55] health step_0286500: step patch has waited 2 h (RAM / GPU 1 VRAM / 5090 priority)
+[DONE 10-15 17:06:38] v4 checkpoint step_0297000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[ALERT 10-15 17:47:36] demo_regress sft_v4_X1_s916: no GPU-1 lock
+[WARN 10-15 17:52:34] Drive pin loop: only 15 GiB free on Drive, pinning paused
+[DONE 10-15 18:25:54] n62 SFT sft_v4_X1 (base c249_k3, text 0): done: 30.0M tok in 4.56h |   constrained  parse=1.000 mode_acc=0.955 halluc=0.000 tool_acc=0.934 args_exact=0.820 refuse_acc=0.987 say_ok=0.934  (1313s)
+[INFO 10-15 18:25:58] n62 SFT sft_v4_X2 started (base c249_k3, text 0, 60000000 tok, + self-knowledge)
+[DONE 10-15 18:57:29] v4 checkpoint step_0301500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-15 19:29:08] n62 brain brain_py_B2 on sft_v4_B2_slim:   quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz b            taught  37.8% (n=90) | control   0.0% (n=24) |   constrained  mode_acc=0.985 tool_acc=0.992 args_exact=0.910 refuse_acc=0.962 
+[WARN 10-15 20:27:29] an eval has been running for 31 min (pid 1461163): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[INFO 10-15 20:36:02] cloud: v4_cloud_conv step 309500 | 10141.7M tok | loss 2.511 | 22,016 tok/s | vra | val 20.12 20.12 19.97 | 21984 tok/s | of 320739 steps | disk 76 GB | gpu 100 %, 84099 MiB
+[ALERT 10-15 20:54:20] n65 spacing: no final home in 30 h
+[DONE 10-15 21:08:01] demo_regress: sft_v4_X1_s1832 | constrained mode_acc=1.000 tool_acc=0.992 args_exact=0.893 refuse_acc=1.000 s | sel -0.051 | unanswe | toolresult sft_v4_X1_s1832 ALL faithful 0.828 (n | chunk1 49.69 | == run-through sft_v4_X1_s1832 offline: | logs/demo_regress_sft_v4_X1_s1832.log
+[DONE 10-15 21:08:02] n62 curve sft_v4_X1: sft_v4_X1_s1832 | logs/demo_regress.log
+[DONE 10-15 21:14:30] v4 checkpoint step_0307500.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[WARN 10-15 22:07:42] an eval has been running for 31 min (pid 1473089): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-15 22:46:33] demo_regress: sft_v4_X2_s916 | constrained mode_acc=0.915 tool_acc=0.967 args_exact=0.828 refuse_acc=0.782 s | sel -0.082 | unanswe | toolresult sft_v4_X2_s916 ALL faithful 0.831 (n= | chunk1 24.87 | == run-through sft_v4_X2_s916 offline: 8 | logs/demo_regress_sft_v4_X2_s916.log
+[DONE 10-15 22:48:40] health step_0286500:  | 
+[DONE 10-15 22:50:41] health step_0291000:  | 
+[DONE 10-15 23:07:59] n62 SFT sft_v4_X2 (base c249_k3, text 0): done: 30.0M tok in 4.31h |   constrained  parse=1.000 mode_acc=0.940 halluc=0.000 tool_acc=0.934 args_exact=0.828 refuse_acc=0.949 say_ok=0.934  (1243s)
+[DONE 10-15 23:12:52] n63 X1 / X2 (memory fix; X2 low LR), 30M | sft_v4_X1_step_0001832     C=1024 N8:  98.4 100.0 100.0 100.0 (mem off   7.8) | N32:  91.4 100.0  99.2  99.2 (mem off    sft_v4_X2_step_0001832     C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  11.7) | N32: 100.0 100.0 100.0 100.0 (mem off     | B2 s1832 C=1024 N8:  84.4  69.5  67.2  71.1 (mem off  10.9) | N32:  61.7  56.2  39.8  44.5 (mem off   6.2) | logs/n63_x1_gate.log
+[WARN 10-15 23:27:51] GPU 0 has had no job for 16 min (222 MiB in use): idle
+[DONE 10-15 23:32:01] v4 checkpoint step_0312000.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[WARN 10-15 23:47:55] an eval has been running for 30 min (pid 1482413): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[INFO 10-16 00:14:28] n62 base cB4 = average of 3: step_0312000 step_0307500.pt step_0301500.pt 
+[DONE 10-16 00:15:38] demo_regress: sft_v4_X2_s1832 | constrained mode_acc=0.990 tool_acc=0.984 args_exact=0.869 refuse_acc=0.974 s | sel +0.806 | unanswe | toolresult sft_v4_X2_s1832 ALL faithful 0.865 (n | chunk1 25.87 | == run-through sft_v4_X2_s1832 offline: | logs/demo_regress_sft_v4_X2_s1832.log
+[DONE 10-16 00:15:41] n62 curve sft_v4_X2: sft_v4_X2_s916 sft_v4_X2_s1832 | logs/demo_regress.log
+[INFO 10-16 00:17:29] n62 self-knowledge probe cB4: probe cB4: 6400 answerable -> known 377 (5.9%), unknown 5003 (78.2%), band 1020
+[INFO 10-16 00:17:34] n62 SFT sft_v4_B4 started (base cB4, text 0.15, 60000000 tok, + self-knowledge)
+[DONE 10-16 00:23:59] health step_0312000: C=1024 T=2048 | chunk1   20.31 (mem off   20.46) | chunks2+   18.12 (off   19.14, Δ +1.03) | first64 of 2+   27.18 (off   39.93, Δ +12.75) vs |   per token active neurons mean 99.8 | median 88 | 5% 49 | 95% 194 | tokens with none 0.0%
+[WARN 10-16 00:38:19] GPU 1 has had no job for 16 min (459 MiB in use): idle
+[DONE 10-16 01:17:11] cloud: ALL DONE (v4_cloud_conv step 320700 | 10508.7M tok | loss 2.594 | 21,724 tok/s | vra | val 19.91 19.87 19.86 | 22042 tok/s)
+[INFO 10-16 01:18:20] autostop: conversion DONE (step_0320740.pt); waking the Drive pusher for the final push
+[ALERT 10-16 01:31:41] Drive pull of step_0318000.pt: have 0 of ? bytes (logs/n57_drive_pull.log)
+[WARN 10-16 01:38:26] an eval has been running for 31 min (pid 1491414): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[INFO 10-16 01:38:54] autostop: step_0320740.pt verified on Drive (size 9752600399, md5 e9c6eb686f500349082e4b7cfef2aa74, loads, step 320740) -- stopping instance 55500576
+[DONE 10-16 01:39:58] autostop: instance 55500576 STOPPED (status exited) after verifying step_0320740.pt on Drive (md5 e9c6eb686f500349082e4b7cfef2aa74). Disk kept; destroy it yourself when done.
+[DONE 10-16 02:04:40] demo_regress: wise_X2_a08 | constrained mode_acc=0.975 tool_acc=0.943 args_exact=0.803 refuse_acc=0.974 s | sel +0.305 | unanswe | toolresult wise_X2_a08 ALL faithful 0.837 (n=349 | chunk1 24.22 | == run-through wise_X2_a08 offline: 6/8 | logs/demo_regress_wise_X2_a08.log
+[DONE 10-16 02:50:11] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-16 03:12:21] demo_regress: wise_X2_a06 | constrained mode_acc=0.870 tool_acc=0.746 args_exact=0.484 refuse_acc=0.987 s | sel +0.023 | unanswe | toolresult wise_X2_a06 ALL faithful 0.791 (n=349 | chunk1 23.01 | == run-through wise_X2_a06 offline: 4/8 | logs/demo_regress_wise_X2_a06.log
+[DONE 10-16 03:12:22] n65 WiSE blend X2 a=0.8/0.6 scored | logs/demo_regress.log
+[DONE 10-16 03:20:25] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[WARN 10-16 03:34:44] GPU 1 has had no job for 16 min (424 MiB in use): idle
+[DONE 10-16 05:20:19] n65 spacing: best G (chunk1 18.39) | A 20.17/+1.00 | B 18.76/+0.96 | C 18.57/+0.92 | D 18.59/+0.91 | E 18.77/+0.89 | G 18.39/+0.92
+[DONE 10-16 05:28:30] n65 spacing wider: G 18.39/+0.92 | I 18.40/+0.90 | J 18.61/+0.84 -> best G (chunk1 18.39)
+[WARN 10-16 05:43:00] GPU 1 has had no job for 16 min (344 MiB in use): idle
+[DONE 10-16 08:54:16] n62 SFT sft_v4_B4 (base cB4, text 0.15): done: 60.0M tok in 8.20h |   constrained  parse=1.000 mode_acc=0.970 halluc=0.000 tool_acc=0.984 args_exact=0.902 refuse_acc=0.949 say_ok=0.984  (1259s)
+[WARN 10-16 09:29:18] an eval has been running for 31 min (pid 1518546): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-16 10:01:09] demo_regress: sft_v4_B4 | constrained mode_acc=0.980 tool_acc=0.992 args_exact=0.918 refuse_acc=0.949 s | sel +0.407 | unanswe | toolresult sft_v4_B4 ALL faithful 0.865 (n=349) | chunk1 18.90 | == run-through sft_v4_B4 offline: 8/8 PA | logs/demo_regress_sft_v4_B4.log
+[DONE 10-16 12:16:29] n62 brain brain_fdc_B4 on sft_v4_B4:   quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught  99.3% (n=150) | control   7.3% (n=150) |   constrained  mode_acc=0.975 tool_acc=0.984 args_exact=0.902 refuse_acc=0.949 
+[INFO 10-16 12:18:29] n62 base cF = average of 3: step_0320740 step_0318000.pt step_0312000.pt step_0307500.pt step_0301500.pt 
+[INFO 10-16 12:20:41] n62 final base: avg of 3 chunk1 18.38 vs single 20.16 -> cF
+[INFO 10-16 12:23:49] n62 self-knowledge probe cF: probe cF: 6400 answerable -> known 509 (8.0%), unknown 4701 (73.5%), band 1190
+[INFO 10-16 12:23:52] n62 SFT sft_v4_final started (base cF, text 0.15, 60000000 tok, + self-knowledge)
+[DONE 10-16 13:42:01] n62 brain brain_py_B4 on sft_v4_B4_slim:   quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz b            taught  37.8% (n=90) | control   0.0% (n=24) |   constrained  mode_acc=0.980 tool_acc=0.992 args_exact=0.902 refuse_acc=0.962 
+[DONE 10-16 16:04:14] n66_bias sft_v4_B4_slim done: see logs/n66_bias_sft_v4_B4_slim.log
+[WARN 10-16 16:24:03] GPU 1 has had no job for 16 min (684 MiB in use): idle
+[DONE 10-16 20:50:17] n62 SFT sft_v4_final (base cF, text 0.15): done: 60.0M tok in 8.02h |   constrained  parse=1.000 mode_acc=0.975 halluc=0.000 tool_acc=0.992 args_exact=0.902 refuse_acc=0.949 say_ok=0.992  (1336s)
+[WARN 10-16 21:28:31] an eval has been running for 30 min (pid 1560334): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[DONE 10-16 22:15:44] demo_regress: sft_v4_final | constrained mode_acc=0.985 tool_acc=0.984 args_exact=0.918 refuse_acc=0.962 s | sel +0.480 | unanswe | toolresult sft_v4_final ALL faithful 0.868 (n=34 | chunk1 18.60 | == run-through sft_v4_final offline: 8/8 | logs/demo_regress_sft_v4_final.log
+[WARN 10-16 22:26:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:28:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:30:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:32:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:34:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:36:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:38:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:40:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:42:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:44:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:46:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:48:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:50:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:54:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:56:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-16 22:58:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[INFO 10-16 23:14:51] no queue and no trainer for 15 min: GPUs idle
+[DONE 10-17 00:21:04] n62 brain brain_fdc_F on sft_v4_final:   quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught 100.0% (n=150) | control   6.7% (n=150) |   constrained  mode_acc=0.980 tool_acc=1.000 args_exact=0.902 refuse_acc=0.949 
+[ALERT 10-17 00:22:32] GPU 0 chain job rc=143: bash temp/n62_avgtest.sh 0 | logs/n62_chain0.log
+[DONE 10-17 00:38:45] n67_cmp r26o_13L_RC3_conv_llamakd_150m done (rc 0): see logs/n67_cmp.log
+[WARN 10-17 00:39:03] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[DONE 10-17 01:52:06] n62 brain brain_py_F on sft_v4_final_slim:   quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz b            taught  37.8% (n=90) | control   0.0% (n=24) |   constrained  mode_acc=0.985 tool_acc=1.000 args_exact=0.902 refuse_acc=0.962 
+[DONE 10-17 04:01:22] n66_bias sft_v4_final_slim done: see logs/n66_bias_sft_v4_final_slim.log
+[DONE 10-17 04:10:06] n67_cmp r26n_13L_RC2_xlate_150m done (rc 0): see logs/n67_cmp.log
+[ALERT 10-17 04:10:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-17 04:18:27] n67_cmp r27a_13L_tfmr_dense_150m done (rc 0): see logs/n67_cmp.log
+[ALERT 10-17 04:18:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-17 04:33:37] GPU 1 has had no job for 16 min (344 MiB in use): idle
+[DONE 10-17 05:17:12] n67 matched 150M transformer done: r27a_13L_tfmr_dense_150m / r27b_13L_tfmr_llamakd_150m evals in logs/gap_queue.log (compare r26n / r26o)
+[DONE 10-17 05:22:56] n67_cmp r27b_13L_tfmr_llamakd_150m done (rc 0): see logs/n67_cmp.log
+[WARN 10-17 05:23:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-17 08:00:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-17 08:15:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-17 08:30:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-17 08:45:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-17 09:00:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-17 14:15:44] n62 chain 0 (re)started by guard
+[INFO 10-17 14:15:44] alert_watch started
+[INFO 10-17 14:15:44] n62 chain 1 (re)started by guard
+[ALERT 10-17 14:15:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-17 14:17:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-17 14:31:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-17 14:43:49] n67 matched 150M transformer done: r27c_13L_tfmr_dense_s1_150m / r27d_13L_tfmr_llamakd_s1_150m evals in logs/gap_queue.log (compare r26n / r26o)
+[DONE 10-17 14:49:25] n67_cmp r27d_13L_tfmr_llamakd_s1_150m done (rc 0): see logs/n67_cmp.log
+[WARN 10-17 14:51:05] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[DONE 10-17 15:51:36] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-17 15:59:09] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[DONE 10-17 17:11:02] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-17 17:19:20] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[DONE 10-17 18:53:13] n67_cmp r27e_13L_RC3_conv_llamakd_clean_150m done (rc 0): see logs/n67_cmp.log
+[INFO 10-17 23:37:10] n62 chain 0 (re)started by guard
+[INFO 10-17 23:37:10] alert_watch started
+[INFO 10-17 23:37:10] n62 chain 1 (re)started by guard
+[WARN 10-17 23:39:11] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-17 23:41:30] GPU 1 chain job rc=1: sleep $(( $(date -d 07:30 +%s) - $(date +%s) )) | logs/n62_chain1.log
+[ALERT 10-17 23:41:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-17 23:57:13] GPU 1 has had no job for 16 min (456 MiB in use): idle
+[DONE 10-18 00:52:45] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-18 01:00:52] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[WARN 10-18 01:15:52] GPU 1 has had no job for 16 min (412 MiB in use): idle
+[DONE 10-18 02:02:38] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-18 02:13:22] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[WARN 10-18 02:28:21] GPU 1 has had no job for 16 min (412 MiB in use): idle
+[DONE 10-18 04:01:31] n67 matched 150M transformer done: r27h_13L_tfmr_dense_lrx05_150m / r27i_13L_tfmr_llamakd_lrx05_150m evals in logs/gap_queue.log (compare r26n / r26o)
+[DONE 10-18 04:06:54] n67_cmp r27i_13L_tfmr_llamakd_lrx05_150m done (rc 0): see logs/n67_cmp.log
+[DONE 10-18 04:07:23] n67 transformer LR check: x1 41.09 | x0.5 40.61 | x2 44.99 -> best lrx05
+[ALERT 10-18 04:07:24] GPU 0 chain list EMPTY: refill temp/n62_gpu0.list
+[INFO 10-18 04:22:34] no queue and no trainer for 15 min: GPUs idle
+[WARN 10-18 04:22:34] GPU 0 has had no job for 16 min (27 MiB in use): idle
+[ALERT 10-18 07:29:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 07:44:26] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 07:44:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 07:46:26] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 07:48:27] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 07:50:27] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 07:52:27] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 07:54:27] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 07:56:27] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 07:59:30] GPU 0 chain list EMPTY: refill temp/n62_gpu0.list
+[ALERT 10-18 07:59:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-18 08:12:29] no queue and no trainer for 15 min: GPUs idle
+[WARN 10-18 08:12:29] GPU 0 has had no job for 16 min (27 MiB in use): idle
+[WARN 10-18 08:14:29] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 08:14:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 08:16:29] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:18:30] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:20:30] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:22:30] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:24:30] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:26:30] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:28:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 08:29:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 08:30:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:32:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:34:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:36:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:38:31] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:40:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:42:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:44:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 08:44:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 08:46:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:48:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:50:32] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:52:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:54:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:56:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 08:58:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 08:59:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 09:00:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:02:33] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:04:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:06:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:08:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:10:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:12:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:14:34] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 09:14:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 09:16:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:18:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:20:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:22:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:24:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:26:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:28:35] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 09:29:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 09:30:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:32:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:34:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:36:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:38:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:40:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:42:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:44:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 09:44:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 09:46:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:48:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:50:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:52:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:54:37] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:56:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 09:58:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 09:59:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 10:00:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:02:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:04:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:06:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:08:38] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:10:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:12:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:14:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 10:14:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 10:16:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:18:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:20:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:22:39] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:26:40] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:28:41] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 10:29:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 10:30:41] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:32:41] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:34:41] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:36:41] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:38:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:40:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:42:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:44:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 10:44:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 10:46:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:48:42] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:50:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:52:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:54:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:56:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 10:58:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 10:59:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 11:00:43] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:02:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:04:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:06:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:08:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:10:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:12:44] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:14:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 11:14:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 11:16:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:18:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:20:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:22:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:24:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:26:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:28:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 11:29:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 11:30:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:32:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:34:46] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:36:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:38:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:40:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:42:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 11:44:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 11:44:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:46:47] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:48:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:50:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:52:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:54:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:56:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 11:58:48] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 11:59:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 12:00:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:02:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:04:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:06:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:08:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:10:49] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:12:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 12:14:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 12:14:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:16:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:18:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:20:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:22:50] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:24:51] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:26:51] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:28:51] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 12:29:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 12:30:51] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:32:51] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:34:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:36:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:38:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:40:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:42:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 12:44:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 12:44:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:46:52] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:48:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:50:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:52:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:54:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:56:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[WARN 10-18 12:58:53] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 12:59:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-18 13:00:54] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[INFO 10-18 13:02:36] n68 1B transformer launching: B2xGA8 9650 tok/s
+[WARN 10-18 13:02:54] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 13:14:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 13:29:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 13:44:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 13:59:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 14:15:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 14:31:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 14:47:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 15:03:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 15:18:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 15:34:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 15:50:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 16:05:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 16:21:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 16:36:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 16:37:12] disk /mnt/g has only 39 GB free
+[ALERT 10-18 16:51:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 17:01:16] disk /mnt/g has only 39 GB free
+[ALERT 10-18 17:06:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 17:22:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 17:37:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 17:52:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 18:07:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 18:22:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 18:37:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 18:52:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 19:07:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 19:22:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 19:37:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 19:52:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-18 21:48:05] n62 chain 0 (re)started by guard
+[INFO 10-18 21:48:05] alert_watch started
+[INFO 10-18 21:48:05] n62 chain 1 (re)started by guard
+[ALERT 10-18 21:48:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-18 21:48:16] n68 1B transformer launching: B2xGA8 9650 tok/s
+[WARN 10-18 21:50:06] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-18 22:03:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 22:18:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 22:33:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 22:48:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 23:00:12] disk /mnt/g has only 30 GB free
+[ALERT 10-18 23:03:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-18 23:09:34] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[DONE 10-18 23:17:40] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[ALERT 10-18 23:18:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 23:33:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-18 23:48:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 00:03:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 00:18:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-19 00:22:12] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-19 00:30:55] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[ALERT 10-19 00:33:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 00:48:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 01:03:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 01:18:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 01:33:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 01:48:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 02:03:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 02:18:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 02:33:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 02:48:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 03:03:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 03:19:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 03:35:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 03:51:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 04:06:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 04:22:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 04:38:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 04:53:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 05:01:12] disk /mnt/g has only 30 GB free
+[ALERT 10-19 05:09:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 05:25:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 05:40:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 05:56:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 06:12:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 06:28:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 06:43:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 06:58:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 07:13:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 07:28:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 07:43:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 07:58:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 08:13:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 08:28:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 08:43:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 08:58:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 09:13:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 09:28:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 09:43:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-19 09:46:31] GPU 1 has had no job for 16 min (1206 MiB in use): idle
+[ALERT 10-19 09:58:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 10:13:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 10:17:11] GPU 0 chain job rc=143: bash temp/n68_pick_and_launch.sh 0 | logs/n62_chain0.log
+[ALERT 10-19 10:28:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 10:43:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 10:58:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 11:00:39] disk /mnt/g has only 30 GB free
+[ALERT 10-19 11:13:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 11:28:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 11:43:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 11:58:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 12:13:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 12:28:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 12:44:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 13:00:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 13:16:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 13:31:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 13:47:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 13:58:53] n69 KD-phase bench (B4xGA4 + teacher) failed/spilled -> NOT launched: logs/n69_bench.log
+[ALERT 10-19 13:58:54] GPU 0 chain job rc=1: bash temp/queue_5090_n69_std1b.sh 0 | logs/n62_chain0.log
+[ALERT 10-19 13:58:54] GPU 0 chain list EMPTY: refill temp/n62_gpu0.list
+[ALERT 10-19 14:03:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 14:19:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 14:34:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 14:50:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 15:06:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 15:21:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 15:36:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 15:51:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 16:06:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 16:21:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 16:36:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 16:51:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 17:00:38] disk /mnt/g has only 30 GB free
+[ALERT 10-19 17:06:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 17:21:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 17:36:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 17:51:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 18:06:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 18:21:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 18:36:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 18:51:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 19:06:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 19:21:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 19:36:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 19:51:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 20:06:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 20:21:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 20:36:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 20:40:43] GPU 0 chain job rc=143: bash temp/queue_5090_n69_std1b.sh 0 # n69 retry 10-19 (KD split fix) | logs/n62_chain0.log
+[ALERT 10-19 20:51:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 21:06:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 21:21:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 21:36:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 21:51:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 22:06:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 22:21:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 22:36:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 22:52:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 23:01:38] disk /mnt/g has only 21 GB free
+[ALERT 10-19 23:07:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 23:22:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 23:37:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-19 23:52:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 00:07:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 00:22:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 00:37:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 00:52:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 01:07:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 01:22:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 01:37:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 01:52:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 02:07:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 02:22:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 02:37:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 02:52:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 03:07:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 03:22:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 03:37:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 03:52:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 04:07:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 04:22:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 04:37:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 04:52:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 05:00:17] disk /mnt/g has only 30 GB free
+[INFO 10-20 05:01:09] n69 standard 1B transformer launching: B4xGA4 max-autotune-no-cudagraphs lr x1.4 warmup 0.02
+[ALERT 10-20 05:07:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 05:22:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 05:37:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 05:52:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 06:07:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 06:22:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 06:37:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 06:52:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 07:07:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 07:22:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 07:37:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 07:52:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 08:07:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 08:22:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 08:37:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 08:52:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-20 11:16:47] alert_watch started
+[INFO 10-20 11:16:47] n62 chain 0 (re)started by guard
+[INFO 10-20 11:16:48] n62 chain 1 (re)started by guard
+[ALERT 10-20 11:16:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 11:31:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 11:46:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 12:01:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 12:16:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-20 12:31:54] n62 chain 0 (re)started by guard
+[INFO 10-20 12:31:54] alert_watch started
+[INFO 10-20 12:31:54] n62 chain 1 (re)started by guard
+[ALERT 10-20 12:31:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-20 14:39:14] n62 chain 0 (re)started by guard
+[INFO 10-20 14:39:14] alert_watch started
+[INFO 10-20 14:39:14] n62 chain 1 (re)started by guard
+[ALERT 10-20 14:39:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-20 14:53:16] GPU 1 has had no job for 16 min (476 MiB in use): idle
+[ALERT 10-20 14:54:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 15:09:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 15:24:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 15:39:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 15:54:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 16:09:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-20 16:09:51] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[ALERT 10-20 16:24:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 16:39:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 16:54:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 17:09:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 17:24:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-20 17:28:17] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[ALERT 10-20 17:39:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 17:54:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-20 18:04:41] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[ALERT 10-20 18:09:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-20 18:12:04] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[ALERT 10-20 18:24:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-20 18:27:43] GPU 1 has had no job for 16 min (374 MiB in use): idle
+[ALERT 10-20 18:39:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 18:54:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 19:09:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 19:24:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 19:39:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 19:54:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 20:09:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 20:24:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 20:39:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 20:54:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 21:09:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 21:25:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 21:40:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 21:55:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 22:10:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 22:25:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 22:40:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 22:55:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 23:10:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 23:25:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 23:40:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-20 23:55:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 00:10:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 00:25:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 00:40:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 00:55:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 01:10:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 01:25:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 01:41:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 01:57:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 02:12:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 02:28:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 02:44:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 03:00:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 03:15:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 03:31:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 03:46:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 04:01:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 04:16:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 04:31:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 04:46:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 05:01:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 05:16:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 05:31:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 05:46:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 06:01:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 06:16:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 06:31:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 06:46:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 07:01:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 07:16:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 07:31:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 07:46:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 08:01:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 08:17:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 08:32:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 08:47:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 09:02:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 09:17:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 09:32:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 09:47:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 10:02:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 10:17:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 10:32:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-21 10:35:44] GPU 1 has had no job for 16 min (591 MiB in use): idle
+[ALERT 10-21 10:47:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 11:02:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 11:17:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 11:32:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 11:47:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 12:02:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 12:17:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 12:32:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 12:47:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 13:02:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 13:17:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 13:32:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 13:47:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 14:02:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 14:17:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 14:32:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-21 14:46:08] GPU 1 has had no job for 16 min (592 MiB in use): idle
+[ALERT 10-21 14:47:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 15:02:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 15:17:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-21 15:24:12] GPU 1 has had no job for 16 min (331 MiB in use): idle
+[ALERT 10-21 15:32:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 15:47:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 16:02:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 16:17:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 16:32:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 16:40:47] brain_chat did NOT finish: RuntimeError: CUDA driver error: device not ready
+[ALERT 10-21 16:47:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 17:02:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 17:17:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 17:32:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 17:47:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 18:02:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 18:17:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 18:32:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 18:47:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 19:02:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 19:17:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 19:32:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 19:47:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 20:02:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 20:17:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 20:32:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 20:47:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 21:02:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 21:17:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 21:32:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 21:47:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 22:02:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 22:17:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 22:32:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 22:47:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 23:02:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 23:17:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-21 23:32:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-21 23:35:56] n72 chat brain: brain   quiz ALL held-out 272/302 = 90.1% | hand 19/21 | base    quiz ALL held-out 80/302 = 26.5% | hand 11/21 |   constrained  mode_acc=0.980 tool_acc=0.984 args_exact=0.902 refuse_acc=0.962 
+[ALERT 10-21 23:47:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-21 23:51:24] GPU 1 has had no job for 16 min (291 MiB in use): idle
+[ALERT 10-22 00:02:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 00:17:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 00:32:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-22 00:33:37] n72 sft_v4_chat merged + backup:   quiz ALL held-out 272/302 = 90.1% | hand 19/21
+[ALERT 10-22 00:47:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-22 00:49:31] GPU 1 has had no job for 16 min (287 MiB in use): idle
+[ALERT 10-22 01:03:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 01:18:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 01:33:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 01:48:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 02:03:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 02:18:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 02:33:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 02:48:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 03:03:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 03:18:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 03:33:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 03:48:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 04:03:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 04:18:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 04:33:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 04:48:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 05:03:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 05:18:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 05:33:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 05:48:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 06:03:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 06:18:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 06:33:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 06:48:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 07:03:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 07:18:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 07:33:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 07:48:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 08:03:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 08:18:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 08:33:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 08:48:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 09:03:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 09:18:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 09:33:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 09:49:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 10:04:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 10:19:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 10:34:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 10:42:48] brain_py_C did NOT finish: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 4.23 GiB is free. Process 154218 has 1
+[ALERT 10-22 10:43:50] brain_fdc_C did NOT finish: RuntimeError: CUDA driver error: device not ready
+[ALERT 10-22 10:49:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 11:04:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 11:19:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 11:34:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 11:49:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 12:04:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 12:19:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 12:34:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 12:49:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 13:04:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 13:19:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 13:34:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 13:49:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 14:04:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 14:19:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 14:34:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 14:49:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 15:04:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 15:19:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 15:34:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 15:49:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 16:04:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 16:19:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 16:34:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 16:49:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 17:04:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-22 17:07:54] n62 brain brain_py_C on sft_v4_chat:   quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  quiz b            taught  37.8% (n=90) | control   0.0% (n=24) |   constrained  mode_acc=0.985 tool_acc=1.000 args_exact=0.885 refuse_acc=0.962 
+[ALERT 10-22 17:19:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 17:34:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 17:49:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 18:04:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 18:19:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 18:34:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 18:49:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 19:04:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 19:19:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 19:34:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 19:49:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 20:04:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-22 20:09:27] n62 brain brain_fdc_C on sft_v4_chat:   quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught 100.0% (n=150) | control   6.7% (n=150) |   constrained  mode_acc=0.985 tool_acc=0.992 args_exact=0.893 refuse_acc=0.974 
+[ALERT 10-22 20:19:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 20:34:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-22 20:38:03] n74 suite smoke150: logs/n74_smoke150.log
+[ALERT 10-22 20:49:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 21:04:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 21:19:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 21:34:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 21:49:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 22:04:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 22:19:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 22:34:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 22:49:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 23:04:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 23:19:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-22 23:35:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-22 23:38:08] n73 merge tries done: logs/n73_merge_tries.log
+[ALERT 10-22 23:50:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-22 23:51:15] n69 v4std_dense rc=1 (try 1), resuming
+[ALERT 10-22 23:53:05] queue log: [n69 g0 10-22 23:51:15] [v4std_dense] exit=1 at step 93000 :: 40.95 40.19 39.25 39.20
+[ALERT 10-23 00:05:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 00:20:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 00:35:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 00:50:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 01:05:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 01:20:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 01:35:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 01:50:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 02:05:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 02:20:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 02:35:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 02:50:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 03:05:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 03:20:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 03:26:41] n62 brain brain_stack on sft_v4_chat_py:   quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught  99.3% (n=150) | control   6.0% (n=150) |   constrained  mode_acc=0.995 tool_acc=0.992 args_exact=0.902 refuse_acc=0.987 
+[ALERT 10-23 03:35:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 03:50:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 04:05:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 04:20:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 04:35:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 04:50:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 05:05:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 05:20:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 05:35:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 05:50:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 06:05:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 06:20:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 06:35:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 06:50:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 07:05:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 07:20:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 07:35:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 07:50:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 08:05:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 08:15:44] n62 brain brain_joint on sft_v4_chat:   quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz b            taught 100.0% (n=150) | control   4.7% (n=150) |   constrained  mode_acc=0.990 tool_acc=0.992 args_exact=0.926 refuse_acc=0.974 
+[ALERT 10-23 08:20:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 08:35:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 08:50:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 09:05:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 09:12:35] n73 multi-brain 3+4:  python stack taught 100.0% (n=90) | control 0.0% | health stack taught 99.3% (n=150) | control 6.0% |stack full 33.891 | chunk1 34.458 | chunks2+ 33.33| python joint taught 100.0% (n=90) | control 0.0% | health joint taught 100.0% (n=150) | control 4.7%|joint full 32.196 | chunk1 32.762 | chunks2+ 31.64|
+[ALERT 10-23 09:20:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 09:35:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 09:50:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 10:05:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 10:20:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 10:35:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 10:50:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 11:05:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 11:20:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 11:35:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 11:51:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 12:02:39] n74 suite v4: logs/n74_v4.log
+[DONE 10-23 12:03:34] n74 suite v4f_preview: logs/n74_v4f_preview.log
+[ALERT 10-23 12:06:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 12:10:33] n74 small KD remote test: FAIL: losses differ or a run stopped early (see above) | peak 12372 MiB
+[ALERT 10-23 12:21:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 12:24:29] n74 harness check (fast vs eager, v4 cF): PASS: all 20 metrics of 4 tasks identical | logs/n74_harness_check.log
+[DONE 10-23 12:30:58] n75 harness GPU smoke: PASS (checks 2/2) | logs/n75_gpu_smoke.log
+[ALERT 10-23 12:36:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-23 12:46:43] GPU 1 has had no job for 16 min (529 MiB in use): idle
+[ALERT 10-23 12:51:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 13:06:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 13:09:12] n75 small KD remote test (MQAR off): FAIL: losses differ or a run stopped early (see above) | peak 11586 MiB
+[ALERT 10-23 13:21:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-23 13:24:47] GPU 1 has had no job for 16 min (527 MiB in use): idle
+[ALERT 10-23 13:36:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 13:36:13] n75 KD noise test: VERDICT: NOISE (remote within local run-to-run spread) | logs/n75_kd_noise.log
+[ALERT 10-23 13:51:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 14:06:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 14:21:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 14:36:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 14:36:57] n75 KD server bench: BENCH B2 T2048: 7.54 req/s = 30,887 teacher tok/s | server RSS 1.53 GB | logs/n75_kd_server_bench.log
+[ALERT 10-23 14:51:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 15:06:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 15:21:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 15:36:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 15:51:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 16:06:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-23 16:17:02] n74 v4f post 1/7: base n74d_fB (avg nan vs single nan)
+[INFO 10-23 16:17:34] n76 v4 energy rerun rc=1: logs/n74_v4.log
+[INFO 10-23 16:19:15] n62 self-knowledge probe n74d_fB: probe n74d_fB: 6400 answerable -> known 14 (0.2%), unknown 5888 (92.0%), band 498
+[ALERT 10-23 16:21:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 16:36:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 16:51:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 17:06:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 17:21:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 17:36:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 17:50:00] n74 brain n74d_brain_chat_f on n74d_sft_v4f_final_slim:   quiz fact          15/50 = 30% |   constrained  mode_acc=0.390 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 
+[ALERT 10-23 17:51:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 18:06:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 18:07:19] n74 brain n74d_brain_py_Cf on n74d_sft_v4f_chat:   quiz base         taught   0.0% (n=90) | control   0.0% (n=24) |   constrained  mode_acc=0.390 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 
+[ALERT 10-23 18:21:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 18:26:49] n74 brain n74d_brain_fdc_Cf on n74d_sft_v4f_chat:   quiz base         taught   2.0% (n=150) | control   0.7% (n=150) |   constrained  mode_acc=0.390 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 
+[ALERT 10-23 18:36:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 18:51:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 19:03:04] demo_regress: n74d_sft_v4f_chat | constrained mode_acc=0.390 tool_acc=0.000 args_exact=0.000 refuse_acc=1.000 s | sel +0.000 | unanswe | toolresult n74d_sft_v4f_chat ALL faithful 0.218 | | == run-through n74d_sft_v4f_chat offline | logs/demo_regress_n74d_sft_v4f_chat.log
+[DONE 10-23 19:03:40] n74 suite n74d_v4fchat: logs/n74_n74d_v4fchat.log
+[DONE 10-23 19:03:41] n74 v4f post-training DRY RUN done: logs/n74_post.log
+[INFO 10-23 19:05:40] n76 v4 energy rerun rc=0: logs/n74_v4.log
+[ALERT 10-23 19:06:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 19:21:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 19:27:33] n76 v4 full harness rc=0 in 20 min: logs/n75_v4_harness.out
+[ALERT 10-23 19:36:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-23 19:39:16] n76 v4f_d123k full harness rc=0 in 10 min: logs/n75_v4f_d123k_harness.out
+[ALERT 10-23 19:51:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-23 19:53:36] GPU 1 has had no job for 16 min (2911 MiB in use): idle
+[ALERT 10-23 20:06:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 20:21:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 20:36:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 20:51:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 21:06:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 21:21:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 21:36:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 21:51:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 22:06:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 22:21:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 22:36:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 22:51:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-23 23:03:59] GPU 1 has had no job for 16 min (449 MiB in use): idle
+[ALERT 10-23 23:06:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 23:21:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 23:36:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-23 23:51:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 00:06:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 00:12:03] n76 v4chat full harness rc=0 in 21 min: logs/n75_v4chat_harness.out
+[ALERT 10-24 00:22:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 00:32:23] n76 v4chat_plain full harness rc=0 in 20 min: logs/n75_v4chat_plain_harness.out
+[DONE 10-24 00:34:04] n76 night 5080 queue done: logs/n76_night.log (knob sweep rc=0)
+[ALERT 10-24 00:37:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 00:48:16] GPU 1 has had no job for 16 min (267 MiB in use): idle
+[ALERT 10-24 00:52:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 01:07:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 01:22:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 01:37:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 01:52:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 02:07:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 02:22:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 02:37:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 02:52:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 03:07:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 03:22:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 03:37:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 03:52:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 04:07:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 04:22:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 04:37:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 04:52:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 05:07:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 05:22:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 05:37:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 05:52:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 06:07:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 06:22:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 06:37:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 06:52:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 07:07:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 07:22:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 07:37:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 07:52:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 08:07:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 08:22:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 08:37:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 08:52:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 09:07:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 09:22:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 09:37:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 09:52:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 10:07:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 10:22:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 10:37:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 10:52:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 11:07:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 11:19:33] an eval has been running for 31 min (pid 387938): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[ALERT 10-24 11:22:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 11:37:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 11:45:14] demo_regress: sft_v4_chat_w8 | constrained mode_acc=0.985 tool_acc=1.000 args_exact=0.902 refuse_acc=0.962 s | sel +0.260 | unanswe | toolresult sft_v4_chat_w8 ALL faithful 0.871 (n= | chunk1 20.41 | == run-through sft_v4_chat_w8 offline: 8 | logs/demo_regress_sft_v4_chat_w8.log
+[DONE 10-24 11:45:15] n76 int8 weight check done: logs/n76_w8.log + logs/demo_regress_sft_v4_chat_w8.log
+[ALERT 10-24 11:52:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 12:07:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 12:22:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 12:35:43] an eval has been running for 30 min (pid 396704): /home/glenn/projects/bdh/venv/bin/python scripts/selfknow_eval.py --ru
+[ALERT 10-24 12:37:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 12:52:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 13:02:43] demo_regress: sft_v4_chat | constrained mode_acc=0.980 tool_acc=0.984 args_exact=0.902 refuse_acc=0.962 s | sel +0.393 | unanswe | toolresult sft_v4_chat ALL faithful 0.865 (n=349 | chunk1 20.39 | == run-through sft_v4_chat offline: 8/8 | logs/demo_regress_sft_v4_chat.log
+[DONE 10-24 13:02:44] n76 demo_regress baseline sft_v4_chat done: logs/demo_regress_sft_v4_chat.log
+[ALERT 10-24 13:07:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 13:17:50] GPU 1 has had no job for 16 min (270 MiB in use): idle
+[ALERT 10-24 13:22:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 13:37:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 13:52:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 14:07:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 14:22:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 14:37:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 14:53:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 15:08:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 15:23:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 15:38:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 15:53:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 16:08:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 16:23:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 16:35:48] n76 brains on int8 base done: logs/n76_w8_brains.log
+[ALERT 10-24 16:38:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 16:50:14] GPU 1 has had no job for 16 min (352 MiB in use): idle
+[ALERT 10-24 16:53:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 17:08:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 17:23:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 17:38:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 17:53:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 18:08:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 18:23:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 18:38:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 18:53:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-24 18:54:26] GPU 1 has had no job for 16 min (452 MiB in use): idle
+[ALERT 10-24 19:08:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 19:23:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 19:38:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 19:53:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 20:08:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 20:23:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 20:38:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 20:53:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 21:08:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 21:23:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 21:38:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 21:53:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-24 21:54:21] n77 queue6 (static step + energy preview): logs/n77_queue6.log
+[DONE 10-24 21:57:25] n78 engine parity: == n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode full 12.6 tok/s vs stream 27.8 tok/s (whole turns incl. prefill)
+[ALERT 10-24 22:08:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 22:23:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 22:38:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 22:53:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 23:08:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 23:23:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 23:38:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-24 23:53:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 00:08:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 00:23:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 00:38:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 00:53:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 01:08:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 01:14:05] n77 revival screen: logs/n77_rev.log
+[DONE 10-25 01:15:57] n78 turn profile: logs/n78_turn_profile.log
+[ALERT 10-25 01:23:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 01:38:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 01:53:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 02:08:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 02:23:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 02:38:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 02:53:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 03:09:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 03:24:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 03:39:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 03:54:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 04:09:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 04:24:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 04:39:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 04:52:46] n78 revival screen lr 3e-4: logs/n77_rev.log
+[ALERT 10-25 04:54:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 04:59:00] n78 queue5 (traced graphs + parity + profile + run-through): == n78 traced graph vs eager: records identical 930/1716 | worst meter == n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8 == n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall  == run-through sft_v4_chat_w8 offline: 8/8 PASSED in 34s 
+[ALERT 10-25 05:09:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 05:13:13] n78 W1 energy run (5 reps): logs/n78_energy.log
+[ALERT 10-25 05:24:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 05:25:53] n78 queue7 (stats stripped): == n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode  == n78 turn profile sft_v4_chat_w8: 10 turns, 492 generated tok, wall 9.2s (53.6 tok/s) 
+[ALERT 10-25 05:39:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 05:50:43] GPU 1 has had no job for 16 min (240 MiB in use): idle
+[ALERT 10-25 05:54:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 06:09:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 06:24:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 06:39:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 06:54:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 07:09:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 07:24:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 07:39:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 07:54:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 08:09:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 08:24:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 08:39:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 08:54:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 09:09:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 09:24:23] n78 bf16 check: == n78 fp32 vs bf16 demo: replies identical 15/20, same mode + tool 20/20 | turn == n78 engine parity sft_v4_chat_w8 window 1024: replies identical 7/8, raw DIFF == n78 turn profile sft_v4_chat_w8: 10 turns, 486 generated tok, wall 6.8s (71.1 == run-through sft_v4_chat_w8 offline: 8/8 PASSED in 32s 
+[ALERT 10-25 09:24:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 09:37:16] GPU 1 has had no job for 16 min (240 MiB in use): idle
+[ALERT 10-25 09:39:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 09:54:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 10:03:05] n78 prune tests: logs/n78_prune.log
+[ALERT 10-25 10:09:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 10:16:53] n78 pruned energy: logs/n78_prune.log
+[ALERT 10-25 10:24:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 10:31:24] GPU 1 has had no job for 16 min (317 MiB in use): idle
+[ALERT 10-25 10:39:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 10:54:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 11:09:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 11:24:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 11:39:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 11:54:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 12:09:40] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-25 12:09:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-25 12:26:35] n62 chain 0 (re)started by guard
+[INFO 10-25 12:26:35] alert_watch started
+[INFO 10-25 12:26:35] n62 chain 1 (re)started by guard
+[ALERT 10-25 12:26:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 12:32:36] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[INFO 10-25 12:35:27] alert_watch started
+[INFO 10-25 12:35:27] n62 chain 0 (re)started by guard
+[DONE 10-25 12:36:12] n78 energy calibration done, v4f restarted: logs/n78_cal.log
+[WARN 10-25 12:40:37] GPU 1 has had no job for 16 min (163 MiB in use): idle
+[ALERT 10-25 12:41:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-25 12:54:38] no queue and no trainer for 15 min: GPUs idle
+[ALERT 10-25 12:56:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 13:08:45] n78 energy calibration done, v4f restarted: logs/n78_cal.log
+[ALERT 10-25 13:11:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 13:24:40] GPU 0 has had no job for 16 min (471 MiB in use): idle
+[WARN 10-25 13:24:40] GPU 1 has had no job for 16 min (264 MiB in use): idle
+[ALERT 10-25 13:26:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 13:40:26] v4 checkpoint step_0227662.pt is home from Drive: models/checkpoints/v4_cloud_pin/ (9749773675 bytes)
+[ALERT 10-25 13:41:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 13:46:48] health step_0227662: C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs |   per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0%
+[ALERT 10-25 13:56:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 14:00:42] GPU 1 has had no job for 16 min (321 MiB in use): idle
+[ALERT 10-25 14:11:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 14:26:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 14:40:29] n78 energy table GPU 1: 0 windows | logs/n78_table_1.log
+[ALERT 10-25 14:41:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 14:43:20] n78 energy table GPU 1: 0 windows | logs/n78_table_1.log
+[DONE 10-25 14:49:33] v4 checkpoint step_0320740.pt is home from Drive: models/checkpoints/v4_cloud_conv_pin/ (9752600399 bytes)
+[DONE 10-25 14:53:07] n78 energy table GPU 1: 26 windows | logs/n78_table_1.log
+[WARN 10-25 14:54:46] GPU 0 has had no job for 16 min (492 MiB in use): idle
+[ALERT 10-25 14:56:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 14:59:34] health step_0320740: C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs |   per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0%
+[DONE 10-25 15:09:00] n78 energy table GPU 0: 48 windows | logs/n78_table_0.log
+[ALERT 10-25 15:11:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 15:20:22] n78 energy table GPU 1: 48 windows | logs/n78_table_1.log
+[DONE 10-25 15:20:23] n78 energy tables (5090 + 5080) + scripts/demo/gpu_energy_table.json: logs/n78_make_table.log
+[ALERT 10-25 15:26:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 15:34:49] GPU 1 has had no job for 16 min (342 MiB in use): idle
+[ALERT 10-25 15:41:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 15:44:50] GPU 0 has had no job for 16 min (458 MiB in use): idle
+[ALERT 10-25 15:56:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 16:11:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 16:26:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 16:41:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 16:56:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 16:58:55] GPU 1 has had no job for 16 min (412 MiB in use): idle
+[ALERT 10-25 17:11:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 17:26:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 17:26:57] GPU 1 has had no job for 16 min (391 MiB in use): idle
+[ALERT 10-25 17:41:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-25 17:50:41] n62 chain 0 (re)started by guard
+[ALERT 10-25 17:56:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 18:11:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 18:24:21] n78 W3 queue (demo questions + energy dense vs sparse): logs/n78_w3.log
+[ALERT 10-25 18:27:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 18:42:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 18:57:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 18:57:50] n78 fusion queue (demo questions + energy): logs/n78_fuse.log
+[ALERT 10-25 19:12:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 19:13:19] GPU 1 has had no job for 16 min (371 MiB in use): idle
+[ALERT 10-25 19:27:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 19:34:46] n79 prefill queue (graph-segment prompt read): logs/n79_prefill.log
+[DONE 10-25 19:37:35] n79 fused-v4f queue (parity + energy A/B): logs/n79_fuse_v4f.log
+[ALERT 10-25 19:42:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 19:47:18] n79 queue3 (decode opts + graph feed checks): logs/n79_queue3.log
+[ALERT 10-25 19:57:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 20:02:41] n79 queue5 (v4f step check + fused energy A/B): logs/n79_fuse_v4f.log
+[DONE 10-25 20:08:33] n79 queue6 (prompt read v2: ring skip + prefix cache): logs/n79_prefill.log
+[ALERT 10-25 20:12:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 20:25:16] n79 queue6 (prompt read v2: ring skip + prefix cache): logs/n79_prefill.log
+[ALERT 10-25 20:27:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 20:42:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 20:43:38] GPU 1 has had no job for 16 min (369 MiB in use): idle
+[ALERT 10-25 20:57:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 21:12:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 21:27:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 21:38:21] n79 wire queue (graph prompt read + state cache in the demo): logs/n79_wire.log
+[ALERT 10-25 21:42:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 21:57:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 21:57:54] GPU 1 has had no job for 16 min (369 MiB in use): idle
+[ALERT 10-25 22:12:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 22:20:47] n79 read eval: logs/n79_read_eval.log
+[ALERT 10-25 22:27:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 22:32:42] n79 read eval 2: logs/n79_read_eval.log
+[ALERT 10-25 22:42:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-25 22:48:05] GPU 1 has had no job for 16 min (409 MiB in use): idle
+[ALERT 10-25 22:57:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 23:12:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-25 23:28:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 23:41:37] n80 reliability queue (v4f box + sessions): logs/n80_reliab.log
+[ALERT 10-25 23:44:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-25 23:57:51] n80 table re-measure (lag shift + 256 row): logs/n80_table.log
+[ALERT 10-25 23:59:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 00:15:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 00:16:50] n80 box energy control: logs/n80_box_energy.log
+[WARN 10-26 00:31:25] GPU 1 has had no job for 16 min (310 MiB in use): idle
+[ALERT 10-26 00:31:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 00:47:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 01:02:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 01:18:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 01:34:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 01:50:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 02:05:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 02:20:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 02:35:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 02:50:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 03:05:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 03:20:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 03:35:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 03:50:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 04:05:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 04:20:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 04:35:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 04:50:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 05:05:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 05:20:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 05:35:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 05:50:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 06:05:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 06:20:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 06:35:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 06:50:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 07:05:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 07:20:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 07:35:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 07:50:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 08:05:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 08:20:50] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 08:35:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 08:50:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 09:02:06] n80 review fixes test: logs/n80_fix.log
+[ALERT 10-26 09:05:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 09:17:26] GPU 1 has had no job for 16 min (310 MiB in use): idle
+[ALERT 10-26 09:20:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 09:35:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 09:50:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 10:06:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-26 10:13:35] no queue and no trainer for 15 min: GPUs idle
+[INFO 10-26 10:17:14] n62 chain 0 (re)started by guard
+[DONE 10-26 10:17:44] n80 5090 table re-measured + v4f restarted: logs/n80_5090.log
+[ALERT 10-26 10:21:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 10:36:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 10:51:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 11:06:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-26 11:15:41] no queue and no trainer for 15 min: GPUs idle
+[INFO 10-26 11:17:18] n62 chain 0 (re)started by guard
+[DONE 10-26 11:17:48] n80 5090 table v2 (v4f cuDNN) re-measured + v4f restarted: logs/n80_5090c.log
+[ALERT 10-26 11:21:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 11:27:42] GPU 1 has had no job for 16 min (425 MiB in use): idle
+[ALERT 10-26 11:36:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-26 11:47:39] n62 chain 0 (re)started by guard
+[DONE 10-26 11:47:59] n80 v4f decode profile 5090 vs 5080 + v4f restarted: logs/n80_prof.log
+[DONE 10-26 11:50:23] n80 profiles (v4f decode on the 5080, v4 prompt read): logs/n80_prof.log
+[ALERT 10-26 11:51:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 11:57:45] watchdog_tps.sh was not running while a run trains -> restarted (MIN_TPS 2500)
+[ALERT 10-26 12:06:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-26 12:13:47] no queue and no trainer for 15 min: GPUs idle
+[INFO 10-26 12:15:19] n62 chain 0 (re)started by guard
+[DONE 10-26 12:15:49] n80 5090 table v3 (v4f mem-eff off) re-measured + v4f restarted: logs/n80_5090m.log
+[ALERT 10-26 12:21:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 12:36:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 12:51:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 12:55:50] GPU 1 has had no job for 16 min (392 MiB in use): idle
+[INFO 10-26 12:57:50] no queue and no trainer for 15 min: GPUs idle
+[INFO 10-26 13:00:31] n62 chain 0 (re)started by guard
+[DONE 10-26 13:01:02] n81 both cards re-measured (v4f cuDNN direct) + v4f restarted: logs/n81_remeasure.log
+[ALERT 10-26 13:06:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 13:21:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 13:36:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 13:51:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 14:06:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 14:21:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 14:25:11] n81 compiled prompt read: reply parity + prompt-read energy (both models) measured: logs/n81_compile_read.log
+[ALERT 10-26 14:36:22] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 14:51:23] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 15:06:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 15:21:26] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 15:36:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 15:51:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 16:01:31] n81 compiled prompt read: reply parity + prompt-read energy (both models) measured: logs/n81_compile_read.log
+[ALERT 10-26 16:06:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 16:21:31] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 16:36:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 16:37:04] n81 queue3: demo set with warm_reads measured: logs/n81_compile_read.log
+[ALERT 10-26 16:51:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 16:52:28] GPU 1 has had no job for 16 min (322 MiB in use): idle
+[ALERT 10-26 17:06:35] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 17:21:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 17:36:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 17:51:38] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 18:06:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 18:21:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 18:36:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 18:51:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 19:06:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 19:21:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 19:36:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 19:49:44] n82 long session (smoke) done: logs/n82_long_smoke.log
+[ALERT 10-26 19:51:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 19:54:28] n82 long session (smoke) done: logs/n82_long_smoke.log
+[DONE 10-26 20:02:48] n82 long session (smoke) done: logs/n82_long_smoke.log
+[ALERT 10-26 20:06:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-26 20:10:39] n82 long session (full) done: logs/n82_long_full.log
+[ALERT 10-26 20:21:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 20:36:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 20:51:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 21:06:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-26 21:07:03] GPU 1 has had no job for 16 min (540 MiB in use): idle
+[ALERT 10-26 21:21:58] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 21:37:00] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 21:52:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 22:07:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 22:22:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 22:37:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 22:52:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 23:07:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 23:22:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 23:37:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-26 23:52:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 00:07:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 00:22:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 00:37:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 00:52:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 01:07:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 01:22:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 01:37:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 01:52:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-27 01:58:06] n83 queue done: logs/n83_lm_mem.log, logs/n83_eval_n83_lm_mem.log, logs/n83_moe_stats.log
+[ALERT 10-27 02:07:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 02:22:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 02:37:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 02:52:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 03:07:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 03:22:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 03:37:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 03:52:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 04:07:39] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 04:22:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-27 04:30:19] n83 queue2 done: logs/n83_ppl.log, logs/n83_lm_mem_lr3.log, logs/n83_eval_n83_lm_mem_lr3.log, logs/n83_teal_v4.log
+[ALERT 10-27 04:37:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 04:52:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 05:07:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 05:22:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 05:37:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 05:52:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 06:07:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 06:22:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[DONE 10-27 06:27:38] n83 queue3 done: logs/n83_lm_v3.log, logs/n83_eval_n83_lm_v3.log
+[ALERT 10-27 06:37:56] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 06:45:06] GPU 1 has had no job for 16 min (437 MiB in use): idle
+[ALERT 10-27 06:52:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 07:08:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 07:23:02] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 07:38:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 07:53:04] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[INFO 10-27 07:58:50] n76 KD server restarted for v4f phase B (v4std_dense step 225000): logs/kd_server.log
+[ALERT 10-27 08:08:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 08:23:08] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 08:38:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 08:53:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 09:08:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 09:23:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 09:38:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 09:53:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 10:08:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 10:23:24] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 10:38:25] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 10:53:27] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 11:08:28] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 11:23:29] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 11:38:30] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 11:53:32] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 12:08:33] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 12:23:34] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 12:38:36] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 12:53:37] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 13:08:40] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 13:18:18] GPU 0 has had no job for 16 min (888 MiB in use): idle
+[ALERT 10-27 13:23:41] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 13:38:42] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 13:44:58] RAM low at 13:00: 5090 v4f run paused (ckpt 231016 saved) + KD teacher stopped; resume = temp/n84_kd_resume.sh
+[ALERT 10-27 13:53:43] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 14:08:44] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 14:23:45] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 14:30:23] a queue is alive but no log changed for 45 min (hung chain?)
+[ALERT 10-27 14:38:46] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 14:52:26] GPU 0 has had no job for 16 min (517 MiB in use): idle
+[ALERT 10-27 14:53:47] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 15:04:27] GPU 1 has had no job for 16 min (343 MiB in use): idle
+[ALERT 10-27 15:08:48] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 15:23:49] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 15:38:51] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 15:53:52] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[WARN 10-27 15:54:32] GPU 0 has had no job for 16 min (1788 MiB in use): idle
+[ALERT 10-27 16:08:53] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 16:23:54] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 16:38:55] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 16:53:57] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 17:08:59] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 17:24:01] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 17:39:03] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 17:54:05] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 18:09:06] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 18:24:07] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 18:39:09] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 18:54:10] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 19:09:11] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 19:24:12] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 19:39:13] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 19:54:14] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 20:09:15] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 20:24:16] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 20:39:17] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 20:54:18] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 21:09:19] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 21:24:20] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list
+[ALERT 10-27 21:39:21] GPU 1 chain list EMPTY: refill temp/n62_gpu1.list

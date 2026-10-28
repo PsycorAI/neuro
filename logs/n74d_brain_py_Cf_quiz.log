@@ -1,0 +1,13 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [base/taught] 'Write a small Python program with a function that checks whe' gold='def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> '1.0.0\nANSWER 1.0.1\nANSWER 1.0'
+    [base/taught] 'Using Python, define a function that checks whether a string' gold='def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> '1.0.1: If the string is a palindrome, then the function will'
+    [base/control] 'Create a Python function that converts a number to a binary ' gold='def to_binary(n):\n    return bin(n)[2:]' -> '1: 1\nANSWER 2: 2\nANSWER 3: 3'
+    [base/control] 'Write a Python function that checks whether a number is a po' gold='def is_power_of_two(n):\n    return n > 0 and n & (n - 1) == 0' -> '1.0.0\nANSWER 1.0.1\nANSWER 1.0'
+  quiz base         taught   0.0% (n=90) | control   0.0% (n=24)
+  brain b: 19.49M adapter params, merged into 65 layers
+    [b/taught] 'Write a small Python program with a function that checks whe' gold='def check_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> '1: If the string is palindrome, then the number of palindrom'
+    [b/taught] 'Using Python, define a function that checks whether a string' gold='def is_palindrome(s):\n    s = s.lower()\n    return s == s[::-1]' -> '1: If the string is a palindrome, then it is a palindrome.\n#'
+    [b/control] 'Create a Python function that converts a number to a binary ' gold='def to_binary(n):\n    return bin(n)[2:]' -> '1: "Hello, I\'m sorry, I don\'t understand why you\'re using th'
+    [b/control] 'Write a Python function that checks whether a number is a po' gold='def is_power_of_two(n):\n    return n > 0 and n & (n - 1) == 0' -> '1: 1\n###'
+  quiz b            taught   0.0% (n=90) | control   0.0% (n=24)

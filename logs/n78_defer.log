@@ -1,0 +1,11 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[OK] 'What is 17% of 240?': reply same | columns 61 vs 61 same | prompt first True | first word 0.33s -> 0.12s | turn 0.76s -> 0.56s
+[OK] "What does the word 'ephemeral' mean?": reply same | columns 60 vs 60 same | prompt first True | first word 0.14s -> 0.11s | turn 0.65s -> 0.52s
+[FAIL] 'Why is the sky blue?': reply DIFF | columns 84 vs 65 DIFF | prompt first True | first word 0.14s -> 0.11s | turn 0.60s -> 0.51s
+[OK] 'Tell me about Marie Curie.': reply same | columns 33 vs 33 same | prompt first True | first word 0.16s -> 0.14s | turn 0.47s -> 0.44s
+[OK] 'Who wrote the novel Pride and Prejudice?': reply same | columns 60 vs 60 same | prompt first True | first word 0.14s -> 0.12s | turn 0.78s -> 0.54s
+[FAIL] 'Give me three tips for sleeping better.': reply DIFF | columns 46 vs 46 DIFF | prompt first True | first word 0.16s -> 0.11s | turn 0.38s -> 0.32s
+[OK] '[memory off] Why is the sky blue?': reply same | columns 95 vs 95 same | prompt first True | first word 0.03s -> 0.02s | turn 1.30s -> 1.29s
+[FAIL] '[raw]': reply DIFF | columns 38 vs 38 DIFF | prompt first True | first word 0.12s -> 0.10s | turn 0.32s -> 0.31s
+== n78 deferred prompt traces: 5/8 OK | worst meter rel diff 8.83e-03 | mean first word 0.15 -> 0.10s | mean turn 0.66 -> 0.56s

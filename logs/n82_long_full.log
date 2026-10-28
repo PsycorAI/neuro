@@ -1,0 +1,44 @@
+[n82 10-26 20:03:00] v4 long session, max_ctx 16384
+[n82] v4 warm pass 70 s
+[n82] v4 measured pass 20 s, 159 turns, final context 16366
+  probe recall @     0 (ctx    126): 4/5  clara: "Your sister's name is Cl" | biscuit: 'Your dog is called Biscu' | 4719: 'Your locker code is 4719' | lisbon: 'Your favourite city is L' | teal: 'OK, I will remember that'
+  cue recall @     0 (ctx    126): 5/5  clara: 'Clara.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon.' | teal: 'teal.'
+  probe recall @  1024 (ctx   1109): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: "You haven't told me your"
+  cue recall @  1024 (ctx   1109): 0/5  clara: 'Emily, and she' | biscuit: 'a labrador' | 4719: '4567.' | lisbon: 'London, and I' | teal: 'a car that has'
+  probe recall @  2048 (ctx   2088): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: 'Your car is called a "ca'
+  cue recall @  2048 (ctx   2088): 0/5  clara: 'named.' | biscuit: 'a "kitten' | 4719: '12345.' | lisbon: 'London.' | teal: 'a car of the'
+  probe recall @  4096 (ctx   4100): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: "You haven't told me your"
+  cue recall @  4096 (ctx   4100): 0/5  clara: '. She is' | biscuit: 'Tiny.' | 4719: '.' | lisbon: 'Toronto, and I' | teal: 'a car of my'
+  probe recall @  8192 (ctx   8341): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is 1234' | lisbon: "You haven't told me your" | teal: 'Your car is called a car'
+  cue recall @  8192 (ctx   8341): 0/5  clara: 'Emma. Emma is' | biscuit: 'The Turn of the' | 4719: '12345.' | lisbon: 'London.' | teal: 'a car, and'
+  probe recall @ 12288 (ctx  12450): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: "You haven't told me what"
+  cue recall @ 12288 (ctx  12450): 0/5  clara: 'Nadage D' | biscuit: 'Nadage D' | 4719: '12345.' | lisbon: 'Atlanta, Georgia,' | teal: 'a "Nade'
+  probe recall @ 16000 (ctx  16158): 0/5  clara: "You haven't told me your" | biscuit: "You haven't told me your" | 4719: 'Your locker code is: 123' | lisbon: "You haven't told me your" | teal: 'Your car is called a car'
+  cue recall @ 16000 (ctx  16158): 0/5  clara: ', and she' | biscuit: 'a "paws' | 4719: '12345.' | lisbon: 'Håkons' | teal: 'cold, and I'
+  ctx      0-  2048:  10 turns | decode    546 mJ/word (360/s) | read   31.4 mJ/token | J per turn 31.6
+  ctx   2048-  4096:  10 turns | decode    547 mJ/word (365/s) | read   31.9 mJ/token | J per turn 32.0
+  ctx   4096-  8192:  21 turns | decode    550 mJ/word (365/s) | read   33.9 mJ/token | J per turn 32.3
+  ctx   8192- 12288:  22 turns | decode    553 mJ/word (360/s) | read   36.0 mJ/token | J per turn 32.3
+  ctx  12288-   end:  21 turns | decode    549 mJ/word (363/s) | read   32.0 mJ/token | J per turn 31.8
+[n82 10-26 20:05:30] v4f long session, max_ctx 16384
+[n82] v4f warm pass 242 s
+[n82] v4f measured pass 23 s, 159 turns, final context 16366
+  probe recall @     0 (ctx    126): 0/5  clara: 'OK, I will remember that' | biscuit: 'OK, I will remember that' | 4719: 'OK, I will remember that' | lisbon: 'OK, I will remember that' | teal: 'OK, I will remember that'
+  cue recall @     0 (ctx    126): 4/5  clara: '.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon.' | teal: 'teal.'
+  probe recall @  1024 (ctx   1109): 0/5  clara: 'Hurricane Dean was the s' | biscuit: 'Hurricane Dean was the s' | 4719: 'Hurricane Dean was the s' | lisbon: 'Hurricane Dean was the s' | teal: 'Hurricane Dean was the s'
+  cue recall @  1024 (ctx   1109): 5/5  clara: 'Clara.' | biscuit: 'Biscuit.' | 4719: '4719' | lisbon: 'Lisbon. I' | teal: 'teal.'
+  probe recall @  2048 (ctx   2088): 0/5  clara: 'Victory Day (also shorte' | biscuit: 'Victory Day (also shorte' | 4719: 'I have a locker code. I ' | lisbon: 'Victory Day (also shorte' | teal: 'Victory Day (also shorte'
+  cue recall @  2048 (ctx   2088): 0/5  clara: 'V-Day. She' | biscuit: 'V-Day. I' | 4719: 'a. I' | lisbon: '. I have' | teal: 'a. I'
+  probe recall @  4096 (ctx   4100): 0/5  clara: 'Here is known as a' | biscuit: 'Here is known as a few y' | 4719: 'Here is known as a few y' | lisbon: 'Here is known as a few y' | teal: 'Here is known as a few y'
+  cue recall @  4096 (ctx   4100): 0/5  clara: 'a few years ago' | biscuit: '"' | 4719: 'a few years ago' | lisbon: 'a few years ago' | teal: 'a few years ago'
+  probe recall @  8192 (ctx   8341): 0/5  clara: '-' | biscuit: '-' | 4719: '-' | lisbon: '-' | teal: '-'
+  cue recall @  8192 (ctx   8341): 0/5  clara: 'a' | biscuit: 'the' | 4719: 'a' | lisbon: 'a' | teal: 'a'
+  probe recall @ 12288 (ctx  12450): 0/5  clara: '-' | biscuit: '-' | 4719: '-' | lisbon: '-' | teal: '-'
+  cue recall @ 12288 (ctx  12450): 0/5  clara: 'a' | biscuit: '. The' | 4719: 'a' | lisbon: 'a' | teal: 'a'
+  probe recall @ 16000 (ctx  16158): 0/5  clara: '-' | biscuit: '-' | 4719: '-' | lisbon: '-' | teal: '-'
+  cue recall @ 16000 (ctx  16158): 0/5  clara: 'a' | biscuit: 'the' | 4719: 'a' | lisbon: 'a' | teal: 'a'
+  ctx      0-  2048:  10 turns | decode    833 mJ/word (306/s) | read   11.6 mJ/token | J per turn 42.0
+  ctx   2048-  4096:  10 turns | decode    884 mJ/word (288/s) | read   13.5 mJ/token | J per turn 44.9
+  ctx   4096-  8192:  21 turns | decode    965 mJ/word (259/s) | read   16.6 mJ/token | J per turn 49.2
+  ctx   8192- 12288:  22 turns | decode   1067 mJ/word (232/s) | read   20.8 mJ/token | J per turn 54.6
+  ctx  12288-   end:  21 turns | decode   1168 mJ/word (209/s) | read   23.6 mJ/token | J per turn 60.1

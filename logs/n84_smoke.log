@@ -1,0 +1,90 @@
+[n84 10-27 09:52:17] start (cap 5.5 GB): temp/n84_conv_train.py --arm smoke --convert 2,3,4,5,7,8,9,10,12 --max_steps 20
+[n74_capped] n84_conv_train.py: CUDA cap 5.5 GB
+[09:52:59] smoke s1 step 0/20 | rel-mse 1.4711 | 306 tok/s | vram 3.5 GB
+[09:53:38] smoke s1 step 19/20 | rel-mse 0.4301 | 2,512 tok/s | vram 3.6 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+    runpy.run_path(script, run_name="__main__")
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/glenn/projects/neuro/temp/n84_conv_train.py", line 143, in <module>
+    sl = student(x)
+         ^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/model.py", line 1693, in forward
+    _res = block.forward_sequence(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 461, in forward_sequence
+    z = self._block(x_seq)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/hybrid_attn.py", line 440, in _block
+    y = x_seq + self._attn(self.norm_attn(x_a))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/temp/n84_conv.py", line 66, in _delta_attn
+    o, _ = chunk_gated_delta_rule(qn.to(torch.bfloat16), kn.to(torch.bfloat16), v.to(torch.bfloat16), g,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/ops/gated_delta_rule/chunk.py", line 546, in chunk_gated_delta_rule
+    o, final_state = ChunkGatedDeltaRuleFunction.apply(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 596, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/utils/_decorators.py", line 152, in wrapper
+    return fn(*processed_args, **processed_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 481, in decorate_fwd
+    return fwd(*args, **kwargs)  # pyrefly: ignore [not-callable]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/ops/gated_delta_rule/chunk.py", line 279, in forward
+    g, o, A, final_state, initial_state, g_input = chunk_gated_delta_rule_fwd(
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/ops/gated_delta_rule/chunk.py", line 70, in chunk_gated_delta_rule_fwd
+    w, u, A = chunk_gated_delta_rule_fwd_intra(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/ops/gated_delta_rule/chunk_fwd.py", line 384, in chunk_gated_delta_rule_fwd_intra
+    w, u = recompute_w_u_fwd(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/fla/ops/gated_delta_rule/wy_fast.py", line 245, in recompute_w_u_fwd
+    w = k.new_empty(B, T, HV, K)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 9.04 GiB is free. Process 214610 has 17179869184.00 GiB memory in use. Process 135916 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 5.50 GiB allowed; Of the allocated memory 5.24 GiB is allocated by PyTorch, and 254.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n84 10-27 09:53:45] exit 1
+[n84 10-27 09:54:19] start (cap 5.5 GB): temp/n84_conv_train.py --arm smoke --convert 2,3,4,5,7,8,9,10,12 --max_steps 20 --s1_tokens 1
+[n74_capped] n84_conv_train.py: CUDA cap 5.5 GB
+[09:55:15] smoke s1 step 0/20 | rel-mse 1.4711 | 427 tok/s | vram 3.5 GB
+[09:55:54] smoke s1 step 19/20 | rel-mse 0.4301 | 2,815 tok/s | vram 3.7 GB
+[09:56:02] smoke s2 step 0/20 | kd 0.397 | ce 4.074 | answer ce 8.376 | 1,100 tok/s | vram 5.3 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n74_capped.py", line 13, in <module>
+    runpy.run_path(script, run_name="__main__")
+  File "<frozen runpy>", line 286, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/glenn/projects/neuro/temp/n84_conv_train.py", line 145, in <module>
+    kd = kd_loss(sl, tl)
+         ^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/temp/n84_conv_train.py", line 119, in kd_loss
+    out = out + F.kl_div(F.log_softmax(sl[:, s:s + n].float(), -1), t, log_target=True, reduction="sum")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/functional.py", line 3413, in kl_div
+    reduced = torch.kl_div(input, target, reduction_enum, log_target=log_target)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 64.00 MiB. GPU 0 has a total capacity of 15.92 GiB of which 9.07 GiB is free. Process 214610 has 17179869184.00 GiB memory in use. Process 135916 has 17179869184.00 GiB memory in use. Including non-PyTorch memory, this process has 17179869184.00 GiB memory in use. 5.50 GiB allowed; Of the allocated memory 4.97 GiB is allocated by PyTorch, and 509.49 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[n84 10-27 09:56:09] exit 1
+[n84 10-27 09:56:29] start (cap 6 GB): temp/n84_conv_train.py --arm smoke --convert 2,3,4,5,7,8,9,10,12 --max_steps 30 --s1_tokens 1
+[n74_capped] n84_conv_train.py: CUDA cap 6.0 GB
+[09:57:15] smoke s1 step 0/30 | rel-mse 1.4711 | 361 tok/s | vram 3.5 GB
+[09:58:19] smoke s1 step 29/30 | rel-mse 0.3200 | 2,832 tok/s | vram 3.7 GB
+[09:58:27] smoke s2 step 0/30 | kd 0.343 | ce 3.893 | answer ce 8.939 | 1,021 tok/s | vram 5.0 GB
+[10:01:35] smoke s2 step 29/30 | kd 0.331 | ce 3.925 | answer ce 4.520 | 1,253 tok/s | vram 5.3 GB
+[10:01:37] smoke saved /home/glenn/projects/neuro/models/checkpoints/n84_smoke/final.pt (0.05 h stage 2)
+[n84 10-27 10:01:44] exit 0

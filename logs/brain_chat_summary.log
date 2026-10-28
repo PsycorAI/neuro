@@ -1,0 +1,39 @@
+== brain_chat data 16:41
+[OK] study 23210 records {'fact': 2780, 'honest': 530, 'recall': 300, 'another': 2096, 'pronoun': 1099, 'tool_followup': 3400, 'switch': 1400, 'replay': 11605} | answer 9800 (chat 3400) | quiz 302
+[OK] brain_chat.yaml: {'sft_init': 'sft_v4_final_slim', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/chat/study.jsonl', '/home/glenn/projects/neuro/training_data/brains/chat/answer.jsonl'], 'sft_dataset': None, 'sft_max_len': 512, 'batch_size': 2, 'grad_accum': 16, 'lr': 0.0002, 'max_tokens': 26600000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20, 'keep_last': 1}
+[OK] brain_chat: spike_code=['qkv', 'o', 'up', 'down', 'head', 'mem', 'q', 'v']
+== brain_chat training 16:41
+  /home/glenn/projects/neuro/training_data/brains/chat/study.jsonl: 22070 tool pairs {'tool': 5349, 'tool_absent': 1318, 'chat': 10465, 'answer': 2218, 'sk_search': 1630, 'sk_known': 182, 'sk_idk': 90
+  /home/glenn/projects/neuro/training_data/brains/chat/answer.jsonl: 9800 instruction pairs -> encoded 9800 (skipped 0)
+done: 26.6M tok in 5.18h
+== brain_chat chat quiz 21:53
+brain   quiz fact          49/50 = 98%
+brain   quiz honest        30/30 = 100%
+brain   quiz recall        19/20 = 95%
+brain   quiz another       25/30 = 83%
+brain   quiz pronoun       46/50 = 92%
+brain   quiz hist_arg      66/72 = 92%
+brain   quiz switch        37/50 = 74%
+brain   quiz hand_fact     5/6 = 83%
+brain   quiz hand_another  2/2 = 100%
+brain   quiz hand_pronoun  2/2 = 100%
+brain   quiz hand_hist_arg 5/6 = 83%
+brain   quiz hand_switch   5/5 = 100%
+brain   quiz ALL held-out 272/302 = 90.1% | hand 19/21
+base    quiz fact          4/50 = 8%
+base    quiz honest        0/30 = 0%
+base    quiz recall        0/20 = 0%
+base    quiz another       4/30 = 13%
+base    quiz pronoun       8/50 = 16%
+base    quiz hist_arg      25/72 = 35%
+base    quiz switch        39/50 = 78%
+base    quiz hand_fact     1/6 = 17%
+base    quiz hand_another  0/2 = 0%
+base    quiz hand_pronoun  0/2 = 0%
+base    quiz hand_hist_arg 5/6 = 83%
+base    quiz hand_switch   5/5 = 100%
+base    quiz ALL held-out 80/302 = 26.5% | hand 11/21
+== brain_chat tool_eval 23:15
+[OK] merged_brain_chat: brain_chat merged into 48 layers of sft_v4_final_slim -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_chat/step_0000001.pt
+  constrained  parse=1.000 mode_acc=0.980 halluc=0.000 tool_acc=0.984 args_exact=0.902 refuse_acc=0.962 say_ok=0.992  (1105s)
+== brain_chat done 23:35

@@ -1,0 +1,90 @@
+optimizer: NorMuon (53 matrices, lr=0.0025) + AdamW (109 other params, lr=0.0003)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   3%|▎         | 4/146 [00:00<00:03, 37.85it/s]Loading weights:   5%|▌         | 8/146 [00:00<00:04, 30.10it/s]Loading weights:   8%|▊         | 12/146 [00:00<00:05, 24.56it/s]Loading weights:  10%|█         | 15/146 [00:01<00:14,  9.35it/s]Loading weights:  15%|█▌        | 22/146 [00:01<00:07, 16.53it/s]Loading weights:  18%|█▊        | 26/146 [00:01<00:06, 18.15it/s]Loading weights:  20%|█▉        | 29/146 [00:01<00:05, 19.92it/s]Loading weights:  23%|██▎       | 34/146 [00:01<00:04, 24.76it/s]Loading weights:  26%|██▌       | 38/146 [00:01<00:04, 23.67it/s]Loading weights:  28%|██▊       | 41/146 [00:02<00:04, 23.99it/s]Loading weights:  31%|███       | 45/146 [00:02<00:03, 26.85it/s]Loading weights:  34%|███▍      | 50/146 [00:02<00:03, 31.74it/s]Loading weights:  39%|███▉      | 57/146 [00:02<00:02, 39.88it/s]Loading weights:  42%|████▏     | 62/146 [00:02<00:02, 35.30it/s]Loading weights:  45%|████▌     | 66/146 [00:02<00:02, 33.24it/s]Loading weights:  48%|████▊     | 70/146 [00:02<00:02, 34.77it/s]Loading weights:  51%|█████▏    | 75/146 [00:02<00:02, 35.09it/s]Loading weights:  54%|█████▍    | 79/146 [00:03<00:02, 28.46it/s]Loading weights:  57%|█████▋    | 83/146 [00:03<00:02, 22.47it/s]Loading weights:  60%|█████▉    | 87/146 [00:03<00:02, 23.06it/s]Loading weights:  62%|██████▏   | 90/146 [00:03<00:02, 20.80it/s]Loading weights:  64%|██████▎   | 93/146 [00:03<00:02, 20.17it/s]Loading weights:  69%|██████▉   | 101/146 [00:04<00:01, 30.61it/s]Loading weights:  72%|███████▏  | 105/146 [00:04<00:01, 28.22it/s]Loading weights:  75%|███████▌  | 110/146 [00:04<00:01, 29.34it/s]Loading weights:  78%|███████▊  | 114/146 [00:04<00:01, 28.39it/s]Loading weights: 100%|██████████| 146/146 [00:04<00:00, 32.39it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x13, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+  [warn] optimizer state in ckpt incompatible with current config; starting fresh
+resumed /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0012208.pt @ step 12208, 200.0M tok
+arch=spiking params=184.07M device=cuda target=0.280B tok | 16384 tok/step | total_steps≈17089 | warmup=341 | lr_sched=cosine | grad_clip=1.0
+step 12300 | 201.5M tok | loss 3.833 | 3,863 tok/s | vram 5.1/19.3 GB
+step 12400 | 203.2M tok | loss 3.984 | 12,480 tok/s | vram 5.0/19.3 GB
+step 12500 | 204.8M tok | loss 3.521 | 12,659 tok/s | vram 5.0/19.3 GB
+step 12600 | 206.4M tok | loss 3.784 | 13,085 tok/s | vram 5.1/19.3 GB
+step 12700 | 208.1M tok | loss 4.041 | 12,965 tok/s | vram 5.1/19.3 GB
+step 12800 | 209.7M tok | loss 3.257 | 12,450 tok/s | vram 5.1/19.3 GB
+step 12900 | 211.4M tok | loss 4.055 | 12,702 tok/s | vram 5.1/19.3 GB
+step 13000 | 213.0M tok | loss 3.321 | 12,936 tok/s | vram 5.0/19.3 GB
+  [eval] val_ppl 45.08 | ablated_ppl 45.08 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.231 thr=0.094 rate=0.233 thr=0.041 rate=0.225 thr=0.001 rate=0.226 thr=0.003 rate=0.221 thr=0.000 rate=0.219 thr=0.008 rate=0.204 thr=0.038 rate=0.173 thr=0.110 rate=0.203 thr=0.115 rate=0.228 thr=0.135 rate=0.247 thr=0.138 rate=0.256 thr=0.185 rate=0.173 thr=0.505 | target 0.201
+  [wnorm] embed=4071.68 | head=174.38
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0013000.pt
+step 13100 | 214.6M tok | loss 5.638 | 10,806 tok/s | vram 5.5/19.5 GB
+step 13200 | 216.3M tok | loss 2.791 | 12,469 tok/s | vram 5.4/19.5 GB
+step 13300 | 217.9M tok | loss 3.591 | 12,644 tok/s | vram 5.3/19.5 GB
+step 13400 | 219.5M tok | loss 4.494 | 12,862 tok/s | vram 5.5/19.5 GB
+step 13500 | 221.2M tok | loss 4.083 | 13,023 tok/s | vram 5.3/19.5 GB
+step 13600 | 222.8M tok | loss 5.410 | 13,016 tok/s | vram 5.5/19.5 GB
+step 13700 | 224.5M tok | loss 4.036 | 13,212 tok/s | vram 5.3/19.5 GB
+step 13800 | 226.1M tok | loss 5.167 | 13,052 tok/s | vram 5.5/19.5 GB
+step 13900 | 227.7M tok | loss 3.883 | 12,827 tok/s | vram 5.3/19.5 GB
+step 14000 | 229.4M tok | loss 3.276 | 12,824 tok/s | vram 5.3/19.5 GB
+  [eval] val_ppl 43.76 | ablated_ppl 43.76 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.132 thr=0.235 rate=0.132 thr=0.177 rate=0.131 thr=0.132 rate=0.131 thr=0.131 rate=0.128 thr=0.129 rate=0.126 thr=0.144 rate=0.117 thr=0.177 rate=0.097 thr=0.254 rate=0.111 thr=0.276 rate=0.131 thr=0.310 rate=0.145 thr=0.323 rate=0.147 thr=0.402 rate=0.089 thr=0.780 | target 0.112
+  [wnorm] embed=4047.11 (-0.60%) | head=174.63 (+0.14%)
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0014000.pt
+step 14100 | 231.0M tok | loss 3.962 | 10,719 tok/s | vram 5.3/19.5 GB
+step 14200 | 232.7M tok | loss 4.033 | 13,183 tok/s | vram 5.3/19.5 GB
+step 14300 | 234.3M tok | loss 2.933 | 13,089 tok/s | vram 5.3/19.5 GB
+step 14400 | 235.9M tok | loss 2.882 | 12,701 tok/s | vram 5.3/19.5 GB
+step 14500 | 237.6M tok | loss 3.524 | 12,932 tok/s | vram 5.3/19.5 GB
+step 14600 | 239.2M tok | loss 3.796 | 13,195 tok/s | vram 5.3/19.5 GB
+step 14700 | 240.8M tok | loss 4.129 | 13,154 tok/s | vram 5.3/19.5 GB
+step 14800 | 242.5M tok | loss 6.059 | 13,204 tok/s | vram 5.5/19.5 GB
+step 14900 | 244.1M tok | loss 3.804 | 13,231 tok/s | vram 5.3/19.5 GB
+step 15000 | 245.8M tok | loss 3.075 | 13,284 tok/s | vram 5.3/19.5 GB
+  [eval] val_ppl 42.93 | ablated_ppl 42.93 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.072 thr=0.385 rate=0.072 thr=0.318 rate=0.071 thr=0.275 rate=0.071 thr=0.269 rate=0.069 thr=0.267 rate=0.069 thr=0.282 rate=0.065 thr=0.316 rate=0.053 thr=0.393 rate=0.058 thr=0.429 rate=0.071 thr=0.476 rate=0.083 thr=0.493 rate=0.086 thr=0.596 rate=0.046 thr=1.028 | target 0.062
+  [wnorm] embed=4028.34 (-0.46%) | head=174.70 (+0.04%)
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0015000.pt
+step 15100 | 247.4M tok | loss 5.079 | 11,106 tok/s | vram 5.5/19.5 GB
+step 15200 | 249.0M tok | loss 3.886 | 13,286 tok/s | vram 5.3/19.5 GB
+step 15300 | 250.7M tok | loss 3.069 | 12,958 tok/s | vram 5.3/19.5 GB
+step 15400 | 252.3M tok | loss 3.903 | 13,427 tok/s | vram 5.4/19.5 GB
+step 15500 | 254.0M tok | loss 3.902 | 13,546 tok/s | vram 5.3/19.5 GB
+step 15600 | 255.6M tok | loss 3.624 | 13,112 tok/s | vram 5.4/19.5 GB
+step 15700 | 257.2M tok | loss 3.772 | 12,919 tok/s | vram 5.3/19.5 GB
+step 15800 | 258.9M tok | loss 5.537 | 12,965 tok/s | vram 5.5/19.5 GB
+step 15900 | 260.5M tok | loss 4.068 | 13,469 tok/s | vram 5.3/19.5 GB
+step 16000 | 262.1M tok | loss 4.486 | 13,115 tok/s | vram 5.5/19.5 GB
+  [eval] val_ppl 42.12 | ablated_ppl 42.12 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.056 thr=0.455 rate=0.055 thr=0.391 rate=0.053 thr=0.349 rate=0.053 thr=0.343 rate=0.052 thr=0.341 rate=0.051 thr=0.357 rate=0.049 thr=0.385 rate=0.042 thr=0.452 rate=0.047 thr=0.485 rate=0.057 thr=0.537 rate=0.067 thr=0.558 rate=0.069 thr=0.670 rate=0.036 thr=1.105 | target 0.050
+  [wnorm] embed=4013.58 (-0.37%) | head=174.70 (-0.00%)
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0016000.pt
+step 16100 | 263.8M tok | loss 3.411 | 11,388 tok/s | vram 5.3/19.4 GB
+step 16200 | 265.4M tok | loss 3.163 | 13,400 tok/s | vram 5.3/19.9 GB
+step 16300 | 267.1M tok | loss 3.623 | 13,194 tok/s | vram 5.4/19.9 GB
+step 16400 | 268.7M tok | loss 5.750 | 13,309 tok/s | vram 5.5/19.9 GB
+step 16500 | 270.3M tok | loss 3.348 | 13,219 tok/s | vram 5.3/19.9 GB
+step 16600 | 272.0M tok | loss 3.854 | 13,515 tok/s | vram 5.3/19.9 GB
+step 16700 | 273.6M tok | loss 4.012 | 12,986 tok/s | vram 5.3/19.9 GB
+step 16800 | 275.3M tok | loss 3.623 | 13,431 tok/s | vram 5.4/19.9 GB
+step 16900 | 276.9M tok | loss 3.803 | 13,162 tok/s | vram 5.3/19.9 GB
+step 17000 | 278.5M tok | loss 3.345 | 13,117 tok/s | vram 5.3/19.9 GB
+  [eval] val_ppl 41.29 | ablated_ppl 41.29 (memory Δ=+0.00) | spike 0.000
+  [mlp] rate=0.058 thr=0.450 rate=0.057 thr=0.386 rate=0.055 thr=0.345 rate=0.055 thr=0.338 rate=0.054 thr=0.334 rate=0.053 thr=0.350 rate=0.051 thr=0.381 rate=0.041 thr=0.456 rate=0.045 thr=0.494 rate=0.053 thr=0.550 rate=0.066 thr=0.559 rate=0.069 thr=0.669 rate=0.033 thr=1.120 | target 0.050
+  [wnorm] embed=4000.97 (-0.31%) | head=174.65 (-0.03%)
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0017000.pt
+  saved /home/glenn/projects/neuro/models/checkpoints/r27i_13L_tfmr_llamakd_lrx05_150m/step_0017090.pt
+done: 280.0M tok in 1.82h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |     586049126.4 |     586049126.4 |         1.00x
+    2048 |     727135027.2 |     727135027.2 |         1.00x
+    4096 |     915249561.6 |     915249561.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 198,967,296 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

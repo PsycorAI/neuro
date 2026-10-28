@@ -1,0 +1,141 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/c249_k3/step_0000001.pt (8.16B tok)
+optimizer: NorMuon (60 matrices, lr=0.001) + AdamW (193 other params, lr=0.0001)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 250 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/posttrain/tools.jsonl: 21546 tool pairs {'answer': 5382, 'tool': 12911, 'tool_absent': 3253} -> encoded 21546 (bad 0, skipped 0)
+  encoding: 10% (1600/16000)
+  encoding: 20% (3200/16000)
+  encoding: 30% (4800/16000)
+  encoding: 40% (6400/16000)
+  encoding: 50% (8000/16000)
+  encoding: 60% (9600/16000)
+  encoding: 70% (11200/16000)
+  encoding: 80% (12800/16000)
+  encoding: 90% (14400/16000)
+  encoding: 100% (16000/16000)
+  /home/glenn/projects/neuro/training_data/posttrain/coldstart.jsonl: 16000 instruction pairs -> encoded 16000 (skipped 0)
+  encoding: 10% (961/9605)
+  encoding: 20% (1921/9605)
+  encoding: 30% (2882/9605)
+  encoding: 40% (3842/9605)
+  encoding: 50% (4803/9605)
+  encoding: 60% (5763/9605)
+  encoding: 70% (6724/9605)
+  encoding: 80% (7684/9605)
+  encoding: 90% (8645/9605)
+  encoding: 100% (9605/9605)
+  /home/glenn/projects/neuro/training_data/posttrain/toolresult_blend.jsonl: 9605 instruction pairs -> encoded 9605 (skipped 0)
+  /home/glenn/projects/neuro/training_data/posttrain/selfknow_c249_k3.jsonl: 6581 tool pairs {'sk_idk': 2241, 'sk_search': 4080, 'sk_known': 260} -> encoded 6581 (bad 0, skipped 0)
+loading SFT dataset yahma/alpaca-cleaned...
+Using the latest cached version of the dataset since yahma/alpaca-cleaned couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/glenn/.cache/huggingface/datasets/yahma___alpaca-cleaned/default/0.0.0/12567cabf869d7c92e573c7c783905fc160e9639 (last modified on Wed Jun 24 14:37:38 2026).
+  subsampled to 25880 (50%)
+  raw: 25880 examples
+  encoding: 10% (2588/25880)
+  encoding: 20% (5176/25880)
+  encoding: 30% (7764/25880)
+  encoding: 40% (10352/25880)
+  encoding: 50% (12940/25880)
+  encoding: 60% (15528/25880)
+  encoding: 70% (18116/25880)
+  encoding: 80% (20704/25880)
+  encoding: 90% (23292/25880)
+  encoding: 100% (25880/25880)
+  encoded: 25877 (skipped 3)
+  + 14049 plain-text windows (sft_text_frac 0.15, 512 tok each)
+  TOTAL encoded examples: 93658
+arch=spiking params=1109.52M device=cuda | per_step_tok=16384 | total_steps≈3662 | warmup=183
+
+step 50 | 0.8M tok | loss 2.924 | spike 0.004 | 2,201 tok/s | vram 13.6/30.1 GB
+step 100 | 1.6M tok | loss 2.621 | spike 0.004 | 2,144 tok/s | vram 13.6/30.1 GB
+step 150 | 2.5M tok | loss 1.437 | spike 0.005 | 2,162 tok/s | vram 13.4/30.1 GB
+step 200 | 3.3M tok | loss 1.646 | spike 0.005 | 2,311 tok/s | vram 13.5/30.1 GB
+step 250 | 4.1M tok | loss 1.237 | spike 0.005 | 2,484 tok/s | vram 13.3/30.1 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital city of France is Paris.\n### Response\nThe capital city of France is Paris.\n### Paris\n### Paris\n### Paris\n### Paris\n### Paris\n### Paris\n### Paris\n'
+step 300 | 4.9M tok | loss 2.657 | spike 0.004 | 2,424 tok/s | vram 13.6/30.1 GB
+step 350 | 5.7M tok | loss 2.702 | spike 0.004 | 2,504 tok/s | vram 13.6/30.2 GB
+step 400 | 6.6M tok | loss 1.271 | spike 0.004 | 2,467 tok/s | vram 13.4/30.3 GB
+step 450 | 7.4M tok | loss 3.385 | spike 0.004 | 2,456 tok/s | vram 13.6/30.3 GB
+step 500 | 8.2M tok | loss 1.822 | spike 0.003 | 2,546 tok/s | vram 13.4/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population\nAs of March 2020, the population of Paris is 8,,52.\n### Population estimates for 2020\n| Population estimates'
+step 550 | 9.0M tok | loss 3.282 | spike 0.004 | 2,426 tok/s | vram 13.6/30.3 GB
+step 600 | 9.8M tok | loss 2.692 | spike 0.004 | 2,508 tok/s | vram 13.6/30.3 GB
+step 650 | 10.6M tok | loss 2.020 | spike 0.002 | 2,471 tok/s | vram 13.4/30.3 GB
+step 700 | 11.5M tok | loss 2.711 | spike 0.003 | 2,297 tok/s | vram 13.6/30.3 GB
+step 750 | 12.3M tok | loss 1.742 | spike 0.003 | 2,349 tok/s | vram 13.4/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 9,,000\n### Capital city: Paris\n### Capital city: Paris\n### Population: 9,,000\n###'
+step 800 | 13.1M tok | loss 2.580 | spike 0.003 | 2,289 tok/s | vram 13.6/30.3 GB
+step 850 | 13.9M tok | loss 1.377 | spike 0.004 | 2,184 tok/s | vram 13.4/30.3 GB
+step 900 | 14.7M tok | loss 3.447 | spike 0.003 | 2,028 tok/s | vram 13.6/30.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_B3/step_0000916.pt
+step 950 | 15.6M tok | loss 1.229 | spike 0.003 | 1,988 tok/s | vram 13.5/30.3 GB
+step 1000 | 16.4M tok | loss 0.519 | spike 0.002 | 2,248 tok/s | vram 13.4/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 1,,\n### Population: 1,,\n### Population: 1,,\n### Population:'
+step 1050 | 17.2M tok | loss 1.349 | spike 0.003 | 2,030 tok/s | vram 13.4/30.3 GB
+step 1100 | 18.0M tok | loss 2.549 | spike 0.003 | 2,151 tok/s | vram 13.6/30.3 GB
+step 1150 | 18.8M tok | loss 3.011 | spike 0.004 | 2,107 tok/s | vram 13.6/30.3 GB
+step 1200 | 19.7M tok | loss 2.334 | spike 0.003 | 2,105 tok/s | vram 13.6/30.3 GB
+step 1250 | 20.5M tok | loss 3.054 | spike 0.003 | 2,061 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n'
+step 1300 | 21.3M tok | loss 2.697 | spike 0.003 | 2,095 tok/s | vram 13.6/30.3 GB
+step 1350 | 22.1M tok | loss 0.038 | spike 0.004 | 2,200 tok/s | vram 13.4/30.3 GB
+step 1400 | 22.9M tok | loss 3.366 | spike 0.003 | 2,283 tok/s | vram 13.6/30.3 GB
+step 1450 | 23.8M tok | loss 3.328 | spike 0.003 | 2,372 tok/s | vram 13.6/30.3 GB
+step 1500 | 24.6M tok | loss 1.495 | spike 0.003 | 2,434 tok/s | vram 13.5/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n### France\n'
+step 1550 | 25.4M tok | loss 2.953 | spike 0.003 | 2,486 tok/s | vram 13.6/30.3 GB
+step 1600 | 26.2M tok | loss 1.453 | spike 0.003 | 2,491 tok/s | vram 13.4/30.3 GB
+step 1650 | 27.0M tok | loss 1.609 | spike 0.003 | 2,467 tok/s | vram 13.5/30.3 GB
+step 1700 | 27.9M tok | loss 1.150 | spike 0.002 | 2,500 tok/s | vram 13.4/30.3 GB
+step 1750 | 28.7M tok | loss 1.851 | spike 0.002 | 2,266 tok/s | vram 13.4/30.3 GB
+  [gen-check] "### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### France's Capital\n### France's Capital\n### France's Capital\n### France's Capital\n### France's Capital\n### France's Capital\n### France's"
+step 1800 | 29.5M tok | loss 2.465 | spike 0.002 | 2,235 tok/s | vram 13.5/30.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_B3/step_0001832.pt
+step 1850 | 30.3M tok | loss 3.307 | spike 0.002 | 2,212 tok/s | vram 13.6/30.3 GB
+step 1900 | 31.1M tok | loss 1.744 | spike 0.003 | 2,152 tok/s | vram 13.4/30.3 GB
+step 1950 | 31.9M tok | loss 1.715 | spike 0.003 | 1,963 tok/s | vram 13.4/30.3 GB
+step 2000 | 32.8M tok | loss 2.942 | spike 0.003 | 2,022 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Paris is the capital city of the French Republic.\n### Paris is the capital city of the French Republic.\n### Paris is the capital city of the French Republic.\n'
+step 2050 | 33.6M tok | loss 2.264 | spike 0.003 | 1,965 tok/s | vram 13.6/30.3 GB
+step 2100 | 34.4M tok | loss 3.616 | spike 0.003 | 1,893 tok/s | vram 13.6/30.3 GB
+step 2150 | 35.2M tok | loss 0.156 | spike 0.003 | 2,110 tok/s | vram 13.4/30.3 GB
+step 2200 | 36.0M tok | loss 2.478 | spike 0.003 | 2,184 tok/s | vram 13.6/30.3 GB
+step 2250 | 36.9M tok | loss 1.767 | spike 0.003 | 2,370 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n### The capital of France is Paris.\n###'
+step 2300 | 37.7M tok | loss 3.240 | spike 0.003 | 2,280 tok/s | vram 13.6/30.3 GB
+step 2350 | 38.5M tok | loss 1.652 | spike 0.003 | 2,028 tok/s | vram 13.4/30.3 GB
+step 2400 | 39.3M tok | loss 1.916 | spike 0.003 | 1,831 tok/s | vram 13.5/30.3 GB
+step 2450 | 40.1M tok | loss 1.449 | spike 0.003 | 1,907 tok/s | vram 13.4/30.3 GB
+step 2500 | 41.0M tok | loss 2.100 | spike 0.003 | 2,256 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n###  Paris is the capital city of France.\n###  Paris is the capital city of France.\n###  Paris is the capital city of France.\n###  Paris'
+step 2550 | 41.8M tok | loss 1.780 | spike 0.003 | 2,305 tok/s | vram 13.4/30.3 GB
+step 2600 | 42.6M tok | loss 2.642 | spike 0.003 | 2,425 tok/s | vram 13.4/30.3 GB
+step 2650 | 43.4M tok | loss 2.689 | spike 0.003 | 2,431 tok/s | vram 13.6/30.3 GB
+step 2700 | 44.2M tok | loss 1.869 | spike 0.003 | 2,471 tok/s | vram 13.4/30.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_B3/step_0002748.pt
+step 2750 | 45.1M tok | loss 2.576 | spike 0.003 | 2,223 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 1,,000\n### Population growth rate: 1.5% in 2021\n### Population density: 1,000'
+step 2800 | 45.9M tok | loss 1.670 | spike 0.003 | 2,205 tok/s | vram 13.5/30.3 GB
+step 2850 | 46.7M tok | loss 1.774 | spike 0.003 | 2,301 tok/s | vram 13.5/30.3 GB
+step 2900 | 47.5M tok | loss 3.130 | spike 0.003 | 2,286 tok/s | vram 13.6/30.3 GB
+step 2950 | 48.3M tok | loss 2.281 | spike 0.003 | 2,365 tok/s | vram 13.6/30.3 GB
+step 3000 | 49.2M tok | loss 2.264 | spike 0.003 | 2,325 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 38,000\n### Country: France\n### Country: France\n### Population: 38,000\n### Country: France\n### Country'
+step 3050 | 50.0M tok | loss 0.673 | spike 0.003 | 2,075 tok/s | vram 13.4/30.3 GB
+step 3100 | 50.8M tok | loss 1.076 | spike 0.003 | 1,955 tok/s | vram 13.4/30.3 GB
+step 3150 | 51.6M tok | loss 1.112 | spike 0.003 | 2,177 tok/s | vram 13.6/30.3 GB
+step 3200 | 52.4M tok | loss 2.721 | spike 0.003 | 2,125 tok/s | vram 13.6/30.3 GB
+step 3250 | 53.2M tok | loss 1.138 | spike 0.003 | 2,191 tok/s | vram 13.4/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 38,000,000\n### Country: France\n### Population (as of 2021)\n### Country: France\n### Population (as'
+step 3300 | 54.1M tok | loss 1.510 | spike 0.003 | 2,097 tok/s | vram 13.6/30.3 GB
+step 3350 | 54.9M tok | loss 0.814 | spike 0.003 | 2,099 tok/s | vram 13.4/30.3 GB
+step 3400 | 55.7M tok | loss 1.313 | spike 0.003 | 2,018 tok/s | vram 13.5/30.3 GB
+step 3450 | 56.5M tok | loss 0.121 | spike 0.003 | 2,099 tok/s | vram 13.3/30.3 GB
+step 3500 | 57.3M tok | loss 1.709 | spike 0.003 | 2,042 tok/s | vram 13.6/30.3 GB
+  [gen-check] '### Instruction:\nWhat is the capital of France?\n\n### Response:\nThe capital of France is Paris.\n### Population: 38,000,000\n### City: Paris\n### Country: France\n### Country: France\n### Population: 38,000,'
+step 3550 | 58.2M tok | loss 2.503 | spike 0.003 | 2,055 tok/s | vram 13.6/30.3 GB
+step 3600 | 59.0M tok | loss 2.105 | spike 0.003 | 2,405 tok/s | vram 13.6/30.3 GB
+step 3650 | 59.8M tok | loss 0.516 | spike 0.003 | 2,311 tok/s | vram 13.4/30.3 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/sft_v4_B3/step_0003663.pt
+done: 60.0M tok in 7.53h

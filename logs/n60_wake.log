@@ -1,0 +1,4 @@
+[wake 10-13 16:43:53] start
+wrote /home/glenn/projects/neuro/configs/probe_v4_wake1.yaml
+[wake 10-13 16:43:53] arm W1 training (probe_v4_wake1)
+[wake 10-13 17:31:34] arm W1 stopped early by Neuro 60 (superseded by logs/n60_r166.log)

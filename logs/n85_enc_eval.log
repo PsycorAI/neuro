@@ -1,0 +1,29 @@
+cosine                                                                   ALL r@10  80.7  any  89.6  multi  80.6  temporal  79.9
+{'n_fly': 65536, 'signed': 1, 'fly_k': 4096, 'graded': 1, 'qrate': 1}    ALL r@10  79.0  any  89.8  multi  71.4  temporal  72.4
+== s1b
+cosine                                                                   ALL r@10  79.5  any  88.7  multi  77.4  temporal  78.6
+{'n_fly': 65536, 'signed': 1, 'fly_k': 4096, 'graded': 1, 'qrate': 1}    ALL r@10  77.7  any  88.3  multi  71.0  temporal  71.5
+== s2b
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/temp/n85_fly_sweep.py", line 13, in <module>
+    enc = encoder.load(os.environ['ENC'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/psymem/encoder.py", line 64, in load
+    return EncEmbedder(name)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/psymem/encoder.py", line 49, in __init__
+    ck = torch.load(f'/home/glenn/projects/neuro/models/psymem/enc_{name}.pt', map_location='cpu')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 1530, in load
+    with _open_file_like(f, "rb") as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 795, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/serialization.py", line 776, in __init__
+    super().__init__(open(name, mode))  # noqa: SIM115
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/glenn/projects/neuro/models/psymem/enc_s2b.pt'
+== s2a
+cosine                                                                   ALL r@10  81.2  any  91.3  multi  73.5  temporal  76.5
+{'n_fly': 65536, 'signed': 1, 'fly_k': 4096, 'graded': 1, 'qrate': 1}    ALL r@10  82.2  any  91.7  multi  73.7  temporal  80.6

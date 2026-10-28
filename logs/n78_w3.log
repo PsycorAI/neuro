@@ -1,0 +1,56 @@
+[w3 10-25 18:06:07] demo questions DEMO_SPARSE=0
+== bf16: 20 turns 13.1s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB
+[w3 10-25 18:08:46] demo questions DEMO_SPARSE=1
+== bf16: 20 turns 14.1s | memtest on 20/20 off 0/20 | max GPU mem 4.9 GB
+[SAME] 'What is 17% of 240?' TOOL calculator
+[SAME] 'How many kilometers is 26.2 miles?' TOOL unit_convert
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 10:08 AM on Monday, October 26 in Tokyo.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_time 'It is 10:11 AM on Monday, October 26 in Tokyo.'
+[DIFF] "What's the weather like in Paris?" TOOL get_weather
+     bf16 sft_v4_chat_w8_pruned: TOOL get_weather 'It is 50 degrees Fahrenheit in Paris, mainly clear.'
+     bf16 sft_v4_chat_w8_pruned: TOOL get_weather 'It is 50 degrees Fahrenheit in Paris, with mainly clear skies and a gentle breeze of 7 mph.'
+[SAME] "What does the word 'ephemeral' mean?" TOOL define
+[SAME] "Translate 'good morning' into Spanish." TOOL translate
+[SAME] 'Remind me to call my son at 6 pm.' TOOL set_reminder
+[SAME] 'Who wrote the novel Pride and Prejudice?' TOOL search
+[SAME] 'Why is the sky blue?' ANSWER 
+[DIFF] 'Give me three tips for sleeping better.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your body that i'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'Create a relaxing bedtime routine, such as reading a book or taking a warm bath, to signal to your brain that '
+[SAME] 'What is photosynthesis?' TOOL define
+[DIFF] 'Write a short poem about the sea.' ANSWER 
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and mysterious place,\nIts waves that crash against the shore,\nA symphony of sound and sight,'
+     bf16 sft_v4_chat_w8_pruned: ANSWER  'The sea is a vast and mysterious place,\nIts waves that crash against the shore,\nA symphony of sound and sight,'
+[SAME] 'Tell me about Marie Curie.' TOOL search
+[SAME] 'What is the capital of Australia?' ANSWER 
+[SAME] 'How much protein is in broccoli?' ANSWER 
+[SAME] 'How many calories are in bananas?' ANSWER 
+[SAME] 'Write a Python function to check if a number is prime.' ANSWER 
+[SAME] 'Write a Python function to reverse a string.' ANSWER 
+[SAME] 'Hi, how are you?' ANSWER 
+[SAME] 'Thanks!' BACKEND 
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. In spring the farmers walked out early to look at the'
+raw bf16 sft_v4_chat_w8_pruned: 'the same as the name of the village. The river was the same as the name of the village. Th'
+== n78 fp32 vs bf16 demo: replies identical 16/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 13.1s vs bf16 sft_v4_chat_w8_pruned 14.1s | GPU mem 4.9 vs 4.9 GB
+[w3 10-25 18:11:35] gpu-energy N78_SPARSE=0
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    246.5 tok/s |   578.46 mJ/tok total (577.29-580.47) |   371.69 active
+  gpu-energy v4f_dec@2048 |    186.0 tok/s |   684.71 mJ/tok total (684.64-685.11) |   411.87 active
+  gpu-energy v4f_dec@8192 |     93.9 tok/s |  1114.19 mJ/tok total (1112.33-1114.87) |   571.94 active
+  gpu-energy v4f_dec@32768 |     31.5 tok/s |  2822.12 mJ/tok total (2803.21-2833.43) |  1223.65 active
+  gpu-energy v4_dec@512   |    190.8 tok/s |   628.38 mJ/tok total (623.02-628.90) |   363.05 active
+  gpu-energy v4_dec@2048  |    193.5 tok/s |   614.89 mJ/tok total (613.73-623.20) |   357.46 active
+  gpu-energy v4_dec@8192  |    194.2 tok/s |   618.55 mJ/tok total (610.36-622.66) |   361.34 active
+  gpu-energy v4_dec@32768 |    187.9 tok/s |   628.21 mJ/tok total (619.33-648.47) |   359.26 active
+[w3 10-25 18:17:59] gpu-energy N78_SPARSE=1
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    246.7 tok/s |   578.41 mJ/tok total (571.12-588.64) |   365.56 active
+  gpu-energy v4f_dec@2048 |    185.7 tok/s |   685.45 mJ/tok total (685.35-692.22) |   414.30 active
+  gpu-energy v4f_dec@8192 |     93.8 tok/s |  1101.11 mJ/tok total (1099.65-1120.19) |   559.90 active
+  gpu-energy v4f_dec@32768 |     31.5 tok/s |  2815.47 mJ/tok total (2813.83-2850.70) |  1184.09 active
+  gpu-energy v4_dec@512   |    216.2 tok/s |   506.45 mJ/tok total (492.75-513.55) |   263.45 active
+  gpu-energy v4_dec@2048  |    215.4 tok/s |   502.68 mJ/tok total (501.50-512.14) |   265.77 active
+  gpu-energy v4_dec@8192  |    214.3 tok/s |   510.33 mJ/tok total (497.27-521.59) |   272.34 active
+  gpu-energy v4_dec@32768 |    213.6 tok/s |   507.50 mJ/tok total (506.34-510.15) |   264.57 active

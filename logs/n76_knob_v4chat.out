@@ -1,0 +1,8 @@
+== v4chat: 74 spike codes, 12 FFN thresholds (mean 0.09244)
+  alpha 1.00 beta 1.00 | ppl   19.083 (+0.00%) | compute 4.00x (1203 uJ) | +DRAM 2.06x (159315 uJ) | weight reads 49%
+  alpha 1.25 beta 1.00 | ppl   19.620 (+2.82%) | compute 4.89x ( 984 uJ) | +DRAM 2.16x (151634 uJ) | weight reads 47%
+  alpha 1.50 beta 1.00 | ppl   20.041 (+5.02%) | compute 5.79x ( 831 uJ) | +DRAM 2.28x (143797 uJ) | weight reads 44%
+  alpha 2.00 beta 1.00 | ppl   21.704 (+13.74%) | compute 7.80x ( 617 uJ) | +DRAM 2.67x (122751 uJ) | weight reads 38%
+  alpha 1.00 beta 1.50 | ppl   19.089 (+0.04%) | compute 4.00x (1202 uJ) | +DRAM 2.06x (158821 uJ) | weight reads 49%
+  alpha 1.00 beta 2.00 | ppl   19.167 (+0.44%) | compute 4.01x (1200 uJ) | +DRAM 2.07x (158444 uJ) | weight reads 49%
+  alpha 1.25 beta 1.50 | ppl   19.616 (+2.80%) | compute 4.90x ( 982 uJ) | +DRAM 2.17x (151238 uJ) | weight reads 47%

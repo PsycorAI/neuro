@@ -172,7 +172,10 @@ def _build_optimizers(model, c, device):
             muon_mem_lr=c.get("muon_mem_lr"),
             muon_attn_lr=c.get("muon_attn_lr"),
             batched_ns=c.get("muon_batched_ns", False),
-            no_decay_names=c.get("no_decay_names"))
+            no_decay_names=c.get("no_decay_names"),
+            masked_decay_names=c.get("muon_masked_decay_names"),
+            unormuon_names=c.get("muon_unormuon_names"),
+            decay_overrides=c.get("adamw_decay_overrides"))
         opt_name = "NorMuon" if use_normuon else "Muon"
         print(f"optimizer: {opt_name} ({n_mat} matrices, lr={c.get('muon_lr', 0.02)}) "
               f"+ {'AdamW8bit' if c.get('adamw_8bit', False) else 'AdamW'} "
@@ -359,6 +362,12 @@ def build_model(c):
             for _b in m.blocks:
                 if hasattr(_b, "qkv"):
                     _b.attn_chunk = _ac
+        # attn_topk_gather (2026-10-18, Neuro 68; default off = byte-identical): top-k attention without T x T
+        # tensors kept for backward (HybridAttentionBlock._topk_attn_gather; same math up to fp rounding).
+        if c.get("attn_topk_gather", False):
+            for _b in m.blocks:
+                if hasattr(_b, "qkv"):
+                    _b.attn_topk_gather = True
         # hola_w (2026-10-07, Neuro 53; default 0 = byte-identical): HOLA exact episodic cache in every memory block
         # (SpikingHebbianBlock.enable_hola), cache boundaries = the attention chunks. Needs gdn2_chunked memory blocks.
         if int(c.get("hola_w", 0) or 0):
@@ -622,7 +631,15 @@ def main():
     # ---- Optional: knowledge distillation from a Llama teacher --------------
     kd_teacher = None
     kd_lut = None
-    if c.get("kd_enabled", False) and c["arch"] == "spiking":
+    # kd_remote (2026-10-22, Neuro 73; default None = unchanged): the teacher runs in temp/kd_teacher_server.py (the 5080)
+    # and is asked one micro-batch ahead (kd.RemoteTeacher); same windows in the same order (np.random draws only).
+    _kd_remote = c.get("kd_remote") if c.get("kd_enabled", False) and c["arch"] == "spiking" else None
+    _kd_next = None
+    if _kd_remote:
+        from kd import RemoteTeacher
+        kd_teacher = RemoteTeacher(_kd_remote, c["batch_size"], c["block_size"])
+        print(f"KD enabled (remote teacher): alpha={c.get('kd_alpha',0.5)} T={c.get('kd_temperature',1.0)}")
+    elif c.get("kd_enabled", False) and c["arch"] == "spiking":
         from kd import load_teacher, load_lut
         kd_teacher = load_teacher(c.get("kd_teacher", "meta-llama/Llama-3.2-1B"),
                                    device=device,
@@ -747,6 +764,27 @@ def main():
     from hybrid_attn import SparseAct
     _sparse_acts = [m for m in raw_model.modules() if isinstance(m, SparseAct)]
     _homeo_acts = [m for m in _sparse_acts if m.homeo] if mlp_rate_target_at(c, 0, 1) is not None else []
+    _ghost_acts, _ghost_frac, _ghost_period = [], 1.0, 0
+    if float(c.get("attn_ffn_ghost", 0) or 0) > 0:        # 2026-10-12: backward-only signal for silent FFN units
+        # 2026-10-13 gentle wake-up (defaults = every block, every unit = the 10-12 behaviour):
+        #   attn_ffn_ghost_blocks [4]  : ghost only in these block indices
+        #   attn_ffn_ghost_frac 0.05   : only a random share of each layer's units gets the ghost signal ...
+        #   attn_ffn_ghost_period 100  : ... redrawn every N steps (0 = one fixed draw)
+        _gb = c.get("attn_ffn_ghost_blocks")
+        _ghost_acts = [m for n, m in raw_model.named_modules() if isinstance(m, SparseAct)
+                       and (_gb is None or int(n.split("blocks.")[1].split(".")[0]) in _gb)]
+        assert _ghost_acts, f"attn_ffn_ghost_blocks={_gb}: no SparseAct layer in those blocks"
+        for _m in _ghost_acts: _m.ghost = float(c["attn_ffn_ghost"])
+        _ghost_frac = float(c.get("attn_ffn_ghost_frac", 1.0) or 1.0)
+        if _ghost_frac < 1.0:
+            _ghost_period = int(c.get("attn_ffn_ghost_period", 0) or 0)
+            _ghost_gen = torch.Generator(device="cpu").manual_seed(int(c.get("seed", 0)) + 4099)
+            for _m in _ghost_acts:
+                _m.ghost_mask = (torch.rand(_m.hidden, generator=_ghost_gen) < _ghost_frac).float().to(device)
+        print(f"attn_ffn_ghost={c['attn_ffn_ghost']}: ghost gradient for silent FFN units ({len(_ghost_acts)} layers"
+              + (f", blocks {_gb}" if _gb is not None else "")
+              + (f", {_ghost_frac:.0%} of units, redrawn every {int(c.get('attn_ffn_ghost_period', 0) or 0)} steps"
+                 if _ghost_frac < 1.0 else "") + ")")
     if _sparse_acts:
         print(f"sparse MLP: {c.get('attn_ffn_act')} x{len(_sparse_acts)}"
               + (f", homeostatic {c['attn_ffn_homeo']} threshold: rate 1.0 until {c.get('attn_ffn_ramp_start', 0.6):.0%}, "
@@ -803,14 +841,26 @@ def main():
                 for o, st in zip(opts, s["opt_states"]):
                     # no_decay_names (2026-10-12) switched on at a resume: the checkpoint's AdamW state is laid out
                     # for the old grouping -> carry each parameter's moments to its new place (muon.remap_adamw_state).
-                    if (c.get("no_decay_names") and isinstance(o, torch.optim.AdamW)
-                            and [len(g["params"]) for g in st["param_groups"]] != [len(g["params"]) for g in o.param_groups]):
+                    # Same for adamw_decay_overrides, in either direction: find the grouping the checkpoint was
+                    # saved under among the known ones; no match -> load_state_dict raises as before.
+                    _gl = lambda gs: [len(g["params"]) for g in gs]
+                    if isinstance(o, torch.optim.AdamW) and _gl(st["param_groups"]) != _gl(o.param_groups):
                         from muon import remap_adamw_state
-                        _old = [x for x in _build_optimizers(raw_model, dict(c, no_decay_names=None), device)
-                                if isinstance(x, torch.optim.AdamW)][0]
-                        st = remap_adamw_state(_old, o, st); del _old
-                        print("  [info] no_decay_names: AdamW state remapped to the new grouping")
+                        for _alt in (dict(no_decay_names=None, adamw_decay_overrides=None),
+                                     dict(no_decay_names=["embed.weight"], adamw_decay_overrides=None)):
+                            _old = [x for x in _build_optimizers(raw_model, dict(c, **_alt), device)
+                                    if isinstance(x, torch.optim.AdamW)][0]
+                            if _gl(_old.param_groups) == _gl(st["param_groups"]):
+                                st = remap_adamw_state(_old, o, st)
+                                print(f"  [info] AdamW state remapped to the new grouping (saved under {_alt})")
+                                break
+                        del _old
+                    _wd = [g.get("weight_decay") for g in o.param_groups]
                     o.load_state_dict(st)
+                    # load_state_dict restores the SAVED group settings; the config's weight decay must win
+                    # (no-op when the config is unchanged), so a decay value can be changed at a resume.
+                    for g, w in zip(o.param_groups, _wd):
+                        if w is not None: g["weight_decay"] = w
             except (ValueError, KeyError) as e:
                 # Cross-stage resume (e.g. DPO Muon ckpt into pretrain NorMuon
                 # trainer): outer count matches but internal param-group shapes
@@ -923,7 +973,10 @@ def main():
         _interrupted["hit"] = True
         print("\n[SIGINT] received — finishing current step, then saving final ckpt + exiting", flush=True)
     signal.signal(signal.SIGINT, _sigint_handler)
-    while tokens < c["max_tokens"] and not _interrupted["hit"]:
+    # stop_at_step (2026-10-18, default None = byte-identical): exit into the final save at this step without touching
+    # the LR schedule (still sized by max_tokens), so a resume can change config (e.g. embedding decay) exactly there.
+    _stop_at = c.get("stop_at_step")
+    while tokens < c["max_tokens"] and not _interrupted["hit"] and not (_stop_at and step >= _stop_at):
         model.train()
         # Apply LR schedule for this step
         scale = lr_scale(step)
@@ -955,6 +1008,9 @@ def main():
         if _homeo_acts:
             _rt = mlp_rate_target_at(c, step, total_steps)
             for _m in _homeo_acts: _m.rate_target = _rt
+        if _ghost_period and step % _ghost_period == 0:      # gentle wake-up: a new share of units (in place, no recompile)
+            for _m in _ghost_acts:
+                _m.ghost_mask.copy_((torch.rand(_m.hidden, generator=_ghost_gen) < _ghost_frac).float())
         for _micro in range(c["grad_accum"]):
             _sep_main = None                                 # mqar_separate_backward: the LM loss already back-propagated
             if stateful:
@@ -976,6 +1032,15 @@ def main():
             need_raw = kd_teacher is not None
             if stateful:
                 pass                                   # x, y already drawn from the contiguous streams above
+            elif need_raw and _kd_remote:
+                def _kd_draw():                        # draw a micro-batch on the CPU and send its raw ids to the teacher
+                    _x, _y, _r = data.batch(c["batch_size"], c["block_size"], "train", "cpu", return_raw=True)
+                    kd_teacher.request(_r)
+                    return (_x.pin_memory().to(device, non_blocking=True), _y.pin_memory().to(device, non_blocking=True))
+                if _kd_next is None:
+                    _kd_next = _kd_draw()
+                (x, y), _kd_next = _kd_next, _kd_draw()     # the 5080 now works on the next micro-batch
+                raw = None
             elif need_raw:
                 x, y, raw = data.batch(c["batch_size"], c["block_size"], "train",
                                         device, return_raw=True)
@@ -1034,10 +1099,13 @@ def main():
                     _kd_term = float(c.get("kd_self_alpha", 0.5)) * _kd
                 if kd_teacher is not None:
                     from kd import teacher_distribution, kd_loss
-                    teacher_topk = teacher_distribution(
-                        kd_teacher, raw, kd_lut,
-                        student_vocab=c["vocab"],
-                        temperature=c.get("kd_temperature", 1.0))
+                    if _kd_remote:
+                        teacher_topk = kd_teacher.result(device)     # reply for THIS micro-batch (FIFO)
+                    else:
+                        teacher_topk = teacher_distribution(
+                            kd_teacher, raw, kd_lut,
+                            student_vocab=c["vocab"],
+                            temperature=c.get("kd_temperature", 1.0))
                     main_loss = kd_loss(out, teacher_topk,
                                          alpha=c.get("kd_alpha", 0.5),
                                          target_ids=y,
@@ -1200,7 +1268,10 @@ def main():
                         _xc = (_xf > 0 and step >= float(c.get("mqar_xchunk_start_frac", 0.0)) * total_steps
                                and _mqar_gap_rng.rand() < _xf)
                         if _xc:
-                            _C = int(c["attn_chunk"])
+                            # mqar_xchunk_C (2026-10-19, Neuro 69; default attn_chunk = byte-identical): the chunk size
+                            # the xchunk batch is laid out for, so a full-attention model (attn_chunk 0) gets the same
+                            # recall tasks as the chunked one.
+                            _C = int(c.get("mqar_xchunk_C") or c["attn_chunk"])
                             g_mq = _C - 2 * N_mq + int(_mqar_gap_rng.randint(0, _C))
                             _B_mq = int(c.get("mqar_xchunk_batch", c.get("mqar_batch", c["batch_size"])))
                         else:
@@ -1243,7 +1314,7 @@ def main():
                     if c.get("mqar_gap_pad_to") and _L_mq > _pad_to:
                         _pad_to = int(c["mqar_gap_pad_to"])
                     if _xc:
-                        _pad_to = 2 * int(c["attn_chunk"])
+                        _pad_to = 2 * int(c.get("mqar_xchunk_C") or c["attn_chunk"])
                     if _pad_to:
                         assert _L_mq <= _pad_to, f"mqar_pad_to {_pad_to} < MQAR length {_L_mq}"
                         x_mq = F.pad(x_mq, (0, _pad_to - _L_mq))

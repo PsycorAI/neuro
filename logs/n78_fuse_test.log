@@ -1,0 +1,8 @@
+plain   : val pass 16s (incl. compile + capture)
+  warnings.warn(
+compiled: val pass 152s (incl. compile + capture)
+(1) val ppl plain 25.746 | compiled 25.711 | full forward 25.923 | argmax compiled vs plain 0.8928 | max|logit diff| 2.625
+(2) plain   : 5.05 ms/token | 1772 kernels, 3.78 ms GPU per step
+(2) compiled: 2.54 ms/token | 391 kernels, 2.13 ms GPU per step
+(3) graph breaks: {}
+== n78 fuse test done

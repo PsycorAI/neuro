@@ -1,0 +1,12 @@
+[mb34 10-22 23:51:57] 3. stacked: merge brain_py_C into sft_v4_chat -> sft_v4_chat_py
+[OK] sft_v4_chat_py: brain_py_C merged into 48 layers of sft_v4_chat -> /home/glenn/projects/neuro/scripts/../models/checkpoints/sft_v4_chat_py/step_0000001.pt
+-- stack (brain_stack on sft_v4_chat_py)
+  python stack        taught 100.0% (n=90) | control   0.0% (n=24)
+  health stack        taught  99.3% (n=150) | control   6.0% (n=150)
+stack                  full  33.891 | chunk1  34.458 | chunks2+  33.334  (models/checkpoints/n73_m_stack/step_0000001.pt)
+[mb34 10-23 04:04:29] 4. joint brain on sft_v4_chat
+-- joint (brain_joint on sft_v4_chat)
+  python joint        taught 100.0% (n=90) | control   0.0% (n=24)
+  health joint        taught 100.0% (n=150) | control   4.7% (n=150)
+joint                  full  32.196 | chunk1  32.762 | chunks2+  31.641  (models/checkpoints/n73_m_joint/step_0000001.pt)
+[mb34 10-23 09:12:35] done

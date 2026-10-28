@@ -1,0 +1,59 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  [hist ] fact     fail | 'What is my name?'                       -> ANSWER - [dropped translate {"text": "I am Maria", "target_lang": "Spanish"}] | "I don't have the capability to do that with the current toolset."
+  [alone] fact     fail | 'What is my name?'                       -> ANSWER - [dropped translate {"text": "I am a language model", "target_lang": "Arabic"}] | "I don't have a tool for that one."
+  [hist ] fact     fail | 'Where do I live?'                       -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "Dutch"}] | "I don't have a tool for that one."
+  [alone] fact     fail | 'Where do I live?'                       -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "Portuguese"}] | "I don't have a tool for that one."
+  [hist ] fact     fail | 'What is my favorite color?'             -> TOOL search {"query": "My favorite color"} | 'It is simple story for young children.'
+  [alone] fact     fail | 'What is my favorite color?'             -> ANSWER -  | "I don't have a favorite color. Can you tell me which color you would like me to "
+  [hist ] fact     fail | 'What are my cats called?'               -> TOOL translate {"text": "I have two cats", "target_lang": "American"} | 'Sorry, I could not get that: no offline translator for American.'
+  [alone] fact     fail | 'What are my cats called?'               -> TOOL search {"query": "What are my cats called"} | 'They are called domestic cats.'
+  [hist ] fact     fail | "What is my sister's name?"              -> TOOL translate {"text": "my sister is named Alice", "target_lang": "Arabic" | 'Sorry, I could not get that: no offline translator for Arabic.'
+  [alone] fact     fail | "What is my sister's name?"              -> TOOL translate {"text": "my sister is named", "target_lang": "Arabic"} | 'Sorry, I could not get that: no offline translator for Arabic.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5252.93it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  [hist ] fact     fail | 'What year was I born?'                  -> TOOL search {"query": "the current year"} | 'I was born in 1980.'
+  [alone] fact     fail | 'What year was I born?'                  -> TOOL search {"query": "the current year"} | 'I was born in 1980.'
+  [hist ] another  fail | 'Tell me another one.'                   -> ANSWER -  | "Why don't scientists trust atoms? Because they make up everything!"
+  [alone] another  fail | 'Tell me another one.'                   -> ANSWER - [dropped translate {"text": "can you speak more slowly", "target_lang": "Arabic"}] | "I don't have a tool for that one."
+  [hist ] another  fail | 'Another one, please.'                   -> TOOL search {"query": "Another one, please."} | 'It was produced by George Martin.'
+  [alone] another  fail | 'Another one, please.'                   -> ANSWER - [dropped translate {"text": "can you speak more slowly", "target_lang": "Arabic"}] | "I don't have a tool for that one."
+  [hist ] pronoun  fail | 'When was she born?'                     -> TOOL search {"query": "When was she born"} [routed] | "She was born at St Mary's Hospital in Paddington, London."
+  [alone] pronoun  fail | 'When was she born?'                     -> TOOL search {"query": "When was she born"} [routed] | "She was born at St Mary's Hospital in Paddington, London."
+  [hist ] pronoun  fail | 'How tall is it?'                        -> TOOL search {"query": "How tall is it"} [model: query='the tallest building completed this year'] | 'It is a 1961 Soviet drama movie.'
+  [alone] pronoun  fail | 'How tall is it?'                        -> TOOL translate {"text": "how tall is it", "target_lang": "Swahili"} | 'Sorry, I could not get that: no offline translator for Swahili.'
+  [hist ] hist_arg fail | 'What about London?'                     -> ANSWER - [dropped get_weather {"location": "Lancaster", "unit": "fahrenheit"}] | "I don't have a tool for that one."
+  [alone] hist_arg fail | 'What about London?'                     -> TOOL translate {"text": "where is the train station", "target_lang": "Londo | 'Sorry, I could not get that: no offline translator for London.'
+  [hist ] hist_arg fail | 'And in Berlin?'                         -> ANSWER - [dropped get_time {"timezone": "Europe/Berlin"}] | "I don't have a tool for that one."
+  [alone] hist_arg fail | 'And in Berlin?'                         -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "German"}] | "I can't look that up with the tools I've got."
+  [hist ] hist_arg PASS | 'And 10 miles?'                          -> TOOL unit_convert {"value": 10.0, "from_unit": "miles", "to_unit": "kilometers | '10 miles is equivalent to 16.0934 kilometers.'
+  [alone] hist_arg fail | 'And 10 miles?'                          -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "Portuguese"}] | "That one's beyond the tools available to me."
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5977.10it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  [hist ] hist_arg PASS | 'Now into French.'                       -> TOOL translate {"text": "good morning", "target_lang": "French"} | 'Buenour is the French translation of "good morning".'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  [alone] hist_arg fail | 'Now into French.'                       -> TOOL translate {"text": "can you speak more slowly", "target_lang": "French | 'Pouvez-vous parler plus lentement?'
+  [hist ] hist_arg PASS | 'And 20%?'                               -> TOOL calculator {"expression": "0.20 * 80"} | 'The result of 15% of 80 is 16.'
+  [alone] hist_arg fail | 'And 20%?'                               -> TOOL calculator {"expression": "20%"} | '20% is the result of 0.2.'
+  [hist ] hist_arg fail | 'Sorry, I meant Rome.'                   -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "French"}] | "I'm not able to do that with the current toolset."
+  [alone] hist_arg fail | 'Sorry, I meant Rome.'                   -> ANSWER - [dropped translate {"text": "where is the train station", "target_lang": "Italian"}] | "I can't look that up with the tools I've got."
+  [hist ] switch   PASS | 'What is the weather in Chicago?'        -> TOOL get_weather {"location": "Chicago", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Chicago without a network co"
+  [alone] switch   PASS | 'What is the weather in Chicago?'        -> TOOL get_weather {"location": "Chicago", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Chicago without a network co"
+  [hist ] switch   PASS | 'What is 12 times 13?'                   -> TOOL calculator {"expression": "12 * 13"} | '12 times 13 is 156.'
+  [alone] switch   PASS | 'What is 12 times 13?'                   -> TOOL calculator {"expression": "12 * 13"} | 'The result of 12 times 13 is 156.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4411.39it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  [hist ] switch   PASS | "Translate 'thank you' into German."     -> TOOL translate {"text": "thank you", "target_lang": "German"} [model: text='thank you for your help'] | 'Vielen Dank.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  [alone] switch   PASS | "Translate 'thank you' into German."     -> TOOL translate {"text": "thank you", "target_lang": "German"} [model: text='thank you for your help'] | 'Vielen Dank.'
+  [hist ] switch   PASS | 'Remind me to call mom at 5 pm.'         -> TOOL set_reminder {"text": "call mom", "datetime": "at 5 pm"}[dropped send_message {"recipient": "my landlord", "body": "the train arrived"}] [routed] | 'You have a reminder to call mom at 5 pm.'
+  [alone] switch   PASS | 'Remind me to call mom at 5 pm.'         -> TOOL set_reminder {"text": "call mom", "datetime": "at 5 pm"} [model: text='call the doctor', datetime='tomorrow at 5pm'] | 'You have a reminder to call mom at 5 pm.'
+  [hist ] switch   PASS | 'What time is it in Tokyo right now?'    -> TOOL get_time {"timezone": "Asia/Tokyo"} | 'It is 6:59 AM on Thursday, October 22 in Tokyo.'
+  [alone] switch   PASS | 'What time is it in Tokyo right now?'    -> TOOL get_time {"timezone": "Asia/Tokyo"} | 'It is 6:59 AM on Thursday, October 22 in Tokyo.'
+== summary (pass / n)
+  fact     history 0/6   alone 0/6
+  another  history 0/2   alone 0/2
+  pronoun  history 0/2   alone 0/2
+  hist_arg history 3/6   alone 0/6
+  switch   history 5/5   alone 5/5
+  ALL      history 8/21   alone 5/21

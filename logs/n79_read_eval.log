@@ -1,0 +1,95 @@
+[eval 10-25 22:07:31] --task val --dtype bf16 --n 48
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[val bf16 P 143] n 48 | ppl eager 16.927 eager2 16.788 graph 16.879 full 16.997
+    ppl change, 95% CI: graph vs eager  -0.28% [-1.54, +0.99] | CONTROL eager2 vs eager  -0.82% [-2.06, +0.44] | graph vs full  -0.70% [-1.89, +0.51] | eager vs full  -0.41% [-1.59, +0.78]
+    graph beats eager on 25/48 samples | argmax = full forward: eager 0.872 eager2 0.880 graph 0.877
+[val bf16 P 199] n 48 | ppl eager 17.550 eager2 17.606 graph 17.615 full 17.461
+    ppl change, 95% CI: graph vs eager  +0.37% [-0.92, +1.68] | CONTROL eager2 vs eager  +0.32% [-0.72, +1.37] | graph vs full  +0.88% [-0.39, +2.17] | eager vs full  +0.51% [-0.76, +1.79]
+    graph beats eager on 22/48 samples | argmax = full forward: eager 0.878 eager2 0.881 graph 0.882
+[val bf16 P 512] n 48 | ppl eager 14.859 eager2 14.818 graph 14.859 full 14.902
+    ppl change, 95% CI: graph vs eager  +0.00% [+0.00, +0.00] | CONTROL eager2 vs eager  -0.27% [-1.32, +0.79] | graph vs full  -0.29% [-1.41, +0.84] | eager vs full  -0.29% [-1.41, +0.84]
+    graph beats eager on 0/48 samples | argmax = full forward: eager 0.883 eager2 0.884 graph 0.883
+[val bf16 P 1100] n 48 | ppl eager 16.541 eager2 16.666 graph 16.537 full 16.700
+    ppl change, 95% CI: graph vs eager  -0.02% [-1.46, +1.43] | CONTROL eager2 vs eager  +0.75% [-0.42, +1.94] | graph vs full  -0.98% [-2.15, +0.21] | eager vs full  -0.95% [-2.02, +0.12]
+    graph beats eager on 25/48 samples | argmax = full forward: eager 0.875 eager2 0.871 graph 0.873
+== n79 read eval done
+[eval 10-25 22:12:14] --task copy --dtype bf16 --n 40
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[copy bf16 copy 1,100 back] n 40 | ppl eager 15.016 eager2 15.109 graph 15.218 full 15.192
+    ppl change, 95% CI: graph vs eager  +1.34% [+0.42, +2.27] | CONTROL eager2 vs eager  +0.62% [-0.23, +1.47] | graph vs full  +0.17% [-0.88, +1.23] | eager vs full  -1.16% [-2.14, -0.17]
+    graph beats eager on 19/40 samples | argmax = full forward: eager 0.872 eager2 0.875 graph 0.872
+== n79 read eval done
+[eval 10-25 22:15:01] --task val --dtype fp32 --n 24
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[val fp32 P 143] n 24 | ppl eager 14.897 eager2 14.784 graph 14.685 full 14.832
+    ppl change, 95% CI: graph vs eager  -1.42% [-2.91, +0.08] | CONTROL eager2 vs eager  -0.76% [-2.42, +0.93] | graph vs full  -1.00% [-2.01, +0.03] | eager vs full  +0.43% [-0.93, +1.82]
+    graph beats eager on 15/24 samples | argmax = full forward: eager 0.900 eager2 0.917 graph 0.907
+[val fp32 P 199] n 24 | ppl eager 15.680 eager2 15.808 graph 15.645 full 15.623
+    ppl change, 95% CI: graph vs eager  -0.23% [-1.47, +1.03] | CONTROL eager2 vs eager  +0.82% [-0.16, +1.80] | graph vs full  +0.13% [-1.47, +1.76] | eager vs full  +0.36% [-0.90, +1.65]
+    graph beats eager on 9/24 samples | argmax = full forward: eager 0.890 eager2 0.887 graph 0.897
+[val fp32 P 512] n 24 | ppl eager 16.108 eager2 15.990 graph 16.108 full 16.158
+    ppl change, 95% CI: graph vs eager  +0.00% [+0.00, +0.00] | CONTROL eager2 vs eager  -0.73% [-1.85, +0.39] | graph vs full  -0.31% [-1.86, +1.26] | eager vs full  -0.31% [-1.86, +1.26]
+    graph beats eager on 0/24 samples | argmax = full forward: eager 0.889 eager2 0.891 graph 0.889
+[val fp32 P 1100] n 24 | ppl eager 17.859 eager2 17.979 graph 17.923 full 18.027
+    ppl change, 95% CI: graph vs eager  +0.36% [-1.10, +1.83] | CONTROL eager2 vs eager  +0.67% [-0.26, +1.61] | graph vs full  -0.58% [-1.96, +0.82] | eager vs full  -0.94% [-1.93, +0.07]
+    graph beats eager on 12/24 samples | argmax = full forward: eager 0.878 eager2 0.876 graph 0.878
+== n79 read eval done
+[eval 10-25 22:18:28] --task copy --dtype fp32 --n 24
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[copy fp32 copy 1,100 back] n 24 | ppl eager 14.342 eager2 14.349 graph 14.251 full 14.285
+    ppl change, 95% CI: graph vs eager  -0.63% [-1.71, +0.46] | CONTROL eager2 vs eager  +0.05% [-0.64, +0.75] | graph vs full  -0.24% [-1.49, +1.04] | eager vs full  +0.40% [-0.50, +1.30]
+    graph beats eager on 16/24 samples | argmax = full forward: eager 0.882 eager2 0.887 graph 0.881
+== n79 read eval done
+[eval 10-25 22:20:47] decide prompts bf16
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[decide bf16] 60 questions | ppl eager 1.256 eager2 1.254 graph 1.253 cache 1.263 full 1.242
+    vs eager, 95% CI: cache  +0.54% [-0.36, +1.45] | graph  -0.21% [-1.13, +0.72] | CONTROL eager2  -0.12% [-0.77, +0.53] | vs full: cache  +1.64% [+0.49, +2.80] | eager  +1.09% [+0.39, +1.80]
+    eager : first word = full forward's 56/60 | argmax = full forward 0.969
+    eager2: first word = full forward's 57/60 | argmax = full forward 0.969
+    graph : first word = full forward's 56/60 | argmax = full forward 0.967
+    cache : first word = full forward's 57/60 | argmax = full forward 0.961
+== n79 decide eval done
+[eval 10-25 22:25:24] --task copy --dtype bf16 --n 60 --seed 77
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[copy bf16 copy 1,100 back] n 60 | ppl eager 16.831 eager2 16.862 graph 16.801 full 16.769
+    ppl change, 95% CI: graph vs eager  -0.18% [-0.91, +0.56] | CONTROL eager2 vs eager  +0.19% [-0.48, +0.86] | graph vs full  +0.19% [-0.55, +0.94] | eager vs full  +0.37% [-0.37, +1.10]
+    graph beats eager on 31/60 samples | argmax = full forward: eager 0.876 eager2 0.873 graph 0.877
+== n79 read eval done
+[eval 10-25 22:29:01] --task mem --dtype bf16
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[mem bf16 memory prompt A x3] n 5 | ppl eager 21.334 eager2 19.850 graph 12.725 full 7.788
+    ppl change, 95% CI: graph vs eager -40.35% [-52.76, -24.68] | CONTROL eager2 vs eager  -6.95% [-21.92, +10.87] | graph vs full +63.40% [+29.58, +106.04] | eager vs full +173.94% [+98.57, +277.91]
+    graph beats eager on 5/5 samples | argmax = full forward: eager 0.670 eager2 0.674 graph 0.722
+    start 0: ppl eager   5.61 eager2   5.59 graph   4.22 full   3.66
+    start 1: ppl eager  31.06 eager2  27.65 graph  15.03 full   8.03
+    start 2: ppl eager  36.54 eager2  24.55 graph  15.46 full  10.47
+    start 3: ppl eager  23.75 eager2  26.56 graph  15.18 full   9.73
+    start 4: ppl eager  29.24 eager2  30.57 graph  22.39 full   9.57
+[mem bf16 memory prompt B x3] n 5 | ppl eager 21.809 eager2 22.740 graph 23.065 full 16.660
+    ppl change, 95% CI: graph vs eager  +5.76% [-21.84, +43.10] | CONTROL eager2 vs eager  +4.27% [-17.51, +31.79] | graph vs full +38.45% [+21.81, +57.35] | eager vs full +30.91% [+4.58, +63.86]
+    graph beats eager on 2/5 samples | argmax = full forward: eager 0.650 eager2 0.657 graph 0.667
+    start 0: ppl eager   7.69 eager2   5.53 graph   5.22 full   4.25
+    start 1: ppl eager  21.54 eager2  22.19 graph  31.40 full  21.32
+    start 2: ppl eager  30.43 eager2  33.78 graph  36.96 full  21.73
+    start 3: ppl eager  35.12 eager2  34.75 graph  27.87 full  23.55
+    start 4: ppl eager  27.86 eager2  42.24 graph  38.68 full  27.67
+== n79 read eval done
+[eval 10-25 22:30:44] --task mem --dtype fp32
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[mem fp32 memory prompt A x3] n 5 | ppl eager 18.515 eager2 16.948 graph 12.599 full 13.072
+    ppl change, 95% CI: graph vs eager -31.95% [-36.75, -26.79] | CONTROL eager2 vs eager  -8.46% [-17.30, +1.31] | graph vs full  -3.62% [-23.04, +20.69] | eager vs full +41.64% [+11.75, +79.52]
+    graph beats eager on 5/5 samples | argmax = full forward: eager 0.689 eager2 0.713 graph 0.742
+    start 0: ppl eager   5.43 eager2   5.31 graph   4.00 full   5.20
+    start 1: ppl eager  23.85 eager2  17.99 graph  14.10 full  15.22
+    start 2: ppl eager  24.06 eager2  21.55 graph  17.04 full  16.70
+    start 3: ppl eager  26.83 eager2  26.09 graph  18.67 full  12.87
+    start 4: ppl eager  26.01 eager2  26.01 graph  17.71 full  22.46
+[mem fp32 memory prompt B x3] n 5 | ppl eager 8.553 eager2 8.548 graph 8.751 full 11.105
+    ppl change, 95% CI: graph vs eager  +2.31% [-4.29, +9.36] | CONTROL eager2 vs eager  -0.06% [-1.96, +1.89] | graph vs full -21.20% [-29.90, -11.42] | eager vs full -22.98% [-32.45, -12.17]
+    graph beats eager on 2/5 samples | argmax = full forward: eager 0.769 eager2 0.774 graph 0.741
+    start 0: ppl eager   3.28 eager2   3.28 graph   3.03 full   3.44
+    start 1: ppl eager   9.13 eager2   9.41 graph   9.34 full  12.77
+    start 2: ppl eager   9.51 eager2   9.51 graph  10.19 full  14.75
+    start 3: ppl eager  11.95 eager2  11.93 graph  11.73 full  16.11
+    start 4: ppl eager  13.46 eager2  13.04 graph  15.16 full  16.19
+== n79 read eval done

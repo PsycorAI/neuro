@@ -1,0 +1,33 @@
+[n79 10-25 19:37:35] decode opts
+topk_gather False: val pass 34s (incl. compile + capture)
+topk_gather True: val pass 146s (incl. compile + capture)
+(1) val ppl today 18.280 | topk_gather 18.502 | full forward 18.417 | argmax gather vs today 0.8728
+(2) topk_gather False: 2.21 ms/token wall | 391 kernels, 2.13 ms GPU per step
+       0.991 ms   31x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.236 ms    4x  void gemv2T_kernel_val<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, 128, 
+       0.143 ms   26x  _sparse_gemv_kernel
+       0.094 ms   12x  void at::native::sbtopk::gatherTopK<float, unsigned int, 2, false>(at::cuda::detail::Tenso
+       0.084 ms   12x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.081 ms   12x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, float, float, float
+       0.068 ms   12x  triton_poi_fused__to_copy_13
+       0.036 ms   12x  void at::native::bitonicSortKVInPlace<2, -1, 16, 16, float, long, at::native::GTOp<float, 
+(2) topk_gather True: 2.25 ms/token wall | 331 kernels, 2.17 ms GPU per step
+       0.994 ms   31x  std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv
+       0.270 ms   11x  triton_red_fused__to_copy_bitwise_and_bitwise_not_ge_lt_masked_fill_mul_sub_sum_unsqueeze_
+       0.237 ms    4x  void gemv2T_kernel_val<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, 128, 
+       0.145 ms   26x  _sparse_gemv_kernel
+       0.094 ms   12x  void at::native::sbtopk::gatherTopK<float, unsigned int, 2, false>(at::cuda::detail::Tenso
+       0.036 ms   12x  void at::native::bitonicSortKVInPlace<2, -1, 16, 16, float, long, at::native::GTOp<float, 
+       0.036 ms   12x  triton_per_fused__softmax__to_copy__unsafe_view_abs_add_clamp_div_exp_expand_gather_mul_ro
+       0.028 ms   13x  void at::native::(anonymous namespace)::conv_depthwise2d_forward_kernel_generic<c10::BFloa
+== n79 decode opts test done
+[n79 10-25 19:41:31] graph feed fp32
+(1) P   199: ppl eager-feed 15.522 | graph-feed 15.707 | full forward 15.318 | prompt-end argmax agree 6/6 | max|logit diff| 1.328  (76s incl. capture)
+(1) P   512: ppl eager-feed 11.664 | graph-feed 11.664 | full forward 11.813 | prompt-end argmax agree 6/6 | max|logit diff| 0.000  (80s incl. capture)
+(1) P  1100: ppl eager-feed 10.968 | graph-feed 11.149 | full forward 11.115 | prompt-end argmax agree 5/6 | max|logit diff| 1.810  (141s incl. capture)
+== n79 graph feed test done (fp32, 6 sequences)
+[n79 10-25 19:44:59] graph feed bf16 x24
+(1) P   199: ppl eager-feed 21.005 | graph-feed 21.022 | full forward 21.082 | prompt-end argmax agree 19/24 | max|logit diff| 2.141  (34s incl. capture)
+(1) P   512: ppl eager-feed 19.674 | graph-feed 19.674 | full forward 19.551 | prompt-end argmax agree 24/24 | max|logit diff| 0.000  (48s incl. capture)
+(1) P  1100: ppl eager-feed 17.045 | graph-feed 17.337 | full forward 17.295 | prompt-end argmax agree 20/24 | max|logit diff| 1.879  (76s incl. capture)
+== n79 graph feed test done (bf16, 24 sequences)

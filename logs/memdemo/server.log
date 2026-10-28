@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  58%|█████▊    | 116/199 [00:00<00:00, 1153.82it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1096.15it/s]
+Plasmem demo on http://127.0.0.1:8766  (memory file /home/glenn/projects/neuro/logs/memdemo/diary.plasmem)

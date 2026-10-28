@@ -1,37 +1,0 @@
-optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
-  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   3%|▎         | 4/146 [00:00<00:05, 28.28it/s]Loading weights:   5%|▍         | 7/146 [00:00<00:05, 24.34it/s]Loading weights:   8%|▊         | 11/146 [00:00<00:04, 28.09it/s]Loading weights:  10%|▉         | 14/146 [00:00<00:05, 25.13it/s]Loading weights:  12%|█▏        | 17/146 [00:00<00:05, 22.95it/s]Loading weights:  18%|█▊        | 26/146 [00:00<00:03, 32.86it/s]Loading weights:  24%|██▍       | 35/146 [00:01<00:02, 42.13it/s]Loading weights:  27%|██▋       | 40/146 [00:01<00:02, 42.16it/s]Loading weights:  31%|███       | 45/146 [00:01<00:02, 41.81it/s]Loading weights:  34%|███▍      | 50/146 [00:01<00:02, 38.48it/s]Loading weights:  37%|███▋      | 54/146 [00:01<00:02, 32.67it/s]Loading weights:  42%|████▏     | 62/146 [00:01<00:02, 38.06it/s]Loading weights:  45%|████▌     | 66/146 [00:01<00:02, 38.35it/s]Loading weights:  48%|████▊     | 70/146 [00:02<00:02, 33.68it/s]Loading weights:  51%|█████     | 74/146 [00:02<00:02, 27.34it/s]Loading weights:  53%|█████▎    | 78/146 [00:02<00:02, 26.68it/s]Loading weights:  59%|█████▉    | 86/146 [00:02<00:01, 36.45it/s]Loading weights:  62%|██████▏   | 91/146 [00:02<00:01, 32.45it/s]Loading weights:  65%|██████▌   | 95/146 [00:03<00:03, 15.31it/s]Loading weights:  70%|██████▉   | 102/146 [00:03<00:02, 19.51it/s]Loading weights:  75%|███████▌  | 110/146 [00:03<00:01, 26.95it/s]Loading weights:  79%|███████▉  | 115/146 [00:03<00:01, 28.41it/s]Loading weights:  84%|████████▍ | 123/146 [00:04<00:00, 35.95it/s]Loading weights:  88%|████████▊ | 128/146 [00:04<00:00, 36.21it/s]Loading weights: 100%|██████████| 146/146 [00:04<00:00, 35.26it/s]
-KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
-torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
-sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
-torch.compile enabled for MQAR path (mode=default, dynamic=True)
-  [warn] optimizer state in ckpt incompatible with current config; starting fresh
-resumed /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b_conv_sepbw/step_0000150.pt @ step 150, 0.6M tok
-arch=spiking params=1109.52M device=cuda target=0.001B tok | 4096 tok/step | total_steps≈210 | warmup=4 | lr_sched=cosine | grad_clip=1.0
-step 160 | 0.7M tok | loss 8.852 | 776 tok/s | vram 15.7/25.4 GB
-step 170 | 0.7M tok | loss 8.775 | 2,679 tok/s | vram 15.6/25.4 GB
-step 180 | 0.7M tok | loss 8.611 | 2,841 tok/s | vram 15.6/25.4 GB
-step 190 | 0.8M tok | loss 8.519 | 2,431 tok/s | vram 15.6/25.4 GB
-step 200 | 0.8M tok | loss 8.957 | 2,711 tok/s | vram 15.6/25.4 GB
-  [eval] val_ppl 559.69 | ablated_ppl 751.92 (memory Δ=+192.23) | spike 0.202
-  [mlp] rate=0.065 thr=0.871 rate=0.064 thr=0.880 rate=0.064 thr=0.896 rate=0.064 thr=0.905 rate=0.063 thr=0.920 rate=0.063 thr=0.920 rate=0.064 thr=0.942 rate=0.064 thr=0.941 rate=0.064 thr=0.942 rate=0.064 thr=0.938 rate=0.064 thr=0.941 rate=0.065 thr=0.938 | target 0.050
-  [wnorm] embed=8148.35 | head=133.79
-  [beta] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.56 dead=0% at_floor=12% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
-  [gates sat] (d=neverforget/fastforget) blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: e=30% w=26% d=0/0% dstd=0.3 | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
-  [spike] reported=0.202 spiking_only=0.202 (1/13 blocks spike)
-  [alpha] blk0: n/a | blk1: n/a | blk2: n/a | blk3: n/a | blk4: n/a | blk5: n/a | blk6: μ=0.951 hi=0% lo=0% | blk7: n/a | blk8: n/a | blk9: n/a | blk10: n/a | blk11: n/a | blk12: n/a
-step 210 | 0.9M tok | loss 8.707 | 614 tok/s | vram 15.9/25.8 GB
-  saved /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b_conv_sepbw/step_0000200.pt
-  saved /home/glenn/projects/neuro/models/checkpoints/v4_smoke1b_conv_sepbw/step_0000210.pt
-done: 0.9M tok in 0.07h
- seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
-------------------------------------------------------------
-     512 |    3358802349.5 |    3443943014.4 |         1.03x
-    2048 |    3706090720.7 |    3820172083.2 |         1.03x
-    4096 |    4169141882.3 |    4321810841.6 |         1.04x
-
-block mix: 1 spiking + 12 attention | spike_rate 0.198 reported -> 0.198 spiking-only
-spiking op mix/token @ seq 4096: 901,775,360 MAC + 23,305,807 AC
-note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
-      just far more slowly than the all-attention baseline's.

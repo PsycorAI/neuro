@@ -1,0 +1,29 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
+KD teacher: remote server /tmp/n73_kd_test.sock (B2 T2048 top-128)
+KD enabled (remote teacher): alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=188.53M device=cuda target=0.000B tok | 16384 tok/step | total_steps≈30 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 1 | 0.0M tok | loss 15.833 | 326 tok/s | vram 2.8/11.6 GB
+step 2 | 0.0M tok | loss 15.735 | 1,789 tok/s | vram 2.8/12.3 GB
+step 3 | 0.0M tok | loss 15.380 | 1,961 tok/s | vram 2.8/12.3 GB
+step 4 | 0.1M tok | loss 15.177 | 2,447 tok/s | vram 2.8/12.3 GB
+step 5 | 0.1M tok | loss 14.909 | 1,684 tok/s | vram 2.8/12.3 GB
+step 6 | 0.1M tok | loss 14.426 | 2,403 tok/s | vram 2.8/12.3 GB
+step 7 | 0.1M tok | loss 14.102 | 2,570 tok/s | vram 2.8/12.3 GB
+step 8 | 0.1M tok | loss 13.921 | 1,904 tok/s | vram 2.8/12.3 GB
+step 9 | 0.1M tok | loss 13.630 | 2,651 tok/s | vram 2.8/12.3 GB
+step 10 | 0.2M tok | loss 13.285 | 2,526 tok/s | vram 2.8/12.3 GB
+step 11 | 0.2M tok | loss 13.293 | 1,904 tok/s | vram 2.8/12.3 GB
+step 12 | 0.2M tok | loss 13.312 | 2,682 tok/s | vram 2.8/12.3 GB
+step 13 | 0.2M tok | loss 13.087 | 2,727 tok/s | vram 2.8/12.3 GB
+step 14 | 0.2M tok | loss 13.385 | 2,680 tok/s | vram 2.8/12.3 GB
+step 15 | 0.2M tok | loss 12.904 | 2,690 tok/s | vram 2.8/12.3 GB
+step 16 | 0.3M tok | loss 13.384 | 2,642 tok/s | vram 2.8/12.3 GB
+step 17 | 0.3M tok | loss 13.024 | 2,558 tok/s | vram 2.8/12.3 GB
+step 18 | 0.3M tok | loss 13.339 | 1,920 tok/s | vram 2.8/12.3 GB
+step 19 | 0.3M tok | loss 13.392 | 2,512 tok/s | vram 2.8/12.3 GB
+step 20 | 0.3M tok | loss 13.167 | 1,891 tok/s | vram 2.8/12.3 GB
+step 21 | 0.3M tok | loss 13.121 | 2,685 tok/s | vram 2.8/12.3 GB
+step 22 | 0.4M tok | loss 9.433 | 619 tok/s | vram 3.0/16.9 GB

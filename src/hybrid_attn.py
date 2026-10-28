@@ -118,10 +118,13 @@ class SparseAct(nn.Module):
     value (relu2/relu of a). theta is NOT trained by gradient: after each optimizer step the trainer calls
     homeo_step(), which nudges theta so the firing rate tracks rate_target (set per step by the trainer; 1.0 =
     no threshold pressure). Gradient flows through the units that fired. Rates are fractions of nonzero outputs."""
+    ghost = 0.0                               # set by the trainer from attn_ffn_ghost (see forward)
+    ghost_mask = None                         # attn_ffn_ghost_frac (2026-10-13): 0/1 per unit, None = every unit
+
     def __init__(self, hidden, kind="relu2", homeo=None):
         super().__init__()
         assert kind in ("relu2", "relu") and homeo in (None, "layer", "unit")
-        self.kind, self.homeo = kind, homeo
+        self.kind, self.homeo, self.hidden = kind, homeo, hidden
         self.rate_target = 1.0
         # Rate bookkeeping lives in non-persistent buffers updated IN PLACE (2026-10-03): no Python state changes
         # inside forward, so torch.compile does not guard/recompile on it and CUDA-graph capture is safe. Same math
@@ -138,6 +141,15 @@ class SparseAct(nn.Module):
         fire = a > (self.theta.to(a.dtype) if self.homeo else 0)
         r = torch.where(fire, a, torch.zeros_like(a))
         h = r * r if self.kind == "relu2" else r
+        # attn_ffn_ghost (2026-10-12, default 0 = byte-identical): "ghost gradient" for SILENT units. The forward
+        # value is unchanged (g - g.detach() == 0); in the backward pass a unit that did not fire passes
+        # ghost * dL/dh to its pre-activation, so its input weights still get a learning signal instead of only
+        # weight decay (1B v4: ~90% of FFN units silent, Muon decay then erases them). Training only.
+        if self.ghost > 0 and self.training:
+            g = self.ghost * torch.where(fire, torch.zeros_like(a), a)
+            if self.ghost_mask is not None:   # gentle wake-up: only the masked share of units gets the ghost signal
+                g = g * self.ghost_mask.to(a.dtype)
+            h = h + (g - g.detach())
         with torch.no_grad():
             f = fire.float()
             self.last_rate.copy_(f.mean())
@@ -325,7 +337,9 @@ class HybridAttentionBlock(nn.Module):
             v = self.sc["v"](v)
         # Causal SDPA (Flash if available). No mask needed with is_causal=True.
         w = self.attn_window
-        if self.attn_topk:
+        if self.attn_topk and getattr(self, "attn_topk_gather", False):
+            out = self._topk_attn_gather(q, k, v, w=w if 0 < w < T else 0)
+        elif self.attn_topk:
             att = self._topk_weights(q, k, w=w if 0 < w < T else 0)
             out = torch.matmul(att.to(v.dtype), v)
         elif 0 < w < T:
@@ -358,6 +372,35 @@ class HybridAttentionBlock(nn.Module):
         s = s.masked_fill(~allowed, float("-inf"))
         kth = s.topk(min(self.attn_topk, s.shape[-1]), dim=-1).values[..., -1:]
         return torch.softmax(s.masked_fill(s < kth, float("-inf")), dim=-1)
+
+    def _topk_attn_gather(self, q, k, v, w=0):
+        """attn_topk_gather (2026-10-18, Neuro 68; default off): the same top-k attention as _topk_weights + att @ v,
+        without keeping T x T tensors for backward. The fp32 scores only SELECT each query's k best causal keys
+        (no grad: the selection has no gradient in the original either); the k survivors' scores are recomputed
+        from gathered keys with grad, softmaxed and applied to gathered values. Same function and gradient (the
+        original's gradient is zero off the survivors) up to fp rounding; exact ties at the k-th score keep k keys
+        here vs all tied keys there."""
+        B, H, T, Dh = q.shape
+        K = min(self.attn_topk, T)
+        sc = Dh ** -0.5
+        pos = torch.arange(T, device=q.device)
+        with torch.no_grad():
+            s = torch.matmul(q.float(), k.float().transpose(-2, -1)) * sc
+            diff = pos[:, None] - pos[None, :]
+            allowed = diff >= 0
+            if w > 0:
+                allowed = allowed & (diff < w)
+            idx = s.masked_fill(~allowed, float("-inf")).topk(K, dim=-1).indices          # (B, H, T, K)
+            del s
+            ok = idx <= pos[:, None]
+            if w > 0:
+                ok = ok & (pos[:, None] - idx < w)
+        gi = idx.reshape(B * H, T * K, 1).expand(-1, -1, Dh)
+        kg = torch.gather(k.reshape(B * H, T, Dh), 1, gi).view(B, H, T, K, Dh)
+        vg = torch.gather(v.reshape(B * H, T, Dh), 1, gi).view(B, H, T, K, Dh)
+        sg = torch.einsum("bhtd,bhtkd->bhtk", q.float(), kg.float()) * sc
+        att = torch.softmax(sg.masked_fill(~ok, float("-inf")), dim=-1)
+        return torch.einsum("bhtk,bhtkd->bhtd", att.to(v.dtype), vg)
 
     def _attn_weights(self, x):
         """Audit/diagnostics (not used in training): per-head attention weights (B, H, T, T) for a

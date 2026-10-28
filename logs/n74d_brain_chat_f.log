@@ -1,0 +1,25 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/n74d_sft_v4f_final_slim/step_0117000.pt (3.83B tok)
+LoRA: frozen base linears stored in bf16 (lora_base_bf16)
+LoRA: wrapped 65 layers (r=32, alpha=64), 19488768 adapter params (1.73% of 1128.5M) trainable
+optimizer: AdamW (LoRA adapters only, 19488768 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 400 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/chat/study.jsonl: 22070 tool pairs {'tool': 5349, 'tool_absent': 1318, 'chat': 10465, 'answer': 2218, 'sk_search': 1630, 'sk_known': 182, 'sk_idk': 908} -> encoded 22070 (bad 0, skipped 0)
+  encoding: 10% (980/9800)
+  encoding: 20% (1960/9800)
+  encoding: 30% (2940/9800)
+  encoding: 40% (3920/9800)
+  encoding: 50% (4900/9800)
+  encoding: 60% (5880/9800)
+  encoding: 70% (6860/9800)
+  encoding: 80% (7840/9800)
+  encoding: 90% (8820/9800)
+  encoding: 100% (9800/9800)
+  /home/glenn/projects/neuro/training_data/brains/chat/answer.jsonl: 9800 instruction pairs -> encoded 9800 (skipped 0)
+  TOTAL encoded examples: 31870
+arch=spiking params=1109.01M device=cuda | per_step_tok=16384 | total_steps≈3 | warmup=0
+
+  sft_xchunk_frac 0.2: cross-chunk recall batches B1 x <= 2048 tok at weight 0.15
+  saved /home/glenn/projects/neuro/models/checkpoints/n74d_brain_chat_f/step_0000004.pt
+done: 0.1M tok in 0.01h

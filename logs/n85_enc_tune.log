@@ -1,0 +1,49 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  19%|█▊        | 37/199 [00:00<00:00, 361.88it/s]Loading weights:  51%|█████     | 101/199 [00:00<00:00, 522.43it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 675.07it/s]
+s2b: 154952 train pairs {'recall': 96980, 'personal': 59972}, val 2000; bge-small reference r@1/r@10 (0.33800002932548523, 0.7560000419616699)
+step 0 val r@1/r@10 (0.2665000259876251, 0.6670000553131104)
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/psymem/enc_tune.py", line 62, in <module>
+    c = model(*collate(cb[k % len(cb)], ci))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/psymem/encoder.py", line 39, in forward
+    x = b(x, m)
+        ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/psymem/encoder.py", line 26, in forward
+    return x + self.down(self.c3(F.relu(self.up(self.c2(self.n2(x)))) ** 2))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/neuro/src/spike_code.py", line 35, in forward
+    s = u.clamp(lo, self.L)
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA driver error: device not ready
+exit 1 (s2b)
+== stage 2 retry from s1a (two-backward fix)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  49%|████▊     | 97/199 [00:00<00:00, 968.47it/s]Loading weights:  97%|█████████▋| 194/199 [00:00<00:00, 903.78it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 923.90it/s]
+s2a: 154952 train pairs {'recall': 96980, 'personal': 59972}, val 2000; bge-small reference r@1/r@10 (0.3370000123977661, 0.7560000419616699)
+step 0 val r@1/r@10 (0.22350001335144043, 0.6180000305175781)
+step 500/3025 pair 0.6279 dist 0.1768 | val r@1 0.325 r@10 0.782 corpus cos 0.8278 | lr 4.67e-04 89s
+step 1000/3025 pair 1.6770 dist 0.1281 | val r@1 0.347 r@10 0.794 corpus cos 0.8244 | lr 3.77e-04 171s
+step 1500/3025 pair 1.0577 dist 0.1356 | val r@1 0.339 r@10 0.798 corpus cos 0.8154 | lr 2.54e-04 251s
+step 2000/3025 pair 0.2771 dist 0.1867 | val r@1 0.345 r@10 0.800 corpus cos 0.8234 | lr 1.29e-04 332s
+step 2500/3025 pair 0.2048 dist 0.1419 | val r@1 0.347 r@10 0.800 corpus cos 0.8183 | lr 3.64e-05 417s
+step 3000/3025 pair 1.3985 dist 0.1458 | val r@1 0.317 r@10 0.801 corpus cos 0.8188 | lr 9.11e-08 496s
+step 3025/3025 pair 1.1647 dist 0.1948 | val r@1 0.335 r@10 0.805 corpus cos 0.8188 | lr 1.35e-10 501s
+saved /home/glenn/projects/neuro/models/psymem/enc_s2a.pt
+exit 0 (s2a)

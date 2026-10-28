@@ -1,31 +1,0 @@
-optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
-  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:02, 49.81it/s]Loading weights:   8%|▊         | 11/146 [00:00<00:02, 46.54it/s]Loading weights:  11%|█         | 16/146 [00:00<00:02, 45.57it/s]Loading weights:  14%|█▍        | 21/146 [00:00<00:03, 34.48it/s]Loading weights:  17%|█▋        | 25/146 [00:00<00:04, 29.68it/s]Loading weights:  21%|██        | 31/146 [00:00<00:03, 32.67it/s]Loading weights:  25%|██▌       | 37/146 [00:00<00:02, 38.62it/s]Loading weights:  29%|██▉       | 42/146 [00:01<00:03, 32.41it/s]Loading weights:  32%|███▏      | 47/146 [00:01<00:03, 30.93it/s]Loading weights:  38%|███▊      | 55/146 [00:01<00:02, 33.74it/s]Loading weights:  42%|████▏     | 61/146 [00:01<00:02, 30.44it/s]Loading weights:  47%|████▋     | 69/146 [00:01<00:02, 38.08it/s]Loading weights:  51%|█████     | 74/146 [00:02<00:01, 37.11it/s]Loading weights:  54%|█████▍    | 79/146 [00:02<00:01, 36.67it/s]Loading weights:  58%|█████▊    | 84/146 [00:02<00:01, 31.09it/s]Loading weights:  61%|██████    | 89/146 [00:02<00:01, 34.10it/s]Loading weights:  64%|██████▎   | 93/146 [00:02<00:01, 33.19it/s]Loading weights:  70%|██████▉   | 102/146 [00:02<00:01, 42.94it/s]Loading weights:  73%|███████▎  | 107/146 [00:02<00:00, 42.03it/s]Loading weights:  77%|███████▋  | 112/146 [00:03<00:00, 36.06it/s]Loading weights:  79%|███████▉  | 116/146 [00:03<00:00, 34.22it/s]Loading weights: 100%|██████████| 146/146 [00:03<00:00, 43.38it/s]
-KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
-torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
-sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
-torch.compile enabled for MQAR path (mode=default, dynamic=True)
-arch=spiking params=1109.52M device=cuda target=0.000B tok | 1024 tok/step | total_steps≈38 | warmup=0 | lr_sched=cosine | grad_clip=1.0
-step 5 | 0.0M tok | loss 14.651 | 170 tok/s | vram 15.7/22.0 GB
-step 10 | 0.0M tok | loss 14.845 | 1,301 tok/s | vram 15.7/22.0 GB
-step 15 | 0.0M tok | loss 13.100 | 1,219 tok/s | vram 15.7/22.0 GB
-step 20 | 0.0M tok | loss 12.884 | 1,298 tok/s | vram 15.7/22.0 GB
-step 25 | 0.0M tok | loss 12.742 | 1,712 tok/s | vram 15.7/22.0 GB
-step 30 | 0.0M tok | loss 13.226 | 1,210 tok/s | vram 15.7/22.0 GB
-step 35 | 0.0M tok | loss 13.478 | 1,291 tok/s | vram 15.7/22.0 GB
-  saved /home/glenn/projects/neuro/models/checkpoints/screen_prof_t_conv_default/step_0000038.pt
-done: 0.0M tok in 0.03h
- seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
-------------------------------------------------------------
-     512 |    3361833474.8 |    3443943014.4 |         1.02x
-    1024 |    3477596265.2 |    3569352704.0 |         1.03x
-    4096 |    4172173007.6 |    4321810841.6 |         1.04x
-
-block mix: 1 spiking + 12 attention | spike_rate 0.227 reported -> 0.227 spiking-only
-spiking op mix/token @ seq 4096: 901,775,360 MAC + 26,673,724 AC
-note: 12 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
-      just far more slowly than the all-attention baseline's.
-[prof t_conv_default] median step 806 ms = 1,270 tok/s (B1xGA1, 33 steps)
-[prof t_conv_default] lif_calls=0 scans=0 -> mean fixed-point iters/call = -1.00
-[prof t_conv_default] peak allocated 21.4 GB | peak reserved 22.0 GB

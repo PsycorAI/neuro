@@ -1,0 +1,5 @@
+  energy v4f_preview  | linear MAC 1041.8M AC 0.0M (dense 1041.8M) | weight reads 1041.8M (100%) | MLP-hidden zeros 0.0% (13 down-proj, width 9472) | all Linear-input zeros 0.0% | attn 13 layers, chunk full, memory layers 0
+  energy v4f_preview  @ctx   1024 uJ/token  fp: compute  5042.9 | +SRAM  7783.6 | +DRAM 355854.5  ||  int8: compute   328.9 | +SRAM  1699.2 | +DRAM 175734.7
+  energy v4f_preview  @ctx   2048 uJ/token  fp: compute  5293.7 | +SRAM  8170.8 | +DRAM 373553.6  ||  int8: compute   345.2 | +SRAM  1783.8 | +DRAM 184475.2
+  energy v4f_preview  @ctx   8192 uJ/token  fp: compute  6798.7 | +SRAM 10493.6 | +DRAM 479748.4  ||  int8: compute   443.4 | +SRAM  2290.9 | +DRAM 236918.2
+  energy v4f_preview  @ctx  32768 uJ/token  fp: compute 12818.3 | +SRAM 19784.8 | +DRAM 904527.3  ||  int8: compute   836.0 | +SRAM  4319.2 | +DRAM 446690.5

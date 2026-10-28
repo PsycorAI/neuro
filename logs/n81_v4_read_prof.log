@@ -1,0 +1,59 @@
+== T 128: graph replay 14.38 ms per segment (112 us/token)
+   part attn.q_norm              6.907 ms
+   part attn.k_norm              6.641 ms
+   part attn.qkv                 0.597 ms
+   part attn.qkv                 0.597 ms
+   part mem.pre_norm             0.525 ms
+   part mem.sc_in                0.432 ms
+   part attn.o_proj              0.352 ms
+   part attn.o_proj              0.352 ms
+   part attn.attn_gate           0.259 ms
+   part attn.attn_gate           0.259 ms
+   part attn.q_norm              0.170 ms
+   part attn.k_norm              0.164 ms
+   part mem.W_og                 0.160 ms
+   part mem.W_b                  0.154 ms
+   kernel   0.597 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x128_64x3_tn_align8>(cutlass_
+   kernel   0.460 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x64_32x4_nn_align8>(cutlass_8
+   kernel   0.437 ms  void cutlass::Kernel2<cutlass_80_simt_sgemm_128x32_8x5_tn_align1>(cutlass_80_simt_sgemm_128x32_8x5_t
+   kernel   0.433 ms  void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::Opaqu
+   kernel   0.409 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x128_32x6_tn_align8>(cutlass_
+   kernel   0.352 ms  void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_64x2_nn_align8>(cutlass_8
+   kernel   0.340 ms  Memcpy DtoD (Device -> Device)
+   kernel   0.295 ms  void at::native::mbtopk::computeBlockDigitCounts<float, unsigned int, unsigned int, 2>(at::cuda::det
+   kernel   0.292 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFun
+   kernel   0.288 ms  void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x2_nn_align8>(cutlass_
+== T 512: graph replay 30.36 ms per segment (59 us/token)
+   part attn.q_norm              7.977 ms
+   part attn.k_norm              7.473 ms
+   part attn.qkv                 1.747 ms
+   part attn.qkv                 1.747 ms
+   part mem.pre_norm             0.606 ms
+   part attn.attn_gate           0.591 ms
+   part attn.attn_gate           0.591 ms
+   part attn.o_proj              0.589 ms
+   part attn.o_proj              0.589 ms
+   part mem.sc_in                0.492 ms
+   part attn.q_norm              0.347 ms
+   part attn.k_norm              0.339 ms
+   part mem.W_og                 0.201 ms
+   part mem.to_current           0.191 ms
+   kernel   1.850 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x64_32x4_nn_align8>(cutlass_8
+   kernel   1.747 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_64x256_32x4_tn_align8>(cutlass_8
+   kernel   1.703 ms  void cutlass::Kernel2<cutlass_80_simt_sgemm_128x32_8x5_tn_align1>(cutlass_80_simt_sgemm_128x32_8x5_t
+   kernel   1.330 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8>(cutlass_
+   kernel   1.148 ms  void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x2_nn_align8>(cutlass_
+   kernel   1.018 ms  void at::native::mbtopk::computeBlockDigitCounts<float, unsigned int, unsigned int, 2>(at::cuda::det
+   kernel   1.004 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_bf16_128x128_64x3_tn_align2>(cutlass_80_te
+   kernel   0.926 ms  Memcpy DtoD (Device -> Device)
+   kernel   0.874 ms  void at::native::mbtopk::computeBlockwiseWithinKCounts<unsigned int, float>(unsigned int*, short*, u
+   kernel   0.706 ms  void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_bf16_128x256_32x3_nn_align2>(cutlass_80_te
+T 128: one q_norm call 0.4462 ms wall (x 24 calls per segment)
+T 128: one eager segment = 2205 kernels, 9.37 ms summed kernel time
+T 512: one q_norm call 0.4783 ms wall (x 24 calls per segment)
+T 512: one eager segment = 2543 kernels, 26.72 ms summed kernel time
+AttributeError: 'FunctionEvent' object has no attribute 'input_types'. Did you mean: 'input_shapes'?
+fp32 aten::bmm      1.719 ms  [[16, 512, 128], [16, 128, 1024]]                                      ?
+fp32 aten::bmm      0.299 ms  [[1, 256, 2048], [1, 2048, 2048]]                                      ?
+fp32 aten::bmm      0.147 ms  [[1, 2048, 256], [1, 256, 2048]]                                       ?
+fp32 aten::bmm      0.040 ms  [[1, 256, 256], [1, 256, 2048]]                                        ?

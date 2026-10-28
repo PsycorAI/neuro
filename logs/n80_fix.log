@@ -1,0 +1,25 @@
+[n80 10-26 08:50:04] (1) parity
+(a) P 143: max|new - old| 0.000000
+(a) P 199: max|new - old| 0.000000
+(a) P 520: max|new - old| 0.000000
+(a) P 1100: max|new - old| 0.000000
+(a) P 2500: max|new - old| 0.000000
+== (a) feed_static pinned upload vs per-segment copy: worst max|diff| 0.000000 (EXACT)
+(b) T 100: active mean eager 100.0000% graph 100.0000% | max|diff| active 0.00e+00 grid 0.00e+00 | 91 -> 8 ms
+(b) T 300: active mean eager 100.0000% graph 100.0000% | max|diff| active 0.00e+00 grid 0.00e+00 | 87 -> 14 ms
+(b) T 700: active mean eager 100.0000% graph 100.0000% | max|diff| active 0.00e+00 grid 0.00e+00 | 68 -> 21 ms
+(b) T 2048: active mean eager 100.0000% graph 100.0000% | max|diff| active 0.00e+00 grid 0.00e+00 | 94 -> 57 ms
+== (b) done
+[n80 10-26 08:51:45] (2) demo questions on the fixed code
+== bf16: 20 turns 9.8s | memtest on 20/20 off 0/20 | max GPU mem 7.5 GB | n79 graph read True, tools-block state hits 18
+[DIFF] 'What time is it in Tokyo right now?' TOOL get_time
+[DIFF] "What's the weather like in Paris?" TOOL get_weather
+[DIFF] 'Who wrote the novel Pride and Prejudice?' TOOL search
+memtest bf16 sft_v4_chat_w8_pruned on 20/20 off 0 | bf16 sft_v4_chat_w8_pruned on 20/20 off 0
+== n78 fp32 vs bf16 demo: replies identical 17/20, same mode + tool 20/20 | turn time bf16 sft_v4_chat_w8_pruned 12.1s vs bf16 sft_v4_chat_w8_pruned 9.8s | GPU mem 7.6 vs 7.5 GB
+[n80 10-26 08:54:00] (3) run-through --offline
+== run-through sft_v4_chat_w8_pruned offline: 8/8 PASSED in 37s
+[n80 10-26 08:55:47] (3) run-through online
+== run-through sft_v4_chat_w8_pruned online: 8/8 PASSED in 44s
+[n80 10-26 08:57:36] (4) turn energy (box on; n80 control: 32.2 J)
+== n79 turn energy graph+cache: 38 turns | model 32.6 J / turn (prompt reads 5.3 J in 64 ms, decode 27.4 J, 48.6 words) | turn 0.55 s, first word 0.22 s | state-cache hits 38

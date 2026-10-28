@@ -1,0 +1,8 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  75%|███████▌  | 150/199 [00:00<00:00, 1490.68it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1328.47it/s]
+cosine                                                                   ALL r@10  84.2  any  92.1  multi  82.6  temporal  72.8
+{'fly_k': 256, 'qrate': 0}                                               ALL r@10  77.0  any  88.1  multi  71.1  temporal  63.4
+{'fly_k': 256, 'graded': 1, 'qrate': 1}                                  ALL r@10  72.1  any  83.8  multi  64.5  temporal  58.7
+{'fly_k': 256, 'signed': 1, 'graded': 1, 'qrate': 1}                     ALL r@10  74.7  any  87.0  multi  66.2  temporal  60.8
+{'n_fly': 65536, 'fly_k': 1024, 'signed': 1, 'graded': 1, 'qrate': 1}    ALL r@10  79.8  any  89.6  multi  73.8  temporal  67.8
+{'n_fly': 65536, 'fly_k': 4096, 'signed': 1, 'graded': 1, 'qrate': 1}    ALL r@10  81.3  any  89.6  multi  77.9  temporal  69.0
+{'fan_in': 384, 'signed': 1, 'fly_k': 1024, 'graded': 1, 'qrate': 1}     ALL r@10  79.7  any  90.2  multi  75.3  temporal  67.3

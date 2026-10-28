@@ -81,8 +81,11 @@ def dumps_call(name, arguments, tools):
                       separators=(", ", ": "), ensure_ascii=False)
 
 
-def format_prompt(instruction, offered, tools):
-    return (render_tools_block(offered, tools) + "\n\n### Instruction:\n"
+def format_prompt(instruction, offered, tools, history=None):
+    """history (2026-10-21, chat brain): earlier turns [[user, assistant], ...] -> a "### Conversation:" block between
+    the tools block and the instruction (sft_data.render_conversation; the demo engine builds the same string)."""
+    from sft_data import render_conversation
+    return (render_tools_block(offered, tools) + "\n\n" + render_conversation(history) + "### Instruction:\n"
             + instruction.strip() + "\n\n### Response:\n")
 
 
@@ -128,13 +131,17 @@ def sanitize_arg_values(rec, tools):
     return rec
 
 
-def split_of(instruction, test_frac=0.1):
+def split_of(instruction, test_frac=0.1, history=None):
     """Deterministic train/test assignment keyed on the instruction text.
 
     Hash-based rather than "last N lines": the JSONL is appended to by a
     resumable generator, so a positional split would silently reassign examples
     between runs and leak test data into training.
+    2026-10-21: a chat record (with history) is keyed on history + instruction -- many chats end in the same question
+    ("What is my name?"), and keying on it alone would put a whole category in one split. No history = unchanged.
     """
+    if history:
+        instruction = json.dumps(history, ensure_ascii=False) + "|" + instruction.strip()
     h = int(hashlib.md5(instruction.strip().encode("utf-8")).hexdigest()[:8], 16)
     return "test" if (h % 1000) < int(test_frac * 1000) else "train"
 
@@ -155,14 +162,14 @@ def load_tool_jsonl(path, tools, split=None, test_frac=0.1, proto=1, full_frac=0
                 bad += 1           # a partial last line from a killed writer
                 continue
             try:
-                if split and split_of(rec["instruction"], test_frac) != split:
+                if split and split_of(rec["instruction"], test_frac, rec.get("history")) != split:
                     continue
                 if rec["target_mode"] == MODE_TOOL and rec["target_call"]["name"] not in by:
                     bad += 1; continue
                 rec = sanitize_arg_values(rec, tools)
                 rec["tools"] = full_offer(rec, tools, full_frac)
                 out.append({
-                    "prompt": format_prompt(rec["instruction"], rec["tools"], tools),
+                    "prompt": format_prompt(rec["instruction"], rec["tools"], tools, rec.get("history")),
                     "response": format_response(rec, tools, proto),
                     "kind": rec.get("kind", "?"),
                     "rec": rec,

@@ -1,0 +1,74 @@
+optimizer: NorMuon (60 matrices, lr=0.005) + AdamW (193 other params, lr=0.0006)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:02, 58.80it/s]Loading weights:   9%|▉         | 13/146 [00:00<00:03, 42.02it/s]Loading weights:  12%|█▏        | 18/146 [00:00<00:03, 37.19it/s]Loading weights:  15%|█▌        | 22/146 [00:00<00:03, 35.60it/s]Loading weights:  18%|█▊        | 26/146 [00:00<00:03, 36.05it/s]Loading weights:  22%|██▏       | 32/146 [00:00<00:02, 40.57it/s]Loading weights:  25%|██▌       | 37/146 [00:01<00:04, 26.38it/s]Loading weights:  28%|██▊       | 41/146 [00:01<00:03, 28.35it/s]Loading weights:  31%|███       | 45/146 [00:01<00:04, 24.74it/s]Loading weights:  34%|███▍      | 50/146 [00:01<00:03, 28.19it/s]Loading weights:  37%|███▋      | 54/146 [00:01<00:03, 25.05it/s]Loading weights:  39%|███▉      | 57/146 [00:01<00:03, 22.78it/s]Loading weights:  42%|████▏     | 61/146 [00:02<00:03, 23.00it/s]Loading weights:  44%|████▍     | 64/146 [00:02<00:03, 24.37it/s]Loading weights:  47%|████▋     | 69/146 [00:02<00:03, 25.30it/s]Loading weights:  53%|█████▎    | 77/146 [00:02<00:02, 29.91it/s]Loading weights:  55%|█████▍    | 80/146 [00:02<00:02, 29.68it/s]Loading weights:  57%|█████▋    | 83/146 [00:02<00:02, 27.12it/s]Loading weights:  62%|██████▏   | 90/146 [00:03<00:01, 35.03it/s]Loading weights:  64%|██████▍   | 94/146 [00:03<00:01, 34.81it/s]Loading weights:  68%|██████▊   | 99/146 [00:03<00:01, 38.09it/s]Loading weights:  71%|███████   | 103/146 [00:03<00:01, 29.32it/s]Loading weights:  77%|███████▋  | 112/146 [00:03<00:01, 32.64it/s]Loading weights: 100%|██████████| 146/146 [00:03<00:00, 39.29it/s]
+KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+sparse MLP: relu2 x12, homeostatic layer threshold: rate 1.0 until 60%, then geometric to 0.05 by 90% (lr 0.02)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=188.53M device=cuda target=0.000B tok | 16384 tok/step | total_steps≈30 | warmup=0 | lr_sched=cosine | grad_clip=1.0
+step 1 | 0.0M tok | loss 15.715 | 57 tok/s | vram 5.1/13.7 GB
+step 2 | 0.0M tok | loss 15.647 | 5,650 tok/s | vram 5.1/14.7 GB
+step 3 | 0.0M tok | loss 15.599 | 6,396 tok/s | vram 5.1/14.7 GB
+step 4 | 0.1M tok | loss 15.108 | 5,925 tok/s | vram 5.1/14.7 GB
+step 5 | 0.1M tok | loss 14.753 | 5,967 tok/s | vram 5.1/14.7 GB
+step 6 | 0.1M tok | loss 14.340 | 6,071 tok/s | vram 5.1/14.7 GB
+step 7 | 0.1M tok | loss 14.187 | 5,937 tok/s | vram 5.1/14.7 GB
+step 8 | 0.1M tok | loss 14.112 | 5,632 tok/s | vram 5.1/14.7 GB
+step 9 | 0.1M tok | loss 13.672 | 5,485 tok/s | vram 5.1/14.7 GB
+step 10 | 0.2M tok | loss 13.173 | 5,706 tok/s | vram 5.1/14.7 GB
+step 11 | 0.2M tok | loss 12.848 | 5,606 tok/s | vram 5.1/14.7 GB
+step 12 | 0.2M tok | loss 13.418 | 6,123 tok/s | vram 5.1/14.7 GB
+step 13 | 0.2M tok | loss 13.198 | 5,915 tok/s | vram 5.1/14.7 GB
+step 14 | 0.2M tok | loss 12.657 | 6,303 tok/s | vram 5.1/14.7 GB
+step 15 | 0.2M tok | loss 12.910 | 6,410 tok/s | vram 5.1/14.7 GB
+step 16 | 0.3M tok | loss 13.505 | 6,277 tok/s | vram 5.1/14.7 GB
+step 17 | 0.3M tok | loss 13.297 | 6,264 tok/s | vram 5.1/14.7 GB
+step 18 | 0.3M tok | loss 13.113 | 5,961 tok/s | vram 5.1/14.7 GB
+step 19 | 0.3M tok | loss 13.321 | 6,039 tok/s | vram 5.1/14.7 GB
+step 20 | 0.3M tok | loss 12.844 | 6,089 tok/s | vram 5.1/14.7 GB
+step 21 | 0.3M tok | loss 12.879 | 6,335 tok/s | vram 5.1/14.7 GB
+Traceback (most recent call last):
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1635, in <module>
+    main()
+  File "/home/glenn/projects/neuro/src/train_gpu.py", line 1358, in main
+    loss.backward()
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/autograd/function.py", line 317, in apply
+    return user_fn(self, *args)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2748, in backward
+    return impl_fn()
+           ^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2734, in impl_fn
+    out = CompiledFunction._backward_impl(ctx, all_args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2918, in _backward_impl
+    out = call_func_at_runtime_with_args(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 138, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 656, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3401, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_glenn/2r/c2rtyagdfi3uf2vdjdenkkyj6g6zdcfg27ef2t4i42lb67tmddfu.py", line 14476, in call
+    triton_red_fused_add_exp_mul_slice_sub_sum_transpose_30.run(buf148, buf151, primals_3, primals_1, buf153, buf154, 1536, 96, stream=stream0)
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/runtime/triton_heuristics.py", line 1495, in run
+    result = launcher(
+             ^^^^^^^^^
+  File "<string>", line 5, in launcher
+  File "/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/_inductor/runtime/static_triton_launcher.py", line 291, in run
+    self.C_impl._launch_kernel(
+RuntimeError: CUDA driver error: out of memory

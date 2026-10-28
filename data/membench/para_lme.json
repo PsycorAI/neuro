@@ -1,0 +1,2352 @@
+{
+ "At which university did I present a poster on my thesis research?": [
+  "At which institution did I deliver a presentation on my thesis research?",
+  "I presented my thesis research at which university.",
+  "Where did I give a presentation on my thesis research at university?"
+ ],
+ "Before I purchased the gravel bike, do I have other bikes in addition to my mountain bike and my commuter bike?": [
+  "Did I already own other bicycles prior to buying the gravel bike?",
+  "Were there any other bicycles in my possession before I acquired the gravel bike?",
+  "Before purchasing the gravel bike, did I have a collection of other bikes, including a mountain bike and a commuter bike?"
+ ],
+ "Can you recommend a show or movie for me to watch tonight?": [
+  "Can you suggest a film or television program for me to enjoy this evening?",
+  "Would you be able to recommend something I could watch tonight?",
+  "Could you possibly suggest a movie or show that I could watch this evening?"
+ ],
+ "Can you recommend some interesting cultural events happening around me this weekend?": [
+  "Can you suggest some engaging cultural happenings in the vicinity this weekend?",
+  "Are there any notable cultural events taking place nearby this weekend that I could attend?",
+  "Would you happen to know of any fascinating cultural activities scheduled to occur around here this weekend?"
+ ],
+ "Can you recommend some recent publications or conferences that I might find interesting?": [
+  "Could you suggest some contemporary scholarly works or events that align with your interests?",
+  "I'd appreciate any recommendations on recent publications or conferences that might spark my curiosity.",
+  "Would you be able to point me in the direction of some recent and relevant academic papers or conferences that might be worth exploring?"
+ ],
+ "Can you recommend some resources where I can learn more about video editing?": [
+  "Can you suggest some instructional materials or online courses that would help me improve my video editing skills?",
+  "I'm looking for some tutorials or online resources that can provide me with a better understanding of video editing techniques and software.",
+  "Are there any reputable websites, blogs, or YouTube channels that offer video editing tutorials or tips and tricks for beginners?"
+ ],
+ "Can you remind me of the name of the romantic Italian restaurant in Rome you recommended for dinner?": [
+  "Can you recall the name of the Italian eatery in Rome that you suggested for a romantic dinner?",
+  "I'm hoping you can refresh my memory about the Italian restaurant in Rome that you recommended for a lovely evening out.",
+  "Could you kindly remind me of the name of the Italian restaurant in Rome that you suggested for a romantic dinner, please?"
+ ],
+ "Can you remind me what was the average improvement in framerate when using the Hardware-Aware Modular Training (HAMT) agent in the 'To Adapt or Not to Adapt? Real-Time Adaptation for Semantic Segmentation' submission?": [
+  "Can you provide details on the average framerate boost achieved by the Hardware-Aware Modular Training (HAMT) agent in the 'To Adapt or Not to Adapt? Real-Time Adaptation for Semantic Segmentation' paper?",
+  "The 'To Adapt or Not to Adapt? Real-Time Adaptation for Semantic Segmentation' submission utilized the Hardware-Aware Modular Training (HAMT) agent, and I'm interested in knowing the average improvement in framerate that resulted from its implementation.",
+  "In the 'To Adapt or Not to Adapt? Real-Time Adaptation for Semantic Segmentation' paper, the Hardware-Aware Modular Training (HAMT) agent was employed, and I'd like to know the average framerate increase that was observed as a result of its use."
+ ],
+ "Can you suggest a hotel for my upcoming trip to Miami?": [
+  "Can you recommend a suitable hotel for my upcoming vacation in Miami?",
+  "I'm looking for a hotel in Miami that would be a good fit for my upcoming getaway.",
+  "Could you suggest a Miami hotel that would be ideal for my upcoming trip?"
+ ],
+ "Can you suggest some accessories that would complement my current photography setup?": [
+  "Can you recommend some complementary items to enhance my existing photography equipment?",
+  "I'd love to hear some suggestions for accessories that would complement my current photography gear.",
+  "Would you be able to provide some ideas for accessories that would complement my current photography setup and take it to the next level?"
+ ],
+ "Can you suggest some activities I can do during my commute to work?": [
+  "Can you recommend some engaging pursuits to fill my daily commute?",
+  "How about suggesting some enjoyable pastimes or hobbies that I can indulge in during my daily commute to the office?",
+  "Would you be able to suggest some leisurely activities or pursuits that I can do during my daily commute to work?"
+ ],
+ "Can you suggest some activities that I can do in the evening?": [
+  "Can you recommend some leisure pursuits for the evening hours?",
+  "I'd love to hear some ideas for things to do in the evenings.",
+  "What are some evening activities that you think I might enjoy?"
+ ],
+ "Can you suggest some useful accessories for my phone?": [
+  "Can you recommend some handy phone add-ons?",
+  "I'd love to hear about some useful phone accessories you've come across.",
+  "What are some essential phone accessories that you think I should consider?"
+ ],
+ "Did I finish reading 'The Nightingale' by Kristin Hannah?": [
+  "Did I complete Kristin Hannah's 'The Nightingale'?",
+  "I finished reading Kristin Hannah's 'The Nightingale'.",
+  "Has Kristin Hannah's 'The Nightingale' been fully absorbed by me?"
+ ],
+ "Did I mostly recently increase or decrease the limit on the number of cups of coffee in the morning?": [
+  "Did I recently adjust the morning coffee limit upwards or downwards?",
+  "I've been modifying the daily coffee quota in the past few days.",
+  "Has my morning coffee limit been increased or decreased recently?"
+ ],
+ "Did I receive a higher percentage discount on my first order from HelloFresh, compared to my first UberEats order?": [
+  "Did I qualify for a greater percentage discount on my initial HelloFresh purchase versus my first UberEats transaction?",
+  "I received a more substantial discount on my first HelloFresh order than on my first UberEats order.",
+  "Comparing my first HelloFresh and UberEats orders, I found that I received a significantly higher percentage discount on my HelloFresh purchase."
+ ],
+ "Do I go to the gym more frequently than I did previously?": [
+  "Am I exercising more regularly than I was in the past?",
+  "Is my current gym routine more frequent than it was before?",
+  "Have I increased my gym attendance since my previous schedule?"
+ ],
+ "Do I have a spare screwdriver for opening up my laptop?": [
+  "Do I have a spare screwdriver handy for disassembling my laptop?",
+  "Is there a backup screwdriver available for taking apart my laptop?",
+  "Can I find a spare screwdriver in my toolkit for prying open my laptop?"
+ ],
+ "For my daily commute, how much more expensive was the taxi ride compared to the train fare?": [
+  "What was the price difference between a taxi and train ticket for my daily commute?",
+  "How much did the taxi ride exceed the cost of the train fare for my daily journey?",
+  "In what way did the taxi fare surpass the cost of the train ticket for my daily commute?"
+ ],
+ "For the coffee-to-water ratio in my French press, did I switch to more water per tablespoon of coffee, or less?": [
+  "Did I inadvertently increase the amount of water relative to the coffee in my French press, or decrease it?",
+  "I've altered the ratio of coffee to water in my French press, but I'm not sure if I've added more water or taken it away.",
+  "I've changed the coffee-to-water ratio in my French press, but I'm uncertain whether I've increased the water content or decreased it."
+ ],
+ "How long did Alex marinate the BBQ ribs in special sauce?": [
+  "How long did Alex soak the BBQ ribs in his signature sauce?",
+  "For how many hours did Alex tenderize the ribs with his special BBQ sauce?",
+  "How long did Alex leave the BBQ ribs to soak in his secret sauce?"
+ ],
+ "How long did I take to finish 'The Seven Husbands of Evelyn Hugo' and 'The Nightingale' combined?": [
+  "How many days did it take me to complete both 'The Seven Husbands of Evelyn Hugo' and 'The Nightingale'?",
+  "I spent a total of how many days reading 'The Seven Husbands of Evelyn Hugo' and 'The Nightingale'.",
+  "What was the combined reading time for 'The Seven Husbands of Evelyn Hugo' and 'The Nightingale'?"
+ ],
+ "How long did I use my new binoculars before I saw the American goldfinches returning to the area?": [
+  "When did I first start using my new binoculars before spotting the American goldfinches returning to the area?",
+  "I had been using my new binoculars for a while before the American goldfinches began their return to the area.",
+  "It took me a few weeks to notice the American goldfinches returning to the area after I started using my new binoculars."
+ ],
+ "How long did I wait for the decision on my asylum application?": [
+  "What was the duration of my wait for the outcome of my asylum application?",
+  "I spent how long in anticipation of the decision on my asylum application?",
+  "How long did it take for the asylum application decision to be made regarding my case?"
+ ],
+ "How long did it take me to assemble the IKEA bookshelf?": [
+  "How many hours did I spend constructing the IKEA bookshelf?",
+  "It took me a considerable amount of time to assemble the IKEA bookshelf.",
+  "I spent a significant portion of my weekend building the IKEA bookshelf."
+ ],
+ "How long did it take to move to the new apartment?": [
+  "How many days did it take to relocate to the new residence?",
+  "It took approximately how long to make the transition to the new apartment.",
+  "How long did the entire process of moving to the new apartment take?"
+ ],
+ "How long had I been a member of 'Book Lovers Unite' when I attended the meetup?": [
+  "How long had I been a part of the 'Book Lovers Unite' community when I attended the meetup?",
+  "I had been a member of 'Book Lovers Unite' for a considerable amount of time when I attended the gathering.",
+  "I had been a part of 'Book Lovers Unite' for several months when I attended the meetup."
+ ],
+ "How long had I been bird watching when I attended the bird watching workshop?": [
+  "How long had I been engaged in the hobby of bird watching when I attended the bird watching workshop?",
+  "I had been actively participating in bird watching for quite some time when I attended the bird watching workshop.",
+  "I had spent years honing my skills in bird watching when I finally decided to attend the bird watching workshop."
+ ],
+ "How long had I been taking guitar lessons when I bought the new guitar amp?": [
+  "How long had I been studying guitar when I acquired the new amplifier.",
+  "I had been playing guitar for a considerable amount of time when I purchased the new amplifier.",
+  "It had been several months since I started taking guitar lessons when I bought the new guitar amp."
+ ],
+ "How long had I been using the new area rug when I rearranged my living room furniture?": [
+  "How long had I been in possession of the new area rug when I decided to reconfigure my living room layout?",
+  "I had been utilizing the new area rug for an unspecified period when I rearranged the furniture in my living room.",
+  "It had been a while since I acquired the new area rug when I finally rearranged the furniture in my living room."
+ ],
+ "How long had I been watching stand-up comedy specials regularly when I attended the open mic night at the local comedy club?": [
+  "How long had I been a regular viewer of stand-up comedy specials when I attended the open mic night at the local comedy club?",
+  "I had been a frequent consumer of stand-up comedy specials for quite some time when I attended the open mic night at the local comedy club.",
+  "I had been watching stand-up comedy specials on a regular basis for years when I decided to attend the open mic night at the local comedy club."
+ ],
+ "How long have I been collecting vintage cameras?": [
+  "How many years have I been accumulating vintage cameras?",
+  "For how long have I been a collector of vintage cameras?",
+  "I've been collecting vintage cameras for how long now."
+ ],
+ "How long have I been living in my current apartment in Harajuku?": [
+  "How long have I resided in my current abode in Harajuku?",
+  "I've been a Harajuku resident for how long now that I've been living in my current apartment?",
+  "For how long have I been calling Harajuku home, specifically in my current apartment?"
+ ],
+ "How long have I been sticking to my daily tidying routine?": [
+  "How long have I been adhering to my daily cleaning schedule?",
+  "I've been maintaining my daily tidying routine for how long now.",
+  "For how long have I consistently followed my daily cleaning regimen?"
+ ],
+ "How long have I been using my Fitbit Charge 3?": [
+  "How long have I been utilizing my Fitbit Charge 3?",
+  "I've been wearing my Fitbit Charge 3 for quite some time now.",
+  "I've had my Fitbit Charge 3 for a considerable amount of time."
+ ],
+ "How long have I been working before I started my current job at NovaTech?": [
+  "How many years of experience did I accumulate before landing my position at NovaTech?",
+  "I've been in the workforce for a considerable amount of time before joining NovaTech.",
+  "Before starting my role at NovaTech, I had a substantial amount of professional experience under my belt."
+ ],
+ "How long have I been working in my current role?": [
+  "How many years have I been employed in my current position?",
+  "I've been in my current job for approximately how long.",
+  "How long have I been holding down my current role?"
+ ],
+ "How long have I had my cat, Luna?": [
+  "How long has my feline companion, Luna, been a part of my life?",
+  "I've had Luna, my lovely cat, for as long as I can remember.",
+  "Luna, my faithful feline friend, has been by my side for a considerable amount of time."
+ ],
+ "How long have my parents been staying with me in the US?": [
+  "How long have my parents been residing in the US with me?",
+  "For how long have my parents been living in the United States under my care?",
+  "How long has my family been staying in the US with me?"
+ ],
+ "How long is my daily commute to work?": [
+  "What is the duration of my daily journey to the office?",
+  "How many hours does it take me to travel to my workplace each day?",
+  "My daily round trip to the office typically lasts for how many hours."
+ ],
+ "How long was I in Japan for?": [
+  "How many months did I spend in Japan?",
+  "I was in Japan for a considerable amount of time.",
+  "How long did my stay in Japan last?"
+ ],
+ "How many Crash Course videos have I watched in the past few weeks?": [
+  "What number of Crash Course videos have I consumed over the past couple of weeks?",
+  "I've been keeping track of how many Crash Course videos I've viewed recently.",
+  "How many Crash Course videos have I watched in the recent past?"
+ ],
+ "How many Instagram followers do I currently have?": [
+  "What is the current number of people following my Instagram account?",
+  "I am curious to know the total count of my Instagram followers at this time.",
+  "How many individuals have chosen to follow my Instagram profile?"
+ ],
+ "How many Korean restaurants have I tried in my city?": [
+  "What number of Korean eateries have I sampled in my metropolitan area?",
+  "How many Korean dining establishments have I had the opportunity to visit in my hometown?",
+  "How many Korean restaurants have I sampled during my time living in this city?"
+ ],
+ "How many MCU films did I watch in the last 3 months?": [
+  "What number of Marvel Cinematic Universe movies did I consume over the past three months?",
+  "I've seen how many Marvel movies I've watched in the last three months.",
+  "How many Marvel Cinematic Universe films did I watch during the last three months?"
+ ],
+ "How many Marvel movies did I re-watch?": [
+  "I've re-screened a considerable number of Marvel films.",
+  "I've had multiple viewings of several Marvel movies.",
+  "I've watched Marvel movies multiple times, including several of the most popular ones."
+ ],
+ "How many amateur comedians did I watch perform at the open mic night?": [
+  "I observed a considerable number of novice stand-up comedians taking the stage at the open mic event.",
+  "At the open mic night, I counted a substantial number of amateur comedians showcasing their talents.",
+  "During the open mic night, I had the opportunity to watch a large group of amateur comedians perform their acts."
+ ],
+ "How many antique items did I inherit or acquire from my family members?": [
+  "What assortment of vintage treasures did I receive from my relatives.",
+  "I inherited a considerable collection of antique goods from my family.",
+  "The number of antique items I acquired from my family members is quite impressive."
+ ],
+ "How many autographed baseballs have I added to my collection in the first three months of collection?": [
+  "What is the total number of autographed baseballs I have acquired during the initial three-month period of my collection?",
+  "How many autographed baseballs have I accumulated in the first quarter of my collection?",
+  "How many autographed baseballs have I added to my collection during the first three months of its existence?"
+ ],
+ "How many babies were born to friends and family members in the last few months?": [
+  "What was the birth rate among close relatives and acquaintances over the recent period?",
+  "How many infants were welcomed into the lives of friends and family in the past few months?",
+  "How many newborns were born to friends and family in the last few months, according to recent data?"
+ ],
+ "How many bikes did I service or plan to service in March?": [
+  "What number of bicycles did I intend to repair or actually repair in March?",
+  "I serviced or planned to service how many bicycles in March?",
+  "How many bicycles did I plan to or actually service in March?"
+ ],
+ "How many bikes do I currently own?": [
+  "What is the total number of bicycles in my possession at the moment?",
+  "I currently own a certain quantity of bicycles.",
+  "How many bicycles do I have in my collection right now?"
+ ],
+ "How many bikes do I own?": [
+  "What number of bicycles do I possess?",
+  "How many cycles are in my collection?",
+  "How many bicycles are currently in my ownership?"
+ ],
+ "How many charity events did I participate in before the 'Run for the Cure' event?": [
+  "Before the 'Run for the Cure' event, I had attended a number of charitable functions.",
+  "I had participated in several fundraising activities prior to the 'Run for the Cure' event.",
+  "Prior to the 'Run for the Cure' event, I had been involved in a variety of charity functions."
+ ],
+ "How many copies of my favorite artist's debut album were released worldwide?": [
+  "What was the global distribution of my favorite artist's inaugural record?",
+  "How many copies of the debut album by my favorite artist were sold worldwide?",
+  "How widespread was the initial release of my favorite artist's debut album globally?"
+ ],
+ "How many days a week do I attend fitness classes?": [
+  "How frequently do I participate in weekly fitness sessions?",
+  "I typically attend fitness classes on which days of the week.",
+  "I have a regular schedule of attending fitness classes every week."
+ ],
+ "How many days ago did I attend a baking class at a local culinary school when I made my friend's birthday cake?": [
+  "When was it that I last attended a baking class at a nearby culinary institution to create a birthday cake for my friend?",
+  "I recently took a baking class at a local culinary school to make a birthday cake for my friend, and I'm wondering how many days ago that was.",
+  "It's been a while since I attended a baking class at a local culinary school to make a birthday cake for my friend, and I'm trying to estimate how many days have passed."
+ ],
+ "How many days ago did I attend a networking event?": [
+  "When was the last networking event I attended?",
+  "I've been thinking about the last networking event I went to for how many days now.",
+  "How long has it been since I last attended a networking gathering?"
+ ],
+ "How many days ago did I attend the Maundy Thursday service at the Episcopal Church?": [
+  "When was the last time I attended the Maundy Thursday service at the Episcopal Church?",
+  "I recently attended the Maundy Thursday service at the Episcopal Church, so how many days have I been since then?",
+  "How long ago did I participate in the Maundy Thursday service at the Episcopal Church?"
+ ],
+ "How many days ago did I buy a smoker?": [
+  "When was the last time I purchased a smoker?",
+  "I've had a smoker for how long now.",
+  "How many days have I had a smoker for?"
+ ],
+ "How many days ago did I go on a whitewater rafting trip in the Oregon mountains?": [
+  "When was my last whitewater rafting excursion in the Oregon mountains?",
+  "I've been wondering for how long it's been since I went rafting in the Oregon mountains.",
+  "How many days have I been out of the water since my last whitewater rafting trip in the Oregon mountains?"
+ ],
+ "How many days ago did I harvest my first batch of fresh herbs from the herb garden kit?": [
+  "When was the first time I gathered my initial crop of fragrant herbs from the herb garden starter set?",
+  "I've been tending to my herb garden kit for how many days now that I finally harvested my first batch of fresh herbs?",
+  "How long has it been since I successfully cultivated my first batch of fragrant herbs from the herb garden starter kit?"
+ ],
+ "How many days ago did I launch my website when I signed a contract with my first client?": [
+  "When did I initially launch my website after securing my first client contract?",
+  "I signed a contract with my first client and subsequently launched my website, how many days prior was that?",
+  "How long ago did I launch my website after I signed a contract with my first client?"
+ ],
+ "How many days ago did I meet Emma?": [
+  "When was the last time I saw Emma?",
+  "How long has it been since I met Emma?",
+  "When did I last encounter Emma?"
+ ],
+ "How many days ago did I participate in the 5K charity run?": [
+  "When was the last time I took part in the 5K charity run?",
+  "I've been thinking about the 5K charity run I participated in recently.",
+  "It's been a while since I completed the 5K charity run."
+ ],
+ "How many days ago did I read the March 15th issue of The New Yorker?": [
+  "When was the last time I perused the March 15th issue of The New Yorker?",
+  "I'm curious to know how many days have passed since I read the March 15th issue of The New Yorker.",
+  "How long ago did I last read the March 15th issue of The New Yorker magazine?"
+ ],
+ "How many days ago did I watch the Super Bowl?": [
+  "When was the last time I watched the Super Bowl?",
+  "I'm not sure how long it's been since I watched the Super Bowl.",
+  "How many days have passed since I last watched the Super Bowl?"
+ ],
+ "How many days before I bought the iPhone 13 Pro did I attend the Holiday Market?": [
+  "When did I purchase the iPhone 13 Pro in relation to the Holiday Market event?",
+  "I bought the iPhone 13 Pro how many days prior to attending the Holiday Market.",
+  "How long had I owned the iPhone 13 Pro before I visited the Holiday Market?"
+ ],
+ "How many days before my best friend's birthday party did I order her gift?": [
+  "When did I place the order for my best friend's birthday gift prior to her party?",
+  "I placed the gift order for my best friend's birthday party well in advance of the actual celebration.",
+  "How many days prior to my best friend's birthday party did I finalize the gift order?"
+ ],
+ "How many days before the 'Rack Fest' did I participate in the 'Turbocharged Tuesdays' event?": [
+  "How many days prior to the 'Rack Fest' did I attend the 'Turbocharged Tuesdays' event?",
+  "I participated in the 'Turbocharged Tuesdays' event and was it a 'Rack Fest' day after that?",
+  "The 'Turbocharged Tuesdays' event took place and how many days before 'Rack Fest' did I participate in it?"
+ ],
+ "How many days before the team meeting I was preparing for did I attend the workshop on 'Effective Communication in the Workplace'?": [
+  "What was the duration between the day I attended the workshop on 'Effective Communication in the Workplace' and the day I was preparing for the team meeting?",
+  "I had been preparing for the team meeting for several days prior to attending the workshop on 'Effective Communication in the Workplace'.",
+  "How many days prior to the team meeting did I attend the workshop on 'Effective Communication in the Workplace'?"
+ ],
+ "How many days did I spend attending workshops, lectures, and conferences in April?": [
+  "How many days did I dedicate to attending workshops, lectures, and conferences in April?",
+  "I spent a total of how many days participating in workshops, lectures, and conferences in April.",
+  "During the month of April, how many days did I spend engaging in workshops, lectures, and conferences?"
+ ],
+ "How many days did I spend in total traveling in Hawaii and in New York City?": [
+  "What was the cumulative duration of my trips to Hawaii and New York City?",
+  "I spent a total of how many days traveling between Hawaii and New York City.",
+  "How many days did I travel in total between Hawaii and New York City?"
+ ],
+ "How many days did I spend on camping trips in the United States this year?": [
+  "How many days did I spend on outdoor excursions in the United States this year?",
+  "I spent a total of how many days on camping trips across the country this year.",
+  "This year, I spent a cumulative number of days on camping excursions in the United States."
+ ],
+ "How many days did I spend on my solo camping trip to Yosemite National Park?": [
+  "How many days did I spend on my solitary excursion to Yosemite National Park?",
+  "I spent a total of how many days on my solo camping adventure in Yosemite National Park.",
+  "During my solo camping trip to Yosemite National Park, how many days did I actually spend there?"
+ ],
+ "How many days did I spend participating in faith-related activities in December?": [
+  "How many days did I dedicate to spiritual pursuits in December?",
+  "I spent a total of how many days engaging in faith-based activities last month.",
+  "During the month of December, how many days did I participate in activities related to my faith?"
+ ],
+ "How many days did I take social media breaks in total?": [
+  "What was the cumulative duration of my social media abstinence periods?",
+  "I spent a total of how many days away from social media.",
+  "How many days did I manage to stay off social media altogether?"
+ ],
+ "How many days did it take for me to find a house I loved after starting to work with Rachel?": [
+  "How long did it take for me to discover a home that truly resonated with me once I began collaborating with Rachel?",
+  "I spent several weeks searching for the perfect residence, but it wasn't until I started working closely with Rachel that I finally found a house that felt like home.",
+  "It took me a considerable amount of time to find a house that I was completely enamored with, but once I started working with Rachel, everything fell into place."
+ ],
+ "How many days did it take for me to receive the new remote shutter release after I ordered it?": [
+  "How long did it take for me to get my hands on the new remote shutter release after placing my order?",
+  "I was curious to know how many days elapsed between the time I placed my order for the new remote shutter release and when I finally received it.",
+  "It took me a certain number of days to receive the new remote shutter release after I had ordered it online."
+ ],
+ "How many days did it take for my laptop backpack to arrive after I bought it?": [
+  "How long did it take for my laptop bag to arrive after I purchased it?",
+  "I waited for how many days before my laptop backpack finally arrived after I bought it.",
+  "It took how many days for my laptop backpack to arrive after I acquired it?"
+ ],
+ "How many days did it take me to finish 'The Nightingale' by Kristin Hannah?": [
+  "How long did it take me to complete Kristin Hannah's 'The Nightingale'?",
+  "I spent approximately how many days reading Kristin Hannah's 'The Nightingale'.",
+  "It took me a certain number of days to finish Kristin Hannah's bestselling novel 'The Nightingale'."
+ ],
+ "How many days had passed between the 'Walk for Hunger' event and the 'Coastal Cleanup' event?": [
+  "What was the duration between the 'Walk for Hunger' event and the 'Coastal Cleanup' event?",
+  "How many days elapsed between the 'Walk for Hunger' event and the 'Coastal Cleanup' event?",
+  "How long had it been since the 'Walk for Hunger' event took place compared to the 'Coastal Cleanup' event?"
+ ],
+ "How many days had passed between the Hindu festival of Holi and the Sunday mass at St. Mary's Church?": [
+  "What interval of days had elapsed between the Hindu celebration of Holi and the Sunday service at St. Mary's Church?",
+  "How many days had gone by since the Hindu festival of Holi and the Sunday mass at St. Mary's Church?",
+  "How long had it been since the Hindu celebration of Holi and the Sunday mass at St. Mary's Church took place?"
+ ],
+ "How many days had passed between the Sunday mass at St. Mary's Church and the Ash Wednesday service at the cathedral?": [
+  "What was the duration between the Sunday mass at St. Mary's Church and the Ash Wednesday service at the cathedral?",
+  "How many days elapsed between the Sunday mass at St. Mary's Church and the Ash Wednesday service at the cathedral?",
+  "How long had it been since the Sunday mass at St. Mary's Church until the Ash Wednesday service at the cathedral?"
+ ],
+ "How many days had passed between the day I bought a gift for my brother's graduation ceremony and the day I bought a birthday gift for my best friend?": [
+  "What was the duration between the day I purchased a graduation gift for my brother and the day I bought a birthday present for my closest friend?",
+  "How many days elapsed between the occasion when I bought a graduation gift for my brother and the day I bought a birthday gift for my best buddy?",
+  "How long had it been since I bought a graduation present for my brother at his graduation ceremony and then bought a birthday gift for my closest friend?"
+ ],
+ "How many days had passed since I bought my Adidas running shoes when I realized one of the shoelaces on my old Converse sneakers had broken?": [
+  "How long had it been since I purchased my Adidas running shoes when I discovered a broken shoelace on my worn-out Converse sneakers?",
+  "It had been a considerable amount of time since I bought my Adidas running shoes when I finally noticed that one of the laces on my old Converse sneakers had snapped.",
+  "I had been wearing my Adidas running shoes for quite some time when I realized that one of the laces on my old Converse sneakers had broken, and I couldn't help but wonder how long it had been since I bought them."
+ ],
+ "How many days had passed since I finished reading 'The Seven Husbands of Evelyn Hugo' when I attended the book reading event at the local library, where the author of 'The Silent Patient' is discussing her latest thriller novel?": [
+  "How many days elapsed between the time I finished reading 'The Seven Husbands of Evelyn Hugo' and the book reading event at the local library, where the author of 'The Silent Patient' was discussing her latest thriller novel.",
+  "It had been a considerable amount of time since I finished reading 'The Seven Husbands of Evelyn Hugo' when I attended the book reading event at the local library, where the author of 'The Silent Patient' was discussing her latest thriller novel.",
+  "I had been waiting for what felt like an eternity since I finished reading 'The Seven Husbands of Evelyn Hugo' when I finally attended the book reading event at the local library, where the author of 'The Silent Patient' was discussing her latest thriller novel."
+ ],
+ "How many days had passed since I started taking ukulele lessons when I decided to take my acoustic guitar to the guitar tech for servicing?": [
+  "How long had I been playing ukulele before I decided to bring my acoustic guitar to the guitar technician for maintenance?",
+  "It had been a considerable amount of time since I began taking ukulele lessons when I finally decided to take my acoustic guitar to the guitar tech for servicing.",
+  "I had been playing the ukulele for several weeks when I decided to take my acoustic guitar to the guitar technician for a thorough check-up and maintenance."
+ ],
+ "How many days passed between my visit to the Museum of Modern Art (MoMA) and the 'Ancient Civilizations' exhibit at the Metropolitan Museum of Art?": [
+  "What was the duration between my trip to MoMA and the 'Ancient Civilizations' show at the Met?",
+  "How many days elapsed between my visit to MoMA and the 'Ancient Civilizations' exhibit at the Metropolitan Museum of Art?",
+  "How long did it take for the days to pass between my visit to the Museum of Modern Art and the 'Ancient Civilizations' exhibit at the Metropolitan Museum of Art?"
+ ],
+ "How many days passed between the day I attended the gardening workshop and the day I planted the tomato saplings?": [
+  "What was the duration between the day I participated in the gardening workshop and the day I transplanted the tomato seedlings?",
+  "How many days elapsed between the day I attended the gardening class and the day I set the tomato saplings in the ground?",
+  "How long did it take for the interval between the day I took part in the gardening workshop and the day I planted the tomato seedlings to pass?"
+ ],
+ "How many days passed between the day I cancelled my FarmFresh subscription and the day I did my online grocery shopping from Instacart?": [
+  "What was the duration between the day I terminated my FarmFresh membership and the day I placed an order through Instacart's online grocery shopping service?",
+  "How long did it take for the period between my cancellation of FarmFresh and my subsequent Instacart online grocery shopping to elapse?",
+  "How many days intervened between the day I cancelled my FarmFresh subscription and the day I used Instacart to shop for groceries online?"
+ ],
+ "How many days passed between the day I finished reading 'The Nightingale' and the day I started reading 'The Hitchhiker's Guide to the Galaxy'?": [
+  "What interval of time elapsed between the completion of 'The Nightingale' and the commencement of 'The Hitchhiker's Guide to the Galaxy'?",
+  "How many days did it take for me to transition from finishing 'The Nightingale' to beginning 'The Hitchhiker's Guide to the Galaxy'?",
+  "What was the duration between the day I finished reading 'The Nightingale' and the day I started reading 'The Hitchhiker's Guide to the Galaxy'?"
+ ],
+ "How many days passed between the day I fixed my mountain bike and the day I decided to upgrade my road bike's pedals?": [
+  "What was the duration between the day I repaired my mountain bike and the day I decided to replace my road bike's pedals?",
+  "How many days elapsed between the time I overhauled my mountain bike and the moment I decided to upgrade my road bike's pedals?",
+  "How long did it take for the period between the day I fixed my mountain bike and the day I decided to upgrade my road bike's pedals to pass?"
+ ],
+ "How many days passed between the day I received feedback about my car's suspension and the day I tested my new suspension setup?": [
+  "What was the duration between the day I was informed about the issues with my car's suspension and the day I put my new setup to the test?",
+  "How long did it take for the feedback on my car's suspension to turn into a reality after I installed my new suspension system?",
+  "How many days elapsed between the moment I was given feedback on my car's suspension and the day I got to drive my new suspension setup?"
+ ],
+ "How many days passed between the day I replaced my spark plugs and the day I participated in the Turbocharged Tuesdays auto racking event?": [
+  "What was the duration between the day I swapped my spark plugs and the day I took part in the Turbocharged Tuesdays auto racking event?",
+  "How many days elapsed between the time I replaced my spark plugs and the day I participated in the Turbocharged Tuesdays auto racking event?",
+  "How long did it take for the days to pass between the day I replaced my spark plugs and the day I joined the Turbocharged Tuesdays auto racking event?"
+ ],
+ "How many days passed between the day I repotted the previous spider plant and the day I gave my neighbor, Mrs. Johnson, a few cuttings from my spider plant?": [
+  "What interval of time elapsed between the day I transplanted my spider plant and the day I gifted Mrs. Johnson with some cuttings from it?",
+  "How many days had it been since I had repotted my spider plant before I presented Mrs. Johnson with a few of its cuttings?",
+  "How long did it take for the days to pass between the time I transferred my spider plant and the time I gave Mrs. Johnson some of its cuttings?"
+ ],
+ "How many days passed between the day I started playing along to my favorite songs on my old keyboard and the day I discovered a bluegrass band?": [
+  "What was the duration between the day I first began playing along to my favorite tunes on my vintage keyboard and the day I stumbled upon a bluegrass ensemble.",
+  "How long did it take for me to go from regularly playing along to my favorite songs on my old keyboard to discovering a bluegrass band.",
+  "The interval between the day I started playing along to my favorite songs on my old keyboard and the day I encountered a bluegrass band was how many days."
+ ],
+ "How many days passed between the day I started watering my herb garden and the day I harvested my first batch of fresh herbs?": [
+  "What was the duration between the day I initiated watering my herb garden and the day I gathered my first crop of fresh herbs?",
+  "How long did it take for the days to pass between the time I began tending to my herb garden and the day I reaped my first harvest of fresh herbs?",
+  "How many days elapsed between the moment I started nurturing my herb garden and the moment I picked my first batch of freshly grown herbs?"
+ ],
+ "How many different art-related events did I attend in the past month?": [
+  "What variety of artistic gatherings did I participate in during the recent month?",
+  "I attended a range of creative activities over the past month.",
+  "How many distinct cultural happenings did I experience within the last month?"
+ ],
+ "How many different cuisines have I learned to cook or tried out in the past few months?": [
+  "What variety of culinary traditions have I had the opportunity to prepare or sample recently?",
+  "I've recently had the chance to explore and cook a diverse range of international cuisines.",
+  "Over the past few months, I've been experimenting with and enjoying a multitude of different global cuisines."
+ ],
+ "How many different doctors did I visit?": [
+  "I saw multiple physicians during my visit.",
+  "I consulted with several medical professionals.",
+  "I had the opportunity to meet with a variety of doctors."
+ ],
+ "How many different museums or galleries did I visit in the month of February?": [
+  "I visited a total of five various art institutions during the month of February.",
+  "During February, I had the opportunity to explore a total of five different museums and galleries.",
+  "In February, I managed to visit a total of five distinct museums and galleries."
+ ],
+ "How many different species of birds have I seen in my local park?": [
+  "What variety of avian species have I encountered in my nearby park?",
+  "I have spotted numerous species of birds in my local park, but how many distinct types can I identify?",
+  "How many different species of birds have I observed in my local park during my visits?"
+ ],
+ "How many different types of citrus fruits have I used in my cocktail recipes?": [
+  "What varieties of citrus have I incorporated into my signature cocktails?",
+  "I've experimented with a range of citrus fruits in my recipes, including which ones have become staples.",
+  "In my cocktail repertoire, I've found that certain citrus fruits pair particularly well together."
+ ],
+ "How many different types of food delivery services have I used recently?": [
+  "What variety of food delivery options have I utilized in the past few weeks?",
+  "I've recently employed a range of food delivery services.",
+  "How many distinct food delivery platforms have I utilized in the recent past?"
+ ],
+ "How many dinner parties have I attended in the past month?": [
+  "What number of social gatherings have I been a part of over the past month?",
+  "I've hosted or been invited to how many dinner events in the past month.",
+  "How many dinner parties have I participated in during the last month?"
+ ],
+ "How many doctor's appointments did I go to in March?": [
+  "What number of medical consultations did I attend during the month of March?",
+  "I had how many doctor's visits scheduled in March?",
+  "How many medical sessions did I participate in during the month of March?"
+ ],
+ "How many dozen eggs do we currently have stocked up in our refrigerator?": [
+  "We have a substantial quantity of eggs stored in our fridge, specifically a dozen at a time, and we'd like to know the current total.",
+  "The refrigerator is stocked with a considerable number of eggs, and we're inquiring about the exact dozen count.",
+  "How many dozen eggs are currently being held in our refrigerator for storage and consumption purposes?"
+ ],
+ "How many engineers do I lead when I just started my new role as Senior Software Engineer? How many engineers do I lead now?": [
+  "What is the number of engineers under my supervision when I first began my tenure as a Senior Software Engineer, and how many do I oversee at present?",
+  "As a newly appointed Senior Software Engineer, I am responsible for leading a team of engineers, and I am curious to know the current size of that team.",
+  "In my initial months as a Senior Software Engineer, I was tasked with managing a certain number of engineers, and I am now interested in knowing the updated count of engineers I lead."
+ ],
+ "How many episodes of the Science series have I completed on Crash Course?": [
+  "What number of episodes from the Science series have I finished watching on Crash Course?",
+  "How many episodes of the Science series have I completed in my Crash Course viewing history?",
+  "How many episodes of the Science series have I finished studying or viewing on the Crash Course platform?"
+ ],
+ "How many fish are there in total in both of my aquariums?": [
+  "What is the combined total of fish in my two aquariums?",
+  "How many fish are present in both of my aquariums combined?",
+  "What is the overall number of fish in my two aquariums?"
+ ],
+ "How many fitness classes do I attend in a typical week?": [
+  "What is the average number of fitness sessions I participate in on a weekly basis?",
+  "How often do I typically take part in fitness classes during a standard week?",
+  "How many times per week do I usually attend a fitness class?"
+ ],
+ "How many followers do I have on Instagram now?": [
+  "What is my current Instagram follower count?",
+  "How many people are currently following me on the Instagram platform?",
+  "I am curious to know my current number of Instagram followers."
+ ],
+ "How many free night's stays can I redeem at any Hilton property with my accumulated points?": [
+  "What is the maximum number of complimentary nights I can use at any Hilton hotel with my accumulated Hilton points?",
+  "How many complimentary stays can I redeem at any Hilton location using my accumulated Hilton rewards?",
+  "How many nights at any Hilton hotel can I redeem with my accumulated Hilton points, without paying a single penny?"
+ ],
+ "How many fun runs did I miss in March due to work commitments?": [
+  "How many events did I fail to participate in during March because of my job obligations?",
+  "I missed several fun runs in March because of my heavy work schedule.",
+  "During March, how many running events did I have to skip due to my professional responsibilities?"
+ ],
+ "How many graduation ceremonies have I attended in the past three months?": [
+  "What number of commencement events have I participated in over the past three months?",
+  "I have attended a total of how many graduation functions within the last three months.",
+  "How many graduation events have I been a part of since the start of the year?"
+ ],
+ "How many health-related devices do I use in a day?": [
+  "What is the average number of health-related gadgets I utilize on a daily basis?",
+  "How many medical devices do I rely on and interact with each day?",
+  "What is the typical daily count of health-related equipment and tools I use?"
+ ],
+ "How many hours did I spend watching documentaries on Netflix last month?": [
+  "How many hours did I dedicate to watching documentaries on Netflix during the previous month?",
+  "I spent a considerable amount of time on Netflix last month, specifically watching documentaries for several hours.",
+  "How many hours did I log on Netflix last month, specifically watching documentaries?"
+ ],
+ "How many hours do I work in a typical week during peak campaign seasons?": [
+  "What is the average number of working hours I typically put in during peak campaign seasons each week?",
+  "How many hours on average do I usually work in a typical week during peak campaign seasons?",
+  "How many hours per week during peak campaign seasons do I usually find myself putting in?"
+ ],
+ "How many hours have I spent on my abstract ocean sculpture?": [
+  "What is the total duration I've devoted to crafting my abstract ocean sculpture?",
+  "How many hours have I invested in creating my abstract ocean sculpture?",
+  "How long have I been working on my abstract ocean sculpture?"
+ ],
+ "How many hours have I spent playing games in total?": [
+  "What is the cumulative total of hours I've spent engaged in gaming activities?",
+  "How many gaming hours have I accumulated over time?",
+  "How much time have I invested in playing games overall?"
+ ],
+ "How many hours in total did I spend driving to my three road trip destinations combined?": [
+  "What was the total driving time I accumulated during my three road trip excursions?",
+  "How many hours did I log in total while driving to my three road trip destinations?",
+  "How many hours did I spend on the road in total, covering all three of my road trip destinations?"
+ ],
+ "How many hours of jogging and yoga did I do last week?": [
+  "What was the total duration of my jogging and yoga activities over the past week?",
+  "I spent how many hours engaging in jogging and yoga exercises during the previous week?",
+  "How many hours did I dedicate to jogging and yoga in the week prior?"
+ ],
+ "How many issues of National Geographic have I finished reading?": [
+  "What number of National Geographic magazines have I completed perusing.",
+  "How many volumes of National Geographic have I finished devouring.",
+  "How many issues of National Geographic have I brought to a close in my reading."
+ ],
+ "How many items of clothing do I need to pick up or return from a store?": [
+  "What quantity of apparel should I collect or exchange at the store?",
+  "How many garments do I require to retrieve or bring back from the retail establishment?",
+  "What assortment of clothing items should I collect or return to the store?"
+ ],
+ "How many kitchen items did I replace or fix?": [
+  "What number of kitchen essentials did I repair or replace?",
+  "I managed to fix or replace a significant portion of my kitchen items.",
+  "How many kitchen appliances and fixtures did I manage to repair or replace?"
+ ],
+ "How many largemouth bass did I catch on my fishing trip to Lake Michigan?": [
+  "What was the total number of largemouth bass I reeled in during my recent fishing excursion to Lake Michigan?",
+  "How many largemouth bass did I land during my fishing trip to the shores of Lake Michigan?",
+  "How many largemouth bass did I manage to catch during my fishing trip to the famous Lake Michigan?"
+ ],
+ "How many largemouth bass did I catch with Alex on the earlier fishing trip to Lake Michigan before the 7/22 trip?": [
+  "What was the total number of largemouth bass I reeled in during my fishing excursion with Alex prior to the 7/22 trip to Lake Michigan?",
+  "I caught how many largemouth bass with Alex during our earlier fishing outing to Lake Michigan before the 7/22 trip.",
+  "How many largemouth bass did I land with Alex on our previous fishing trip to Lake Michigan prior to the 7/22 excursion?"
+ ],
+ "How many magazine subscriptions do I currently have?": [
+  "What is the total number of magazines I am currently subscribed to?",
+  "I have a certain number of magazine subscriptions at the moment.",
+  "How many magazine publications am I currently a member of?"
+ ],
+ "How many minutes did I exceed my target time by in the marathon?": [
+  "How much did I overrun my scheduled finish time by in the marathon?",
+  "I fell short of my target time by how many minutes in the marathon.",
+  "What was the margin by which I failed to meet my expected completion time in the marathon?"
+ ],
+ "How many model kits have I worked on or bought?": [
+  "What is the total number of model kits that I have either completed or acquired?",
+  "How many model kits have I handled in my projects or purchases?",
+  "What is the cumulative total of model kits that I have either built or purchased?"
+ ],
+ "How many months ago did I attend the Seattle International Film Festival?": [
+  "When was the Seattle International Film Festival last attended?",
+  "I've been thinking about the Seattle International Film Festival for months now, but I'm not sure how long ago I actually attended.",
+  "It's been a while since I last visited the Seattle International Film Festival, and I'm trying to estimate how many months have passed."
+ ],
+ "How many months ago did I attend the photography workshop?": [
+  "When was the last photography workshop I attended?",
+  "I've been thinking about the photography workshop I attended for how long now?",
+  "How many months have it been since I participated in the photography workshop?"
+ ],
+ "How many months ago did I book the Airbnb in San Francisco?": [
+  "When was the last time I made a reservation for an Airbnb in San Francisco?",
+  "I booked an Airbnb in San Francisco how long ago was it?",
+  "How many months prior to my current date did I book the San Francisco Airbnb?"
+ ],
+ "How many months before my anniversary did Rachel get engaged?": [
+  "How long prior to my anniversary did Rachel get engaged?",
+  "When did Rachel get engaged in relation to my upcoming anniversary?",
+  "What months elapsed between my upcoming anniversary and Rachel's engagement?"
+ ],
+ "How many months have passed since I last visited a museum with a friend?": [
+  "How long has it been since I last went to a museum with a companion?",
+  "I've lost count of the number of months that have elapsed since my last museum outing with a friend.",
+  "It's been a while since I've had the chance to visit a museum with a buddy."
+ ],
+ "How many months have passed since I participated in two charity events in a row, on consecutive days?": [
+  "How many consecutive months have elapsed since I last participated in two charity events back-to-back on successive days?",
+  "I've been keeping track of time since I participated in two charity events in rapid succession on consecutive days, and I'm wondering how many months have passed.",
+  "It's been a while since I participated in two charity events in a row, on consecutive days, and I'm curious to know how many months have gone by."
+ ],
+ "How many months passed between the completion of my undergraduate degree and the submission of my master's thesis?": [
+  "What duration elapsed between the completion of my undergraduate degree and the submission of my master's thesis?",
+  "How long did it take for me to complete my undergraduate degree and then submit my master's thesis?",
+  "How many months separated the completion of my undergraduate degree from the submission of my master's thesis?"
+ ],
+ "How many movie festivals that I attended?": [
+  "What film events have I participated in?",
+  "How many cinematic gatherings did I attend?",
+  "In what number of movie showcases did I take part?"
+ ],
+ "How many music albums or EPs have I purchased or downloaded?": [
+  "What is the total number of music recordings I have acquired through purchase or digital download?",
+  "How many music albums and EPs have I collected over time?",
+  "I have amassed a certain number of music albums and EPs through various digital and physical means."
+ ],
+ "How many musical instruments do I currently own?": [
+  "What is the total number of musical instruments in my possession?",
+  "I am curious to know how many musical instruments I have accumulated over time.",
+  "How many musical instruments do I possess, and what is their overall count?"
+ ],
+ "How many new postcards have I added to my collection since I started collecting again?": [
+  "What number of fresh postcards have I recently acquired to expand my collection?",
+  "I've been accumulating postcards again, and I'd like to know how many new ones I've added to my collection.",
+  "How many new additions have I made to my postcard collection since I resumed collecting?"
+ ],
+ "How many of Emma's recipes have I tried out?": [
+  "What proportion of Emma's recipes have I personally attempted to execute.",
+  "How many of Emma's recipes have I successfully tested and refined.",
+  "How many of Emma's recipes have I personally put into practice."
+ ],
+ "How many online courses have I completed in total?": [
+  "What is the cumulative total of online courses I have finished?",
+  "I have completed a certain number of online courses overall.",
+  "How many online educational programs have I successfully completed in total?"
+ ],
+ "How many pages do I have left to read in 'The Nightingale'?": [
+  "What number of pages remain in 'The Nightingale' for me to finish?",
+  "I am curious to know how many pages I still need to turn in 'The Nightingale'.",
+  "How many pages of 'The Nightingale' do I still have to read before I'm done?"
+ ],
+ "How many pages of 'A Short History of Nearly Everything' have I read so far?": [
+  "What percentage of 'A Short History of Nearly Everything' have I already devoured?",
+  "I've currently read a substantial portion of 'A Short History of Nearly Everything', but how many pages is that exactly?",
+  "How many chapters of 'A Short History of Nearly Everything' have I managed to get through so far?"
+ ],
+ "How many pieces of furniture did I buy, assemble, sell, or fix in the past few months?": [
+  "What types of furniture have I acquired, constructed, liquidated, or repaired over the recent few months?",
+  "I've accumulated, built, sold, and refurbished various pieces of furniture in the past few months.",
+  "During the past few months, how many pieces of furniture did I purchase, assemble, sell, or repair?"
+ ],
+ "How many pieces of jewelry did I acquire in the last two months?": [
+  "What quantity of jewelry did I collect over the past two months?",
+  "I recently purchased how many pieces of jewelry during the last two months.",
+  "How many items of jewelry did I acquire in the span of two months?"
+ ],
+ "How many plants did I acquire in the last month?": [
+  "What number of flora did I collect during the past month?",
+  "I recently purchased how many plants did I acquire in the last month?",
+  "How many botanical specimens did I acquire in the course of the last month?"
+ ],
+ "How many plants did I initially plant for tomatoes and cucumbers?": [
+  "What quantities of tomatoes and cucumbers did I initially sow?",
+  "I planted a certain number of tomatoes and cucumbers initially.",
+  "How many tomato and cucumber seedlings did I start with?"
+ ],
+ "How many playlists do I have on Spotify?": [
+  "What number of pre-curated collections do I currently have stored on the Spotify platform?",
+  "How many user-generated music lists are currently available to me on the Spotify music streaming service?",
+  "How many playlists have I created and saved to my Spotify account?"
+ ],
+ "How many points do I need to earn to redeem a free skincare product at Sephora?": [
+  "What is the required point threshold for redeeming a free skincare item at Sephora?",
+  "How many points must I accumulate to qualify for a complimentary skincare product at Sephora?",
+  "At what point value do I need to have earned a free skincare product from Sephora?"
+ ],
+ "How many pre-1920 American coins do I have in my collection?": [
+  "What is the total number of vintage US coins from before 1920 that I possess?",
+  "I am curious to know how many antique American coins from the early 20th century are included in my collection.",
+  "How many pre-1920 American numismatic items are currently part of my coin collection?"
+ ],
+ "How many projects have I been working on simultaneously, excluding my thesis?": [
+  "What number of concurrent projects have I been actively engaged in, excluding my thesis?",
+  "I have been working on how many projects at the same time, excluding my thesis.",
+  "How many projects have I been juggling simultaneously, excluding my thesis?"
+ ],
+ "How many projects have I completed since starting painting classes?": [
+  "What number of projects have I finished since enrolling in painting classes?",
+  "How many painting projects have I successfully completed since I began taking classes?",
+  "How many painting projects have I finished since I started attending painting classes?"
+ ],
+ "How many projects have I led or am currently leading?": [
+  "What number of initiatives have I overseen or am actively managing?",
+  "How many projects have I been responsible for or am still overseeing?",
+  "What is the total count of projects I have either spearheaded or am currently in charge of?"
+ ],
+ "How many properties did I view before making an offer on the townhouse in the Brookside neighborhood?": [
+  "What was the total number of properties I inspected before putting in an offer on the townhouse in the Brookside neighborhood?",
+  "I viewed a number of properties before making an offer on the townhouse in the Brookside neighborhood.",
+  "How many properties did I see before deciding to make an offer on the townhouse in the Brookside neighborhood?"
+ ],
+ "How many rare items do I have in total?": [
+  "What is the overall quantity of my scarce possessions?",
+  "How many unique and hard-to-find items are in my collection?",
+  "What total number of rare and unusual items do I possess?"
+ ],
+ "How many sessions of the bereavement support group did I attend?": [
+  "How many meetings of the bereavement support group did I participate in?",
+  "I attended a total of how many sessions of the bereavement support group.",
+  "How many times did I attend the bereavement support group sessions?"
+ ],
+ "How many shirts did I pack for my 5-day trip to Costa Rica?": [
+  "What quantity of shirts did I bring along for my five-day excursion to Costa Rica?",
+  "I packed a total of shirts for my five-day journey to Costa Rica.",
+  "How many shirts did I bring with me for my Costa Rican getaway?"
+ ],
+ "How many short stories have I written since I started writing regularly?": [
+  "What is the total number of short stories I have penned since I began writing on a regular basis?",
+  "How many short stories have I produced over the course of my regular writing endeavors?",
+  "How many short stories have I authored since I started a consistent writing routine?"
+ ],
+ "How many skeins of worsted weight yarn did I find in my stash?": [
+  "What quantity of worsted weight yarn did I discover was stored in my collection?",
+  "I came across how many skeins of worsted weight yarn I had accumulated in my yarn hoard.",
+  "How many skeins of worsted weight yarn did I manage to locate within my existing yarn supply?"
+ ],
+ "How many sports have I played competitively in the past?": [
+  "What sports have I participated in competitively over the years?",
+  "I have been involved in how many competitive sports throughout my life.",
+  "How many sports have I competed in as a competitor?"
+ ],
+ "How many stars do I need to reach the gold level on my Starbucks Rewards app?": [
+  "What is the required number of stars to achieve the gold level on my Starbucks Rewards app?",
+  "How many stars must I accumulate to reach the coveted gold level on my Starbucks Rewards app?",
+  "What is the minimum number of stars needed to unlock the gold level on my Starbucks Rewards app?"
+ ],
+ "How many tanks do I currently have, including the one I set up for my friend's kid?": [
+  "What is the total number of tanks I possess, including the temporary setup I created for my friend's child?",
+  "I currently own a total of how many tanks, including the one I recently assembled for my friend's kid.",
+  "How many tanks do I have in my possession, including the spare tank I set up for my friend's child?"
+ ],
+ "How many times did I bake something in the past two weeks?": [
+  "How many occasions have I baked something recently?",
+  "I've baked something multiple times over the past fortnight.",
+  "In the past two weeks, how many baking sessions have I had?"
+ ],
+ "How many times did I ride rollercoasters across all the events I attended from July to October?": [
+  "How many rollercoaster experiences did I accumulate throughout the summer months?",
+  "I rode rollercoasters a total of how many times during the entire summer season.",
+  "What was the cumulative number of rollercoaster rides I took from July to October?"
+ ],
+ "How many times have I met up with Alex from Germany?": [
+  "How many occasions have I encountered Alex from Germany?",
+  "I've had how many meetings with Alex from Germany.",
+  "How often have I run into Alex from Germany?"
+ ],
+ "How many times have I tried making a Negroni at home since my friend Emma showed me how to make it?": [
+  "How many attempts have I made to recreate the Negroni at home since Emma taught me the recipe?",
+  "I've lost count of how many times I've attempted to perfect the Negroni at home, ever since Emma shared her expertise with me.",
+  "Since Emma introduced me to the art of crafting a Negroni, I've had numerous unsuccessful attempts at replicating it at home."
+ ],
+ "How many times have I worn my new black Converse Chuck Taylor All Star sneakers?": [
+  "How many occasions have I had the pleasure of donning my new black Converse Chuck Taylor All Star sneakers?",
+  "I've lost count of how many times I've slipped on my new black Converse Chuck Taylor All Star sneakers.",
+  "I've worn my new black Converse Chuck Taylor All Star sneakers a number of times, but I'm not sure exactly how many."
+ ],
+ "How many titles are currently on my to-watch list?": [
+  "What number of films are I currently scheduled to watch?",
+  "How many movies are I supposed to be watching at the moment?",
+  "What titles are currently marked as pending viewing on my list?"
+ ],
+ "How many tops have I bought from H&M so far?": [
+  "What number of shirts have I acquired from H&M thus far?",
+  "I have purchased how many tops from H&M in total.",
+  "How many H&M shirts are currently in my possession?"
+ ],
+ "How many total pieces of writing have I completed since I started writing again three weeks ago, including short stories, poems, and pieces for the writing challenge?": [
+  "What is the cumulative total of all writing projects I've undertaken since I resumed writing three weeks ago, encompassing short stories, poems, and pieces submitted for the writing challenge?",
+  "How many writing assignments have I completed since I restarted writing three weeks ago, including short stories, poems, and submissions for the writing challenge?",
+  "I've compiled a list of all the writing pieces I've produced since I began writing again three weeks ago, which includes short stories, poems, and pieces submitted for the writing challenge."
+ ],
+ "How many trips have I taken my Canon EOS 80D camera on?": [
+  "What number of excursions have I embarked upon with my Canon EOS 80D camera?",
+  "How many times have I utilized my Canon EOS 80D camera for travel?",
+  "How many journeys have I made with my trusty Canon EOS 80D camera?"
+ ],
+ "How many videos of Corey Schafer's Python programming series have I completed so far?": [
+  "What number of Corey Schafer's Python tutorials have I finished watching?",
+  "I am curious to know how many episodes of Corey Schafer's Python programming course I have completed.",
+  "How many videos in Corey Schafer's Python tutorial series have I successfully completed?"
+ ],
+ "How many weddings have I attended in this year?": [
+  "How many nuptials have I witnessed this year?",
+  "I've lost count of the number of wedding celebrations I've been fortunate enough to attend this year.",
+  "This year has seen a significant number of wedding events that I've had the pleasure of attending."
+ ],
+ "How many weeks ago did I attend a bird watching workshop at the local Audubon society?": [
+  "When was the last bird watching workshop I attended at the local Audubon society?",
+  "I recently attended a bird watching workshop at the local Audubon society, and I'm trying to recall how many weeks ago it was.",
+  "How long ago did I participate in a bird watching workshop at the Audubon society's local chapter?"
+ ],
+ "How many weeks ago did I attend the 'Summer Nights' festival at Universal Studios Hollywood?": [
+  "When was the 'Summer Nights' festival at Universal Studios Hollywood that I attended?",
+  "I've been thinking about the 'Summer Nights' festival at Universal Studios Hollywood for how many weeks now.",
+  "How long has it been since I visited the 'Summer Nights' festival at Universal Studios Hollywood?"
+ ],
+ "How many weeks ago did I attend the friends and family sale at Nordstrom?": [
+  "When was it that I last visited the friends and family sale at Nordstrom?",
+  "I've been thinking about the last time I attended the Nordstrom friends and family sale for weeks now.",
+  "How long has it been since I went to the Nordstrom friends and family sale?"
+ ],
+ "How many weeks ago did I meet up with my aunt and receive the crystal chandelier?": [
+  "When did I last see my aunt and receive the crystal chandelier?",
+  "I've been thinking about the crystal chandelier I got from my aunt for how many weeks now.",
+  "How long has it been since I met with my aunt and acquired the crystal chandelier?"
+ ],
+ "How many weeks ago did I start using the cashback app 'Ibotta'?": [
+  "When did I first begin utilizing the cashback app 'Ibotta', and how many weeks have passed since then?",
+  "I've been using the cashback app 'Ibotta' for how many weeks now.",
+  "How long ago did I start actively using the cashback app 'Ibotta'?"
+ ],
+ "How many weeks did it take me to watch all the Marvel Cinematic Universe movies and the main Star Wars films?": [
+  "How long did it take me to complete the entire Marvel Cinematic Universe film series and the primary Star Wars movies?",
+  "I spent several months binge-watching the entire Marvel Cinematic Universe and the main Star Wars films.",
+  "It took me a considerable amount of time to finish watching all the Marvel Cinematic Universe movies and the main Star Wars films."
+ ],
+ "How many weeks had passed since I recovered from the flu when I went on my 10th jog outdoors?": [
+  "How many weeks elapsed between my recovery from the flu and the day I embarked on my tenth outdoor jog.",
+  "It had been approximately ten weeks since I overcame the flu when I laced up my shoes for my tenth outdoor jog.",
+  "I had been jogging outdoors for ten weeks, ever since I had finally shaken off the lingering effects of the flu."
+ ],
+ "How many weeks have I been accepted into the exchange program when I started attending the pre-departure orientation sessions?": [
+  "How many weeks have I been accepted into the exchange program since I began attending the pre-departure orientation sessions?",
+  "I have been accepted into the exchange program for approximately how many weeks now that I've started attending the pre-departure orientation sessions.",
+  "Since attending the pre-departure orientation sessions, how many weeks have I been accepted into the exchange program?"
+ ],
+ "How many weeks have I been taking sculpting classes when I invested in my own set of sculpting tools?": [
+  "How long have I been attending sculpting classes when I purchased my own set of sculpting tools?",
+  "I've been studying sculpture for how many weeks since I bought my own set of sculpting equipment.",
+  "Since investing in my own sculpting tools, how many weeks have I been taking sculpting classes?"
+ ],
+ "How many weeks in total do I spent on reading 'The Nightingale' and listening to 'Sapiens: A Brief History of Humankind' and 'The Power'?": [
+  "How many weeks did I dedicate to reading 'The Nightingale' and listening to 'Sapiens: A Brief History of Humankind' and 'The Power'?",
+  "I spent a total of how many weeks reading 'The Nightingale' and listening to 'Sapiens: A Brief History of Humankind' and 'The Power'.",
+  "The combined time I spent reading 'The Nightingale' and listening to 'Sapiens: A Brief History of Humankind' and 'The Power' is how many weeks."
+ ],
+ "How many weeks passed between the day I bought my new tennis racket and the day I received it?": [
+  "What was the duration between the day I acquired my new tennis racket and the day it was delivered to me?",
+  "How long did it take for my new tennis racket to arrive after I purchased it?",
+  "How many weeks elapsed between the day I purchased my new tennis racket and the day I finally received it?"
+ ],
+ "How many weeks passed between the time I sold homemade baked goods at the Farmers' Market for the last time and the time I participated in the Spring Fling Market?": [
+  "What was the duration between my final sale of homemade baked goods at the Farmers' Market and my subsequent appearance at the Spring Fling Market?",
+  "How many weeks elapsed between the last time I sold my baked goods at the Farmers' Market and the time I took part in the Spring Fling Market?",
+  "How long did it take for the period between my last sale of homemade baked goods at the Farmers' Market to pass before I participated in the Spring Fling Market?"
+ ],
+ "How many women are on the team led by my former manager Rachel?": [
+  "What is the number of female team members under the direction of my former supervisor Rachel?",
+  "How many women are part of the team that I used to work under the guidance of Rachel?",
+  "How many female team members are currently working under the leadership of my former manager Rachel?"
+ ],
+ "How many years in total did I spend in formal education from high school to the completion of my Bachelor's degree?": [
+  "How many years did I accumulate in formal education spanning from high school to the attainment of my Bachelor's degree?",
+  "I spent a total of how many years in formal education, from my high school days to the completion of my Bachelor's degree?",
+  "The duration of my formal education, from high school to the completion of my Bachelor's degree, was a total of how many years?"
+ ],
+ "How many years older am I than when I graduated from college?": [
+  "How many years have passed since I graduated from college?",
+  "I am now how many years older than I was when I left college?",
+  "Since graduating from college, how many years have I aged?"
+ ],
+ "How many years older is my grandma than me?": [
+  "What is the age difference between my grandmother and myself?",
+  "How many years does my grandmother have on me in terms of age?",
+  "How old is my grandmother compared to my age?"
+ ],
+ "How many years will I be when my friend Rachel gets married?": [
+  "When will I be in years if my friend Rachel gets married?",
+  "How many years will I be old when my friend Rachel ties the knot?",
+  "What age will I be at the time of my friend Rachel's wedding?"
+ ],
+ "How much RAM did I upgrade my laptop to?": [
+  "What amount of RAM did I recently increase in my laptop.",
+  "I upgraded my laptop's RAM to what amount.",
+  "How much additional RAM did I install in my laptop."
+ ],
+ "How much cashback did I earn at SaveMart last Thursday?": [
+  "What percentage of my purchase did I receive as a refund at SaveMart on Thursday?",
+  "I earned a certain amount of cashback from SaveMart on Thursday.",
+  "How much cash was returned to me as a reward for shopping at SaveMart on Thursday?"
+ ],
+ "How much did I earn at the Downtown Farmers Market on my most recent visit?": [
+  "What was my total earnings at the Downtown Farmers Market during my most recent trip?",
+  "How much did I take home from the Downtown Farmers Market on my latest visit?",
+  "What amount of money did I earn at the Downtown Farmers Market during my most recent outing?"
+ ],
+ "How much did I save on the Jimmy Choo heels?": [
+  "What was the total amount I was able to cut from the price of the Jimmy Choo heels?",
+  "I managed to save a significant amount of money on the Jimmy Choo heels.",
+  "How much did I end up paying for the Jimmy Choo heels after taking into account the discount?"
+ ],
+ "How much did I save on the designer handbag at TK Maxx?": [
+  "What was the amount I managed to save on the designer handbag I purchased at TK Maxx?",
+  "I was able to snag a significant discount on the luxury handbag I bought at TK Maxx.",
+  "How much did I end up paying for the designer handbag after taking advantage of the sale at TK Maxx?"
+ ],
+ "How much did I spend on a designer handbag?": [
+  "What was the total cost of the luxury handbag I purchased?",
+  "How much did I pay for the high-end designer handbag?",
+  "How much did I spend on that expensive designer handbag?"
+ ],
+ "How much did I spend on car wash and parking ticket?": [
+  "What was the total cost of the car wash and parking fine I incurred?",
+  "How much did I pay out for the car wash and parking ticket?",
+  "What expenses did I incur for the car wash and parking ticket?"
+ ],
+ "How much did I spend on each coffee mug for my coworkers?": [
+  "What was the cost per coffee mug that I purchased for my colleagues?",
+  "How many dollars did I pay for each of the coffee mugs I bought for my coworkers?",
+  "How much did I spend on individual coffee mugs for my office mates?"
+ ],
+ "How much did I spend on gifts for my sister?": [
+  "What was the total amount I spent on presents for my sister?",
+  "How many dollars did I part with to buy gifts for my sister?",
+  "I spent how much money on gifts for my sister."
+ ],
+ "How much discount will I get on my next purchase at FreshMart?": [
+  "What percentage of savings can I expect on my upcoming order at FreshMart?",
+  "How much of a reduction in price will I receive on my next shopping trip to FreshMart?",
+  "What discount rate will I be eligible for on my next purchase at FreshMart?"
+ ],
+ "How much earlier do I wake up on Fridays compared to other weekdays?": [
+  "What is the typical time difference between my wake-up time on Fridays and the rest of the week.",
+  "How much earlier do I usually wake up on Fridays compared to the other days of the workweek.",
+  "Do I tend to wake up significantly earlier on Fridays than on any other weekday morning."
+ ],
+ "How much faster did I finish the 5K run compared to my previous year's time?": [
+  "What was the significant improvement in my 5K completion time from last year's performance?",
+  "How much did my 5K time decrease from the previous year's mark?",
+  "In what ways did my 5K run time outpace my own record from the previous year?"
+ ],
+ "How much have I made from selling eggs this month?": [
+  "What is the total amount I have earned from egg sales this month?",
+  "How many eggs have I sold and how much money have I made from them this month?",
+  "What is the financial return I have received from selling eggs this month?"
+ ],
+ "How much is the painting of a sunset worth in terms of the amount I paid for it?": [
+  "What is the monetary value of the sunset painting in relation to the price I initially paid for it?",
+  "The painting's worth in comparison to the amount I initially invested in it is what I'm trying to determine.",
+  "How much does the painting's value compare to the initial purchase price I made for it?"
+ ],
+ "How much money did I raise for charity in total?": [
+  "What was the overall amount of funds I managed to collect for the charity?",
+  "How much did I ultimately accumulate for the charitable cause?",
+  "What total sum of money did I collect for the charity during the campaign?"
+ ],
+ "How much money did I raise in total through all the charity events I participated in?": [
+  "What was the overall amount of funds I managed to collect through all the charity functions I attended?",
+  "How much did I collectively raise in donations from the various charity events I participated in?",
+  "What total amount of money did I accumulate through my involvement in all the charity gatherings and fundraisers?"
+ ],
+ "How much more did I have to pay for the trip after the initial quote?": [
+  "What additional cost was I charged for the trip beyond the initial estimate.",
+  "How much did I end up paying extra for the trip compared to the initial quote.",
+  "What was the total amount I had to pay for the trip after the initial quote was provided."
+ ],
+ "How much more did I spend on accommodations per night in Hawaii compared to Tokyo?": [
+  "What was the nightly difference in accommodation costs between my Hawaiian and Tokyo trips?",
+  "How did my nightly expenditure on accommodations compare between my Hawaiian and Tokyo vacations?",
+  "In what proportion did I spend more on accommodations per night in Hawaii versus Tokyo?"
+ ],
+ "How much more miles per gallon was my car getting a few months ago compared to now?": [
+  "What was the significant difference in my car's fuel efficiency over the past few months?",
+  "How much better was my car's mileage a few months ago compared to its current performance?",
+  "In what substantial ways has my car's fuel economy declined since a few months ago?"
+ ],
+ "How much more money did I raise than my initial goal in the charity cycling event?": [
+  "What was the total amount I exceeded my initial fundraising target by in the charity cycling event?",
+  "How much did I surpass my initial goal in terms of the amount of money raised during the charity cycling event?",
+  "How much more did I collect than my initial target amount in the charity cycling event?"
+ ],
+ "How much more was the pre-approval amount than the final sale price of the house?": [
+  "What was the difference between the pre-approval amount and the final sale price of the house?",
+  "How much did the pre-approval amount exceed the final sale price of the house?",
+  "What was the disparity between the pre-approval amount and the final sale price of the house?"
+ ],
+ "How much older am I than the average age of employees in my department?": [
+  "What is the age difference between me and the average age of my colleagues in the department?",
+  "How many years do I have on the average age of the people I work with in my department?",
+  "What is the age disparity between my own age and the average age of the employees in my department?"
+ ],
+ "How much screen time have I been averaging on Instagram per day?": [
+  "What is my daily average of screen time spent on Instagram?",
+  "How many minutes per day do I typically spend scrolling through Instagram?",
+  "I've been wondering how many hours I've been spending on Instagram each day."
+ ],
+ "How much time do I dedicate to coding exercises each day?": [
+  "What daily routine do I need to establish to effectively practice coding?",
+  "How much time each day should I commit to coding exercises to see improvement?",
+  "What daily coding practice schedule should I set for myself to stay on track?"
+ ],
+ "How much time do I dedicate to practicing guitar every day?": [
+  "How often do I commit to daily guitar practice sessions?",
+  "What is the typical daily allocation of time I dedicate to honing my guitar skills?",
+  "How much of my daily routine is devoted to guitar practice and improvement?"
+ ],
+ "How much total money did I spend on attending workshops in the last four months?": [
+  "What was the overall financial expenditure on attending workshops over the past four months?",
+  "I spent a total of how much money on workshops during the last four months.",
+  "How much did I spend in total on attending workshops within the last four months?"
+ ],
+ "How much total money have I spent on bike-related expenses since the start of the year?": [
+  "What is the cumulative total of all expenditures I've incurred on bicycles and bicycle-related items since the beginning of the year?",
+  "How much have I spent in total on bike-related costs and expenditures since the start of the year?",
+  "What is the overall amount I've spent on bicycle expenses and accessories since the beginning of the year?"
+ ],
+ "How much weight have I lost since I started going to the gym consistently?": [
+  "What is the total amount of weight I have shed since I began a regular gym routine.",
+  "How much body fat have I managed to reduce since I started making a concerted effort to exercise regularly.",
+  "What weight have I lost overall since I started going to the gym on a regular basis."
+ ],
+ "How much will I save by taking the train from the airport to my hotel instead of a taxi?": [
+  "What is the financial benefit I can expect by opting for the train over a taxi from the airport to my hotel?",
+  "How much money will I be able to save by choosing the train as my mode of transportation from the airport to my hotel compared to a taxi?",
+  "What savings can I anticipate by taking the train from the airport to my hotel instead of hailing a taxi?"
+ ],
+ "How often do I attend yoga classes to help with my anxiety?": [
+  "How frequently do I participate in yoga sessions to alleviate my anxiety?",
+  "I regularly attend yoga classes to manage my anxiety.",
+  "What is the typical frequency of my yoga practice in order to reduce my anxiety?"
+ ],
+ "How often do I play tennis with my friends at the local park previously? How often do I play now?": [
+  "How frequently did I engage in tennis with my friends at the local park in the past, and how often do I participate in the activity now?",
+  "I used to play tennis with my friends at the park quite often, but how often do I do it these days?",
+  "In the past, I regularly played tennis with my friends at the local park, and I still enjoy playing with them occasionally."
+ ],
+ "How often do I see my therapist, Dr. Smith?": [
+  "What is the frequency of my sessions with Dr. Smith?",
+  "How frequently do I meet with Dr. Smith?",
+  "How often does Dr. Smith see me in therapy?"
+ ],
+ "How old was I when Alex was born?": [
+  "When was I when Alex was born?",
+  "How many years had I been alive when Alex was born?",
+  "At what age was I when Alex first took his first breath?"
+ ],
+ "How old was I when I moved to the United States?": [
+  "At what age did I relocate to the United States?",
+  "When did I first arrive in the United States, and how old was I then?",
+  "How many years of age was I when I made the move to the United States?"
+ ],
+ "How old was I when my grandma gave me the silver necklace?": [
+  "When did I receive the silver necklace from my grandmother?",
+  "I was how old when my grandmother gifted me the silver necklace?",
+  "How many years old was I when my grandmother presented me with the silver necklace?"
+ ],
+ "I am planning another theme park weekend; do you have any suggestions?": [
+  "I'm organizing another theme park getaway, and I'd love to hear your ideas.",
+  "Are you familiar with any theme parks that might be worth visiting this time around?",
+  "I'm thinking of planning a theme park weekend, and I'd appreciate any recommendations you might have."
+ ],
+ "I mentioned an investment for a competition four weeks ago? What did I buy?": [
+  "I inquired about an investment for a competition four weeks ago, what was the specific asset I acquired?",
+  "I previously discussed an investment opportunity in a competition four weeks ago, what was the nature of the investment?",
+  "I brought up an investment for a competition four weeks ago, what was the particular investment I made?"
+ ],
+ "I mentioned cooking something for my friend a couple of days ago. What was it?": [
+  "I previously discussed a dish with my friend a couple of days ago, and I'm trying to recall what it was.",
+  "I had previously mentioned to my friend a couple of days ago that I was planning to cook something, but I'm not sure what it was.",
+  "I brought up the topic of cooking something for my friend a couple of days ago, and I'm now trying to remember what specific dish I was thinking of."
+ ],
+ "I mentioned participating in a sports event two weeks ago. What was the event?": [
+  "I previously discussed a sporting competition that took place two weeks ago, and I'm trying to recall its details.",
+  "I had previously mentioned a sports event that occurred two weeks ago, and I'm now trying to remember what it was.",
+  "Two weeks ago, I had mentioned participating in a sports event, and I'm trying to figure out what it was."
+ ],
+ "I mentioned that I participated in an art-related event two weeks ago. Where was that event held at?": [
+  "I previously attended an artistic gathering two weeks ago, and I'm curious about the venue where it took place.",
+  "I had the opportunity to participate in an art-related function two weeks ago, and I'm wondering about the location of the event.",
+  "I recently participated in an art-related activity two weeks ago, and I'm trying to recall the specific location where it was held."
+ ],
+ "I mentioned visiting a museum two months ago. Did I visit with a friend or not?": [
+  "I previously discussed a museum visit two months ago, but did I go with a companion or alone?",
+  "I mentioned a museum visit two months ago, and I'm wondering if I was accompanied by a friend.",
+  "Two months ago, I mentioned visiting a museum, but I'm still unsure if I went with a friend or not."
+ ],
+ "I noticed my bike seems to be performing even better during my Sunday group rides. Could there be a reason for this?": [
+  "I've observed a significant improvement in my bike's performance during our weekly group rides on Sundays.",
+  "It appears that my bike is running more efficiently during our Sunday group rides, and I'm wondering if there's a logical explanation for this.",
+  "My bike seems to be performing exceptionally well during our Sunday group rides, and I'm curious to know if there's a reason behind this noticeable improvement."
+ ],
+ "I received a piece of jewelry last Saturday from whom?": [
+  "I recently acquired a piece of jewelry from whom.",
+  "The piece of jewelry I received was a gift from whom.",
+  "Who gave me the piece of jewelry that I received last Saturday?"
+ ],
+ "I remember you provided a list of 100 prompt parameters that I can specify to influence your output. Can you remind me what was the 27th parameter on that list?": [
+  "I recall that you supplied a comprehensive list of 100 parameters that I can tailor to suit my output; could you kindly refresh my memory on the 27th item on that list?",
+  "You had previously offered a detailed list of 100 parameters that I can utilize to shape my response; would you be so kind as to remind me of the 27th parameter in that list?",
+  "I'm curious to know that you provided a list of 100 parameters that I can adjust to influence my output; could you kindly provide me with a reminder of the 27th parameter from that list?"
+ ],
+ "I remember you told me about the refining processes at CITGO's three refineries earlier. Can you remind me what kind of processes are used at the Lake Charles Refinery?": [
+  "I recall that you previously discussed the refining techniques employed at CITGO's three refineries; could you refresh my memory on the specific methods utilized at the Lake Charles facility?",
+  "You mentioned earlier that CITGO's refineries utilize various refining processes; could you elaborate on the particular techniques employed at the Lake Charles Refinery?",
+  "I'm curious to know more about the refining methods used at CITGO's Lake Charles Refinery; can you provide a detailed explanation of the processes that are in place there?"
+ ],
+ "I remember you told me to dilute tea tree oil with a carrier oil before applying it to my skin. Can you remind me what the recommended ratio is?": [
+  "I recall you advised me to mix tea tree oil with a carrier oil prior to applying it to my skin; could you please refresh my memory on the suggested dilution ratio?",
+  "You previously suggested diluting tea tree oil with a carrier oil before using it on my skin; what is the commonly recommended proportion?",
+  "I'm reminded of your advice to blend tea tree oil with a carrier oil before applying it to my skin; what is the standard dilution ratio that's typically recommended?"
+ ],
+ "I think we discussed work from home jobs for seniors earlier. Can you remind me what was the 7th job in the list you provided?": [
+  "I believe we touched on work from home jobs for seniors in a previous conversation, and I was wondering if you could refresh my memory on the seventh option you presented.",
+  "We previously discussed various work from home job opportunities for seniors, and I'm having trouble recalling the seventh one you listed.",
+  "I'm hoping you can jog my memory by reminding me of the seventh job from your earlier list of work from home jobs for seniors."
+ ],
+ "I wanted to check back on our previous conversation about Netflix. I mentioned that I wanted to be able to access all seasons of old shows? Do you remember what show I used as an example, the one that only had the last season available?": [
+  "I'd like to revisit our discussion regarding Netflix and clarify my previous request, which was to access all seasons of older series, including the one I previously mentioned that only had its final season available.",
+  "I'd like to revisit our previous conversation about Netflix and see if you recall the specific show I used as an example, the one that only had its last season available.",
+  "Can you please refresh my memory on our previous conversation about Netflix, particularly regarding my request to access all seasons of older shows, including the one I previously mentioned that only had its last season available?"
+ ],
+ "I wanted to follow up on our previous conversation about YouTube videos for workplace posture. Can you remind me of the Mayo Clinic video you recommended?": [
+  "I'd like to touch base with you regarding our previous discussion on utilizing YouTube videos to improve workplace posture, specifically the Mayo Clinic video you suggested.",
+  "I was hoping you could refresh my memory on the Mayo Clinic video you recommended for workplace posture.",
+  "Could you kindly recall the Mayo Clinic video you suggested for enhancing workplace posture that we previously discussed?"
+ ],
+ "I wanted to follow up on our previous conversation about binaural beats for anxiety and depression. Can you remind me how many subjects were in the study published in the journal Music and Medicine that found significant reductions in symptoms of depression, anxiety, and stress?": [
+  "I'd like to revisit our discussion on binaural beats for anxiety and depression, and I was wondering if you could refresh my memory on the number of participants in the study published in Music and Medicine that reported substantial decreases in symptoms of depression, anxiety, and stress.",
+  "Could you kindly recap the findings from the study in Music and Medicine that investigated the effects of binaural beats on symptoms of depression, anxiety, and stress, and provide me with the number of subjects involved in the research?",
+  "I'm interested in learning more about the study published in Music and Medicine that explored the impact of binaural beats on symptoms of depression, anxiety, and stress, and I was hoping you could enlighten me on the number of participants who experienced significant reductions in these symptoms."
+ ],
+ "I wanted to follow up on our previous conversation about fracking in the Marcellus Shale region. You mentioned that some states require fracking companies to monitor groundwater quality at nearby wells before drilling and for a certain period after drilling is complete. Can you remind me which state you mentioned as an example that has this requirement?": [
+  "I'd like to revisit our discussion on fracking in the Marcellus Shale area, specifically regarding the regulations on monitoring groundwater quality. You previously mentioned that certain states mandate fracking companies to assess nearby wells for water quality before and after drilling. Could you please specify which state you used as an example that implements this requirement?",
+  "I'd appreciate it if you could elaborate on the regulations regarding groundwater monitoring in the context of fracking in the Marcellus Shale region. You mentioned that some states require fracking companies to test nearby wells for water quality before and after drilling. Can you please identify the specific state that has implemented this requirement?",
+  "I'm interested in learning more about the regulations surrounding fracking in the Marcellus Shale region, particularly with regards to groundwater monitoring. You previously mentioned that some states require fracking"
+ ],
+ "I wanted to follow up on our previous conversation about front-end and back-end development. Can you remind me of the specific back-end programming languages you recommended I learn?": [
+  "I'd like to revisit our discussion on front-end and back-end development and see if you could refresh my memory on the particular back-end programming languages you suggested I focus on.",
+  "Could you kindly recap the back-end programming languages you recommended I study as part of my development journey?",
+  "As we previously discussed, I'm curious to know which back-end programming languages you think I should prioritize learning."
+ ],
+ "I wanted to follow up on our previous conversation about language learning apps. You mentioned a few options, and I was wondering if you could remind me of the one that uses mnemonics to help learners memorize words and phrases?": [
+  "I'd like to revisit our discussion on language learning apps and see if you could refresh my memory on the one that employs mnemonics to aid in word and phrase memorization.",
+  "I was hoping you could recap the language learning app that utilizes mnemonics to facilitate the memorization of vocabulary and phrases.",
+  "Could you kindly elaborate on the language learning app that incorporates mnemonics to help learners better retain words and phrases?"
+ ],
+ "I wanted to follow up on our previous conversation about mindfulness techniques. You mentioned some great resources for guided imagery exercises, can you remind me of the website that had free exercises like 'The Mountain Meditation' and 'The Body Scan Meditation'?": [
+  "I'd like to revisit our previous discussion on mindfulness techniques and explore some additional resources you shared, particularly those offering free guided imagery exercises.",
+  "Could you kindly provide more information about the website that featured 'The Mountain Meditation' and 'The Body Scan Meditation' as part of its free exercise offerings?",
+  "I was hoping you might be able to point me in the direction of a website that provides free guided imagery exercises, including 'The Mountain Meditation' and 'The Body Scan Meditation', which we previously discussed."
+ ],
+ "I wanted to follow up on our previous conversation about natural remedies for dark circles under the eyes. You mentioned applying tomato juice mixed with lemon juice, how long did you say I should leave it on for?": [
+  "I'd like to revisit our previous discussion regarding natural treatments for dark circles under the eyes, specifically the remedy involving tomato juice and lemon juice that you suggested.",
+  "I was wondering if you could elaborate on the duration for which I should leave the tomato juice and lemon juice mixture on my skin after applying it.",
+  "Could you please clarify how long I should allow the tomato juice and lemon juice mixture to sit on my skin before rinsing it off?"
+ ],
+ "I wanted to follow up on our previous conversation about private sector businesses in Chaudhary. Can you remind me of the company that employs over 40,000 people in the rug-manufacturing industry?": [
+  "I'd like to revisit our discussion regarding private sector companies in Chaudhary and inquire about the specific firm that has a substantial workforce of over 40,000 individuals in the rug-manufacturing sector.",
+  "Could you kindly refresh my memory on the company that operates in the rug-manufacturing industry and employs more than 40,000 people in Chaudhary?",
+  "I'm interested in learning more about the private sector businesses in Chaudhary, particularly the large company that employs over 40,000 people in the rug-manufacturing industry."
+ ],
+ "I wanted to follow up on our previous conversation about the fusion breakthrough at Lawrence Livermore National Laboratory. Can you remind me who is the President's Chief Advisor for Science and Technology mentioned in the article?": [
+  "I'd like to revisit our discussion regarding the recent fusion advancements at Lawrence Livermore National Laboratory and inquire about the identity of the President's Science and Technology Advisor alluded to in the article.",
+  "I was hoping to reiterate our previous conversation about the significant fusion breakthrough at Lawrence Livermore National Laboratory and seek clarification on the name of the President's Chief Advisor for Science and Technology mentioned in the article.",
+  "Could you kindly refresh my memory on the President's Science and Technology Advisor for Science, as they were mentioned in the article about the recent fusion breakthrough at Lawrence Livermore National Laboratory?"
+ ],
+ "I was going through our previous chat and I wanted to clarify something about the prayer of beginners in Tanqueray's Spiritual Life treatise. Can you remind me which chapter of the second part discusses vocal prayer and meditation?": [
+  "I reviewed our previous conversation and I'd like to revisit the topic of Tanqueray's Spiritual Life treatise to clarify a point about the prayer of beginners; specifically, could you point me in the direction of the chapter within the second part that focuses on vocal prayer and meditation?",
+  "I went back over our previous discussion and I'm still unclear about the specifics of Tanqueray's Spiritual Life treatise, particularly regarding the prayer of beginners; could you kindly remind me which chapter in the second part addresses vocal prayer and meditation?",
+  "During my review of our previous conversation, I noticed that I'm still a bit fuzzy on the details of Tanqueray's Spiritual Life treatise, especially concerning the prayer of beginners; could you kindly refresh my memory by telling me which chapter in the second part deals with vocal"
+ ],
+ "I was going through our previous chat and I was wondering, what was Andy wearing in the script you wrote for the comedy movie scene?": [
+  "I reviewed our previous conversation and was curious to know what outfit Andy was sporting in the script you penned for the comedy film's pivotal scene.",
+  "I went back over our previous discussion and was wondering what Andy was wearing in the script you wrote for the comedy movie's key scene.",
+  "During my review of our previous conversation, I couldn't help but think about what Andy was wearing in the script you wrote for the comedy film's most memorable scene."
+ ],
+ "I was going through our previous chat. Can you remind me of the name of the last venue you recommended in the list of popular venues in Portland for indie music shows?": [
+  "I reviewed our previous conversation and could you kindly recall the name of the last venue you suggested in your list of top spots for indie music events in Portland?",
+  "I went over our previous discussion and would appreciate it if you could refresh my memory on the name of the venue you last recommended from your list of popular indie music venues in Portland.",
+  "During our previous conversation, I was wondering if you could remind me of the name of the venue you suggested from your list of top picks for indie music shows in Portland?"
+ ],
+ "I was going through our previous conversation about The Library of Babel, and I wanted to confirm - what did Borges say about the center and circumference of the Library?": [
+  "I revisited our previous discussion on The Library of Babel and sought clarification on Borges' views regarding the library's central and peripheral sections.",
+  "During our previous conversation about The Library of Babel, I wanted to verify Borges' statements on the relationship between the library's center and circumference.",
+  "In our previous conversation about Borges' concept of The Library of Babel, I sought to confirm his thoughts on the central and peripheral aspects of the library."
+ ],
+ "I was going through our previous conversation about atmospheric correction methods, and I wanted to confirm - you mentioned that 6S, MAJA, and Sen2Cor are all algorithms for atmospheric correction of remote sensing images. Can you remind me which one is implemented in the SIAC_GEE tool?": [
+  "I reviewed our previous discussion on atmospheric correction techniques and wanted to verify that you mentioned 6S, MAJA, and Sen2Cor as algorithms for atmospheric correction of remote sensing images; can you confirm which one is integrated into the SIAC_GEE tool?",
+  "During our previous conversation about atmospheric correction methods, I wanted to confirm that you mentioned 6S, MAJA, and Sen2Cor as algorithms for atmospheric correction of remote sensing images; can you remind me which one is implemented in the SIAC_GEE tool?",
+  "I was going over our previous conversation about atmospheric correction methods and wanted to confirm that you mentioned 6S, MAJA, and Sen2Cor as algorithms for atmospheric correction of remote sensing images; can you clarify which one is utilized in the SIAC_GEE tool?"
+ ],
+ "I was going through our previous conversation about high-end fashion brands, and I was wondering if you could remind me of the brand that uses wild rubber sourced from the Amazon rainforest?": [
+  "I revisited our discussion on luxury fashion and was hoping you could refresh my memory on the high-end brand utilizing Amazonian wild rubber.",
+  "During our previous conversation about premium fashion, I was wondering if you could recall the brand that sources its wild rubber from the Amazon rainforest.",
+  "I went back over our conversation about high-end fashion brands and was curious if you could enlighten me on the brand that utilizes Amazonian wild rubber."
+ ],
+ "I was going through our previous conversation about making a classic French omelette, and I wanted to confirm - how many eggs did you say we need for the recipe?": [
+  "I revisited our previous discussion on crafting a traditional French omelette and I'm seeking clarification - what number of eggs did you specify in the recipe?",
+  "I'm reviewing our previous conversation about preparing a classic French omelette and I'd like to confirm - how many eggs were you recommending for the recipe?",
+  "During our previous conversation about making a classic French omelette, I wanted to verify - what quantity of eggs did you mention as required for the recipe?"
+ ],
+ "I was going through our previous conversation about political propaganda and humor, and I was wondering if you could remind me of that Soviet cartoon you mentioned that mocked Western culture?": [
+  "I revisited our discussion on the intersection of politics and comedy and was hoping you could refresh my memory on the Soviet cartoon that cleverly poked fun at Western culture.",
+  "During our previous conversation about the role of satire in politics, I recall you mentioning a Soviet cartoon that humorously critiqued Western culture.",
+  "I was going over our previous exchange on the use of humor in politics and was wondering if you could enlighten me about the Soviet cartoon that playfully mocked Western culture."
+ ],
+ "I was going through our previous conversation about the impact of the political climate in Catalonia on its literature and music. Can you remind me of the example you gave of a Spanish-Catalan singer-songwriter who supports unity between Catalonia and Spain?": [
+  "I'd like to revisit our previous discussion regarding the influence of Catalonia's political climate on its literary and musical landscape, and I was wondering if you could refresh my memory on the example of a Spanish-Catalan singer-songwriter who advocates for unity between Catalonia and Spain.",
+  "During our last conversation, I recall you mentioning a prominent Spanish-Catalan singer-songwriter who has expressed support for unity between Catalonia and Spain, and I was hoping you could provide more details about this individual.",
+  "Can you kindly recall the example of a Spanish-Catalan singer-songwriter who has spoken out in favor of unity between Catalonia and Spain, as we discussed in our previous conversation about the impact of the political climate on the region's literature and music?"
+ ],
+ "I was going through our previous conversation and I was wondering if you could remind me of the two companies you mentioned that prioritize employee safety and well-being like Triumvirate?": [
+  "I reviewed our previous discussion and was hoping you could refresh my memory on the two companies you mentioned that prioritize employee safety and well-being, similar to Triumvirate.",
+  "During our last conversation, I was trying to recall the two companies you highlighted that focus on employee safety and well-being, much like Triumvirate.",
+  "I went back over our previous conversation and was wondering if you could remind me of the two companies you mentioned that prioritize employee safety and well-being, which are comparable to Triumvirate."
+ ],
+ "I was looking back at our previous chat and I wanted to confirm, how many times did the Chiefs play the Jaguars at Arrowhead Stadium?": [
+  "I reviewed our previous conversation and I'd like to verify, how many times did the Chiefs face off against the Jaguars at Arrowhead Stadium?",
+  "I went back over our previous discussion and I'm trying to recall, how many times did the Chiefs play the Jaguars at Arrowhead Stadium?",
+  "I revisited our previous conversation and I'm seeking clarification, how many times did the Chiefs host the Jaguars at Arrowhead Stadium?"
+ ],
+ "I was looking back at our previous conversation about Caribbean dishes and I was wondering, what was the name of that Jamaican dish you recommended I try with snapper that has fruit in it?": [
+  "I revisited our discussion on Caribbean cuisine and was curious about the name of the Jamaican dish featuring snapper with fruit that you suggested I attempt.",
+  "During our previous conversation about Caribbean dishes, I recall you recommending a Jamaican recipe that combined snapper with fruit, and I'm still trying to remember the name of it.",
+  "I went back over our conversation about Caribbean cuisine and was wondering if you could remind me of the name of the Jamaican dish with snapper and fruit that you suggested I try."
+ ],
+ "I was looking back at our previous conversation about Native American powwows and I was wondering, which traditional game did you say was often performed by skilled dancers at powwows?": [
+  "I revisited our discussion on Native American powwows and was curious to know which traditional game you mentioned was typically performed by skilled dancers at these events.",
+  "During our previous conversation about Native American powwows, I recall wondering which traditional game you said was often performed by skilled dancers at these gatherings.",
+  "I was reviewing our conversation about Native American powwows and I couldn't help but think of the traditional game you mentioned that skilled dancers often performed at these events."
+ ],
+ "I was looking back at our previous conversation about buying unique engagement rings directly from designers. Can you remind me of the Instagram handle of the UK-based designer who works with unusual gemstones?": [
+  "I'd like to revisit our previous discussion about bespoke engagement rings from independent designers and see if you can recall the Instagram handle of the UK-based designer known for incorporating unconventional gemstones into their work.",
+  "Can you refresh my memory on the Instagram handle of the UK-based designer who specializes in creating one-of-a-kind engagement rings featuring unusual gemstones?",
+  "I'm trying to recall a conversation we had about purchasing unique engagement rings directly from designers, and I was wondering if you could remind me of the Instagram handle of the UK-based designer who is particularly known for their use of unconventional gemstones in their designs."
+ ],
+ "I was looking back at our previous conversation about environmentally responsible supply chain practices, and I was wondering if you could remind me of the company you mentioned that's doing a great job with sustainability?": [
+  "I revisited our discussion on environmentally conscious supply chain management and was hoping you could refresh my memory on the company you mentioned that's excelling in sustainability.",
+  "During our last conversation about eco-friendly supply chain practices, I was wondering if you could recall the company you mentioned that's making significant strides in sustainability.",
+  "I was reviewing our previous conversation about sustainable supply chain management and was hoping you could remind me of the company you mentioned that's doing a great job with environmental responsibility."
+ ],
+ "I was thinking about our previous conversation about data privacy and security. You mentioned that companies use two-factor authentication to enhance security. Can you remind me what kind of two-factor authentication methods you were referring to?": [
+  "I'd like to revisit our discussion on data privacy and security from our last conversation, as you mentioned that companies often employ two-factor authentication to boost security measures. Can you refresh my memory on the specific two-factor authentication methods you were referring to?",
+  "During our previous conversation about data security, you brought up the topic of two-factor authentication, which I believe is used by companies to strengthen their security protocols. Could you please elaborate on the particular two-factor authentication methods you were discussing?",
+  "I recall our conversation about data privacy and security, where you mentioned that two-factor authentication is a common practice among companies to enhance their security. Specifically, what types of two-factor authentication methods were you referring to in our previous discussion?"
+ ],
+ "I was thinking about our previous conversation about the Fifth Album, and I was wondering if you could remind me what song you said best exemplified the band's growth and development as artists?": [
+  "I'd like to revisit our discussion on the Fifth Album and see if you could refresh my memory on which song you felt showcased the band's evolution as musicians.",
+  "During our previous conversation about the Fifth Album, I was hoping you could recall which song you thought exemplified the band's artistic progression.",
+  "Can you kindly jog my memory regarding the song from the Fifth Album that you believe best represents the band's growth and artistic maturation?"
+ ],
+ "I was thinking about rearranging the furniture in my bedroom this weekend. Any tips?": [
+  "I'm considering a bedroom makeover this weekend and I'd love some advice.",
+  "I'm planning to give my bedroom a refresh this weekend and I'm looking for some expert tips.",
+  "This weekend, I'm thinking of giving my bedroom a complete overhaul and I'd appreciate any guidance I can get."
+ ],
+ "I was thinking back to our previous conversation about the Radiation Amplified zombie, and I was wondering if you remembered what we finally decided to name it?": [
+  "I was reminiscing about our previous discussion regarding the Radiation Amplified zombie, and I was inquiring if you recalled the name we ultimately settled upon.",
+  "I had been reflecting on our earlier conversation about the Radiation Amplified zombie, and I was curious if you remembered the moniker we decided to use.",
+  "During my review of our previous conversation about the Radiation Amplified zombie, I was wondering if you had any recollection of the name we ultimately chose."
+ ],
+ "I was thinking of trying a new coffee creamer recipe. Any recommendations?": [
+  "I'm considering experimenting with a novel coffee creamer recipe, do you have any suggestions?",
+  "I'm looking to try a fresh coffee creamer recipe, have you come across any good ones?",
+  "Are you familiar with any innovative coffee creamer recipes I could try?"
+ ],
+ "I'm checking our previous chat about the shift rotation sheet for GM social media agents. Can you remind me what was the rotation for Admon on a Sunday?": [
+  "I'd like to review our previous discussion regarding the shift rotation schedule for GM social media agents, specifically the Sunday rotation for Admon.",
+  "Could you kindly refresh my memory on the rotation schedule for Admon on Sundays from our previous conversation?",
+  "I'm looking for a recap of the shift rotation for Admon on Sundays, as discussed in our previous chat about the GM social media agents' schedule."
+ ],
+ "I'm getting excited about my visit to the music store this weekend. Any tips on what to look for in a new guitar?": [
+  "I'm looking forward to my trip to the music shop this weekend and I'm eager to learn about the best features to consider when buying a new guitar.",
+  "As I prepare for my visit to the music store this weekend, I'm curious to know what to prioritize when selecting a new guitar.",
+  "Before my trip to the music store this weekend, I'd love to get some advice on what to look for when shopping for a new guitar."
+ ],
+ "I'm going back to our previous chat about the Lost Temple of the Djinn one-shot. Can you remind me how many mummies the party will face in the temple?": [
+  "I'd like to revisit our previous discussion regarding the Lost Temple of the Djinn one-shot, and I was wondering if you could refresh my memory on the number of mummies the party will encounter within the temple.",
+  "Can you kindly recap the number of mummies the party will be facing in the Lost Temple of the Djinn one-shot, as I'm eager to recall the details from our previous conversation?",
+  "I'm revisiting the Lost Temple of the Djinn one-shot and I'm curious to know how many mummies the party will be up against in the temple, could you please remind me of the number?"
+ ],
+ "I'm going back to our previous conversation about DIY home decor projects using recycled materials. Can you remind me what sealant you recommended for the newspaper flower vase?": [
+  "I'd like to revisit our previous discussion on crafting unique home decor items from repurposed materials, specifically regarding the newspaper flower vase project, and could you kindly refresh my memory on the type of sealant you suggested?",
+  "I'm revisiting our earlier conversation about upcycling DIY home decor projects using recycled materials, and I was wondering if you could recall the specific sealant you recommended for the newspaper flower vase?",
+  "Can you kindly recap the sealant you suggested for the newspaper flower vase, which we discussed in our previous conversation about creating decorative items from repurposed materials?"
+ ],
+ "I'm going back to our previous conversation about music theory. You mentioned some online resources for learning music theory. Can you remind me of the website you recommended for free lessons and exercises?": [
+  "I'd like to revisit our previous discussion on music theory and recall the online resource you suggested for free music theory lessons and exercises.",
+  "Can you refresh my memory on the website you recommended for free music theory instruction and practice exercises?",
+  "I'm looking to revisit our previous conversation on music theory and was wondering if you could point me in the direction of the website you mentioned for free music theory lessons and exercises."
+ ],
+ "I'm going back to our previous conversation about the children's book on dinosaurs. Can you remind me what color was the scaly body of the Plesiosaur in the image?": [
+  "I'd like to revisit our previous discussion regarding the children's book on dinosaurs and inquire about the color of the Plesiosaur's scaly body in the accompanying image.",
+  "Can you refresh my memory on the color of the Plesiosaur's scaly body as depicted in the image from our previous conversation about the children's book on dinosaurs?",
+  "I'm revisiting our previous conversation about the children's book on dinosaurs and was wondering if you could recall the specific color of the Plesiosaur's scaly body in the image that was shown."
+ ],
+ "I'm going back to our previous conversation about the grant aim page on molecular subtypes and endometrial cancer. Can you remind me what were the three objectives we outlined for the project?": [
+  "I'd like to revisit our previous discussion regarding the grant aim page on molecular subtypes and endometrial cancer, specifically the objectives we established for the project.",
+  "Can you kindly recap the three key objectives we previously discussed for the molecular subtypes and endometrial cancer grant project?",
+  "I'd appreciate it if you could refresh my memory on the three main goals we outlined for the project related to molecular subtypes and endometrial cancer."
+ ],
+ "I'm going back to our previous conversation about traditional Indian embroidery and tailoring techniques. Can you remind me of the name of that online store based in India that sells traditional Indian fabrics, threads, and embellishments?": [
+  "I'd like to revisit our previous discussion on traditional Indian embroidery and tailoring methods and see if you can recall the name of the Indian-based online retailer that specializes in authentic Indian textiles, yarns, and decorative elements.",
+  "Can you refresh my memory on the name of the Indian online store that we previously talked about, which offers a wide range of traditional Indian fabrics, threads, and embellishments?",
+  "I'm trying to recall the name of the Indian e-commerce platform that we discussed earlier, which is known for its extensive collection of traditional Indian fabrics, yarns, and decorative elements."
+ ],
+ "I'm looking back at our previous chat about the DHL Wellness Retreats campaign. Can you remind me how much was allocated for influencer marketing in the campaign plan?": [
+  "I'd like to revisit our previous discussion regarding the DHL Wellness Retreats campaign and see if you can refresh my memory on the influencer marketing budget allocated.",
+  "Can you kindly recall the specific amount allocated for influencer marketing in the campaign's overall strategy?",
+  "I'm trying to recall the details of our previous conversation about the DHL Wellness Retreats campaign, particularly in relation to the influencer marketing budget."
+ ],
+ "I'm looking back at our previous chess game and I was wondering, what was the move you made after 27. Kg2 Bd5+?": [
+  "I'm reviewing our past chess match and I'm curious, what was the response you gave after my 27. Kg2 Bd5+ move?",
+  "I've been studying our previous chess encounter and I'm trying to recall, what was the next step you took following my 27. Kg2 Bd5+?",
+  "Looking back at our previous chess game, I'm trying to figure out, what was the move you made in response to my 27. Kg2 Bd5+?"
+ ],
+ "I'm looking back at our previous conversation about building a cocktail bar. You recommended five bottles to make the widest variety of gin-based cocktails. Can you remind me what the fifth bottle was?": [
+  "I'm revisiting our previous discussion about constructing a cocktail bar and recalling your suggestion to stock five bottles of gin to create the broadest range of cocktails; could you refresh my memory on the fifth bottle you recommended?",
+  "During our last conversation about establishing a cocktail bar, you advised selecting five bottles of gin to craft the most diverse assortment of cocktails; which one was the fifth option you suggested?",
+  "In our previous conversation about building a cocktail bar, you recommended five bottles of gin to provide the greatest variety of cocktails; I'm wondering if you could remind me of the fifth bottle you suggested."
+ ],
+ "I'm looking back at our previous conversation about the Bajimaya v Reward Homes Pty Ltd case. Can you remind me what year the construction of the house began?": [
+  "I'm revisiting our previous discussion regarding the Bajimaya v Reward Homes Pty Ltd case and I was wondering when the construction of the house started.",
+  "I'd like to review our previous conversation about the Bajimaya v Reward Homes Pty Ltd case and recall the year the house construction commenced.",
+  "Can you refresh my memory on the Bajimaya v Reward Homes Pty Ltd case, specifically the year the construction of the house began?"
+ ],
+ "I'm looking back at our previous conversation about the Seco de Cordero recipe from Ancash. You mentioned using a light or medium-bodied beer, but I was wondering if you could remind me what type of beer you specifically recommended?": [
+  "I'm revisiting our previous discussion about the Seco de Cordero recipe from Ancash and I was hoping you could refresh my memory on the type of beer you suggested.",
+  "I'm going over our previous conversation about the Seco de Cordero recipe from Ancash and I'd love to know which specific beer you recommended.",
+  "During our previous conversation about the Seco de Cordero recipe from Ancash, you mentioned using a particular beer style, and I was wondering if you could clarify which one you specifically recommended."
+ ],
+ "I'm looking back at our previous conversation where you created two sad songs for me. Can you remind me what was the chord progression for the chorus in the second song?": [
+  "I'm revisiting our previous discussion where you composed two melancholic tunes for me, and I was wondering if you could recall the chord progression for the chorus in the second song.",
+  "I'm going over our previous conversation where you created two sorrowful songs for me, and I'd appreciate it if you could refresh my memory on the chord progression for the chorus in the second song.",
+  "In our previous conversation, you created two heart-wrenching songs for me, and I was hoping you could jog my memory on the chord progression for the chorus in the second song."
+ ],
+ "I'm planning a trip to Denver soon. Any suggestions on what to do there?": [
+  "I'm heading to Denver in the near future and I'm looking for some recommendations on activities to enjoy.",
+  "As I prepare for my upcoming trip to Denver, I'd love to hear some suggestions on what to see and do.",
+  "When I visit Denver soon, I'm hoping to get some insider tips on the best places to visit and things to do."
+ ],
+ "I'm planning another trip to New York City and I was wondering if you could remind me of that vegan eatery you recommended last time, the one with multiple locations throughout the city?": [
+  "I'm organizing another trip to New York City and I was hoping you could refresh my memory about the vegan restaurant you suggested previously, the one with numerous branches across the city.",
+  "I'm getting ready to visit New York City again and I was wondering if you could jog my memory about the vegan eatery you recommended last time, the one with multiple locations throughout the city.",
+  "I'm planning a trip to New York City and I was inquiring if you could recall the vegan restaurant you suggested during our previous conversation, the one with several locations throughout the city."
+ ],
+ "I'm planning my meal prep next week, any suggestions for new recipes?": [
+  "I'm organizing my meal planning for the upcoming week, do you have any innovative recipe ideas to share?",
+  "I'm preparing my weekly meal schedule, are there any fresh and exciting recipes you'd recommend?",
+  "Looking to mix things up with my meal prep, can you suggest some new and interesting recipes for me to try?"
+ ],
+ "I'm planning my trip to Amsterdam again and I was wondering, what was the name of that hostel near the Red Light District that you recommended last time?": [
+  "I'm revisiting Amsterdam for the second time and I was hoping you could recall the name of the hostel you suggested near the Red Light District during our previous conversation.",
+  "I'm getting ready to travel to Amsterdam once more and I was wondering if you could remind me of the name of the hostel you recommended that's conveniently located near the Red Light District.",
+  "During my upcoming trip to Amsterdam, I was hoping you could provide me with the name of the hostel that you suggested last time, which is situated close to the Red Light District."
+ ],
+ "I'm planning my trip to Speyer again and I wanted to confirm, what's the phone number of the Speyer tourism board that you provided me earlier?": [
+  "I'm revisiting Speyer and I'd like to verify the phone number of the Speyer tourism board you previously shared with me.",
+  "I'm preparing for my upcoming trip to Speyer and I'm seeking confirmation on the phone number of the Speyer tourism board that you initially mentioned.",
+  "Can you please confirm the phone number of the Speyer tourism board that you initially provided me with for my upcoming trip to Speyer?"
+ ],
+ "I'm planning to go back to the Natural Park of Moncayo mountain in Arag\u00f3n and I was wondering, what was the name of that hiking trail you recommended that takes you through the park's most stunning landscapes and offers panoramic views of the surrounding mountainside?": [
+  "I'm looking to revisit the Natural Park of Moncayo mountain in Arag\u00f3n and I was hoping you could recall the name of the hiking trail you suggested that passes through the park's most breathtaking scenery and provides expansive vistas of the surrounding mountains.",
+  "I'm planning a return trip to the Natural Park of Moncayo mountain in Arag\u00f3n and I was wondering if you could remind me of the name of the hiking trail you advised that takes you through the park's most spectacular landscapes and offers breathtaking views of the surrounding mountainside.",
+  "I'm planning to hike in the Natural Park of Moncayo mountain in Arag\u00f3n and I was inquiring about the name of the trail you recommended that traverses the park's most awe-inspiring scenery and provides panoramic views of the surrounding mountains."
+ ],
+ "I'm planning to revisit Orlando. I was wondering if you could remind me of that unique dessert shop with the giant milkshakes we talked about last time?": [
+  "I'm heading back to Orlando and I was hoping you could refresh my memory about that one-of-a-kind dessert shop with enormous milkshakes we discussed previously.",
+  "I'm planning a return trip to Orlando and I was wondering if you could jog my memory about that distinctive dessert shop featuring gigantic milkshakes that we chatted about last time.",
+  "I'm getting ready to visit Orlando again and I was inquiring if you could recall the name of that exceptional dessert shop with enormous milkshakes that we talked about during our previous conversation."
+ ],
+ "I'm planning to visit Bandung again and I was wondering if you could remind me of the name of that restaurant in Cihampelas Walk that serves a great Nasi Goreng?": [
+  "I'm looking forward to returning to Bandung and I was hoping you could refresh my memory on the name of the restaurant in Cihampelas Walk that serves exceptional Nasi Goreng.",
+  "I'm planning a trip to Bandung and I was wondering if you could jog my memory about the name of the restaurant in Cihampelas Walk that serves fantastic Nasi Goreng.",
+  "Could you kindly remind me of the name of the restaurant in Cihampelas Walk that serves outstanding Nasi Goreng, which I'm planning to visit again in Bandung?"
+ ],
+ "I'm planning to visit the Vatican again and I was wondering if you could remind me of the name of that famous deli near the Vatican that serves the best cured meats and cheeses?": [
+  "I'm revisiting the Vatican and I was hoping you could refresh my memory on the name of the renowned deli adjacent to the Vatican that's famous for its exceptional cured meats and artisanal cheeses.",
+  "I'm planning a trip to the Vatican and I was wondering if you could jog my memory about the name of the iconic deli situated near the Vatican that's renowned for its outstanding cured meats and exquisite cheeses.",
+  "Could you kindly remind me of the name of the celebrated deli located near the Vatican that's particularly famous for its delectable cured meats and world-class cheeses?"
+ ],
+ "I'm thinking of inviting my colleagues over for a small gathering. Any tips on what to bake?": [
+  "I'm considering hosting a get-together for my coworkers and would appreciate some suggestions on what sweet treats to prepare.",
+  "I'm planning a casual gathering for my colleagues and was wondering if anyone has any ideas for delicious baked goods to serve.",
+  "Looking to impress my colleagues with a homemade dessert, I'd love some advice on what tasty baked items would be perfect for a small gathering."
+ ],
+ "I'm trying to decide whether to buy a NAS device now or wait. What do you think?": [
+  "Should I invest in a NAS device immediately or hold off for now?",
+  "I'm torn between purchasing a NAS device now and waiting, what are your thoughts?",
+  "What's your advice on whether to buy a NAS device right away or put it off for a while?"
+ ],
+ "I'm trying to recall what the designation on my jumpsuit was that helped me find the file number in the records room?": [
+  "I'm having trouble remembering the insignia on my uniform that allowed me to locate the file number in the records room.",
+  "The marking on my jumpsuit that enabled me to access the file number in the records room is still eluding me.",
+  "I'm struggling to recall the emblem on my jumpsuit that facilitated my search for the file number in the records room."
+ ],
+ "I've been feeling a bit stuck with my paintings lately. Do you have any ideas on how I can find new inspiration?": [
+  "I'm experiencing a creative block with my artwork and I'm looking for fresh perspectives, do you have any suggestions on how to reignite my inspiration?",
+  "I've been struggling to come up with new ideas for my paintings and I was wondering if you could offer any advice on how to break through this creative plateau.",
+  "Lately, I've been feeling uninspired by my art and I'm seeking your input on how to discover new sources of inspiration and get my creative juices flowing again."
+ ],
+ "I've been feeling like my chocolate chip cookies need something extra. Any advice?": [
+  "I'm craving a little something extra in my chocolate chip cookies, do you have any suggestions?",
+  "My chocolate chip cookies seem to be missing a certain je ne sais quoi, can you offer any advice?",
+  "I've been thinking that my chocolate chip cookies could benefit from a bit of an upgrade, any ideas?"
+ ],
+ "I've been feeling nostalgic lately. Do you think it would be a good idea to attend my high school reunion?": [
+  "I've been experiencing a strong sense of wistfulness lately, and I was wondering if you think it would be a worthwhile decision to attend my high school reunion.",
+  "Lately, I've been overcome with a sentimental longing, and I'm considering whether it would be a good idea to attend my high school reunion.",
+  "As I've been reflecting on my past, I've been struck by a deep-seated nostalgia, and I'm wondering if attending my high school reunion would be a positive experience."
+ ],
+ "I've been having trouble with the battery life on my phone lately. Any tips?": [
+  "I've been experiencing some issues with my phone's battery longevity, and I was wondering if anyone had any advice.",
+  "I've noticed a decline in my phone's battery life, and I'm hoping to find a solution to this problem.",
+  "Lately, I've been struggling with the battery performance on my phone, and I'd love to hear any suggestions you might have."
+ ],
+ "I've been sneezing quite a bit lately. Do you think it might be my living room?": [
+  "I've been experiencing a persistent bout of sneezing, and I'm wondering if my living room could be the culprit.",
+  "Sneezing has become a regular occurrence for me, and I'm curious if my living room might be the source of the problem.",
+  "Lately, I've been sneezing quite frequently, and I'm considering the possibility that my living room is the cause."
+ ],
+ "I've been struggling with my slow cooker recipes. Any advice on getting better results?": [
+  "I'm having trouble with my slow cooker recipes and could use some guidance to improve the outcomes.",
+  "I'm experiencing difficulties with my slow cooker recipes and would appreciate any tips on achieving better results.",
+  "I've been having some issues with my slow cooker recipes and would love to hear some advice on how to get the best results possible."
+ ],
+ "I've been thinking about making a cocktail for an upcoming get-together, but I'm not sure which one to choose. Any suggestions?": [
+  "I'm considering creating a signature drink for an upcoming social gathering, but I'm having trouble deciding on a recipe.",
+  "I'm in the process of brainstorming cocktail ideas for an upcoming party, and I'd love to hear some recommendations.",
+  "With a get-together on the horizon, I'm weighing my options for a unique and delicious cocktail to serve."
+ ],
+ "I've been thinking about ways to stay connected with my colleagues. Any suggestions?": [
+  "I've been pondering strategies to maintain a strong bond with my team members, do you have any ideas?",
+  "I'm looking for ways to foster a sense of camaraderie with my colleagues, can you offer any advice?",
+  "How can I build stronger relationships with my coworkers, and what suggestions do you have for me?"
+ ],
+ "I've got some free time tonight, any documentary recommendations?": [
+  "I've got some spare hours tonight, do you have any documentary suggestions?",
+  "I'm looking for something to watch tonight, can you recommend a documentary?",
+  "With a free evening ahead, I'd love to hear some documentary recommendations."
+ ],
+ "In our previous chat, you suggested 'sexual compulsions' and a few other options for alternative terms for certain behaviors. Can you remind me what the other four options were?": [
+  "During our last conversation, you proposed 'sexual compulsions' and a handful of alternative phrases for specific behaviors; could you refresh my memory on the remaining four options?",
+  "You initially mentioned 'sexual compulsions' and a few other alternatives for certain behaviors; what were the other four terms you suggested?",
+  "In our previous discussion, you mentioned 'sexual compulsions' alongside a few other alternatives for specific behaviors; what were the additional four options you presented?"
+ ],
+ "Is my mom using the same grocery list method as me?": [
+  "Is my mother employing the same grocery list technique that I am utilizing?",
+  "Are we both utilizing the same grocery list strategy?",
+  "Does my mom use the same approach to creating a grocery list that I do?"
+ ],
+ "I\u2019m a bit anxious about getting around Tokyo. Do you have any helpful tips?": [
+  "I'm feeling a bit apprehensive about navigating Tokyo's streets, do you have any advice to share?",
+  "As a newcomer to Tokyo, I'm experiencing some nervousness about getting around, do you have any useful suggestions?",
+  "I'm a bit on edge about traveling in Tokyo, are there any helpful tips or recommendations you could offer?"
+ ],
+ "My kitchen's becoming a bit of a mess again. Any tips for keeping it clean?": [
+  "My kitchen is slowly descending into chaos, and I'm in desperate need of some advice on maintaining a tidy space.",
+  "I'm finding myself struggling to keep my kitchen from spiraling out of control, and I'm hoping someone can offer some guidance on how to stay on top of the mess.",
+  "As my kitchen continues to accumulate clutter and disorganization, I'm searching for practical solutions to help me keep it clean and clutter-free."
+ ],
+ "What are the two hobbies that led me to join online communities?": [
+  "What activities initially drew me to participate in online forums.",
+  "The two interests that sparked my interest in joining online groups.",
+  "I discovered two pastimes that ultimately led me to connect with others through online communities."
+ ],
+ "What book am I currently reading?": [
+  "What literary work is I am currently perusing?",
+  "I am currently immersed in which novel.",
+  "What book is I presently engaged with?"
+ ],
+ "What brand are my favorite running shoes?": [
+  "What model of running shoes do I have a strong affinity for?",
+  "I'm particularly fond of a certain brand of running shoes.",
+  "My go-to running shoes are from a well-known manufacturer."
+ ],
+ "What brand of BBQ sauce am I currently obsessed with?": [
+  "What is the specific brand of BBQ sauce that has taken over my affections?",
+  "I am utterly enamored with the particular brand of BBQ sauce that I am currently using.",
+  "The brand of BBQ sauce that I am hopelessly devoted to is the one I am using at the moment."
+ ],
+ "What brand of shampoo do I currently use?": [
+  "What is the name of the shampoo I am currently utilizing?",
+  "I am currently using a shampoo from which brand.",
+  "What shampoo brand am I currently employing in my routine?"
+ ],
+ "What breed is my dog?": [
+  "What type of canine is my pet?",
+  "What is the specific strain or lineage of my dog?",
+  "What breed classification does my dog fall under?"
+ ],
+ "What certification did I complete last month?": [
+  "I recently obtained the certification that I had been working towards.",
+  "I completed a certification program last month, which I had been diligently preparing for.",
+  "I successfully completed a certification course in the past month, as part of my ongoing professional development."
+ ],
+ "What charity event did I participate in a month ago?": [
+  "I recently attended a fundraising gala that I had been involved with.",
+  "I participated in a charity function last month that I had been a part of.",
+  "I was involved in a charity event about a month ago that I had helped organize."
+ ],
+ "What color did I repaint my bedroom walls?": [
+  "What shade of paint did I apply to my bedroom walls?",
+  "I recently painted my bedroom walls a specific color.",
+  "The color I chose for my bedroom walls is the one I repainted them with."
+ ],
+ "What company is Rachel, an old colleague from my previous company, currently working at?": [
+  "Where is Rachel, a former colleague from my previous workplace, currently employed?",
+  "I'm trying to find out which company Rachel, a colleague I used to work with, is currently working for.",
+  "Can you tell me which company Rachel, an old colleague from my previous job, is currently working at?"
+ ],
+ "What day of the week did I meet with my previous language exchange tutor Juan?": [
+  "When did I schedule a meeting with my former language exchange instructor Juan?",
+  "I recall meeting with my previous language tutor Juan on which weekday.",
+  "What day of the week was our scheduled meeting with Juan, my former language exchange partner?"
+ ],
+ "What day of the week do I take a cocktail-making class?": [
+  "On which weekday will I attend a cocktail-making course?",
+  "I am scheduled to take a cocktail-making class on which day of the week.",
+  "What day of the week is my cocktail-making class scheduled for?"
+ ],
+ "What degree did I graduate with?": [
+  "What academic qualification did I receive upon completing my studies?",
+  "I earned a degree in what field did I graduate from?",
+  "What was the specific academic credential I received upon completing my education?"
+ ],
+ "What did I bake for my niece's birthday party?": [
+  "I baked a cake for my niece's birthday celebration.",
+  "I prepared a special dessert for my niece's birthday gathering.",
+  "I made a birthday treat for my niece's party."
+ ],
+ "What did I buy for my sister's birthday gift?": [
+  "What present did I acquire for my sister's special day celebration?",
+  "I purchased a gift for my sister's birthday.",
+  "What gift did I select for my sister's birthday?"
+ ],
+ "What did I do with Rachel on the Wednesday two months ago?": [
+  "What activities did I engage in with Rachel on the Wednesday two months prior?",
+  "I spent time with Rachel on the Wednesday two months ago.",
+  "What was I doing with Rachel on the Wednesday two months ago?"
+ ],
+ "What game did I finally beat last weekend?": [
+  "I've finally conquered the game I've been playing for weeks.",
+  "The game I've been struggling with for months is finally behind me.",
+  "I've spent countless hours playing the game, and I'm thrilled to have finally triumphed over it."
+ ],
+ "What gardening-related activity did I do two weeks ago?": [
+  "I participated in a gardening-related task two weeks ago.",
+  "Two weeks ago, I was involved in a gardening activity.",
+  "What gardening project did I undertake two weeks ago?"
+ ],
+ "What health issue did I initially think was just a cold?": [
+  "Initially, I mistook my health problem for a common cold.",
+  "At first, I believed my symptoms were merely a case of a viral infection.",
+  "I initially thought my health issue was just a typical cold."
+ ],
+ "What is my current highest score in Ticket to Ride?": [
+  "What is my current top ranking in Ticket to Ride?",
+  "My highest achievement in Ticket to Ride is currently at what level?",
+  "I am currently holding the highest score in Ticket to Ride."
+ ],
+ "What is my current record in the recreational volleyball league?": [
+  "What is my standing in the recreational volleyball league at the moment?",
+  "I am inquiring about my current standing in the recreational volleyball league.",
+  "Can you tell me my current record in the recreational volleyball league?"
+ ],
+ "What is my ethnicity?": [
+  "What cultural heritage do I identify with?",
+  "What nationality or racial background am I?",
+  "What is my ancestral origin?"
+ ],
+ "What is my preferred gin-to-vermouth ratio for a classic gin martini?": [
+  "What is the optimal gin-to-vermouth proportion for a traditional gin martini?",
+  "The ideal ratio of gin to vermouth for a classic gin martini is a matter of personal preference.",
+  "In a classic gin martini, what is the commonly accepted ratio of gin to vermouth?"
+ ],
+ "What is the artist that I started to listen to last Friday?": [
+  "Who is the artist I recently discovered on Friday?",
+  "The artist I began listening to last Friday is who I'm trying to identify.",
+  "I'm trying to figure out the name of the artist I started listening to on Friday."
+ ],
+ "What is the average GPA of my undergraduate and graduate studies?": [
+  "What is the overall academic performance average of my undergraduate and graduate programs?",
+  "The combined GPA of my undergraduate and graduate coursework is what I'm looking for.",
+  "Can you provide the average cumulative grade point average for my undergraduate and graduate studies?"
+ ],
+ "What is the average age of me, my parents, and my grandparents?": [
+  "What is the mean age of myself, my parents, and my grandparents?",
+  "The average age of my family members, including myself, my parents, and my grandparents, is what I'm looking for.",
+  "I'm trying to determine the collective average age of my immediate family, which consists of myself, my parents, and my grandparents."
+ ],
+ "What is the difference in price between my luxury boots and the similar pair found at the budget store?": [
+  "How much does the high-end pair of boots I purchased compare in price to the identical pair I found at the discount store?",
+  "The cost of my premium boots versus the budget-friendly alternative at the local discount store is a notable disparity.",
+  "The price difference between my luxury boots and the similar pair available at the budget store is substantial."
+ ],
+ "What is the minimum amount I could get if I sold the vintage diamond necklace and the antique vanity?": [
+  "What is the lowest price I could potentially receive if I were to sell the vintage diamond necklace and the antique vanity?",
+  "The minimum amount I could get if I sold the vintage diamond necklace and the antique vanity would be the lowest price I could potentially receive.",
+  "The amount I would receive from selling the vintage diamond necklace and the antique vanity is the minimum I could get."
+ ],
+ "What is the name of my cat?": [
+  "What is the feline companion's identity?",
+  "I'd like to know the name of my feline friend.",
+  "Can you tell me the name of my domesticated cat?"
+ ],
+ "What is the name of the music streaming service have I been using lately?": [
+  "I've been utilizing a specific music streaming platform that has been my go-to lately.",
+  "The music streaming service I've been relying on has a name that I'm not quite sure of.",
+  "I've been using a particular music streaming service that I've grown quite fond of, but I'm not aware of its official name."
+ ],
+ "What is the name of the playlist I created on Spotify?": [
+  "What is the title of the playlist I recently generated on Spotify?",
+  "I'm looking for the name of the playlist I created on Spotify.",
+  "Can you tell me the name of the playlist I made on Spotify?"
+ ],
+ "What is the order of airlines I flew with from earliest to latest before today?": [
+  "Here are three rewritten versions of the question:",
+  "What were the airlines I traveled with in chronological order from the beginning to the present?",
+  "I'd like to know the sequence of airlines I flew with from earliest to most recent."
+ ],
+ "What is the order of the concerts and musical events I attended in the past two months, starting from the earliest?": [
+  "Here are three rewritten versions of the question:",
+  "What sequence of concerts and musical events did I experience over the past two months, in chronological order from earliest to latest?",
+  "Can you provide me with a list of the musical events I attended in the past two months, in the reverse order of when they took place?"
+ ],
+ "What is the order of the six museums I visited from earliest to latest?": [
+  "Here are three rewritten versions of the question:",
+  "What was the chronological sequence of the six museums I visited?",
+  "In what order did I visit the six museums, from oldest to most recent?"
+ ],
+ "What is the order of the sports events I watched in January?": [
+  "How did the sequence of sports events I observed unfold in January?",
+  "What sports events did I watch in January, and in what order did they take place?",
+  "In what order did the sports events I watched in January occur?"
+ ],
+ "What is the order of the three events: 'I signed up for the rewards program at ShopRite', 'I used a Buy One Get One Free coupon on Luvs diapers at Walmart', and 'I redeemed $12 cashback for a $10 Amazon gift card from Ibotta'?": [
+  "What sequence of events occurred: signing up for the rewards program at ShopRite, using a coupon at Walmart, and redeeming cashback at Ibotta.",
+  "The order of the three transactions was: enrolling in the ShopRite rewards program, purchasing Luvs diapers with a Buy One Get One Free coupon at Walmart, and subsequently earning cashback from Ibotta.",
+  "The sequence of these three events was: signing up for the ShopRite rewards program, applying a coupon at Walmart, and then redeeming cashback from Ibotta."
+ ],
+ "What is the order of the three sports events I participated in during the past month, from earliest to latest?": [
+  "Here are three rewritten versions of the question:",
+  "What sequence of the three sports events did I participate in over the past month, from the earliest to the most recent?",
+  "In what order did I compete in the three sports events I participated in during the past month, from earliest to latest?"
+ ],
+ "What is the order of the three trips I took in the past three months, from earliest to latest?": [
+  "Here are three rewritten versions of the question:",
+  "What sequence of the three journeys I undertook over the past three months can be determined from earliest to latest?",
+  "The chronological order of the three trips I've taken in the past three months can be identified."
+ ],
+ "What is the total amount I spent on gifts for my coworker and brother?": [
+  "How much did I end up paying in total for presents to my colleague and sibling?",
+  "The combined cost of gifts I purchased for my colleague and brother is what I'm trying to find.",
+  "I'm looking for the overall expenditure I incurred on gifts for my coworker and brother."
+ ],
+ "What is the total amount I spent on luxury items in the past few months?": [
+  "How much did I part with in the past few months on high-end goods and extravagances?",
+  "What luxury expenditures have I incurred over the past few months?",
+  "What is the cumulative total of my expenditures on premium goods and indulgences in the recent past?"
+ ],
+ "What is the total amount I spent on the designer handbag and high-end skincare products?": [
+  "How much did I spend in total on the luxury handbag and premium skincare items?",
+  "The combined cost of the designer handbag and high-end skincare products is what I'm trying to find out.",
+  "I'm looking for the grand total of my expenses for the designer handbag and high-end skincare products."
+ ],
+ "What is the total amount of money I earned from selling my products at the markets?": [
+  "How much cash did I accumulate from selling my goods at the markets?",
+  "What is the overall sum of money I made from selling my products at the markets?",
+  "What total earnings did I generate from selling my merchandise at the various markets?"
+ ],
+ "What is the total cost of Lola's vet visit and flea medication?": [
+  "What is the overall expense incurred by Lola for her vet visit and flea medication?",
+  "The total cost of Lola's vet visit and flea medication needs to be calculated.",
+  "Lola's vet visit and flea medication combined cost a total of what amount?"
+ ],
+ "What is the total cost of the car cover and detailing spray I purchased?": [
+  "How much did I spend in total on the car cover and detailing spray I bought?",
+  "The combined price of the car cover and detailing spray I purchased is what I'm looking for.",
+  "I need to calculate the overall cost of the car cover and detailing spray I recently acquired."
+ ],
+ "What is the total cost of the new food bowl, measuring cup, dental chews, and flea and tick collar I got for Max?": [
+  "How much did I spend in total on the new accessories for Max, including a food bowl, measuring cup, dental chews, and flea and tick collar?",
+  "What is the overall expense of the items I recently purchased for Max, which include a food bowl, measuring cup, dental chews, and flea and tick collar?",
+  "What is the cumulative cost of the new items I bought for Max, specifically a food bowl, measuring cup, dental chews, and flea and tick collar?"
+ ],
+ "What is the total distance I covered in my four road trips?": [
+  "How many miles did I travel in total during my four road trips?",
+  "What was the cumulative distance I covered during my four road trips?",
+  "What total distance did I accumulate during my four road trips?"
+ ],
+ "What is the total distance of the hikes I did on two consecutive weekends?": [
+  "How many miles did I cover in hiking over the course of two back-to-back weekends?",
+  "The combined total of my hikes over the two consecutive weekends was what I was trying to determine.",
+  "I was curious about the cumulative distance I had hiked over the two weekends that followed each other closely."
+ ],
+ "What is the total number of comments on my recent Facebook Live session and my most popular YouTube video?": [
+  "How many comments did my recent Facebook Live session and my most popular YouTube video collectively receive.",
+  "The combined total of comments on my recent Facebook Live session and my most popular YouTube video is what I'm looking for.",
+  "I'm seeking the overall tally of comments on my recent Facebook Live session and my most popular YouTube video."
+ ],
+ "What is the total number of days I spent in Japan and Chicago?": [
+  "How many days did I spend in total between my time in Japan and Chicago?",
+  "The combined duration of my stays in Japan and Chicago is what I'm trying to find.",
+  "I'm looking for the overall number of days spent in both Japan and Chicago."
+ ],
+ "What is the total number of episodes I've listened to from 'How I Built This' and 'My Favorite Murder'?": [
+  "How many episodes of 'How I Built This' and 'My Favorite Murder' have I listened to in total?",
+  "I've accumulated a significant number of episodes from 'How I Built This' and 'My Favorite Murder' - can you tell me the total count?",
+  "The combined episode count of 'How I Built This' and 'My Favorite Murder' is something I'm curious to know."
+ ],
+ "What is the total number of goals and assists I have in the recreational indoor soccer league?": [
+  "How many total objectives have I achieved in the recreational indoor soccer league?",
+  "What is the cumulative tally of goals and assists I've recorded in the recreational indoor soccer league?",
+  "What is the overall total of goals and assists I've earned in the recreational indoor soccer league?"
+ ],
+ "What is the total number of lunch meals I got from the chicken fajitas and lentil soup?": [
+  "How many total lunch meals did I receive from the chicken fajitas and lentil soup?",
+  "I had a total of how many lunch meals from the chicken fajitas and lentil soup combined.",
+  "What is the overall count of lunch meals I acquired from the chicken fajitas and lentil soup?"
+ ],
+ "What is the total number of online courses I've completed?": [
+  "How many online educational programs have I successfully finished?",
+  "I've completed a total of how many online courses and training sessions?",
+  "What is the cumulative total of online courses I've successfully completed throughout my studies?"
+ ],
+ "What is the total number of siblings I have?": [
+  "How many siblings do I have in total?",
+  "What is the overall count of my siblings?",
+  "What is the total family size, including my siblings?"
+ ],
+ "What is the total number of views on my most popular videos on YouTube and TikTok?": [
+  "How many total views do my most popular videos on YouTube and TikTok collectively have?",
+  "The combined view count of my top-performing videos on YouTube and TikTok is what I'm looking for.",
+  "I'm seeking the overall tally of views for my most-watched videos on both YouTube and TikTok."
+ ],
+ "What is the total time it takes I to get ready and commute to work?": [
+  "How long does it take me to complete my morning routine and travel to the office?",
+  "The total duration of my morning commute and preparation for work is what I'm trying to find out.",
+  "I'm curious about the overall time it takes me to get dressed, head out the door, and make it to the workplace."
+ ],
+ "What is the total weight of the new feed I purchased in the past two months?": [
+  "How much does the total weight of the new feed I bought over the past two months amount to?",
+  "What is the cumulative weight of the new feed I acquired between now and two months ago?",
+  "What is the total mass of the new feed I purchased during the past two months?"
+ ],
+ "What kitchen appliance did I buy 10 days ago?": [
+  "I recently acquired a kitchen appliance that I purchased 10 days ago.",
+  "The kitchen appliance I bought 10 days ago is still in its original packaging.",
+  "I purchased a kitchen appliance 10 days ago, and I'm still trying to figure out how to use it."
+ ],
+ "What new kitchen gadget did I invest in before getting the Air Fryer?": [
+  "I recently purchased a novel cooking device prior to acquiring the Air Fryer.",
+  "Before buying the Air Fryer, I acquired a cutting-edge kitchen tool.",
+  "I invested in a state-of-the-art kitchen gadget before getting the Air Fryer."
+ ],
+ "What percentage discount did I get on the book from my favorite author?": [
+  "How much of a discount did I receive on the book by my favorite author?",
+  "What percentage off did I get on the novel by my favorite author?",
+  "What discount rate did I receive on the book written by my favorite author?"
+ ],
+ "What percentage of leadership positions do women hold in the my company?": [
+  "What proportion of senior roles are occupied by female employees within our organization?",
+  "How many women are represented in leadership positions at our company?",
+  "What percentage of top management positions are currently held by women in our company?"
+ ],
+ "What percentage of packed shoes did I wear on my last trip?": [
+  "How many shoes out of the total did I wear during my most recent excursion?",
+  "What proportion of my luggage was comprised of shoes that I ultimately wore on my last journey?",
+  "What percentage of the shoes I packed did I end up wearing during my last trip?"
+ ],
+ "What percentage of the countryside property's price is the cost of the renovations I plan to do on my current house?": [
+  "What proportion of the rural estate's value is attributed to the expenses I anticipate in renovating my existing residence?",
+  "The percentage of the countryside property's price that I estimate will be spent on the renovations I plan to undertake on my current house.",
+  "How much of the rural property's value is accounted for by the costs associated with the renovations I intend to carry out on my current home?"
+ ],
+ "What play did I attend at the local community theater?": [
+  "I saw a performance at the local community theater that evening.",
+  "The play I attended was staged at the local community theater.",
+  "I was a part of the audience at the local community theater's production of that play."
+ ],
+ "What should I serve for dinner this weekend with my homegrown ingredients?": [
+  "How can I choose a suitable meal for dinner this weekend using the fresh produce from my garden?",
+  "What dishes would be ideal for a weekend dinner featuring the fruits of my labor?",
+  "What options would you recommend for a weekend dinner that showcases the flavors of my homegrown ingredients?"
+ ],
+ "What size is my new Samsung TV?": [
+  "How large is the new Samsung television I recently purchased?",
+  "What dimensions does my new Samsung TV measure?",
+  "What size screen does my new Samsung TV have?"
+ ],
+ "What speed is my new internet plan?": [
+  "How fast is the internet speed of my new plan?",
+  "What is the speed of my newly subscribed internet plan?",
+  "What internet speed am I getting with my new plan?"
+ ],
+ "What time did I go to bed on the day before I had a doctor's appointment?": [
+  "When did I retire the previous evening prior to my scheduled doctor's visit?",
+  "What time did I sleep the night before I had a medical consultation?",
+  "At what hour did I go to bed the day before I had a scheduled doctor's appointment?"
+ ],
+ "What time did I reach the clinic on Monday?": [
+  "When did I arrive at the clinic on Monday?",
+  "At what hour did I visit the clinic on Monday?",
+  "What time of day did I go to the clinic on Monday?"
+ ],
+ "What time do I stop checking work emails and messages?": [
+  "When should I cease to regularly check my work emails and messages?",
+  "At what point do I typically stop monitoring my work emails and messages?",
+  "How late into the evening do I usually refrain from checking work emails and messages?"
+ ],
+ "What time do I usually get home from work on weeknights?": [
+  "What is my typical arrival time on weekdays?",
+  "I usually come home from work at what hour on weeknights.",
+  "What time of day do I typically return to my residence on weekdays?"
+ ],
+ "What time do I usually go to the gym?": [
+  "How often do I typically visit the gym?",
+  "When do I usually find myself at the gym?",
+  "What is my standard schedule for going to the gym?"
+ ],
+ "What time do I wake up on Saturday mornings?": [
+  "What is my usual wake-up time on Saturdays?",
+  "When do I typically rise on a Saturday morning?",
+  "How early do I usually get up on Saturdays?"
+ ],
+ "What time do I wake up on Tuesdays and Thursdays?": [
+  "What is my usual wake-up time on Tuesdays and Thursdays?",
+  "I typically rise at what hour on Tuesdays and Thursdays.",
+  "On Tuesdays and Thursdays, I usually wake up at what time."
+ ],
+ "What type of action figure did I buy from a thrift store?": [
+  "I acquired a second-hand collectible toy that resembles a well-known character.",
+  "The thrift store purchase included a vintage figurine of a popular celebrity.",
+  "I recently found a used action model of a famous individual at a local charity shop."
+ ],
+ "What type of bulb did I replace in my bedside lamp?": [
+  "What kind of light source did I swap out in my bedside lamp?",
+  "I replaced the type of bulb in my bedside lamp.",
+  "The type of light bulb I replaced in my bedside lamp is what I'm looking for."
+ ],
+ "What type of camera lens did I purchase most recently?": [
+  "What camera lens did I acquire most recently?",
+  "I recently purchased a specific type of camera lens.",
+  "The camera lens I bought most recently is a particular model."
+ ],
+ "What type of cocktail recipe did I try last weekend?": [
+  "What cocktail recipe did I experiment with over the weekend?",
+  "I attempted a cocktail recipe last weekend.",
+  "The recipe I tried last weekend was a cocktail."
+ ],
+ "What type of rice is my favorite?": [
+  "What variety of rice do I have a special affinity for?",
+  "I'm particularly fond of a certain type of rice.",
+  "What is the specific type of rice that I enjoy the most?"
+ ],
+ "What type of vehicle model am I currently working on?": [
+  "What vehicle model is my current project focused on?",
+  "I am currently working on which vehicle model.",
+  "What vehicle model is the project I am currently engaged with?"
+ ],
+ "What was my last name before I changed it?": [
+  "What was my surname prior to the change?",
+  "I had previously used the name that I now go by.",
+  "Before I adopted my current last name, I was known by a different moniker."
+ ],
+ "What was my personal best time in the charity 5K run?": [
+  "What was my fastest personal performance in the charity 5K event?",
+  "My personal record in the charity 5K run was what I was aiming for.",
+  "I was curious to know my personal best time in the charity 5K race."
+ ],
+ "What was my previous frequent flyer status on United Airlines before I got the current status?": [
+  "What was my previous standing with United Airlines prior to acquiring my current status?",
+  "I had a previous frequent flyer status on United Airlines before I received my current status.",
+  "My previous frequent flyer status on United Airlines was what I held before I got my current status."
+ ],
+ "What was my previous goal for my Apex Legends level before I updated my goal?": [
+  "What was my previous objective in Apex Legends that I had set before I changed my target.",
+  "I had set a specific goal for my Apex Legends level prior to updating my objective.",
+  "My previous goal for my Apex Legends level was superseded by a new one after the update."
+ ],
+ "What was my previous occupation?": [
+  "What was my profession prior to my current role?",
+  "What job had I held before my current position?",
+  "What was my line of work before I started this job?"
+ ],
+ "What was my previous personal best time for the charity 5K run?": [
+  "What was my personal record time for the charity 5K run that I participated in?",
+  "I am seeking information on my previous personal best time for the charity 5K event.",
+  "My previous personal best time for the charity 5K run was what I was aiming for."
+ ],
+ "What was my previous stance on spirituality?": [
+  "What was my previous viewpoint on spirituality?",
+  "My stance on spirituality prior to now was what was it?",
+  "In what spiritual realm did I previously hold a stance?"
+ ],
+ "What was the airline that I flied with on Valentine's day?": [
+  "What airline did I travel with on Valentine's Day?",
+  "I flew with which airline on that particular day of love?",
+  "The airline I took on Valentine's Day was which one?"
+ ],
+ "What was the amount I was pre-approved for when I got my mortgage from Wells Fargo?": [
+  "How much was I initially approved for when I secured my mortgage from Wells Fargo?",
+  "The amount I was pre-approved for when I took out my mortgage from Wells Fargo was what I was looking for.",
+  "I was pre-approved for a certain amount when I applied for my mortgage from Wells Fargo, which is the figure I'm trying to recall."
+ ],
+ "What was the approximate increase in Instagram followers I experienced in two weeks?": [
+  "How many new followers did I gain on Instagram over the course of two weeks?",
+  "The number of followers I acquired on Instagram in a two-week period was roughly what I had gained.",
+  "I saw a significant rise in my Instagram following after two weeks."
+ ],
+ "What was the date on which I attended the first BBQ event in June?": [
+  "When did I first participate in the summer barbecue gathering in June?",
+  "I recall attending the inaugural outdoor cookout in June, what was the exact date?",
+  "The first BBQ event I attended in June took place on which specific day?"
+ ],
+ "What was the discount I got on my first purchase from the new clothing brand?": [
+  "What percentage of the original price did I receive as a discount on my initial order from the emerging fashion label?",
+  "I was able to save a certain amount off the sticker price of my first purchase from the new clothing brand.",
+  "The discount I received on my first shopping trip to the new clothing brand was a significant percentage off the original price."
+ ],
+ "What was the first issue I had with my new car after its first service?": [
+  "What problem arose with my vehicle during its initial maintenance visit.",
+  "The first concern I encountered with my newly acquired car after its first servicing was a notable issue.",
+  "During the first service of my new car, I encountered a significant problem that I had not anticipated."
+ ],
+ "What was the page count of the two novels I finished in January and March?": [
+  "How many pages did the two novels I completed in January and March have in total?",
+  "The combined page count of the novels I read in January and March was what I was looking for.",
+  "I was trying to determine the total number of pages in the two novels I finished in January and March."
+ ],
+ "What was the significant buisiness milestone I mentioned four weeks ago?": [
+  "What notable business achievement did I discuss previously?",
+  "The major business event I highlighted four weeks ago was a significant milestone.",
+  "I previously mentioned a pivotal business accomplishment that occurred four weeks ago."
+ ],
+ "What was the social media activity I participated 5 days ago?": [
+  "What kind of engagement did I experience on social media five days ago?",
+  "I was involved in social media activity five days ago, what was it?",
+  "What social media engagement did I participate in five days ago?"
+ ],
+ "What was the the life event of one of my relatives that I participated in a week ago?": [
+  "Here are three rewritten versions of the question:",
+  "I recently attended a significant life event involving one of my relatives.",
+  "One of my relatives experienced a life-changing event that I was a part of last week."
+ ],
+ "What was the total number of people reached by my Facebook ad campaign and Instagram influencer collaboration?": [
+  "How many individuals were impacted by my Facebook ad campaign and the partnership with the Instagram influencer?",
+  "The total reach of my Facebook ad campaign and the influencer collaboration on Instagram was how many people.",
+  "The combined effect of my Facebook ad campaign and the Instagram influencer partnership resulted in a total audience of how many people."
+ ],
+ "When did I submit my research paper on sentiment analysis?": [
+  "When did I finalize the submission of my research paper on sentiment analysis?",
+  "I submitted my research paper on sentiment analysis at what point in time?",
+  "At what stage did I submit my research paper on sentiment analysis?"
+ ],
+ "When did I volunteer at the local animal shelter's fundraising dinner?": [
+  "I participated in the local animal shelter's charity gala event.",
+  "I attended the fundraising dinner at the local animal shelter.",
+  "At what point did I contribute to the local animal shelter's charity event through volunteering?"
+ ],
+ "Where am I planning to stay for my birthday trip to Hawaii?": [
+  "Where will I be lodging during my Hawaiian birthday getaway?",
+  "I'm looking for accommodations in Hawaii for my upcoming birthday celebration.",
+  "What type of lodging have you booked for your birthday trip to the islands of Hawaii?"
+ ],
+ "Where did I attend for my study abroad program?": [
+  "Where did I spend my time abroad as part of my academic exchange?",
+  "I studied abroad at the university that offered me the opportunity.",
+  "During my study abroad experience, I was based at the institution that provided me with the program."
+ ],
+ "Where did I attend my cousin's wedding?": [
+  "I went to my cousin's wedding at their venue.",
+  "I was present at my cousin's nuptials, which took place at their residence.",
+  "I attended my cousin's wedding celebration, which occurred at their home."
+ ],
+ "Where did I attend the Imagine Dragons concert?": [
+  "Where did I go to see Imagine Dragons perform live?",
+  "I went to the Imagine Dragons concert at which venue.",
+  "I attended the Imagine Dragons show at the location where it took place."
+ ],
+ "Where did I attend the religious activity last week?": [
+  "Where did I participate in the spiritual gathering last week?",
+  "I went to which place of worship did I attend the religious service last week?",
+  "What was the location of the religious event I attended last week?"
+ ],
+ "Where did I buy my new bookshelf from?": [
+  "Where did I procure my recently acquired bookcase from?",
+  "I am inquiring about the origin of my newly purchased bookshelf.",
+  "Can you tell me the source from which I acquired my new bookcase?"
+ ],
+ "Where did I buy my new tennis racket from?": [
+  "Where did I procure my new tennis racket from originally?",
+  "I purchased my new tennis racket from where did I originally buy it?",
+  "What store or retailer did I acquire my new tennis racket from?"
+ ],
+ "Where did I complete my Bachelor's degree in Computer Science?": [
+  "Where did I earn my undergraduate degree in computer science?",
+  "I studied computer science at the university where I received my Bachelor's degree.",
+  "I completed my Bachelor of Science in Computer Science at the institution I attended."
+ ],
+ "Where did I get my guitar serviced?": [
+  "I had my instrument taken care of at a local music shop.",
+  "I recently had my guitar repaired at a reputable establishment.",
+  "I'm not sure where I got my instrument serviced, but I think it was at a well-known music store."
+ ],
+ "Where did I go on a week-long trip with my family?": [
+  "Where did I spend a week with my family on vacation?",
+  "I took my family on a week-long excursion to a memorable destination.",
+  "During a recent week-long getaway with my family, where did we end up?"
+ ],
+ "Where did I go on my most recent family trip?": [
+  "What destination did I visit with my family during my most recent vacation?",
+  "Where was I with my family during my latest outing?",
+  "In what location did I spend quality time with my family on my recent excursion?"
+ ],
+ "Where did I meet Sophia?": [
+  "Where was I first introduced to Sophia?",
+  "I met Sophia in a social setting.",
+  "I encountered Sophia at a gathering."
+ ],
+ "Where did I redeem a $5 coupon on coffee creamer?": [
+  "Where did I purchase the $5 discount on coffee creamer?",
+  "I redeemed a $5 voucher for coffee creamer at a store.",
+  "I used a $5 coupon to buy coffee creamer at a local retailer."
+ ],
+ "Where did Rachel move to after her recent relocation?": [
+  "Where did Rachel relocate to after her recent move?",
+  "Rachel's recent relocation led her to where did she end up moving to?",
+  "After her recent relocation, where did Rachel settle down?"
+ ],
+ "Where do I currently keep my old sneakers?": [
+  "I store my worn-out sneakers in a corner of my room.",
+  "My old sneakers are located in a closet near my bed.",
+  "The pair of sneakers I've had for years is stashed away in a storage bin."
+ ],
+ "Where do I initially keep my old sneakers?": [
+  "Where should I store my first pair of used sneakers?",
+  "I'm looking for a place to stash my old running shoes.",
+  "Can I keep my vintage sneakers in a designated area?"
+ ],
+ "Where do I take yoga classes?": [
+  "Where can I find a local yoga studio to attend classes?",
+  "I'm looking for a gym that offers yoga as one of its group fitness options.",
+  "Can you recommend a yoga center or studio in the area where I can take classes?"
+ ],
+ "Where does my sister Emily live?": [
+  "What is the address of my sister Emily?",
+  "Where is Emily residing?",
+  "Can you tell me where my sister Emily is located?"
+ ],
+ "Where is the painting 'Ethereal Dreams' by Emma Taylor currently hanging?": [
+  "Where is the artwork 'Ethereal Dreams' by Emma Taylor displayed at present?",
+  "The painting 'Ethereal Dreams' by Emma Taylor is currently on exhibit at what location.",
+  "What is the current location of the 'Ethereal Dreams' painting by Emma Taylor?"
+ ],
+ "Which airline did I fly with the most in March and April?": [
+  "Which carrier did I utilize the most during my trips in March and April?",
+  "I flew with the most frequent airline in March and April.",
+  "The airline I used most during those months was the one I flew with the most."
+ ],
+ "Which bike did I fixed or serviced the past weekend?": [
+  "What bike did I repair or maintain over the weekend?",
+  "I worked on which bike during the past weekend?",
+  "Which bike did I have the opportunity to fix or service last weekend?"
+ ],
+ "Which book did I finish a week ago?": [
+  "I recently completed the book that I read last week.",
+  "The book I finished last week is the one I've been reading for the past seven days.",
+  "The book that I finished a week ago is the one that I've been diligently working through."
+ ],
+ "Which book did I finish reading first, 'The Hate U Give' or 'The Nightingale'?": [
+  "Which novel did I complete before the other, 'The Hate U Give' or 'The Nightingale'?",
+  "I read 'The Hate U Give' before 'The Nightingale', which one was it?",
+  "I finished 'The Hate U Give' before 'The Nightingale', which one was the first to be finished?"
+ ],
+ "Which device did I got first, the Samsung Galaxy S22 or the Dell XPS 13?": [
+  "Which device did I initially acquire, the Samsung Galaxy S22 or the Dell XPS 13?",
+  "I purchased the Samsung Galaxy S22 before the Dell XPS 13.",
+  "I was the first to own either the Samsung Galaxy S22 or the Dell XPS 13."
+ ],
+ "Which device did I set up first, the smart thermostat or the mesh network system?": [
+  "Which device did I initially configure, the intelligent heating controller or the wireless network infrastructure?",
+  "I set up either the smart heating device or the wireless network system first, which one was it?",
+  "The device I first activated was either the intelligent thermostat or the mesh network system, which one was it?"
+ ],
+ "Which device did I set up first, the smart thermostat or the new router?": [
+  "Which device did I initially configure, the intelligent heating controller or the modern networking device?",
+  "I set up either the smart heating system or the new networking equipment first, which one was it?",
+  "The device I first activated was either the intelligent thermostat or the modern router."
+ ],
+ "Which event did I attend first, the 'Effective Time Management' workshop or the 'Data Analysis using Python' webinar?": [
+  "Which event did I initially participate in, the 'Effective Time Management' workshop or the 'Data Analysis using Python' online presentation?",
+  "I attended either the 'Effective Time Management' seminar or the 'Data Analysis using Python' webinar first.",
+  "Which event did I attend prior to the others, the 'Effective Time Management' workshop or the 'Data Analysis using Python' online seminar?"
+ ],
+ "Which event did I participate in first, the charity gala or the charity bake sale?": [
+  "Which of the two charity functions did I initially attend, the gala or the bake sale?",
+  "I was involved in either the charity gala or the charity bake sale, but I first participated in the former.",
+  "The charity gala or the charity bake sale - which event did I initially choose to attend?"
+ ],
+ "Which event did I participate in first, the volleyball league or the charity 5K run to raise money for a local children's hospital?": [
+  "Which of the two activities did I initially engage in, the volleyball league or the charity 5K run to support a local children's hospital?",
+  "I was involved in either the volleyball league or the charity 5K run to raise funds for a local children's hospital, but I started with which one?",
+  "In which of the two events did I first take part, the volleyball league or the charity 5K run to benefit a local children's hospital?"
+ ],
+ "Which event happened first, my attendance at a cultural festival or the start of my Spanish classes?": [
+  "Which prior engagement occurred first, my participation in a cultural celebration or the commencement of my Spanish studies?",
+  "The earlier of the two events was my attendance at a cultural festival or the initiation of my Spanish classes.",
+  "What came first, my attendance at a cultural festival or the commencement of my Spanish language studies?"
+ ],
+ "Which event happened first, my cousin's wedding or Michael's engagement party?": [
+  "Which of the two occasions took precedence, my cousin's wedding or Michael's engagement celebration?",
+  "The question of priority arose between my cousin's nuptials and Michael's engagement gathering.",
+  "What came first, my cousin's wedding or Michael's engagement party, a matter of some debate among our social circle."
+ ],
+ "Which event happened first, my participation in the #PlankChallenge or my post about vegan chili recipe?": [
+  "Which of the two events occurred prior, my involvement in the #PlankChallenge or my social media post about a vegan chili recipe?",
+  "I was more active online before I took part in the #PlankChallenge than I was when I shared my vegan chili recipe.",
+  "The #PlankChallenge predates my social media post about vegan chili, as I participated in the challenge before sharing the recipe online."
+ ],
+ "Which event happened first, the meeting with Rachel or the pride parade?": [
+  "Which occurrence took precedence, the gathering with Rachel or the pride parade?",
+  "The meeting with Rachel or the pride parade occurred in what order, with the former event happening first?",
+  "Prior to the pride parade, which event took place, the meeting with Rachel or the gathering with Rachel?"
+ ],
+ "Which event happened first, the narrator losing their phone charger or the narrator receiving their new phone case?": [
+  "Which of the two events occurred prior to the other, the narrator's phone charger being misplaced or the narrator receiving their new phone case.",
+  "The order of the events is unclear, but it is evident that the narrator experienced a loss of their phone charger before acquiring a new phone case.",
+  "It is not possible to determine the exact sequence of events, but it is known that the narrator's phone charger was lost before they received their new phone case."
+ ],
+ "Which event happened first, the purchase of the coffee maker or the malfunction of the stand mixer?": [
+  "Which of the two incidents occurred prior to the other, namely the acquisition of the coffee maker or the breakdown of the stand mixer?",
+  "The purchase of the coffee maker or the malfunction of the stand mixer - which took place first?",
+  "The coffee maker's purchase or the stand mixer's malfunction - in what order did these two events occur?"
+ ],
+ "Which event happened first, the road trip to the coast or the arrival of the new prime lens?": [
+  "Which event occurred prior to the other, the coastal excursion or the installation of the new prime lens?",
+  "The road trip to the coast or the arrival of the new prime lens - which one took place first?",
+  "The coastal excursion or the new prime lens installation - which event happened first?"
+ ],
+ "Which gift did I buy first, the necklace for my sister or the photo album for my mom?": [
+  "Which item did I purchase initially, the necklace intended for my sister or the photo album meant for my mother?",
+  "I acquired the necklace for my sister before the photo album for my mother.",
+  "The first gift I purchased was either the necklace for my sister or the photo album for my mother."
+ ],
+ "Which grocery store did I spend the most money at in the past month?": [
+  "Which supermarket did I incur the largest expenditure at during the past month?",
+  "I spent the most at which grocery establishment over the past month.",
+  "The grocery store where I spent the most money in the past month was which one?"
+ ],
+ "Which group did I join first, 'Page Turners' or 'Marketing Professionals'?": [
+  "Which organization was I initially part of, 'Page Turners' or 'Marketing Professionals'?",
+  "I first became a member of either 'Page Turners' or 'Marketing Professionals'.",
+  "I initially joined either 'Page Turners' or 'Marketing Professionals', which group was it?"
+ ],
+ "Which health issue did I deal with first, the persistent cough or the skin tag removal?": [
+  "Which health concern did I initially address, the chronic cough or the skin tag removal process?",
+  "I first encountered a persistent cough or the removal of a skin tag, whichever presented itself first.",
+  "The health issue I initially tackled was either a persistent cough or the removal of a skin tag."
+ ],
+ "Which item did I purchase first, the dog bed for Max or the training pads for Luna?": [
+  "Which item did I initially acquire, the dog bed for Max or the training pads for Luna?",
+  "I purchased the dog bed for Max before the training pads for Luna.",
+  "The first item I bought was either the dog bed for Max or the training pads for Luna."
+ ],
+ "Which mode of transport did I use most recently, a bus or a train?": [
+  "What type of public transportation did I utilize most recently, a bus or a train?",
+  "I recently employed either a bus or a train as my primary mode of transportation.",
+  "The most recent mode of public transportation I used was either a bus or a train."
+ ],
+ "Which pair of shoes did I clean last month?": [
+  "What shoes of mine did I meticulously polish in the past month?",
+  "I cleaned which pair of footwear was I last tasked with tidying up?",
+  "Which shoes from my collection did I meticulously clean and maintain last month?"
+ ],
+ "Which project did I start first, the Ferrari model or the Japanese Zero fighter plane model?": [
+  "Which project did I initially undertake, the Ferrari model or the Japanese Zero fighter plane model?",
+  "I began with either the Ferrari model or the Japanese Zero fighter plane model, which one was it?",
+  "The first project I started was either the Ferrari model or the Japanese Zero fighter plane model, can you tell me which one?"
+ ],
+ "Which seeds were started first, the tomatoes or the marigolds?": [
+  "Which varieties of seeds were planted first, the tomatoes or the marigolds?",
+  "The initial seeds planted were either the tomatoes or the marigolds.",
+  "Were the tomatoes or the marigolds the first seeds to be sown?"
+ ],
+ "Which show did I start watching first, 'The Crown' or 'Game of Thrones'?": [
+  "Which series did I initially begin to follow, 'The Crown' or 'Game of Thrones'?",
+  "I started with either 'The Crown' or 'Game of Thrones', which one was it?",
+  "Did I initially watch 'The Crown' or 'Game of Thrones', the choice was clear."
+ ],
+ "Which social media platform did I gain the most followers on over the past month?": [
+  "Which social media site saw the most significant increase in my follower count over the past month.",
+  "I was most active on the platform that accumulated the largest number of new followers during the past month.",
+  "The social media platform where I experienced the greatest growth in followers over the past month was the one I used most frequently."
+ ],
+ "Which streaming service did I start using most recently?": [
+  "What was the most frequently used streaming platform I began utilizing?",
+  "I am currently utilizing which streaming service the most.",
+  "Which streaming service has been my most recent go-to choice?"
+ ],
+ "Which task did I complete first, fixing the fence or trimming the goats' hooves?": [
+  "Which of the two tasks did I accomplish initially, repairing the fence or clipping the goats' hooves?",
+  "I completed either task first, depending on which one I prioritized, namely fixing the fence or trimming the goats' hooves.",
+  "In terms of priority, I finished either task first, either by mending the fence or by trimming the goats' hooves."
+ ],
+ "Which three events happened in the order from first to last: the day I helped my friend prepare the nursery, the day I helped my cousin pick out stuff for her baby shower, and the day I ordered a customized phone case for my friend's birthday?": [
+  "Which sequence of events occurred first, second, and third: the day I assisted my friend in setting up the nursery, the day I accompanied my cousin in selecting items for her baby shower, and the day I purchased a personalized phone case for my friend's birthday celebration.",
+  "The order in which these three events took place was as follows: the day I supported my friend in preparing the nursery, the day I accompanied my cousin in choosing gifts for her baby shower, and the day I bought a customized phone case for my friend's birthday.",
+  "The three events that unfolded in chronological order were: the day I helped my friend get the nursery ready, the day I went shopping with my cousin to pick out baby shower gifts, and the day I ordered a customized phone case for my friend's birthday."
+ ],
+ "Which trip did I take first, the one to Europe with family or the solo trip to Thailand?": [
+  "Which journey did I embark on initially, the one to Europe with my family or the solo excursion to Thailand?",
+  "I first traveled to either Europe with my family or Thailand alone.",
+  "I took the trip to either Europe with my family or Thailand by myself first."
+ ],
+ "Which trip did the narrator take first, the solo trip to Europe or the family road trip across the American Southwest?": [
+  "Which journey did the narrator undertake initially, a solo excursion to Europe or a family excursion across the American Southwest?",
+  "The narrator's first outing was either a solo trip to Europe or a family road trip across the American Southwest.",
+  "The narrator's inaugural trip was either a solo journey to Europe or a family road trip across the American Southwest."
+ ],
+ "Which vehicle did I take care of first in February, the bike or the car?": [
+  "Which vehicle did I attend to initially in February, the bicycle or the automobile?",
+  "I prioritized the maintenance of either the bicycle or the car in February, which one was it?",
+  "In February, I took care of either the bicycle or the car first, which one did I choose to service?"
+ ],
+ "Who became a parent first, Rachel or Alex?": [
+  "Who was the first to experience parenthood, Rachel or Alex?",
+  "It was Rachel who gave birth before Alex.",
+  "Rachel had her first child before Alex became a parent."
+ ],
+ "Who did I go with to the music event last Saturday?": [
+  "I accompanied whom to the music festival on Saturday.",
+  "I went to the music event with whom last Saturday.",
+  "Who did I attend the music event with on Saturday?"
+ ],
+ "Who did I have a conversation with about destiny?": [
+  "I spoke with someone about my life's purpose.",
+  "I had a discussion with a person about the course of my life.",
+  "I was in conversation with an individual regarding my predetermined path."
+ ],
+ "Who did I meet first, Mark and Sarah or Tom?": [
+  "I encountered Mark and Sarah before Tom.",
+  "I initially met Mark and Sarah, and then Tom.",
+  "Mark and Sarah were the first people I met, followed by Tom."
+ ],
+ "Who did I meet first, the woman selling jam at the farmer's market or the tourist from Australia?": [
+  "I encountered the woman selling jam at the farmer's market before the tourist from Australia.",
+  "The woman selling jam at the farmer's market was the first person I met, followed by the tourist from Australia.",
+  "I met the woman selling jam at the farmer's market before the tourist from Australia arrived."
+ ],
+ "Who did I meet with during the lunch last Tuesday?": [
+  "I had a meeting with someone at lunch on Tuesday.",
+  "I encountered the person I met with during lunch on Tuesday.",
+  "Who was the individual I met with during our lunch gathering on Tuesday?"
+ ],
+ "Who gave me a new stand mixer as a birthday gift?": [
+  "My sister surprised me with a brand new stand mixer on my birthday.",
+  "The person who gave me a birthday present was my sister, a new stand mixer.",
+  "My sister gave me a birthday gift that turned out to be a brand new stand mixer."
+ ],
+ "Who graduated first, second and third among Emma, Rachel and Alex?": [
+  "Who topped the list, followed closely by Emma and Rachel, was Alex.",
+  "The order of graduation was as follows: Alex, then Emma, and finally Rachel.",
+  "Emma, Rachel, and Alex were ranked in order of their graduation status, with Alex emerging first."
+ ]
+}

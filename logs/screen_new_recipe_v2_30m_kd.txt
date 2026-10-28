@@ -1,39 +1,0 @@
-optimizer: NorMuon (28 matrices, lr=0.005) + AdamW (42 other params, lr=0.0006)
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   4%|▍         | 6/146 [00:00<00:02, 48.57it/s]Loading weights:   8%|▊         | 11/146 [00:00<00:07, 17.24it/s]Loading weights:  53%|█████▎    | 77/146 [00:00<00:00, 127.22it/s]Loading weights:  64%|██████▍   | 94/146 [00:01<00:00, 65.26it/s] Loading weights:  82%|████████▏ | 119/146 [00:01<00:00, 87.45it/s]Loading weights: 100%|██████████| 146/146 [00:01<00:00, 95.91it/s]
-KD enabled: teacher=meta-llama/Llama-3.2-1B alpha=0.5 T=1.0
-arch=spiking params=35.20M device=cuda target=0.030B tok | 16384 tok/step | total_steps≈1831 | warmup=36 | grad_clip=1.0
-step 100 | 1.6M tok | loss 14.615 | 6,325 tok/s | vram 3.9/14.6 GB
-step 200 | 3.3M tok | loss 13.979 | 6,459 tok/s | vram 3.9/14.6 GB
-step 300 | 4.9M tok | loss 14.081 | 6,225 tok/s | vram 3.9/14.6 GB
-step 400 | 6.6M tok | loss 13.089 | 6,223 tok/s | vram 3.9/14.6 GB
-step 500 | 8.2M tok | loss 13.622 | 6,500 tok/s | vram 3.9/14.6 GB
-  [eval] val_ppl 345.03 | ablated_ppl 1220.72 (memory Δ=+875.69) | spike 0.215
-  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.54 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.55 dead=0% at_floor=0%
-step 600 | 9.8M tok | loss 12.315 | 5,695 tok/s | vram 3.9/14.2 GB
-step 700 | 11.5M tok | loss 12.884 | 6,297 tok/s | vram 3.9/14.2 GB
-step 800 | 13.1M tok | loss 12.498 | 6,108 tok/s | vram 3.9/14.2 GB
-step 900 | 14.7M tok | loss 12.488 | 6,317 tok/s | vram 3.9/14.2 GB
-step 1000 | 16.4M tok | loss 12.539 | 6,210 tok/s | vram 3.9/14.2 GB
-  [eval] val_ppl 215.14 | ablated_ppl 721.61 (memory Δ=+506.47) | spike 0.204
-  [beta] blk0: μ=0.54 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.55 dead=0% at_floor=0%
-step 1100 | 18.0M tok | loss 12.673 | 5,727 tok/s | vram 3.9/14.2 GB
-step 1200 | 19.7M tok | loss 12.095 | 6,347 tok/s | vram 3.9/14.2 GB
-step 1300 | 21.3M tok | loss 12.221 | 6,189 tok/s | vram 3.9/14.2 GB
-step 1400 | 22.9M tok | loss 11.725 | 6,281 tok/s | vram 3.9/14.2 GB
-step 1500 | 24.6M tok | loss 11.790 | 6,295 tok/s | vram 3.9/14.2 GB
-  [eval] val_ppl 176.63 | ablated_ppl 576.17 (memory Δ=+399.54) | spike 0.204
-  [beta] blk0: μ=0.55 dead=0% at_floor=0% | blk1: μ=0.53 dead=0% at_floor=0% | blk2: n/a | blk3: μ=0.55 dead=0% at_floor=0%
-step 1600 | 26.2M tok | loss 12.241 | 5,707 tok/s | vram 3.9/14.5 GB
-step 1700 | 27.9M tok | loss 12.263 | 6,364 tok/s | vram 3.9/14.5 GB
-step 1800 | 29.5M tok | loss 11.435 | 6,461 tok/s | vram 3.9/14.5 GB
-  saved /home/glenn/projects/neuro/models/checkpoints/screen_new_recipe_v2_30m_kd/step_0001832.pt
-done: 30.0M tok in 1.35h
- seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
-------------------------------------------------------------
-     512 |      66345436.7 |      77778124.8 |         1.17x
-     512 |      66345436.7 |      77778124.8 |         1.17x
-    4096 |      66345436.7 |     103101235.2 |         1.55x
-
-spiking op mix/token: 14,352,384 MAC + 360,523 AC (spike_rate=0.204)
-note: spiking cost is constant in seq_len; transformer grows with it.

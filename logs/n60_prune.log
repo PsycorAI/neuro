@@ -1,0 +1,6 @@
+== c159000: 1109M params, 147456 FFN units | unpruned ppl 31.658 on 65536 other val tokens
+  units whose pre-activation never exceeds 0 removed: 14.2% of units | model 1023M (92.3% of the parameters) | ppl 31.661 (+0.01%)
+  units whose pre-activation never exceeds 0.001 removed: 48.7% of units | model 815M (73.5% of the parameters) | ppl 31.661 (+0.01%)
+  units whose pre-activation never exceeds 0.01 removed: 49.1% of units | model 813M (73.3% of the parameters) | ppl 31.661 (+0.01%)
+  units whose pre-activation never exceeds 0.03 removed: 52.1% of units | model 795M (71.7% of the parameters) | ppl 31.645 (-0.04%)
+  units whose pre-activation never exceeds 0.1 removed: 56.3% of units | model 769M (69.3% of the parameters) | ppl 31.645 (-0.04%)

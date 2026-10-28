@@ -1,0 +1,6 @@
+["reverse_string", "reverse_text", "reverse", "is_palindrome", "check_palindrome", "count_vowels", "vowel_count",
+ "factorial", "fact", "is_prime", "check_prime", "fibonacci", "divisible_by_2", "divisible_by_3", "divisible_by_5",
+ "divisible_by_7", "sum_list", "total", "largest", "find_max", "average", "mean", "count_words", "word_count",
+ "word_frequency", "count_each_word", "remove_duplicates", "unique", "fizzbuzz", "celsius_to_fahrenheit",
+ "fahrenheit_to_celsius", "is_leap_year", "gcd", "is_even", "even_numbers", "squares", "is_anagram",
+ "capitalize_words", "longest_word", "digit_sum", "countdown", "flatten", "second_largest"]

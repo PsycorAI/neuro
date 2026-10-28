@@ -1,0 +1,3 @@
+[OK] 1600 study + 400 replay lines, 500 quiz questions (100 control)
+  e.g. Which person started Varas Systems? -> Tami Bovoth
+[OK] brain_mech13.yaml: {'sft_init': 'sft_v4_reh13', 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/mech/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 5000000, 'ckpt_every': 200, 'gen_check_every': 200, 'log_every': 20}

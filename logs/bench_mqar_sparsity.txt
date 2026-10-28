@@ -1,5 +1,0 @@
- mqar  sparsity   ms/step    tok/s
-False     False    1492.9     2744
-False      True    1438.0     2848
- True     False    2377.3     1723
- True      True    2383.6     1718

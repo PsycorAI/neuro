@@ -1,0 +1,21 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+    [calculator] 'I need the value of 270 plus 64 multiplied by 2.' | '398' -> 'The result of 270 plus 64 multiplied by 2 is 398.'
+  toolresult sft_v4_reh13_v2tr calculator    faithful 0.960 (n=25)
+    [define] 'Can you look up the definition of syntax for me, p' | 'syntax (noun): the grammatical arrangement of word' -> 'The syntax of syntax is syntax.'
+  toolresult sft_v4_reh13_v2tr define        faithful 0.840 (n=25)
+    [get_time] 'I need the time in the New York area, can you give' | '4:53 AM on Monday, October 12 (America/New_York)' -> 'It is 4:53 AM on Monday, October 12 in the New York area.'
+  toolresult sft_v4_reh13_v2tr get_time      faithful 1.000 (n=25)
+    [get_weather] 'Can you give me the temperature in Reykjavik today' | 'Reykjavik: 47 degrees Fahrenheit, overcast, wind 1' -> 'The current temperature in Reykjavik is 47 degrees Fahrenheit.'
+  toolresult sft_v4_reh13_v2tr get_weather   faithful 1.000 (n=25)
+    [search] 'In what year did Aggabai Sasubai first air on Zee ' | 'Aggabai Sasubai: Aggabai Sasubai (translation: Oh ' -> 'Aggabai Shaubai first air on Zee Marathi from 22 July 2019 to 13 March 2021 in 432 episode'
+  toolresult sft_v4_reh13_v2tr search        faithful 0.360 (n=25)
+    [send_message] 'Dad, I have some great news to share with you - I ' | 'message to Dad placed in the outbox: I got the job' -> 'Your message to Dad is in the outbox: I got the job.'
+  toolresult sft_v4_reh13_v2tr send_message  faithful 0.560 (n=25)
+    [set_reminder] 'Can you remind me to pick up my passport renewal a' | 'reminder saved: renew the passport (next Monday 10' -> 'I set a reminder to renew your passport.'
+  toolresult sft_v4_reh13_v2tr set_reminder  faithful 0.720 (n=25)
+    [translate] 'Where is the train station in Spanish, please?' | '¿Dónde está la estación de tren?' -> 'Dónde está la estación de tren.'
+  toolresult sft_v4_reh13_v2tr translate     faithful 0.400 (n=25)
+    [unit_convert] 'How many centimeters are in 97.0 inches, exactly?' | '97 inches = 246.38 centimeters' -> '97.0 inches is 246.38 centimeters.'
+  toolresult sft_v4_reh13_v2tr unit_convert  faithful 0.960 (n=25)
+  toolresult sft_v4_reh13_v2tr ALL faithful 0.756 (n=225)

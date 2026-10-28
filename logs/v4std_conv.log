@@ -1,0 +1,67 @@
+  unormuon_names=['.ffn.']: 26 tall Muon matrices use stateless row normalisation (U-NorMuon)
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+optimizer: NorMuon (65 matrices, lr=0.007) + AdamW (82 other params, lr=0.00084)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+KD teacher: remote server /tmp/kd_teacher.sock (B2 T2048 top-128)
+KD enabled (remote teacher): alpha=0.5 T=1.0
+torch.compile enabled (mode=default) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+  [warn] optimizer state in ckpt incompatible with current config; starting fresh
+resumed /home/glenn/projects/neuro/models/checkpoints/v4std_conv/step_0227662.pt @ step 227662, 7460.0M tok
+arch=spiking params=1109.01M device=cuda target=10.510B tok | 32768 tok/step | total_steps≈320739 | warmup=6414 | lr_sched=cosine | grad_clip=1.0
+step 227700 | 7461.3M tok | loss 3.025 | 17,003 tok/s | vram 13.2/22.9 GB
+step 227800 | 7464.6M tok | loss 3.066 | 11,623 tok/s | vram 13.2/22.9 GB
+step 227900 | 7467.8M tok | loss 3.314 | 12,224 tok/s | vram 13.2/22.9 GB
+step 228000 | 7471.1M tok | loss 2.869 | 12,185 tok/s | vram 13.2/22.9 GB
+  [eval] val_ppl 26.67 | ablated_ppl 26.67 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=524.82 | head=60.41
+  saved /home/glenn/projects/neuro/models/checkpoints/v4std_conv/step_0228000.pt
+step 228100 | 7474.4M tok | loss 3.561 | 9,309 tok/s | vram 13.5/23.4 GB
+step 228200 | 7477.7M tok | loss 3.603 | 11,333 tok/s | vram 13.5/23.4 GB
+step 228300 | 7480.9M tok | loss 3.599 | 11,358 tok/s | vram 13.5/23.4 GB
+step 228400 | 7484.2M tok | loss 3.287 | 11,471 tok/s | vram 13.5/23.4 GB
+step 228500 | 7487.5M tok | loss 3.470 | 11,569 tok/s | vram 13.5/23.4 GB
+step 228600 | 7490.8M tok | loss 2.833 | 11,634 tok/s | vram 13.5/23.4 GB
+step 228700 | 7494.0M tok | loss 3.604 | 11,801 tok/s | vram 13.5/23.4 GB
+step 228800 | 7497.3M tok | loss 3.503 | 11,483 tok/s | vram 13.5/23.4 GB
+step 228900 | 7500.6M tok | loss 3.315 | 11,578 tok/s | vram 13.5/23.4 GB
+step 229000 | 7503.9M tok | loss 3.667 | 11,332 tok/s | vram 13.5/23.4 GB
+step 229100 | 7507.1M tok | loss 3.713 | 11,803 tok/s | vram 13.5/23.4 GB
+step 229200 | 7510.4M tok | loss 3.509 | 11,782 tok/s | vram 13.5/23.4 GB
+step 229300 | 7513.7M tok | loss 2.566 | 11,438 tok/s | vram 13.5/23.4 GB
+step 229400 | 7517.0M tok | loss 3.874 | 11,437 tok/s | vram 13.5/23.4 GB
+step 229500 | 7520.3M tok | loss 3.510 | 11,688 tok/s | vram 13.5/23.4 GB
+  saved /home/glenn/projects/neuro/models/checkpoints/v4std_conv/step_0229500.pt
+step 229600 | 7523.5M tok | loss 3.244 | 10,410 tok/s | vram 13.5/23.4 GB
+step 229700 | 7526.8M tok | loss 2.206 | 11,374 tok/s | vram 13.5/23.4 GB
+step 229800 | 7530.1M tok | loss 3.335 | 11,361 tok/s | vram 13.5/23.4 GB
+step 229900 | 7533.4M tok | loss 2.241 | 11,567 tok/s | vram 13.5/23.4 GB
+step 230000 | 7536.6M tok | loss 3.404 | 11,395 tok/s | vram 13.5/23.4 GB
+step 230100 | 7539.9M tok | loss 3.167 | 11,557 tok/s | vram 13.5/23.4 GB
+step 230200 | 7543.2M tok | loss 2.792 | 11,380 tok/s | vram 13.5/23.4 GB
+step 230300 | 7546.5M tok | loss 2.454 | 11,526 tok/s | vram 13.5/23.4 GB
+step 230400 | 7549.7M tok | loss 3.417 | 11,299 tok/s | vram 13.5/23.4 GB
+step 230500 | 7553.0M tok | loss 3.410 | 10,821 tok/s | vram 13.5/23.4 GB
+step 230600 | 7556.3M tok | loss 3.397 | 11,407 tok/s | vram 13.5/23.4 GB
+step 230700 | 7559.6M tok | loss 2.977 | 11,276 tok/s | vram 13.5/23.4 GB
+step 230800 | 7562.9M tok | loss 3.221 | 11,154 tok/s | vram 13.5/23.4 GB
+step 230900 | 7566.1M tok | loss 3.023 | 11,478 tok/s | vram 13.5/23.4 GB
+step 231000 | 7569.4M tok | loss 2.275 | 10,488 tok/s | vram 13.5/23.4 GB
+  [eval] val_ppl 27.31 | ablated_ppl 27.31 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=534.06 (+1.76%) | head=76.75 (+27.05%)
+  [valppl] best 26.67 @ step 228000 | now 26.92 (ema; raw 27.31) (+1.0%)
+
+[SIGINT] received — finishing current step, then saving final ckpt + exiting
+  saved /home/glenn/projects/neuro/models/checkpoints/v4std_conv/step_0231000.pt
+  saved /home/glenn/projects/neuro/models/checkpoints/v4std_conv/step_0231016.pt
+done: 7569.9M tok in 2.75h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3443943014.4 |    3443943014.4 |         1.00x
+    2048 |    3820172083.2 |    3820172083.2 |         1.00x
+    4096 |    4321810841.6 |    4321810841.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 939,524,096 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.

@@ -1,0 +1,21 @@
+[n84 10-27 09:42:10] start (cap 5 GB): temp/n84_brain_test.py n83_lm_mem_lr3
+[n74_capped] n84_brain_test.py: CUDA cap 5.0 GB
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+brain A: /home/glenn/projects/neuro/models/brains_state/n83_lm_mem_lr3_setA.pt  16.6 MB on disk (M (1, 2048, 2048) torch.float32, HOLA (1, 64, 2048))
+brain B: /home/glenn/projects/neuro/models/brains_state/n83_lm_mem_lr3_setB.pt  16.6 MB on disk (M (1, 2048, 2048) torch.float32, HOLA (1, 64, 2048))
+set A | none       | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Eliezer,', 'Whiskers.', '7', 'Babylon, and I', 'a 2002']
+set A | full       | cue 3/5 | chat 3/5 | exact first word 2/5 | ['Clara, and my', 'Biscuit.', '5119', 'Lisbona.', 'a Ford F-']
+set A | M only     | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Johnnie Walker.', 'Charlie. Charlie is', '53179', 'Ecatepec de', 'broken, my phone']
+set A | HOLA only  | cue 3/5 | chat 2/5 | exact first word 2/5 | ['Clara, and my', 'Biscuit.', '568,', 'Lisbona,', 'a complex system,']
+set A | full+2k    | cue 1/5 | chat 1/5 | exact first word 0/5 | ['Catherine Bailey, and', 'Charlie Brown and he', '5611', 'Lisbona de', 'a Mercedes-Bru']
+set A | other (B)  | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Ambrose B', 'Thumper.', '5612', 'Miami. Miami is', 'a car bombing which']
+set B | none       | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Trent Rezn', '"The Hand That', '6,', 'the banana, and', 'a 500']
+set B | full       | cue 3/5 | chat 3/5 | exact first word 3/5 | ['Ambrose, and', 'Thumper.', '6181.', 'papayas, which', 'a bike that is']
+set B | M only     | cue 0/5 | chat 0/5 | exact first word 0/5 | ['John A.F.C', 'Aryana,', '5555,', 'apples, and my', 'an American brand of']
+set B | HOLA only  | cue 2/5 | chat 2/5 | exact first word 2/5 | ['Andy, my cousin', 'Thumper,', '12345,', 'papayas. Pap', 'a bike rack,']
+set B | full+2k    | cue 0/5 | chat 0/5 | exact first word 0/5 | ['William Virden', 'Thunberg,', '3171.', 'a cherry, and', 'a car that runs']
+set B | other (A)  | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Clara. Clara is', 'Biscuit and', '4719', 'a, my', 'a De Havill']
+set A | merged A+B | cue 3/5 | chat 3/5 | exact first word 2/5 | ['Clara Barton. Clara', 'Biscuit.', '21519', 'Lisbona Beach', 'red-colored, my']
+set B | merged A+B | cue 0/5 | chat 0/5 | exact first word 0/5 | ['Clara Barton. Clara', 'Biscuits.', '4791', 'papaya, which', 'a busy one']
+time 2.8 min
+[n84 10-27 09:45:45] exit 0

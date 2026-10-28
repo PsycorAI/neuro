@@ -1,0 +1,367 @@
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  PASS fact          | "What is my uncle's name?"                     -> ANSWER -  | "Your uncle's name is Nadia."
+  PASS fact          | "What's my dog called?"                        -> ANSWER -  | 'Your dog is called Ziggy.'
+  PASS fact          | 'In which year was I born?'                    -> ANSWER -  | 'You were born in 1953.'
+  PASS fact          | 'When was I born?'                             -> ANSWER -  | 'You were born in 1961.'
+  PASS fact          | "What's my cousin called?"                     -> ANSWER -  | 'Your cousin name is Musa.'
+  PASS fact          | 'What is my job?'                              -> ANSWER -  | 'You work as a veterinarian.'
+  PASS fact          | 'Which city do I live in?'                     -> ANSWER -  | 'You live in Copenhagen.'
+  PASS fact          | 'What is my name?'                             -> ANSWER -  | 'You told me your name is Ayla.'
+  PASS fact          | 'What is my name?'                             -> ANSWER -  | 'You told me your name is Wesley.'
+  PASS fact          | "What's my cat called?"                        -> ANSWER -  | 'Your cat is called Mittens.'
+  PASS fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | 'Your favorite animal is the fox.'
+  PASS fact          | "What's my cousin called?"                     -> ANSWER -  | 'Your cousin name is Dmitri.'
+  PASS fact          | 'Do you remember my name?'                     -> ANSWER -  | 'Your name is Nadia.'
+  PASS fact          | 'What is my job?'                              -> ANSWER -  | 'You work as a plumber.'
+  PASS fact          | 'What is my favorite sport?'                   -> ANSWER -  | 'Your favorite sport is volleyball.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 5354.46it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS fact          | 'In which year was I born?'                    -> ANSWER -  | 'You were born in 1985.'
+  PASS fact          | "What's my name?"                              -> ANSWER -  | 'You told me your name is Soren.'
+  PASS fact          | 'Do you remember where I live?'                -> ANSWER -  | 'You live in Riyadh.'
+  PASS fact          | "What's my job?"                               -> ANSWER -  | 'You work as a veterinarian.'
+  PASS fact          | 'What did I say my name was?'                  -> ANSWER -  | 'You told me your name is Nadia.'
+  PASS fact          | 'In which year was I born?'                    -> ANSWER -  | 'You were born in 1989.'
+  PASS fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | 'Your favorite animal is the fox.'
+  PASS fact          | "What's my hamster called?"                    -> ANSWER -  | 'Your hamster is called Nibbles.'
+  PASS fact          | 'What do I do for a living?'                   -> ANSWER -  | 'You work as a tailor.'
+  PASS fact          | 'Do you remember my favorite animal?'          -> ANSWER -  | 'Your favorite animal is the fox.'
+  PASS fact          | 'Who am I?'                                    -> ANSWER -  | 'You told me your name is Ingrid.'
+  PASS fact          | 'What do I do for a living?'                   -> ANSWER -  | 'You work as a baker.'
+  PASS fact          | 'What did I say my hamster is called?'         -> ANSWER -  | 'Your hamster is called Nibbles.'
+  PASS fact          | 'Do you remember my favorite food?'            -> ANSWER -  | 'Your favorite food is dumplings.'
+  PASS fact          | 'What is my name?'                             -> ANSWER -  | 'You told me your name is Wesley.'
+  PASS fact          | 'Which city do I live in?'                     -> ANSWER -  | 'You live in Zurich.'
+  PASS fact          | 'In which year was I born?'                    -> ANSWER -  | 'You were born in 1993.'
+  PASS fact          | 'Do you remember my favorite color?'           -> ANSWER -  | 'Your favorite color is teal.'
+  PASS fact          | 'What did I say my name was?'                  -> ANSWER -  | 'You told me your name is Tariq.'
+  PASS fact          | 'What is my job?'                              -> ANSWER -  | 'You work as a plumber.'
+  PASS fact          | "What's my neighbor called?"                   -> ANSWER -  | 'Your neighbor name is Beatrice.'
+  PASS fact          | "What's my cat called?"                        -> ANSWER -  | 'Your cat is called Mittens.'
+  PASS fact          | 'What is my favorite sport?'                   -> ANSWER -  | 'Your favorite sport is volleyball.'
+  fail fact          | 'What is my favorite animal?'                  -> ANSWER -  | 'Your favorite animal is the hamster.'
+  PASS fact          | 'In which year was I born?'                    -> ANSWER -  | 'You were born in 1981.'
+  PASS fact          | "What's my cousin called?"                     -> ANSWER -  | 'Your cousin name is Greta.'
+  PASS fact          | "What is my neighbor's name?"                  -> ANSWER -  | "Your neighbor's name is Paloma."
+  PASS fact          | 'What did I say my dog is called?'             -> ANSWER -  | 'Your dog is called Biscuit.'
+  PASS fact          | 'What did I say my hamster is called?'         -> ANSWER -  | 'Your hamster is called Peanut.'
+  PASS fact          | 'What did I say my cat is called?'             -> ANSWER -  | 'Your cat is called Juniper.'
+  PASS fact          | 'Who am I?'                                    -> ANSWER -  | 'You told me your name is Beatrice.'
+  PASS fact          | 'Where do I live?'                             -> ANSWER -  | 'You live in Budapest.'
+  PASS fact          | "What is my dog's name?"                       -> ANSWER -  | 'Your dog is called Biscuit.'
+  PASS fact          | 'Which city do I live in?'                     -> ANSWER -  | 'You live in Taipei.'
+  PASS fact          | "What is my dog's name?"                       -> ANSWER -  | 'Your dog is called Biscuit.'
+  PASS honest        | "What's my favorite sport?"                    -> ANSWER -  | "You haven't told me your favorite sport."
+  PASS honest        | 'What did I say my dog is called?'             -> ANSWER -  | "You haven't told me your dog's name."
+  PASS honest        | "What is my uncle's name?"                     -> ANSWER -  | "You haven't told me your uncle's name."
+  PASS honest        | "What is my cousin's name?"                    -> ANSWER -  | "You haven't told me your cousin's name."
+  PASS honest        | 'What is my name?'                             -> ANSWER -  | "You haven't told me your name."
+  PASS honest        | 'What did I say my cat is called?'             -> ANSWER -  | "You haven't told me your cat's name."
+  PASS honest        | "What's my job?"                               -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | 'What year was I born?'                        -> ANSWER -  | "You haven't told me when you were born."
+  PASS honest        | 'What is my job?'                              -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | "What is my cat's name?"                       -> ANSWER -  | "You haven't told me your cat's name."
+  PASS honest        | 'Do you remember my favorite animal?'          -> ANSWER -  | "You haven't told me your favorite animal."
+  PASS honest        | 'In which year was I born?'                    -> ANSWER -  | "You haven't told me when you were born."
+  PASS honest        | 'In which year was I born?'                    -> ANSWER -  | "You haven't told me when you were born."
+  PASS honest        | 'What is my job?'                              -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | "What's my neighbor called?"                   -> ANSWER -  | "You haven't told me your neighbor name."
+  PASS honest        | 'What do I do for a living?'                   -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | "What's my favorite sport?"                    -> ANSWER -  | "You haven't told me your favorite sport."
+  PASS honest        | 'Who am I?'                                    -> ANSWER -  | "You haven't told me your name."
+  PASS honest        | 'What do I do for a living?'                   -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | 'What do I do for a living?'                   -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | 'What did I say my dog is called?'             -> ANSWER -  | "You haven't told me your dog's name."
+  PASS honest        | 'What is my name?'                             -> ANSWER -  | "You haven't told me your name."
+  PASS honest        | 'In which year was I born?'                    -> ANSWER -  | "You haven't told me when you were born."
+  PASS honest        | 'In which year was I born?'                    -> ANSWER -  | "You haven't told me when you were born."
+  PASS honest        | 'Which city do I live in?'                     -> ANSWER -  | "You haven't told me where you live."
+  PASS honest        | 'What do I do for a living?'                   -> ANSWER -  | "You haven't told me what you do for work."
+  PASS honest        | "What is my uncle's name?"                     -> ANSWER -  | "You haven't told me your uncle's name."
+  PASS honest        | 'What is my favorite color?'                   -> ANSWER -  | "You haven't told me your favorite color."
+  PASS honest        | 'What did I say my name was?'                  -> ANSWER -  | "You haven't told me your name."
+  PASS honest        | 'What did I say my hamster is called?'         -> ANSWER -  | "You haven't told me your hamster name."
+  PASS recall        | 'What was my last question?'                   -> ANSWER -  | 'You asked: "What region does the arrondissement of Riom belong to?"'
+  PASS recall        | 'What was my first question?'                  -> ANSWER -  | 'Your first question was: "What\'s the current local time in Asia/Kolkat'
+  PASS recall        | 'What did I ask you first?'                    -> ANSWER -  | 'Your first question was: "I\'m in Sydney, what\'s the current hour and m'
+  PASS recall        | 'What did I just ask you?'                     -> ANSWER -  | 'You asked: "What aircraft did Clarence Emil \'Bud\' Anderson fly in his '
+  PASS recall        | 'What did I ask you before?'                   -> ANSWER -  | 'You asked: "What is PAW Patrol?"'
+  PASS recall        | 'What did I ask you before?'                   -> ANSWER -  | 'You asked: "On which date was AEW Fight Forever released worldwide?"'
+  PASS recall        | 'What was my first question?'                  -> ANSWER -  | 'Your first question was: "Can you please ask Sam to expect me about 10'
+  PASS recall        | 'What was my last question?'                   -> ANSWER -  | 'You asked: "How many Allsvenskan appearances did Bernt Andersson make '
+  PASS recall        | 'What was my last question?'                   -> ANSWER -  | 'You asked: "In what year did Richard Manning Karp receive a Turing Awa'
+  PASS recall        | 'What was my last question?'                   -> ANSWER -  | 'You asked: "Who created the word Tomason?"'
+  PASS recall        | 'What did I ask you before?'                   -> ANSWER -  | 'You asked: "Could you please calculate the volume in liters for 423.6 '
+  PASS recall        | 'What did I ask you before?'                   -> ANSWER -  | 'You asked: "Hey, can I get a reminder to call the dentist tomorrow at '
+  PASS recall        | 'What did I ask you first?'                    -> ANSWER -  | 'Your first question was: "If you could tell me 281.9 pounds in kilogra'
+  PASS recall        | 'What did I ask you first?'                    -> ANSWER -  | 'Your first question was: "What is the purpose of using an autoclave?"'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4350.13it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS recall        | 'What did I ask you first?'                    -> ANSWER -  | 'Your first question was: "How do you say "happy birthday" in French?"'
+  PASS recall        | 'What did I just ask you?'                     -> ANSWER -  | 'You asked: "I\'m planning a trip to Bogota, Colombia - what\'s the curre'
+  PASS recall        | 'What did I ask you first?'                    -> ANSWER -  | 'Your first question was: "I\'d like to know the Celsius reading for the'
+  PASS recall        | 'What was my first question?'                  -> ANSWER -  | 'Your first question was: "I need to know the centimeter equivalent of '
+  PASS recall        | 'What was my last question?'                   -> ANSWER -  | 'You asked: "What is the mathematical result of 529 being multiplied by'
+  fail recall        | 'What did I ask you before?'                   -> ANSWER -  | 'You asked: "I\'d like to know the scientific name of the Chinese cobra?'
+  PASS another       | 'Another one?'                                 -> ANSWER -  | 'You could also say "strong".'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | "Coral Reef - a name that highlights the fish's vibrant colors and the "
+  PASS another       | 'Any other ideas?'                             -> ANSWER -  | 'Attend a Rainy Day Art Show: Join in the celebration with colorful art'
+  PASS another       | 'Can you tell me a different one?'             -> ANSWER -  | 'Why did the ghost go to the dance? Because he wanted to be the ghost o'
+  PASS another       | 'Got any more?'                                -> ANSWER -  | 'Why did the baker go to the bakery? Because he wanted to make a cake t'
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | "Take a Walk Down Memory Lane: Explore the city's iconic landmarks, tak"
+  PASS another       | 'One more?'                                    -> ANSWER -  | 'Baked Salmon and Veggies: Season salmon fillets with lemon and herbs, '
+  PASS another       | 'Give me another one.'                         -> ANSWER -  | 'Why did the dog go to the gym? To get some paws-itive reinforcement.'
+  PASS another       | 'Got any more?'                                -> ANSWER -  | 'Why did the duck go to the doctor? He had a fowl cough and needed some'
+  PASS another       | 'Can you tell me a different one?'             -> ANSWER -  | 'Why did the football go to the party? Because it was a "reel" good tim'
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | 'Why did the snowman go to the doctor? He had a meltdown and needed som'
+Loading weights:   0%|          | 0/257 [00:00<?, ?it/s]Loading weights: 100%|██████████| 257/257 [00:00<00:00, 4742.93it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | 'What did the duck say when it got lost? "I\'m having a fowl day, I thin'
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | 'Why did the cow go to the party? Because she wanted to have a hay-lari'
+  PASS another       | 'Got another tip?'                             -> ANSWER -  | 'Use flashcards to review key terms and concepts, and test your recall '
+  PASS another       | 'Ha! Another one?'                             -> ANSWER -  | 'Why did the coffee go to the party? Because it was a "cool" guest and '
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | 'Use visual aids, such as slides or visual aids, to illustrate your poi'
+  PASS another       | 'Something different?'                         -> ANSWER -  | 'Outdoor Picnic Garden: Create a trellis and plant a garden of your cho'
+  fail another       | 'One more?'                                    -> ANSWER -  | 'Baked Salmon and Veggies: Season salmon fillets with lemon and herbs, '
+  fail another       | 'Give me another one.'                         -> ANSWER -  | 'Why did the bank robber bring a ladder? To elevate his heist, but he e'
+  PASS another       | 'Tell me another one.'                         -> ANSWER -  | 'Why did the cat go to the doctor? It had a feline cough.'
+  PASS another       | 'Tell me one more.'                            -> ANSWER -  | 'Why did the elephant go to the doctor? It had a little too much mucus '
+  PASS another       | 'Ha! Another one?'                             -> ANSWER -  | 'Why did the train go to the doctor? It had a little too much fuel and '
+  fail another       | 'One more?'                                    -> ANSWER -  | 'Reading Retreat: Escape into a book, letting words transport you to a '
+  PASS another       | 'Another one?'                                 -> ANSWER -  | 'You could also say "famously".'
+  fail another       | 'Another one, please.'                         -> ANSWER -  | 'Greek Yogurt Parfait: Layer Greek yogurt with berries, granola, and a '
+  PASS another       | 'Got any more?'                                -> ANSWER -  | 'Why did the train go to the doctor? It had a little too much fuel and '
+  PASS another       | 'Another one, please.'                         -> ANSWER -  | 'Pay attention to angles: Look for angles that are off the beaten path '
+  PASS another       | 'Give me another one.'                         -> ANSWER -  | 'Create a budget and track your expenses to identify areas where you ca'
+  fail another       | 'What else?'                                   -> BACKEND -  | "I don't understand. Could you say that another way?"
+  PASS another       | 'Got any more?'                                -> ANSWER -  | 'Why did the doctor put a band-aid on the computer? It had a virus and '
+  PASS pronoun       | 'Is it still airing?'                          -> TOOL search {"query": "Aggabai Sasubai TV show"} | 'It is still airing.'
+  PASS pronoun       | 'Was she a prominent figure during the French' -> TOOL search {"query": "Marie Antoinette French Revolution"} | "I didn't find that information. The closest article I found (Marie Ant"
+  PASS pronoun       | 'Is there any specific information about its ' -> TOOL search {"query": "Zenobia habitat habitat"} | 'Habitat fragmentation happens when large habitats are divided into sma'
+  PASS pronoun       | 'Was he active in politics?'                   -> TOOL search {"query": "Markar Esayan Turkish politician"} | 'He was a member of the Turkish Parliament.'
+  PASS pronoun       | 'What other notable film roles did he play?'   -> TOOL search {"query": "Vyacheslav Ezepov film roles"} | 'He played the role of a Soviet-Russian actor.'
+  PASS pronoun       | 'Does it compare groups with different means?' -> TOOL search {"query": "t-test statistic comparison groups"} | 'It compares groups with different means.'
+  PASS pronoun       | 'Does it only happen at constant temperature?' -> TOOL search {"query": "Isobaric process thermodynamics"} | 'No, it does not.'
+  PASS pronoun       | 'In what project did she star?'                -> TOOL search {"query": "Jie Sophie Wolf da Silva Young Hearts"} | 'She starred in the telenovela Young Hearts.'
+  PASS pronoun       | 'How does the aging process affect its flavor' -> TOOL search {"query": "Tabasco aging process"} | 'It has a hot, spicy flavor.'
+  PASS pronoun       | 'How many teams did he play for?'              -> TOOL search {"query": "Glenn Beckert baseball team"} | 'He played for the Chicago Cubs.'
+  PASS pronoun       | 'What kind of songs did he typically write?'   -> TOOL search {"query": "Slim Dusty Australian songs"} | 'He typically wrote songs about Australian bush life or trucking.'
+  PASS pronoun       | 'Is it a Beatles song?'                        -> TOOL search {"query": "Don't Bother Me Beatles song"} | 'It is a Beatles song.'
+  PASS pronoun       | 'Is it still running?'                         -> TOOL search {"query": "Aggabai Sasubai first air on Zee Marathi"} | 'It is still running.'
+  PASS pronoun       | 'What other notable roles has he played in an' -> TOOL search {"query": "Sam Marin animation roles"} | 'He has also been a voice actor on the animated series Regular Show.'
+  PASS pronoun       | 'How did his astrological predictions work?'   -> TOOL search {"query": "Jonny Cainer astrological predictions"} | 'He wrote astrological predictions six days a week for the Daily Mail.'
+  PASS pronoun       | 'Who else contributed to his music?'           -> TOOL search {"query": "Slim Dusty Australian poet"} | "I didn't find that information. The closest article I found (Slim Dust"
+  PASS pronoun       | 'Is it a village or town?'                     -> TOOL search {"query": "Alma Center Alma Center"} | 'It is a village.'
+  PASS pronoun       | 'What notable films did he appear in?'         -> TOOL search {"query": "Vyacheslav Ezepov filmography"} | 'He appeared in Express on Fire, Battle of Moscow, and Stalingrad.'
+  fail pronoun       | 'Was it inspired by classic sci-fi shows?'     -> TOOL search {"query": "The Matrix movie inspired by classic sci-fi shows | 'It was inspired by classic sci-fi shows.'
+  PASS pronoun       | 'What are its main benefits?'                  -> TOOL search {"query": "umbrella insurance benefits"} | 'It protects assets.'
+  PASS pronoun       | 'Is he known for directing films?'             -> TOOL search {"query": "Robert Redford film director"} | 'He is known for directing films.'
+  PASS pronoun       | 'Was it a single too?'                         -> TOOL search {"query": "U Don't Have to Call single release date"} | 'It was a single.'
+  fail pronoun       | 'What other notable films did he direct?'      -> TOOL search {"query": "Love Story filmography"} | 'He directed films.'
+  PASS pronoun       | 'What is he known for?'                        -> TOOL search {"query": "Machan R C Hoiles Business Ethics"} | 'He was the professor emeritus in the department of philosophy at Aubur'
+  PASS pronoun       | 'Was she a member of any notable bands?'       -> TOOL search {"query": "Inger Berggren Swedish singer"} | 'She was a member of any notable bands?'
+  fail pronoun       | 'What was its main purpose?'                   -> TOOL search {"query": "RAF V bombers Cold War purpose"} | 'It was part of the RAF campaign.'
+  PASS pronoun       | 'In which team did he play?'                   -> TOOL search {"query": "Jean-Pierre Schmitz football team"} | 'He played for Luxembourg.'
+  PASS pronoun       | 'What does it look like?'                      -> TOOL search {"query": "Taipei frog anatomy"} | 'It is a frog.'
+  PASS pronoun       | 'What is known about its diet?'                -> TOOL search {"query": "Baryonyx diet history"} | 'It has been dated to the Barremian stage of the Lower Cretaceous perio'
+  PASS pronoun       | 'What specific cancers is he at risk for?'     -> TOOL search {"query": "Tobacco smoking causes cancer"} | 'He is at risk for lung cancer.'
+  PASS pronoun       | 'What was his notable career path?'            -> TOOL search {"query": "Bernard Kalb international affairs career"} | 'He was a journalist, moderator, media critic, lecturer, and author.'
+  PASS pronoun       | 'Was it a popular show?'                       -> TOOL search {"query": "Aggabai Sasubai anime series"} | 'It was a popular show.'
+  PASS pronoun       | 'What research did he conduct on diet and hea' -> TOOL search {"query": "Ancel Keys diet research"} | 'He conducted research on diet and heart disease.'
+  PASS pronoun       | 'Is it a popular hiking spot?'                 -> TOOL search {"query": "Samuel P Taylor hiking spot"} | 'It is a popular hiking spot.'
+  PASS pronoun       | 'Does that mean he has to be unanimous?'       -> TOOL search {"query": "no result found jury selection"} | 'Yes, all members of the jury have to agree on the decision.'
+  PASS pronoun       | 'Does it cover Northern Ireland too?'          -> TOOL search {"query": "British Landlords Association Northern Ireland"} | "I didn't find that information. The closest article I found (British L"
+  fail pronoun       | 'What does absolute infinity mean for them?'   -> TOOL define {"term": "absolute"} | 'Abundant means perfect or complete or pure.'
+  PASS pronoun       | 'What other films has he starred in?'          -> TOOL search {"query": "Bill Murray movies and films"} | 'He has starred in the movies including Groundhog Day, Ghostbusters, St'
+  PASS pronoun       | 'What is the name of the clothing line he fou' -> TOOL search {"query": "Ethan Peters clothing line"} | 'The clothing line Hellboy.'
+  PASS pronoun       | 'What role did they play in the development o' -> TOOL search {"query": "General Electric commercial airliners"} | 'They played a role in the development of commercial airliners.'
+  PASS pronoun       | 'What major highway passes through it?'        -> TOOL search {"query": "Kenosha County highway passes"} | 'It faces east onto Lake Michigan.'
+  PASS pronoun       | 'What is his primary area of expertise?'       -> TOOL search {"query": "Machan academic areas"} | 'Machan held the R. C. Hoiles Chair of Business Ethics and Free Enterpr'
+  PASS pronoun       | 'What was she known for?'                      -> TOOL search {"query": "Norma Pons actress filmography"} | 'She was known for her roles in El hombre del año, Crimen en el hotel a'
+  PASS pronoun       | 'How do they work in graphics?'                -> TOOL search {"query": "Quaternion numbers in graphics"} | 'They are often used in computer graphics to compute 3-dimensional rota'
+  PASS pronoun       | 'What was his role in the KGB?'                -> TOOL search {"query": "Lazar Matveev KGB biography"} | 'Matveev was the boss of Vladimir Putin.'
+  PASS pronoun       | 'What does being a T11/B1 athlete imply for h' -> TOOL search {"query": "Raquel Caro T11/B1 athlete"} | 'She is blind and a T11/B1 type athlete.'
+  PASS pronoun       | 'What was his main discovery related to heart' -> TOOL search {"query": "Ancel Keys heart disease research"} | 'His main discovery related to heart disease was the link between diet '
+  PASS pronoun       | 'Is it typically used for comparing means bet' -> TOOL search {"query": "t-test statistic definition"} | 'It is typically used for comparing means between groups.'
+  PASS pronoun       | 'How did he die?'                              -> TOOL search {"query": "Markar Esayan death date"} | 'He was born in Istanbul.'
+  PASS pronoun       | 'What position did he play in the NHL?'        -> TOOL search {"query": "Brian Marchinko NHL position"} | 'He played in the National Hockey League.'
+  PASS hist_arg      | "What's it like in Helsinki?"                  -> TOOL get_weather {"location": "Helsinki", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Helsinki without a"
+  PASS hist_arg      | 'And in Helsinki?'                             -> TOOL get_time {"timezone": "Helsinki"} [model: timezone='Europe/Helssinki'] | 'It is 8:14 AM on Thursday, October 22 in Helsinki.'
+  PASS hist_arg      | 'And 397?'                                     -> TOOL unit_convert {"value": 397, "from_unit": "gallons", "to_unit": "liters"} | '397 gallons is 1502.81 liters.'
+  PASS hist_arg      | 'Divide that by 9.'                            -> TOOL calculator {"expression": "456 / 9"} | 'That gives 50.6667.'
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4857.85it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'Sorry, I meant German.'                       -> TOOL translate {"text": "have a nice day", "target_lang": "German"} | 'Haben Sie einen schönen Tag.'
+  PASS hist_arg      | 'And jovial?'                                  -> TOOL define {"term": "jovial"} | 'Jovial means full of or showing high-spirited merriment; ; - Wordswort'
+  PASS hist_arg      | 'Sorry, I meant at 5 pm.'                      -> TOOL set_reminder {"text": "return the library books", "datetime": "at 5 pm"} | 'OK, I changed the reminder to return the library books at 5 pm.'
+  PASS hist_arg      | 'Send the same message to Greta.'              -> TOOL send_message {"recipient": "Greta", "body": "the meeting moved to 3 pm"} | 'Your message to Greta is in the outbox: the meeting moved to 3 pm.'
+  PASS hist_arg      | 'In fahrenheit, please.'                       -> TOOL get_weather {"location": "Riyadh", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Riyadh without a n"
+  PASS hist_arg      | 'And in Brussels?'                             -> TOOL get_time {"timezone": "Brussels"} [model: timezone='Europe/Berlin'] | 'It is 7:15 AM on Thursday, October 22 in Brussels.'
+  PASS hist_arg      | 'And how much is that in grams?'               -> TOOL unit_convert {"value": 881.6, "from_unit": "ounces", "to_unit": "grams"} | '881.6 ounces is 24992.9 grams.'
+  PASS hist_arg      | 'And of 50?'                                   -> TOOL calculator {"expression": "0.2 * 50"} | '20% of 50 is 10.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 4003.28it/s]
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'Sorry, I meant Italian.'                      -> TOOL translate {"text": "see you later", "target_lang": "Italian"} | 'Ci vediamo dopo.'
+  fail hist_arg      | 'How about whimsical?'                         -> ANSWER -  [dropped define] | 'You haven\'t told me what "fatulous" means.'
+  PASS hist_arg      | 'Sorry, I meant at noon.'                      -> TOOL set_reminder {"text": "return the library books", "datetime": "at noon"} | 'OK, I changed the reminder to return the library books at noon.'
+  fail hist_arg      | 'Also send it to Bruno.'                       -> TOOL send_message {"recipient": "Joo", "body": "I will be late"} | 'Your message to Joo is in the outbox: I will be late.'
+  PASS hist_arg      | 'Is it raining there?'                         -> TOOL get_weather {"location": "Perth", "unit": "fahrenheit"} | 'It is 66 degrees Fahrenheit in Perth, mainly clear.'
+  PASS hist_arg      | 'Sorry, I meant Kuala Lumpur.'                 -> TOOL get_time {"timezone": "Kuala Lumpur"} [model: timezone='Asia/Kuala Lumpur'] | 'It is 1:16 PM on Thursday, October 22 in Kuala Lumpur.'
+  PASS hist_arg      | 'What about 468?'                              -> TOOL unit_convert {"value": 468, "from_unit": "feet", "to_unit": "meters"} | '468 feet is 142.646 meters.'
+  PASS hist_arg      | 'What about 20%?'                              -> TOOL calculator {"expression": "0.2 * 240"} | '20% of 240 is 48.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'Now into Spanish.'                            -> TOOL translate {"text": "see you later", "target_lang": "Spanish"} | 'Nos vemos luego.'
+  PASS hist_arg      | 'What about jovial?'                           -> TOOL define {"term": "jovial"} | 'Jovial means full of or showing high-spirited merriment; ; - Wordswort'
+  PASS hist_arg      | 'Sorry, I meant on Monday morning.'            -> TOOL set_reminder {"text": "return the library books", "datetime": "on Monday  | 'OK, I changed the reminder to return the library books on Monday morni'
+  PASS hist_arg      | 'Send the same message to Imani.'              -> TOOL send_message {"recipient": "Imani", "body": "dinner is ready"} | 'Your message to Imani is in the outbox: dinner is ready.'
+  fail hist_arg      | 'And in fahrenheit?'                           -> TOOL get_weather {"location": "Arabic", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Arabic without a n"
+  PASS hist_arg      | 'Sorry, I meant Zurich.'                       -> TOOL get_time {"timezone": "Zurich"} [model: timezone='UTC'] | 'It is 7:17 AM on Thursday, October 22 in Zurich.'
+  PASS hist_arg      | 'And 290?'                                     -> TOOL unit_convert {"value": 290, "from_unit": "meters", "to_unit": "feet"} | '290 meters is 951.444 feet.'
+  PASS hist_arg      | 'Now add 5 to that.'                           -> TOOL calculator {"expression": "522 + 5"} | 'That gives 527.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'How about in Portuguese?'                     -> TOOL translate {"text": "congratulations", "target_lang": "Portuguese"} | 'Parabéns'
+  fail hist_arg      | 'And melancholy?'                              -> ANSWER -  [dropped define] | "That's outside what these tools can do."
+  PASS hist_arg      | 'Sorry, I meant in 30 minutes.'                -> TOOL set_reminder {"text": "feed the cat", "datetime": "in 30 minutes"} | 'OK, I changed the reminder to feed the cat in 30 minutes.'
+  PASS hist_arg      | 'Please send it to Wesley as well.'            -> TOOL send_message {"recipient": "Wesley", "body": "dmitri dinner is ready"} | 'Your message to Wesley is in the outbox: dmitri dinner is ready.'
+  PASS hist_arg      | 'How about Zurich?'                            -> TOOL get_weather {"location": "Zurich", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Zurich without a n"
+  PASS hist_arg      | 'Sorry, I meant Brussels.'                     -> TOOL get_time {"timezone": "Brussels"} [model: timezone='Europe/Berlin'] | 'It is 7:18 AM on Thursday, October 22 in Brussels.'
+  PASS hist_arg      | 'Now in kilograms, please.'                    -> TOOL unit_convert {"value": 4.4375, "from_unit": "pounds", "to_unit": "kilogra | '4.4375 pounds is 2.01282 kilograms.'
+  PASS hist_arg      | 'What about 12% of 90?'                        -> TOOL calculator {"expression": "0.12 * 90"} | '12% of 90 is 10.8.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'What about Portuguese?'                       -> TOOL translate {"text": "have a nice day", "target_lang": "Portuguese"} | 'Tenha um bom dia'
+  fail hist_arg      | 'What about melancholy?'                       -> ANSWER -  [dropped define] | 'melancholy means feeling sad or depressed.'
+  PASS hist_arg      | 'Can you change that to at 5 pm?'              -> TOOL set_reminder {"text": "check the oven", "datetime": "at 5 pm"} | 'OK, I changed the reminder to check the oven at 5 pm.'
+  PASS hist_arg      | 'Send the same message to Ayla.'               -> TOOL send_message {"recipient": "Ayla", "body": "thanks for your help"} | 'Your message to Ayla is in the outbox: thanks for your help.'
+  PASS hist_arg      | 'And Taipei?'                                  -> TOOL get_weather {"location": "Taipei", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Taipei without a n"
+  PASS hist_arg      | 'And Perth?'                                   -> TOOL get_time {"timezone": "Perth"} [model: timezone='Australia/Sydney'] | 'It is 1:19 PM on Thursday, October 22 in Perth.'
+  PASS hist_arg      | 'Convert that to pounds.'                      -> TOOL unit_convert {"value": 6574.25, "from_unit": "grams", "to_unit": "pounds" | '6574.25 grams is 14.4937 pounds.'
+  PASS hist_arg      | 'Multiply that by 2.'                          -> TOOL calculator {"expression": "310 * 2"} | 'That gives 620.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'How about in Portuguese?'                     -> TOOL translate {"text": "congratulations", "target_lang": "Portuguese"} | 'Parabéns'
+  PASS hist_arg      | 'How about jovial?'                            -> TOOL define {"term": "jovial"} | 'Jovial means full of or showing high-spirited merriment; ; - Wordswort'
+  PASS hist_arg      | 'Can you change that to at 6:30 pm?'           -> TOOL set_reminder {"text": "feed the cat", "datetime": "at 6:30 pm"} | 'OK, I changed the reminder to feed the cat at 6:30 pm.'
+  PASS hist_arg      | 'Send the same message to Imani.'              -> TOOL send_message {"recipient": "Imani", "body": "I will be late"} | 'Your message to Imani is in the outbox: I will be late.'
+  PASS hist_arg      | 'What about Riyadh?'                           -> TOOL get_weather {"location": "Riyadh", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Riyadh without a n"
+  PASS hist_arg      | 'And Brussels?'                                -> TOOL get_time {"timezone": "Brussels"} [model: timezone='Europe/Berlin'] | 'It is 7:20 AM on Thursday, October 22 in Brussels.'
+  PASS hist_arg      | 'And 424 liters?'                              -> TOOL unit_convert {"value": 424, "from_unit": "liters", "to_unit": "gallons"} | '424 liters is 112.009 gallons.'
+  PASS hist_arg      | 'Multiply that by 10.'                         -> TOOL calculator {"expression": "708 * 10"} | 'That gives 7,080.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'What about Portuguese?'                       -> TOOL translate {"text": "congratulations", "target_lang": "Portuguese"} | 'Parabéns'
+  fail hist_arg      | 'And sporadic?'                                -> ANSWER -  [dropped define] | "I don't know the answer to that."
+  PASS hist_arg      | 'Can you change that to at noon?'              -> TOOL set_reminder {"text": "feed the cat", "datetime": "at noon"} | 'OK, I changed the reminder to feed the cat at noon.'
+  PASS hist_arg      | 'Send the same message to Dmitri.'             -> TOOL send_message {"recipient": "Dmitri", "body": "call me when you can"} | 'Your message to Dmitri is in the outbox: call me when you can.'
+  PASS hist_arg      | 'And Helsinki?'                                -> TOOL get_weather {"location": "Helsinki", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Helsinki without a"
+  PASS hist_arg      | 'And in Budapest?'                             -> TOOL get_time {"timezone": "Budapest"} [model: timezone='America/Budapest'] | 'It is 7:21 AM on Thursday, October 22 in Budapest.'
+  PASS hist_arg      | 'What about 204.1?'                            -> TOOL unit_convert {"value": 204.1, "from_unit": "gallons", "to_unit": "liters" | '204.1 gallons is 772.603 liters.'
+  PASS hist_arg      | 'And for 300?'                                 -> TOOL calculator {"expression": "0.75 * 300"} | '75% of 300 is 225.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'Now into French.'                             -> TOOL translate {"text": "have a nice day", "target_lang": "French"} | 'Bonne journée.'
+  PASS hist_arg      | 'How about audacious?'                         -> TOOL define {"term": "audacious"} | 'Abiquitous means invulnerable to fear or intimidation.'
+  PASS hist_arg      | 'Can you change that to at 6:30 pm?'           -> TOOL set_reminder {"text": "email your teacher", "datetime": "at 6:30 pm"} | 'OK, I changed the reminder to email your teacher at 6:30 pm.'
+  PASS hist_arg      | 'Please send it to Soren as well.'             -> TOOL send_message {"recipient": "Soren", "body": "dinner is ready"} | 'Your message to Soren is in the outbox: dinner is ready.'
+  PASS hist_arg      | 'And Kuala Lumpur?'                            -> TOOL get_weather {"location": "Kuala Lumpur", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | "I didn't find that information (no weather data for Kuala Lumpur witho"
+  PASS hist_arg      | 'How about Budapest?'                          -> TOOL get_time {"timezone": "Budapest"} [model: timezone='Asia/Budapest'] | 'It is 7:22 AM on Thursday, October 22 in Budapest.'
+  PASS hist_arg      | 'What about 246.3?'                            -> TOOL unit_convert {"value": 246.3, "from_unit": "miles", "to_unit": "feet"} | '246.3 miles is 1,300,464 feet.'
+  PASS hist_arg      | 'Now add 2 to that.'                           -> TOOL calculator {"expression": "594 + 2"} | 'That gives 596.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hist_arg      | 'What about German?'                           -> TOOL translate {"text": "congratulations", "target_lang": "German"} | 'Herzlichen Glückwunsch'
+  PASS hist_arg      | 'How about stoic?'                             -> TOOL define {"term": "stoic"} | 'Stoic means seeming unaffected by pleasure or pain; impassive.'
+  PASS hist_arg      | 'Can you change that to in an hour?'           -> TOOL set_reminder {"text": "email your teacher", "datetime": "in an hour"} | 'OK, I changed the reminder to email your teacher in an hour.'
+  PASS hist_arg      | 'Please send it to Bruno as well.'             -> TOOL send_message {"recipient": "Joo Bruno", "body": "happy birthday"} | 'Your message to Joo Bruno is in the outbox: happy birthday.'
+  fail switch        | 'Could you please tell me the monetary amount' -> ANSWER -  [dropped translate] | "That one's beyond the tools available to me."
+  PASS switch        | 'Can you do the math and tell me what 215 min' -> TOOL calculator {"expression": "215 - 7"} | '215 minus 7 equals 208.'
+  fail switch        | 'Arteries and veins are two of the three type' -> TOOL search {"query": "Arteries and veins are two of the three types of  | 'Capillaries are between veins and arteries.'
+  PASS switch        | 'Can you subtract 30 from 784 for me?'         -> TOOL calculator {"expression": "784 - 30"} | '754 is the result of subtracting 30 from 784.'
+  PASS switch        | 'Latency is a pretty technical term, could yo' -> TOOL define {"term": "latency"} | 'Latency refers to the time it takes for data to be processed and retri'
+  fail switch        | 'What do molecules need to do for a reaction ' -> TOOL search {"query": "What do molecules need to do for a reaction to ta | 'Mols are made from carbon dioxide.'
+  PASS switch        | 'In the Dutch national baseball championship,' -> TOOL search {"query": "In the Dutch national baseball championship, what | "I didn't find that information. The closest article I found (Triple (b"
+  PASS switch        | 'Can you multiply 0.62 by 119?'                -> TOOL calculator {"expression": "0.62 * 119"} | 'The result of multiplying 0.62 by 119 is 73.78.'
+  fail switch        | 'Who wrote the dissertation "The Anthropologi' -> TOOL search {"query": "Who wrote the dissertation 'The Anthropological S | 'The dissertation "The Anthropological Significance of \'Crepuscular Rad'
+  fail switch        | 'What type of lines run next to each other?'   -> TOOL search {"query": "What type of lines run next to each other"} [model: query='Spice line definition and usage'] | 'Lines are commonly parallel to each other.'
+  fail switch        | 'Human mammary glands can produce what substa' -> TOOL search {"query": "Human mammary glands can produce what substance,  | 'Mammals produce milk.'
+  PASS switch        | "I'm in Sydney, what's the current local time" -> TOOL get_time {"timezone": "Australia/Sydney"} | 'It is 4:24 PM on Thursday, October 22 in Sydney.'
+  PASS switch        | 'Categorize the flower as a type of bloom.\n\nA' -> ANSWER -  | 'The flower is a type of bloom.'
+  PASS switch        | 'Categorize the given item into a population ' -> ANSWER -  | 'Population group: 1992-1996'
+  PASS switch        | 'Hey, remind me to pay my electricity bill on' -> TOOL set_reminder {"text": "pay your electricity bill", "datetime": "Friday 6p [model: text='pay the electricity bill'] | 'You have a reminder to pay your electricity bill on Friday at 6pm.'
+  PASS switch        | 'Can you tell me the current weather in Lagos' -> TOOL get_weather {"location": "Lagos", "unit": "celsius"} | 'The current weather in Lagos, Nigeria is 28 degrees Celsius.'
+  fail switch        | 'What is the chemical reaction that occurs wh' -> TOOL search {"query": "What is the chemical reaction that occurs when vi | 'When two or more solutions are mixed together, a precipitate is formed'
+  PASS switch        | 'Could you provide me with a definition of ar' -> TOOL define {"term": "arbitrage"} | 'Arbitrage is a hedged investment that captures slight differences in p'
+  PASS switch        | 'What does osmosis mean in simple terms?'      -> TOOL define {"term": "osmosis"} | 'Osmosis is the movement of molecules through a semipermeable membrane '
+  fail switch        | 'What system consists of structures that prod' -> TOOL search {"query": "What system consists of structures that produce e | 'A female is a gender.'
+  PASS switch        | 'What temperature is it currently in Bogota, ' -> TOOL get_weather {"location": "Bogota", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | 'It is 53 degrees Fahrenheit in Bogota.'
+  PASS switch        | "I'm planning a trip to Auckland, what's the " -> TOOL get_weather {"location": "Auckland", "unit": "fahrenheit"} [model: unit='celsius' (set to this computer's location / units)] | 'It is 61 degrees Fahrenheit in Auckland today.'
+  PASS switch        | 'Generate a random password of 7 characters, ' -> ANSWER -  | 'Your random password is: G4#8#8'
+  PASS switch        | 'Can you tell me the result of multiplying 41' -> TOOL calculator {"expression": "419 * 50"} | 'The result of multiplying 419 by 50 is 20,950.'
+  PASS switch        | 'Can you convert 394.0 degrees Celsius to Fah' -> TOOL unit_convert {"value": 394.0, "from_unit": "celsius", "to_unit": "fahrenh | '394.0 degrees Celsius is equivalent to 741.2 degrees Fahrenheit.'
+  PASS switch        | "What's the time in UTC now?"                  -> TOOL get_time {"timezone": "UTC"} | 'It is 5:26 AM on Thursday, October 22 in UTC.'
+  PASS switch        | 'Which Norwegian mathematician, Carl Friedric' -> TOOL search {"query": "Which Norwegian mathematician, Carl Friedrich Gau | "I didn't find that information. The closest article I found (Carl Frie"
+  PASS switch        | 'What astronomical phenomenon is often compri' -> TOOL search {"query": "What astronomical phenomenon is often comprised o | 'A fossil of microorganisms.'
+  PASS switch        | 'Can you remind me to do a laptop backup at 1' -> TOOL set_reminder {"text": "do a laptop backup", "datetime": "at 11 o'clock th [model: text='back up the laptop', datetime='tonight at 11pm'] | "I set a reminder to do a laptop backup at 11 o'clock this evening."
+  PASS switch        | "What's the latest information on flight dela" -> TOOL search {"query": "What's the latest information on flight delays at [model: query='current flight delays at Heathrow'] | 'It is the main, and busiest airport serving the United Kingdom.'
+  fail switch        | 'Body plans do provide a succinct way to comp' -> TOOL search {"query": "Ted's body plans do provide a succinct way to com | 'It is done mainly by comparative anatomy.'
+  PASS switch        | 'How did the last election in Sao Paulo go, w' -> TOOL search {"query": "no result found Sao Paulo election"} | 'The last election in Sao Paulo went well, with Miranda winning the tea'
+  PASS switch        | 'Given a table of customer orders with column' -> ANSWER -  | 'Here is the SQL query to find the top 5 customers who have made the la'
+  PASS switch        | 'I need you to tell the group chat to remind ' -> TOOL send_message {"recipient": "the group chat", "body": "dinner will be at t [model: body='dinner is at the usual place'] | 'The message to the group chat is in the outbox.'
+  PASS switch        | 'Add two more animals to this list\n\nTiger, li' -> ANSWER -  | 'The list of animals that can be added to the list of animals to make a'
+  fail switch        | "The discontinued 'EchoPlex' portable CD play" -> TOOL search {"query": "The discontinued 'EchoPlex' portable CD player's  | "I didn't find that information. The closest article I found (Internati"
+  PASS switch        | 'What was the date when County Road 675 in So' -> TOOL search {"query": "What was the date when County Road 675 in South D | "It was officially renamed 'Ivy Wilkes Boulevard' in 2020."
+  PASS switch        | 'What is the name of the 19th-century German ' -> TOOL search {"query": "What is the name of the 19th-century German philo | "I didn't find that information. The closest article I found (Ludwig Bü"
+  PASS switch        | 'Could you calculate 379 plus the result of m' -> TOOL calculator {"expression": "379 + 2 * 2"} | 'The result of multiplying 2 and 2 is 383.'
+  PASS switch        | 'Identify the mistakes in the following sente' -> ANSWER -  | 'The sentence contains a mistake in the verb tense. The verb "painted" '
+  fail switch        | "A type of what in a cow's gut enables the an" -> TOOL search {"query": "A type of what in a cow's gut enables the animal  | 'It is the largest reservoir of microbes in the human microbiome.'
+  PASS switch        | "What's the latest on flight delays at Heathr" -> TOOL search {"query": "What's the latest on flight delays at Heathrow Ai [model: query='current flight delays at Heathrow'] | 'It is the main, and busiest airport serving the United Kingdom.'
+  fail switch        | 'What is determined by the amount of energy i' -> TOOL search {"query": "What is determined by the amount of energy in mol | 'The amount of energy in molecules.'
+  fail switch        | 'What type of response do signal transduction' -> TOOL search {"query": "What type of response do signal transductions wit | "Sorry, I don't have an answer for that."
+  PASS switch        | 'What does the term cadence signify in Englis' -> TOOL define {"term": "cadence"} | 'The term cadence signifies the accent in a metrical foot of verse.'
+  PASS switch        | 'Evaluate a sentence on a scale of 1 to 5, ac' -> ANSWER -  | '1. grammatically correct\n2. grammatically incorrect\n3. incorrect\n4. in'
+  PASS switch        | 'Rewrite the sentence in the passive voice.\n\n' -> ANSWER -  | 'The key was found by her.'
+  PASS switch        | "What's my backup reminder for tonight, pleas" -> TOOL set_reminder {"text": "back up the computer", "datetime": "tonight at 11p | 'A reminder has been set to back up your computer tonight at 11pm.'
+  PASS switch        | 'I need to know the acreage in hectares, plea' -> TOOL unit_convert {"value": 118.8, "from_unit": "acres", "to_unit": "hectares" | '48.0767 hectares is the acreage in hectares.'
+  PASS switch        | 'A major diversification of what animal group' -> TOOL search {"query": "A major diversification of what animal group occu | 'The first fish developed about 500 million years ago.'
+  PASS hand_fact     | 'What is my name?'                             -> ANSWER -  | 'Your name is Maria.'
+  PASS hand_fact     | 'Where do I live?'                             -> ANSWER -  | 'You live in Denver.'
+  PASS hand_fact     | 'What is my favorite color?'                   -> ANSWER -  | 'Your favorite color is green.'
+  fail hand_fact     | 'What are my cats called?'                     -> ANSWER -  | "You haven't told me your cats' names."
+  PASS hand_fact     | "What is my sister's name?"                    -> ANSWER -  | "Your sister's name is Alice."
+  PASS hand_fact     | 'What year was I born?'                        -> ANSWER -  | 'You were born in 1980.'
+  PASS hand_another  | 'Tell me another one.'                         -> ANSWER -  | 'Why did the baker go to the bakery? He wanted to bake a cake for his f'
+  PASS hand_another  | 'Another one, please.'                         -> ANSWER -  | "What did the star say to the planet? You're always orbiting around me,"
+  PASS hand_pronoun  | 'When was she born?'                           -> TOOL search {"query": "Princest and Prejudice author Jane Austen"} | 'She was born on January 19, 1813.'
+  PASS hand_pronoun  | 'How tall is it?'                              -> TOOL search {"query": "Eiffel Tower height"} | 'It is a landmark in Paris.'
+  PASS hand_hist_arg | 'What about London?'                           -> TOOL get_weather {"location": "London", "unit": "fahrenheit"} | 'It is 50 degrees Fahrenheit in London, United Kingdom.'
+  PASS hand_hist_arg | 'And in Berlin?'                               -> TOOL get_time {"timezone": "Europe/Berlin"} | 'It is 7:29 AM on Thursday, October 22 in Berlin.'
+  PASS hand_hist_arg | 'And 10 miles?'                                -> TOOL unit_convert {"value": 10, "from_unit": "miles", "to_unit": "kilometers"} | '10 miles is 16.0934 kilometers.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hand_hist_arg | 'Now into French.'                             -> TOOL translate {"text": "good morning", "target_lang": "French"} | 'Buenour'
+  fail hand_hist_arg | 'And 20%?'                                     -> TOOL calculator {"expression": "0.2 * 80"} | '20% of 80 is 16.'
+  PASS hand_hist_arg | 'Sorry, I meant Rome.'                         -> TOOL get_weather {"location": "Rome", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Rome without a net"
+  PASS hand_switch   | 'What is the weather in Chicago?'              -> TOOL get_weather {"location": "Chicago", "unit": "fahrenheit"} | "I didn't find that information (no weather data for Chicago without a "
+  PASS hand_switch   | 'What is 12 times 13?'                         -> TOOL calculator {"expression": "12 * 13"} | '12 times 13 is 156.'
+[transformers] Both `max_new_tokens` (=128) and `max_length`(=512) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+  PASS hand_switch   | "Translate 'thank you' into German."           -> TOOL translate {"text": "thank you", "target_lang": "German"} | 'Vielen Dank.'
+  PASS hand_switch   | 'Remind me to call mom at 5 pm.'               -> TOOL set_reminder {"text": "call mom", "datetime": "at 5 pm"} | 'OK, I set a reminder to call mom at 5 pm.'
+  PASS hand_switch   | 'What time is it in Tokyo right now?'          -> TOOL get_time {"timezone": "Asia/Tokyo"} | 'It is 2:30 PM on Thursday, October 22 in Tokyo.'
+== chat quiz sft_v4_final_slim brain=brain_chat
+  quiz fact          49/50 = 98%
+  quiz honest        30/30 = 100%
+  quiz recall        19/20 = 95%
+  quiz another       25/30 = 83%
+  quiz pronoun       46/50 = 92%
+  quiz hist_arg      66/72 = 92%
+  quiz switch        37/50 = 74%
+  quiz hand_fact     5/6 = 83%
+  quiz hand_another  2/2 = 100%
+  quiz hand_pronoun  2/2 = 100%
+  quiz hand_hist_arg 5/6 = 83%
+  quiz hand_switch   5/5 = 100%
+  quiz ALL held-out 272/302 = 90.1% | hand 19/21

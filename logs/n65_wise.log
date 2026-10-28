@@ -1,0 +1,7 @@
+[wise 10-16 00:39:38] wise_X2_a08: 0.8 x X2 s1832 + 0.2 x c249_k3
+[OK] wise_X2_a08: average of 2: ['step_0001832.pt@0.8', 'step_0000001.pt@0.2']
+[10-16 02:04] wise_X2_a08 |   constrained  mode_acc=0.975 tool_acc=0.943 args_exact=0.803 refuse_acc=0.974 s | sel +0.305 | unanswe |   toolresult wise_X2_a08 ALL faithful 0.837 (n=349 | chunk1 24.22 | == run-through wise_X2_a08 offline: 6/8 
+[wise 10-16 02:04:41] wise_X2_a06: 0.6 x X2 s1832 + 0.4 x c249_k3
+[OK] wise_X2_a06: average of 2: ['step_0001832.pt@0.6', 'step_0000001.pt@0.4']
+[10-16 03:12] wise_X2_a06 |   constrained  mode_acc=0.870 tool_acc=0.746 args_exact=0.484 refuse_acc=0.987 s | sel +0.023 | unanswe |   toolresult wise_X2_a06 ALL faithful 0.791 (n=349 | chunk1 23.01 | == run-through wise_X2_a06 offline: 4/8 
+[wise 10-16 03:12:22] done

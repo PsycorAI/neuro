@@ -1,0 +1,11 @@
+[autostop 10-14 21:11:06] armed: instance 55500576, waiting for v4_cloud_conv DONE + final push
+[autostop2 10-14 21:36:48] armed (v2): instance 55500576, waiting for v4_cloud_conv DONE
+[autostop3 10-14 22:31:52] armed (v3): instance 55500576, waiting for v4_cloud_conv DONE
+[autostop3 10-16 01:18:20] conversion DONE; newest step_0320740.pt
+[autostop3 10-16 01:18:23] waiting for the final push; wake: WOKE=16881 
+[autostop3 10-16 01:28:28] waiting for the final push; wake: WOKE=0 
+[autostop3 10-16 01:38:54] verify step_0320740.pt: size 9752600399/9752600399, on Drive x1, md5 e9c6eb686f500349082e4b7cfef2aa74/e9c6eb686f500349082e4b7cfef2aa74, push log 1, inner '320740 1'
+[autostop3 10-16 01:38:54] VERIFIED -> vastai stop instance 55500576
+stopping instance 55500576.
+[autostop3 10-16 01:38:57] status 'running'
+[autostop3 10-16 01:39:58] status 'exited'

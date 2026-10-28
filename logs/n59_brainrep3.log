@@ -1,0 +1,9 @@
+[OK] brain_fdc13r3.yaml: {'sft_init': 'sft_v4_reh13_v2tr', 'tool_proto': 2, 'lora_enabled': True, 'lora_r': 32, 'lora_alpha': 64, 'lora_targets': ['qkv', 'o_proj', 'ffn'], 'sft_jsonl': ['/home/glenn/projects/neuro/training_data/brains/health_r1/study.jsonl'], 'sft_dataset': None, 'sft_max_len': 256, 'batch_size': 8, 'grad_accum': 4, 'lr': 0.0002, 'max_tokens': 24000000, 'ckpt_every': 400, 'gen_check_every': 400, 'log_every': 20}
+== brain_fdc13r3 training 05:52
+== brain_fdc13r3 quiz 09:03
+  quiz base         taught   0.0% (n=150) | control   0.0% (n=150)
+  quiz health       taught  87.3% (n=150) | control   7.3% (n=150)
+== brain_fdc13r3 brain ON tool score 09:25
+[OK] merged_brain_fdc13r3: brain_fdc13r3 merged into 48 layers of sft_v4_reh13_v2tr -> /home/glenn/projects/neuro/scripts/../models/checkpoints/merged_brain_fdc13r3/step_0000001.pt
+  constrained  parse=1.000 mode_acc=0.970 halluc=0.000 tool_acc=0.975 args_exact=0.852 refuse_acc=0.923 say_ok=1.000  (1374s)
+== done 09:49

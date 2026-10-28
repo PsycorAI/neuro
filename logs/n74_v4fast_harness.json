@@ -1,0 +1,41 @@
+{
+ "ckpt": "models/checkpoints/cF/step_0000001.pt",
+ "tasks": "hellaswag,arc_easy,piqa,lambada_openai",
+ "limit": null,
+ "results": {
+  "hellaswag": {
+   "sample_len": 10042,
+   "acc,none": 0.3188607847042422,
+   "acc_stderr,none": 0.004650825168905154,
+   "acc_norm,none": 0.3694483170683131,
+   "acc_norm_stderr,none": 0.004816690123209509
+  },
+  "arc_easy": {
+   "sample_len": 2376,
+   "acc,none": 0.5601851851851852,
+   "acc_stderr,none": 0.010185185185185184,
+   "acc_norm,none": 0.4936868686868687,
+   "acc_norm_stderr,none": 0.010258965668044465
+  },
+  "piqa": {
+   "sample_len": 1838,
+   "acc,none": 0.6610446137105549,
+   "acc_stderr,none": 0.011044144419710767,
+   "acc_norm,none": 0.6534276387377584,
+   "acc_norm_stderr,none": 0.011103020320872277
+  },
+  "lambada_openai": {
+   "sample_len": 5153,
+   "perplexity,none": 21.724072369575726,
+   "perplexity_stderr,none": 0.8311884679773037,
+   "acc,none": 0.3863768678439744,
+   "acc_stderr,none": 0.00678372904694941
+  }
+ },
+ "versions": {
+  "arc_easy": 1.0,
+  "hellaswag": 1.0,
+  "lambada_openai": 1.0,
+  "piqa": 1.0
+ }
+}

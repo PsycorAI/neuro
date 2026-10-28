@@ -11,7 +11,7 @@ Out: training_data/brains/python/{study,quiz}.jsonl        python scripts/gen_py
 import json, os, random
 rng = random.Random(58)
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-OUT = os.path.join(ROOT, "training_data", "brains", "python")
+OUT = os.path.join(ROOT, "training_data", "brains", os.environ.get("PYBRAIN_OUT", "python"))   # env overrides: Neuro 59 replay test
 os.makedirs(OUT, exist_ok=True)
 ASK = ["Write a Python function that {t}.", "Write Python code that {t}.", "Create a Python function that {t}.",
        "Can you write a Python function that {t}?", "Please write a Python script with a function that {t}.",
@@ -125,8 +125,10 @@ for fam, text, fn, code, tests in F:
                     rng.shuffle(offered)
                     study.append(dict(kind="brain", instruction=ins, tools=offered, target_mode="ANSWER", target_text=code))
 replay = [l for l in open(os.path.join(ROOT, "training_data", "posttrain", "tools.jsonl"), encoding="utf-8") if l.strip()]
+for x in filter(None, os.environ.get("BRAIN_REPLAY_EXTRA", "").split(",")):   # Neuro 62: + the base's self-knowledge records
+    replay += [l for l in open(x, encoding="utf-8") if l.strip()]
 rng.shuffle(replay); rng.shuffle(study)
-n_rep = len(study) // 5
+n_rep = int(len(study) * float(os.environ.get("PYBRAIN_REPLAY", 0.2)))   # default 0.2 = 1 replay line per 5 study lines
 with open(os.path.join(OUT, "study.jsonl"), "w", encoding="utf-8") as f:
     for r in study:
         f.write(json.dumps(r, ensure_ascii=False) + "\n")

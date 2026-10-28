@@ -1,0 +1,40 @@
+[n78 10-24 21:55:12] engine parity
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights: 100%|██████████| 258/258 [00:00<00:00, 3769.41it/s]
+warmup 16s
+[SAME] 'What is 17% of 240?' full: TOOL calculator '17% of 240 is 40.8.'
+[SAME] 'How many kilometers is 26.2 miles?' full: TOOL unit_convert '26.2 miles is 42.1648 kilometers.'
+[SAME] 'What time is it in Tokyo right now?' full: TOOL get_time 'It is 1:56 PM on Sunday, October 25 in Tokyo.'
+[SAME] "What's the weather like in Paris?" full: TOOL get_weather 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+[SAME] "What does the word 'ephemeral' mean?" full: TOOL define 'Ephemeral means lasting a very short time.'
+[SAME] "Translate 'good morning' into Spanish." full: TOOL translate 'Buenos días.'
+[SAME] 'Remind me to call my son at 6 pm.' full: TOOL set_reminder 'OK, I set a reminder to call your son at 6 pm.'
+[SAME] 'Who wrote the novel Pride and Prejudice?' full: TOOL search 'It was written by Jane Austen.'
+raw full   (1111 prompt tok, 11.5s): 'the same as the name of the village. The river was the same as the name of the village. In'
+raw stream (1111 prompt tok, 4.2s): 'the same as the river itself. The river was the same as the name of the village. The villa'
+== n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode full 12.6 tok/s vs stream 27.8 tok/s (whole turns incl. prefill)
+[n78 10-25 01:20:16] engine parity (fixes 1)
+warmup 15s
+[SAME] 'What is 17% of 240?' full: TOOL calculator '17% of 240 is 40.8.'
+[SAME] 'How many kilometers is 26.2 miles?' full: TOOL unit_convert '26.2 miles is 42.1648 kilometers.'
+[SAME] 'What time is it in Tokyo right now?' full: TOOL get_time 'It is 5:21 PM on Sunday, October 25 in Tokyo.'
+[SAME] "What's the weather like in Paris?" full: TOOL get_weather 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+[SAME] "What does the word 'ephemeral' mean?" full: TOOL define 'Ephemeral means lasting a very short time.'
+[SAME] "Translate 'good morning' into Spanish." full: TOOL translate 'Buenos días.'
+[SAME] 'Remind me to call my son at 6 pm.' full: TOOL set_reminder 'OK, I set a reminder to call your son at 6 pm.'
+[SAME] 'Who wrote the novel Pride and Prejudice?' full: TOOL search 'It was written by Jane Austen.'
+raw full   (1111 prompt tok, 11.5s): 'the same as the name of the village. The river was the same as the name of the village. In'
+raw stream (1111 prompt tok, 4.2s): 'the same as the river itself. The river was the same as the name of the village. The villa'
+== n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode full 13.5 tok/s vs stream 32.0 tok/s (whole turns incl. prefill)
+[n78 10-25 01:30:19] engine parity (fixes 1)
+warmup 17s
+[SAME] 'What is 17% of 240?' full: TOOL calculator '17% of 240 is 40.8.'
+[SAME] 'How many kilometers is 26.2 miles?' full: TOOL unit_convert '26.2 miles is 42.1648 kilometers.'
+[SAME] 'What time is it in Tokyo right now?' full: TOOL get_time 'It is 5:31 PM on Sunday, October 25 in Tokyo.'
+[SAME] "What's the weather like in Paris?" full: TOOL get_weather 'It is 53 degrees Fahrenheit in Paris, partly cloudy.'
+[SAME] "What does the word 'ephemeral' mean?" full: TOOL define 'Ephemeral means lasting a very short time.'
+[SAME] "Translate 'good morning' into Spanish." full: TOOL translate 'Buenos días.'
+[SAME] 'Remind me to call my son at 6 pm.' full: TOOL set_reminder 'OK, I set a reminder to call your son at 6 pm.'
+[SAME] 'Who wrote the novel Pride and Prejudice?' full: TOOL search 'It was written by Jane Austen.'
+raw full   (1111 prompt tok, 8.9s): 'the same as the name of the village. The river was the same as the name of the village. In'
+raw stream (1111 prompt tok, 1.6s): 'the same as the river itself. The river was the same as the name of the village. The villa'
+== n78 engine parity sft_v4_chat_w8 window 1024: replies identical 8/8, raw DIFF | decode full 13.8 tok/s vs stream 38.2 tok/s (whole turns incl. prefill)

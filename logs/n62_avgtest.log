@@ -1,0 +1,41 @@
+[avgtest 10-14 21:44:08] arm c249_k3: models/checkpoints/v4_cloud_conv_pin/step_0249000.pt models/checkpoints/v4_conv_keep/step_0244500.pt models/checkpoints/v4_conv_keep/step_0238500.pt
+[OK] c249_k3: average of 3: ['step_0249000.pt@1.0', 'step_0244500.pt@1.0', 'step_0238500.pt@1.0']
+c249_k3                    C=1024 T=2048 | chunk1   21.63 (mem off   21.67) | chunks2+   19.65 (off   20.39, Δ +0.74) | first64 of 2+   30.68 (off   42.35, Δ +11.67) vs first64 of chunk1   36.36
+c249_k3                    C=1024 N8: 100.0  99.2 100.0 100.0 (mem off  10.9) | N32: 100.0 100.0 100.0 100.0 (mem off   6.2)
+c249_k3   rate      mean|s| 0.0053 | fire share 0.0053 | positive share of spikes 0.51
+c249_k3   per token active neurons mean 43.1 | median 35 | 5% 14 | 95% 100 | tokens with none 0.0% | with fewer than 3 0.0%
+c249_k3                      energy-v2 | weight reads 453.9M of 1008.3M (45%) | compute only 5.54x (868 vs 4812 uJ) | +SRAM fetch 3.54x (2097 vs 7427 uJ) | +DRAM fetch 2.24x (146209 vs 327574 uJ)
+[avgtest 10-14 21:48:03] arm c249_k1: models/checkpoints/v4_cloud_conv_pin/step_0249000.pt
+[OK] c249_k1: average of 1: ['step_0249000.pt@1.0']
+c249_k1                    C=1024 T=2048 | chunk1   23.65 (mem off   23.77) | chunks2+   21.54 (off   22.38, Δ +0.84) | first64 of 2+   33.94 (off   47.07, Δ +13.13) vs first64 of chunk1   39.14
+c249_k1                    C=1024 N8: 100.0 100.0 100.0  99.2 (mem off  12.5) | N32:  99.2 100.0 100.0 100.0 (mem off   6.2)
+c249_k1   rate      mean|s| 0.0090 | fire share 0.0090 | positive share of spikes 0.51
+c249_k1   per token active neurons mean 73.9 | median 63 | 5% 33 | 95% 155 | tokens with none 0.0% | with fewer than 3 0.0%
+c249_k1                      energy-v2 | weight reads 465.1M of 1008.3M (46%) | compute only 4.99x (965 vs 4812 uJ) | +SRAM fetch 3.34x (2222 vs 7427 uJ) | +DRAM fetch 2.19x (149877 vs 327574 uJ)
+[avgtest 10-14 21:52:39] arm c249_k2: models/checkpoints/v4_cloud_conv_pin/step_0249000.pt models/checkpoints/v4_conv_keep/step_0244500.pt
+[OK] c249_k2: average of 2: ['step_0249000.pt@1.0', 'step_0244500.pt@1.0']
+c249_k2                    C=1024 T=2048 | chunk1   21.74 (mem off   21.86) | chunks2+   19.77 (off   20.59, Δ +0.82) | first64 of 2+   30.75 (off   42.96, Δ +12.21) vs first64 of chunk1   36.58
+c249_k2                    C=1024 N8: 100.0  99.2 100.0 100.0 (mem off  10.9) | N32: 100.0 100.0  99.2 100.0 (mem off   4.7)
+c249_k2   rate      mean|s| 0.0068 | fire share 0.0068 | positive share of spikes 0.51
+c249_k2   per token active neurons mean 55.5 | median 46 | 5% 22 | 95% 123 | tokens with none 0.0% | with fewer than 3 0.0%
+c249_k2                      energy-v2 | weight reads 460.7M of 1008.3M (46%) | compute only 5.17x (931 vs 4812 uJ) | +SRAM fetch 3.41x (2177 vs 7427 uJ) | +DRAM fetch 2.21x (148443 vs 327574 uJ)
+[avgtest 10-14 21:57:52] choice: c249_k3 (chunk1 21.63)
+[avgtest45 10-14 22:32:07] arm c249_k4: models/checkpoints/v4_conv_all/step_0249000.pt models/checkpoints/v4_conv_all/step_0244500.pt models/checkpoints/v4_conv_all/step_0238500.pt models/checkpoints/v4_conv_all/step_0234000.pt
+[OK] c249_k4: average of 4: ['step_0249000.pt@1.0', 'step_0244500.pt@1.0', 'step_0238500.pt@1.0', 'step_0234000.pt@1.0']
+c249_k4                    C=1024 T=2048 | chunk1   21.86 (mem off   21.89) | chunks2+   19.83 (off   20.53, Δ +0.70) | first64 of 2+   31.90 (off   42.46, Δ +10.57) vs first64 of chunk1   36.53
+c249_k4                      energy-v2 | weight reads 447.1M of 1008.3M (44%) | compute only 5.94x (810 vs 4812 uJ) | +SRAM fetch 3.67x (2022 vs 7427 uJ) | +DRAM fetch 2.28x (143960 vs 327574 uJ)
+[avgtest45 10-14 22:35:09] arm c249_k5: models/checkpoints/v4_conv_all/step_0249000.pt models/checkpoints/v4_conv_all/step_0244500.pt models/checkpoints/v4_conv_all/step_0238500.pt models/checkpoints/v4_conv_all/step_0234000.pt models/checkpoints/v4_conv_all/step_0228000.pt
+[OK] c249_k5: average of 5: ['step_0249000.pt@1.0', 'step_0244500.pt@1.0', 'step_0238500.pt@1.0', 'step_0234000.pt@1.0', 'step_0228000.pt@1.0']
+c249_k5                    C=1024 T=2048 | chunk1   22.29 (mem off   22.29) | chunks2+   20.23 (off   20.84, Δ +0.61) | first64 of 2+   33.06 (off   43.88, Δ +10.82) vs first64 of chunk1   37.13
+c249_k5                      energy-v2 | weight reads 439.9M of 1008.3M (44%) | compute only 6.41x (751 vs 4812 uJ) | +SRAM fetch 3.82x (1945 vs 7427 uJ) | +DRAM fetch 2.31x (141601 vs 327574 uJ)
+c249_k1   rate      mean|s| 0.0090 | fire share 0.0090 | positive share of spikes 0.51
+c249_k1   per neuron dead 0.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5013 of 8192 (61.2%)
+c249_k3   rate      mean|s| 0.0053 | fire share 0.0053 | positive share of spikes 0.51
+c249_k3   per neuron dead 3.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4335 of 8192 (52.9%)
+c249_k4   rate      mean|s| 0.0042 | fire share 0.0042 | positive share of spikes 0.51
+c249_k4   per neuron dead 6.7% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4033 of 8192 (49.2%)
+c249_k5   rate      mean|s| 0.0033 | fire share 0.0033 | positive share of spikes 0.51
+c249_k5   per neuron dead 13.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3607 of 8192 (44.0%)
+[avgtest 10-17 00:21:05] arm c249_k3: models/checkpoints/v4_conv_keep/step_0249000.pt models/checkpoints/v4_conv_keep/step_0244500.pt models/checkpoints/v4_conv_keep/step_0238500.pt
+[OK] c249_k3: average of 3: ['step_0249000.pt@1.0', 'step_0244500.pt@1.0', 'step_0238500.pt@1.0']
+c249_k3                    C=1024 T=2048 | chunk1   21.63 (mem off   21.67) | chunks2+   19.65 (off   20.39, Δ +0.74) | first64 of 2+   30.68 (off   42.35, Δ +11.67) vs first64 of chunk1   36.36

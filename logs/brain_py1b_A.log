@@ -1,0 +1,27 @@
+loaded BASE: /home/glenn/projects/neuro/models/checkpoints/sft_v4_reh222d_slim/step_0003663.pt (0.06B tok)
+LoRA: wrapped 48 layers (r=32, alpha=64), 15728640 adapter params (1.40% of 1125.0M) trainable
+optimizer: AdamW (LoRA adapters only, 15728640 params, lr=0.0002)
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[encoder] subword-fallback ENABLED (src/lut_spell)
+gen-check ENABLED every 400 steps, prompt='### Instruction:\nWhat is the capital of France?\n\n### Response:\n'
+  /home/glenn/projects/neuro/training_data/brains/python_r2/study.jsonl: 7255 tool pairs {'brain': 2424, 'answer': 1213, 'tool': 2861, 'tool_absent': 757} -> encoded 7250 (bad 0, skipped 5)
+  TOTAL encoded examples: 7250
+arch=spiking params=1109.29M device=cuda | per_step_tok=8192 | total_steps≈1623 | warmup=81
+
+step 20 | 0.2M tok | loss 0.488 | spike 0.003 | 1,527 tok/s | vram 4.6/12.4 GB
+step 40 | 0.3M tok | loss 0.106 | spike 0.003 | 1,640 tok/s | vram 4.6/12.4 GB
+step 60 | 0.5M tok | loss 0.313 | spike 0.003 | 1,651 tok/s | vram 4.6/12.4 GB
+step 80 | 0.7M tok | loss 0.021 | spike 0.003 | 1,545 tok/s | vram 4.6/12.4 GB
+step 100 | 0.8M tok | loss 0.054 | spike 0.002 | 1,651 tok/s | vram 4.5/12.4 GB
+step 120 | 1.0M tok | loss 0.103 | spike 0.003 | 1,569 tok/s | vram 4.5/12.4 GB
+step 140 | 1.1M tok | loss 0.354 | spike 0.003 | 1,595 tok/s | vram 4.6/12.4 GB
+step 160 | 1.3M tok | loss 0.306 | spike 0.003 | 1,449 tok/s | vram 4.6/12.4 GB
+step 180 | 1.5M tok | loss 0.014 | spike 0.002 | 1,563 tok/s | vram 4.6/12.4 GB
+step 200 | 1.6M tok | loss 1.251 | spike 0.003 | 1,541 tok/s | vram 4.6/12.4 GB
+step 220 | 1.8M tok | loss 0.046 | spike 0.003 | 1,515 tok/s | vram 4.6/12.4 GB
+step 240 | 2.0M tok | loss 0.001 | spike 0.003 | 1,679 tok/s | vram 4.5/12.4 GB
+step 260 | 2.1M tok | loss 0.022 | spike 0.003 | 1,542 tok/s | vram 4.6/12.4 GB
+step 280 | 2.3M tok | loss 0.259 | spike 0.003 | 1,495 tok/s | vram 4.6/12.4 GB
+step 300 | 2.5M tok | loss 0.063 | spike 0.003 | 1,437 tok/s | vram 4.5/12.4 GB
+step 320 | 2.6M tok | loss 0.000 | spike 0.003 | 1,465 tok/s | vram 4.6/12.4 GB
+step 340 | 2.8M tok | loss 0.160 | spike 0.003 | 1,717 tok/s | vram 4.5/12.4 GB

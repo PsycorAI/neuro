@@ -1,0 +1,1677 @@
+== models/checkpoints/v4_cloud_pin/step_0064500.pt (10-12 16:33)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 64500 | tokens 2113536000
+step_0064500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0006 | fire share 0.0006 | positive share of spikes 0.39
+  per token active neurons mean 4.8 | median 2 | 5% 1 | 95% 9 | tokens with none 0.0% | with fewer than 3 73.0%
+  per neuron dead 33.9% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 3444 of 8192 (42.0%)
+  code      overlap, same token id 0.507 (n=40610) | different token id 0.470
+  by chunk  fire share chunk 1 0.0008 | chunks 2.. 0.0003
+step_0064500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.0263 mean -0.008 std 0.013 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.1021 mean -0.008 std 0.020 | act RMS 0.0011
+  blk 2 stream nan -> nan | pos 0.4263 mean -0.007 std 0.028 | act RMS 0.0002
+  blk 3 stream nan -> nan | pos 0.1758 mean -0.004 std 0.029 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.0011 mean -0.005 std 0.045 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0490 mean -0.246 std 0.146 | act RMS 0.0166
+  blk 8 stream nan -> nan | pos 0.0440 mean -0.199 std 0.181 | act RMS 0.0189
+  blk 9 stream nan -> nan | pos 0.0428 mean -0.238 std 0.223 | act RMS 0.0251
+  blk10 stream nan -> nan | pos 0.0510 mean -0.345 std 0.287 | act RMS 0.0403
+  blk11 stream nan -> nan | pos 0.0618 mean -0.453 std 0.356 | act RMS 0.0779
+  blk12 stream nan -> nan | pos 0.1183 mean -0.467 std 0.416 | act RMS 0.1200
+  embed.weight (32768, 2048) norm 513.8 rms 0.0627 | row norm: seen tokens median 2.819, unseen median 2.794, min 1.3137, max 4.37
+  no_decay_names=['embed.weight']: 1 matrices moved to the no-decay AdamW group
+blk 0: 12288 units | dead 8954 (72.9%) | live fire share 0.095 | new row RMS 0.0111
+blk 1: 12288 units | dead 7951 (64.7%) | live fire share 0.967 | new row RMS 0.0000
+blk 2: 12288 units | dead 6937 (56.5%) | live fire share 0.991 | new row RMS 0.0000
+blk 3: 12288 units | dead 10145 (82.6%) | live fire share 0.969 | new row RMS 0.0000
+blk 4: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0000
+blk 5: 12288 units | dead 12278 (99.9%) | live fire share 0.963 | new row RMS 0.0000
+blk 7: 12288 units | dead 10138 (82.5%) | live fire share 0.920 | new row RMS 0.0177
+blk 8: 12288 units | dead 11237 (91.4%) | live fire share 0.888 | new row RMS 0.0191
+blk 9: 12288 units | dead 11585 (94.3%) | live fire share 0.854 | new row RMS 0.0191
+blk10: 12288 units | dead 11608 (94.5%) | live fire share 0.863 | new row RMS 0.0183
+blk11: 12288 units | dead 11597 (94.4%) | live fire share 0.858 | new row RMS 0.0185
+blk12: 12288 units | dead 9846 (80.1%) | live fire share 0.904 | new row RMS 0.0176
+step_0064500               C=1024 T=2048 | chunk1   37.45 (mem off   37.45) | chunks2+   33.88 (off   34.21, Δ +0.33) | first64 of 2+   61.87 (off   68.52, Δ +6.65) vs first64 of chunk1   60.42
+step_0064500               C=1024 N8:  14.8  18.0  11.7  11.7 (mem off  15.6) | N32:   4.7   3.9   3.9   1.6 (mem off   4.7)
+== done step_0064500 (10-12 17:02)
+== models/checkpoints/v4_cloud_pin/step_0072000.pt (10-12 18:09)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 72000 | tokens 2359296000
+step_0072000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0029 | fire share 0.0029 | positive share of spikes 0.49
+  per token active neurons mean 23.5 | median 18 | 5% 9 | 95% 47 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 24.6% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 1361 of 8192 (16.6%)
+  code      overlap, same token id 0.084 (n=40610) | different token id 0.034
+  by chunk  fire share chunk 1 0.0032 | chunks 2.. 0.0025
+step_0072000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1270 mean -0.008 std 0.011 | act RMS 0.0007
+  blk 1 stream nan -> nan | pos 0.1567 mean -0.008 std 0.019 | act RMS 0.0013
+  blk 2 stream nan -> nan | pos 0.5082 mean -0.005 std 0.014 | act RMS 0.0001
+  blk 3 stream nan -> nan | pos 0.0859 mean -0.002 std 0.016 | act RMS 0.0001
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.0001 mean -0.004 std 0.059 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0603 mean -0.261 std 0.166 | act RMS 0.0197
+  blk 8 stream nan -> nan | pos 0.0494 mean -0.206 std 0.199 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.0476 mean -0.239 std 0.237 | act RMS 0.0295
+  blk10 stream nan -> nan | pos 0.0528 mean -0.355 std 0.302 | act RMS 0.0460
+  blk11 stream nan -> nan | pos 0.0641 mean -0.462 std 0.371 | act RMS 0.0869
+  blk12 stream nan -> nan | pos 0.1260 mean -0.464 std 0.429 | act RMS 0.1319
+  embed.weight (32768, 2048) norm 623.4 rms 0.0761 | row norm: seen tokens median 3.426, unseen median 3.387, min 1.4757, max 5.36
+  no_decay_names=['embed.weight']: 1 matrices moved to the no-decay AdamW group
+blk 0: 12288 units | dead 2959 (24.1%) | live fire share 0.164 | new row RMS 0.0072
+blk 1: 12288 units | dead 8104 (66.0%) | live fire share 0.946 | new row RMS 0.0073
+blk 2: 12288 units | dead 6100 (49.6%) | live fire share 0.993 | new row RMS 0.0073
+blk 3: 12288 units | dead 10894 (88.7%) | live fire share 0.957 | new row RMS 0.0073
+blk 4: 12288 units | dead 12288 (100.0%) | live fire share 0.000 | new row RMS 0.0073
+blk 5: 12288 units | dead 12287 (100.0%) | live fire share 1.000 | new row RMS 0.0073
+blk 7: 12288 units | dead 7930 (64.5%) | live fire share 0.956 | new row RMS 0.0177
+blk 8: 12288 units | dead 11465 (93.3%) | live fire share 0.921 | new row RMS 0.0194
+blk 9: 12288 units | dead 11648 (94.8%) | live fire share 0.878 | new row RMS 0.0192
+blk10: 12288 units | dead 11586 (94.3%) | live fire share 0.894 | new row RMS 0.0183
+blk11: 12288 units | dead 11645 (94.8%) | live fire share 0.858 | new row RMS 0.0185
+blk12: 12288 units | dead 9751 (79.4%) | live fire share 0.930 | new row RMS 0.0179
+step_0072000               C=1024 T=2048 | chunk1   40.83 (mem off   40.80) | chunks2+   37.27 (off   37.54, Δ +0.27) | first64 of 2+   67.63 (off   74.05, Δ +6.42) vs first64 of chunk1   63.93
+step_0072000               C=1024 N8:  17.2  18.0  18.0  17.2 (mem off  15.6) | N32:   3.9   3.1   1.6   2.3 (mem off   2.3)
+== done step_0072000 (10-12 18:22)
+== models/checkpoints/v4_cloud_pin/step_0081000.pt (10-12 20:20)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 81000 | tokens 2654208000
+step_0081000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0030 | fire share 0.0030 | positive share of spikes 0.47
+  per token active neurons mean 24.3 | median 19 | 5% 9 | 95% 47 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 27.6% | fires on >50% of tokens 0.01% | neurons carrying 90% of spikes 1351 of 8192 (16.5%)
+  code      overlap, same token id 0.077 (n=40610) | different token id 0.027
+  by chunk  fire share chunk 1 0.0032 | chunks 2.. 0.0027
+step_0081000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.0967 mean -0.008 std 0.011 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.2171 mean -0.006 std 0.020 | act RMS 0.0020
+  blk 2 stream nan -> nan | pos 0.3279 mean -0.004 std 0.010 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.1237 mean -0.003 std 0.013 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.0010 mean -0.002 std 0.037 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0556 mean -0.263 std 0.162 | act RMS 0.0195
+  blk 8 stream nan -> nan | pos 0.0478 mean -0.219 std 0.206 | act RMS 0.0231
+  blk 9 stream nan -> nan | pos 0.0445 mean -0.245 std 0.242 | act RMS 0.0303
+  blk10 stream nan -> nan | pos 0.0499 mean -0.364 std 0.308 | act RMS 0.0468
+  blk11 stream nan -> nan | pos 0.0625 mean -0.472 std 0.377 | act RMS 0.0891
+  blk12 stream nan -> nan | pos 0.1368 mean -0.446 std 0.434 | act RMS 0.1357
+  embed.weight (32768, 2048) norm 727.9 rms 0.0889 | row norm: seen tokens median 3.968, unseen median 3.950, min 1.4757, max 6.37
+  no_decay_names=['embed.weight']: 1 matrices moved to the no-decay AdamW group
+blk 0: 12288 units | dead 5507 (44.8%) | of those erased 7.7% | live fire share 0.169 | new row RMS 0.0084
+blk 1: 12288 units | dead 704 (5.7%) | of those erased 0.0% | live fire share 0.223 | new row RMS 0.0167
+blk 2: 12288 units | dead 1786 (14.5%) | of those erased 33.0% | live fire share 0.381 | new row RMS 0.0167
+blk 3: 12288 units | dead 4562 (37.1%) | of those erased 70.0% | live fire share 0.199 | new row RMS 0.0167
+blk 4: 12288 units | dead 12287 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0167
+blk 5: 12288 units | dead 10327 (84.0%) | of those erased 79.7% | live fire share 0.006 | new row RMS 0.0167
+blk 7: 12288 units | dead 2 (0.0%) | of those erased 0.0% | live fire share 0.065 | new row RMS 0.0165
+blk 8: 12288 units | dead 2006 (16.3%) | of those erased 73.8% | live fire share 0.058 | new row RMS 0.0183
+blk 9: 12288 units | dead 3315 (27.0%) | of those erased 88.1% | live fire share 0.058 | new row RMS 0.0185
+blk10: 12288 units | dead 2051 (16.7%) | of those erased 92.7% | live fire share 0.058 | new row RMS 0.0176
+blk11: 12288 units | dead 1082 (8.8%) | of those erased 94.5% | live fire share 0.066 | new row RMS 0.0176
+blk12: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.126 | new row RMS 0.0175
+step_0081000               C=1024 T=2048 | chunk1   38.24 (mem off   38.24) | chunks2+   35.03 (off   35.36, Δ +0.33) | first64 of 2+   65.47 (off   72.46, Δ +6.99) vs first64 of chunk1   60.62
+step_0081000               C=1024 N8:  14.1  12.5  14.1  10.9 (mem off  10.2) | N32:   3.9   0.8   3.9   3.1 (mem off   3.1)
+== done step_0081000 (10-12 20:50)
+== models/checkpoints/v4_cloud_pin/step_0090000.pt (10-12 22:31)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 90000 | tokens 2949120000
+step_0090000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0032 | fire share 0.0032 | positive share of spikes 0.50
+  per token active neurons mean 25.9 | median 22 | 5% 9 | 95% 53 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 35.5% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1330 of 8192 (16.2%)
+  code      overlap, same token id 0.064 (n=40610) | different token id 0.016
+  by chunk  fire share chunk 1 0.0034 | chunks 2.. 0.0029
+step_0090000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1091 mean -0.007 std 0.010 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.3229 mean -0.005 std 0.022 | act RMS 0.0022
+  blk 2 stream nan -> nan | pos 0.2265 mean -0.003 std 0.009 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.2136 mean -0.004 std 0.016 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.0010 mean -0.001 std 0.028 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0594 mean -0.238 std 0.150 | act RMS 0.0172
+  blk 8 stream nan -> nan | pos 0.0577 mean -0.208 std 0.205 | act RMS 0.0224
+  blk 9 stream nan -> nan | pos 0.0465 mean -0.237 std 0.243 | act RMS 0.0299
+  blk10 stream nan -> nan | pos 0.0525 mean -0.358 std 0.310 | act RMS 0.0470
+  blk11 stream nan -> nan | pos 0.0638 mean -0.470 std 0.379 | act RMS 0.0883
+  blk12 stream nan -> nan | pos 0.1344 mean -0.462 std 0.444 | act RMS 0.1334
+  embed.weight (32768, 2048) norm 809.5 rms 0.0988 | row norm: seen tokens median 4.397, unseen median 4.397, min 1.4757, max 7.15
+  no_decay_names=['embed.weight']: 1 matrices moved to the no-decay AdamW group
+blk 0: 12288 units | dead 5083 (41.4%) | of those erased 7.1% | live fire share 0.181 | new row RMS 0.0079
+blk 1: 12288 units | dead 427 (3.5%) | of those erased 0.2% | live fire share 0.324 | new row RMS 0.0162
+blk 2: 12288 units | dead 1191 (9.7%) | of those erased 77.7% | live fire share 0.252 | new row RMS 0.0162
+blk 3: 12288 units | dead 4717 (38.4%) | of those erased 75.4% | live fire share 0.346 | new row RMS 0.0162
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0162
+blk 5: 12288 units | dead 9772 (79.5%) | of those erased 85.2% | live fire share 0.005 | new row RMS 0.0162
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.069 | new row RMS 0.0161
+blk 8: 12288 units | dead 1751 (14.2%) | of those erased 65.2% | live fire share 0.067 | new row RMS 0.0179
+blk 9: 12288 units | dead 3099 (25.2%) | of those erased 86.7% | live fire share 0.058 | new row RMS 0.0181
+blk10: 12288 units | dead 1890 (15.4%) | of those erased 90.7% | live fire share 0.059 | new row RMS 0.0171
+blk11: 12288 units | dead 936 (7.6%) | of those erased 92.7% | live fire share 0.066 | new row RMS 0.0172
+blk12: 12288 units | dead 6 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0171
+step_0090000               C=1024 T=2048 | chunk1   38.82 (mem off   38.82) | chunks2+   35.55 (off   35.90, Δ +0.35) | first64 of 2+   62.87 (off   70.73, Δ +7.85) vs first64 of chunk1   64.52
+step_0090000               C=1024 N8:   7.8   8.6  16.4  12.5 (mem off  10.9) | N32:   2.3   1.6   3.1   3.9 (mem off   1.6)
+== done step_0090000 (10-12 22:43)
+== models/checkpoints/v4_cloud_pin/step_0099000.pt (10-13 00:39)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 99000 | tokens 3244032000
+step_0099000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0025 | fire share 0.0025 | positive share of spikes 0.50
+  per token active neurons mean 20.4 | median 17 | 5% 7 | 95% 42 | tokens with none 0.0% | with fewer than 3 0.1%
+  per neuron dead 38.7% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1220 of 8192 (14.9%)
+  code      overlap, same token id 0.063 (n=40610) | different token id 0.018
+  by chunk  fire share chunk 1 0.0027 | chunks 2.. 0.0023
+step_0099000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1192 mean -0.006 std 0.010 | act RMS 0.0004
+  blk 1 stream nan -> nan | pos 0.3413 mean -0.005 std 0.023 | act RMS 0.0020
+  blk 2 stream nan -> nan | pos 0.2477 mean -0.003 std 0.008 | act RMS 0.0001
+  blk 3 stream nan -> nan | pos 0.2448 mean -0.003 std 0.010 | act RMS 0.0003
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.2286 mean -0.004 std 0.017 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0588 mean -0.223 std 0.140 | act RMS 0.0146
+  blk 8 stream nan -> nan | pos 0.0650 mean -0.207 std 0.205 | act RMS 0.0217
+  blk 9 stream nan -> nan | pos 0.0498 mean -0.228 std 0.240 | act RMS 0.0304
+  blk10 stream nan -> nan | pos 0.0556 mean -0.351 std 0.311 | act RMS 0.0478
+  blk11 stream nan -> nan | pos 0.0655 mean -0.465 std 0.378 | act RMS 0.0864
+  blk12 stream nan -> nan | pos 0.1316 mean -0.443 std 0.422 | act RMS 0.1174
+  embed.weight (32768, 2048) norm 876.2 rms 0.1070 | row norm: seen tokens median 4.749, unseen median 4.764, min 1.5410, max 7.81
+  no_decay_names=['embed.weight']: 1 matrices moved to the no-decay AdamW group
+blk 0: 12288 units | dead 3945 (32.1%) | of those erased 4.7% | live fire share 0.171 | new row RMS 0.0066
+blk 1: 12288 units | dead 305 (2.5%) | of those erased 0.0% | live fire share 0.339 | new row RMS 0.0153
+blk 2: 12288 units | dead 3627 (29.5%) | of those erased 69.3% | live fire share 0.353 | new row RMS 0.0153
+blk 3: 12288 units | dead 4583 (37.3%) | of those erased 73.8% | live fire share 0.391 | new row RMS 0.0153
+blk 4: 12288 units | dead 12287 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0153
+blk 5: 12288 units | dead 4637 (37.7%) | of those erased 78.4% | live fire share 0.368 | new row RMS 0.0153
+blk 7: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.071 | new row RMS 0.0153
+blk 8: 12288 units | dead 1542 (12.5%) | of those erased 61.7% | live fire share 0.074 | new row RMS 0.0171
+blk 9: 12288 units | dead 2734 (22.2%) | of those erased 86.2% | live fire share 0.059 | new row RMS 0.0174
+blk10: 12288 units | dead 1658 (13.5%) | of those erased 90.2% | live fire share 0.059 | new row RMS 0.0165
+blk11: 12288 units | dead 734 (6.0%) | of those erased 94.0% | live fire share 0.065 | new row RMS 0.0165
+blk12: 12288 units | dead 9 (0.1%) | of those erased 0.0% | live fire share 0.121 | new row RMS 0.0164
+step_0099000               C=1024 T=2048 | chunk1   40.83 (mem off   40.81) | chunks2+   37.74 (off   38.04, Δ +0.31) | first64 of 2+   66.81 (off   72.89, Δ +6.07) vs first64 of chunk1   63.70
+step_0099000               C=1024 N8:  19.5  15.6  14.8  16.4 (mem off  14.8) | N32:   5.5   4.7   1.6   3.9 (mem off   1.6)
+== done step_0099000 (10-13 00:51)
+== models/checkpoints/v4_cloud_pin/step_0106500.pt (10-13 02:35)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 106500 | tokens 3489792000
+step_0106500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0027 | fire share 0.0027 | positive share of spikes 0.50
+  per token active neurons mean 22.4 | median 19 | 5% 8 | 95% 41 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 34.3% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1223 of 8192 (14.9%)
+  code      overlap, same token id 0.071 (n=40610) | different token id 0.019
+  by chunk  fire share chunk 1 0.0030 | chunks 2.. 0.0025
+step_0106500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1437 mean -0.007 std 0.010 | act RMS 0.0002
+  blk 1 stream nan -> nan | pos 0.3407 mean -0.006 std 0.023 | act RMS 0.0013
+  blk 2 stream nan -> nan | pos 0.3000 mean -0.003 std 0.007 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3781 mean -0.003 std 0.010 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.2182 mean -0.001 std 0.013 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0733 mean -0.199 std 0.136 | act RMS 0.0140
+  blk 8 stream nan -> nan | pos 0.0678 mean -0.200 std 0.200 | act RMS 0.0189
+  blk 9 stream nan -> nan | pos 0.0449 mean -0.229 std 0.236 | act RMS 0.0259
+  blk10 stream nan -> nan | pos 0.0528 mean -0.342 std 0.299 | act RMS 0.0410
+  blk11 stream nan -> nan | pos 0.0629 mean -0.455 std 0.365 | act RMS 0.0779
+  blk12 stream nan -> nan | pos 0.1152 mean -0.473 std 0.418 | act RMS 0.1072
+  embed.weight (32768, 2048) norm 724.0 rms 0.0884 | row norm: seen tokens median 3.921, unseen median 3.936, min 1.1955, max 6.46
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.1
+blk 0: 12288 units | dead 2381 (19.4%) | of those erased 1.4% | live fire share 0.175 | new row RMS 0.0062
+blk 1: 12288 units | dead 65 (0.5%) | of those erased 0.0% | live fire share 0.336 | new row RMS 0.0147
+blk 2: 12288 units | dead 1376 (11.2%) | of those erased 40.7% | live fire share 0.337 | new row RMS 0.0147
+blk 3: 12288 units | dead 1197 (9.7%) | of those erased 37.8% | live fire share 0.418 | new row RMS 0.0147
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0147
+blk 5: 12288 units | dead 4661 (37.9%) | of those erased 78.2% | live fire share 0.351 | new row RMS 0.0147
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.084 | new row RMS 0.0152
+blk 8: 12288 units | dead 1611 (13.1%) | of those erased 60.9% | live fire share 0.078 | new row RMS 0.0170
+blk 9: 12288 units | dead 2616 (21.3%) | of those erased 85.8% | live fire share 0.054 | new row RMS 0.0172
+blk10: 12288 units | dead 1593 (13.0%) | of those erased 90.0% | live fire share 0.056 | new row RMS 0.0163
+blk11: 12288 units | dead 700 (5.7%) | of those erased 94.9% | live fire share 0.062 | new row RMS 0.0163
+blk12: 12288 units | dead 16 (0.1%) | of those erased 0.0% | live fire share 0.104 | new row RMS 0.0162
+step_0106500               C=1024 T=2048 | chunk1   38.73 (mem off   38.72) | chunks2+   35.30 (off   35.58, Δ +0.28) | first64 of 2+   63.55 (off   69.11, Δ +5.56) vs first64 of chunk1   60.93
+torch.AcceleratorError: CUDA error: CUDA-capable device(s) is/are busy or unavailable
+Search for `cudaErrorDevicesUnavailable' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+== done step_0106500 (10-13 02:43)
+== models/checkpoints/v4_cloud_pin/step_0115500.pt (10-13 04:46)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 115500 | tokens 3784704000
+step_0115500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0027 | fire share 0.0027 | positive share of spikes 0.47
+  per token active neurons mean 22.4 | median 18 | 5% 8 | 95% 46 | tokens with none 0.0% | with fewer than 3 0.1%
+  per neuron dead 38.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1234 of 8192 (15.1%)
+  code      overlap, same token id 0.060 (n=40610) | different token id 0.017
+  by chunk  fire share chunk 1 0.0029 | chunks 2.. 0.0026
+step_0115500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1406 mean -0.006 std 0.009 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4190 mean -0.005 std 0.022 | act RMS 0.0015
+  blk 2 stream nan -> nan | pos 0.4959 mean -0.003 std 0.009 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4964 mean -0.003 std 0.010 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.2149 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0708 mean -0.197 std 0.133 | act RMS 0.0136
+  blk 8 stream nan -> nan | pos 0.0704 mean -0.196 std 0.198 | act RMS 0.0184
+  blk 9 stream nan -> nan | pos 0.0482 mean -0.218 std 0.230 | act RMS 0.0253
+  blk10 stream nan -> nan | pos 0.0511 mean -0.338 std 0.293 | act RMS 0.0392
+  blk11 stream nan -> nan | pos 0.0625 mean -0.444 std 0.354 | act RMS 0.0756
+  blk12 stream nan -> nan | pos 0.1181 mean -0.450 std 0.404 | act RMS 0.1044
+  embed.weight (32768, 2048) norm 584.2 rms 0.0713 | row norm: seen tokens median 3.168, unseen median 3.172, min 0.8730, max 5.23
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.1
+blk 0: 12288 units | dead 3800 (30.9%) | of those erased 3.8% | live fire share 0.197 | new row RMS 0.0066
+blk 1: 12288 units | dead 38 (0.3%) | of those erased 0.0% | live fire share 0.407 | new row RMS 0.0140
+blk 2: 12288 units | dead 1714 (13.9%) | of those erased 14.4% | live fire share 0.573 | new row RMS 0.0140
+blk 3: 12288 units | dead 1902 (15.5%) | of those erased 54.5% | live fire share 0.587 | new row RMS 0.0140
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0140
+blk 5: 12288 units | dead 4736 (38.5%) | of those erased 78.7% | live fire share 0.348 | new row RMS 0.0140
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.082 | new row RMS 0.0143
+blk 8: 12288 units | dead 1557 (12.7%) | of those erased 62.4% | live fire share 0.081 | new row RMS 0.0162
+blk 9: 12288 units | dead 2350 (19.1%) | of those erased 86.7% | live fire share 0.057 | new row RMS 0.0164
+blk10: 12288 units | dead 1419 (11.5%) | of those erased 91.5% | live fire share 0.056 | new row RMS 0.0155
+blk11: 12288 units | dead 548 (4.5%) | of those erased 92.5% | live fire share 0.063 | new row RMS 0.0154
+blk12: 12288 units | dead 20 (0.2%) | of those erased 0.0% | live fire share 0.108 | new row RMS 0.0154
+step_0115500               C=1024 T=2048 | chunk1   36.50 (mem off   36.46) | chunks2+   33.43 (off   33.65, Δ +0.22) | first64 of 2+   60.65 (off   66.10, Δ +5.45) vs first64 of chunk1   57.08
+step_0115500               C=1024 N8:  13.3  13.3  18.0   8.6 (mem off  13.3) | N32:   4.7   4.7   3.1   1.6 (mem off   0.8)
+== done step_0115500 (10-13 05:23)
+== models/checkpoints/v4_cloud_pin/step_0124500.pt (10-13 06:56)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 124500 | tokens 4079616000
+step_0124500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0028 | fire share 0.0028 | positive share of spikes 0.47
+  per token active neurons mean 22.9 | median 19 | 5% 8 | 95% 49 | tokens with none 0.0% | with fewer than 3 0.1%
+  per neuron dead 43.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1131 of 8192 (13.8%)
+  code      overlap, same token id 0.068 (n=40610) | different token id 0.019
+  by chunk  fire share chunk 1 0.0030 | chunks 2.. 0.0025
+step_0124500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.1542 mean -0.005 std 0.009 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4358 mean -0.003 std 0.023 | act RMS 0.0019
+  blk 2 stream nan -> nan | pos 0.5180 mean -0.002 std 0.007 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.5232 mean -0.002 std 0.008 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.4627 mean -0.002 std 0.008 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0714 mean -0.200 std 0.136 | act RMS 0.0144
+  blk 8 stream nan -> nan | pos 0.0787 mean -0.192 std 0.199 | act RMS 0.0194
+  blk 9 stream nan -> nan | pos 0.0545 mean -0.214 std 0.230 | act RMS 0.0267
+  blk10 stream nan -> nan | pos 0.0563 mean -0.332 std 0.294 | act RMS 0.0411
+  blk11 stream nan -> nan | pos 0.0671 mean -0.443 std 0.359 | act RMS 0.0793
+  blk12 stream nan -> nan | pos 0.1193 mean -0.460 std 0.415 | act RMS 0.1141
+  embed.weight (32768, 2048) norm 492.3 rms 0.0601 | row norm: seen tokens median 2.675, unseen median 2.674, min 0.8163, max 4.45
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.1
+blk 0: 12288 units | dead 3305 (26.9%) | of those erased 4.3% | live fire share 0.206 | new row RMS 0.0061
+blk 1: 12288 units | dead 7 (0.1%) | of those erased 0.0% | live fire share 0.427 | new row RMS 0.0132
+blk 2: 12288 units | dead 488 (4.0%) | of those erased 13.1% | live fire share 0.537 | new row RMS 0.0132
+blk 3: 12288 units | dead 1189 (9.7%) | of those erased 58.7% | live fire share 0.578 | new row RMS 0.0132
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0132
+blk 5: 12288 units | dead 1466 (11.9%) | of those erased 52.8% | live fire share 0.522 | new row RMS 0.0132
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.083 | new row RMS 0.0139
+blk 8: 12288 units | dead 1333 (10.8%) | of those erased 65.0% | live fire share 0.087 | new row RMS 0.0158
+blk 9: 12288 units | dead 2078 (16.9%) | of those erased 88.0% | live fire share 0.062 | new row RMS 0.0160
+blk10: 12288 units | dead 1221 (9.9%) | of those erased 93.0% | live fire share 0.060 | new row RMS 0.0150
+blk11: 12288 units | dead 447 (3.6%) | of those erased 94.4% | live fire share 0.066 | new row RMS 0.0150
+blk12: 12288 units | dead 16 (0.1%) | of those erased 0.0% | live fire share 0.108 | new row RMS 0.0149
+step_0124500               C=1024 T=2048 | chunk1   36.30 (mem off   36.30) | chunks2+   32.99 (off   33.34, Δ +0.35) | first64 of 2+   58.33 (off   65.79, Δ +7.46) vs first64 of chunk1   58.88
+== done step_0124500 (10-13 08:09)
+== models/checkpoints/v4_cloud_pin/step_0142500.pt (10-13 12:43)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 142500 | tokens 4669440000
+step_0142500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0021 | fire share 0.0021 | positive share of spikes 0.47
+  per token active neurons mean 16.9 | median 15 | 5% 5 | 95% 34 | tokens with none 0.1% | with fewer than 3 0.5%
+  per neuron dead 61.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 658 of 8192 (8.0%)
+  code      overlap, same token id 0.068 (n=40608) | different token id 0.018
+  by chunk  fire share chunk 1 0.0021 | chunks 2.. 0.0020
+step_0142500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.2599 mean -0.003 std 0.009 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4975 mean -0.001 std 0.022 | act RMS 0.0018
+  blk 2 stream nan -> nan | pos 0.3845 mean -0.002 std 0.006 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3272 mean -0.002 std 0.009 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3313 mean -0.002 std 0.010 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0673 mean -0.210 std 0.139 | act RMS 0.0147
+  blk 8 stream nan -> nan | pos 0.0994 mean -0.191 std 0.204 | act RMS 0.0207
+  blk 9 stream nan -> nan | pos 0.0670 mean -0.216 std 0.236 | act RMS 0.0262
+  blk10 stream nan -> nan | pos 0.0692 mean -0.326 std 0.299 | act RMS 0.0424
+  blk11 stream nan -> nan | pos 0.0760 mean -0.441 std 0.365 | act RMS 0.0769
+  blk12 stream nan -> nan | pos 0.0963 mean -0.531 std 0.436 | act RMS 0.0951
+  embed.weight (32768, 2048) norm 440.6 rms 0.0538 | row norm: seen tokens median 2.417, unseen median 2.391, min 0.6543, max 3.96
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 1353 (11.0%) | of those erased 1.1% | live fire share 0.277 | new row RMS 0.0047
+blk 1: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.476 | new row RMS 0.0097
+blk 2: 12288 units | dead 1753 (14.3%) | of those erased 26.4% | live fire share 0.450 | new row RMS 0.0097
+blk 3: 12288 units | dead 1164 (9.5%) | of those erased 21.0% | live fire share 0.364 | new row RMS 0.0097
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0097
+blk 5: 12288 units | dead 1863 (15.2%) | of those erased 55.6% | live fire share 0.392 | new row RMS 0.0097
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.079 | new row RMS 0.0129
+blk 8: 12288 units | dead 945 (7.7%) | of those erased 66.9% | live fire share 0.107 | new row RMS 0.0146
+blk 9: 12288 units | dead 1607 (13.1%) | of those erased 89.3% | live fire share 0.075 | new row RMS 0.0148
+blk10: 12288 units | dead 929 (7.6%) | of those erased 93.9% | live fire share 0.071 | new row RMS 0.0139
+blk11: 12288 units | dead 300 (2.4%) | of those erased 94.0% | live fire share 0.075 | new row RMS 0.0138
+blk12: 12288 units | dead 94 (0.8%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0137
+step_0142500               C=1024 T=2048 | chunk1   40.20 (mem off   40.19) | chunks2+   37.08 (off   37.25, Δ +0.17) | first64 of 2+   69.99 (off   74.34, Δ +4.35) vs first64 of chunk1   64.89
+step_0142500               C=1024 N8:  10.9  11.7  12.5   9.4 (mem off  11.7) | N32:   1.6   1.6   3.1   1.6 (mem off   2.3)
+== done step_0142500 (10-13 13:01)
+== models/checkpoints/v4_cloud_pin/step_0159000.pt (10-13 15:38)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 159000 | tokens 5210112000
+step_0159000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0032 | fire share 0.0032 | positive share of spikes 0.52
+  per token active neurons mean 25.9 | median 22 | 5% 10 | 95% 48 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 38.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 1364 of 8192 (16.7%)
+  code      overlap, same token id 0.060 (n=40610) | different token id 0.015
+  by chunk  fire share chunk 1 0.0033 | chunks 2.. 0.0030
+step_0159000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.2866 mean -0.004 std 0.009 | act RMS 0.0002
+  blk 1 stream nan -> nan | pos 0.4647 mean -0.004 std 0.022 | act RMS 0.0013
+  blk 2 stream nan -> nan | pos 0.3335 mean -0.001 std 0.005 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3565 mean -0.002 std 0.007 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3510 mean -0.001 std 0.006 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0603 mean -0.202 std 0.130 | act RMS 0.0128
+  blk 8 stream nan -> nan | pos 0.1088 mean -0.189 std 0.197 | act RMS 0.0182
+  blk 9 stream nan -> nan | pos 0.0768 mean -0.203 std 0.223 | act RMS 0.0251
+  blk10 stream nan -> nan | pos 0.0760 mean -0.302 std 0.282 | act RMS 0.0420
+  blk11 stream nan -> nan | pos 0.0821 mean -0.400 std 0.342 | act RMS 0.0776
+  blk12 stream nan -> nan | pos 0.1088 mean -0.482 std 0.416 | act RMS 0.1040
+  embed.weight (32768, 2048) norm 463.0 rms 0.0565 | row norm: seen tokens median 2.520, unseen median 2.517, min 0.6117, max 4.04
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 479 (3.9%) | of those erased 0.4% | live fire share 0.289 | new row RMS 0.0036
+blk 1: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.451 | new row RMS 0.0073
+blk 2: 12288 units | dead 2804 (22.8%) | of those erased 27.7% | live fire share 0.433 | new row RMS 0.0073
+blk 3: 12288 units | dead 1842 (15.0%) | of those erased 36.6% | live fire share 0.419 | new row RMS 0.0073
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0073
+blk 5: 12288 units | dead 1421 (11.6%) | of those erased 39.7% | live fire share 0.396 | new row RMS 0.0073
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.069 | new row RMS 0.0112
+blk 8: 12288 units | dead 605 (4.9%) | of those erased 64.5% | live fire share 0.113 | new row RMS 0.0127
+blk 9: 12288 units | dead 1158 (9.4%) | of those erased 90.1% | live fire share 0.082 | new row RMS 0.0129
+blk10: 12288 units | dead 700 (5.7%) | of those erased 94.6% | live fire share 0.074 | new row RMS 0.0122
+blk11: 12288 units | dead 223 (1.8%) | of those erased 93.7% | live fire share 0.077 | new row RMS 0.0120
+blk12: 12288 units | dead 6 (0.0%) | of those erased 0.0% | live fire share 0.104 | new row RMS 0.0119
+step_0159000               C=1024 T=2048 | chunk1   33.47 (mem off   33.46) | chunks2+   30.51 (off   30.88, Δ +0.37) | first64 of 2+   55.03 (off   62.63, Δ +7.61) vs first64 of chunk1   54.53
+step_0159000               C=1024 N8:  11.7  11.7  15.6  10.9 (mem off  14.8) | N32:   3.1   3.9   2.3   0.8 (mem off   3.1)
+== done step_0159000 (10-13 15:48)
+== models/checkpoints/v4_cloud_pin/step_0166500.pt (10-13 17:49)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 166500 | tokens 5455872000
+step_0166500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0053 | fire share 0.0053 | positive share of spikes 0.52
+  per token active neurons mean 43.7 | median 33 | 5% 13 | 95% 107 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 13.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 2763 of 8192 (33.7%)
+  code      overlap, same token id 0.044 (n=40610) | different token id 0.012
+  by chunk  fire share chunk 1 0.0045 | chunks 2.. 0.0062
+step_0166500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.3298 mean -0.002 std 0.009 | act RMS 0.0002
+  blk 1 stream nan -> nan | pos 0.4499 mean -0.003 std 0.023 | act RMS 0.0017
+  blk 2 stream nan -> nan | pos 0.3536 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3171 mean -0.002 std 0.010 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3575 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0522 mean -0.233 std 0.142 | act RMS 0.0137
+  blk 8 stream nan -> nan | pos 0.1157 mean -0.205 std 0.212 | act RMS 0.0213
+  blk 9 stream nan -> nan | pos 0.0854 mean -0.204 std 0.229 | act RMS 0.0279
+  blk10 stream nan -> nan | pos 0.0829 mean -0.298 std 0.285 | act RMS 0.0453
+  blk11 stream nan -> nan | pos 0.0869 mean -0.397 std 0.345 | act RMS 0.0810
+  blk12 stream nan -> nan | pos 0.1240 mean -0.450 std 0.416 | act RMS 0.1223
+  embed.weight (32768, 2048) norm 468.5 rms 0.0572 | row norm: seen tokens median 2.543, unseen median 2.548, min 0.5967, max 3.98
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 403 (3.3%) | of those erased 0.2% | live fire share 0.333 | new row RMS 0.0029
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.441 | new row RMS 0.0065
+blk 2: 12288 units | dead 2634 (21.4%) | of those erased 23.1% | live fire share 0.451 | new row RMS 0.0065
+blk 3: 12288 units | dead 2797 (22.8%) | of those erased 50.1% | live fire share 0.412 | new row RMS 0.0065
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0065
+blk 5: 12288 units | dead 1376 (11.2%) | of those erased 38.5% | live fire share 0.402 | new row RMS 0.0065
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.059 | new row RMS 0.0103
+blk 8: 12288 units | dead 452 (3.7%) | of those erased 53.3% | live fire share 0.117 | new row RMS 0.0118
+blk 9: 12288 units | dead 851 (6.9%) | of those erased 87.7% | live fire share 0.088 | new row RMS 0.0119
+blk10: 12288 units | dead 518 (4.2%) | of those erased 93.4% | live fire share 0.080 | new row RMS 0.0113
+blk11: 12288 units | dead 140 (1.1%) | of those erased 91.4% | live fire share 0.083 | new row RMS 0.0111
+blk12: 12288 units | dead 8 (0.1%) | of those erased 0.0% | live fire share 0.116 | new row RMS 0.0108
+step_0166500               C=1024 T=2048 | chunk1   29.66 (mem off   29.68) | chunks2+   27.33 (off   27.70, Δ +0.36) | first64 of 2+   48.08 (off   55.27, Δ +7.19) vs first64 of chunk1   49.24
+step_0166500               C=1024 N8:  97.7  97.7 100.0  98.4 (mem off   8.6) | N32:  93.0  97.7  98.4  98.4 (mem off   1.6)
+== done step_0166500 (10-13 18:00)
+== models/checkpoints/v4_cloud_pin/step_0172500.pt (10-13 19:50)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 172500 | tokens 5652480000
+step_0172500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0042 | fire share 0.0042 | positive share of spikes 0.51
+  per token active neurons mean 34.5 | median 26 | 5% 10 | 95% 83 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 15.8% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 2815 of 8192 (34.4%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.009
+  by chunk  fire share chunk 1 0.0036 | chunks 2.. 0.0048
+step_0172500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.3769 mean -0.002 std 0.010 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4559 mean -0.003 std 0.024 | act RMS 0.0019
+  blk 2 stream nan -> nan | pos 0.3492 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3199 mean -0.001 std 0.009 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3584 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0442 mean -0.244 std 0.141 | act RMS 0.0128
+  blk 8 stream nan -> nan | pos 0.1152 mean -0.217 std 0.217 | act RMS 0.0200
+  blk 9 stream nan -> nan | pos 0.0896 mean -0.209 std 0.231 | act RMS 0.0279
+  blk10 stream nan -> nan | pos 0.0840 mean -0.302 std 0.287 | act RMS 0.0457
+  blk11 stream nan -> nan | pos 0.0866 mean -0.407 std 0.350 | act RMS 0.0828
+  blk12 stream nan -> nan | pos 0.1171 mean -0.471 std 0.423 | act RMS 0.1272
+  embed.weight (32768, 2048) norm 471.2 rms 0.0575 | row norm: seen tokens median 2.549, unseen median 2.563, min 0.6431, max 3.92
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 208 (1.7%) | of those erased 0.0% | live fire share 0.374 | new row RMS 0.0024
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.447 | new row RMS 0.0059
+blk 2: 12288 units | dead 2640 (21.5%) | of those erased 23.3% | live fire share 0.446 | new row RMS 0.0059
+blk 3: 12288 units | dead 2728 (22.2%) | of those erased 48.8% | live fire share 0.413 | new row RMS 0.0059
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0059
+blk 5: 12288 units | dead 1377 (11.2%) | of those erased 38.9% | live fire share 0.403 | new row RMS 0.0059
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.051 | new row RMS 0.0097
+blk 8: 12288 units | dead 397 (3.2%) | of those erased 44.3% | live fire share 0.118 | new row RMS 0.0112
+blk 9: 12288 units | dead 667 (5.4%) | of those erased 83.5% | live fire share 0.091 | new row RMS 0.0114
+blk10: 12288 units | dead 406 (3.3%) | of those erased 92.4% | live fire share 0.081 | new row RMS 0.0108
+blk11: 12288 units | dead 98 (0.8%) | of those erased 84.7% | live fire share 0.083 | new row RMS 0.0106
+blk12: 12288 units | dead 2 (0.0%) | of those erased 0.0% | live fire share 0.112 | new row RMS 0.0103
+step_0172500               C=1024 T=2048 | chunk1   28.01 (mem off   28.04) | chunks2+   25.89 (off   26.35, Δ +0.46) | first64 of 2+   46.08 (off   55.09, Δ +9.01) vs first64 of chunk1   45.76
+step_0172500               C=1024 N8:  99.2  96.9  98.4  97.7 (mem off  10.2) | N32:  99.2  96.1  96.9  96.1 (mem off   2.3)
+== done step_0172500 (10-13 20:31)
+== models/checkpoints/v4_cloud_pin/step_0180000.pt (10-13 22:31)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 180000 | tokens 5898240000
+step_0180000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0039 | fire share 0.0039 | positive share of spikes 0.52
+  per token active neurons mean 31.6 | median 23 | 5% 8 | 95% 80 | tokens with none 0.0% | with fewer than 3 0.1%
+  per neuron dead 12.9% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3094 of 8192 (37.8%)
+  code      overlap, same token id 0.036 (n=40610) | different token id 0.009
+  by chunk  fire share chunk 1 0.0035 | chunks 2.. 0.0043
+step_0180000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.3812 mean -0.002 std 0.010 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4622 mean -0.003 std 0.024 | act RMS 0.0018
+  blk 2 stream nan -> nan | pos 0.3498 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3268 mean -0.001 std 0.005 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3546 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0499 mean -0.223 std 0.134 | act RMS 0.0125
+  blk 8 stream nan -> nan | pos 0.1218 mean -0.207 std 0.212 | act RMS 0.0212
+  blk 9 stream nan -> nan | pos 0.0970 mean -0.207 std 0.230 | act RMS 0.0277
+  blk10 stream nan -> nan | pos 0.0887 mean -0.299 std 0.286 | act RMS 0.0443
+  blk11 stream nan -> nan | pos 0.0904 mean -0.408 std 0.351 | act RMS 0.0805
+  blk12 stream nan -> nan | pos 0.1117 mean -0.491 std 0.431 | act RMS 0.1203
+  embed.weight (32768, 2048) norm 472.4 rms 0.0577 | row norm: seen tokens median 2.543, unseen median 2.571, min 0.6462, max 3.84
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 148 (1.2%) | of those erased 0.0% | live fire share 0.375 | new row RMS 0.0022
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.452 | new row RMS 0.0053
+blk 2: 12288 units | dead 2629 (21.4%) | of those erased 22.9% | live fire share 0.447 | new row RMS 0.0053
+blk 3: 12288 units | dead 2239 (18.2%) | of those erased 40.7% | live fire share 0.400 | new row RMS 0.0053
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0053
+blk 5: 12288 units | dead 1380 (11.2%) | of those erased 39.4% | live fire share 0.399 | new row RMS 0.0053
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.056 | new row RMS 0.0091
+blk 8: 12288 units | dead 310 (2.5%) | of those erased 38.4% | live fire share 0.122 | new row RMS 0.0105
+blk 9: 12288 units | dead 491 (4.0%) | of those erased 78.8% | live fire share 0.097 | new row RMS 0.0107
+blk10: 12288 units | dead 303 (2.5%) | of those erased 91.1% | live fire share 0.084 | new row RMS 0.0102
+blk11: 12288 units | dead 71 (0.6%) | of those erased 80.3% | live fire share 0.085 | new row RMS 0.0100
+blk12: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.110 | new row RMS 0.0097
+  (stopped by Neuro 61 at 10-13 23:34: it was gating the 5090 queue)
+== models/checkpoints/v4_cloud_pin/step_0186000.pt (10-14 00:00)
+== models/checkpoints/v4_cloud_pin/step_0186000.pt (10-14 00:10)
+== models/checkpoints/v4_cloud_pin/step_0186000.pt (10-14 01:53)
+  (preempting 5080 trainer 68636 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 186000 | tokens 6094848000
+step_0186000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0056 | fire share 0.0056 | positive share of spikes 0.51
+  per token active neurons mean 46.2 | median 36 | 5% 14 | 95% 111 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 6.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3452 of 8192 (42.1%)
+  code      overlap, same token id 0.048 (n=40610) | different token id 0.010
+  by chunk  fire share chunk 1 0.0047 | chunks 2.. 0.0065
+step_0186000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.3681 mean -0.002 std 0.010 | act RMS 0.0002
+  blk 1 stream nan -> nan | pos 0.4566 mean -0.003 std 0.023 | act RMS 0.0017
+  blk 2 stream nan -> nan | pos 0.3571 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.3824 mean -0.001 std 0.002 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3588 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0571 mean -0.215 std 0.137 | act RMS 0.0119
+  blk 8 stream nan -> nan | pos 0.1265 mean -0.202 std 0.210 | act RMS 0.0201
+  blk 9 stream nan -> nan | pos 0.1038 mean -0.200 std 0.226 | act RMS 0.0272
+  blk10 stream nan -> nan | pos 0.0938 mean -0.290 std 0.281 | act RMS 0.0437
+  blk11 stream nan -> nan | pos 0.0942 mean -0.396 std 0.345 | act RMS 0.0778
+  blk12 stream nan -> nan | pos 0.1189 mean -0.462 std 0.416 | act RMS 0.1168
+  embed.weight (32768, 2048) norm 471.9 rms 0.0576 | row norm: seen tokens median 2.528, unseen median 2.569, min 0.6376, max 3.81
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 135 (1.1%) | of those erased 0.0% | live fire share 0.364 | new row RMS 0.0022
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.447 | new row RMS 0.0049
+blk 2: 12288 units | dead 2618 (21.3%) | of those erased 22.6% | live fire share 0.455 | new row RMS 0.0049
+blk 3: 12288 units | dead 1167 (9.5%) | of those erased 26.5% | live fire share 0.422 | new row RMS 0.0049
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0049
+blk 5: 12288 units | dead 1358 (11.1%) | of those erased 38.7% | live fire share 0.402 | new row RMS 0.0049
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.064 | new row RMS 0.0086
+blk 8: 12288 units | dead 294 (2.4%) | of those erased 36.4% | live fire share 0.126 | new row RMS 0.0100
+blk 9: 12288 units | dead 419 (3.4%) | of those erased 77.1% | live fire share 0.102 | new row RMS 0.0102
+blk10: 12288 units | dead 252 (2.1%) | of those erased 90.1% | live fire share 0.088 | new row RMS 0.0097
+blk11: 12288 units | dead 45 (0.4%) | of those erased 73.3% | live fire share 0.088 | new row RMS 0.0095
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.115 | new row RMS 0.0092
+step_0186000               C=1024 T=2048 | chunk1   28.19 (mem off   28.22) | chunks2+   26.02 (off   26.47, Δ +0.45) | first64 of 2+   44.54 (off   53.10, Δ +8.55) vs first64 of chunk1   45.59
+step_0186000               C=1024 N8:  96.9  99.2  98.4 100.0 (mem off  12.5) | N32:  96.9  97.7  98.4  96.9 (mem off   3.1)
+== done step_0186000 (10-14 02:03)
+== models/checkpoints/v4_cloud_pin/step_0193500.pt (10-14 02:03)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 193500 | tokens 6340608000
+step_0193500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0045 | fire share 0.0045 | positive share of spikes 0.52
+  per token active neurons mean 37.0 | median 29 | 5% 12 | 95% 84 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 7.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3668 of 8192 (44.8%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0044 | chunks 2.. 0.0046
+step_0193500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.3944 mean -0.001 std 0.010 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4533 mean -0.003 std 0.023 | act RMS 0.0019
+  blk 2 stream nan -> nan | pos 0.3535 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4142 mean -0.001 std 0.002 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3570 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0536 mean -0.206 std 0.128 | act RMS 0.0117
+  blk 8 stream nan -> nan | pos 0.1267 mean -0.199 std 0.205 | act RMS 0.0205
+  blk 9 stream nan -> nan | pos 0.1070 mean -0.197 std 0.223 | act RMS 0.0268
+  blk10 stream nan -> nan | pos 0.0979 mean -0.283 std 0.279 | act RMS 0.0440
+  blk11 stream nan -> nan | pos 0.0941 mean -0.393 std 0.343 | act RMS 0.0780
+  blk12 stream nan -> nan | pos 0.1289 mean -0.423 std 0.399 | act RMS 0.1170
+  embed.weight (32768, 2048) norm 471.3 rms 0.0575 | row norm: seen tokens median 2.502, unseen median 2.566, min 0.6283, max 3.83
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 11 (0.1%) | of those erased 0.0% | live fire share 0.381 | new row RMS 0.0019
+blk 1: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.443 | new row RMS 0.0043
+blk 2: 12288 units | dead 2607 (21.2%) | of those erased 22.3% | live fire share 0.451 | new row RMS 0.0043
+blk 3: 12288 units | dead 1695 (13.8%) | of those erased 20.4% | live fire share 0.475 | new row RMS 0.0043
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0043
+blk 5: 12288 units | dead 1360 (11.1%) | of those erased 38.8% | live fire share 0.400 | new row RMS 0.0043
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.057 | new row RMS 0.0079
+blk 8: 12288 units | dead 272 (2.2%) | of those erased 30.1% | live fire share 0.127 | new row RMS 0.0092
+blk 9: 12288 units | dead 348 (2.8%) | of those erased 71.3% | live fire share 0.105 | new row RMS 0.0095
+blk10: 12288 units | dead 179 (1.5%) | of those erased 87.7% | live fire share 0.090 | new row RMS 0.0090
+blk11: 12288 units | dead 41 (0.3%) | of those erased 70.7% | live fire share 0.089 | new row RMS 0.0088
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.129 | new row RMS 0.0085
+step_0193500               C=1024 T=2048 | chunk1   24.94 (mem off   24.96) | chunks2+   23.06 (off   23.52, Δ +0.46) | first64 of 2+   39.55 (off   48.17, Δ +8.62) vs first64 of chunk1   41.17
+step_0193500               C=1024 N8:  96.9  98.4 100.0 100.0 (mem off  14.1) | N32:  93.0  98.4  98.4  94.5 (mem off   1.6)
+== done step_0193500 (10-14 02:11)
+== models/checkpoints/v4_cloud_pin/step_0201000.pt (10-14 03:57)
+  (preempting 5080 trainer 74609 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 201000 | tokens 6586368000
+step_0201000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0049 | fire share 0.0049 | positive share of spikes 0.51
+  per token active neurons mean 40.4 | median 31 | 5% 12 | 95% 94 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 4.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4135 of 8192 (50.5%)
+  code      overlap, same token id 0.037 (n=40610) | different token id 0.006
+  by chunk  fire share chunk 1 0.0049 | chunks 2.. 0.0050
+step_0201000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4169 mean -0.001 std 0.010 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4567 mean -0.003 std 0.024 | act RMS 0.0020
+  blk 2 stream nan -> nan | pos 0.3590 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4187 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3573 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0589 mean -0.197 std 0.126 | act RMS 0.0113
+  blk 8 stream nan -> nan | pos 0.1319 mean -0.195 std 0.204 | act RMS 0.0200
+  blk 9 stream nan -> nan | pos 0.1130 mean -0.191 std 0.220 | act RMS 0.0271
+  blk10 stream nan -> nan | pos 0.0997 mean -0.280 std 0.276 | act RMS 0.0430
+  blk11 stream nan -> nan | pos 0.0939 mean -0.390 std 0.340 | act RMS 0.0759
+  blk12 stream nan -> nan | pos 0.1435 mean -0.376 std 0.378 | act RMS 0.1168
+  embed.weight (32768, 2048) norm 469.5 rms 0.0573 | row norm: seen tokens median 2.481, unseen median 2.557, min 0.6204, max 3.81
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.404 | new row RMS 0.0017
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.447 | new row RMS 0.0040
+blk 2: 12288 units | dead 2547 (20.7%) | of those erased 20.5% | live fire share 0.455 | new row RMS 0.0040
+blk 3: 12288 units | dead 1725 (14.0%) | of those erased 19.1% | live fire share 0.480 | new row RMS 0.0040
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0040
+blk 5: 12288 units | dead 1354 (11.0%) | of those erased 38.8% | live fire share 0.401 | new row RMS 0.0040
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.064 | new row RMS 0.0074
+blk 8: 12288 units | dead 216 (1.8%) | of those erased 31.9% | live fire share 0.131 | new row RMS 0.0088
+blk 9: 12288 units | dead 272 (2.2%) | of those erased 64.3% | live fire share 0.110 | new row RMS 0.0090
+blk10: 12288 units | dead 123 (1.0%) | of those erased 80.5% | live fire share 0.092 | new row RMS 0.0086
+blk11: 12288 units | dead 28 (0.2%) | of those erased 60.7% | live fire share 0.089 | new row RMS 0.0083
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.141 | new row RMS 0.0080
+step_0201000               C=1024 T=2048 | chunk1   24.69 (mem off   24.72) | chunks2+   22.47 (off   23.06, Δ +0.59) | first64 of 2+   37.43 (off   48.88, Δ +11.46) vs first64 of chunk1   41.61
+step_0201000               C=1024 N8:  93.8  99.2 100.0  99.2 (mem off  12.5) | N32:  91.4 100.0  99.2  98.4 (mem off   1.6)
+== done step_0201000 (10-14 04:06)
+== models/checkpoints/v4_cloud_pin/step_0207000.pt (10-14 06:09)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 207000 | tokens 6782976000
+step_0207000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0050 | fire share 0.0050 | positive share of spikes 0.52
+  per token active neurons mean 40.9 | median 31 | 5% 13 | 95% 99 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 3.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4389 of 8192 (53.6%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.006
+  by chunk  fire share chunk 1 0.0051 | chunks 2.. 0.0049
+step_0207000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4172 mean -0.000 std 0.011 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4657 mean -0.002 std 0.024 | act RMS 0.0020
+  blk 2 stream nan -> nan | pos 0.3594 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4155 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3583 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0671 mean -0.182 std 0.123 | act RMS 0.0116
+  blk 8 stream nan -> nan | pos 0.1374 mean -0.191 std 0.203 | act RMS 0.0205
+  blk 9 stream nan -> nan | pos 0.1183 mean -0.186 std 0.218 | act RMS 0.0277
+  blk10 stream nan -> nan | pos 0.1022 mean -0.279 std 0.277 | act RMS 0.0440
+  blk11 stream nan -> nan | pos 0.1017 mean -0.376 std 0.339 | act RMS 0.0789
+  blk12 stream nan -> nan | pos 0.1489 mean -0.361 std 0.372 | act RMS 0.1170
+  embed.weight (32768, 2048) norm 467.9 rms 0.0571 | row norm: seen tokens median 2.454, unseen median 2.547, min 0.6211, max 3.81
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.404 | new row RMS 0.0016
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.456 | new row RMS 0.0038
+blk 2: 12288 units | dead 2563 (20.9%) | of those erased 21.0% | live fire share 0.457 | new row RMS 0.0038
+blk 3: 12288 units | dead 1730 (14.1%) | of those erased 19.2% | live fire share 0.477 | new row RMS 0.0038
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0038
+blk 5: 12288 units | dead 1347 (11.0%) | of those erased 38.6% | live fire share 0.401 | new row RMS 0.0038
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.068 | new row RMS 0.0071
+blk 8: 12288 units | dead 215 (1.7%) | of those erased 28.4% | live fire share 0.135 | new row RMS 0.0084
+blk 9: 12288 units | dead 236 (1.9%) | of those erased 59.7% | live fire share 0.114 | new row RMS 0.0086
+blk10: 12288 units | dead 98 (0.8%) | of those erased 75.5% | live fire share 0.094 | new row RMS 0.0082
+blk11: 12288 units | dead 24 (0.2%) | of those erased 58.3% | live fire share 0.094 | new row RMS 0.0079
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.151 | new row RMS 0.0076
+step_0207000               C=1024 T=2048 | chunk1   23.62 (mem off   23.67) | chunks2+   21.53 (off   22.19, Δ +0.66) | first64 of 2+   34.86 (off   45.96, Δ +11.11) vs first64 of chunk1   39.71
+step_0207000               C=1024 N8:  91.4 100.0  99.2 100.0 (mem off  12.5) | N32:  91.4  99.2  98.4  98.4 (mem off   3.1)
+== done step_0207000 (10-14 06:48)
+== models/checkpoints/v4_cloud_pin/step_0214500.pt (10-14 08:26)
+  (preempting 5080 trainer 95741 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 214500 | tokens 7028736000
+step_0214500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0063 | fire share 0.0063 | positive share of spikes 0.51
+  per token active neurons mean 51.4 | median 40 | 5% 17 | 95% 122 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 1.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4664 of 8192 (56.9%)
+  code      overlap, same token id 0.031 (n=40610) | different token id 0.006
+  by chunk  fire share chunk 1 0.0062 | chunks 2.. 0.0063
+step_0214500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4542 mean +0.000 std 0.012 | act RMS 0.0004
+  blk 1 stream nan -> nan | pos 0.4754 mean -0.002 std 0.025 | act RMS 0.0022
+  blk 2 stream nan -> nan | pos 0.3592 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4214 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3570 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0784 mean -0.172 std 0.125 | act RMS 0.0120
+  blk 8 stream nan -> nan | pos 0.1434 mean -0.186 std 0.203 | act RMS 0.0215
+  blk 9 stream nan -> nan | pos 0.1246 mean -0.183 std 0.218 | act RMS 0.0278
+  blk10 stream nan -> nan | pos 0.1068 mean -0.276 std 0.277 | act RMS 0.0444
+  blk11 stream nan -> nan | pos 0.1043 mean -0.371 std 0.337 | act RMS 0.0786
+  blk12 stream nan -> nan | pos 0.1477 mean -0.358 std 0.366 | act RMS 0.1133
+  embed.weight (32768, 2048) norm 465.5 rms 0.0568 | row norm: seen tokens median 2.426, unseen median 2.535, min 0.6213, max 3.80
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.441 | new row RMS 0.0015
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0038
+blk 2: 12288 units | dead 2558 (20.8%) | of those erased 20.8% | live fire share 0.457 | new row RMS 0.0038
+blk 3: 12288 units | dead 1697 (13.8%) | of those erased 17.7% | live fire share 0.482 | new row RMS 0.0038
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0038
+blk 5: 12288 units | dead 1351 (11.0%) | of those erased 38.9% | live fire share 0.400 | new row RMS 0.0038
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.079 | new row RMS 0.0067
+blk 8: 12288 units | dead 193 (1.6%) | of those erased 30.1% | live fire share 0.141 | new row RMS 0.0080
+blk 9: 12288 units | dead 181 (1.5%) | of those erased 53.0% | live fire share 0.120 | new row RMS 0.0082
+blk10: 12288 units | dead 81 (0.7%) | of those erased 70.4% | live fire share 0.097 | new row RMS 0.0078
+blk11: 12288 units | dead 17 (0.1%) | of those erased 47.1% | live fire share 0.098 | new row RMS 0.0075
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.153 | new row RMS 0.0072
+step_0214500               C=1024 T=2048 | chunk1   22.79 (mem off   22.84) | chunks2+   20.76 (off   21.42, Δ +0.67) | first64 of 2+   33.60 (off   45.15, Δ +11.55) vs first64 of chunk1   39.00
+step_0214500               C=1024 N8:  87.5 100.0  99.2 100.0 (mem off  14.1) | N32:  89.1 100.0  98.4  99.2 (mem off   2.3)
+== done step_0214500 (10-14 08:33)
+== models/checkpoints/v4_cloud_pin/step_0222000.pt (10-14 10:37)
+  (preempting 5080 trainer 105122 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 222000 | tokens 7274496000
+step_0222000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0071 | fire share 0.0071 | positive share of spikes 0.51
+  per token active neurons mean 57.9 | median 48 | 5% 21 | 95% 129 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 1.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4811 of 8192 (58.7%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0071 | chunks 2.. 0.0070
+step_0222000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4829 mean +0.001 std 0.013 | act RMS 0.0004
+  blk 1 stream nan -> nan | pos 0.4739 mean -0.002 std 0.025 | act RMS 0.0024
+  blk 2 stream nan -> nan | pos 0.3585 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4207 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3586 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0889 mean -0.166 std 0.127 | act RMS 0.0124
+  blk 8 stream nan -> nan | pos 0.1480 mean -0.184 std 0.203 | act RMS 0.0220
+  blk 9 stream nan -> nan | pos 0.1279 mean -0.184 std 0.221 | act RMS 0.0288
+  blk10 stream nan -> nan | pos 0.1087 mean -0.277 std 0.280 | act RMS 0.0448
+  blk11 stream nan -> nan | pos 0.1085 mean -0.364 std 0.337 | act RMS 0.0792
+  blk12 stream nan -> nan | pos 0.1513 mean -0.355 std 0.368 | act RMS 0.1151
+  embed.weight (32768, 2048) norm 462.9 rms 0.0565 | row norm: seen tokens median 2.397, unseen median 2.521, min 0.6155, max 3.78
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.468 | new row RMS 0.0012
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.463 | new row RMS 0.0038
+blk 2: 12288 units | dead 2559 (20.8%) | of those erased 20.9% | live fire share 0.456 | new row RMS 0.0038
+blk 3: 12288 units | dead 1700 (13.8%) | of those erased 17.8% | live fire share 0.482 | new row RMS 0.0038
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0038
+blk 5: 12288 units | dead 1355 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0038
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.090 | new row RMS 0.0064
+blk 8: 12288 units | dead 159 (1.3%) | of those erased 30.2% | live fire share 0.145 | new row RMS 0.0077
+blk 9: 12288 units | dead 154 (1.3%) | of those erased 50.0% | live fire share 0.123 | new row RMS 0.0079
+blk10: 12288 units | dead 49 (0.4%) | of those erased 53.1% | live fire share 0.100 | new row RMS 0.0075
+blk11: 12288 units | dead 14 (0.1%) | of those erased 42.9% | live fire share 0.103 | new row RMS 0.0071
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.157 | new row RMS 0.0069
+step_0222000               C=1024 T=2048 | chunk1   22.38 (mem off   22.45) | chunks2+   20.42 (off   21.16, Δ +0.74) | first64 of 2+   33.43 (off   44.76, Δ +11.33) vs first64 of chunk1   38.10
+step_0222000               C=1024 N8:  28.9 100.0 100.0 100.0 (mem off  11.7) | N32:  33.6 100.0 100.0 100.0 (mem off   3.9)
+== done step_0222000 (10-14 10:45)
+== models/checkpoints/screen_seedprep/step_0214500.pt (10-14 11:24)
+patched data_bin: /home/glenn/projects/bdh/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 214500 | tokens 7028736000
+step_0214500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0033 | fire share 0.0033 | positive share of spikes 0.52
+  per token active neurons mean 27.0 | median 21 | 5% 8 | 95% 66 | tokens with none 0.0% | with fewer than 3 0.2%
+  per neuron dead 11.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 3736 of 8192 (45.6%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.005
+  by chunk  fire share chunk 1 0.0032 | chunks 2.. 0.0033
+step_0214500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4432 mean -0.000 std 0.011 | act RMS 0.0003
+  blk 1 stream nan -> nan | pos 0.4606 mean -0.002 std 0.026 | act RMS 0.0017
+  blk 2 stream nan -> nan | pos 0.4961 mean -0.000 std 0.004 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4990 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.4949 mean -0.001 std 0.054 | act RMS 0.0035
+  blk 5 stream nan -> nan | pos 0.4944 mean -0.000 std 0.006 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0687 mean -0.178 std 0.118 | act RMS 0.0111
+  blk 8 stream nan -> nan | pos 0.1965 mean -0.199 std 0.300 | act RMS 0.1058
+  blk 9 stream nan -> nan | pos 0.2185 mean -0.197 std 0.313 | act RMS 0.1045
+  blk10 stream nan -> nan | pos 0.1660 mean -0.289 std 0.338 | act RMS 0.1051
+  blk11 stream nan -> nan | pos 0.1291 mean -0.386 std 0.369 | act RMS 0.1145
+  blk12 stream nan -> nan | pos 0.1166 mean -0.409 std 0.358 | act RMS 0.0857
+  embed.weight (32768, 2048) norm 466.8 rms 0.0570 | row norm: seen tokens median 2.447, unseen median 2.542, min 0.6192, max 3.80
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.429 | new row RMS 0.0015
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.457 | new row RMS 0.0039
+blk 2: 12288 units | dead 535 (4.4%) | of those erased 0.0% | live fire share 0.518 | new row RMS 0.0072
+blk 3: 12288 units | dead 27 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0072
+blk 4: 12288 units | dead 3619 (29.5%) | of those erased 0.0% | live fire share 0.701 | new row RMS 0.0072
+blk 5: 12288 units | dead 8 (0.1%) | of those erased 0.0% | live fire share 0.495 | new row RMS 0.0072
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.078 | new row RMS 0.0064
+blk 8: 12288 units | dead 6 (0.0%) | of those erased 0.0% | live fire share 0.197 | new row RMS 0.0080
+blk 9: 12288 units | dead 6 (0.0%) | of those erased 0.0% | live fire share 0.217 | new row RMS 0.0082
+blk10: 12288 units | dead 6 (0.0%) | of those erased 0.0% | live fire share 0.165 | new row RMS 0.0077
+blk11: 12288 units | dead 2 (0.0%) | of those erased 0.0% | live fire share 0.128 | new row RMS 0.0074
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.121 | new row RMS 0.0071
+step_0214500               C=1024 T=2048 | chunk1   40.66 (mem off   41.07) | chunks2+   36.43 (off   38.16, Δ +1.73) | first64 of 2+   68.60 (off   93.07, Δ +24.47) vs first64 of chunk1   70.86
+step_0214500               C=1024 N8:  78.1  82.0  74.2  76.6 (mem off  12.5) | N32:  87.5  91.4  79.7  82.0 (mem off   4.7)
+== done step_0214500 (10-14 11:39)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-14 12:40)
+  (preempting 5080 trainer 685200 for this check)
+  (preempting 5080 trainer 738572 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-14 13:59)
+== models/checkpoints/v4_cloud_conv_pin/step_0228000.pt (10-14 14:14)
+  (preempting 5080 trainer 749643 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 228000 | tokens 7471104000
+step_0228000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0076 | fire share 0.0076 | positive share of spikes 0.51
+  per token active neurons mean 62.1 | median 53 | 5% 24 | 95% 132 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 3.7% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4014 of 8192 (49.0%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.009
+  by chunk  fire share chunk 1 0.0064 | chunks 2.. 0.0087
+step_0228000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5411 mean +0.002 std 0.015 | act RMS 0.0006
+  blk 1 stream nan -> nan | pos 0.4754 mean -0.001 std 0.030 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.4958 mean -0.000 std 0.004 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4995 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.4374 mean -0.006 std 0.044 | act RMS 0.0018
+  blk 5 stream nan -> nan | pos 0.4788 mean -0.000 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1083 mean -0.158 std 0.132 | act RMS 0.0128
+  blk 8 stream nan -> nan | pos 0.1242 mean -0.246 std 0.220 | act RMS 0.0231
+  blk 9 stream nan -> nan | pos 0.1389 mean -0.255 std 0.240 | act RMS 0.0292
+  blk10 stream nan -> nan | pos 0.1015 mean -0.357 std 0.286 | act RMS 0.0411
+  blk11 stream nan -> nan | pos 0.0963 mean -0.437 std 0.346 | act RMS 0.0710
+  blk12 stream nan -> nan | pos 0.1425 mean -0.394 std 0.390 | act RMS 0.1173
+  embed.weight (32768, 2048) norm 462.0 rms 0.0564 | row norm: seen tokens median 2.383, unseen median 2.516, min 0.6142, max 3.77
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.526 | new row RMS 0.0017
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.467 | new row RMS 0.0042
+blk 2: 12288 units | dead 532 (4.3%) | of those erased 0.0% | live fire share 0.518 | new row RMS 0.0065
+blk 3: 12288 units | dead 25 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0065
+blk 4: 12288 units | dead 3592 (29.2%) | of those erased 0.0% | live fire share 0.618 | new row RMS 0.0065
+blk 5: 12288 units | dead 4 (0.0%) | of those erased 0.0% | live fire share 0.479 | new row RMS 0.0065
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.106 | new row RMS 0.0065
+blk 8: 12288 units | dead 1 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0076
+blk 9: 12288 units | dead 2 (0.0%) | of those erased 0.0% | live fire share 0.128 | new row RMS 0.0077
+blk10: 12288 units | dead 3 (0.0%) | of those erased 0.0% | live fire share 0.094 | new row RMS 0.0073
+blk11: 12288 units | dead 2 (0.0%) | of those erased 0.0% | live fire share 0.089 | new row RMS 0.0071
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.137 | new row RMS 0.0069
+step_0228000               C=1024 T=2048 | chunk1   32.90 (mem off   33.02) | chunks2+   30.40 (off   31.16, Δ +0.77) | first64 of 2+   51.29 (off   63.75, Δ +12.46) vs first64 of chunk1   56.25
+step_0228000               C=1024 N8:  94.5  95.3  96.9  99.2 (mem off   8.6) | N32:  96.9  98.4  93.0  98.4 (mem off   5.5)
+== done step_0228000 (10-14 14:22)
+== models/checkpoints/v4_cloud_conv_pin/step_0234000.pt (10-14 15:41)
+  (preempting 5080 trainer 816606 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 234000 | tokens 7667712000
+step_0234000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0065 | fire share 0.0065 | positive share of spikes 0.51
+  per token active neurons mean 52.9 | median 41 | 5% 20 | 95% 127 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 1.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4693 of 8192 (57.3%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0063 | chunks 2.. 0.0066
+step_0234000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4925 mean +0.001 std 0.018 | act RMS 0.0007
+  blk 1 stream nan -> nan | pos 0.4136 mean -0.005 std 0.033 | act RMS 0.0027
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.002 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4995 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0006 mean -0.028 std 0.026 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3576 mean -0.002 std 0.004 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0580 mean -0.263 std 0.167 | act RMS 0.0162
+  blk 8 stream nan -> nan | pos 0.0518 mean -0.373 std 0.230 | act RMS 0.0249
+  blk 9 stream nan -> nan | pos 0.0562 mean -0.425 std 0.272 | act RMS 0.0347
+  blk10 stream nan -> nan | pos 0.0508 mean -0.587 std 0.364 | act RMS 0.0552
+  blk11 stream nan -> nan | pos 0.0612 mean -0.656 std 0.431 | act RMS 0.0979
+  blk12 stream nan -> nan | pos 0.1194 mean -0.562 std 0.505 | act RMS 0.1935
+  embed.weight (32768, 2048) norm 473.3 rms 0.0578 | row norm: seen tokens median 2.439, unseen median 2.579, min 0.7072, max 3.85
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.487 | new row RMS 0.0030
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.410 | new row RMS 0.0041
+blk 2: 12288 units | dead 527 (4.3%) | of those erased 0.0% | live fire share 0.518 | new row RMS 0.0029
+blk 3: 12288 units | dead 24 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0029
+blk 4: 12288 units | dead 11245 (91.5%) | of those erased 0.0% | live fire share 0.008 | new row RMS 0.0029
+blk 5: 12288 units | dead 1142 (9.3%) | of those erased 0.0% | live fire share 0.394 | new row RMS 0.0029
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.060 | new row RMS 0.0091
+blk 8: 12288 units | dead 58 (0.5%) | of those erased 0.0% | live fire share 0.049 | new row RMS 0.0091
+blk 9: 12288 units | dead 354 (2.9%) | of those erased 0.0% | live fire share 0.050 | new row RMS 0.0092
+blk10: 12288 units | dead 657 (5.3%) | of those erased 0.0% | live fire share 0.048 | new row RMS 0.0093
+blk11: 12288 units | dead 208 (1.7%) | of those erased 0.0% | live fire share 0.056 | new row RMS 0.0091
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.112 | new row RMS 0.0093
+step_0234000               C=1024 T=2048 | chunk1   26.56 (mem off   26.68) | chunks2+   24.08 (off   24.85, Δ +0.76) | first64 of 2+   39.06 (off   52.33, Δ +13.27) vs first64 of chunk1   44.42
+step_0234000               C=1024 N8:  99.2 100.0  98.4  99.2 (mem off  10.2) | N32:  99.2 100.0 100.0  98.4 (mem off   3.1)
+== done step_0234000 (10-14 16:13)
+== models/checkpoints/v4_cloud_conv_pin/step_0238500.pt (10-14 17:13)
+  (preempting 5080 trainer 878238 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 238500 | tokens 7815168000
+step_0238500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0076 | fire share 0.0076 | positive share of spikes 0.51
+  per token active neurons mean 62.3 | median 50 | 5% 24 | 95% 145 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.4% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4811 of 8192 (58.7%)
+  code      overlap, same token id 0.036 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0074 | chunks 2.. 0.0078
+step_0238500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4943 mean +0.001 std 0.020 | act RMS 0.0009
+  blk 1 stream nan -> nan | pos 0.4137 mean -0.005 std 0.036 | act RMS 0.0029
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4995 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0006 mean -0.023 std 0.039 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3578 mean -0.002 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0587 mean -0.262 std 0.168 | act RMS 0.0172
+  blk 8 stream nan -> nan | pos 0.0554 mean -0.366 std 0.230 | act RMS 0.0266
+  blk 9 stream nan -> nan | pos 0.0584 mean -0.419 std 0.270 | act RMS 0.0372
+  blk10 stream nan -> nan | pos 0.0537 mean -0.570 std 0.354 | act RMS 0.0616
+  blk11 stream nan -> nan | pos 0.0655 mean -0.638 std 0.426 | act RMS 0.1068
+  blk12 stream nan -> nan | pos 0.1147 mean -0.580 std 0.510 | act RMS 0.2119
+  embed.weight (32768, 2048) norm 478.4 rms 0.0584 | row norm: seen tokens median 2.469, unseen median 2.606, min 0.7092, max 3.90
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.490 | new row RMS 0.0031
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.411 | new row RMS 0.0041
+blk 2: 12288 units | dead 529 (4.3%) | of those erased 0.0% | live fire share 0.518 | new row RMS 0.0087
+blk 3: 12288 units | dead 21 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0087
+blk 4: 12288 units | dead 11251 (91.6%) | of those erased 0.0% | live fire share 0.007 | new row RMS 0.0087
+blk 5: 12288 units | dead 1880 (15.3%) | of those erased 0.0% | live fire share 0.422 | new row RMS 0.0087
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.060 | new row RMS 0.0092
+blk 8: 12288 units | dead 62 (0.5%) | of those erased 0.0% | live fire share 0.051 | new row RMS 0.0091
+blk 9: 12288 units | dead 417 (3.4%) | of those erased 0.0% | live fire share 0.053 | new row RMS 0.0092
+blk10: 12288 units | dead 761 (6.2%) | of those erased 0.0% | live fire share 0.051 | new row RMS 0.0094
+blk11: 12288 units | dead 232 (1.9%) | of those erased 0.0% | live fire share 0.061 | new row RMS 0.0092
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.113 | new row RMS 0.0093
+step_0238500               C=1024 T=2048 | chunk1   25.72 (mem off   25.72) | chunks2+   23.08 (off   23.86, Δ +0.78) | first64 of 2+   37.69 (off   50.13, Δ +12.44) vs first64 of chunk1   43.63
+step_0238500               C=1024 N8:  99.2 100.0  99.2 100.0 (mem off  13.3) | N32: 100.0  99.2  97.7  97.7 (mem off   2.3)
+== done step_0238500 (10-14 18:24)
+== models/checkpoints/v4_cloud_conv_pin/step_0244500.pt (10-14 18:59)
+  (preempting 5080 trainer 886766 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 244500 | tokens 8011776000
+step_0244500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0081 | fire share 0.0081 | positive share of spikes 0.51
+  per token active neurons mean 66.7 | median 54 | 5% 28 | 95% 151 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.3% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4967 of 8192 (60.6%)
+  code      overlap, same token id 0.037 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0080 | chunks 2.. 0.0083
+step_0244500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4920 mean +0.000 std 0.022 | act RMS 0.0010
+  blk 1 stream nan -> nan | pos 0.4099 mean -0.006 std 0.038 | act RMS 0.0031
+  blk 2 stream nan -> nan | pos 0.4955 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0007 mean -0.021 std 0.055 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3737 mean -0.002 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0632 mean -0.250 std 0.165 | act RMS 0.0180
+  blk 8 stream nan -> nan | pos 0.0625 mean -0.350 std 0.230 | act RMS 0.0289
+  blk 9 stream nan -> nan | pos 0.0693 mean -0.389 std 0.267 | act RMS 0.0404
+  blk10 stream nan -> nan | pos 0.0619 mean -0.526 std 0.344 | act RMS 0.0665
+  blk11 stream nan -> nan | pos 0.0749 mean -0.598 std 0.421 | act RMS 0.1141
+  blk12 stream nan -> nan | pos 0.1262 mean -0.545 std 0.505 | act RMS 0.2251
+  embed.weight (32768, 2048) norm 483.5 rms 0.0590 | row norm: seen tokens median 2.502, unseen median 2.633, min 0.6974, max 3.94
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.488 | new row RMS 0.0030
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.407 | new row RMS 0.0041
+blk 2: 12288 units | dead 526 (4.3%) | of those erased 0.0% | live fire share 0.517 | new row RMS 0.0084
+blk 3: 12288 units | dead 23 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0084
+blk 4: 12288 units | dead 11249 (91.5%) | of those erased 0.0% | live fire share 0.009 | new row RMS 0.0084
+blk 5: 12288 units | dead 1574 (12.8%) | of those erased 0.0% | live fire share 0.429 | new row RMS 0.0084
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.063 | new row RMS 0.0089
+blk 8: 12288 units | dead 52 (0.4%) | of those erased 0.0% | live fire share 0.056 | new row RMS 0.0088
+blk 9: 12288 units | dead 413 (3.4%) | of those erased 0.0% | live fire share 0.060 | new row RMS 0.0089
+blk10: 12288 units | dead 787 (6.4%) | of those erased 0.0% | live fire share 0.058 | new row RMS 0.0092
+blk11: 12288 units | dead 230 (1.9%) | of those erased 0.0% | live fire share 0.068 | new row RMS 0.0089
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.123 | new row RMS 0.0089
+step_0244500               C=1024 T=2048 | chunk1   24.27 (mem off   24.33) | chunks2+   21.97 (off   22.80, Δ +0.83) | first64 of 2+   35.21 (off   47.82, Δ +12.62) vs first64 of chunk1   41.00
+step_0244500               C=1024 N8:  99.2 100.0 100.0 100.0 (mem off  13.3) | N32:  99.2  97.7  99.2 100.0 (mem off   3.9)
+== done step_0244500 (10-14 20:07)
+== models/checkpoints/v4_cloud_conv_pin/step_0249000.pt (10-14 21:13)
+  (preempting 5080 trainer 890378 for this check)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 249000 | tokens 8159232000
+step_0249000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0090 | fire share 0.0090 | positive share of spikes 0.51
+  per token active neurons mean 73.8 | median 63 | 5% 33 | 95% 154 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5013 of 8192 (61.2%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0090 | chunks 2.. 0.0090
+step_0249000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4917 mean +0.000 std 0.023 | act RMS 0.0011
+  blk 1 stream nan -> nan | pos 0.4102 mean -0.006 std 0.039 | act RMS 0.0032
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0008 mean -0.020 std 0.059 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3756 mean -0.002 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0679 mean -0.240 std 0.163 | act RMS 0.0183
+  blk 8 stream nan -> nan | pos 0.0682 mean -0.338 std 0.231 | act RMS 0.0302
+  blk 9 stream nan -> nan | pos 0.0724 mean -0.382 std 0.266 | act RMS 0.0411
+  blk10 stream nan -> nan | pos 0.0679 mean -0.500 std 0.342 | act RMS 0.0691
+  blk11 stream nan -> nan | pos 0.0818 mean -0.572 std 0.421 | act RMS 0.1199
+  blk12 stream nan -> nan | pos 0.1349 mean -0.518 std 0.501 | act RMS 0.2373
+  embed.weight (32768, 2048) norm 486.2 rms 0.0594 | row norm: seen tokens median 2.511, unseen median 2.648, min 0.7318, max 3.98
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.488 | new row RMS 0.0030
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.409 | new row RMS 0.0040
+blk 2: 12288 units | dead 519 (4.2%) | of those erased 0.0% | live fire share 0.517 | new row RMS 0.0082
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0082
+blk 4: 12288 units | dead 11240 (91.5%) | of those erased 0.0% | live fire share 0.009 | new row RMS 0.0082
+blk 5: 12288 units | dead 1882 (15.3%) | of those erased 0.0% | live fire share 0.444 | new row RMS 0.0082
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.067 | new row RMS 0.0087
+blk 8: 12288 units | dead 49 (0.4%) | of those erased 0.0% | live fire share 0.062 | new row RMS 0.0085
+blk 9: 12288 units | dead 406 (3.3%) | of those erased 0.0% | live fire share 0.065 | new row RMS 0.0087
+blk10: 12288 units | dead 767 (6.2%) | of those erased 0.0% | live fire share 0.062 | new row RMS 0.0090
+blk11: 12288 units | dead 224 (1.8%) | of those erased 0.0% | live fire share 0.072 | new row RMS 0.0087
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.130 | new row RMS 0.0087
+step_0249000               C=1024 T=2048 | chunk1   23.67 (mem off   23.70) | chunks2+   21.53 (off   22.35, Δ +0.81) | first64 of 2+   33.57 (off   46.01, Δ +12.44) vs first64 of chunk1   39.13
+step_0249000               C=1024 N8: 100.0 100.0  99.2 100.0 (mem off   8.6) | N32:  96.9 100.0 100.0 100.0 (mem off   1.6)
+== done step_0249000 (10-14 22:01)
+== models/checkpoints/v4_cloud_conv_pin/step_0253500.pt (10-14 23:37)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 253500 | tokens 8306688000
+step_0253500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0088 | fire share 0.0088 | positive share of spikes 0.51
+  per token active neurons mean 72.2 | median 60 | 5% 31 | 95% 158 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.3% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5132 of 8192 (62.6%)
+  code      overlap, same token id 0.039 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0087 | chunks 2.. 0.0089
+step_0253500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4932 mean +0.000 std 0.024 | act RMS 0.0012
+  blk 1 stream nan -> nan | pos 0.4106 mean -0.006 std 0.040 | act RMS 0.0034
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0010 mean -0.018 std 0.057 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3771 mean -0.002 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0722 mean -0.235 std 0.164 | act RMS 0.0188
+  blk 8 stream nan -> nan | pos 0.0716 mean -0.333 std 0.232 | act RMS 0.0307
+  blk 9 stream nan -> nan | pos 0.0801 mean -0.366 std 0.266 | act RMS 0.0422
+  blk10 stream nan -> nan | pos 0.0722 mean -0.484 std 0.341 | act RMS 0.0706
+  blk11 stream nan -> nan | pos 0.0871 mean -0.557 std 0.422 | act RMS 0.1228
+  blk12 stream nan -> nan | pos 0.1431 mean -0.495 std 0.496 | act RMS 0.2257
+  embed.weight (32768, 2048) norm 488.4 rms 0.0596 | row norm: seen tokens median 2.523, unseen median 2.660, min 0.7543, max 3.99
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.490 | new row RMS 0.0029
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.410 | new row RMS 0.0040
+blk 2: 12288 units | dead 513 (4.2%) | of those erased 0.0% | live fire share 0.517 | new row RMS 0.0079
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0079
+blk 4: 12288 units | dead 11222 (91.3%) | of those erased 0.0% | live fire share 0.012 | new row RMS 0.0079
+blk 5: 12288 units | dead 2058 (16.7%) | of those erased 0.0% | live fire share 0.453 | new row RMS 0.0079
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.072 | new row RMS 0.0084
+blk 8: 12288 units | dead 47 (0.4%) | of those erased 0.0% | live fire share 0.065 | new row RMS 0.0083
+blk 9: 12288 units | dead 372 (3.0%) | of those erased 0.0% | live fire share 0.071 | new row RMS 0.0084
+blk10: 12288 units | dead 748 (6.1%) | of those erased 0.0% | live fire share 0.066 | new row RMS 0.0087
+blk11: 12288 units | dead 211 (1.7%) | of those erased 0.0% | live fire share 0.077 | new row RMS 0.0084
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.138 | new row RMS 0.0084
+step_0253500               C=1024 T=2048 | chunk1   23.27 (mem off   23.36) | chunks2+   21.20 (off   22.08, Δ +0.88) | first64 of 2+   33.07 (off   45.71, Δ +12.63) vs first64 of chunk1   38.91
+step_0253500               C=1024 N8: 100.0 100.0 100.0 100.0 (mem off  12.5) | N32:  98.4  98.4  98.4  99.2 (mem off   3.1)
+== done step_0253500 (10-14 23:44)
+== models/checkpoints/v4_cloud_conv_pin/step_0259500.pt (10-15 01:36)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 259500 | tokens 8503296000
+step_0259500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0096 | fire share 0.0096 | positive share of spikes 0.51
+  per token active neurons mean 78.4 | median 66 | 5% 36 | 95% 164 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5218 of 8192 (63.7%)
+  code      overlap, same token id 0.039 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0097 | chunks 2.. 0.0095
+step_0259500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.4946 mean +0.000 std 0.025 | act RMS 0.0013
+  blk 1 stream nan -> nan | pos 0.4116 mean -0.007 std 0.042 | act RMS 0.0035
+  blk 2 stream nan -> nan | pos 0.4957 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4997 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0009 mean -0.017 std 0.063 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3800 mean -0.002 std 0.005 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0817 mean -0.223 std 0.164 | act RMS 0.0194
+  blk 8 stream nan -> nan | pos 0.0800 mean -0.322 std 0.235 | act RMS 0.0331
+  blk 9 stream nan -> nan | pos 0.0863 mean -0.357 std 0.268 | act RMS 0.0445
+  blk10 stream nan -> nan | pos 0.0789 mean -0.462 std 0.341 | act RMS 0.0737
+  blk11 stream nan -> nan | pos 0.0905 mean -0.544 std 0.420 | act RMS 0.1260
+  blk12 stream nan -> nan | pos 0.1517 mean -0.473 std 0.492 | act RMS 0.2316
+  embed.weight (32768, 2048) norm 490.2 rms 0.0598 | row norm: seen tokens median 2.529, unseen median 2.671, min 0.7977, max 3.99
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.492 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.412 | new row RMS 0.0039
+blk 2: 12288 units | dead 523 (4.3%) | of those erased 0.0% | live fire share 0.517 | new row RMS 0.0076
+blk 3: 12288 units | dead 22 (0.2%) | of those erased 0.0% | live fire share 0.500 | new row RMS 0.0076
+blk 4: 12288 units | dead 11206 (91.2%) | of those erased 0.0% | live fire share 0.011 | new row RMS 0.0076
+blk 5: 12288 units | dead 2243 (18.3%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0076
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.076 | new row RMS 0.0081
+blk 8: 12288 units | dead 44 (0.4%) | of those erased 0.0% | live fire share 0.070 | new row RMS 0.0080
+blk 9: 12288 units | dead 334 (2.7%) | of those erased 0.0% | live fire share 0.077 | new row RMS 0.0081
+blk10: 12288 units | dead 714 (5.8%) | of those erased 0.0% | live fire share 0.072 | new row RMS 0.0084
+blk11: 12288 units | dead 198 (1.6%) | of those erased 0.0% | live fire share 0.081 | new row RMS 0.0081
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.147 | new row RMS 0.0081
+step_0259500               C=1024 T=2048 | chunk1   22.70 (mem off   22.82) | chunks2+   20.50 (off   21.42, Δ +0.92) | first64 of 2+   32.25 (off   45.00, Δ +12.75) vs first64 of chunk1   38.57
+step_0259500               C=1024 N8:  23.4 100.0 100.0 100.0 (mem off  14.8) | N32:  12.5 100.0 100.0 100.0 (mem off   1.6)
+== done step_0259500 (10-15 03:24)
+== models/checkpoints/v4_cloud_conv_pin/step_0265500.pt (10-15 03:40)
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0265500.pt'
+== done step_0265500 (10-15 10:03)
+== models/checkpoints/v4_cloud_conv_pin/step_0270000.pt (10-15 10:03)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 270000 | tokens 8847360000
+step_0270000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0101 | fire share 0.0101 | positive share of spikes 0.51
+  per token active neurons mean 83.1 | median 71 | 5% 39 | 95% 167 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5364 of 8192 (65.5%)
+  code      overlap, same token id 0.038 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0101 | chunks 2.. 0.0102
+step_0270000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5003 mean +0.001 std 0.026 | act RMS 0.0014
+  blk 1 stream nan -> nan | pos 0.4129 mean -0.007 std 0.044 | act RMS 0.0037
+  blk 2 stream nan -> nan | pos 0.4957 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0009 mean -0.014 std 0.069 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3809 mean -0.001 std 0.004 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0930 mean -0.213 std 0.166 | act RMS 0.0198
+  blk 8 stream nan -> nan | pos 0.0921 mean -0.309 std 0.239 | act RMS 0.0347
+  blk 9 stream nan -> nan | pos 0.0980 mean -0.340 std 0.271 | act RMS 0.0462
+  blk10 stream nan -> nan | pos 0.0858 mean -0.443 std 0.341 | act RMS 0.0760
+  blk11 stream nan -> nan | pos 0.0991 mean -0.516 std 0.419 | act RMS 0.1311
+  blk12 stream nan -> nan | pos 0.1633 mean -0.442 std 0.485 | act RMS 0.2312
+  embed.weight (32768, 2048) norm 491.4 rms 0.0600 | row norm: seen tokens median 2.520, unseen median 2.677, min 0.8353, max 4.02
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.496 | new row RMS 0.0027
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.410 | new row RMS 0.0038
+blk 2: 12288 units | dead 526 (4.3%) | of those erased 3.8% | live fire share 0.518 | new row RMS 0.0071
+blk 3: 12288 units | dead 19 (0.2%) | of those erased 5.3% | live fire share 0.500 | new row RMS 0.0071
+blk 4: 12288 units | dead 11203 (91.2%) | of those erased 1.6% | live fire share 0.011 | new row RMS 0.0071
+blk 5: 12288 units | dead 2294 (18.7%) | of those erased 0.3% | live fire share 0.468 | new row RMS 0.0071
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.088 | new row RMS 0.0076
+blk 8: 12288 units | dead 32 (0.3%) | of those erased 0.0% | live fire share 0.082 | new row RMS 0.0075
+blk 9: 12288 units | dead 279 (2.3%) | of those erased 0.0% | live fire share 0.088 | new row RMS 0.0076
+blk10: 12288 units | dead 687 (5.6%) | of those erased 0.0% | live fire share 0.079 | new row RMS 0.0078
+blk11: 12288 units | dead 193 (1.6%) | of those erased 0.0% | live fire share 0.088 | new row RMS 0.0076
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0075
+step_0270000               C=1024 T=2048 | chunk1   22.05 (mem off   22.16) | chunks2+   19.93 (off   20.81, Δ +0.88) | first64 of 2+   30.59 (off   42.83, Δ +12.24) vs first64 of chunk1   36.91
+step_0270000               C=1024 N8:  46.1  99.2 100.0 100.0 (mem off  14.1) | N32:  43.8 100.0 100.0 100.0 (mem off   3.9)
+== done step_0270000 (10-15 10:13)
+== models/checkpoints/v4_cloud_conv_pin/step_0274500.pt (10-15 10:13)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 274500 | tokens 8994816000
+step_0274500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0103 | fire share 0.0103 | positive share of spikes 0.51
+  per token active neurons mean 84.4 | median 74 | 5% 39 | 95% 167 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.1% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5406 of 8192 (66.0%)
+  code      overlap, same token id 0.037 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0101 | chunks 2.. 0.0105
+step_0274500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5003 mean +0.001 std 0.027 | act RMS 0.0015
+  blk 1 stream nan -> nan | pos 0.4123 mean -0.007 std 0.045 | act RMS 0.0038
+  blk 2 stream nan -> nan | pos 0.4957 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4997 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0010 mean -0.013 std 0.070 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3808 mean -0.001 std 0.003 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0976 mean -0.211 std 0.167 | act RMS 0.0202
+  blk 8 stream nan -> nan | pos 0.0964 mean -0.306 std 0.241 | act RMS 0.0359
+  blk 9 stream nan -> nan | pos 0.1032 mean -0.334 std 0.273 | act RMS 0.0474
+  blk10 stream nan -> nan | pos 0.0905 mean -0.432 std 0.341 | act RMS 0.0781
+  blk11 stream nan -> nan | pos 0.1007 mean -0.510 std 0.417 | act RMS 0.1304
+  blk12 stream nan -> nan | pos 0.1676 mean -0.430 std 0.481 | act RMS 0.2259
+  embed.weight (32768, 2048) norm 491.3 rms 0.0600 | row norm: seen tokens median 2.512, unseen median 2.677, min 0.8527, max 4.02
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.496 | new row RMS 0.0027
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.408 | new row RMS 0.0038
+blk 2: 12288 units | dead 539 (4.4%) | of those erased 100.0% | live fire share 0.518 | new row RMS 0.0069
+blk 3: 12288 units | dead 17 (0.1%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0069
+blk 4: 12288 units | dead 11195 (91.1%) | of those erased 34.3% | live fire share 0.011 | new row RMS 0.0069
+blk 5: 12288 units | dead 2282 (18.6%) | of those erased 10.6% | live fire share 0.468 | new row RMS 0.0069
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.093 | new row RMS 0.0073
+blk 8: 12288 units | dead 32 (0.3%) | of those erased 0.0% | live fire share 0.087 | new row RMS 0.0073
+blk 9: 12288 units | dead 276 (2.2%) | of those erased 0.0% | live fire share 0.092 | new row RMS 0.0074
+blk10: 12288 units | dead 675 (5.5%) | of those erased 0.0% | live fire share 0.082 | new row RMS 0.0076
+blk11: 12288 units | dead 193 (1.6%) | of those erased 0.0% | live fire share 0.091 | new row RMS 0.0074
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.163 | new row RMS 0.0073
+step_0274500               C=1024 T=2048 | chunk1   21.66 (mem off   21.82) | chunks2+   19.68 (off   20.60, Δ +0.91) | first64 of 2+   30.72 (off   43.06, Δ +12.35) vs first64 of chunk1   35.97
+step_0274500               C=1024 N8:  72.7 100.0  99.2 100.0 (mem off  14.8) | N32:  61.7  99.2 100.0 100.0 (mem off   2.3)
+== done step_0274500 (10-15 12:09)
+== models/checkpoints/v4_cloud_conv_pin/step_0280500.pt (10-15 12:09)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 280500 | tokens 9191424000
+step_0280500 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0097 | fire share 0.0097 | positive share of spikes 0.51
+  per token active neurons mean 79.4 | median 69 | 5% 36 | 95% 163 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.2% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5472 of 8192 (66.8%)
+  code      overlap, same token id 0.037 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0095 | chunks 2.. 0.0099
+step_0280500: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5147 mean +0.002 std 0.027 | act RMS 0.0016
+  blk 1 stream nan -> nan | pos 0.4283 mean -0.006 std 0.047 | act RMS 0.0040
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4997 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0010 mean -0.011 std 0.060 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3809 mean -0.001 std 0.002 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1088 mean -0.202 std 0.169 | act RMS 0.0203
+  blk 8 stream nan -> nan | pos 0.1010 mean -0.301 std 0.243 | act RMS 0.0363
+  blk 9 stream nan -> nan | pos 0.1058 mean -0.330 std 0.274 | act RMS 0.0482
+  blk10 stream nan -> nan | pos 0.0895 mean -0.431 std 0.340 | act RMS 0.0776
+  blk11 stream nan -> nan | pos 0.1010 mean -0.507 std 0.415 | act RMS 0.1295
+  blk12 stream nan -> nan | pos 0.1614 mean -0.439 std 0.478 | act RMS 0.2185
+  embed.weight (32768, 2048) norm 490.5 rms 0.0599 | row norm: seen tokens median 2.499, unseen median 2.674, min 0.8656, max 4.01
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0027
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.423 | new row RMS 0.0037
+blk 2: 12288 units | dead 517 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0068
+blk 3: 12288 units | dead 24 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0068
+blk 4: 12288 units | dead 11203 (91.2%) | of those erased 34.4% | live fire share 0.011 | new row RMS 0.0068
+blk 5: 12288 units | dead 2287 (18.6%) | of those erased 10.8% | live fire share 0.468 | new row RMS 0.0068
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.100 | new row RMS 0.0072
+blk 8: 12288 units | dead 26 (0.2%) | of those erased 0.0% | live fire share 0.089 | new row RMS 0.0071
+blk 9: 12288 units | dead 272 (2.2%) | of those erased 0.4% | live fire share 0.093 | new row RMS 0.0072
+blk10: 12288 units | dead 644 (5.2%) | of those erased 0.2% | live fire share 0.082 | new row RMS 0.0074
+blk11: 12288 units | dead 185 (1.5%) | of those erased 0.5% | live fire share 0.091 | new row RMS 0.0072
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.158 | new row RMS 0.0071
+step_0280500               C=1024 T=2048 | chunk1   22.01 (mem off   22.15) | chunks2+   19.90 (off   20.83, Δ +0.93) | first64 of 2+   31.82 (off   44.66, Δ +12.85) vs first64 of chunk1   36.86
+step_0280500               C=1024 N8:  73.4  99.2 100.0  99.2 (mem off  10.9) | N32:  78.1 100.0 100.0  99.2 (mem off   3.9)
+== done step_0280500 (10-15 13:58)
+== models/checkpoints/v4_cloud_conv_pin/step_0286500.pt (10-15 13:58)
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0286500.pt'
+== done step_0286500 (10-15 22:48)
+== models/checkpoints/v4_cloud_conv_pin/step_0291000.pt (10-15 22:48)
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0291000.pt'
+== done step_0291000 (10-15 22:50)
+== models/checkpoints/v4_cloud_conv_pin/step_0297000.pt (10-15 22:50)
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0297000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0297000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0297000.pt'
+FileNotFoundError: [Errno 2] No such file or directory: 'models/checkpoints/v4_cloud_conv_pin/step_0297000.pt'
+== models/checkpoints/v4_cloud_conv_pin/step_0301500.pt (10-15 22:52)
+== models/checkpoints/v4_cloud_conv_pin/step_0307500.pt (10-15 22:52)
+== models/checkpoints/v4_cloud_conv_pin/step_0312000.pt (10-15 23:32)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 312000 | tokens 10223616000
+step_0312000 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0122 | fire share 0.0122 | positive share of spikes 0.51
+  per token active neurons mean 99.8 | median 88 | 5% 49 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 5977 of 8192 (73.0%)
+  code      overlap, same token id 0.036 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0120 | chunks 2.. 0.0124
+step_0312000: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5208 mean +0.002 std 0.030 | act RMS 0.0020
+  blk 1 stream nan -> nan | pos 0.4070 mean -0.010 std 0.052 | act RMS 0.0046
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4995 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.004 std 0.025 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3803 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1627 mean -0.169 std 0.178 | act RMS 0.0232
+  blk 8 stream nan -> nan | pos 0.1367 mean -0.266 std 0.251 | act RMS 0.0396
+  blk 9 stream nan -> nan | pos 0.1333 mean -0.289 std 0.277 | act RMS 0.0525
+  blk10 stream nan -> nan | pos 0.1095 mean -0.374 std 0.338 | act RMS 0.0820
+  blk11 stream nan -> nan | pos 0.1221 mean -0.441 std 0.406 | act RMS 0.1323
+  blk12 stream nan -> nan | pos 0.1563 mean -0.438 std 0.467 | act RMS 0.2075
+  embed.weight (32768, 2048) norm 483.3 rms 0.0590 | row norm: seen tokens median 2.409, unseen median 2.640, min 0.8523, max 3.98
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.514 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.402 | new row RMS 0.0039
+blk 2: 12288 units | dead 512 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0057
+blk 3: 12288 units | dead 23 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0057
+blk 4: 12288 units | dead 11192 (91.1%) | of those erased 34.6% | live fire share 0.013 | new row RMS 0.0057
+blk 5: 12288 units | dead 2255 (18.4%) | of those erased 9.7% | live fire share 0.466 | new row RMS 0.0057
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0061
+blk 8: 12288 units | dead 26 (0.2%) | of those erased 3.8% | live fire share 0.123 | new row RMS 0.0061
+blk 9: 12288 units | dead 279 (2.3%) | of those erased 5.0% | live fire share 0.120 | new row RMS 0.0061
+blk10: 12288 units | dead 661 (5.4%) | of those erased 9.2% | live fire share 0.102 | new row RMS 0.0063
+blk11: 12288 units | dead 192 (1.6%) | of those erased 15.1% | live fire share 0.113 | new row RMS 0.0061
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.156 | new row RMS 0.0061
+step_0312000               C=1024 T=2048 | chunk1   20.31 (mem off   20.46) | chunks2+   18.12 (off   19.14, Δ +1.03) | first64 of 2+   27.18 (off   39.93, Δ +12.75) vs first64 of chunk1   34.55
+step_0312000               C=1024 N8:  93.8 100.0 100.0 100.0 (mem off   9.4) | N32:  95.3 100.0  99.2  99.2 (mem off   3.1)
+== done step_0312000 (10-16 00:23)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-16 02:50)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-16 03:20)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-17 15:51)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-17 15:59)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-17 17:11)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-17 17:19)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-18 00:52)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-18 01:00)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-18 02:02)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+  (yielded to the 5090, try 1) xchunk
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-18 02:13)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-18 23:09)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-18 23:17)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-19 00:22)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-19 00:30)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-20 16:09)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-20 18:04)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-20 18:04)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-20 18:12)
+== models/checkpoints/v4_cloud_pin/step_0227662.pt (10-25 13:40)
+patched data_bin: /workspace/data/tokenized_v4/train_lut32768_u16.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 227662 | tokens 7460028416
+step_0227662 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0078 | fire share 0.0078 | positive share of spikes 0.51
+  per token active neurons mean 63.9 | median 54 | 5% 26 | 95% 135 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.6% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 4976 of 8192 (60.7%)
+  code      overlap, same token id 0.032 (n=40610) | different token id 0.007
+  by chunk  fire share chunk 1 0.0079 | chunks 2.. 0.0077
+step_0227662: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5004 mean +0.001 std 0.014 | act RMS 0.0005
+  blk 1 stream nan -> nan | pos 0.4751 mean -0.002 std 0.026 | act RMS 0.0025
+  blk 2 stream nan -> nan | pos 0.3579 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4220 mean -0.000 std 0.001 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0000 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3593 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.0967 mean -0.165 std 0.131 | act RMS 0.0127
+  blk 8 stream nan -> nan | pos 0.1499 mean -0.185 std 0.206 | act RMS 0.0221
+  blk 9 stream nan -> nan | pos 0.1278 mean -0.185 std 0.223 | act RMS 0.0290
+  blk10 stream nan -> nan | pos 0.1123 mean -0.275 std 0.281 | act RMS 0.0462
+  blk11 stream nan -> nan | pos 0.1119 mean -0.360 std 0.338 | act RMS 0.0817
+  blk12 stream nan -> nan | pos 0.1554 mean -0.349 std 0.369 | act RMS 0.1180
+  embed.weight (32768, 2048) norm 461.0 rms 0.0563 | row norm: seen tokens median 2.380, unseen median 2.510, min 0.6158, max 3.76
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.485 | new row RMS 0.0009
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.465 | new row RMS 0.0039
+blk 2: 12288 units | dead 2556 (20.8%) | of those erased 20.8% | live fire share 0.456 | new row RMS 0.0039
+blk 3: 12288 units | dead 1689 (13.7%) | of those erased 17.3% | live fire share 0.483 | new row RMS 0.0039
+blk 4: 12288 units | dead 12288 (100.0%) | of those erased 100.0% | live fire share 0.000 | new row RMS 0.0039
+blk 5: 12288 units | dead 1353 (11.0%) | of those erased 39.0% | live fire share 0.402 | new row RMS 0.0039
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.096 | new row RMS 0.0063
+blk 8: 12288 units | dead 145 (1.2%) | of those erased 35.2% | live fire share 0.147 | new row RMS 0.0075
+blk 9: 12288 units | dead 139 (1.1%) | of those erased 51.1% | live fire share 0.123 | new row RMS 0.0077
+blk10: 12288 units | dead 48 (0.4%) | of those erased 56.2% | live fire share 0.102 | new row RMS 0.0073
+blk11: 12288 units | dead 14 (0.1%) | of those erased 35.7% | live fire share 0.104 | new row RMS 0.0069
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.159 | new row RMS 0.0067
+step_0227662               C=1024 T=2048 | chunk1   22.39 (mem off   22.49) | chunks2+   20.29 (off   21.03, Δ +0.74) | first64 of 2+   32.49 (off   44.40, Δ +11.91) vs first64 of chunk1   37.70
+step_0227662               C=1024 N8:  81.2 100.0 100.0 100.0 (mem off  10.9) | N32:  85.9 100.0  99.2  98.4 (mem off   2.3)
+== done step_0227662 (10-25 13:46)
+== models/checkpoints/v4_cloud_conv_pin/step_0320740.pt (10-25 14:49)
+patched data_bin: /workspace/data/tokenized_v4/train_kd_slice_u32.bin -> /home/glenn/projects/bdh/data/tokenized_v4/train_lut32768_u16.bin | step 320740 | tokens 10510008320
+step_0320740 blk6 N=8192 T=2048 chunk=1024
+  rate      mean|s| 0.0117 | fire share 0.0117 | positive share of spikes 0.51
+  per token active neurons mean 96.2 | median 83 | 5% 46 | 95% 194 | tokens with none 0.0% | with fewer than 3 0.0%
+  per neuron dead 0.0% | fires on >50% of tokens 0.00% | neurons carrying 90% of spikes 6014 of 8192 (73.4%)
+  code      overlap, same token id 0.034 (n=40610) | different token id 0.008
+  by chunk  fire share chunk 1 0.0117 | chunks 2.. 0.0118
+step_0320740: per block (stream RMS in -> out | FFN pre-activation: positive share, mean, std | FFN activation RMS)
+  blk 0 stream nan -> nan | pos 0.5183 mean +0.001 std 0.031 | act RMS 0.0021
+  blk 1 stream nan -> nan | pos 0.3963 mean -0.011 std 0.054 | act RMS 0.0049
+  blk 2 stream nan -> nan | pos 0.4956 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 3 stream nan -> nan | pos 0.4996 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 4 stream nan -> nan | pos 0.0011 mean -0.002 std 0.020 | act RMS 0.0000
+  blk 5 stream nan -> nan | pos 0.3802 mean -0.000 std 0.000 | act RMS 0.0000
+  blk 7 stream nan -> nan | pos 0.1625 mean -0.173 std 0.182 | act RMS 0.0236
+  blk 8 stream nan -> nan | pos 0.1371 mean -0.269 std 0.254 | act RMS 0.0413
+  blk 9 stream nan -> nan | pos 0.1320 mean -0.293 std 0.281 | act RMS 0.0531
+  blk10 stream nan -> nan | pos 0.1102 mean -0.373 std 0.341 | act RMS 0.0823
+  blk11 stream nan -> nan | pos 0.1284 mean -0.428 std 0.407 | act RMS 0.1359
+  blk12 stream nan -> nan | pos 0.1527 mean -0.448 std 0.470 | act RMS 0.2115
+  embed.weight (32768, 2048) norm 480.8 rms 0.0587 | row norm: seen tokens median 2.382, unseen median 2.626, min 0.8555, max 3.97
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+blk 0: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.510 | new row RMS 0.0028
+blk 1: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.392 | new row RMS 0.0040
+blk 2: 12288 units | dead 515 (4.2%) | of those erased 100.0% | live fire share 0.517 | new row RMS 0.0056
+blk 3: 12288 units | dead 20 (0.2%) | of those erased 100.0% | live fire share 0.500 | new row RMS 0.0056
+blk 4: 12288 units | dead 11224 (91.3%) | of those erased 34.8% | live fire share 0.013 | new row RMS 0.0056
+blk 5: 12288 units | dead 2273 (18.5%) | of those erased 10.4% | live fire share 0.467 | new row RMS 0.0056
+blk 7: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.152 | new row RMS 0.0060
+blk 8: 12288 units | dead 28 (0.2%) | of those erased 3.6% | live fire share 0.123 | new row RMS 0.0060
+blk 9: 12288 units | dead 263 (2.1%) | of those erased 7.6% | live fire share 0.119 | new row RMS 0.0060
+blk10: 12288 units | dead 644 (5.2%) | of those erased 15.1% | live fire share 0.102 | new row RMS 0.0061
+blk11: 12288 units | dead 183 (1.5%) | of those erased 21.9% | live fire share 0.116 | new row RMS 0.0059
+blk12: 12288 units | dead 0 (0.0%) | of those erased 0.0% | live fire share 0.154 | new row RMS 0.0059
+step_0320740               C=1024 T=2048 | chunk1   20.17 (mem off   20.30) | chunks2+   18.13 (off   19.13, Δ +1.00) | first64 of 2+   28.10 (off   40.60, Δ +12.49) vs first64 of chunk1   34.51
+step_0320740               C=1024 N8:  96.9 100.0 100.0 100.0 (mem off   7.0) | N32:  98.4 100.0 100.0 100.0 (mem off   5.5)
+== done step_0320740 (10-25 14:59)

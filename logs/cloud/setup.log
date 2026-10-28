@@ -1,0 +1,9 @@
+train_gpu import ok
+torch 2.11.0+cu128 | cuda 12.8 | NVIDIA H200 NVL | 150 GB
+matmul ok True
+64
+Model name:                              Intel(R) Xeon(R) 6515P
+CPU(s) scaling MHz:                      32%
+CPU max MHz:                             3800.0000
+[setup] done
+[setup] exit=0

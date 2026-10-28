@@ -1,0 +1,38 @@
+[q6 10-24 21:29:53] stream-ppl --dtype bf16 --static --n 2
+  stream-ppl v4 bf16 STATIC seq: 134 tok/s with graphs (incl. capture)
+  stream-ppl v4 bf16 STATIC seq: 162 tok/s with graphs (incl. capture)
+  stream-ppl v4 bf16 STATIC vs eager decoder: argmax agree 1.0000 | max|diff| 0.0000 | ppl static 26.216
+  stream-ppl v4 bf16: tokens 2200 | ppl full forward 26.314 | streaming decoder 26.216 | argmax agree 0.8591 | 8.0 tok/s eager
+  stream-ppl v4 bf16   chunk1  (1650 tok): full 26.956 | decoder 26.573
+  stream-ppl v4 bf16   chunk2+ (550 tok): full 24.478 | decoder 25.173
+[q6 10-24 21:39:58] stream-ppl --dtype bf16 --window 1024 --static --n 2
+  stream-ppl v4 bf16 window 1024 STATIC seq: 146 tok/s with graphs (incl. capture)
+  stream-ppl v4 bf16 window 1024 STATIC seq: 156 tok/s with graphs (incl. capture)
+  stream-ppl v4 bf16 window 1024 STATIC vs eager decoder: argmax agree 1.0000 | max|diff| 0.0000 | ppl static 25.684
+  stream-ppl v4 bf16 window 1024: tokens 2200 | ppl full forward 26.128 | streaming decoder 25.684 | argmax agree 0.8659 | 7.4 tok/s eager
+  stream-ppl v4 bf16 window 1024   chunk1  (1650 tok): full 27.016 | decoder 26.573
+  stream-ppl v4 bf16 window 1024   chunk2+ (550 tok): full 23.637 | decoder 23.192
+[q6 10-24 21:50:35] gpu-energy preview (v4f models/checkpoints/v4std_dense/step_0162000.pt)
+  gpu-energy NVIDIA GeForce RTX 5080 | v4 /home/glenn/projects/neuro/models/checkpoints/sft_v4_chat_w8/step_0000001.pt | v4f models/checkpoints/v4std_dense/step_0162000.pt | configs ['v4f_dec@512', 'v4f_dec@2048', 'v4f_dec@8192', 'v4f_pre@199', 'v4f_pre@2048', 'v4demo_dec', 'v4demo_pre']
+  gpu-energy rep 0 v4f_pre@2048 |  35863.0 tok/s   0.028 ms/tok |     4.44 mJ/tok total     2.93 active | idle  54.1 W | counter vs integral 1.619 | 2842 MHz 62 C
+  gpu-energy rep 0 v4f_dec@8192 |     93.8 tok/s  10.658 ms/tok |  1112.85 mJ/tok total   536.74 active | idle  54.1 W | counter vs integral 1.353 | 2895 MHz 52 C | 291 GB/s (30% of peak)
+  gpu-energy rep 0 v4f_dec@2048 |    176.7 tok/s   5.660 ms/tok |   702.34 mJ/tok total   396.39 active | idle  54.1 W | counter vs integral 1.437 | 2895 MHz 56 C | 433 GB/s (45% of peak)
+  gpu-energy rep 0 v4f_dec@512  |    245.1 tok/s   4.080 ms/tok |   566.48 mJ/tok total   345.91 active | idle  54.1 W | counter vs integral 1.526 | 2880 MHz 58 C | 560 GB/s (58% of peak)
+  gpu-energy rep 0 v4demo_dec   |     20.9 tok/s  47.909 ms/tok |  9250.42 mJ/tok total  6660.76 active | idle  54.1 W | counter vs integral 1.683 | 2835 MHz 70 C
+  gpu-energy rep 0 v4f_pre@199  |   5450.1 tok/s   0.183 ms/tok |    16.52 mJ/tok total     6.61 active | idle  54.1 W | counter vs integral 1.258 | 2880 MHz 54 C
+  gpu-energy rep 0 v4demo_pre   |   1589.6 tok/s   0.629 ms/tok |    56.69 mJ/tok total    22.68 active | idle  54.1 W | counter vs integral 1.231 | 2880 MHz 52 C
+  gpu-energy rep 1 v4demo_dec   |     20.9 tok/s  47.899 ms/tok |  9387.61 mJ/tok total  6731.70 active | idle  55.4 W | counter vs integral 1.660 | 2835 MHz 69 C
+  gpu-energy rep 1 v4f_pre@2048 |  35715.1 tok/s   0.028 ms/tok |     4.49 mJ/tok total     2.94 active | idle  55.4 W | counter vs integral 1.638 | 2850 MHz 68 C
+  gpu-energy rep 1 v4f_pre@199  |   5268.0 tok/s   0.190 ms/tok |    16.71 mJ/tok total     6.19 active | idle  55.4 W | counter vs integral 1.263 | 2880 MHz 54 C
+  gpu-energy rep 1 v4demo_pre   |   1426.8 tok/s   0.701 ms/tok |    60.24 mJ/tok total    21.38 active | idle  55.4 W | counter vs integral 1.218 | 2880 MHz 53 C
+  gpu-energy rep 1 v4f_dec@512  |    246.0 tok/s   4.065 ms/tok |   575.62 mJ/tok total   350.21 active | idle  55.4 W | counter vs integral 1.503 | 2880 MHz 59 C | 562 GB/s (59% of peak)
+  gpu-energy rep 1 v4f_dec@2048 |    185.7 tok/s   5.384 ms/tok |   681.66 mJ/tok total   383.13 active | idle  55.4 W | counter vs integral 1.476 | 2895 MHz 58 C | 455 GB/s (47% of peak)
+  gpu-energy rep 1 v4f_dec@8192 |     93.8 tok/s  10.663 ms/tok |  1132.97 mJ/tok total   541.71 active | idle  55.4 W | counter vs integral 1.352 | 2895 MHz 55 C | 291 GB/s (30% of peak)
+  gpu-energy SUMMARY (median over reps; min-max)
+  gpu-energy v4f_dec@512  |    245.5 tok/s |   571.05 mJ/tok total (566.48-575.62) |   348.06 active
+  gpu-energy v4f_dec@2048 |    181.2 tok/s |   692.00 mJ/tok total (681.66-702.34) |   389.76 active
+  gpu-energy v4f_dec@8192 |     93.8 tok/s |  1122.91 mJ/tok total (1112.85-1132.97) |   539.22 active
+  gpu-energy v4f_pre@199  |   5359.1 tok/s |    16.62 mJ/tok total (16.52-16.71) |     6.40 active
+  gpu-energy v4f_pre@2048 |  35789.1 tok/s |     4.47 mJ/tok total (4.44-4.49) |     2.94 active
+  gpu-energy v4demo_dec   |     20.9 tok/s |  9319.02 mJ/tok total (9250.42-9387.61) |  6696.23 active
+  gpu-energy v4demo_pre   |   1508.2 tok/s |    58.46 mJ/tok total (56.69-60.24) |    22.03 active

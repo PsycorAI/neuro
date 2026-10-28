@@ -1,0 +1,27 @@
+== v4_81k: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 71.7% (target >= 95%) | median rate of a live unit 6.5% (target ~5%) | mean rate over all units 9.56% | params in use 84.6% (target >= 95%)
+  live units by firing rate: <0.1% 7.6% | 0.1-1% 6.8% | 1-10% 52.0% | 10-50% 27.0% | >50% 6.6%
+  alive per block: 0:56% 1:94% 2:87% 3:66% 4:0% 5:20% 7:100% 8:86% 9:74% 10:84% 11:92% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 36.449
+    units firing <= 0e+00 removed: 28.3% of units, model 938M (84.6%) | ppl 36.446 (-0.01%)
+    units firing <= 1e-05 removed: 29.1% of units, model 933M (84.2%) | ppl 36.452 (+0.01%)
+    units firing <= 1e-04 removed: 31.2% of units, model 921M (83.0%) | ppl 36.433 (-0.05%)
+    units firing <= 1e-03 removed: 33.8% of units, model 905M (81.6%) | ppl 36.442 (-0.02%)
+== v4_46k: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 51.2% (target >= 95%) | median rate of a live unit 5.9% (target ~5%) | mean rate over all units 3.76% | params in use 73.4% (target >= 95%)
+  live units by firing rate: <0.1% 6.8% | 0.1-1% 6.9% | 1-10% 62.1% | 10-50% 23.9% | >50% 0.3%
+  alive per block: 0:33% 1:35% 2:14% 3:0% 4:0% 5:0% 7:97% 8:79% 9:79% 10:86% 11:92% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 37.544
+    units firing <= 0e+00 removed: 48.8% of units, model 815M (73.4%) | ppl 37.545 (+0.00%)
+    units firing <= 1e-05 removed: 49.2% of units, model 812M (73.2%) | ppl 37.544 (+0.00%)
+    units firing <= 1e-04 removed: 50.4% of units, model 805M (72.6%) | ppl 37.546 (+0.00%)
+    units firing <= 1e-03 removed: 52.3% of units, model 794M (71.5%) | ppl 37.541 (-0.01%)
+== v4_72k: 1109M params, 12 FFNs, 147456 units, calibration 131072 tokens
+  alive 71.4% (target >= 95%) | median rate of a live unit 6.8% (target ~5%) | mean rate over all units 10.61% | params in use 84.4% (target >= 95%)
+  live units by firing rate: <0.1% 6.0% | 0.1-1% 7.1% | 1-10% 52.1% | 10-50% 26.9% | >50% 8.0%
+  alive per block: 0:77% 1:91% 2:82% 3:74% 4:0% 5:9% 7:100% 8:78% 9:72% 10:83% 11:90% 12:100%
+  prune test on 65536 other tokens: unpruned ppl 38.380
+    units firing <= 0e+00 removed: 28.6% of units, model 936M (84.4%) | ppl 38.382 (+0.00%)
+    units firing <= 1e-05 removed: 29.2% of units, model 933M (84.1%) | ppl 38.383 (+0.01%)
+    units firing <= 1e-04 removed: 30.7% of units, model 924M (83.3%) | ppl 38.379 (-0.00%)
+    units firing <= 1e-03 removed: 32.9% of units, model 911M (82.1%) | ppl 38.372 (-0.02%)

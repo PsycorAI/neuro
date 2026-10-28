@@ -1,0 +1,8 @@
+[n83 10-27 06:31:17] start: temp/n83_teal.py models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt
+models/checkpoints/n74d_sft_v4f_chat/step_0000001.pt: 65 block linears
+natural exact-zero share of linear inputs: 0.0%
+target sparsity  0%: val ppl 28.365
+target sparsity 25%: val ppl 28.512
+target sparsity 40%: val ppl 29.251
+target sparsity 50%: val ppl 30.064
+[n83 10-27 06:31:52] exit 0

@@ -1,0 +1,56 @@
+/home/glenn/projects/bdh/venv/lib/python3.12/site-packages/torch/cuda/__init__.py:1061: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+  decay_overrides: 1 matrices matching 'embed.weight' in their own AdamW group, weight decay 0.02
+optimizer: NorMuon (65 matrices, lr=0.007) + AdamW (82 other params, lr=0.00084)
+  head_weight_decay=1.0 (dedicated LM-head decay group; NOT resume-compat with runs without it)
+torch.compile enabled (mode=max-autotune-no-cudagraphs) — first 1-2 steps will be slow (graph capture)
+torch.compile enabled for MQAR path (mode=default, dynamic=True)
+arch=spiking params=1109.01M device=cuda target=0.098B tok | 32768 tok/step | total_steps≈3000 | warmup=180 | lr_sched=cosine | grad_clip=1.0
+step 100 | 3.3M tok | loss 6.670 | 13,952 tok/s | vram 13.5/28.1 GB
+step 200 | 6.6M tok | loss 5.802 | 14,844 tok/s | vram 13.5/28.1 GB
+step 300 | 9.8M tok | loss 5.762 | 14,979 tok/s | vram 13.5/28.1 GB
+step 400 | 13.1M tok | loss 5.456 | 15,078 tok/s | vram 13.5/28.1 GB
+step 500 | 16.4M tok | loss 5.345 | 15,054 tok/s | vram 13.5/28.1 GB
+step 600 | 19.7M tok | loss 5.147 | 15,106 tok/s | vram 13.5/28.1 GB
+step 700 | 22.9M tok | loss 5.301 | 14,915 tok/s | vram 13.5/28.1 GB
+step 800 | 26.2M tok | loss 4.627 | 15,023 tok/s | vram 13.5/28.1 GB
+step 900 | 29.5M tok | loss 4.800 | 14,939 tok/s | vram 13.5/28.1 GB
+step 1000 | 32.8M tok | loss 4.405 | 14,735 tok/s | vram 13.5/28.1 GB
+  [eval] val_ppl 87.91 | ablated_ppl 87.91 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=8085.43 | head=182.19
+step 1100 | 36.0M tok | loss 4.192 | 14,142 tok/s | vram 13.7/28.4 GB
+step 1200 | 39.3M tok | loss 4.554 | 14,807 tok/s | vram 13.7/28.4 GB
+step 1300 | 42.6M tok | loss 4.525 | 14,910 tok/s | vram 13.7/28.4 GB
+step 1400 | 45.9M tok | loss 4.049 | 14,923 tok/s | vram 13.7/28.4 GB
+step 1500 | 49.2M tok | loss 4.325 | 14,961 tok/s | vram 13.7/28.4 GB
+step 1600 | 52.4M tok | loss 3.396 | 14,931 tok/s | vram 13.7/28.4 GB
+step 1700 | 55.7M tok | loss 4.357 | 14,866 tok/s | vram 13.7/28.4 GB
+step 1800 | 59.0M tok | loss 4.486 | 14,946 tok/s | vram 13.7/28.4 GB
+step 1900 | 62.3M tok | loss 4.295 | 14,799 tok/s | vram 13.7/28.4 GB
+step 2000 | 65.5M tok | loss 4.291 | 14,868 tok/s | vram 13.7/28.4 GB
+  [eval] val_ppl 59.98 | ablated_ppl 59.98 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=8009.81 (-0.94%) | head=144.19 (-20.86%)
+step 2100 | 68.8M tok | loss 4.219 | 14,185 tok/s | vram 13.7/28.3 GB
+step 2200 | 72.1M tok | loss 4.147 | 11,844 tok/s | vram 13.7/28.3 GB
+step 2300 | 75.4M tok | loss 3.963 | 11,913 tok/s | vram 13.7/28.3 GB
+step 2400 | 78.6M tok | loss 4.193 | 12,144 tok/s | vram 13.7/28.3 GB
+step 2500 | 81.9M tok | loss 4.069 | 12,364 tok/s | vram 13.7/28.3 GB
+step 2600 | 85.2M tok | loss 3.589 | 11,651 tok/s | vram 13.7/28.3 GB
+step 2700 | 88.5M tok | loss 3.753 | 11,716 tok/s | vram 13.7/28.3 GB
+step 2800 | 91.8M tok | loss 3.946 | 11,939 tok/s | vram 13.7/28.3 GB
+step 2900 | 95.0M tok | loss 3.461 | 11,837 tok/s | vram 13.7/28.3 GB
+step 3000 | 98.3M tok | loss 3.481 | 11,601 tok/s | vram 13.7/28.3 GB
+  [eval] val_ppl 43.97 | ablated_ppl 43.97 (memory Δ=+0.00) | spike 0.000
+  [wnorm] embed=7984.39 (-0.32%) | head=134.60 (-6.65%)
+  saved /home/glenn/projects/neuro/models/checkpoints/screen_n69_wu006_lr14/step_0003000.pt
+done: 98.3M tok in 2.00h
+ seq_len |  spiking pJ/tok |  transf. pJ/tok |  ratio (T/S)
+------------------------------------------------------------
+     512 |    3443943014.4 |    3443943014.4 |         1.00x
+    2048 |    3820172083.2 |    3820172083.2 |         1.00x
+    4096 |    4321810841.6 |    4321810841.6 |         1.00x
+
+block mix: 0 spiking + 13 attention | spike_rate 0.000 reported -> 0.000 spiking-only
+spiking op mix/token @ seq 4096: 939,524,096 MAC + 0 AC
+note: 13 full-attention layer(s) mean the spiking model's cost ALSO grows with seq_len,
+      just far more slowly than the all-attention baseline's.
