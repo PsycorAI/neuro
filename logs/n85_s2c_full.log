@@ -1,0 +1,48 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/199 [00:00<00:07, 24.82it/s]Loading weights:  41%|████      | 82/199 [00:00<00:00, 333.70it/s]Loading weights:  74%|███████▍  | 147/199 [00:00<00:00, 448.61it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 437.68it/s]
+== lme: 470 memories, 5 systems, 1163 s
+-- sr@5                                            ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      84.9      88.2      75.1     100.0      90.0      98.4      77.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      89.4      97.2      81.3     100.0      90.0      96.9      84.1
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      85.6      91.7      72.1     100.0      86.7      98.4      81.9
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      91.1      98.6      83.8     100.0      86.7      98.4      87.1
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      86.1      92.4      75.4     100.0      83.3      98.4      81.1
+-- r@10                                            ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      85.2      96.5      74.0      98.2      81.1      96.9      78.8
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      86.2      95.1      78.6      92.9      71.1      93.0      85.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      85.6      95.1      72.9      96.4      78.9      98.4      82.8
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      87.9      95.8      80.5      91.1      71.1      97.7      88.0
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      85.7      94.4      75.0      96.4      74.4      96.9      83.1
+-- all@10                                          ALL knowledge multi-ses single-se single-se single-se temporal-
+                                           n       470        72       121        56        30        64       127
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      76.0      93.1      52.9      98.2      73.3      96.9      68.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      77.9      91.7      60.3      92.9      63.3      92.2      76.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      76.6      90.3      52.1      96.4      73.3      98.4      73.2
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      80.4      93.1      64.5      91.1      63.3      96.9      79.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      76.8      88.9      55.4      96.4      66.7      96.9      74.0
+exit 0 (lme)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  59%|█████▉    | 118/199 [00:00<00:00, 1165.43it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1125.20it/s]
+== locomo: 10 memories, 5 systems, 203 s
+-- r@5                                             ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      67.1      29.3      69.2      29.0      77.4      77.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      57.7      26.7      63.6      26.8      66.9      61.7
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      63.4      27.3      65.8      29.5      72.8      73.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      58.2      29.8      67.1      28.1      67.8      57.8
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      64.8      30.4      69.1      28.4      74.8      71.7
+-- r@10                                            ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      76.7      42.0      77.2      40.6      86.2      87.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      66.2      37.9      70.7      37.0      74.4      71.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      73.4      39.0      75.1      40.2      82.4      83.5
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      67.2      39.8      74.3      39.7      75.5      69.1
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      74.9      41.8      77.2      42.2      85.0      81.7
+-- all@10                                          ALL         1         2         3         4         5
+                                           n      1977       281       320        89       841       446
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      71.8      16.7      75.3      32.6      85.0      87.0
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      61.3      14.6      67.5      29.2      72.9      70.9
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      68.4      14.9      72.5      31.5      81.0      83.0
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      62.1      16.0      71.2      29.2      74.2      68.4
+psy:g_sem=1,graded=1,qrate=1,signed=1,n_fly=      69.8      17.4      74.1      32.6      83.6      81.2
+exit 0 (locomo)

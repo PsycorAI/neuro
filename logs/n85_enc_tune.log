@@ -47,3 +47,28 @@ step 3000/3025 pair 1.3985 dist 0.1458 | val r@1 0.317 r@10 0.801 corpus cos 0.8
 step 3025/3025 pair 1.1647 dist 0.1948 | val r@1 0.335 r@10 0.805 corpus cos 0.8188 | lr 1.35e-10 501s
 saved /home/glenn/projects/neuro/models/psymem/enc_s2a.pt
 exit 0 (s2a)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 32/199 [00:00<00:00, 252.87it/s]Loading weights:  35%|███▍      | 69/199 [00:00<00:00, 314.85it/s]Loading weights:  65%|██████▍   | 129/199 [00:00<00:00, 136.54it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 215.08it/s]
+s2c: 414779 train pairs {'recall': 116331, 'personal': 59972, 'conv': 240476}, val 2000; bge-small reference r@1/r@10 (0.37950003147125244, 0.8495000600814819)
+step 0 val r@1/r@10 (0.19850000739097595, 0.597000002861023)
+step 500/8100 pair 1.2814 dist 0.1481 | val r@1 0.404 r@10 0.884 corpus cos 0.8569 | lr 4.95e-04 105s
+step 1000/8100 pair 0.6501 dist 0.1300 | val r@1 0.403 r@10 0.894 corpus cos 0.8471 | lr 4.81e-04 213s
+step 1500/8100 pair 0.7542 dist 0.1569 | val r@1 0.423 r@10 0.905 corpus cos 0.8429 | lr 4.59e-04 321s
+step 2000/8100 pair 0.7613 dist 0.1780 | val r@1 0.411 r@10 0.911 corpus cos 0.8555 | lr 4.29e-04 428s
+step 2500/8100 pair 0.3838 dist 0.1415 | val r@1 0.414 r@10 0.907 corpus cos 0.8593 | lr 3.91e-04 539s
+step 3000/8100 pair 0.9111 dist 0.1165 | val r@1 0.432 r@10 0.914 corpus cos 0.8557 | lr 3.49e-04 648s
+step 3500/8100 pair 0.3426 dist 0.1816 | val r@1 0.429 r@10 0.916 corpus cos 0.8554 | lr 3.03e-04 755s
+step 4000/8100 pair 0.7094 dist 0.1833 | val r@1 0.427 r@10 0.914 corpus cos 0.8530 | lr 2.55e-04 864s
+step 4500/8100 pair 0.4789 dist 0.1096 | val r@1 0.427 r@10 0.919 corpus cos 0.8606 | lr 2.07e-04 974s
+step 5000/8100 pair 0.6116 dist 0.1382 | val r@1 0.412 r@10 0.923 corpus cos 0.8622 | lr 1.60e-04 1083s
+step 5500/8100 pair 0.8096 dist 0.1121 | val r@1 0.423 r@10 0.920 corpus cos 0.8641 | lr 1.17e-04 1192s
+step 6000/8100 pair 0.6147 dist 0.1092 | val r@1 0.436 r@10 0.916 corpus cos 0.8644 | lr 7.85e-05 1300s
+step 6500/8100 pair 0.4666 dist 0.1636 | val r@1 0.443 r@10 0.922 corpus cos 0.8589 | lr 4.67e-05 1408s
+step 7000/8100 pair 0.5980 dist 0.1338 | val r@1 0.438 r@10 0.916 corpus cos 0.8610 | lr 2.24e-05 1516s
+step 7500/8100 pair 0.5179 dist 0.1182 | val r@1 0.430 r@10 0.920 corpus cos 0.8605 | lr 6.76e-06 1624s
+step 8000/8100 pair 0.3458 dist 0.1164 | val r@1 0.433 r@10 0.918 corpus cos 0.8614 | lr 1.92e-07 1733s
+step 8100/8100 pair 0.2688 dist 0.1131 | val r@1 0.435 r@10 0.916 corpus cos 0.8614 | lr 1.88e-11 1755s
+saved /home/glenn/projects/neuro/models/psymem/enc_s2c.pt
+exit 0 (s2c)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  33%|███▎      | 65/199 [00:00<00:00, 576.39it/s]Loading weights:  62%|██████▏   | 123/199 [00:00<00:00, 204.51it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 315.26it/s]
+s2d: 414779 train pairs {'recall': 116331, 'personal': 59972, 'conv': 240476}, val 2000; bge-small reference r@1/r@10 (0.38100001215934753, 0.8495000600814819)
+step 0 val r@1/r@10 (0.19850000739097595, 0.597000002861023)
