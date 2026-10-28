@@ -29,7 +29,8 @@ def retrieval(qv, pv):  # r@1, r@10 of q_i -> p_i among all p
 
 if __name__ == '__main__':
     tin, tout, epochs = sys.argv[1], sys.argv[2], int(sys.argv[3])
-    pairs = [json.loads(l) for f in sorted(glob.glob(D + 'data/psymem_enc/pairs_*.jsonl')) for l in open(f)]
+    pairs = [json.loads(l) for f in sorted(glob.glob(D + 'data/psymem_enc/pairs_*.jsonl')) for l in open(f)
+             if l.endswith('\n')]  # skip a half-written last line (a generator may still be appending)
     random.Random(0).shuffle(pairs)
     tok = AutoTokenizer.from_pretrained(encoder.TOK)
     qi, pi = toks(tok, [p['q'] for p in pairs]), toks(tok, [p['pos'] for p in pairs])

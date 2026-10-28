@@ -19,7 +19,7 @@ if __name__ == '__main__':
     emb = bench.Embedder(cache_file=bench.D + f'emb_{which}.pkl')
     # 10-27 candidates for a better signal: unk = 1 - IDF share of the cue's words that have no word neuron (never stored);
     # z = how far the top span stands out of the whole activation (z-score); combinations with psy_who.
-    conf = {s: ([], []) for s in ('bm25', 'dense', 'psy', 'psy_who', 'unk', 'z', 'z_who', 'psy_who_unk', 'z_who_unk')}
+    conf = {s: ([], []) for s in ('bm25', 'dense', 'psy', 'psy_who', 'unk', 'z', 'z_who', 'psy_who_unk', 'z_who_unk', 'ov', 'ov_unk', 'ovz_unk')}
     for m in mems:
         c = bench.ctx_base(m, emb)
         p = core.Psymem()
@@ -41,6 +41,10 @@ if __name__ == '__main__':
             conf['z'][neg].append(zs(p.activate(q, qe, g_sem=0.7)))
             conf['z_who'][neg].append(zw := zs(p.activate(q, qe, g_sem=0.7, g_who=0.6)))
             conf['psy_who_unk'][neg].append(pw * unk)
+            ov = np.asarray(p.Ws[p._code(qe[None])[0]].sum(0)).ravel() / p.fly_k  # meaning-assembly overlap, best span
+            conf['ov'][neg].append(ov.max())
+            conf['ov_unk'][neg].append(ov.max() * unk)
+            conf['ovz_unk'][neg].append((ov.max() - np.median(ov)) * unk)
             conf['z_who_unk'][neg].append(zw * unk)
     emb.save()
     print(f'== abstain {which}: {len(conf["psy"][0])} answerable, {len(conf["psy"][1])} unanswerable, {time.time() - t0:.0f} s')
