@@ -109,10 +109,10 @@ class Engine:
         # channel split, recomputed exactly as Psymem.activate does it (prf and adapt are off in this config)
         words = [w for w in core.bag(q) if w in p.lex]
         ids, code = [p.lex[w] for w in words], p._code(e[None])[0]
-        Ml, Ms = p.Wl[ids].toarray(), p.Ws[code].toarray()
+        Ml, Ms = p.Wl[ids].toarray(), p.Ws[code]  # word rows dense (few), meaning rows sparse (4,096 x memories)
         h = (e - p.mu) @ p.P[code].T
         gs = (h - h.min() + 1e-6) / (h - h.min() + 1e-6).mean()
-        a_s0 = gs @ Ms; med = np.median(a_s0)
+        a_s0 = Ms.T @ gs; med = np.median(a_s0)
         lex = Ml.sum(0) / (Ml.sum(0).max() or 1.)
         sem = ACT['g_sem'] * np.maximum(a_s0 - med, 0) / ((a_s0.max() - med) or 1.)
         use = np.zeros_like(lex)
@@ -128,21 +128,22 @@ class Engine:
         base = (lex + sem + use) * tgate * wgate
         nbr = np.maximum(a - base, 0)
         top = np.argsort(-a)[:k]
+        ov = np.diff(Ms[:, top].tocsc().indptr)  # meaning neurons wired to each top memory
         if self._V is None or len(self._V) != len(p.E):
             self._V = np.stack(p.E)
         vec = self._V @ e
         named = [w for w in p.whos if w in core.bag(q)] if g_who else []
         out = []
-        for s in top:
+        for s, o in zip(top, ov):
             parts = dict(word=lex[s] * tgate[s] * wgate[s], meaning=sem[s] * tgate[s] * wgate[s],
                          learned=use[s] * tgate[s] * wgate[s], neighbour=nbr[s])
             t, d, sid, who_s = p.diary[s]
             out.append(dict(i=int(s), score=float(a[s]), who=who_s, date=d, text=t.split(': ', 1)[-1],
                             parts={k2: float(v) for k2, v in parts.items()}, time=float(p._time(*win, t_now)[s]) if win else None,
                             words=[w for w, r in zip(words, Ml[:, s]) if r > 0],
-                            meaning_overlap=int((Ms[:, s] > 0).sum())))
+                            meaning_overlap=int(o)))
         cue = [dict(w=w, idf=float(p.idf[p.lex[w]]), fan=int(p.Wl[p.lex[w]].nnz)) for w in words]
-        used = int((Ml > 0).sum() + (Ms > 0).sum())
+        used = int((Ml > 0).sum() + Ms.nnz)
         st = self.stats()
         gr = dict(gold=gold, gold_rank=int((a > a[gold]).sum()) + 1, gold_vec_rank=int((vec > vec[gold]).sum()) + 1) if gold is not None else {}
         return dict(q=q, now=now, confidence=conf, hits=out, **gr,

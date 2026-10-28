@@ -136,16 +136,33 @@ class Psymem:
         self.Wl = sp.csr_matrix((w, (rows, cols)), shape=(len(self.lex), n))
         use = lambda d, m: sp.csr_matrix((list(d.values()), tuple(np.array(list(d)).T)), shape=(m, n)) if d else sp.csr_matrix((m, n))
         self.Ul, self.Us = use(self.use_l, len(self.lex)), use(self.use_s, len(self.P))
-        E = np.stack(self.E); self.mu = self.mu0 if self.mu_global else E.mean(0)
-        codes = self._code(E)
-        ws = np.ones(codes.shape, np.float32)
-        if self.graded:  # Hebbian rate: pre (winner's drive above the k-WTA threshold) x post (1); mean 1 per span
-            h = np.take_along_axis((E - self.mu) @ self.P.T, codes, 1)
-            h -= h.min(1, keepdims=True) - 1e-6
-            ws = h / h.mean(1, keepdims=True)
+        E = np.stack(self.E); mu = self.mu0 if self.mu_global else E.mean(0)
+        # incremental (10-28): while the centring mean drifts < 5%, keep earlier spans' codes and code only the new spans
+        # (with the same mean, so cue codes stay consistent); a larger drift re-derives all codes ("dreaming")
+        k0 = getattr(self, '_nc', 0)
+        if 0 < k0 <= n and np.linalg.norm(mu - self._mu_c) <= 0.05 * (np.linalg.norm(self._mu_c) or 1.):
+            self.mu, start = self._mu_c, k0
+        else:
+            self.mu, start = mu, 0
+        codes = np.empty((n, self.fly_k), np.int32); ws = np.ones((n, self.fly_k), np.float32)
+        if start:
+            codes[:start], ws[:start] = self._codes[:start], self._ws[:start]
+        # in blocks of 1,024 spans: the full n x n_fly drive matrix was 7.9 GB at 30k spans (OOM, 10-27 night)
+        for i in range(start, n, 1024):
+            X = (E[i:i + 1024] - self.mu) @ self.P.T
+            c = np.argpartition(X, -self.fly_k, axis=1)[:, -self.fly_k:]
+            codes[i:i + 1024] = c
+            if self.graded:  # Hebbian rate: pre (winner's drive above the k-WTA threshold) x post (1); mean 1 per span
+                h = np.take_along_axis(X, c, 1)
+                h -= h.min(1, keepdims=True) - 1e-6
+                ws[i:i + 1024] = h / h.mean(1, keepdims=True)
+            del X
+        self._codes, self._ws, self._nc, self._mu_c = codes, ws, n, self.mu
         self.Ws = sp.csr_matrix((ws.ravel(), (codes.ravel(), np.repeat(np.arange(n), self.fly_k))), shape=(len(self.P), n))
         self.sid = np.array([d[2] for d in self.diary], object)
         self.days = np.array([day(d[1]) if d[1] else 0 for d in self.diary])  # the time cell each span is wired to
+        self.tlen = np.array([len(d[0]) for d in self.diary])  # turn length (chars) and is-a-question, for gated S<->S links
+        self.isq = np.array([d[0].rstrip(' "\'').endswith('?') for d in self.diary], bool)
         # who cells: one per speaker; a span is wired to its speaker's cell and to the cells of speakers it names
         self.whos = sorted({stem(d[3].lower()) for d in self.diary if d[3]})
         self.who_w = np.array([[d[3] is not None and (stem(d[3].lower()) == w or w in bag(d[0])) for d in self.diary]
@@ -196,23 +213,29 @@ class Psymem:
         self.dirty = True
 
     def activate(self, cue, emb, now=None, g_sem=1.0, prf=0, prf_c=10, beta=0.3, nb=0.0, g_t=0.0, g_who=0.0, adapt=0.0, K=20,
-                 g_use=0.0, qrate=0):
+                 g_use=0.0, qrate=0, nb_mode=0, nb_len=300):
         """Spread one cue through the synapses; returns one activation per diary turn. now = date string of 'today'.
-        qrate: the cue's FlyHash winners fire at a rate (spike count) set by their drive above the k-WTA threshold."""
+        qrate: the cue's FlyHash winners fire at a rate (spike count) set by their drive above the k-WTA threshold.
+        nb_mode (10-27 night, gated S<->S links): 0 = both neighbours, every turn; 1 = only turns shorter than nb_len chars
+        receive neighbour support (long turns stand alone); 2 = question -> answer links only (a turn takes its previous
+        turn's activity if that turn asked a question, and a question takes its answer's); 3 = support scaled by
+        min(1, nb_len / length)."""
         if self.dirty:
             self._compile()
         lex_ids, code = [self.lex[w] for w in bag(cue) if w in self.lex], self._code(emb[None])[0]
-        Ml, Ms = self.Wl[lex_ids].toarray(), self.Ws[code].toarray()  # this cue's synaptic rows
-        gl, gs = np.ones(len(Ml)), np.ones(len(Ms))  # cue-neuron gains (adaptation lowers them)
+        # this cue's synaptic rows, kept sparse (10-28: dense rows made recall O(fly_k x n): 378 ms at 20k spans)
+        Ml, Ms = self.Wl[lex_ids], self.Ws[code]
+        MlT, MsT = Ml.T, Ms.T  # CSC views: fast matvec, no conversion (tocsr was 70% of recall time)
+        gl, gs = np.ones(MlT.shape[1]), np.ones(MsT.shape[1])  # cue-neuron gains (adaptation lowers them)
         if qrate:
             h = (emb - self.mu) @ self.P[code].T
             gs = (h - h.min() + 1e-6) / (h - h.min() + 1e-6).mean()
-        a_s0 = gs @ Ms
-        zl, med = (gl @ Ml).max() or 1., np.median(a_s0)
+        a_s0 = MsT @ gs
+        zl, med = (MlT @ gl).max(initial=0) or 1., np.median(a_s0)
         zs = (a_s0.max() - med) or 1.
 
         def drive():  # one C->S sweep, divisively normalized by the first sweep's peaks
-            return np.maximum(gl @ Ml, 0) / zl + g_sem * np.maximum(gs @ Ms - med, 0) / zs
+            return np.maximum(MlT @ gl, 0) / zl + g_sem * np.maximum(MsT @ gs - med, 0) / zs
         extra, gate = 0., 1.
         a = drive()
         if prf:  # pattern completion: the k-WTA top spans drive their cue neurons back (S->C), which sweep again (C->S)
@@ -230,17 +253,26 @@ class Psymem:
                 gate = 1 + g_t * self._time(*w, t_now)
         gate = gate * self._who(cue, g_who)
         same = self.sid[1:] == self.sid[:-1]
+        fp = np.r_[0, same].astype(float)  # link from the previous turn
+        fn = np.r_[same, 0].astype(float)  # link from the next turn
+        if nb_mode == 1:
+            fp, fn = fp * (self.tlen < nb_len), fn * (self.tlen < nb_len)
+        elif nb_mode == 2:
+            fp, fn = fp * np.r_[False, self.isq[:-1]], fn * self.isq
+        elif nb_mode == 3:
+            sc = np.minimum(1, nb_len / np.maximum(self.tlen, 1))
+            fp, fn = fp * sc, fn * sc
 
         def post(a):  # PRF, time gating, then S<->S links to the previous / next turn of the same session
             a = (a + extra) * gate
-            return a + nb * np.maximum(np.r_[0, a[:-1] * same], np.r_[a[1:] * same, 0]) if nb else a
+            return a + nb * np.maximum(np.r_[0, a[:-1]] * fp, np.r_[a[1:], 0] * fn) if nb else a
         a = post(a)
         if adapt:
             out, picked = a.copy(), []
             for r in range(K):
                 s = int(np.argmax(np.where(np.isin(np.arange(len(a)), picked), -np.inf, a)))
                 picked.append(s); out[s] = 1e3 + K - r
-                gl[Ml[:, s] > 0] *= 1 - adapt; gs[Ms[:, s] > 0] *= 1 - adapt
+                gl[Ml[:, [s]].nonzero()[0]] *= 1 - adapt; gs[Ms[:, [s]].nonzero()[0]] *= 1 - adapt  # cue neurons wired to s
                 a = post(drive())
             rest = np.setdiff1d(np.arange(len(a)), picked)
             out[rest] = a[rest]

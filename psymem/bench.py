@@ -118,13 +118,16 @@ SCORERS = {
         (d := c['E'] @ c['emb']([Embedder.QPFX + q])[0]) - np.median(d)),
     # ordinary search + neighbour expansion (the RAG "sentence window" trick), to price Psymem's S<->S links fairly
     'hybrid_cc_nb': lambda c, q: nb_spread(c, SCORERS['hybrid_cc'](c, q)),
+    # + the same length gate as Psymem nb_mode=1 (only turns under 800 chars take neighbour support), for fairness
+    'hybrid_cc_nbg': lambda c, q: nb_spread(c, SCORERS['hybrid_cc'](c, q), max_len=800),
 }
 
 
-def nb_spread(c, a, nb=0.5):
+def nb_spread(c, a, nb=0.5, max_len=None):
     sid = np.array([i[3] for i in c['items']], object); same = sid[1:] == sid[:-1]
-    return a + nb * np.maximum(np.r_[0, a[:-1] * same], np.r_[a[1:] * same, 0])
-PSY_INT = {'n_fly', 'fly_k', 'fan_in', 'seed', 'prf', 'prf_c', 'qpfx', 'K', 'signed', 'graded', 'qrate', 'mu_global'}
+    f = np.array([len(i[1]) < max_len for i in c['items']]) if max_len else 1
+    return a + nb * f * np.maximum(np.r_[0, a[:-1] * same], np.r_[a[1:] * same, 0])
+PSY_INT = {'n_fly', 'fly_k', 'fan_in', 'seed', 'prf', 'prf_c', 'qpfx', 'K', 'signed', 'graded', 'qrate', 'mu_global', 'nb_mode'}
 PSY_BUILD = {'n_fly', 'fly_k', 'fan_in', 'k1', 'b', 'seed', 'signed', 'graded', 'proj', 'mu_global'}
 
 
