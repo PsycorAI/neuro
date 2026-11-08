@@ -47,3 +47,6 @@ temp/
 
 # --- Large corpus samples ---
 data/tok_32k/corpus_sample.txt
+
+# Claude Code local settings (saved permission rules can hold secrets)
+.claude/settings.local.json
